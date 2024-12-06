@@ -21,6 +21,8 @@ public class RelayManager : MonoBehaviour
 
     async void Start()
     {
+        JoinUI.SetActive(true);
+
         await UnityServices.InitializeAsync();
 
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
