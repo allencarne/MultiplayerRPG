@@ -1,9 +1,33 @@
 fileFormatVersion: 2
-guid: 671557a9655025a44948436d2ec515fa
+guid: da5c918638f27b3488a0471695525815
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 490342290524437147
+    second: Body_Run_Right_0
+  - first:
+      213: 7136272665523129109
+    second: Body_Run_Right_1
+  - first:
+      213: 2944195830929269615
+    second: Body_Run_Right_2
+  - first:
+      213: -862361605879772908
+    second: Body_Run_Right_3
+  - first:
+      213: -1084173865755890242
+    second: Body_Run_Right_4
+  - first:
+      213: 3168831486196971131
+    second: Body_Run_Right_5
+  - first:
+      213: -2210193051097611403
+    second: Body_Run_Right_6
+  - first:
+      213: -1553761115593173689
+    second: Body_Run_Right_7
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -67,7 +91,7 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -80,20 +104,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,8 +117,8 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
+  - serializedVersion: 4
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -123,7 +134,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Move_Right_0
+      name: Body_Run_Right_0
       rect:
         serializedVersion: 2
         x: 0
@@ -133,18 +144,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 842287531b42e9644b1a476a56e3df51
-      internalID: 886700888
+      spriteID: b9a7f0d17bb0ec600800000000000000
+      internalID: 490342290524437147
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_1
+      name: Body_Run_Right_1
       rect:
         serializedVersion: 2
         x: 64
@@ -154,18 +166,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: a034a488e84aa844ebe359172afbcb9c
-      internalID: 2105995544
+      spriteID: 51b06d00e22290360800000000000000
+      internalID: 7136272665523129109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_2
+      name: Body_Run_Right_2
       rect:
         serializedVersion: 2
         x: 128
@@ -175,18 +188,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 842843d0c0e61ce419950d1d3721154f
-      internalID: 499287026
+      spriteID: f63a9bb5282ebd820800000000000000
+      internalID: 2944195830929269615
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_3
+      name: Body_Run_Right_3
       rect:
         serializedVersion: 2
         x: 192
@@ -196,18 +210,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 167705ee540211a4b8a05695a86cd456
-      internalID: 1666571949
+      spriteID: 419c99d30b64804f0800000000000000
+      internalID: -862361605879772908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_4
+      name: Body_Run_Right_4
       rect:
         serializedVersion: 2
         x: 256
@@ -217,18 +232,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fe61f86f6cfa89041b29e97c73b8e253
-      internalID: 312105703
+      spriteID: ebdabd00d9d34f0f0800000000000000
+      internalID: -1084173865755890242
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_5
+      name: Body_Run_Right_5
       rect:
         serializedVersion: 2
         x: 320
@@ -238,18 +254,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3a325631d54f03d42b3727721165bf44
-      internalID: -1708359439
+      spriteID: b76f7df8273f9fb20800000000000000
+      internalID: 3168831486196971131
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_6
+      name: Body_Run_Right_6
       rect:
         serializedVersion: 2
         x: 384
@@ -259,18 +276,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 3d782b260a244864b8dbae3791d3d6bc
-      internalID: 1892367929
+      spriteID: 5734a405121d351e0800000000000000
+      internalID: -2210193051097611403
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Move_Right_7
+      name: Body_Run_Right_7
       rect:
         serializedVersion: 2
         x: 448
@@ -280,35 +298,39 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 94e6b2c27630fd34283f774fb537786c
-      internalID: 1716729811
+      spriteID: 745114f5f7eef6ae0800000000000000
+      internalID: -1553761115593173689
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 0fa6d7d911ebf394db7aa40c837eeada
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      Player_Move_Right_0: 886700888
-      Player_Move_Right_1: 2105995544
-      Player_Move_Right_2: 499287026
-      Player_Move_Right_3: 1666571949
-      Player_Move_Right_4: 312105703
-      Player_Move_Right_5: -1708359439
-      Player_Move_Right_6: 1892367929
-      Player_Move_Right_7: 1716729811
+      Body_Run_Right_0: 490342290524437147
+      Body_Run_Right_1: 7136272665523129109
+      Body_Run_Right_2: 2944195830929269615
+      Body_Run_Right_3: -862361605879772908
+      Body_Run_Right_4: -1084173865755890242
+      Body_Run_Right_5: 3168831486196971131
+      Body_Run_Right_6: -2210193051097611403
+      Body_Run_Right_7: -1553761115593173689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
