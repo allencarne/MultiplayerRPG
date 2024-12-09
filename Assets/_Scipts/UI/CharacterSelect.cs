@@ -35,4 +35,9 @@ public class CharacterSelect : MonoBehaviour
             CharacterCreatorPanel.SetActive(false);
         }
     }
+
+    private void Update()
+    {
+        Debug.Log(PlayerPrefs.GetInt("Character1", 0));
+    }
 }
