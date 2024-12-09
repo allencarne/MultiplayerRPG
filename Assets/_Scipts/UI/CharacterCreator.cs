@@ -84,6 +84,24 @@ public class CharacterCreator : MonoBehaviour
         hair.color = customizationData.hairColors[currentHairColorIndex];
     }
 
+    public void ResetCreatorUI()
+    {
+        nameInput.text = "";
+        feedbackText.text = "";
+
+        currentSkinIndex = 0;
+        currentHairStyleIndex = 0;
+        currentHairColorIndex = 0;
+
+        skinColorText.text = $"{currentSkinIndex}";
+        hairStyleText.text = $"{currentHairStyleIndex}";
+        hairColorText.text = $"{currentHairColorIndex}";
+
+        body.color = customizationData.skinColors[0];
+        hair.sprite = customizationData.hairStyles[0];
+        hair.color = customizationData.hairColors[0];
+    }
+
     void ValidateName(string name)
     {
         // Check for minimum length

@@ -1,9 +1,11 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterSelect : MonoBehaviour
 {
+    [SerializeField] CharacterCreator characterCreator;
     [SerializeField] GameObject CharacterCreatorPanel;
     [SerializeField] CharacterCustomizationData customizationData;
 
@@ -94,10 +96,10 @@ public class CharacterSelect : MonoBehaviour
 
         PlayerPrefs.SetInt("Character2", 0);
 
-        Character1NameText.text = "Empty";
-        body1.color = Color.white;
-        hair1.sprite = customizationData.hairStyles[0];
-        hair1.color = Color.black;
+        Character2NameText.text = "Empty";
+        body2.color = Color.white;
+        hair2.sprite = customizationData.hairStyles[0];
+        hair2.color = Color.black;
     }
 
     public void DeleteCharacter3()
@@ -109,9 +111,63 @@ public class CharacterSelect : MonoBehaviour
 
         PlayerPrefs.SetInt("Character3", 0);
 
-        Character1NameText.text = "Empty";
-        body1.color = Color.white;
-        hair1.sprite = customizationData.hairStyles[0];
-        hair1.color = Color.black;
+        Character3NameText.text = "Empty";
+        body3.color = Color.white;
+        hair3.sprite = customizationData.hairStyles[0];
+        hair3.color = Color.black;
+    }
+
+    public void SelectCharacter1()
+    {
+        bool character1Exists = PlayerPrefs.GetInt("Character1") == 1;
+
+        if (character1Exists)
+        {
+            // Tell the Player Script what Character number is selected
+            PlayerPrefs.SetInt("SelectedCharacter", 1);
+
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            characterCreator.ResetCreatorUI();
+            CharacterCreatorPanel.SetActive(true);
+        }
+    }
+
+    public void SelectCharacter2()
+    {
+        bool character2Exists = PlayerPrefs.GetInt("Character2") == 1;
+
+        if (character2Exists)
+        {
+            // Tell the Player Script what Character number is selected
+            PlayerPrefs.SetInt("SelectedCharacter", 2);
+
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            characterCreator.ResetCreatorUI();
+            CharacterCreatorPanel.SetActive(true);
+        }
+    }
+
+    public void SelectCharacter3()
+    {
+        bool character3Exists = PlayerPrefs.GetInt("Character3") == 1;
+
+        if (character3Exists)
+        {
+            // Tell the Player Script what Character number is selected
+            PlayerPrefs.SetInt("SelectedCharacter", 3);
+
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            characterCreator.ResetCreatorUI();
+            CharacterCreatorPanel.SetActive(true);
+        }
     }
 }
