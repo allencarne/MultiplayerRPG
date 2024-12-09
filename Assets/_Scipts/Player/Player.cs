@@ -8,36 +8,24 @@ public class Player : NetworkBehaviour
     Vector2 movement;
 
     [SerializeField] Animator hairAnimator;
-    int hairInxed;
 
-    public enum HairStyles
-    {
-        Bald,
-        Zero,
-        One
-    }
 
-    public HairStyles hairStyle;
+    public int hairIndex;
+    public int hairColorIndex;
+    public int eyeColorIndex;
 
     private void Start()
     {
-        switch (hairStyle)
+        // Get Player Prefs Value and set hairIndex, hairColorIndex, & eyeColorIndex
+
+        if (hairIndex == -1)
         {
-            case HairStyles.Bald:
-                hairAnimator.gameObject.SetActive(false);
-                break;
-            case HairStyles.Zero:
-                hairInxed = 0;
-                break;
-            case HairStyles.One:
-                hairInxed = 1;
-                break;
+            hairAnimator.gameObject.SetActive(false);
         }
     }
 
     private void Update()
     {
-        // Only process input if this is the owner
         if (!IsOwner) return;
 
         float moveX = Input.GetAxisRaw("Horizontal");
