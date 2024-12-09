@@ -6,6 +6,7 @@ public class CharacterCreator : MonoBehaviour
 {
     string[] bannedWords = { "nigger", "nig", "niger", "bitch", "fuck", "ass", "nigga", "niga", "shit", "nazi"};
 
+    [SerializeField] CharacterSelect characterSelect;
     [SerializeField] CharacterCustomizationData customizationData;
 
     [SerializeField] TMP_InputField nameInput;
@@ -120,9 +121,9 @@ public class CharacterCreator : MonoBehaviour
 
     public void ContinueButton()
     {
-        bool character1Exists = PlayerPrefs.GetInt("Character1", 0) == 1;
-        bool character2Exists = PlayerPrefs.GetInt("Character2", 0) == 1;
-        bool character3Exists = PlayerPrefs.GetInt("Character3", 0) == 1;
+        bool character1Exists = PlayerPrefs.GetInt("Character1") == 1;
+        bool character2Exists = PlayerPrefs.GetInt("Character2") == 1;
+        bool character3Exists = PlayerPrefs.GetInt("Character3") == 1;
 
         if (!character1Exists)
         {
@@ -132,6 +133,7 @@ public class CharacterCreator : MonoBehaviour
             PlayerPrefs.SetInt("Character1HairColor", currentHairColorIndex);
 
             PlayerPrefs.SetInt("Character1", 1);
+            characterSelect.LoadCharacters();
             return;
         }
         if (!character2Exists)
@@ -142,6 +144,7 @@ public class CharacterCreator : MonoBehaviour
             PlayerPrefs.SetInt("Character2HairColor", currentHairColorIndex);
 
             PlayerPrefs.SetInt("Character2", 1);
+            characterSelect.LoadCharacters();
             return;
         }
         if (!character3Exists)
@@ -152,6 +155,7 @@ public class CharacterCreator : MonoBehaviour
             PlayerPrefs.SetInt("Character3HairColor", currentHairColorIndex);
 
             PlayerPrefs.SetInt("Character3", 1);
+            characterSelect.LoadCharacters();
             return;
         }
     }
