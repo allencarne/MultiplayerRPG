@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 9213962798777526176, guid: 1eefff1ce65e8df4ca14c06d67330a9f, type: 3}
-  m_Color: {r: 0.99215686, g: 0.79607844, b: 0.6901961, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -188,7 +188,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1657601350, guid: f921cbf877610ed46a53ae961047368f, type: 3}
-  m_Color: {r: 0.6509434, g: 0.1013261, b: 0.11964666, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 841304983140234989}
   - component: {fileID: 2155053313424514762}
   - component: {fileID: 8050150357123000786}
+  - component: {fileID: 6475613187630994528}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -377,12 +378,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 5
+  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
   rb: {fileID: 9222441055534883323}
-  hairAnimator: {fileID: 1886573199325115856}
+  body: {fileID: 7867530632741787033}
+  hair: {fileID: 3619931694366323352}
+  moveSpeed: 5
   hairIndex: 0
-  hairColorIndex: 0
-  eyeColorIndex: 0
 --- !u!114 &2155053313424514762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -736,6 +737,30 @@ MonoBehaviour:
   OnMapUI:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6475613187630994528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f30cc59c0c59d164eb632abb59dab35f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyAnimator: {fileID: 8282777624565145663}
+  hairAnimator: {fileID: 1886573199325115856}
+  eyesAnimator: {fileID: 940950100477045103}
+  rb: {fileID: 9222441055534883323}
+  inputHandler: {fileID: 8050150357123000786}
+  player: {fileID: 841304983140234989}
+  LastMoveDirection: {x: 0, y: 0}
+  CanBasicAbility: 1
+  AbilityDir: {x: 0, y: 0, z: 0, w: 0}
+  hasAttacked: 0
+  canOffensiveAbility: 1
+  canMobilityAbility: 1
 --- !u!1 &7712448548237800742
 GameObject:
   m_ObjectHideFlags: 0

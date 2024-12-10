@@ -67,11 +67,6 @@ public class CharacterSelect : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Debug.Log(PlayerPrefs.GetInt("Character1", 0));
-    }
-
     public void DeleteCharacter1()
     {
         PlayerPrefs.SetString("Character1Name", "Empty");
