@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CharacterCreator : MonoBehaviour
 {
-    string[] bannedWords = { "nigger", "nig", "niger", "bitch", "fuck", "ass", "nigga", "niga", "shit", "nazi"};
+    string[] bannedWords = { "nigger", "nig", "niger", "bitch", "fuck", "ass", "nigga", "niga", "shit", "nazi, slut, cunt, whore"};
 
     [SerializeField] CharacterSelect characterSelect;
     [SerializeField] CharacterCustomizationData customizationData;
