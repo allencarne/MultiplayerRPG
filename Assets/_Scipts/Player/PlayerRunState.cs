@@ -34,14 +34,16 @@ public class PlayerRunState : PlayerState
 
         if (movement != Vector2.zero)
         {
-            stateMachine.BodyAnimator.SetFloat("Horizontal", movement.x);
-            stateMachine.BodyAnimator.SetFloat("Vertical", movement.y);
+            Vector2 snappedDirection = stateMachine.SnapDirection(movement);
 
-            stateMachine.EyeAnimator.SetFloat("Horizontal", movement.x);
-            stateMachine.EyeAnimator.SetFloat("Vertical", movement.y);
+            stateMachine.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
+            stateMachine.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
 
-            stateMachine.HairAnimator.SetFloat("Horizontal", movement.x);
-            stateMachine.HairAnimator.SetFloat("Vertical", movement.y);
+            stateMachine.EyeAnimator.SetFloat("Horizontal", snappedDirection.x);
+            stateMachine.EyeAnimator.SetFloat("Vertical", snappedDirection.y);
+
+            stateMachine.HairAnimator.SetFloat("Horizontal", snappedDirection.x);
+            stateMachine.HairAnimator.SetFloat("Vertical", snappedDirection.y);
         }
     }
 }

@@ -81,4 +81,21 @@ public class PlayerStateMachine : MonoBehaviour
             //SetState(new PlayerMobilityState(this));
         }
     }
+
+    public Vector2 SnapDirection(Vector2 direction)
+    {
+        // This Code allows the Last Input direction to be animated
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            direction.y = 0;
+            direction.x = Mathf.Sign(direction.x);
+        }
+        else
+        {
+            direction.x = 0;
+            direction.y = Mathf.Sign(direction.y);
+        }
+
+        return direction;
+    }
 }
