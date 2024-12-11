@@ -6,14 +6,12 @@ public class NetworkInput : NetworkBehaviour
 {
     [SerializeField] PlayerInputHandler playerInputHandler;
     [SerializeField] PlayerInput playerInput;
-    [SerializeField] Player player;
     [SerializeField] PlayerStateMachine playerStateMachine;
 
     private void Awake()
     {
         playerInputHandler.enabled = false;
         playerInput.enabled = false;
-        player.enabled = false;
         playerStateMachine.enabled = false;
     }
 
@@ -25,7 +23,6 @@ public class NetworkInput : NetworkBehaviour
         {
             playerInputHandler.enabled = true;
             playerInput.enabled = true;
-            player.enabled = true;
             playerStateMachine.enabled = true;
         }
     }
