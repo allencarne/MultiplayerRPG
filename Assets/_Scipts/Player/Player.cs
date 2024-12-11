@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
+    [SerializeField] GameObject cameraPrefab;
+
     // Components
     [SerializeField] private CharacterCustomizationData customizationData;
     [SerializeField] private Rigidbody2D rb;
@@ -49,6 +51,18 @@ public class Player : NetworkBehaviour
             // Update NetworkVariables
             _bodyColor.Value = body.color;
             _hairColor.Value = hair.color;
+
+            // Assign the camera to follow this player
+            if (Camera.main.GetComponent<CameraFollow>().playerTransform == null)
+            {
+                Camera.main.GetComponent<CameraFollow>().playerTransform = transform;
+            }
+            else
+            {
+                GameObject cameraInstance = Instantiate(cameraPrefab);
+                CameraFollow cameraFollow = cameraInstance.GetComponent<CameraFollow>();
+                cameraFollow.playerTransform = transform;
+            }
         }
         else
         {
