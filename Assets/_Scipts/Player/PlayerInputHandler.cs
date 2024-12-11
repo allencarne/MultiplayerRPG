@@ -91,7 +91,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnDefensiveAbility(InputAction.CallbackContext context)
     {
-
         if (!isMouseOverUI(ignoredLayers))
         {
             DefensiveAbilityInput = context.ReadValueAsButton();
@@ -104,7 +103,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnUtilityAbility(InputAction.CallbackContext context)
     {
-
         if (!isMouseOverUI(ignoredLayers))
         {
             UtilityAbilityInput = context.ReadValueAsButton();
@@ -117,7 +115,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnUltimateAbility(InputAction.CallbackContext context)
     {
-
         if (!isMouseOverUI(ignoredLayers))
         {
             UltimateAbilityInput = context.ReadValueAsButton();

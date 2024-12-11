@@ -1,22 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerStateMachine : NetworkBehaviour
 {
     PlayerState state;
 
     [Header("Components")]
-    //[SerializeField] Animator swordAnimator; public Animator SwordAnimator => swordAnimator;
     [SerializeField] Animator bodyAnimator; public Animator BodyAnimator => bodyAnimator;
     [SerializeField] Animator hairAnimator; public Animator HairAnimator => hairAnimator;
     [SerializeField] Animator eyesAnimator; public Animator EyeAnimator => eyesAnimator;
-    //[SerializeField] Animator headAnimator; public Animator HeadAnimator => headAnimator;
-    //[SerializeField] Animator chestAnimator; public Animator ChestAnimator => chestAnimator;
-    //[SerializeField] Animator legsAnimator; public Animator LegsAnimator => legsAnimator;
     [SerializeField] Rigidbody2D rb; public Rigidbody2D Rigidbody => rb;
-    //[SerializeField] Transform aimer; public Transform Aimer => aimer;
 
     [Header("Scripts")]
     [SerializeField] PlayerInputHandler inputHandler; public PlayerInputHandler InputHandler => inputHandler;
@@ -44,11 +40,6 @@ public class PlayerStateMachine : MonoBehaviour
     void Update()
     {
         state.Update();
-    }
-
-    public void OnPlayerDeath()
-    {
-        //SetState(new PlayerDeathState(this));
     }
 
     private void FixedUpdate()
@@ -81,6 +72,12 @@ public class PlayerStateMachine : MonoBehaviour
             //SetState(new PlayerMobilityState(this));
         }
     }
+
+    public void OnPlayerDeath()
+    {
+        //SetState(new PlayerDeathState(this));
+    }
+
 
     public Vector2 SnapDirection(Vector2 direction)
     {
