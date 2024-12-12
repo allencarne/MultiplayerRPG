@@ -15,6 +15,7 @@ public class Player : NetworkBehaviour
 
     // Stats
     public float moveSpeed;
+    public float endurance = 100;
     public int hairIndex;
 
     private NetworkVariable<Color> _bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
@@ -90,5 +91,10 @@ public class Player : NetworkBehaviour
 
         // Call the base class OnDestroy to ensure proper behavior
         base.OnDestroy();
+    }
+
+    public void UpdateEnduranceBar(float amount)
+    {
+        endurance -= amount;
     }
 }

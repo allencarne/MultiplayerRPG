@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // Variables
     public Vector2 LastMoveDirection = Vector2.zero;
+    [HideInInspector] public bool canRoll = true;
 
     [Header("Basic Ability")]
     [HideInInspector] public bool CanBasicAbility = true;
@@ -54,9 +55,13 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void Roll(bool rollInput)
     {
-        if (rollInput)
+        if (rollInput && canRoll)
         {
-            SetState(new PlayerRollState(this));
+            if (player.endurance >= 50)
+            {
+                player.UpdateEnduranceBar(50);
+                SetState(new PlayerRollState(this));
+            }
         }
     }
 
