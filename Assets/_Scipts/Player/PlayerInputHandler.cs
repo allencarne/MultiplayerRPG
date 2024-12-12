@@ -18,6 +18,7 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 MousePosition { get; private set; }
     public bool PickupInput { get; private set; }
     public bool InteractInput { get; private set; }
+    public bool RollInput { get; private set; }
 
     LayerMask ignoredLayers;
 
@@ -187,6 +188,16 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.started)
         {
             OnPauseUI.Invoke();
+        }
+    }
+
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        RollInput = context.ReadValueAsButton();
+
+        if (context.canceled)
+        {
+            RollInput = false;
         }
     }
 

@@ -4,13 +4,17 @@ public class PlayerRunState : PlayerState
 {
     public PlayerRunState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) { }
 
-    public override void Update()
+    public override void Start()
     {
         stateMachine.BodyAnimator.Play("Run");
         stateMachine.EyeAnimator.Play("Run");
         stateMachine.HairAnimator.Play("Run_" + stateMachine.Player.hairIndex);
+    }
 
+    public override void Update()
+    {
         // Transitions
+        stateMachine.Roll(stateMachine.InputHandler.RollInput);
         stateMachine.BasicAbility(stateMachine.InputHandler.BasicAbilityInput);
         stateMachine.OffensiveAbility(stateMachine.InputHandler.OffensiveAbilityInput);
         stateMachine.MobilityAbility(stateMachine.InputHandler.MobilityAbilityInput);

@@ -8,6 +8,8 @@ public abstract class PlayerState
         this.stateMachine = stateMachine;
     }
 
+    public abstract void Start();
+
     public abstract void Update();
 
     public virtual void FixedUpdate()

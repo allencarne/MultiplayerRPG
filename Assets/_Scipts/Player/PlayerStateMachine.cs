@@ -36,7 +36,7 @@ public class PlayerStateMachine : MonoBehaviour
         SetState(new PlayerSpawnState(this));
     }
 
-    void Update()
+    private void Update()
     {
         state.Update();
     }
@@ -46,7 +46,19 @@ public class PlayerStateMachine : MonoBehaviour
         state.FixedUpdate();
     }
 
-    public void SetState(PlayerState newState) => state = newState;
+    public void SetState(PlayerState newState)
+    {
+        state = newState;
+        state.Start();
+    }
+
+    public void Roll(bool rollInput)
+    {
+        if (rollInput)
+        {
+            SetState(new PlayerRollState(this));
+        }
+    }
 
     public void BasicAbility(bool abilityInput)
     {
