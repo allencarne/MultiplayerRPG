@@ -7,6 +7,6 @@ public class EnduranceBar : MonoBehaviour
 
     public void UpdateEnduranceBar(float maxEndurance, float currentEndurance)
     {
-        enduranceBar.fillAmount = maxEndurance / currentEndurance;
+        enduranceBar.fillAmount = currentEndurance / maxEndurance;
     }
 }

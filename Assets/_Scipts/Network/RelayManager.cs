@@ -1,8 +1,6 @@
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport;
-using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Relay;
@@ -35,7 +33,7 @@ public class RelayManager : MonoBehaviour
     {
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
         string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-        codeText.text = "Code: " + joinCode;
+        codeText.text = "Join Code: " + joinCode;
 
         //var relayServerData = new RelayServerData(allocation, "dtls");
         //NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);

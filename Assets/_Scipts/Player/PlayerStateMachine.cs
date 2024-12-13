@@ -59,7 +59,6 @@ public class PlayerStateMachine : MonoBehaviour
         {
             if (player.endurance >= 50)
             {
-                player.UpdateEnduranceBar(50);
                 SetState(new PlayerRollState(this));
             }
         }

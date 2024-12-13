@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Player : NetworkBehaviour
     // Components
     [SerializeField] private CharacterCustomizationData customizationData;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] EnduranceBar enduranceBar;
 
     // Parts
     [SerializeField] private SpriteRenderer body;
@@ -15,11 +17,19 @@ public class Player : NetworkBehaviour
 
     // Stats
     public float moveSpeed;
-    public float endurance = 100;
+    public float endurance;
+    public float maxEndurance;
     public int hairIndex;
 
     private NetworkVariable<Color> _bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
     private NetworkVariable<Color> _hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
+
+    private void Start()
+    {
+        endurance = maxEndurance;
+
+        enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -75,12 +85,12 @@ public class Player : NetworkBehaviour
 
     private void OnBodyColorChanged(Color previousColor, Color newColor)
     {
-        body.color = newColor; // Apply the new body color
+        body.color = newColor;
     }
 
     private void OnHairColorChanged(Color previousColor, Color newColor)
     {
-        hair.color = newColor; // Apply the new hair color
+        hair.color = newColor;
     }
 
     public override void OnDestroy()
@@ -93,8 +103,31 @@ public class Player : NetworkBehaviour
         base.OnDestroy();
     }
 
-    public void UpdateEnduranceBar(float amount)
+    public void UpdateEndurance(float amount)
     {
         endurance -= amount;
+        enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+
+        if (!isRecharging)
+        {
+            StartCoroutine(RechargeEndurance());
+        }
+    }
+
+    private bool isRecharging = false;
+
+    IEnumerator RechargeEndurance()
+    {
+        isRecharging = true;
+
+        while (endurance < maxEndurance)
+        {
+            yield return new WaitForSeconds(1);
+            endurance += 5;
+            endurance = Mathf.Min(endurance, maxEndurance);
+            enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+        }
+
+        isRecharging = false;
     }
 }
