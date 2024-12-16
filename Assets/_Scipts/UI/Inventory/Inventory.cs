@@ -3,12 +3,16 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    int inventorySlots = 30;
     public List<Item> items = new List<Item>();
+    public InventorySlot[] slots;
 
-    public void AddItem(Item itemName)
+    public void AddItem(Item newItem)
     {
-        items.Add(itemName);
-        Debug.Log($"Added {itemName} to inventory.");
+        items.Add(newItem);
+        Debug.Log($"Added {newItem} to inventory.");
+
+        //Update UI
     }
 
     public void RemoveItem(Item itemName)
