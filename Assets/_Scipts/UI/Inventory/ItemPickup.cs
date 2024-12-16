@@ -15,7 +15,7 @@ public class ItemPickup : MonoBehaviour
             {
                 Debug.Log("Pickup Coin");
 
-                player.coins += 1;
+                player.CoinCollected(item.quantity);
 
                 Destroy(gameObject);
                 return;

@@ -7,6 +7,7 @@ public class Player : NetworkBehaviour
 {
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] Canvas playerUI;
+    [SerializeField] TextMeshProUGUI coinText;
 
     // Components
     [SerializeField] private CharacterCustomizationData customizationData;
@@ -146,5 +147,11 @@ public class Player : NetworkBehaviour
         }
 
         isRecharging = false;
+    }
+
+    public void CoinCollected(float amount)
+    {
+        coins += amount;
+        coinText.text = coins.ToString();
     }
 }

@@ -17,4 +17,8 @@ public class Item : ScriptableObject
 
     [Header("Bools")]
     public bool isCurrency;
+
+    [Header("Stack")]
+    public bool isStackable;
+    public int quantity;
 }
