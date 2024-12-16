@@ -2800,7 +2800,7 @@ GameObject:
   - component: {fileID: 4396679508418396757}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3260,12 +3260,14 @@ MonoBehaviour:
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
   rb: {fileID: 9222441055534883323}
   enduranceBar: {fileID: 8514298217784262305}
+  inventory: {fileID: 6762276146836678153}
   playerName: {fileID: 2442183877055473471}
   body: {fileID: 7867530632741787033}
   hair: {fileID: 3619931694366323352}
   moveSpeed: 5
   endurance: 0
   maxEndurance: 100
+  coins: 0
   hairIndex: 0
 --- !u!114 &8050150357123000786
 MonoBehaviour:
@@ -3412,6 +3414,7 @@ GameObject:
   - component: {fileID: 822629935521483619}
   - component: {fileID: 791891218770491339}
   - component: {fileID: 2846862907457918475}
+  - component: {fileID: 6762276146836678153}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -3523,6 +3526,19 @@ MonoBehaviour:
   StatsPanel: {fileID: 711510736579915940}
   MapPanel: {fileID: 827474578726091968}
   SettingsPanel: {fileID: 4330619142745330223}
+--- !u!114 &6762276146836678153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932000853074254433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2c9f24e1e4413d4081c9ad08c33e2e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
 --- !u!1 &3274158421201703800
 GameObject:
   m_ObjectHideFlags: 0
@@ -6925,7 +6941,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rect: {fileID: 6514178496675589304}
   canvas: {fileID: 3299133459724338860}
-  canvasType: 1
 --- !u!1 &6824152836747776845
 GameObject:
   m_ObjectHideFlags: 0

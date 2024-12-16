@@ -12,6 +12,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private CharacterCustomizationData customizationData;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] EnduranceBar enduranceBar;
+    public Inventory inventory;
 
     // Parts
     [SerializeField] private TextMeshProUGUI playerName;
@@ -22,6 +23,7 @@ public class Player : NetworkBehaviour
     public float moveSpeed;
     public float endurance;
     public float maxEndurance;
+    public float coins;
     public int hairIndex;
 
     private NetworkVariable<Color> _bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
