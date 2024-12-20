@@ -96,19 +96,19 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "Inventory UI",
                     "type": "Button",
-                    "id": "754bff59-4601-454e-83dc-a758ce921f60",
-                    "expectedControlType": "Button",
+                    "id": "d244f77e-cf21-4239-b943-db31ef746fab",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Inventory UI",
+                    "name": "Skills UI",
                     "type": "Button",
-                    "id": "d244f77e-cf21-4239-b943-db31ef746fab",
-                    "expectedControlType": "Button",
+                    "id": "86a8cd03-54b2-41c0-8563-653f0d93f26c",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -117,25 +117,25 @@
                     "name": "Stats UI",
                     "type": "Button",
                     "id": "3f02eb5c-6e0d-4050-b160-009eb2a7347a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ability UI",
-                    "type": "Button",
-                    "id": "86a8cd03-54b2-41c0-8563-653f0d93f26c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Map",
+                    "name": "Map UI",
                     "type": "Button",
                     "id": "25e4cef7-807f-42f9-89b3-84fb70cd1004",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Settings UI",
+                    "type": "Button",
+                    "id": "754bff59-4601-454e-83dc-a758ce921f60",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -354,7 +354,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Ability UI",
+                    "action": "Skills UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -365,7 +365,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Ability UI",
+                    "action": "Skills UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -376,7 +376,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Pause",
+                    "action": "Settings UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -387,7 +387,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Pause",
+                    "action": "Settings UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -398,7 +398,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Map",
+                    "action": "Map UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -409,7 +409,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Map",
+                    "action": "Map UI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

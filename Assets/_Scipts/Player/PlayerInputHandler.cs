@@ -22,11 +22,11 @@ public class PlayerInputHandler : MonoBehaviour
 
     LayerMask ignoredLayers;
 
-    public UnityEvent OnPauseUI;
-    public UnityEvent OnInventoryUI;
-    public UnityEvent OnStatsUI;
-    public UnityEvent OnAbilityUI;
-    public UnityEvent OnMapUI;
+    public UnityEvent OnInventoryUIInput;
+    public UnityEvent OnSkillsUIInput;
+    public UnityEvent OnStatsUIInput;
+    public UnityEvent OnMapUIInput;
+    public UnityEvent OnSettingsUIInput;
 
     private void Awake()
     {
@@ -155,7 +155,15 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            OnInventoryUI.Invoke();
+            OnInventoryUIInput.Invoke();
+        }
+    }
+
+    public void OnSkillsInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnSkillsUIInput.Invoke();
         }
     }
 
@@ -163,15 +171,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            OnStatsUI.Invoke();
-        }
-    }
-
-    public void OnAbilityInput(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            OnAbilityUI.Invoke();
+            OnStatsUIInput.Invoke();
         }
     }
 
@@ -179,15 +179,15 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            OnMapUI.Invoke();
+            OnMapUIInput.Invoke();
         }
     }
 
-    public void OnPause(InputAction.CallbackContext context)
+    public void OnSettingsInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            OnPauseUI.Invoke();
+            OnSettingsUIInput.Invoke();
         }
     }
 
