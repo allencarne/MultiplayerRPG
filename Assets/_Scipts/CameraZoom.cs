@@ -1,24 +1,28 @@
 using UnityEngine;
+using System.Collections;
 
 public class CameraZoom : MonoBehaviour
 {
-    public float zoomSpeed = 2f;
-    public float minZoom = 5f;
-    public float maxZoom = 20f;
-
     public PlayerInputHandler inputHandler;
+    public RectTransform rectTransform;
     private Camera mainCamera;
+
+    float zoomStep = 1f;
+    float minZoom = 5.25f;
+    float maxZoom = 15.25f;
 
     private void Start()
     {
         mainCamera = GetComponent<Camera>();
+    }
 
+    public void GetPlayer()
+    {
         inputHandler.ZoomPerformed += HandleZoom;
     }
 
     private void OnDestroy()
     {
-        // Unsubscribe from the OnZoom action to avoid memory leaks
         if (inputHandler != null)
         {
             inputHandler.ZoomPerformed -= HandleZoom;
@@ -32,13 +36,13 @@ public class CameraZoom : MonoBehaviour
 
         if (zoomDirection != 0)
         {
-            // Adjust the camera's orthographic size
-            mainCamera.orthographicSize -= zoomDirection * zoomSpeed * Time.deltaTime;
+            // Adjust the camera's orthographic size by zoomStep
+            float newZoom = mainCamera.orthographicSize - Mathf.Sign(zoomDirection) * zoomStep;
 
             // Clamp the size between minZoom and maxZoom
-            mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize, minZoom, maxZoom);
+            mainCamera.orthographicSize = Mathf.Clamp(newZoom, minZoom, maxZoom);
 
-            // Debug log the current size
+            // Debug log the current zoom level
             Debug.Log("Current Zoom Level: " + mainCamera.orthographicSize);
         }
     }
