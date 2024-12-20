@@ -30,7 +30,7 @@ public class PlayerUI : MonoBehaviour
         CloseHeroPanel();
     }
 
-    public void OpenInventoryUI()
+    public void OpenInventoryUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
@@ -38,7 +38,10 @@ public class PlayerUI : MonoBehaviour
 
             if (InventoryPanel.activeSelf)
             {
-                CloseHeroPanel();
+                if (isMenuButton)
+                {
+                    CloseHeroPanel();
+                }
             }
             else
             {
@@ -67,7 +70,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    public void OpenSkillsUI()
+    public void OpenSkillsUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
@@ -75,7 +78,10 @@ public class PlayerUI : MonoBehaviour
 
             if (SkillPanel.activeSelf)
             {
-                CloseHeroPanel();
+                if (isMenuButton)
+                {
+                    CloseHeroPanel();
+                }
             }
             else
             {
@@ -104,7 +110,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    public void OpenStatsUI()
+    public void OpenStatsUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
@@ -112,7 +118,10 @@ public class PlayerUI : MonoBehaviour
 
             if (StatsPanel.activeSelf)
             {
-                CloseHeroPanel();
+                if (isMenuButton)
+                {
+                    CloseHeroPanel();
+                }
             }
             else
             {
@@ -141,7 +150,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    public void OpenMapUI()
+    public void OpenMapUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
@@ -149,7 +158,10 @@ public class PlayerUI : MonoBehaviour
 
             if (MapPanel.activeSelf)
             {
-                CloseHeroPanel();
+                if (isMenuButton)
+                {
+                    CloseHeroPanel();
+                }
             }
             else
             {
@@ -178,7 +190,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    public void OpenSettingsUI()
+    public void OpenSettingsUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
@@ -186,7 +198,10 @@ public class PlayerUI : MonoBehaviour
 
             if (SettingsPanel.activeSelf)
             {
-                CloseHeroPanel();
+                if (isMenuButton)
+                {
+                    CloseHeroPanel();
+                }
             }
             else
             {

@@ -119,7 +119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6865774798627768289}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: OpenStatsUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &331410674971300285
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +251,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5068706272497245245}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: OpenMapUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &447545449286973522
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,14 +704,14 @@ MonoBehaviour:
       - m_Target: {fileID: 2846862907457918475}
         m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: OpenInventoryUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &711510736579915940
 GameObject:
@@ -2005,14 +2029,14 @@ MonoBehaviour:
       - m_Target: {fileID: 2846862907457918475}
         m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: OpenStatsUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &2822157260511609222
 GameObject:
@@ -3181,7 +3205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4053521199337545127}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: OpenSkillsUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3410450850270918047
 GameObject:
   m_ObjectHideFlags: 0
@@ -3636,14 +3672,14 @@ MonoBehaviour:
       - m_Target: {fileID: 2846862907457918475}
         m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: OpenSettingsUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &4330619142745330223
 GameObject:
@@ -3839,7 +3875,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4940273925048797298}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: OpenInventoryUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5068205979657314926
 GameObject:
   m_ObjectHideFlags: 0
@@ -4000,14 +4048,14 @@ MonoBehaviour:
       - m_Target: {fileID: 2846862907457918475}
         m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: OpenMapUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &5538029719995255393
 GameObject:
@@ -4869,14 +4917,14 @@ MonoBehaviour:
       - m_Target: {fileID: 2846862907457918475}
         m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
         m_MethodName: OpenSkillsUI
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &6818560224607495589
 GameObject:
@@ -5471,7 +5519,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7356014394813680917}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: OpenSettingsUI
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7892423630137851522
 GameObject:
   m_ObjectHideFlags: 0
