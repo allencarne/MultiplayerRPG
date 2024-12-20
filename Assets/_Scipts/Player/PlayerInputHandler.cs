@@ -19,6 +19,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool PickupInput { get; private set; }
     public bool InteractInput { get; private set; }
     public bool RollInput { get; private set; }
+    public Vector2 ZoomInput { get; private set; }
 
     LayerMask ignoredLayers;
 
@@ -27,6 +28,7 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnStatsUIInput;
     public UnityEvent OnMapUIInput;
     public UnityEvent OnSettingsUIInput;
+    public event UnityAction<Vector2> ZoomPerformed;
 
     private void Awake()
     {
@@ -198,6 +200,27 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.canceled)
         {
             RollInput = false;
+        }
+    }
+
+    public void OnZoom(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // Read the Vector2 value from the scroll input
+            ZoomInput = context.ReadValue<Vector2>();
+
+            ZoomPerformed?.Invoke(ZoomInput);
+
+            // Use the y-axis (vertical scroll) to determine zoom direction
+            if (ZoomInput.y > 0)
+            {
+                Debug.Log("Zooming In");
+            }
+            else if (ZoomInput.y < 0)
+            {
+                Debug.Log("Zooming Out");
+            }
         }
     }
 

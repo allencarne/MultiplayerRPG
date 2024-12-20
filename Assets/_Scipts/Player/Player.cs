@@ -92,12 +92,14 @@ public class Player : NetworkBehaviour
         if (Camera.main.GetComponent<CameraFollow>().playerTransform == null)
         {
             Camera.main.GetComponent<CameraFollow>().playerTransform = transform;
+            Camera.main.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
         }
         else
         {
             GameObject cameraInstance = Instantiate(cameraPrefab);
             CameraFollow cameraFollow = cameraInstance.GetComponent<CameraFollow>();
             cameraFollow.playerTransform = transform;
+            cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
         }
     }
 
