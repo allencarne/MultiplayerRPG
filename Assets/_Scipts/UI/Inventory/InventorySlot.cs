@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour
 {
     public Inventory inventory;
+    public EquipmentManager equipmentManager;
     public InventoryItem inventoryItem;
     public int slotIndex;
     public Image icon;
@@ -17,14 +18,22 @@ public class InventorySlot : MonoBehaviour
         icon.color = Color.white;
     }
 
-    public void ClearSlot()
-    {
-
-    }
-
     public void UseItem()
     {
+        if (inventoryItem.item != null)
+        {
+            inventoryItem.item.Use(inventory,equipmentManager);
+        }
+    }
 
+    public void ClearSlot()
+    {
+        inventoryItem.item = null;
+
+        inventory.items[slotIndex] = null; // Update the inventory array
+        icon.sprite = null;
+        icon.enabled = true; // Ensure the Image component is always enabled
+        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, 0f);
     }
 
     public void RemoveItem()

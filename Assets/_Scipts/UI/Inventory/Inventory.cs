@@ -15,11 +15,12 @@ public class Inventory : MonoBehaviour
         items = new Item[inventorySlots];
     }
 
-    public void AddItem(Item newItem)
+    public bool AddItem(Item newItem)
     {
         if (Array.FindIndex(items, x => x == null) == -1)
         {
             Debug.Log("Not enough room.");
+            return false;
         }
 
         // Find the first empty slot in the inventory
@@ -37,6 +38,7 @@ public class Inventory : MonoBehaviour
                     // If the item exists, increase its quantity
                     items[existingItemIndex].quantity++;
                     inventoryUI.UpdateUI();
+                    return true;
                 }
             }
 
@@ -44,8 +46,14 @@ public class Inventory : MonoBehaviour
             newItem.quantity = 1;
             items[emptySlotIndex] = newItem;
         }
+        else
+        {
+            Debug.Log("Inventory is full.");
+            return false; // Return false if no empty slot is found
+        }
 
         inventoryUI.UpdateUI();
+        return true;
     }
 
     public void RemoveItem(Item removedItem)
@@ -57,5 +65,7 @@ public class Inventory : MonoBehaviour
             // Remove the item from the inventory by setting its slot to null
             items[itemIndex] = null;
         }
+
+        inventoryUI.UpdateUI();
     }
 }

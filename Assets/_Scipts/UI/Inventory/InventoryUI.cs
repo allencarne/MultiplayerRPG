@@ -17,8 +17,6 @@ public class InventoryUI : MonoBehaviour
             iSlots[i].slotIndex = i; // Assign slot index based on position in array
             iSlots[i].inventory = inventory; // Assign inventory reference to each slot
         }
-
-        UpdateUI();
     }
 
     public void UpdateUI()

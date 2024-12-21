@@ -5,29 +5,31 @@ using TMPro;
 
 public class Player : NetworkBehaviour
 {
-    [SerializeField] GameObject cameraPrefab;
-    [SerializeField] Canvas playerUI;
-    [SerializeField] TextMeshProUGUI coinText;
-    [SerializeField] RectTransform playerUIRect;
-
-    // Components
+    [Header("Components")]
     [SerializeField] private CharacterCustomizationData customizationData;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] EnduranceBar enduranceBar;
     public Inventory inventory;
 
-    // Parts
+    [Header("UI")]
+    [SerializeField] GameObject cameraPrefab;
+    [SerializeField] Canvas playerUI;
+    [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] RectTransform playerUIRect;
+
+    [Header("Parts")]
     [SerializeField] private TextMeshProUGUI playerName;
     [SerializeField] private SpriteRenderer body;
     [SerializeField] private SpriteRenderer hair;
 
-    // Stats
+    [Header("Stats")]
     public float moveSpeed;
     public float endurance;
     public float maxEndurance;
     public float coins;
     public int hairIndex;
 
+    [Header("Network Variables")]
     private NetworkVariable<Color> _bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
     private NetworkVariable<Color> _hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
 

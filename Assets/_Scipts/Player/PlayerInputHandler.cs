@@ -211,16 +211,6 @@ public class PlayerInputHandler : MonoBehaviour
             ZoomInput = context.ReadValue<Vector2>();
 
             ZoomPerformed?.Invoke(ZoomInput);
-
-            // Use the y-axis (vertical scroll) to determine zoom direction
-            if (ZoomInput.y > 0)
-            {
-                Debug.Log("Zooming In");
-            }
-            else if (ZoomInput.y < 0)
-            {
-                Debug.Log("Zooming Out");
-            }
         }
     }
 

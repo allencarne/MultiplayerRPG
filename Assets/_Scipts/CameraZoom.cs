@@ -40,9 +40,6 @@ public class CameraZoom : MonoBehaviour
 
             // Clamp the size between minZoom and maxZoom
             mainCamera.orthographicSize = Mathf.Clamp(newZoom, minZoom, maxZoom);
-
-            // Debug log the current zoom level
-            Debug.Log("Current Zoom Level: " + mainCamera.orthographicSize);
         }
     }
 }

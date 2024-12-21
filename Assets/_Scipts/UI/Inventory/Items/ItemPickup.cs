@@ -13,16 +13,20 @@ public class ItemPickup : MonoBehaviour
 
             if (item.isCurrency)
             {
-                Debug.Log("Pickup Coin");
-
                 player.CoinCollected(item.quantity);
 
                 Destroy(gameObject);
                 return;
             }
 
-            player.inventory.AddItem(item);
-            Destroy(gameObject);
+            // Add Item to Inventory if we have enough space
+            bool wasPickedUp = player.inventory.AddItem(item);
+
+            // Destroy item if it was collected
+            if (wasPickedUp)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
