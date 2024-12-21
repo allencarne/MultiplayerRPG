@@ -94,7 +94,6 @@ public class Player : NetworkBehaviour
         {
             Camera.main.GetComponent<CameraFollow>().playerTransform = transform;
             Camera.main.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
-            Camera.main.GetComponent<CameraZoom>().rectTransform = playerUIRect;
             Camera.main.GetComponent<CameraZoom>().GetPlayer();
         }
         else
@@ -103,7 +102,6 @@ public class Player : NetworkBehaviour
             CameraFollow cameraFollow = cameraInstance.GetComponent<CameraFollow>();
             cameraFollow.playerTransform = transform;
             cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
-            cameraInstance.GetComponent<CameraZoom>().rectTransform = playerUIRect;
             cameraInstance.GetComponent<CameraZoom>().GetPlayer();
         }
     }

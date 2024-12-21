@@ -4,7 +4,6 @@ using System.Collections;
 public class CameraZoom : MonoBehaviour
 {
     public PlayerInputHandler inputHandler;
-    public RectTransform rectTransform;
     private Camera mainCamera;
 
     float zoomStep = 1f;
