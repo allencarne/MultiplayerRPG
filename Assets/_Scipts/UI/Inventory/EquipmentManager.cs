@@ -5,6 +5,7 @@ public class EquipmentManager : MonoBehaviour
 {
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentUI equipmentUI;
+    [SerializeField] PlayerEquipment equipment;
     public Equipment[] currentEquipment;
 
     private void Start()
@@ -31,6 +32,7 @@ public class EquipmentManager : MonoBehaviour
         }
 
         equipmentUI.UpdateUI(newItem, oldItem);
+        equipment.OnEquipmentChanged(newItem, oldItem);
 
         // Set new item
         currentEquipment[slotIndex] = newItem;
@@ -46,6 +48,7 @@ public class EquipmentManager : MonoBehaviour
             currentEquipment[slotIndex] = null;
 
             equipmentUI.UpdateUI(null, oldItem);
+            equipment.OnEquipmentChanged(null, oldItem);
         }
     }
 
