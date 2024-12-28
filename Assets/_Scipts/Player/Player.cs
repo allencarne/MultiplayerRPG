@@ -35,6 +35,8 @@ public class Player : NetworkBehaviour
     private NetworkVariable<Color> net_bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
     private NetworkVariable<Color> net_hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
 
+    private NetworkVariable<float> net_endurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
+
     private void Start()
     {
         endurance = maxEndurance;
@@ -48,11 +50,15 @@ public class Player : NetworkBehaviour
         net_playerName.OnValueChanged += OnNameChanged;
         net_bodyColor.OnValueChanged += OnBodyColorChanged;
         net_hairColor.OnValueChanged += OnHairColorChanged;
+        net_endurance.OnValueChanged += OnEnduranceChanged;
 
         if (IsOwner)
         {
             InitializeOwnerCharacter();
             AssignPlayerCamera();
+
+            // Initialize endurance network variable
+            net_endurance.Value = endurance;
         }
         else
         {
@@ -61,9 +67,23 @@ public class Player : NetworkBehaviour
             body.color = net_bodyColor.Value;
             hair.color = net_hairColor.Value;
         }
+
+        // Sync UI for non-owners
+        enduranceBar.UpdateEnduranceBar(maxEndurance, net_endurance.Value);
     }
 
-    private void InitializeOwnerCharacter()
+    public override void OnDestroy()
+    {
+        // Unsubscribe from the callbacks to avoid memory leaks
+        net_playerName.OnValueChanged -= OnNameChanged;
+        net_bodyColor.OnValueChanged -= OnBodyColorChanged;
+        net_hairColor.OnValueChanged -= OnHairColorChanged;
+        net_endurance.OnValueChanged -= OnEnduranceChanged;
+
+        base.OnDestroy();
+    }
+
+    void InitializeOwnerCharacter()
     {
         // Set initial values based on the selected character
         switch (PlayerPrefs.GetInt("SelectedCharacter"))
@@ -94,7 +114,7 @@ public class Player : NetworkBehaviour
         net_hairColor.Value = hair.color;
     }
 
-    private void AssignPlayerCamera()
+    void AssignPlayerCamera()
     {
         // Assign the camera to follow this player
         if (Camera.main.GetComponent<CameraFollow>().playerTransform == null)
@@ -113,44 +133,24 @@ public class Player : NetworkBehaviour
         }
     }
 
-    void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
-    {
-        playerName.text = newName.ToString();
-    }
-
-    private void OnBodyColorChanged(Color previousColor, Color newColor)
-    {
-        body.color = newColor;
-    }
-
-    private void OnHairColorChanged(Color previousColor, Color newColor)
-    {
-        hair.color = newColor;
-    }
-
-    public override void OnDestroy()
-    {
-        // Unsubscribe from the callbacks to avoid memory leaks
-        net_playerName.OnValueChanged -= OnNameChanged;
-        net_bodyColor.OnValueChanged -= OnBodyColorChanged;
-        net_hairColor.OnValueChanged -= OnHairColorChanged;
-
-        // Call the base class OnDestroy to ensure proper behavior
-        base.OnDestroy();
-    }
-
     public void UpdateEndurance(float amount)
     {
-        endurance -= amount;
-        enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
-
-        if (!isRecharging)
+        if (IsOwner)
         {
-            StartCoroutine(RechargeEndurance());
+            endurance -= amount;
+
+            net_endurance.Value = endurance;
+
+            enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+
+            if (!isRecharging)
+            {
+                StartCoroutine(RechargeEndurance());
+            }
         }
     }
 
-    private bool isRecharging = false;
+    bool isRecharging = false;
 
     IEnumerator RechargeEndurance()
     {
@@ -159,9 +159,16 @@ public class Player : NetworkBehaviour
         while (endurance < maxEndurance)
         {
             yield return new WaitForSeconds(1);
-            endurance += 5;
-            endurance = Mathf.Min(endurance, maxEndurance);
-            enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+
+            if (IsOwner)
+            {
+                endurance += 5;
+                endurance = Mathf.Min(endurance, maxEndurance);
+
+                net_endurance.Value = endurance;
+
+                enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+            }
         }
 
         isRecharging = false;
@@ -171,5 +178,26 @@ public class Player : NetworkBehaviour
     {
         coins += amount;
         coinText.text = coins.ToString();
+    }
+
+    void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
+    {
+        playerName.text = newName.ToString();
+    }
+
+    void OnBodyColorChanged(Color previousColor, Color newColor)
+    {
+        body.color = newColor;
+    }
+
+    void OnHairColorChanged(Color previousColor, Color newColor)
+    {
+        hair.color = newColor;
+    }
+
+    private void OnEnduranceChanged(float oldValue, float newValue)
+    {
+        // Update the endurance bar UI when the network variable changes
+        enduranceBar.UpdateEnduranceBar(maxEndurance, newValue);
     }
 }
