@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using Unity.Collections;
 
 public class Player : NetworkBehaviour
 {
@@ -30,8 +31,9 @@ public class Player : NetworkBehaviour
     public int hairIndex;
 
     [Header("Network Variables")]
-    private NetworkVariable<Color> _bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
-    private NetworkVariable<Color> _hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<FixedString32Bytes> net_playerName = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<Color> net_bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<Color> net_hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
 
     private void Start()
     {
@@ -43,8 +45,9 @@ public class Player : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         // Attach callbacks for when the NetworkVariable values change
-        _bodyColor.OnValueChanged += OnBodyColorChanged;
-        _hairColor.OnValueChanged += OnHairColorChanged;
+        net_playerName.OnValueChanged += OnNameChanged;
+        net_bodyColor.OnValueChanged += OnBodyColorChanged;
+        net_hairColor.OnValueChanged += OnHairColorChanged;
 
         if (IsOwner)
         {
@@ -54,8 +57,9 @@ public class Player : NetworkBehaviour
         else
         {
             // Set initial colors for non-owner players
-            body.color = _bodyColor.Value;
-            hair.color = _hairColor.Value;
+            playerName.text = net_playerName.Value.ToString();
+            body.color = net_bodyColor.Value;
+            hair.color = net_hairColor.Value;
         }
     }
 
@@ -85,8 +89,9 @@ public class Player : NetworkBehaviour
         }
 
         // Update NetworkVariables
-        _bodyColor.Value = body.color;
-        _hairColor.Value = hair.color;
+        net_playerName.Value = playerName.text;
+        net_bodyColor.Value = body.color;
+        net_hairColor.Value = hair.color;
     }
 
     private void AssignPlayerCamera()
@@ -108,6 +113,11 @@ public class Player : NetworkBehaviour
         }
     }
 
+    void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
+    {
+        playerName.text = newName.ToString();
+    }
+
     private void OnBodyColorChanged(Color previousColor, Color newColor)
     {
         body.color = newColor;
@@ -121,8 +131,9 @@ public class Player : NetworkBehaviour
     public override void OnDestroy()
     {
         // Unsubscribe from the callbacks to avoid memory leaks
-        _bodyColor.OnValueChanged -= OnBodyColorChanged;
-        _hairColor.OnValueChanged -= OnHairColorChanged;
+        net_playerName.OnValueChanged -= OnNameChanged;
+        net_bodyColor.OnValueChanged -= OnBodyColorChanged;
+        net_hairColor.OnValueChanged -= OnHairColorChanged;
 
         // Call the base class OnDestroy to ensure proper behavior
         base.OnDestroy();
