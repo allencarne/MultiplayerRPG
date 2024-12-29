@@ -7,6 +7,7 @@ using Unity.Collections;
 public class Player : NetworkBehaviour
 {
     [Header("Components")]
+    public GameObject Spawn_Effect;
     [SerializeField] private CharacterCustomizationData customizationData;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] EnduranceBar enduranceBar;
@@ -39,6 +40,8 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
+        Instantiate(Spawn_Effect, transform.position, transform.rotation);
+
         endurance = maxEndurance;
 
         enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
