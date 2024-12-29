@@ -6,6 +6,7 @@ public class PlayerIdleState : PlayerState
 
     public override void Start()
     {
+        stateMachine.SwordAnimator.Play("Idle");
         stateMachine.BodyAnimator.Play("Idle");
         stateMachine.EyeAnimator.Play("Idle");
         stateMachine.HairAnimator.Play("Idle_" + stateMachine.Player.hairIndex);

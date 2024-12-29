@@ -6,6 +6,7 @@ public class PlayerRunState : PlayerState
 
     public override void Start()
     {
+        stateMachine.SwordAnimator.Play("Run");
         stateMachine.BodyAnimator.Play("Run");
         stateMachine.EyeAnimator.Play("Run");
         stateMachine.HairAnimator.Play("Run_" + stateMachine.Player.hairIndex);
@@ -39,6 +40,9 @@ public class PlayerRunState : PlayerState
         if (movement != Vector2.zero)
         {
             Vector2 snappedDirection = stateMachine.SnapDirection(movement);
+
+            stateMachine.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
+            stateMachine.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
 
             stateMachine.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
             stateMachine.BodyAnimator.SetFloat("Vertical", snappedDirection.y);

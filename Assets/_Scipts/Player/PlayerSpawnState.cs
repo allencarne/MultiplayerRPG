@@ -8,6 +8,7 @@ public class PlayerSpawnState : PlayerState
 
     public override void Start()
     {
+        stateMachine.SwordAnimator.Play("Spawn");
         stateMachine.BodyAnimator.Play("Spawn");
         stateMachine.EyeAnimator.Play("Spawn");
         stateMachine.HairAnimator.Play("Spawn");

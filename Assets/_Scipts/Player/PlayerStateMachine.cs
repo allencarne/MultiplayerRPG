@@ -8,6 +8,7 @@ public class PlayerStateMachine : MonoBehaviour
     PlayerState state;
 
     [Header("Components")]
+    [SerializeField] Animator swordAnimator; public Animator SwordAnimator => swordAnimator;
     [SerializeField] Animator bodyAnimator; public Animator BodyAnimator => bodyAnimator;
     [SerializeField] Animator hairAnimator; public Animator HairAnimator => hairAnimator;
     [SerializeField] Animator eyesAnimator; public Animator EyeAnimator => eyesAnimator;
@@ -93,21 +94,28 @@ public class PlayerStateMachine : MonoBehaviour
         //SetState(new PlayerDeathState(this));
     }
 
-
+    // This Code allows the Last Input direction to be animated
     public Vector2 SnapDirection(Vector2 direction)
     {
-        // This Code allows the Last Input direction to be animated
+        // Check if the x component of the direction is greater in magnitude than the y component
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
         {
+            // Snap to the horizontal axis by setting the y component to 0
             direction.y = 0;
+
+            // Normalize the x component to either 1 or -1 depending on its original sign
             direction.x = Mathf.Sign(direction.x);
         }
         else
         {
+            // Snap to the vertical axis by setting the x component to 0
             direction.x = 0;
+
+            // Normalize the y component to either 1 or -1 depending on its original sign
             direction.y = Mathf.Sign(direction.y);
         }
 
+        // Return the modified direction vector, now snapped to either horizontal or vertical
         return direction;
     }
 }

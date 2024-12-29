@@ -740,7 +740,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 9213962798777526176, guid: 1eefff1ce65e8df4ca14c06d67330a9f, type: 3}
+  m_Sprite: {fileID: -5027854597877681053, guid: 00dd3c93a9f29e3439d3b1dc79f699a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3168,6 +3168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30cc59c0c59d164eb632abb59dab35f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordAnimator: {fileID: 1012001254419383665}
   bodyAnimator: {fileID: 8282777624565145663}
   hairAnimator: {fileID: 1886573199325115856}
   eyesAnimator: {fileID: 940950100477045103}
@@ -5751,6 +5752,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4950434436994102790}
   - component: {fileID: 5543647698223086082}
+  - component: {fileID: 1012001254419383665}
+  - component: {fileID: 8375590338076603815}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -5780,7 +5783,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6536782964245649266}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -5827,7 +5830,44 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
+--- !u!95 &1012001254419383665
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536782964245649266}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2fbd9702391a24d4684fccb784dddb9e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8375590338076603815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536782964245649266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 802208acdb6fe2a4bb4fc71176188ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1012001254419383665}
 --- !u!1 &6537805859947061502
 GameObject:
   m_ObjectHideFlags: 0
@@ -6979,11 +7019,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4950434436994102790}
   - {fileID: 8915449338707975087}
   - {fileID: 8062495654843032709}
   - {fileID: 8268136563307555648}
   - {fileID: 2577871343400622708}
-  - {fileID: 4950434436994102790}
   m_Father: {fileID: 5144383124475292198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &7987199576899813099
