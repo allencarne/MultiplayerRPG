@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
+    [SerializeField] CharacterCustomizationData characterData;
     [SerializeField] SpriteRenderer Sword;
     [SerializeField] SpriteRenderer Staff;
     [SerializeField] SpriteRenderer Bow;
@@ -31,7 +32,7 @@ public class PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            currentWeapon = net_currentWeapon.Value;
+            UpdateWeaponVisuals(net_currentWeapon.Value, null);
         }
     }
 
@@ -48,6 +49,7 @@ public class PlayerEquipment : NetworkBehaviour
             if (newWeapon != null)
 			{
                 EquipWeapon(newWeapon);
+                Debug.Log(newWeapon.itemIndex);
             }
 
             // Handle armor equip
@@ -58,7 +60,8 @@ public class PlayerEquipment : NetworkBehaviour
             Weapon oldWeapon = oldItem as Weapon;
             if (oldWeapon != null)
             {
-                UnequipWeapon(oldWeapon);
+                UnequipWeapon();
+                Debug.Log(oldItem.itemIndex);
             }
 
             // Handle armor unequip
@@ -66,74 +69,76 @@ public class PlayerEquipment : NetworkBehaviour
         }
 	}
 
-    void EquipWeapon(Weapon newWeapon)
+    private void EquipWeapon(Weapon newWeapon)
     {
         switch (newWeapon.weaponType)
         {
             case WeaponType.Sword:
                 currentWeapon = CurrentWeapon.Sword;
-                net_currentWeapon.Value = currentWeapon;
-
-                Sword.enabled = true;
-                Sword.sprite = newWeapon.weaponSprite;
                 break;
             case WeaponType.Staff:
                 currentWeapon = CurrentWeapon.Staff;
-                net_currentWeapon.Value = currentWeapon;
-
-                Staff.enabled = true;
-                Staff.sprite = newWeapon.weaponSprite;
                 break;
             case WeaponType.Bow:
                 currentWeapon = CurrentWeapon.Bow;
-                net_currentWeapon.Value = currentWeapon;
-
-                Bow.enabled = true;
-                Bow.sprite = newWeapon.weaponSprite;
                 break;
             case WeaponType.Dagger:
                 currentWeapon = CurrentWeapon.Dagger;
-                net_currentWeapon.Value = currentWeapon;
-
-                Dagger.enabled = true;
-                Dagger.sprite = newWeapon.weaponSprite;
                 break;
         }
+
+        if (IsOwner)
+        {
+            net_currentWeapon.Value = currentWeapon; // Sync weapon state to other clients
+        }
+
+        UpdateWeaponVisuals(currentWeapon, newWeapon.weaponSprite);
     }
 
-    void UnequipWeapon(Weapon oldWeapon)
+    private void UnequipWeapon()
     {
-        switch (oldWeapon.weaponType)
+        currentWeapon = CurrentWeapon.None;
+
+        if (IsOwner)
         {
-            case WeaponType.Sword:
-                currentWeapon = CurrentWeapon.None;
-                net_currentWeapon.Value = currentWeapon;
-
-                Sword.enabled = false;
-                break;
-            case WeaponType.Staff:
-                currentWeapon = CurrentWeapon.None;
-                net_currentWeapon.Value = currentWeapon;
-
-                Staff.enabled = false;
-                break;
-            case WeaponType.Bow:
-                currentWeapon = CurrentWeapon.None;
-                net_currentWeapon.Value = currentWeapon;
-
-                Bow.enabled = false;
-                break;
-            case WeaponType.Dagger:
-                currentWeapon = CurrentWeapon.None;
-                net_currentWeapon.Value = currentWeapon;
-
-                Dagger.enabled = false;
-                break;
+            net_currentWeapon.Value = currentWeapon; // Sync weapon state to other clients
         }
+
+        UpdateWeaponVisuals(CurrentWeapon.None, null);
     }
 
     void OnWeaponChanged(CurrentWeapon previousWeapon, CurrentWeapon newWeapon)
     {
-        currentWeapon = newWeapon;
+        UpdateWeaponVisuals(newWeapon, null);
+    }
+
+    private void UpdateWeaponVisuals(CurrentWeapon weapon, Sprite newSprite)
+    {
+        // Disable all weapon visuals
+        Sword.enabled = false;
+        Staff.enabled = false;
+        Bow.enabled = false;
+        Dagger.enabled = false;
+
+        // Enable the appropriate weapon sprite based on the current weapon
+        switch (weapon)
+        {
+            case CurrentWeapon.Sword:
+                Sword.enabled = true;
+                Sword.sprite = newSprite;
+                break;
+            case CurrentWeapon.Staff:
+                Staff.enabled = true;
+                Staff.sprite = newSprite;
+                break;
+            case CurrentWeapon.Bow:
+                Bow.enabled = true;
+                Bow.sprite = newSprite;
+                break;
+            case CurrentWeapon.Dagger:
+                Dagger.enabled = true;
+                Dagger.sprite = newSprite;
+                break;
+        }
     }
 }
