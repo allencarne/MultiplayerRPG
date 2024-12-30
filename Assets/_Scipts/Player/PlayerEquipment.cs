@@ -10,6 +10,7 @@ public class PlayerEquipment : NetworkBehaviour
     [SerializeField] SpriteRenderer Dagger;
 
     private NetworkVariable<CurrentWeapon> net_currentWeapon = new NetworkVariable<CurrentWeapon>(writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<int> net_itemIndex = new NetworkVariable<int>(-1, writePerm: NetworkVariableWritePermission.Owner);
 
     public enum CurrentWeapon
 	{
@@ -25,20 +26,23 @@ public class PlayerEquipment : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         net_currentWeapon.OnValueChanged += OnWeaponChanged;
+        net_itemIndex.OnValueChanged += OnItemIndexChanged;
 
         if (IsOwner)
         {
             net_currentWeapon.Value = currentWeapon;
+            net_itemIndex.Value = -1;
         }
         else
         {
-            UpdateWeaponVisuals(net_currentWeapon.Value, null);
+            UpdateWeaponVisuals(net_currentWeapon.Value, FetchSpriteFromItemIndex(net_currentWeapon.Value, net_itemIndex.Value));
         }
     }
 
     public override void OnDestroy()
     {
         net_currentWeapon.OnValueChanged -= OnWeaponChanged;
+        net_itemIndex.OnValueChanged -= OnItemIndexChanged;
     }
 
     public void OnEquipmentChanged(Equipment newItem, Equipment oldItem)
@@ -49,7 +53,7 @@ public class PlayerEquipment : NetworkBehaviour
             if (newWeapon != null)
 			{
                 EquipWeapon(newWeapon);
-                Debug.Log(newWeapon.itemIndex);
+                Debug.Log($"Equipped: {newWeapon.itemIndex}");
             }
 
             // Handle armor equip
@@ -89,7 +93,8 @@ public class PlayerEquipment : NetworkBehaviour
 
         if (IsOwner)
         {
-            net_currentWeapon.Value = currentWeapon; // Sync weapon state to other clients
+            net_currentWeapon.Value = currentWeapon;
+            net_itemIndex.Value = newWeapon.itemIndex;
         }
 
         UpdateWeaponVisuals(currentWeapon, newWeapon.weaponSprite);
@@ -101,7 +106,8 @@ public class PlayerEquipment : NetworkBehaviour
 
         if (IsOwner)
         {
-            net_currentWeapon.Value = currentWeapon; // Sync weapon state to other clients
+            net_currentWeapon.Value = currentWeapon;
+            net_itemIndex.Value = -1;
         }
 
         UpdateWeaponVisuals(CurrentWeapon.None, null);
@@ -109,7 +115,12 @@ public class PlayerEquipment : NetworkBehaviour
 
     void OnWeaponChanged(CurrentWeapon previousWeapon, CurrentWeapon newWeapon)
     {
-        UpdateWeaponVisuals(newWeapon, null);
+        UpdateWeaponVisuals(newWeapon, FetchSpriteFromItemIndex(newWeapon, net_itemIndex.Value));
+    }
+
+    void OnItemIndexChanged(int previousIndex, int newIndex)
+    {
+        UpdateWeaponVisuals(net_currentWeapon.Value, FetchSpriteFromItemIndex(net_currentWeapon.Value, newIndex));
     }
 
     private void UpdateWeaponVisuals(CurrentWeapon weapon, Sprite newSprite)
@@ -139,6 +150,25 @@ public class PlayerEquipment : NetworkBehaviour
                 Dagger.enabled = true;
                 Dagger.sprite = newSprite;
                 break;
+        }
+    }
+
+    private Sprite FetchSpriteFromItemIndex(CurrentWeapon weapon, int itemIndex)
+    {
+        if (itemIndex < 0) return null; // No weapon equipped
+
+        switch (weapon)
+        {
+            case CurrentWeapon.Sword:
+                return characterData.Swords[itemIndex].weaponSprite;
+            case CurrentWeapon.Staff:
+                return characterData.Staffs[itemIndex].weaponSprite;
+            case CurrentWeapon.Bow:
+                return characterData.Bows[itemIndex].weaponSprite;
+            case CurrentWeapon.Dagger:
+                return characterData.Daggers[itemIndex].weaponSprite;
+            default:
+                return null;
         }
     }
 }

@@ -9,4 +9,6 @@ public class CharacterCustomizationData : ScriptableObject
 
     public Weapon[] Swords;
     public Weapon[] Staffs;
+    public Weapon[] Bows;
+    public Weapon[] Daggers;
 }
