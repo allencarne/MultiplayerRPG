@@ -118,4 +118,16 @@ public class PlayerStateMachine : MonoBehaviour
         // Return the modified direction vector, now snapped to either horizontal or vertical
         return direction;
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        ItemPickup item = collision.GetComponent<ItemPickup>();
+        if (item != null)
+        {
+            if (inputHandler.PickupInput)
+            {
+                item.PickUp(player);
+            }
+        }
+    }
 }
