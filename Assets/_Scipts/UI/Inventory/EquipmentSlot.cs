@@ -6,19 +6,19 @@ public class EquipmentSlot : MonoBehaviour
     [SerializeField] int index;
     [SerializeField] EquipmentManager equipmentManager;
     public Image icon;
-    Item item;
+    public Item Item;
 
     public void AddItem(Item newItem)
     {
-        item = newItem;
+        Item = newItem;
 
-        icon.sprite = item.Icon;
+        icon.sprite = Item.Icon;
         icon.enabled = true;
     }
 
     public void ClearSlot()
     {
-        item = null;
+        Item = null;
 
         icon.sprite = null;
         icon.enabled = false;
@@ -26,7 +26,7 @@ public class EquipmentSlot : MonoBehaviour
 
     public void UseItem()
     {
-        if (item != null)
+        if (Item != null)
         {
             equipmentManager.UnEquip(index);
         }
