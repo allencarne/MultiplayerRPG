@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
   m_Name: Wooden Club
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  name: Wooden Club
-  icon: {fileID: 21300000, guid: e4301e47f6e2a5942b4154f20aecdf58, type: 3}
-  cost: 0
-  sellValue: 0
-  isCurrency: 0
-  isStackable: 0
-  quantity: 1
+  Prefab: {fileID: 1907024577527618702, guid: a3d8349677dd97e4787d78c26d6e835f, type: 3}
+  Icon: {fileID: 21300000, guid: e4301e47f6e2a5942b4154f20aecdf58, type: 3}
+  LevelRequirement: 0
+  PurchaseValue: 0
+  SellValue: 0
+  Description: 
+  IsCurrency: 0
+  IsStackable: 0
+  Quantity: 0
   itemIndex: 1
   equipmentType: 5
-  healthModifier: 0
+  ItemRarity: 0
+  ClassRequirement: 0
+  healthModifier: 2
   damageModifier: 2
   weaponSprite: {fileID: 21300000, guid: bf5223e81f0235a45912b75cc6ff894d, type: 3}
   weaponType: 0

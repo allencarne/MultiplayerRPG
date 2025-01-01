@@ -12,6 +12,7 @@ public class Item : ScriptableObject
     public int PurchaseValue; // What Venders will sell this item for
     public int SellValue; // What you can sell to vendors for
     public string Description;
+    public ItemRarity ItemRarity;
 
     [Header("Currency")]
     public bool IsCurrency;
@@ -27,4 +28,13 @@ public class Item : ScriptableObject
     {
         _inventory.RemoveItem(this);
     }
+}
+
+public enum ItemRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
 }

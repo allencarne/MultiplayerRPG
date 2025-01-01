@@ -8,7 +8,6 @@ public class Equipment : Item
 
     [Header("Equipment")]
     public EquipmentType equipmentType;
-    public ItemRarity ItemRarity;
     public ClassRequirement ClassRequirement;
 
     [Header("Modifiers")]
@@ -33,15 +32,6 @@ public enum EquipmentType
     Weapon,
     Shoulder,
     Back
-}
-
-public enum ItemRarity
-{
-    Common,
-    Uncommon,
-    Rare,
-    Epic,
-    Legendary
 }
 
 public enum ClassRequirement

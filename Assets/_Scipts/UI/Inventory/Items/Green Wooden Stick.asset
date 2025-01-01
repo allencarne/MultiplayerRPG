@@ -12,17 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
   m_Name: Green Wooden Stick
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3641920704532320062, guid: 2ae0826790777ff4d9a9a3acd9605c87, type: 3}
-  name: Green Wooden Stick
-  icon: {fileID: 21300000, guid: bfd044f154e08194ebb140c89500c445, type: 3}
-  cost: 0
-  sellValue: 0
-  isCurrency: 0
-  isStackable: 0
-  quantity: 1
+  Prefab: {fileID: 3641920704532320062, guid: 2ae0826790777ff4d9a9a3acd9605c87, type: 3}
+  Icon: {fileID: 21300000, guid: bfd044f154e08194ebb140c89500c445, type: 3}
+  LevelRequirement: 0
+  PurchaseValue: 0
+  SellValue: 0
+  Description: 
+  IsCurrency: 0
+  IsStackable: 0
+  Quantity: 0
   itemIndex: 0
   equipmentType: 5
-  healthModifier: 0
-  damageModifier: 0
+  ItemRarity: 0
+  ClassRequirement: 0
+  healthModifier: 1
+  damageModifier: 1
   weaponSprite: {fileID: 21300000, guid: c00d4d73bca624e4bb55df76cb0eb791, type: 3}
   weaponType: 0
