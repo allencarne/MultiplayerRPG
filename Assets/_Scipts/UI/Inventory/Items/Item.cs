@@ -11,6 +11,7 @@ public class Item : ScriptableObject
     public int LevelRequirement;
     public int PurchaseValue; // What Venders will sell this item for
     public int SellValue; // What you can sell to vendors for
+    public string Description;
 
     [Header("Currency")]
     public bool IsCurrency;
