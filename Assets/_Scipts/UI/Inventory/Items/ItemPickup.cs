@@ -1,7 +1,8 @@
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
 
-public class ItemPickup : MonoBehaviour
+public class ItemPickup : NetworkBehaviour
 {
     public Item Item;
     [SerializeField] GameObject toolTip;
@@ -29,19 +30,29 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Player player = collision.gameObject.GetComponent<Player>();
+
         if (collision.CompareTag("Player"))
         {
-            toolTip.SetActive(true);
-            pickupText.text = "Press <color=red>Z</color> To Pickup";
+            if (player.IsLocalPlayer)
+            {
+                toolTip.SetActive(true);
+                pickupText.text = "Press <color=red>Z</color> To Pickup";
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Player player = collision.gameObject.GetComponent<Player>();
+
         if (collision.CompareTag("Player"))
         {
-            toolTip.SetActive(false);
-            pickupText.text = "";
+            if (player.IsLocalPlayer)
+            {
+                toolTip.SetActive(false);
+                pickupText.text = "";
+            }
         }
     }
 }
