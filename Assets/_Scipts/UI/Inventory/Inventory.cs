@@ -29,21 +29,21 @@ public class Inventory : MonoBehaviour
         if (emptySlotIndex != -1)
         {
             // Check if the item is stackable
-            if (newItem.isStackable)
+            if (newItem.IsStackable)
             {
                 // Check if the item already exists in the inventory
                 int existingItemIndex = Array.FindIndex(items, x => x == newItem);
                 if (existingItemIndex != -1)
                 {
                     // If the item exists, increase its quantity
-                    items[existingItemIndex].quantity++;
+                    items[existingItemIndex].Quantity++;
                     inventoryUI.UpdateUI();
                     return true;
                 }
             }
 
             // If the item is not stackable or doesn't exist in the inventory, add it to an empty slot
-            newItem.quantity = 1;
+            newItem.Quantity = 1;
             items[emptySlotIndex] = newItem;
         }
         else

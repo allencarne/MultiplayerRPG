@@ -14,7 +14,7 @@ public class InventorySlot : MonoBehaviour
         inventoryItem.item = newItem;
 
         inventory.items[slotIndex] = newItem;
-        icon.sprite = newItem.icon;
+        icon.sprite = newItem.Icon;
         icon.color = Color.white;
     }
 

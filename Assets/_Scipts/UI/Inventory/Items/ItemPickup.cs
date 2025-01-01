@@ -3,23 +3,22 @@ using TMPro;
 
 public class ItemPickup : MonoBehaviour
 {
+    public Item Item;
+    [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
-    [SerializeField] Item item;
-    Player player;
-
 
     public void PickUp(Player player)
     {
-        if (item.isCurrency)
+        if (Item.IsCurrency)
         {
-            player.CoinCollected(item.quantity);
+            player.CoinCollected(Item.Quantity);
 
             Destroy(gameObject);
             return;
         }
 
         // Add Item to Inventory if we have enough space
-        bool wasPickedUp = player.inventory.AddItem(item);
+        bool wasPickedUp = player.inventory.AddItem(Item);
 
         // Destroy item if it was collected
         if (wasPickedUp)
@@ -32,14 +31,8 @@ public class ItemPickup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            toolTip.SetActive(true);
             pickupText.text = "Press <color=red>Z</color> To Pickup";
-        }
-
-
-        if (collision.CompareTag("Player"))
-        {
-            player = collision.gameObject.GetComponent<Player>();
-
         }
     }
 
@@ -47,6 +40,7 @@ public class ItemPickup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            toolTip.SetActive(false);
             pickupText.text = "";
         }
     }

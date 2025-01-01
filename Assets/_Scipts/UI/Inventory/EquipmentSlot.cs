@@ -12,7 +12,7 @@ public class EquipmentSlot : MonoBehaviour
     {
         item = newItem;
 
-        icon.sprite = item.icon;
+        icon.sprite = item.Icon;
         icon.enabled = true;
     }
 
