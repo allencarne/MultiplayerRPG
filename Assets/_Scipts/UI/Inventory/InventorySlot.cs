@@ -11,7 +11,7 @@ public class InventorySlot : MonoBehaviour
 
     public void AddItem(Item newItem)
     {
-        inventoryItem.item = newItem;
+        inventoryItem.Item = newItem;
 
         inventory.items[slotIndex] = newItem;
         icon.sprite = newItem.Icon;
@@ -20,15 +20,15 @@ public class InventorySlot : MonoBehaviour
 
     public void UseItem()
     {
-        if (inventoryItem.item != null)
+        if (inventoryItem.Item != null)
         {
-            inventoryItem.item.Use(inventory,equipmentManager);
+            inventoryItem.Item.Use(inventory,equipmentManager);
         }
     }
 
     public void ClearSlot()
     {
-        inventoryItem.item = null;
+        inventoryItem.Item = null;
 
         inventory.items[slotIndex] = null; // Update the inventory array
         icon.sprite = null;
@@ -38,6 +38,6 @@ public class InventorySlot : MonoBehaviour
 
     public void RemoveItem()
     {
-        inventory.RemoveItem(inventoryItem.item);
+        inventory.RemoveItem(inventoryItem.Item);
     }
 }

@@ -4,27 +4,27 @@ using System.Text;
 
 public class ItemToolTip : MonoBehaviour
 {
-    [SerializeField] ItemPickup itemPickup;
+    [SerializeField] InventoryItem inventoryItem;
+
     [SerializeField] ItemRarityInfo riarityInfo;
     [SerializeField] GameObject gemSlotsImage;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
-
     private void Start()
     {
-        if (itemPickup.Item != null)
+        if (inventoryItem.Item != null)
         {
-            if (itemPickup.Item.IsCurrency)
+            if (inventoryItem.Item.IsCurrency)
             {
                 UpdateCurrencyInfo();
             }
 
-            if (itemPickup.Item is Equipment equipment)
+            if (inventoryItem.Item is Equipment equipment)
             {
                 UpdateEquipmentInfo(equipment);
             }
 
-            if (itemPickup.Item is Weapon weapon)
+            if (inventoryItem.Item is Weapon weapon)
             {
                 UpdateWeaponInfo(weapon);
             }
@@ -38,9 +38,9 @@ public class ItemToolTip : MonoBehaviour
 
         // Build text info
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(itemPickup.Item.Prefab.name, itemPickup.Item.ItemRarity));
+        sb.AppendLine(FormatNameWithRarity(inventoryItem.Item.Prefab.name, inventoryItem.Item.ItemRarity));
         sb.AppendLine();
-        sb.AppendLine(itemPickup.Item.Description); // Description
+        sb.AppendLine(inventoryItem.Item.Description); // Description
 
         // Update text
         itemInfo_Text.text = sb.ToString();
@@ -73,7 +73,7 @@ public class ItemToolTip : MonoBehaviour
         sb.AppendLine($"{equipment.equipmentType}");
         sb.AppendLine($"Level Req: {equipment.LevelRequirement}");
         sb.AppendLine($"Class Req: {equipment.ClassRequirement}");
-        sb.AppendLine($"Sell Value: {equipment.SellValue} Gold");
+        sb.AppendLine($"Sell Value: {equipment.SellValue}");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
@@ -106,7 +106,7 @@ public class ItemToolTip : MonoBehaviour
         sb.AppendLine($"{weapon.weaponType}");
         sb.AppendLine($"Level Req: {weapon.LevelRequirement}");
         sb.AppendLine($"Class Req: {weapon.ClassRequirement}");
-        sb.AppendLine($"Sell Value: {weapon.SellValue} Gold");
+        sb.AppendLine($"Sell Value: {weapon.SellValue}");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
