@@ -68,7 +68,8 @@ public class ItemToolTip : MonoBehaviour
         sb.AppendLine();
 
         // Add additional info
-        sb.AppendLine($"{equipment.ItemRarity}");
+        //sb.AppendLine($"{equipment.ItemRarity}");
+        sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(),equipment.ItemRarity));
         sb.AppendLine($"{equipment.equipmentType}");
         sb.AppendLine($"Level Req: {equipment.LevelRequirement}");
         sb.AppendLine($"Class Req: {equipment.ClassRequirement}");
@@ -100,7 +101,8 @@ public class ItemToolTip : MonoBehaviour
         sb.AppendLine();
 
         // Add additional info
-        sb.AppendLine($"{weapon.ItemRarity}");
+        //sb.AppendLine($"{weapon.ItemRarity}");
+        sb.AppendLine(FormatNameWithRarity(weapon.ItemRarity.ToString(), weapon.ItemRarity));
         sb.AppendLine($"{weapon.weaponType}");
         sb.AppendLine($"Level Req: {weapon.LevelRequirement}");
         sb.AppendLine($"Class Req: {weapon.ClassRequirement}");

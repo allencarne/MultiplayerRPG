@@ -36,7 +36,7 @@ public enum EquipmentType
 
 public enum ClassRequirement
 {
-    Any,
+    None,
     Beginner,
     Warrior,
     Magician,
