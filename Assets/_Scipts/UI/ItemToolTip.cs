@@ -5,7 +5,7 @@ using System.Text;
 public class ItemToolTip : MonoBehaviour
 {
     [SerializeField] ItemPickup itemPickup;
-
+    [SerializeField] ItemRarityInfo riarityInfo;
     [SerializeField] GameObject gemSlotsImage;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
@@ -112,18 +112,21 @@ public class ItemToolTip : MonoBehaviour
 
     private string FormatNameWithRarity(string name, ItemRarity rarity)
     {
-        // Determine the color based on rarity
-        string color = rarity switch
+        // Retrieve the appropriate color from the ItemRarityInfo
+        Color color = rarity switch
         {
-            ItemRarity.Common => "#808080",      // Gray
-            ItemRarity.Uncommon => "#00FF00",   // Green
-            ItemRarity.Rare => "#0000FF",       // Blue
-            ItemRarity.Epic => "#800080",       // Purple
-            ItemRarity.Legendary => "#FFFF00",  // Yellow
-            _ => "#FFFFFF"                      // Default White
+            ItemRarity.Common => riarityInfo.CommonColor,
+            ItemRarity.Uncommon => riarityInfo.UnCommonColor,
+            ItemRarity.Rare => riarityInfo.RareColor,
+            ItemRarity.Epic => riarityInfo.EpicColor,
+            ItemRarity.Legendary => riarityInfo.LegendaryColor,
+            _ => Color.white // Default to white
         };
 
+        // Convert the Color to a hex string
+        string colorHex = ColorUtility.ToHtmlStringRGB(color);
+
         // Format the name with the appropriate color using rich text
-        return $"<color={color}><b>{name}</b></color>";
+        return $"<color=#{colorHex}><b>{name}</b></color>";
     }
 }
