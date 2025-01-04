@@ -14,6 +14,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] Animator eyesAnimator; public Animator EyeAnimator => eyesAnimator;
     [SerializeField] Rigidbody2D rb; public Rigidbody2D Rigidbody => rb;
 
+    [SerializeField] PlayerAbilities abilities; public PlayerAbilities Abilities => abilities;
+
     [Header("Scripts")]
     [SerializeField] PlayerInputHandler inputHandler; public PlayerInputHandler InputHandler => inputHandler;
     [SerializeField] Player player; public Player Player => player;
@@ -68,8 +70,10 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (abilityInput && CanBasic)
         {
-            Debug.Log("Basic Input");
-            SetState(new PlayerBasicState(this));
+            if (abilities.basicAbility != null)
+            {
+                SetState(new PlayerBasicState(this));
+            }
         }
     }
 
