@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class PlayerInitialize : MonoBehaviour
 {
@@ -9,6 +8,9 @@ public class PlayerInitialize : MonoBehaviour
     private void Start()
     {
         LoadPlayerStats();
+
+        // Set Coin Text UI
+        player.CoinCollected(0);
     }
 
     public void SavePlayerStats()
@@ -20,9 +22,6 @@ public class PlayerInitialize : MonoBehaviour
 
         PlayerPrefs.SetFloat("Health", player.Health);
         PlayerPrefs.SetFloat("MaxHealth", player.MaxHealth);
-
-        PlayerPrefs.SetFloat("Endurance", player.Endurance);
-        PlayerPrefs.SetFloat("MaxEndurance", player.MaxEndurance);
 
         PlayerPrefs.SetFloat("Speed", player.Speed);
         PlayerPrefs.SetFloat("CurrentSpeed", player.CurrentSpeed);
@@ -51,9 +50,6 @@ public class PlayerInitialize : MonoBehaviour
 
         player.Health = PlayerPrefs.GetFloat("Health",10);
         player.MaxHealth = PlayerPrefs.GetFloat("MaxHealth", 10);
-
-        player.Endurance = PlayerPrefs.GetFloat("Endurance", 100);
-        player.MaxEndurance = PlayerPrefs.GetFloat("MaxEndurance", 100);
 
         player.Speed = PlayerPrefs.GetFloat("Speed", 5);
         player.CurrentSpeed = PlayerPrefs.GetFloat("CurrentSpeed", 5);

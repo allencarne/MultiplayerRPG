@@ -11298,23 +11298,23 @@ MonoBehaviour:
   playerName: {fileID: 2442183877055473471}
   body: {fileID: 7867530632741787033}
   hair: {fileID: 3619931694366323352}
-  coins: 0
+  Coins: 0
   hairIndex: 0
   PlayerLevel: 0
   CurrentExperience: 0
   RequiredExperience: 0
-  Health: 100
-  MaxHealth: 100
-  Endurance: 0
+  Health: 0
+  MaxHealth: 0
+  Endurance: 100
   MaxEndurance: 100
-  Speed: 8
-  CurrentSpeed: 8
-  Damage: 1
-  CurrentDamage: 1
-  AttackSpeed: 1
-  CurrentAttackSpeed: 1
-  CDR: 1
-  CurrentCDR: 1
+  Speed: 0
+  CurrentSpeed: 0
+  Damage: 0
+  CurrentDamage: 0
+  AttackSpeed: 0
+  CurrentAttackSpeed: 0
+  CDR: 0
+  CurrentCDR: 0
   BaseArmor: 0
   CurrentArmor: 0
   playerClass: 0
@@ -11556,9 +11556,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
-  OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2932000853074254433
 GameObject:
   m_ObjectHideFlags: 0

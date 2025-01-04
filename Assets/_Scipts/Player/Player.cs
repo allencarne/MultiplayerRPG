@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour
     public GameObject Spawn_Effect;
     [SerializeField] private CharacterCustomizationData customizationData;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] EnduranceBar enduranceBar;
+    public EnduranceBar enduranceBar;
     public Inventory inventory;
 
     [Header("UI")]
@@ -38,7 +38,7 @@ public class Player : NetworkBehaviour
     public float Health;
     public float MaxHealth;
 
-    [Header("Endurance")]
+    [Header("Endurance (NOT SAVED)")]
     public float Endurance;
     public float MaxEndurance;
 
@@ -84,6 +84,9 @@ public class Player : NetworkBehaviour
     {
         Instantiate(Spawn_Effect, transform.position, transform.rotation);
 
+        Endurance = MaxEndurance;
+
+        // Set Endurance Bar UI
         enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
     }
 
