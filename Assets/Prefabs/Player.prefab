@@ -10811,6 +10811,7 @@ GameObject:
   - component: {fileID: 4396679508418396757}
   - component: {fileID: 7139024652526368089}
   - component: {fileID: 5327843948607467283}
+  - component: {fileID: 5375708365107018510}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -11284,6 +11285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  playerInitialize: {fileID: 5375708365107018510}
   Spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
   rb: {fileID: 9222441055534883323}
@@ -11541,6 +11543,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f861990afb1844caccfbb0a8cd6ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5375708365107018510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd8d50b8238670148aece53c60c87a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 841304983140234989}
+  OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2932000853074254433
 GameObject:
   m_ObjectHideFlags: 0
