@@ -11285,19 +11285,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  playerInitialize: {fileID: 5375708365107018510}
-  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
-  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
+  PlayerInventory: {fileID: 6762276146836678153}
   rb: {fileID: 9222441055534883323}
+  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   enduranceBar: {fileID: 8514298217784262305}
-  inventory: {fileID: 6762276146836678153}
-  cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
+  playerInitialize: {fileID: 5375708365107018510}
   playerUI: {fileID: 3299133459724338860}
-  coinText: {fileID: 5366855196545885066}
+  cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
+  CoinText: {fileID: 5366855196545885066}
   playerUIRect: {fileID: 1319158235293109785}
-  playerName: {fileID: 2442183877055473471}
-  body: {fileID: 7867530632741787033}
-  hair: {fileID: 3619931694366323352}
   Coins: 0
   hairIndex: 0
   PlayerLevel: 0
@@ -11555,7 +11551,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8d50b8238670148aece53c60c87a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  playerNameText: {fileID: 2442183877055473471}
+  bodySprite: {fileID: 7867530632741787033}
+  hairSprite: {fileID: 3619931694366323352}
   player: {fileID: 841304983140234989}
+  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
 --- !u!1 &2932000853074254433
 GameObject:
   m_ObjectHideFlags: 0

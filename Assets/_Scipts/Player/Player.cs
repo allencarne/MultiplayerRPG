@@ -12,18 +12,12 @@ public class Player : NetworkBehaviour
     [SerializeField] GameObject spawn_Effect;
     [SerializeField] EnduranceBar enduranceBar;
     [SerializeField] PlayerInitialize playerInitialize;
-    [SerializeField] CharacterCustomizationData customizationData;
 
     [Header("UI")]
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
-    [SerializeField] TextMeshProUGUI coinText;
+    public TextMeshProUGUI CoinText;
     [SerializeField] RectTransform playerUIRect;
-
-    [Header("Parts")]
-    [SerializeField] private TextMeshProUGUI playerName;
-    [SerializeField] private SpriteRenderer body;
-    [SerializeField] private SpriteRenderer hair;
 
     [Header("Stats")]
     public float Coins;
@@ -63,10 +57,6 @@ public class Player : NetworkBehaviour
     public float CurrentArmor;
 
     [Header("Network Variables")]
-    private NetworkVariable<FixedString32Bytes> net_playerName = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Owner);
-    private NetworkVariable<Color> net_bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
-    private NetworkVariable<Color> net_hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
-
     private NetworkVariable<float> net_endurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
 
     public enum PlayerClass
@@ -92,15 +82,10 @@ public class Player : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        // Attach callbacks for when the NetworkVariable values change
-        net_playerName.OnValueChanged += OnNameChanged;
-        net_bodyColor.OnValueChanged += OnBodyColorChanged;
-        net_hairColor.OnValueChanged += OnHairColorChanged;
         net_endurance.OnValueChanged += OnEnduranceChanged;
 
         if (IsOwner)
         {
-            InitializeOwnerCharacter();
             AssignPlayerCamera();
 
             // Initialize endurance network variable
@@ -108,10 +93,7 @@ public class Player : NetworkBehaviour
         }
         else
         {
-            // Set initial colors for non-owner players
-            playerName.text = net_playerName.Value.ToString();
-            body.color = net_bodyColor.Value;
-            hair.color = net_hairColor.Value;
+
         }
 
         // Sync UI for non-owners
@@ -120,44 +102,7 @@ public class Player : NetworkBehaviour
 
     public override void OnDestroy()
     {
-        // Unsubscribe from the callbacks to avoid memory leaks
-        net_playerName.OnValueChanged -= OnNameChanged;
-        net_bodyColor.OnValueChanged -= OnBodyColorChanged;
-        net_hairColor.OnValueChanged -= OnHairColorChanged;
         net_endurance.OnValueChanged -= OnEnduranceChanged;
-
-        base.OnDestroy();
-    }
-
-    void InitializeOwnerCharacter()
-    {
-        // Set initial values based on the selected character
-        switch (PlayerPrefs.GetInt("SelectedCharacter"))
-        {
-            case 1:
-                playerName.text = PlayerPrefs.GetString("Character1Name");
-                body.color = customizationData.skinColors[PlayerPrefs.GetInt("Character1SkinColor")];
-                hair.color = customizationData.hairColors[PlayerPrefs.GetInt("Character1HairColor")];
-                hairIndex = PlayerPrefs.GetInt("Character1HairStyle");
-                break;
-            case 2:
-                playerName.text = PlayerPrefs.GetString("Character2Name");
-                body.color = customizationData.skinColors[PlayerPrefs.GetInt("Character2SkinColor")];
-                hair.color = customizationData.hairColors[PlayerPrefs.GetInt("Character2HairColor")];
-                hairIndex = PlayerPrefs.GetInt("Character2HairStyle");
-                break;
-            case 3:
-                playerName.text = PlayerPrefs.GetString("Character3Name");
-                body.color = customizationData.skinColors[PlayerPrefs.GetInt("Character3SkinColor")];
-                hair.color = customizationData.hairColors[PlayerPrefs.GetInt("Character3HairColor")];
-                hairIndex = PlayerPrefs.GetInt("Character3HairStyle");
-                break;
-        }
-
-        // Update NetworkVariables
-        net_playerName.Value = playerName.text;
-        net_bodyColor.Value = body.color;
-        net_hairColor.Value = hair.color;
     }
 
     void AssignPlayerCamera()
@@ -223,24 +168,9 @@ public class Player : NetworkBehaviour
     public void CoinCollected(float amount)
     {
         Coins += amount;
-        coinText.text = Coins.ToString();
+        CoinText.text = Coins.ToString();
 
         playerInitialize.SavePlayerStats();
-    }
-
-    void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
-    {
-        playerName.text = newName.ToString();
-    }
-
-    void OnBodyColorChanged(Color previousColor, Color newColor)
-    {
-        body.color = newColor;
-    }
-
-    void OnHairColorChanged(Color previousColor, Color newColor)
-    {
-        hair.color = newColor;
     }
 
     private void OnEnduranceChanged(float oldValue, float newValue)
