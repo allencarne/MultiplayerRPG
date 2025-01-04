@@ -23,7 +23,7 @@ public class PlayerStateMachine : MonoBehaviour
     [HideInInspector] public bool canRoll = true;
 
     [Header("Basic Ability")]
-    [HideInInspector] public bool CanBasicAbility = true;
+    [HideInInspector] public bool CanBasic = true;
     [HideInInspector] public Quaternion AbilityDir;
     [HideInInspector] public bool hasAttacked = false;
 
@@ -67,9 +67,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void BasicAbility(bool abilityInput)
     {
-        if (abilityInput)
+        if (abilityInput && CanBasic)
         {
-            //SetState(new PlayerBasicState(this));
+            SetState(new PlayerBasicState(this));
         }
     }
 
