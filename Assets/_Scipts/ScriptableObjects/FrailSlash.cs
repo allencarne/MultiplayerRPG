@@ -30,10 +30,13 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
             stateMachine.isAttacking = true;
             stateMachine.CanBasic = false;
 
+            Vector2 aimerDirection = stateMachine.Aimer.right;
+            Vector2 snappedDirection = stateMachine.SnapDirection(aimerDirection);
+
             // Body
             stateMachine.BodyAnimator.Play("Sword_Attack_C");
-            //stateMachine.BodyAnimator.SetFloat("Horizontal", direction.x);
-            //stateMachine.BodyAnimator.SetFloat("Vertical", direction.y);
+            stateMachine.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
+            stateMachine.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
 
             // Sword
             stateMachine.SwordAnimator.Play("Sword_Attack_C");

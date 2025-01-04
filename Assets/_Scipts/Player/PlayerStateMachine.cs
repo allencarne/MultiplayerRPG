@@ -13,7 +13,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] Animator hairAnimator; public Animator HairAnimator => hairAnimator;
     [SerializeField] Animator eyesAnimator; public Animator EyeAnimator => eyesAnimator;
     [SerializeField] Rigidbody2D rb; public Rigidbody2D Rigidbody => rb;
-
+    [SerializeField] Transform aimer; public Transform Aimer => aimer;
     [SerializeField] PlayerAbilities abilities; public PlayerAbilities Abilities => abilities;
 
     [Header("Scripts")]
