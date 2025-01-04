@@ -25,12 +25,8 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
 
     public void BehaviourUpdate(PlayerStateMachine stateMachine)
     {
-        Debug.Log("Frail Slash");
-
         if (stateMachine.CanBasic && !stateMachine.isAttacking)
         {
-            Debug.Log("!!!!!!!");
-
             stateMachine.isAttacking = true;
             stateMachine.CanBasic = false;
 
