@@ -21,11 +21,10 @@ public class PlayerStateMachine : MonoBehaviour
     // Variables
     public Vector2 LastMoveDirection = Vector2.zero;
     [HideInInspector] public bool canRoll = true;
+    [HideInInspector] public bool isAttacking = false;
 
     [Header("Basic Ability")]
     [HideInInspector] public bool CanBasic = true;
-    [HideInInspector] public Quaternion AbilityDir;
-    [HideInInspector] public bool hasAttacked = false;
 
     [Header("Offensive Ability")]
     [HideInInspector] public bool canOffensiveAbility = true;
@@ -58,7 +57,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (rollInput && canRoll)
         {
-            if (player.endurance >= 50)
+            if (player.Endurance >= 50)
             {
                 SetState(new PlayerRollState(this));
             }
@@ -69,6 +68,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (abilityInput && CanBasic)
         {
+            Debug.Log("Basic Input");
             SetState(new PlayerBasicState(this));
         }
     }

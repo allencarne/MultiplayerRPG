@@ -25,11 +25,41 @@ public class Player : NetworkBehaviour
     [SerializeField] private SpriteRenderer hair;
 
     [Header("Stats")]
-    public float moveSpeed;
-    public float endurance;
-    public float maxEndurance;
     public float coins;
     public int hairIndex;
+
+    [Header("Player Stats")]
+    public int PlayerLevel;
+    public float CurrentExperience;
+    public float RequiredExperience;
+
+    [Header("Health")]
+    public float Health;
+    public float MaxHealth;
+
+    [Header("Endurance")]
+    public float Endurance;
+    public float MaxEndurance;
+
+    [Header("Movement Speed")]
+    public float Speed;
+    public float CurrentSpeed;
+
+    [Header("Attack Damage")]
+    public int Damage;
+    public int CurrentDamage;
+
+    [Header("Attack Speed")]
+    public float AttackSpeed;
+    public float CurrentAttackSpeed;
+
+    [Header("CDR")]
+    public float CDR;
+    public float CurrentCDR;
+
+    [Header("Armor")]
+    public float BaseArmor;
+    public float CurrentArmor;
 
     [Header("Network Variables")]
     private NetworkVariable<FixedString32Bytes> net_playerName = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Owner);
@@ -38,13 +68,24 @@ public class Player : NetworkBehaviour
 
     private NetworkVariable<float> net_endurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
 
+    public enum PlayerClass
+    {
+        Beginner,
+        Warrior,
+        Magician,
+        Archer,
+        Rogue
+    }
+
+    public PlayerClass playerClass;
+
     private void Start()
     {
         Instantiate(Spawn_Effect, transform.position, transform.rotation);
 
-        endurance = maxEndurance;
+        Endurance = MaxEndurance;
 
-        enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+        enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
     }
 
     public override void OnNetworkSpawn()
@@ -61,7 +102,7 @@ public class Player : NetworkBehaviour
             AssignPlayerCamera();
 
             // Initialize endurance network variable
-            net_endurance.Value = endurance;
+            net_endurance.Value = Endurance;
         }
         else
         {
@@ -72,7 +113,7 @@ public class Player : NetworkBehaviour
         }
 
         // Sync UI for non-owners
-        enduranceBar.UpdateEnduranceBar(maxEndurance, net_endurance.Value);
+        enduranceBar.UpdateEnduranceBar(MaxEndurance, net_endurance.Value);
     }
 
     public override void OnDestroy()
@@ -140,11 +181,11 @@ public class Player : NetworkBehaviour
     {
         if (IsOwner)
         {
-            endurance -= amount;
+            Endurance -= amount;
 
-            net_endurance.Value = endurance;
+            net_endurance.Value = Endurance;
 
-            enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+            enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
 
             if (!isRecharging)
             {
@@ -159,18 +200,18 @@ public class Player : NetworkBehaviour
     {
         isRecharging = true;
 
-        while (endurance < maxEndurance)
+        while (Endurance < MaxEndurance)
         {
             yield return new WaitForSeconds(1);
 
             if (IsOwner)
             {
-                endurance += 5;
-                endurance = Mathf.Min(endurance, maxEndurance);
+                Endurance += 5;
+                Endurance = Mathf.Min(Endurance, MaxEndurance);
 
-                net_endurance.Value = endurance;
+                net_endurance.Value = Endurance;
 
-                enduranceBar.UpdateEnduranceBar(maxEndurance, endurance);
+                enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
             }
         }
 
@@ -201,6 +242,6 @@ public class Player : NetworkBehaviour
     private void OnEnduranceChanged(float oldValue, float newValue)
     {
         // Update the endurance bar UI when the network variable changes
-        enduranceBar.UpdateEnduranceBar(maxEndurance, newValue);
+        enduranceBar.UpdateEnduranceBar(MaxEndurance, newValue);
     }
 }

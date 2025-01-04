@@ -34,7 +34,7 @@ public class PlayerRunState : PlayerState
 
     void HandleMovement(Vector2 moveInput)
     {
-        Vector2 movement = moveInput.normalized * stateMachine.Player.moveSpeed;
+        Vector2 movement = moveInput.normalized * stateMachine.Player.Speed;
         stateMachine.Rigidbody.linearVelocity = movement;
 
         if (movement != Vector2.zero)
