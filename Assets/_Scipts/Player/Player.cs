@@ -7,16 +7,16 @@ using Unity.Collections;
 public class Player : NetworkBehaviour
 {
     [Header("Components")]
+    public Inventory PlayerInventory;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] GameObject spawn_Effect;
+    [SerializeField] EnduranceBar enduranceBar;
     [SerializeField] PlayerInitialize playerInitialize;
-    public GameObject Spawn_Effect;
-    [SerializeField] private CharacterCustomizationData customizationData;
-    [SerializeField] private Rigidbody2D rb;
-    public EnduranceBar enduranceBar;
-    public Inventory inventory;
+    [SerializeField] CharacterCustomizationData customizationData;
 
     [Header("UI")]
-    [SerializeField] GameObject cameraPrefab;
     [SerializeField] Canvas playerUI;
+    [SerializeField] GameObject cameraPrefab;
     [SerializeField] TextMeshProUGUI coinText;
     [SerializeField] RectTransform playerUIRect;
 
@@ -82,7 +82,7 @@ public class Player : NetworkBehaviour
 
     private void Start()
     {
-        Instantiate(Spawn_Effect, transform.position, transform.rotation);
+        Instantiate(spawn_Effect, transform.position, transform.rotation);
 
         Endurance = MaxEndurance;
 
