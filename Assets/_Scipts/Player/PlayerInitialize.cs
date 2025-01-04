@@ -5,20 +5,18 @@ using UnityEngine.Events;
 public class PlayerInitialize : MonoBehaviour
 {
     [SerializeField] Player player;
-    public UnityEvent OnValueChanged;
 
     private void Start()
     {
-        // Load saved stats
         LoadPlayerStats();
     }
-
 
     public void SavePlayerStats()
     {
         PlayerPrefs.SetInt("PlayerLevel", player.PlayerLevel);
         PlayerPrefs.SetFloat("CurrentExperience", player.CurrentExperience);
         PlayerPrefs.SetFloat("RequiredExperience", player.RequiredExperience);
+        PlayerPrefs.SetFloat("Coins", player.Coins);
 
         PlayerPrefs.SetFloat("Health", player.Health);
         PlayerPrefs.SetFloat("MaxHealth", player.MaxHealth);
@@ -49,6 +47,7 @@ public class PlayerInitialize : MonoBehaviour
         player.PlayerLevel = PlayerPrefs.GetInt("PlayerLevel", 1);
         player.CurrentExperience = PlayerPrefs.GetFloat("CurrentExperience", 0);
         player.RequiredExperience = PlayerPrefs.GetFloat("RequiredExperience", 10);
+        player.Coins = PlayerPrefs.GetFloat("Coins", 0);
 
         player.Health = PlayerPrefs.GetFloat("Health",10);
         player.MaxHealth = PlayerPrefs.GetFloat("MaxHealth", 10);

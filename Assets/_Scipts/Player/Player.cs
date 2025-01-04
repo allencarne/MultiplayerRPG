@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private SpriteRenderer hair;
 
     [Header("Stats")]
-    public float coins;
+    public float Coins;
     public int hairIndex;
 
     [Header("Player Stats")]
@@ -219,8 +219,10 @@ public class Player : NetworkBehaviour
 
     public void CoinCollected(float amount)
     {
-        coins += amount;
-        coinText.text = coins.ToString();
+        Coins += amount;
+        coinText.text = Coins.ToString();
+
+        playerInitialize.SavePlayerStats();
     }
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
