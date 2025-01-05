@@ -17,68 +17,7 @@ public class PlayerInitialize : NetworkBehaviour
 
     [SerializeField] Player player;
     [SerializeField] CharacterCustomizationData customizationData;
-
-    private void Start()
-    {
-        LoadPlayerStats();
-
-        // Set Coin Text UI
-        player.CoinText.text = player.Coins.ToString();
-    }
-
-    public void SavePlayerStats()
-    {
-        PlayerPrefs.SetInt("PlayerLevel", player.PlayerLevel);
-        PlayerPrefs.SetFloat("CurrentExperience", player.CurrentExperience);
-        PlayerPrefs.SetFloat("RequiredExperience", player.RequiredExperience);
-        PlayerPrefs.SetFloat("Coins", player.Coins);
-
-        PlayerPrefs.SetFloat("Health", player.Health);
-        PlayerPrefs.SetFloat("MaxHealth", player.MaxHealth);
-
-        PlayerPrefs.SetFloat("Speed", player.Speed);
-        PlayerPrefs.SetFloat("CurrentSpeed", player.CurrentSpeed);
-
-        PlayerPrefs.SetInt("Damage", player.Damage);
-        PlayerPrefs.SetInt("CurrentDamage", player.CurrentDamage);
-
-        PlayerPrefs.SetFloat("AttackSpeed", player.AttackSpeed);
-        PlayerPrefs.SetFloat("CurrentAttackSpeed", player.CurrentAttackSpeed);
-
-        PlayerPrefs.SetFloat("CDR", player.CDR);
-        PlayerPrefs.SetFloat("CurrentCDR", player.CurrentCDR);
-
-        PlayerPrefs.SetFloat("BaseArmor", player.BaseArmor);
-        PlayerPrefs.SetFloat("CurrentArmor", player.CurrentArmor);
-
-        PlayerPrefs.Save();
-    }
-
-    public void LoadPlayerStats()
-    {
-        player.PlayerLevel = PlayerPrefs.GetInt("PlayerLevel", 1);
-        player.CurrentExperience = PlayerPrefs.GetFloat("CurrentExperience", 0);
-        player.RequiredExperience = PlayerPrefs.GetFloat("RequiredExperience", 10);
-        player.Coins = PlayerPrefs.GetFloat("Coins", 0);
-
-        player.Health = PlayerPrefs.GetFloat("Health",10);
-        player.MaxHealth = PlayerPrefs.GetFloat("MaxHealth", 10);
-
-        player.Speed = PlayerPrefs.GetFloat("Speed", 5);
-        player.CurrentSpeed = PlayerPrefs.GetFloat("CurrentSpeed", 5);
-
-        player.Damage = PlayerPrefs.GetInt("Damage", 1);
-        player.CurrentDamage = PlayerPrefs.GetInt("CurrentDamage", 1);
-
-        player.AttackSpeed = PlayerPrefs.GetFloat("AttackSpeed", 1);
-        player.CurrentAttackSpeed = PlayerPrefs.GetFloat("CurrentAttackSpeed", 1);
-
-        player.CDR = PlayerPrefs.GetFloat("CDR", 1);
-        player.CurrentCDR = PlayerPrefs.GetFloat("CurrentCDR", 1);
-
-        player.BaseArmor = PlayerPrefs.GetFloat("BaseArmor", 0);
-        player.CurrentArmor = PlayerPrefs.GetFloat("CurrentArmor", 0);
-    }
+    private string CharacterNumber => $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
 
     public override void OnNetworkSpawn()
     {
@@ -88,7 +27,11 @@ public class PlayerInitialize : NetworkBehaviour
 
         if (IsOwner)
         {
-            InitializeOwnerCharacter();
+            LoadCustomization();
+            LoadPlayerStats();
+
+            // Set Coin Text UI
+            player.CoinText.text = player.Coins.ToString();
         }
         else
         {
@@ -106,7 +49,7 @@ public class PlayerInitialize : NetworkBehaviour
         net_hairColor.OnValueChanged -= OnHairColorChanged;
     }
 
-    void InitializeOwnerCharacter()
+    void LoadCustomization()
     {
         // Set initial values based on the selected character
         switch (PlayerPrefs.GetInt("SelectedCharacter"))
@@ -135,6 +78,65 @@ public class PlayerInitialize : NetworkBehaviour
         net_playerName.Value = playerNameText.text;
         net_bodyColor.Value = bodySprite.color;
         net_hairColor.Value = hairSprite.color;
+    }
+
+    public void LoadPlayerStats()
+    {
+        string prefix = CharacterNumber;
+
+        player.PlayerLevel = PlayerPrefs.GetInt($"{prefix}PlayerLevel", 1);
+        player.CurrentExperience = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
+        player.RequiredExperience = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
+        player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
+
+        player.Health = PlayerPrefs.GetFloat($"{prefix}Health", 10);
+        player.MaxHealth = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
+
+        player.Speed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
+        player.CurrentSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
+
+        player.Damage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
+        player.CurrentDamage = PlayerPrefs.GetInt($"{prefix}CurrentDamage", 1);
+
+        player.AttackSpeed = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
+        player.CurrentAttackSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentAttackSpeed", 1);
+
+        player.CDR = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
+        player.CurrentCDR = PlayerPrefs.GetFloat($"{prefix}CurrentCDR", 1);
+
+        player.BaseArmor = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
+        player.CurrentArmor = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
+    }
+
+
+    public void SavePlayerStats()
+    {
+        string prefix = CharacterNumber;
+
+        PlayerPrefs.SetInt($"{prefix}PlayerLevel", player.PlayerLevel);
+        PlayerPrefs.SetFloat($"{prefix}CurrentExperience", player.CurrentExperience);
+        PlayerPrefs.SetFloat($"{prefix}RequiredExperience", player.RequiredExperience);
+        PlayerPrefs.SetFloat($"{prefix}Coins", player.Coins);
+
+        PlayerPrefs.SetFloat($"{prefix}Health", player.Health);
+        PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth);
+
+        PlayerPrefs.SetFloat($"{prefix}Speed", player.Speed);
+        PlayerPrefs.SetFloat($"{prefix}CurrentSpeed", player.CurrentSpeed);
+
+        PlayerPrefs.SetInt($"{prefix}Damage", player.Damage);
+        PlayerPrefs.SetInt($"{prefix}CurrentDamage", player.CurrentDamage);
+
+        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", player.AttackSpeed);
+        PlayerPrefs.SetFloat($"{prefix}CurrentAttackSpeed", player.CurrentAttackSpeed);
+
+        PlayerPrefs.SetFloat($"{prefix}CDR", player.CDR);
+        PlayerPrefs.SetFloat($"{prefix}CurrentCDR", player.CurrentCDR);
+
+        PlayerPrefs.SetFloat($"{prefix}BaseArmor", player.BaseArmor);
+        PlayerPrefs.SetFloat($"{prefix}CurrentArmor", player.CurrentArmor);
+
+        PlayerPrefs.Save();
     }
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
