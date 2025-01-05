@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -70,7 +71,8 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
 
         stateMachine.StartCoroutine(ImpactDelay());
 
-        Instantiate(attackPrefab, stateMachine.transform.position, stateMachine.transform.rotation);
+        // Request the server to spawn the attack prefab
+        RequestSpawnAttackServerRpc(stateMachine.transform.position, stateMachine.transform.rotation);
     }
 
     IEnumerator ImpactDelay()
@@ -100,5 +102,23 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
         yield return new WaitForSeconds(modifiedCooldown);
 
         stateMachine.CanBasic = true;
+    }
+
+    [ServerRpc]
+    private void RequestSpawnAttackServerRpc(Vector3 position, Quaternion rotation)
+    {
+        // Ensure only the server spawns the prefab
+        SpawnAttackPrefab(position, rotation);
+    }
+
+    private void SpawnAttackPrefab(Vector3 position, Quaternion rotation)
+    {
+        // Spawn the prefab and synchronize it across the network
+        GameObject spawnedObject = Instantiate(attackPrefab, position, rotation);
+        NetworkObject networkObject = spawnedObject.GetComponent<NetworkObject>();
+        if (networkObject != null)
+        {
+            networkObject.Spawn(); // Sync across the network
+        }
     }
 }
