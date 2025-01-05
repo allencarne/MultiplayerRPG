@@ -86,7 +86,8 @@ public class Player : NetworkBehaviour
 
         if (IsOwner)
         {
-            AssignPlayerCamera();
+            PlayerCamera();
+            //AssignPlayerCamera();
 
             // Initialize endurance network variable
             net_endurance.Value = Endurance;
@@ -122,6 +123,15 @@ public class Player : NetworkBehaviour
             cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
             cameraInstance.GetComponent<CameraZoom>().GetPlayer();
         }
+    }
+
+    void PlayerCamera()
+    {
+        GameObject cameraInstance = Instantiate(cameraPrefab);
+        CameraFollow cameraFollow = cameraInstance.GetComponent<CameraFollow>();
+        cameraFollow.playerTransform = transform;
+        cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
+        cameraInstance.GetComponent<CameraZoom>().GetPlayer();
     }
 
     public void UpdateEndurance(float amount)

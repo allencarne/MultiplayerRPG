@@ -12,7 +12,6 @@ public class DestroyAfterAnimation : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Debug.Log("HELLO");
             GetComponent<NetworkObject>().Despawn();
         }
     }
