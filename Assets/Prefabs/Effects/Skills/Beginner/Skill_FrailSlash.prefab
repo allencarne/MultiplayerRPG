@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 2886603631271221075}
   - component: {fileID: 6164987417896111704}
   - component: {fileID: 8222321734194750354}
-  - component: {fileID: 1582258586779566757}
   - component: {fileID: 4072987997560191949}
   - component: {fileID: 6409134839561476840}
   - component: {fileID: 8894121348854786466}
+  - component: {fileID: 7940408725805837076}
   m_Layer: 0
   m_Name: Skill_FrailSlash
   m_TagString: Untagged
@@ -205,19 +205,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1582258586779566757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120296350165298231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615fc6c0fdb711c4f8d457455c9348c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4072987997560191949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,3 +273,16 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &7940408725805837076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120296350165298231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
