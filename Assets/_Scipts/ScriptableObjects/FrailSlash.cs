@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -69,35 +67,15 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
         stateMachine.BodyAnimator.Play("Sword_Attack_I");
         stateMachine.SwordAnimator.Play("Sword_Attack_I");
 
-        stateMachine.StartCoroutine(ImpactDelay());
+        stateMachine.StartCoroutine(ImpactTime());
 
-        if (NetworkManager.Singleton.IsServer)
-        {
-            SpawnAttackServer(stateMachine.transform.position, stateMachine.Aimer.rotation);
-        }
-        else
-        {
-            SpawnAttackClient(stateMachine.transform.position, stateMachine.Aimer.rotation);
-        }
+        Vector3 spawnPosition = stateMachine.transform.position;
+        Quaternion spawnRotation = stateMachine.Aimer.rotation;
+
+        stateMachine.AttackServerRpc(spawnPosition, spawnRotation);
     }
 
-    void SpawnAttackServer(Vector3 spawnPosition, Quaternion spawnRotation)
-    {
-        GameObject spawnedObject = Instantiate(attackPrefab, spawnPosition, spawnRotation);
-        NetworkObject networkObject = spawnedObject.GetComponent<NetworkObject>();
-        if (networkObject != null)
-        {
-            networkObject.Spawn();
-        }
-    }
-
-    [ServerRpc]
-    void SpawnAttackClient(Vector3 spawnPosition, Quaternion spawnRotation)
-    {
-        SpawnAttackServer(spawnPosition, spawnRotation);
-    }
-
-    IEnumerator ImpactDelay()
+    IEnumerator ImpactTime()
     {
         yield return new WaitForSeconds(.1f);
 

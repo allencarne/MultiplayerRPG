@@ -9,9 +9,11 @@ public class Player : NetworkBehaviour
     [Header("Components")]
     public Inventory PlayerInventory;
     [SerializeField] Rigidbody2D rb;
-    [SerializeField] GameObject spawn_Effect;
+    public GameObject spawn_Effect;
     [SerializeField] EnduranceBar enduranceBar;
     [SerializeField] PlayerInitialize playerInitialize;
+
+    public GameObject AttackPrefab;
 
     [Header("UI")]
     [SerializeField] Canvas playerUI;

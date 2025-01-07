@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : MonoBehaviour
+public class PlayerStateMachine : NetworkBehaviour
 {
     PlayerState state;
 
@@ -76,6 +76,15 @@ public class PlayerStateMachine : MonoBehaviour
             }
         }
     }
+
+    [ServerRpc]
+    public void AttackServerRpc(Vector3 spawnPosition, Quaternion spawnRotation)
+    {
+        var instance = Instantiate(player.AttackPrefab, spawnPosition, spawnRotation);
+        var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+        instanceNetworkObject.Spawn();
+    }
+
 
     public void OffensiveAbility(bool abilityInput)
     {

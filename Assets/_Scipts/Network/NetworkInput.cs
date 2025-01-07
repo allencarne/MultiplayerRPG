@@ -12,7 +12,7 @@ public class NetworkInput : NetworkBehaviour
     {
         playerInputHandler.enabled = false;
         playerInput.enabled = false;
-        playerStateMachine.enabled = false;
+        //playerStateMachine.enabled = false;
     }
 
     public override void OnNetworkSpawn()
@@ -23,7 +23,7 @@ public class NetworkInput : NetworkBehaviour
         {
             playerInputHandler.enabled = true;
             playerInput.enabled = true;
-            playerStateMachine.enabled = true;
+            //playerStateMachine.enabled = true;
         }
     }
 }
