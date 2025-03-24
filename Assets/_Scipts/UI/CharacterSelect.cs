@@ -121,7 +121,7 @@ public class CharacterSelect : MonoBehaviour
             // Tell the Player Script what Character number is selected
             PlayerPrefs.SetInt("SelectedCharacter", 1);
 
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Beach");
         }
         else
         {
@@ -139,7 +139,7 @@ public class CharacterSelect : MonoBehaviour
             // Tell the Player Script what Character number is selected
             PlayerPrefs.SetInt("SelectedCharacter", 2);
 
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Beach");
         }
         else
         {
@@ -157,7 +157,7 @@ public class CharacterSelect : MonoBehaviour
             // Tell the Player Script what Character number is selected
             PlayerPrefs.SetInt("SelectedCharacter", 3);
 
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Beach");
         }
         else
         {
