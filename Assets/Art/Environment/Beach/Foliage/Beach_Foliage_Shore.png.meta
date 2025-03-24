@@ -70,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -149,10 +149,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 19
-        width: 9
-        height: 8
+        x: 0
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 19
-        width: 9
-        height: 8
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,10 +193,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_2
       rect:
         serializedVersion: 2
-        x: 35
-        y: 19
-        width: 9
-        height: 8
+        x: 32
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,10 +215,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_3
       rect:
         serializedVersion: 2
-        x: 51
-        y: 19
-        width: 9
-        height: 8
+        x: 48
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,10 +237,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_4
       rect:
         serializedVersion: 2
-        x: 67
-        y: 19
-        width: 9
-        height: 8
+        x: 64
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -259,10 +259,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_5
       rect:
         serializedVersion: 2
-        x: 83
-        y: 19
-        width: 9
-        height: 8
+        x: 80
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,10 +281,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_6
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 13
-        height: 14
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -303,10 +303,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_7
       rect:
         serializedVersion: 2
-        x: 17
-        y: 1
-        width: 13
-        height: 14
+        x: 16
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -325,10 +325,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_8
       rect:
         serializedVersion: 2
-        x: 33
-        y: 1
-        width: 13
-        height: 14
+        x: 32
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -347,10 +347,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_9
       rect:
         serializedVersion: 2
-        x: 49
-        y: 1
-        width: 13
-        height: 14
+        x: 48
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -369,10 +369,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_10
       rect:
         serializedVersion: 2
-        x: 65
-        y: 1
-        width: 13
-        height: 14
+        x: 64
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -391,10 +391,10 @@ TextureImporter:
       name: Beach_Foliage_Shore_11
       rect:
         serializedVersion: 2
-        x: 81
-        y: 1
-        width: 13
-        height: 14
+        x: 80
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -413,7 +413,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 57c809bd0c5d80c428c5eb1bd693ad47
     internalID: 0
     vertices: []
     indices: 
@@ -422,7 +422,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Beach_Foliage_Shore_0: -3609695859842523502
+      Beach_Foliage_Shore_1: 2757700947230434765
+      Beach_Foliage_Shore_10: 3035809587437093878
+      Beach_Foliage_Shore_11: -4572100965996595322
+      Beach_Foliage_Shore_2: -8764369872625966168
+      Beach_Foliage_Shore_3: -3555523167412025906
+      Beach_Foliage_Shore_4: -790786909858941582
+      Beach_Foliage_Shore_5: 8205017287931187272
+      Beach_Foliage_Shore_6: -6120479028738142826
+      Beach_Foliage_Shore_7: -7114569118159933778
+      Beach_Foliage_Shore_8: 1973065236128726389
+      Beach_Foliage_Shore_9: 7322246500178669272
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
