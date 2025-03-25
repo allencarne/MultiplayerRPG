@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 568719737}
   - component: {fileID: 568719739}
   - component: {fileID: 568719738}
+  - component: {fileID: 568719740}
   m_Layer: 0
   m_Name: Ground - Garden
   m_TagString: Untagged
@@ -251,25 +252,25 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 2.2493688e-19
+      e00: 2.35e-43
       e01: 0
       e02: 1e-45
-      e03: -6.9176627e+19
-      e10: 6.9e-43
+      e03: 2.9710954e+29
+      e10: 0
       e11: 0
       e12: 0
-      e13: 6.85e-43
+      e13: 5.24e-43
       e20: 7470.8203
-      e21: -6.9176627e+19
-      e22: 2.2493688e-19
-      e23: 1.1270123e-16
+      e21: 2.9710954e+29
+      e22: -2.0109138
+      e23: -0.0000000067550623
       e30: 4.5915e-41
-      e31: 6.85e-43
-      e32: 6.9e-43
-      e33: 6.87e-43
+      e31: 5.24e-43
+      e32: 5.27e-43
+      e33: 5.24e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 1.127007e-16, g: 1.127007e-16, b: 1.127007e-16, a: 1.127007e-16}
+    m_Data: {r: 8.3226e-41, g: 8.3226e-41, b: 8.3226e-41, a: 8.3226e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -294,6 +295,44 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &568719740
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568719736}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &875029824
 GameObject:
   m_ObjectHideFlags: 0
