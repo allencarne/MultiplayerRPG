@@ -89,7 +89,6 @@ public class Player : NetworkBehaviour
         if (IsOwner)
         {
             PlayerCamera();
-            //AssignPlayerCamera();
 
             // Initialize endurance network variable
             net_endurance.Value = Endurance;
@@ -106,25 +105,6 @@ public class Player : NetworkBehaviour
     public override void OnDestroy()
     {
         net_endurance.OnValueChanged -= OnEnduranceChanged;
-    }
-
-    void AssignPlayerCamera()
-    {
-        // Assign the camera to follow this player
-        if (Camera.main.GetComponent<CameraFollow>().playerTransform == null)
-        {
-            Camera.main.GetComponent<CameraFollow>().playerTransform = transform;
-            Camera.main.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
-            Camera.main.GetComponent<CameraZoom>().GetPlayer();
-        }
-        else
-        {
-            GameObject cameraInstance = Instantiate(cameraPrefab);
-            CameraFollow cameraFollow = cameraInstance.GetComponent<CameraFollow>();
-            cameraFollow.playerTransform = transform;
-            cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
-            cameraInstance.GetComponent<CameraZoom>().GetPlayer();
-        }
     }
 
     void PlayerCamera()
