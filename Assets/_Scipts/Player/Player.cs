@@ -134,6 +134,7 @@ public class Player : NetworkBehaviour
         cameraFollow.playerTransform = transform;
         cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
         cameraInstance.GetComponent<CameraZoom>().GetPlayer();
+        playerUI.worldCamera = cameraInstance.GetComponent<Camera>();
     }
 
     public void UpdateEndurance(float amount)
