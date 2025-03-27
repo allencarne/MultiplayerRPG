@@ -1,37 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipmentUI : MonoBehaviour
 {
     [SerializeField] EquipmentManager equipmentManager;
     public Transform equipmentItemsParent;
-    EquipmentSlot[] equipmentSlots;
+    private Dictionary<EquipmentType, EquipmentSlot> equipmentSlots;
 
     private void Start()
     {
-        equipmentSlots = equipmentItemsParent.GetComponentsInChildren<EquipmentSlot>();
+        EquipmentSlot[] slots = equipmentItemsParent.GetComponentsInChildren<EquipmentSlot>();
+        equipmentSlots = new Dictionary<EquipmentType, EquipmentSlot>();
+
+        foreach (var slot in slots)
+        {
+            equipmentSlots[(EquipmentType)slot.index] = slot;
+        }
     }
 
     public void UpdateUI(Equipment newItem, Equipment oldItem)
     {
-        // Determine the slot index based on the equipment type of newItem or oldItem
-        int slotIndex = (newItem != null) ? (int)newItem.equipmentType : (int)oldItem.equipmentType;
+        EquipmentType equipmentType = (newItem != null) ? newItem.equipmentType : oldItem.equipmentType;
 
-        // Check if the slot index is valid
-        if (slotIndex >= 0 && slotIndex < equipmentSlots.Length)
+        if (equipmentSlots.TryGetValue(equipmentType, out EquipmentSlot slot))
         {
-            // If newItem is not null, add it to the equipment slot; otherwise, clear the slot
             if (newItem != null)
             {
-                equipmentSlots[slotIndex].AddItem(newItem);
+                slot.AddItem(newItem);
             }
             else
             {
-                equipmentSlots[slotIndex].ClearSlot();
+                slot.ClearSlot();
             }
         }
         else
         {
-            Debug.LogError("Invalid slot index in EquipmentUI.UpdateUI.");
+            Debug.LogError($"No EquipmentSlot found for {equipmentType}.");
         }
     }
 }
