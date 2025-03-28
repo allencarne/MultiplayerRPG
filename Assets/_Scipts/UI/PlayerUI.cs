@@ -1,128 +1,131 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI TitleText;
+    [SerializeField] GameObject menuBar;
 
     [SerializeField] GameObject HeroPanel;
-    [SerializeField] GameObject InventoryPanel;
-    [SerializeField] GameObject SkillPanel;
-    [SerializeField] GameObject StatsPanel;
+    [SerializeField] GameObject CharacterPanel;
+    [SerializeField] GameObject JournalPanel;
+    [SerializeField] GameObject SocialPanel;
     [SerializeField] GameObject MapPanel;
     [SerializeField] GameObject SettingsPanel;
 
-    [SerializeField] RectTransform uiPanel;
-    private Vector3 panelScale;
-    private float scaleStep = 0.2f;
-    private float minScale = 1.0f;
-    private float maxScale = 1.8f;
+    [SerializeField] Button characterButton;
+    [SerializeField] Button journalButton;
+    [SerializeField] Button socialButton;
+    [SerializeField] Button mapButton;
+    [SerializeField] Button settingsButton;
 
     private void Start()
     {
-        // Load the saved scale or default to (1, 1, 1)
-        float savedScale = PlayerPrefs.GetFloat("UIPanelScale", 1.0f);
-        savedScale = Mathf.Clamp(savedScale, minScale, maxScale);
-        panelScale = new Vector3(savedScale, savedScale, 1);
-        uiPanel.localScale = panelScale;
-
-        // Closes all panels at the start
         CloseHeroPanel();
     }
 
-    public void OpenInventoryUI(bool isMenuButton)
+    public void OpenCharacterUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
 
-            if (InventoryPanel.activeSelf)
+            if (CharacterPanel.activeSelf)
             {
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
+                    menuBar.SetActive(true);
                 }
             }
             else
             {
-                TitleText.text = "Inventory";
+                menuBar.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
-                InventoryPanel.SetActive(true);
+                CharacterPanel.SetActive(true);
+                characterButton.interactable = false;
             }
         }
         else
         {
             // If hero panel is disabled
 
-            TitleText.text = "Inventory";
+            menuBar.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
-            InventoryPanel.SetActive(true);
+            CharacterPanel.SetActive(true);
+            characterButton.interactable = false;
         }
     }
 
-    public void OpenSkillsUI(bool isMenuButton)
+    public void OpenJournalUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
 
-            if (SkillPanel.activeSelf)
+            if (JournalPanel.activeSelf)
             {
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
+                    menuBar.SetActive(true);
                 }
             }
             else
             {
-                TitleText.text = "Skills";
+                menuBar.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
-                SkillPanel.SetActive(true);
+                JournalPanel.SetActive(true);
+                journalButton.interactable = false;
             }
         }
         else
         {
             // If hero panel is disabled
 
-            TitleText.text = "Skills";
+            menuBar.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
-            SkillPanel.SetActive(true);
+            JournalPanel.SetActive(true);
+            journalButton.interactable = false;
         }
     }
 
-    public void OpenStatsUI(bool isMenuButton)
+    public void OpenSocialUI(bool isMenuButton)
     {
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
 
-            if (StatsPanel.activeSelf)
+            if (SocialPanel.activeSelf)
             {
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
+                    menuBar.SetActive(true);
                 }
             }
             else
             {
-                TitleText.text = "Stats";
+                menuBar.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
-                StatsPanel.SetActive(true);
+                SocialPanel.SetActive(true);
+                socialButton.interactable = false;
             }
         }
         else
         {
             // If hero panel is disabled
 
-            TitleText.text = "Stats";
+            menuBar.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
-            StatsPanel.SetActive(true);
+            SocialPanel.SetActive(true);
+            socialButton.interactable = false;
         }
     }
 
@@ -137,24 +140,27 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
+                    menuBar.SetActive(true);
                 }
             }
             else
             {
-                TitleText.text = "Map";
+                menuBar.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
                 MapPanel.SetActive(true);
+                mapButton.interactable = false;
             }
         }
         else
         {
             // If hero panel is disabled
 
-            TitleText.text = "Map";
+            menuBar.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             MapPanel.SetActive(true);
+            mapButton.interactable = false;
         }
     }
 
@@ -169,21 +175,24 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
+                    menuBar.SetActive(true);
                 }
             }
             else
             {
                 CloseHeroPanel();
+                menuBar.SetActive(true);
             }
         }
         else
         {
             // If hero panel is disabled
 
-            TitleText.text = "Settings";
+            menuBar.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             SettingsPanel.SetActive(true);
+            settingsButton.interactable = false;
         }
     }
 
@@ -191,40 +200,16 @@ public class PlayerUI : MonoBehaviour
     {
         HeroPanel.SetActive(false);
 
-        InventoryPanel.SetActive(false);
-        SkillPanel.SetActive(false);
-        StatsPanel.SetActive(false);
+        CharacterPanel.SetActive(false);
+        JournalPanel.SetActive(false);
+        SocialPanel.SetActive(false);
         MapPanel.SetActive(false);
         SettingsPanel.SetActive(false);
-    }
 
-    public void IncreasePanelSize()
-    {
-        panelScale += Vector3.one * scaleStep;
-        panelScale = ClampScale(panelScale);
-        uiPanel.localScale = panelScale;
-        SaveScale();
-    }
-
-    public void DecreasePanelSize()
-    {
-        panelScale -= Vector3.one * scaleStep;
-        panelScale = ClampScale(panelScale);
-        uiPanel.localScale = panelScale;
-        SaveScale();
-    }
-
-    private Vector3 ClampScale(Vector3 scale)
-    {
-        scale.x = Mathf.Clamp(scale.x, minScale, maxScale);
-        scale.y = Mathf.Clamp(scale.y, minScale, maxScale);
-        scale.z = 1;
-        return scale;
-    }
-
-    private void SaveScale()
-    {
-        PlayerPrefs.SetFloat("UIPanelScale", panelScale.x);
-        PlayerPrefs.Save();
+        characterButton.interactable = true;
+        journalButton.interactable = true;
+        socialButton.interactable = true;
+        mapButton.interactable= true;
+        settingsButton.interactable = true;
     }
 }

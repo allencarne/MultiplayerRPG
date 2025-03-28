@@ -23,9 +23,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     LayerMask ignoredLayers;
 
-    public UnityEvent OnInventoryUIInput;
-    public UnityEvent OnSkillsUIInput;
-    public UnityEvent OnStatsUIInput;
+    public UnityEvent OnCharacterUIInput;
+    public UnityEvent OnJournalUIInput;
+    public UnityEvent OnSocialUIInput;
     public UnityEvent OnMapUIInput;
     public UnityEvent OnSettingsUIInput;
     public event UnityAction<Vector2> ZoomPerformed;
@@ -157,7 +157,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            OnInventoryUIInput.Invoke();
+            OnCharacterUIInput.Invoke();
         }
     }
 
@@ -165,7 +165,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            OnSkillsUIInput.Invoke();
+            OnJournalUIInput.Invoke();
         }
     }
 
@@ -173,7 +173,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            OnStatsUIInput.Invoke();
+            OnSocialUIInput.Invoke();
         }
     }
 
