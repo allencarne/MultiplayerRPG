@@ -153,7 +153,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnInventoryInput(InputAction.CallbackContext context)
+    public void OnCharacterInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
@@ -161,7 +161,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnSkillsInput(InputAction.CallbackContext context)
+    public void OnJournalInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
@@ -169,7 +169,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnStatsInput(InputAction.CallbackContext context)
+    public void OnSocialInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {

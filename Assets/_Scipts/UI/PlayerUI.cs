@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
@@ -19,6 +20,8 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] Button mapButton;
     [SerializeField] Button settingsButton;
 
+    [SerializeField] PlayerInput input;
+
     private void Start()
     {
         CloseHeroPanel();
@@ -36,6 +39,8 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+
+                    input.SwitchCurrentActionMap("Player");
                 }
             }
             else
@@ -45,6 +50,8 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 CharacterPanel.SetActive(true);
                 characterButton.interactable = false;
+
+                input.SwitchCurrentActionMap("UI");
             }
         }
         else
@@ -56,6 +63,8 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             CharacterPanel.SetActive(true);
             characterButton.interactable = false;
+
+            input.SwitchCurrentActionMap("UI");
         }
     }
 
@@ -71,6 +80,8 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+
+                    input.SwitchCurrentActionMap("Player");
                 }
             }
             else
@@ -80,6 +91,8 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 JournalPanel.SetActive(true);
                 journalButton.interactable = false;
+
+                input.SwitchCurrentActionMap("UI");
             }
         }
         else
@@ -91,6 +104,8 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             JournalPanel.SetActive(true);
             journalButton.interactable = false;
+
+            input.SwitchCurrentActionMap("UI");
         }
     }
 
@@ -106,6 +121,8 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+
+                    input.SwitchCurrentActionMap("Player");
                 }
             }
             else
@@ -115,6 +132,8 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 SocialPanel.SetActive(true);
                 socialButton.interactable = false;
+
+                input.SwitchCurrentActionMap("UI");
             }
         }
         else
@@ -126,6 +145,8 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             SocialPanel.SetActive(true);
             socialButton.interactable = false;
+
+            input.SwitchCurrentActionMap("UI");
         }
     }
 
@@ -141,6 +162,8 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+
+                    input.SwitchCurrentActionMap("Player");
                 }
             }
             else
@@ -150,6 +173,8 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 MapPanel.SetActive(true);
                 mapButton.interactable = false;
+
+                input.SwitchCurrentActionMap("UI");
             }
         }
         else
@@ -161,6 +186,8 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             MapPanel.SetActive(true);
             mapButton.interactable = false;
+
+            input.SwitchCurrentActionMap("UI");
         }
     }
 
@@ -176,12 +203,16 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+
+                    input.SwitchCurrentActionMap("Player");
                 }
             }
             else
             {
                 CloseHeroPanel();
                 HUD.SetActive(true);
+
+                input.SwitchCurrentActionMap("Player");
             }
         }
         else
@@ -193,7 +224,16 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             SettingsPanel.SetActive(true);
             settingsButton.interactable = false;
+
+            input.SwitchCurrentActionMap("UI");
         }
+    }
+
+    public void CloseButton()
+    {
+        CloseHeroPanel();
+        HUD.SetActive(true);
+        input.SwitchCurrentActionMap("Player");
     }
 
     public void CloseHeroPanel()
