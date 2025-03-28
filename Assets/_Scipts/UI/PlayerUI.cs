@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] GameObject menuBar;
+    [SerializeField] GameObject HUD;
 
     [SerializeField] GameObject HeroPanel;
     [SerializeField] GameObject CharacterPanel;
@@ -35,12 +35,12 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
-                    menuBar.SetActive(true);
+                    HUD.SetActive(true);
                 }
             }
             else
             {
-                menuBar.SetActive(false);
+                HUD.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
                 CharacterPanel.SetActive(true);
@@ -51,7 +51,7 @@ public class PlayerUI : MonoBehaviour
         {
             // If hero panel is disabled
 
-            menuBar.SetActive(false);
+            HUD.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             CharacterPanel.SetActive(true);
@@ -70,12 +70,12 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
-                    menuBar.SetActive(true);
+                    HUD.SetActive(true);
                 }
             }
             else
             {
-                menuBar.SetActive(false);
+                HUD.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
                 JournalPanel.SetActive(true);
@@ -86,7 +86,7 @@ public class PlayerUI : MonoBehaviour
         {
             // If hero panel is disabled
 
-            menuBar.SetActive(false);
+            HUD.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             JournalPanel.SetActive(true);
@@ -105,12 +105,12 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
-                    menuBar.SetActive(true);
+                    HUD.SetActive(true);
                 }
             }
             else
             {
-                menuBar.SetActive(false);
+                HUD.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
                 SocialPanel.SetActive(true);
@@ -121,7 +121,7 @@ public class PlayerUI : MonoBehaviour
         {
             // If hero panel is disabled
 
-            menuBar.SetActive(false);
+            HUD.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             SocialPanel.SetActive(true);
@@ -140,12 +140,12 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
-                    menuBar.SetActive(true);
+                    HUD.SetActive(true);
                 }
             }
             else
             {
-                menuBar.SetActive(false);
+                HUD.SetActive(false);
                 CloseHeroPanel();
                 HeroPanel.SetActive(true);
                 MapPanel.SetActive(true);
@@ -156,7 +156,7 @@ public class PlayerUI : MonoBehaviour
         {
             // If hero panel is disabled
 
-            menuBar.SetActive(false);
+            HUD.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             MapPanel.SetActive(true);
@@ -175,20 +175,20 @@ public class PlayerUI : MonoBehaviour
                 if (isMenuButton)
                 {
                     CloseHeroPanel();
-                    menuBar.SetActive(true);
+                    HUD.SetActive(true);
                 }
             }
             else
             {
                 CloseHeroPanel();
-                menuBar.SetActive(true);
+                HUD.SetActive(true);
             }
         }
         else
         {
             // If hero panel is disabled
 
-            menuBar.SetActive(false);
+            HUD.SetActive(false);
             CloseHeroPanel();
             HeroPanel.SetActive(true);
             SettingsPanel.SetActive(true);
