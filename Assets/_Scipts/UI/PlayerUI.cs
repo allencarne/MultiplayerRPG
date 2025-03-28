@@ -46,13 +46,9 @@ public class PlayerUI : MonoBehaviour
             else
             {
                 TitleText.text = "Inventory";
+                CloseHeroPanel();
                 HeroPanel.SetActive(true);
-
                 InventoryPanel.SetActive(true);
-                SkillPanel.SetActive(false);
-                StatsPanel.SetActive(false);
-                MapPanel.SetActive(false);
-                SettingsPanel.SetActive(false);
             }
         }
         else
@@ -60,13 +56,9 @@ public class PlayerUI : MonoBehaviour
             // If hero panel is disabled
 
             TitleText.text = "Inventory";
+            CloseHeroPanel();
             HeroPanel.SetActive(true);
-
             InventoryPanel.SetActive(true);
-            SkillPanel.SetActive(false);
-            StatsPanel.SetActive(false);
-            MapPanel.SetActive(false);
-            SettingsPanel.SetActive(false);
         }
     }
 
@@ -86,13 +78,9 @@ public class PlayerUI : MonoBehaviour
             else
             {
                 TitleText.text = "Skills";
+                CloseHeroPanel();
                 HeroPanel.SetActive(true);
-
-                InventoryPanel.SetActive(false);
                 SkillPanel.SetActive(true);
-                StatsPanel.SetActive(false);
-                MapPanel.SetActive(false);
-                SettingsPanel.SetActive(false);
             }
         }
         else
@@ -100,13 +88,9 @@ public class PlayerUI : MonoBehaviour
             // If hero panel is disabled
 
             TitleText.text = "Skills";
+            CloseHeroPanel();
             HeroPanel.SetActive(true);
-
-            InventoryPanel.SetActive(false);
             SkillPanel.SetActive(true);
-            StatsPanel.SetActive(false);
-            MapPanel.SetActive(false);
-            SettingsPanel.SetActive(false);
         }
     }
 
@@ -126,13 +110,9 @@ public class PlayerUI : MonoBehaviour
             else
             {
                 TitleText.text = "Stats";
+                CloseHeroPanel();
                 HeroPanel.SetActive(true);
-
-                InventoryPanel.SetActive(false);
-                SkillPanel.SetActive(false);
                 StatsPanel.SetActive(true);
-                MapPanel.SetActive(false);
-                SettingsPanel.SetActive(false);
             }
         }
         else
@@ -140,13 +120,9 @@ public class PlayerUI : MonoBehaviour
             // If hero panel is disabled
 
             TitleText.text = "Stats";
+            CloseHeroPanel();
             HeroPanel.SetActive(true);
-
-            InventoryPanel.SetActive(false);
-            SkillPanel.SetActive(false);
             StatsPanel.SetActive(true);
-            MapPanel.SetActive(false);
-            SettingsPanel.SetActive(false);
         }
     }
 
@@ -166,13 +142,9 @@ public class PlayerUI : MonoBehaviour
             else
             {
                 TitleText.text = "Map";
+                CloseHeroPanel();
                 HeroPanel.SetActive(true);
-
-                InventoryPanel.SetActive(false);
-                SkillPanel.SetActive(false);
-                StatsPanel.SetActive(false);
                 MapPanel.SetActive(true);
-                SettingsPanel.SetActive(false);
             }
         }
         else
@@ -180,13 +152,9 @@ public class PlayerUI : MonoBehaviour
             // If hero panel is disabled
 
             TitleText.text = "Map";
+            CloseHeroPanel();
             HeroPanel.SetActive(true);
-
-            InventoryPanel.SetActive(false);
-            SkillPanel.SetActive(false);
-            StatsPanel.SetActive(false);
             MapPanel.SetActive(true);
-            SettingsPanel.SetActive(false);
         }
     }
 
@@ -205,14 +173,7 @@ public class PlayerUI : MonoBehaviour
             }
             else
             {
-                TitleText.text = "Settings";
-                HeroPanel.SetActive(true);
-
-                InventoryPanel.SetActive(false);
-                SkillPanel.SetActive(false);
-                StatsPanel.SetActive(false);
-                MapPanel.SetActive(false);
-                SettingsPanel.SetActive(true);
+                CloseHeroPanel();
             }
         }
         else
@@ -220,12 +181,8 @@ public class PlayerUI : MonoBehaviour
             // If hero panel is disabled
 
             TitleText.text = "Settings";
+            CloseHeroPanel();
             HeroPanel.SetActive(true);
-
-            InventoryPanel.SetActive(false);
-            SkillPanel.SetActive(false);
-            StatsPanel.SetActive(false);
-            MapPanel.SetActive(false);
             SettingsPanel.SetActive(true);
         }
     }
