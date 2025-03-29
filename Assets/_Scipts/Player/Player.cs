@@ -81,7 +81,7 @@ public class Player : NetworkBehaviour, IDamageable
 
         Health = MaxHealth;
 
-        healthBar.UpdateHealthBar(MaxHealth, Health);
+        healthBar.UpdateHealthUI(MaxHealth, Health);
     }
 
     public override void OnNetworkSpawn()
@@ -112,15 +112,10 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
-        // Calculate damage after applying armor
         float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
 
-        // Apply the reduced damage
         Health -= damageAfterArmor;
 
-        // Update Healthbar
-        OnDamageTaken?.Invoke();
-
-        // Enter Combat
+        healthBar.UpdateHealth(Health);
     }
 }

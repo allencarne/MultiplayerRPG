@@ -14,7 +14,7 @@ public class EnduranceBar : NetworkBehaviour
 
     private void Start()
     {
-        UpdateEnduranceBar(player.MaxEndurance, player.Endurance);
+        UpdateEnduranceUI(player.MaxEndurance, player.Endurance);
     }
 
     public override void OnNetworkSpawn()
@@ -30,7 +30,7 @@ public class EnduranceBar : NetworkBehaviour
         }
 
         // Sync UI for non-owners
-        UpdateEnduranceBar(net_maxEndurance.Value, net_endurance.Value);
+        UpdateEnduranceUI(net_maxEndurance.Value, net_endurance.Value);
     }
 
     public override void OnDestroy()
@@ -39,8 +39,9 @@ public class EnduranceBar : NetworkBehaviour
         net_maxEndurance.OnValueChanged -= OnMaxEnduranceChanged;
     }
 
-    public void UpdateEnduranceBar(float maxEndurance, float currentEndurance)
+    void UpdateEnduranceUI(float maxEndurance, float currentEndurance)
     {
+        if (maxEndurance <= 0) return;
         enduranceBar.fillAmount = currentEndurance / maxEndurance;
     }
 
@@ -51,8 +52,7 @@ public class EnduranceBar : NetworkBehaviour
             player.Endurance -= amount;
 
             net_endurance.Value = player.Endurance;
-
-            UpdateEnduranceBar(net_maxEndurance.Value, player.Endurance);
+            UpdateEnduranceUI(net_maxEndurance.Value, player.Endurance);
 
             if (!isRecharging)
             {
@@ -75,7 +75,7 @@ public class EnduranceBar : NetworkBehaviour
                 player.Endurance = Mathf.Min(player.Endurance, net_maxEndurance.Value);
 
                 net_endurance.Value = player.Endurance;
-                UpdateEnduranceBar(net_maxEndurance.Value, player.Endurance);
+                UpdateEnduranceUI(net_maxEndurance.Value, player.Endurance);
             }
         }
 
@@ -84,11 +84,11 @@ public class EnduranceBar : NetworkBehaviour
 
     private void OnEnduranceChanged(float oldValue, float newValue)
     {
-        UpdateEnduranceBar(net_maxEndurance.Value, newValue);
+        UpdateEnduranceUI(net_maxEndurance.Value, newValue);
     }
 
     private void OnMaxEnduranceChanged(float oldValue, float newValue)
     {
-        UpdateEnduranceBar(newValue, net_endurance.Value);
+        UpdateEnduranceUI(newValue, net_endurance.Value);
     }
 }
