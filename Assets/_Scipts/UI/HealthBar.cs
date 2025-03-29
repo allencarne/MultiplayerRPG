@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,10 @@ public class HealthBar : NetworkBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] Image healthBar;
+    [SerializeField] Image healthBar_Back;
+
+    private float lerpSpeed = 5f;
+    private Coroutine lerpCoroutine;
 
     private NetworkVariable<float> net_health = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
     private NetworkVariable<float> net_maxHealth = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
@@ -50,6 +55,25 @@ public class HealthBar : NetworkBehaviour
     {
         if (maxHealth <= 0) return;
         healthBar.fillAmount = currentHealth / maxHealth;
+
+        // Back health bar - smooth lerp effect
+        if (lerpCoroutine != null)
+        {
+            StopCoroutine(lerpCoroutine);
+        }
+        lerpCoroutine = StartCoroutine(LerpHealthBarBack(currentHealth / maxHealth));
+    }
+
+    IEnumerator LerpHealthBarBack(float targetFillAmount)
+    {
+        float currentFillAmount = healthBar_Back.fillAmount;
+
+        while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
+        {
+            currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, lerpSpeed * Time.deltaTime);
+            healthBar_Back.fillAmount = currentFillAmount;
+            yield return null;
+        }
     }
 
     public void UpdateHealth(float newHealth)
