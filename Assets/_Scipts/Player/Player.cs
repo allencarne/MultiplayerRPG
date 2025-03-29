@@ -106,16 +106,13 @@ public class Player : NetworkBehaviour, IDamageable
     {
         Coins += amount;
         CoinText.text = Coins.ToString();
-
         playerInitialize.SavePlayerStats();
     }
 
     public void TakeDamage(float damage)
     {
         float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
-
-        Health -= damageAfterArmor;
-
+        Health = Mathf.Max(Health - damageAfterArmor, 0);
         healthBar.UpdateHealth(Health);
     }
 }
