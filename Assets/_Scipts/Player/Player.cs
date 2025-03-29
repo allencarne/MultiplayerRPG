@@ -2,8 +2,6 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
-using Unity.Collections;
-using UnityEngine.Events;
 
 public class Player : NetworkBehaviour, IDamageable
 {
@@ -22,9 +20,6 @@ public class Player : NetworkBehaviour, IDamageable
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] RectTransform playerUIRect;
-
-    [Header("Events")]
-    public UnityEvent OnDamageTaken;
 
     [Header("Stats")]
     public float Coins;
@@ -113,6 +108,13 @@ public class Player : NetworkBehaviour, IDamageable
     {
         float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
         Health = Mathf.Max(Health - damageAfterArmor, 0);
+        healthBar.UpdateHealth(Health);
+    }
+
+    public void HealPlayer(float heal)
+    {
+
+        Health = Mathf.Min(Health + heal, MaxHealth);
         healthBar.UpdateHealth(Health);
     }
 }

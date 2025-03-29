@@ -22,10 +22,14 @@ public class HealthBar : NetworkBehaviour
 
     private void Update()
     {
-        // If F1 Key Pressed Take Damage player.TakeDamage
         if (Input.GetKeyDown(KeyCode.F1))
         {
             player.TakeDamage(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            player.HealPlayer(1);
         }
     }
 
