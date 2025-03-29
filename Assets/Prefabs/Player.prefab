@@ -9956,6 +9956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1958890226798441182}
   - component: {fileID: 7859199294462323109}
+  - component: {fileID: 5769076625789949914}
   m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
@@ -10000,7 +10001,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f94b4df51b56224a8d9c772bf3ddab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 841304983140234989}
   enduranceBar: {fileID: 8636521633625716063}
+--- !u!114 &5769076625789949914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235207788284769349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e358dd85ea40e2b48ace5b542d98833a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 2971390234961832005}
 --- !u!1 &2254411237684941432
 GameObject:
   m_ObjectHideFlags: 0
@@ -12754,16 +12770,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  PlayerInventory: {fileID: 6762276146836678153}
-  rb: {fileID: 9222441055534883323}
-  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
-  enduranceBar: {fileID: 7859199294462323109}
-  playerInitialize: {fileID: 5375708365107018510}
   AttackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
+  PlayerInventory: {fileID: 6762276146836678153}
+  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
+  EnduranceBar: {fileID: 7859199294462323109}
+  rb: {fileID: 9222441055534883323}
+  healthBar: {fileID: 5769076625789949914}
+  playerInitialize: {fileID: 5375708365107018510}
+  CoinText: {fileID: 5366855196545885066}
   playerUI: {fileID: 3299133459724338860}
   cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
-  CoinText: {fileID: 5366855196545885066}
   playerUIRect: {fileID: 1319158235293109785}
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
   Coins: 0
   hairIndex: 0
   PlayerLevel: 0
@@ -12771,8 +12791,8 @@ MonoBehaviour:
   RequiredExperience: 0
   Health: 0
   MaxHealth: 0
-  Endurance: 100
-  MaxEndurance: 100
+  Endurance: 0
+  MaxEndurance: 0
   Speed: 0
   CurrentSpeed: 0
   Damage: 0

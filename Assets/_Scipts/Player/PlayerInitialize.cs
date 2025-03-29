@@ -92,6 +92,9 @@ public class PlayerInitialize : NetworkBehaviour
         player.Health = PlayerPrefs.GetFloat($"{prefix}Health", 10);
         player.MaxHealth = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
 
+        player.Endurance = PlayerPrefs.GetFloat($"{prefix}Endurance", 100);
+        player.MaxEndurance = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
+
         player.Speed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
         player.CurrentSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
 
@@ -120,6 +123,9 @@ public class PlayerInitialize : NetworkBehaviour
 
         PlayerPrefs.SetFloat($"{prefix}Health", player.Health);
         PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth);
+
+        PlayerPrefs.SetFloat($"{prefix}Endurance", player.Endurance);
+        PlayerPrefs.SetFloat($"{prefix}MaxEndurance", player.MaxEndurance);
 
         PlayerPrefs.SetFloat($"{prefix}Speed", player.Speed);
         PlayerPrefs.SetFloat($"{prefix}CurrentSpeed", player.CurrentSpeed);

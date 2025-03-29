@@ -3,23 +3,28 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 using Unity.Collections;
+using UnityEngine.Events;
 
-public class Player : NetworkBehaviour
+public class Player : NetworkBehaviour, IDamageable
 {
-    [Header("Components")]
-    public Inventory PlayerInventory;
-    [SerializeField] Rigidbody2D rb;
-    public GameObject spawn_Effect;
-    [SerializeField] EnduranceBar enduranceBar;
-    [SerializeField] PlayerInitialize playerInitialize;
-
     public GameObject AttackPrefab;
 
+    [Header("Components")]
+    public Inventory PlayerInventory;
+    public GameObject spawn_Effect;
+    public EnduranceBar EnduranceBar;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] PlayerInitialize playerInitialize;
+
     [Header("UI")]
+    public TextMeshProUGUI CoinText;
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
-    public TextMeshProUGUI CoinText;
     [SerializeField] RectTransform playerUIRect;
+
+    [Header("Events")]
+    public UnityEvent OnDamageTaken;
 
     [Header("Stats")]
     public float Coins;
@@ -34,7 +39,7 @@ public class Player : NetworkBehaviour
     public float Health;
     public float MaxHealth;
 
-    [Header("Endurance (NOT SAVED)")]
+    [Header("Endurance")]
     public float Endurance;
     public float MaxEndurance;
 
@@ -58,8 +63,6 @@ public class Player : NetworkBehaviour
     public float BaseArmor;
     public float CurrentArmor;
 
-    [Header("Network Variables")]
-    private NetworkVariable<float> net_endurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
 
     public enum PlayerClass
     {
@@ -76,35 +79,17 @@ public class Player : NetworkBehaviour
     {
         Instantiate(spawn_Effect, transform.position, transform.rotation);
 
-        Endurance = MaxEndurance;
+        Health = MaxHealth;
 
-        // Set Endurance Bar UI
-        enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
+        healthBar.UpdateHealthBar(MaxHealth, Health);
     }
 
     public override void OnNetworkSpawn()
     {
-        net_endurance.OnValueChanged += OnEnduranceChanged;
-
         if (IsOwner)
         {
             PlayerCamera();
-
-            // Initialize endurance network variable
-            net_endurance.Value = Endurance;
         }
-        else
-        {
-
-        }
-
-        // Sync UI for non-owners
-        enduranceBar.UpdateEnduranceBar(MaxEndurance, net_endurance.Value);
-    }
-
-    public override void OnDestroy()
-    {
-        net_endurance.OnValueChanged -= OnEnduranceChanged;
     }
 
     void PlayerCamera()
@@ -117,47 +102,6 @@ public class Player : NetworkBehaviour
         playerUI.worldCamera = cameraInstance.GetComponent<Camera>();
     }
 
-    public void UpdateEndurance(float amount)
-    {
-        if (IsOwner)
-        {
-            Endurance -= amount;
-
-            net_endurance.Value = Endurance;
-
-            enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
-
-            if (!isRecharging)
-            {
-                StartCoroutine(RechargeEndurance());
-            }
-        }
-    }
-
-    bool isRecharging = false;
-
-    IEnumerator RechargeEndurance()
-    {
-        isRecharging = true;
-
-        while (Endurance < MaxEndurance)
-        {
-            yield return new WaitForSeconds(1);
-
-            if (IsOwner)
-            {
-                Endurance += 5;
-                Endurance = Mathf.Min(Endurance, MaxEndurance);
-
-                net_endurance.Value = Endurance;
-
-                enduranceBar.UpdateEnduranceBar(MaxEndurance, Endurance);
-            }
-        }
-
-        isRecharging = false;
-    }
-
     public void CoinCollected(float amount)
     {
         Coins += amount;
@@ -166,9 +110,17 @@ public class Player : NetworkBehaviour
         playerInitialize.SavePlayerStats();
     }
 
-    private void OnEnduranceChanged(float oldValue, float newValue)
+    public void TakeDamage(float damage)
     {
-        // Update the endurance bar UI when the network variable changes
-        enduranceBar.UpdateEnduranceBar(MaxEndurance, newValue);
+        // Calculate damage after applying armor
+        float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
+
+        // Apply the reduced damage
+        Health -= damageAfterArmor;
+
+        // Update Healthbar
+        OnDamageTaken?.Invoke();
+
+        // Enter Combat
     }
 }

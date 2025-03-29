@@ -7,7 +7,7 @@ public class PlayerRollState : PlayerState
 
     public override void Start()
     {
-        stateMachine.Player.UpdateEndurance(50);
+        stateMachine.Player.EnduranceBar.UpdateEndurance(50);
 
         stateMachine.StartCoroutine(Duration());
 

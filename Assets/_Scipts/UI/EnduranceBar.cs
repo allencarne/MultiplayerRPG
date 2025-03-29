@@ -1,12 +1,94 @@
+using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnduranceBar : MonoBehaviour
+public class EnduranceBar : NetworkBehaviour
 {
+    [SerializeField] Player player;
     [SerializeField] Image enduranceBar;
+    bool isRecharging = false;
+
+    private NetworkVariable<float> net_endurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<float> net_maxEndurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
+
+    private void Start()
+    {
+        UpdateEnduranceBar(player.MaxEndurance, player.Endurance);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        net_endurance.OnValueChanged += OnEnduranceChanged;
+        net_maxEndurance.OnValueChanged += OnMaxEnduranceChanged;
+
+        if (IsOwner)
+        {
+            // Initialize endurance network variable
+            net_endurance.Value = player.Endurance;
+            net_maxEndurance.Value = player.MaxEndurance;
+        }
+
+        // Sync UI for non-owners
+        UpdateEnduranceBar(net_maxEndurance.Value, net_endurance.Value);
+    }
+
+    public override void OnDestroy()
+    {
+        net_endurance.OnValueChanged -= OnEnduranceChanged;
+        net_maxEndurance.OnValueChanged -= OnMaxEnduranceChanged;
+    }
 
     public void UpdateEnduranceBar(float maxEndurance, float currentEndurance)
     {
         enduranceBar.fillAmount = currentEndurance / maxEndurance;
+    }
+
+    public void UpdateEndurance(float amount)
+    {
+        if (IsOwner)
+        {
+            player.Endurance -= amount;
+
+            net_endurance.Value = player.Endurance;
+
+            UpdateEnduranceBar(net_maxEndurance.Value, player.Endurance);
+
+            if (!isRecharging)
+            {
+                StartCoroutine(RechargeEndurance());
+            }
+        }
+    }
+
+    IEnumerator RechargeEndurance()
+    {
+        isRecharging = true;
+
+        while (player.Endurance < net_maxEndurance.Value)
+        {
+            yield return new WaitForSeconds(1);
+
+            if (IsOwner)
+            {
+                player.Endurance += 5;
+                player.Endurance = Mathf.Min(player.Endurance, net_maxEndurance.Value);
+
+                net_endurance.Value = player.Endurance;
+                UpdateEnduranceBar(net_maxEndurance.Value, player.Endurance);
+            }
+        }
+
+        isRecharging = false;
+    }
+
+    private void OnEnduranceChanged(float oldValue, float newValue)
+    {
+        UpdateEnduranceBar(net_maxEndurance.Value, newValue);
+    }
+
+    private void OnMaxEnduranceChanged(float oldValue, float newValue)
+    {
+        UpdateEnduranceBar(newValue, net_endurance.Value);
     }
 }
