@@ -9,6 +9,8 @@ public class PlayerEquipment : NetworkBehaviour
     [SerializeField] SpriteRenderer Bow;
     [SerializeField] SpriteRenderer Dagger;
 
+    public bool IsWeaponEquipt = false;
+
     private NetworkVariable<CurrentWeapon> net_currentWeapon = new NetworkVariable<CurrentWeapon>(writePerm: NetworkVariableWritePermission.Owner);
     private NetworkVariable<int> net_itemIndex = new NetworkVariable<int>(-1, writePerm: NetworkVariableWritePermission.Owner);
 
@@ -52,6 +54,7 @@ public class PlayerEquipment : NetworkBehaviour
 			Weapon newWeapon = newItem as Weapon;
             if (newWeapon != null)
 			{
+                IsWeaponEquipt = true;
                 EquipWeapon(newWeapon);
                 Debug.Log($"Equipped: {newWeapon.itemIndex}");
             }
@@ -64,6 +67,7 @@ public class PlayerEquipment : NetworkBehaviour
             Weapon oldWeapon = oldItem as Weapon;
             if (oldWeapon != null)
             {
+                IsWeaponEquipt = false;
                 UnequipWeapon();
                 Debug.Log(oldItem.itemIndex);
             }

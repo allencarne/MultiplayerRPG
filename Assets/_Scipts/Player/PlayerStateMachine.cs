@@ -15,6 +15,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] Rigidbody2D rb; public Rigidbody2D Rigidbody => rb;
     [SerializeField] Transform aimer; public Transform Aimer => aimer;
     [SerializeField] PlayerAbilities abilities; public PlayerAbilities Abilities => abilities;
+    [SerializeField] PlayerEquipment equipment; public PlayerEquipment Equipment => equipment;
 
     [Header("Scripts")]
     [SerializeField] PlayerInputHandler inputHandler; public PlayerInputHandler InputHandler => inputHandler;
@@ -68,7 +69,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void BasicAbility(bool abilityInput)
     {
-        if (abilityInput && CanBasic)
+        if (abilityInput && CanBasic && equipment.IsWeaponEquipt && abilities.basicAbilityReference != null)
         {
             if (abilities.basicAbility != null)
             {
