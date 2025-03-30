@@ -83,6 +83,8 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         var instance = Instantiate(player.AttackPrefab, spawnPosition, spawnRotation);
         var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+
+        Physics2D.IgnoreCollision(instance.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
         instanceNetworkObject.Spawn();
     }
 
