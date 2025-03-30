@@ -1,6 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
@@ -26,14 +26,28 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("Exp")]
     public float expToGive;
 
+    [Header("Idle")]
+    protected float idleTime;
     protected Vector2 startingPosition;
-    bool canSpawn = false;
+    int attemptsCount;
+
+    [Header("Wander")]
+    Vector2 newWanderPosition;
+
+    [Header("Chase")]
+    protected Transform target;
+    public float patience;
+    float patienceTime;
+
+    [Header("Bools")]
+    bool canSpawn = true;
+    bool isPlayerInRange = false;
 
     [Header("Components")]
     protected Rigidbody2D enemyRB;
     protected Animator enemyAnimator;
-
-    [SerializeField] GameObject spawnEffect;
+    [SerializeField] protected Image patienceBar;
+    //[SerializeField] protected Image castBar;
 
     protected enum EnemyState
     {
@@ -130,7 +144,6 @@ public class Enemy : MonoBehaviour, IDamageable
             canSpawn = false;
 
             enemyAnimator.Play("Spawn");
-            Instantiate(spawnEffect, transform.position, Quaternion.identity);
             StartCoroutine(SpawnTimer());
         }
     }
@@ -143,9 +156,39 @@ public class Enemy : MonoBehaviour, IDamageable
         canSpawn = true;
     }
 
-    private void IdleState()
+    protected virtual void IdleState()
     {
+        enemyAnimator.Play("Idle");
 
+        idleTime += Time.deltaTime;
+
+        if (idleTime >= 5)
+        {
+            int maxAttempts = 3; // Maximum number of consecutive failed attempts
+            int consecutiveFailures = Mathf.Min(attemptsCount, maxAttempts);
+
+            // Calculate the probability of transitioning to the wander state based on the number of consecutive failures
+            float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);
+
+            // Check if the enemy will transition to the wander state based on the calculated probability
+            if (Random.value < wanderProbability)
+            {
+                idleTime = 0;
+
+                enemyState = EnemyState.Wander;
+            }
+
+            // Reset the idle time and update the attempts count
+            idleTime = 0;
+            attemptsCount++;
+        }
+
+        if (isPlayerInRange)
+        {
+            attemptsCount = 0;
+            idleTime = 0;
+            enemyState = EnemyState.Chase;
+        }
     }
 
     private void WanderState()
@@ -173,7 +216,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     }
 
-    private void ResetState()
+    protected virtual void ResetState()
     {
 
     }

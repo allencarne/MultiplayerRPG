@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2537939810
+      value: 1338542045
       objectReference: {fileID: 0}
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 1539269538
+      value: 4059075751
       objectReference: {fileID: 0}
     - target: {fileID: 4142390380479643555, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Color.b
@@ -87,6 +87,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5455410998029124271}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+--- !u!114 &2046245161433922931 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1073209790744301300, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 1333478615499174791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3234023876744883735 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4494865281095228816, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -117,6 +128,8 @@ MonoBehaviour:
   BaseArmor: 0
   CurrentArmor: 0
   expToGive: 0
+  patience: 5
+  patienceBar: {fileID: 2046245161433922931}
 --- !u!1 &6638178626359567543 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5665242415723239216, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
