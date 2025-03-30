@@ -1,8 +1,9 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : NetworkBehaviour, IDamageable
 {
     [Header("Health")]
     public float Health;
@@ -44,6 +45,7 @@ public class Enemy : MonoBehaviour, IDamageable
     bool isPlayerInRange = false;
 
     [Header("Components")]
+    [SerializeField] EnemyHealthBar healthBar;
     protected Rigidbody2D enemyRB;
     protected Animator enemyAnimator;
     [SerializeField] protected Image patienceBar;
@@ -93,11 +95,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
         // Set Armor
         CurrentArmor = BaseArmor;
-    }
-
-    public void TakeDamage(float damage)
-    {
-
     }
 
     private void Update()
@@ -227,6 +224,31 @@ public class Enemy : MonoBehaviour, IDamageable
     }
 
     private void DeathState()
+    {
+
+    }
+
+    public void TakeDamage(float damage)
+    {
+        float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
+        Health = Mathf.Max(Health - damageAfterArmor, 0);
+        healthBar.UpdateHealth(Health);
+
+        idleTime = 0;
+
+        if (Health <= 0)
+        {
+            enemyState = EnemyState.Death;
+        }
+    }
+
+    public void HealEnemy(float heal)
+    {
+        Health = Mathf.Min(Health + heal, MaxHealth);
+        healthBar.UpdateHealth(Health);
+    }
+
+    public override void OnNetworkSpawn()
     {
 
     }

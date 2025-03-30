@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1338542045
+      value: 2537939810
       objectReference: {fileID: 0}
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4142390380479643555, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Color.b
-      value: 0.2392157
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4142390380479643555, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Color.g
-      value: 0.2392157
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4142390380479643555, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Color.r
-      value: 0.7019608
+      value: 0.9843137
       objectReference: {fileID: 0}
     - target: {fileID: 4494865281095228816, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Name
@@ -76,6 +76,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7370282191906881502, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 5049977795090828203}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -115,8 +119,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b84fb0694accd14897a97ad3134aca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
-  MaxHealth: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  Health: 20
+  MaxHealth: 20
   BaseSpeed: 0
   CurrentSpeed: 0
   BaseDamage: 0
@@ -129,6 +134,7 @@ MonoBehaviour:
   CurrentArmor: 0
   expToGive: 0
   patience: 5
+  healthBar: {fileID: 8415529125570628697}
   patienceBar: {fileID: 2046245161433922931}
 --- !u!1 &6638178626359567543 stripped
 GameObject:
@@ -157,3 +163,14 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8415529125570628697 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7370282191906881502, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 1333478615499174791}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411230509b03a6948a01ba32a31fca72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

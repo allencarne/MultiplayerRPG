@@ -112,7 +112,6 @@ public class Player : NetworkBehaviour, IDamageable
 
     public void HealPlayer(float heal)
     {
-
         Health = Mathf.Min(Health + heal, MaxHealth);
         healthBar.UpdateHealth(Health);
     }
