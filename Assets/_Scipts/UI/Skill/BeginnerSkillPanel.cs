@@ -68,13 +68,13 @@ public class BeginnerSkillPanel : MonoBehaviour
 
     void EnableAbilities()
     {
-        if (player.PlayerLevel < 5)
+        if (player.PlayerLevel < 4)
         {
             offensive_Button.interactable = true;
             offensive2_Button.interactable = true;
         }
 
-        if (player.PlayerLevel < 10)
+        if (player.PlayerLevel < 8)
         {
             mobility_Button.interactable = true;
         }

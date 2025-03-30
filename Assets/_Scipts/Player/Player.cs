@@ -75,8 +75,7 @@ public class Player : NetworkBehaviour, IDamageable
         Instantiate(spawn_Effect, transform.position, transform.rotation);
 
         Health = MaxHealth;
-
-        healthBar.UpdateHealthUI(MaxHealth, Health);
+        Endurance = MaxEndurance;
     }
 
     public override void OnNetworkSpawn()
