@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System;
+using static UnityEngine.CullingGroup;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -43,24 +45,24 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public EnemyState enemyState = EnemyState.Spawn;
-    private UnityEvent<EnemyState> OnEventChanged;
+    private UnityEvent<EnemyState> OnStateChanged;
 
     private void Awake()
     {
         // Initialize the UnityEvent
-        OnEventChanged = new UnityEvent<EnemyState>();
+        OnStateChanged = new UnityEvent<EnemyState>();
     }
 
     private void OnEnable()
     {
         // Subscribe to the event with the appropriate method
-        OnEventChanged.AddListener(OnStateEnter);
+        OnStateChanged.AddListener(OnStateEnter);
     }
 
     private void OnDisable()
     {
         // Unsubscribe from the event
-        OnEventChanged.RemoveListener(OnStateEnter);
+        OnStateChanged.RemoveListener(OnStateEnter);
     }
 
     private void Start()
@@ -68,7 +70,7 @@ public class EnemyStateMachine : MonoBehaviour
         // Set Starting Position
         startingPosition = transform.position;
 
-        OnEventChanged?.Invoke(enemyState);
+        OnStateChanged?.Invoke(enemyState);
     }
 
     private void Update()
@@ -115,28 +117,44 @@ public class EnemyStateMachine : MonoBehaviour
         switch (newState)
         {
             case EnemyState.Spawn:
-                SpawnStateEnter();
+                Enter_SpawnState();
                 break;
             case EnemyState.Idle:
+                Enter_IdleState();
                 break;
             case EnemyState.Wander:
                 break;
         }
     }
 
-    void SpawnStateEnter()
+    void Enter_SpawnState()
     {
         Debug.Log("Spawn Enter");
+
+        enemyAnimator.Play("Spawn");
+        StartCoroutine(Delay_SpawnState());
+    }
+
+    IEnumerator Delay_SpawnState()
+    {
+        yield return new WaitForSeconds(0.6f);
+        enemyState = EnemyState.Idle;
+        OnStateChanged?.Invoke(enemyState);
     }
 
     private void SpawnState()
     {
-        Debug.Log("Spawn State");
+        Debug.Log("Spawn Update");
+    }
+
+    void Enter_IdleState()
+    {
+        Debug.Log("Idle Enter");
     }
 
     private void IdleState()
     {
-
+        Debug.Log("Idle Update");
     }
 
     private void WanderState()
