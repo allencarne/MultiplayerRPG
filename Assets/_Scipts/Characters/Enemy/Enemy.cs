@@ -1,9 +1,8 @@
 using System.Collections;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : NetworkBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
     public float Health;
@@ -27,59 +26,15 @@ public class Enemy : NetworkBehaviour, IDamageable
     [Header("Exp")]
     public float expToGive;
 
-    [Header("Idle")]
-    protected float idleTime;
-    protected Vector2 startingPosition;
-    int attemptsCount;
-
-    [Header("Wander")]
-    Vector2 newWanderPosition;
-
-    [Header("Chase")]
-    protected Transform target;
-    public float patience;
-    float patienceTime;
-
-    [Header("Bools")]
-    bool canSpawn = true;
-    bool isPlayerInRange = false;
-
-    [Header("Components")]
+    [Header("UI")]
     [SerializeField] EnemyHealthBar healthBar;
-    protected Rigidbody2D enemyRB;
-    protected Animator enemyAnimator;
-    [SerializeField] protected Image patienceBar;
-    //[SerializeField] protected Image castBar;
-
-    protected enum EnemyState
-    {
-        Spawn,
-        Idle,
-        Wander,
-        Chase,
-        Basic,
-        Mobility,
-        Special,
-        Reset,
-        Hurt,
-        Death
-    }
-
-    protected EnemyState enemyState = EnemyState.Spawn;
-
-    private void Awake()
-    {
-        enemyAnimator = GetComponentInChildren<Animator>();
-        enemyRB = GetComponent<Rigidbody2D>();
-    }
+    public Image PatienceBar;
+    public Image CaseBar;
 
     private void Start()
     {
         // Set Health
         Health = MaxHealth;
-
-        // Set Starting Position
-        startingPosition = transform.position;
 
         // Set Speed
         CurrentSpeed = BaseSpeed;
@@ -97,159 +52,36 @@ public class Enemy : NetworkBehaviour, IDamageable
         CurrentArmor = BaseArmor;
     }
 
-    private void Update()
+    public void TakeDamage(float damage, DamageType damageType)
     {
-        switch (enemyState)
+        float finalDamage = 0f;
+
+        if (damageType == DamageType.Flat)
         {
-            case EnemyState.Spawn:
-                SpawnState();
-                break;
-            case EnemyState.Idle:
-                IdleState();
-                break;
-            case EnemyState.Wander:
-                WanderState();
-                break;
-            case EnemyState.Chase:
-                ChaseState();
-                break;
-            case EnemyState.Basic:
-                BasicState();
-                break;
-            case EnemyState.Mobility:
-                MobilityState();
-                break;
-            case EnemyState.Special:
-                SpecialState();
-                break;
-            case EnemyState.Reset:
-                ResetState();
-                break;
-            case EnemyState.Hurt:
-                HurtState();
-                break;
-            case EnemyState.Death:
-                DeathState();
-                break;
+            finalDamage = Mathf.Max(damage - CurrentArmor, 0); // Reduce damage by armor
         }
-    }
-
-    private void SpawnState()
-    {
-        if (canSpawn)
+        else if (damageType == DamageType.Percentage)
         {
-            canSpawn = false;
-
-            enemyAnimator.Play("Spawn");
-            StartCoroutine(SpawnTimer());
-        }
-    }
-
-    IEnumerator SpawnTimer()
-    {
-        yield return new WaitForSeconds(.6f);
-
-        enemyState = EnemyState.Idle;
-        canSpawn = true;
-    }
-
-    protected virtual void IdleState()
-    {
-        enemyAnimator.Play("Idle");
-
-        idleTime += Time.deltaTime;
-
-        if (idleTime >= 5)
-        {
-            int maxAttempts = 3; // Maximum number of consecutive failed attempts
-            int consecutiveFailures = Mathf.Min(attemptsCount, maxAttempts);
-
-            // Calculate the probability of transitioning to the wander state based on the number of consecutive failures
-            float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);
-
-            // Check if the enemy will transition to the wander state based on the calculated probability
-            if (Random.value < wanderProbability)
-            {
-                idleTime = 0;
-
-                enemyState = EnemyState.Wander;
-            }
-
-            // Reset the idle time and update the attempts count
-            idleTime = 0;
-            attemptsCount++;
+            finalDamage = MaxHealth * (damage / 100f); // Percentage-based damage ignores armor
         }
 
-        if (isPlayerInRange)
-        {
-            attemptsCount = 0;
-            idleTime = 0;
-            enemyState = EnemyState.Chase;
-        }
-    }
-
-    private void WanderState()
-    {
-
-    }
-
-    private void ChaseState()
-    {
-
-    }
-
-    private void BasicState()
-    {
-
-    }
-
-    private void MobilityState()
-    {
-
-    }
-
-    private void SpecialState()
-    {
-
-    }
-
-    protected virtual void ResetState()
-    {
-
-    }
-
-    private void HurtState()
-    {
-
-    }
-
-    private void DeathState()
-    {
-
-    }
-
-    public void TakeDamage(float damage)
-    {
-        float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
-        Health = Mathf.Max(Health - damageAfterArmor, 0);
+        Health = Mathf.Max(Health - finalDamage, 0);
         healthBar.UpdateHealth(Health);
-
-        idleTime = 0;
 
         if (Health <= 0)
         {
-            enemyState = EnemyState.Death;
+            //Die();
         }
     }
 
-    public void HealEnemy(float heal)
+    public void GiveHeal(float healAmount, HealType healType)
     {
-        Health = Mathf.Min(Health + heal, MaxHealth);
+        if (healType == HealType.Percentage)
+        {
+            healAmount = MaxHealth * (healAmount / 100f); // Get %
+        }
+
+        Health = Mathf.Min(Health + healAmount, MaxHealth);
         healthBar.UpdateHealth(Health);
-    }
-
-    public override void OnNetworkSpawn()
-    {
-
     }
 }

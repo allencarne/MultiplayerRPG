@@ -8,7 +8,7 @@ public class DamageOnTrigger : MonoBehaviour
 
         if (damageable != null)
         {
-            damageable.TakeDamage(1);
+            damageable.TakeDamage(1, DamageType.Flat);
         }
     }
 }

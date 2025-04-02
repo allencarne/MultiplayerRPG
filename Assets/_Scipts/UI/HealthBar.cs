@@ -24,12 +24,12 @@ public class HealthBar : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            player.TakeDamage(1);
+            player.TakeDamage(1, DamageType.Flat);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            player.HealPlayer(1);
+            player.GiveHeal(1, HealType.Flat);
         }
     }
 

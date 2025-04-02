@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 
-public class Player : NetworkBehaviour, IDamageable
+public class Player : NetworkBehaviour, IDamageable, IHealable
 {
     public GameObject AttackPrefab;
 
@@ -103,16 +103,36 @@ public class Player : NetworkBehaviour, IDamageable
         playerInitialize.SavePlayerStats();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, DamageType damageType)
     {
-        float damageAfterArmor = Mathf.Max(damage - CurrentArmor, 0);
-        Health = Mathf.Max(Health - damageAfterArmor, 0);
+        float finalDamage = 0f;
+
+        if (damageType == DamageType.Flat)
+        {
+            finalDamage = Mathf.Max(damage - CurrentArmor, 0); // Reduce damage by armor
+        }
+        else if (damageType == DamageType.Percentage)
+        {
+            finalDamage = MaxHealth * (damage / 100f); // Percentage-based damage ignores armor
+        }
+
+        Health = Mathf.Max(Health - finalDamage, 0);
         healthBar.UpdateHealth(Health);
+
+        if (Health <= 0)
+        {
+            //Die();
+        }
     }
 
-    public void HealPlayer(float heal)
+    public void GiveHeal(float healAmount, HealType healType)
     {
-        Health = Mathf.Min(Health + heal, MaxHealth);
+        if (healType == HealType.Percentage)
+        {
+            healAmount = MaxHealth * (healAmount / 100f); // Get %
+        }
+
+        Health = Mathf.Min(Health + healAmount, MaxHealth);
         healthBar.UpdateHealth(Health);
     }
 }
