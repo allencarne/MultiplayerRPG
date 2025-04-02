@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using Unity.Netcode;
+using UnityEngine.Events;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class EnemyStateMachine : MonoBehaviour
     public bool CanSpecial = true;
     public bool CanUltimate = true;
 
-    protected enum EnemyState
+    public enum EnemyState
     {
         Spawn,
         Idle,
@@ -42,17 +42,38 @@ public class EnemyStateMachine : MonoBehaviour
         Death
     }
 
-    protected EnemyState enemyState = EnemyState.Spawn;
+    public EnemyState enemyState = EnemyState.Spawn;
+    private UnityEvent<EnemyState> OnEventChanged;
+
+    private void Awake()
+    {
+        // Initialize the UnityEvent
+        OnEventChanged = new UnityEvent<EnemyState>();
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe to the event with the appropriate method
+        OnEventChanged.AddListener(OnStateEnter);
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe from the event
+        OnEventChanged.RemoveListener(OnStateEnter);
+    }
 
     private void Start()
     {
         // Set Starting Position
         startingPosition = transform.position;
+
+        OnEventChanged?.Invoke(enemyState);
     }
 
     private void Update()
     {
-        Debug.Log(enemyState);
+        //Debug.Log(enemyState);
 
         switch (enemyState)
         {
@@ -89,9 +110,28 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
+    void OnStateEnter(EnemyState newState)
+    {
+        switch (newState)
+        {
+            case EnemyState.Spawn:
+                SpawnStateEnter();
+                break;
+            case EnemyState.Idle:
+                break;
+            case EnemyState.Wander:
+                break;
+        }
+    }
+
+    void SpawnStateEnter()
+    {
+        Debug.Log("Spawn Enter");
+    }
+
     private void SpawnState()
     {
-
+        Debug.Log("Spawn State");
     }
 
     private void IdleState()
