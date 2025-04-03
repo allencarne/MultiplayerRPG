@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
-using System;
-using static UnityEngine.CullingGroup;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -16,16 +14,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] float patience;
-    float idleTime;
-    int attemptsCount;
-    float patienceTime;
 
-    Vector2 startingPosition;
-    Vector2 newWanderPosition;
-    Transform target;
-
-    bool canSpawn = true;
-    bool isPlayerInRange = false;
+    bool playerInRange;
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
@@ -67,15 +57,12 @@ public class EnemyStateMachine : MonoBehaviour
 
     private void Start()
     {
-        // Set Starting Position
-        startingPosition = transform.position;
-
         OnStateChanged?.Invoke(enemyState);
     }
 
     private void Update()
     {
-        //Debug.Log(enemyState);
+        Debug.Log(enemyState);
 
         switch (enemyState)
         {
@@ -112,6 +99,43 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        switch (enemyState)
+        {
+            case EnemyState.Spawn:
+
+                break;
+            case EnemyState.Idle:
+
+                break;
+            case EnemyState.Wander:
+
+                break;
+            case EnemyState.Chase:
+
+                break;
+            case EnemyState.Basic:
+
+                break;
+            case EnemyState.Special:
+
+                break;
+            case EnemyState.Ultimate:
+
+                break;
+            case EnemyState.Reset:
+
+                break;
+            case EnemyState.Hurt:
+
+                break;
+            case EnemyState.Death:
+
+                break;
+        }
+    }
+
     void OnStateEnter(EnemyState newState)
     {
         switch (newState)
@@ -123,9 +147,12 @@ public class EnemyStateMachine : MonoBehaviour
                 Enter_IdleState();
                 break;
             case EnemyState.Wander:
+                Enter_WanderState();
                 break;
         }
     }
+
+    // @@@@@ Spawn @@@@@
 
     void Enter_SpawnState()
     {
@@ -135,39 +162,78 @@ public class EnemyStateMachine : MonoBehaviour
         StartCoroutine(Delay_SpawnState());
     }
 
-    IEnumerator Delay_SpawnState()
-    {
-        yield return new WaitForSeconds(0.6f);
-        enemyState = EnemyState.Idle;
-        OnStateChanged?.Invoke(enemyState);
-    }
-
-    private void SpawnState()
+    void SpawnState()
     {
         Debug.Log("Spawn Update");
     }
 
+    // @@@@@ Idle @@@@@
+
+    float idleTime;
+    int attemptsCount;
+
     void Enter_IdleState()
     {
         Debug.Log("Idle Enter");
+
+        enemyAnimator.Play("Idle");
     }
 
-    private void IdleState()
+    void IdleState()
     {
-        Debug.Log("Idle Update");
+        idleTime += Time.deltaTime;
+
+        if (idleTime >= 5)
+        {
+            int maxAttempts = 3; // Maximum number of consecutive failed attempts
+            int consecutiveFailures = Mathf.Min(attemptsCount, maxAttempts);
+
+            // Calculate the probability of transitioning to the wander state based on the number of consecutive failures
+            float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);
+
+            // Check if the enemy will transition to the wander state based on the calculated probability
+            if (Random.value < wanderProbability)
+            {
+                idleTime = 0;
+
+                enemyState = EnemyState.Wander;
+                OnStateChanged?.Invoke(enemyState);
+            }
+
+            // Reset the idle time and update the attempts count
+            idleTime = 0;
+            attemptsCount++;
+        }
+
+        if (playerInRange)
+        {
+            attemptsCount = 0;
+            idleTime = 0;
+            enemyState = EnemyState.Chase;
+            OnStateChanged?.Invoke(enemyState);
+        }
     }
 
-    private void WanderState()
+    // @@@@@ Wander @@@@@
+
+    void Enter_WanderState()
     {
 
     }
 
-    private void ChaseState()
+    void WanderState()
     {
 
     }
 
-    private void BasicState()
+    // @@@@@ Chase @@@@@
+
+    void ChaseState()
+    {
+
+    }
+
+    void BasicState()
     {
         if (!CanBasic) return;
         if (enemyBasicAbility == null) return;
@@ -176,7 +242,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemyBasicAbility.Activate(this);
     }
 
-    private void SpecialState()
+    void SpecialState()
     {
         if (!CanSpecial) return;
         if (enemySpecialAbility == null) return;
@@ -185,7 +251,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemySpecialAbility.Activate(this);
     }
 
-    private void UltimateState()
+    void UltimateState()
     {
         if (!CanUltimate) return;
         if (enemyUltimateAbility == null) return;
@@ -194,18 +260,25 @@ public class EnemyStateMachine : MonoBehaviour
         enemyUltimateAbility.Activate(this);
     }
 
-    private void ResetState()
+    void ResetState()
     {
 
     }
 
-    private void HurtState()
+    void HurtState()
     {
 
     }
 
-    private void DeathState()
+    void DeathState()
     {
 
+    }
+
+    IEnumerator Delay_SpawnState()
+    {
+        yield return new WaitForSeconds(0.6f);
+        enemyState = EnemyState.Idle;
+        OnStateChanged?.Invoke(enemyState);
     }
 }
