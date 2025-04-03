@@ -14,6 +14,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] float patience;
+    float idleTime;
+    int attemptsCount;
 
     bool playerInRange;
     public bool CanBasic = true;
@@ -35,34 +37,17 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public EnemyState enemyState = EnemyState.Spawn;
-    private UnityEvent<EnemyState> OnStateChanged;
-
-    private void Awake()
-    {
-        // Initialize the UnityEvent
-        OnStateChanged = new UnityEvent<EnemyState>();
-    }
-
-    private void OnEnable()
-    {
-        // Subscribe to the event with the appropriate method
-        OnStateChanged.AddListener(OnStateEnter);
-    }
-
-    private void OnDisable()
-    {
-        // Unsubscribe from the event
-        OnStateChanged.RemoveListener(OnStateEnter);
-    }
 
     private void Start()
     {
-        OnStateChanged?.Invoke(enemyState);
+        Enter_SpawnState();
+
+        startingPosition = transform.position;
     }
 
     private void Update()
     {
-        Debug.Log(enemyState);
+        //Debug.Log(enemyState);
 
         switch (enemyState)
         {
@@ -110,7 +95,7 @@ public class EnemyStateMachine : MonoBehaviour
 
                 break;
             case EnemyState.Wander:
-
+                Fixed_WanderState();
                 break;
             case EnemyState.Chase:
 
@@ -136,27 +121,11 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
-    void OnStateEnter(EnemyState newState)
-    {
-        switch (newState)
-        {
-            case EnemyState.Spawn:
-                Enter_SpawnState();
-                break;
-            case EnemyState.Idle:
-                Enter_IdleState();
-                break;
-            case EnemyState.Wander:
-                Enter_WanderState();
-                break;
-        }
-    }
-
-    // @@@@@ Spawn @@@@@
+    #region Spawn
 
     void Enter_SpawnState()
     {
-        Debug.Log("Spawn Enter");
+        Debug.Log("Enter Spawn");
 
         enemyAnimator.Play("Spawn");
         StartCoroutine(Delay_SpawnState());
@@ -167,14 +136,13 @@ public class EnemyStateMachine : MonoBehaviour
         Debug.Log("Spawn Update");
     }
 
-    // @@@@@ Idle @@@@@
+    #endregion
 
-    float idleTime;
-    int attemptsCount;
+    #region Idle
 
     void Enter_IdleState()
     {
-        Debug.Log("Idle Enter");
+        Debug.Log("Enter Idle");
 
         enemyAnimator.Play("Idle");
     }
@@ -197,7 +165,7 @@ public class EnemyStateMachine : MonoBehaviour
                 idleTime = 0;
 
                 enemyState = EnemyState.Wander;
-                OnStateChanged?.Invoke(enemyState);
+                Enter_WanderState();
             }
 
             // Reset the idle time and update the attempts count
@@ -210,28 +178,73 @@ public class EnemyStateMachine : MonoBehaviour
             attemptsCount = 0;
             idleTime = 0;
             enemyState = EnemyState.Chase;
-            OnStateChanged?.Invoke(enemyState);
+            Enter_ChaseState();
         }
     }
 
-    // @@@@@ Wander @@@@@
+    #endregion
+
+    #region Wander
+
+    Vector2 startingPosition;
+    Vector2 wanderPosition;
+    float wanderRadius = 5;
 
     void Enter_WanderState()
     {
+        Debug.Log("Enter Wander");
 
+        enemyAnimator.Play("Wander");
+
+        float minWanderDistance = 1f; // Minimum distance away
+        wanderPosition = GetRandomPointInCircle(startingPosition, minWanderDistance, wanderRadius);
     }
 
     void WanderState()
     {
+        Debug.Log("Wander Update");
 
+        if (Vector2.Distance(transform.position, wanderPosition) <= 0.1f)
+        {
+            Debug.Log("Reached Wander Position -> Transition to Idle");
+            enemyRB.linearVelocity = Vector2.zero;
+            enemyState = EnemyState.Idle;
+            Enter_IdleState();
+        }
     }
 
-    // @@@@@ Chase @@@@@
+    void Fixed_WanderState()
+    {
+        Debug.Log("Wander Fixed");
+
+        // Move to New Wander Position
+        Vector2 direction = (wanderPosition - (Vector2)transform.position).normalized;
+        enemyRB.linearVelocity = direction * enemy.BaseSpeed;
+    }
+
+    Vector2 GetRandomPointInCircle(Vector2 startingPosition, float minDistance, float maxRadius)
+    {
+        float angle = Random.Range(0f, Mathf.PI * 2f);
+        float randomRadius = Random.Range(minDistance, maxRadius);
+        Vector2 randomPoint = startingPosition + new Vector2(Mathf.Cos(angle) * randomRadius, Mathf.Sin(angle) * randomRadius);
+        return randomPoint;
+    }
+
+    #endregion
+
+    #region Chase
+
+    void Enter_ChaseState()
+    {
+        Debug.Log("Enter Chase");
+    }
 
     void ChaseState()
     {
 
     }
+
+    #endregion
 
     void BasicState()
     {
@@ -279,6 +292,6 @@ public class EnemyStateMachine : MonoBehaviour
     {
         yield return new WaitForSeconds(0.6f);
         enemyState = EnemyState.Idle;
-        OnStateChanged?.Invoke(enemyState);
+        Enter_IdleState();
     }
 }
