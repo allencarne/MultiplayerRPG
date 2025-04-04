@@ -28,8 +28,11 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
 
     [Header("UI")]
     [SerializeField] EnemyHealthBar healthBar;
-    public Image PatienceBar;
     public Image CaseBar;
+
+    public Image PatienceBar;
+    public float TotalPatience;
+    public float CurrentPatience;
 
     private void Start()
     {
@@ -83,5 +86,17 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
 
         Health = Mathf.Min(Health + healAmount, MaxHealth);
         healthBar.UpdateHealth(Health);
+    }
+
+    public void UpdatePatienceBar()
+    {
+        if (PatienceBar != null)
+        {
+            // Calculate the fill amount
+            float fillAmount = Mathf.Clamp01(CurrentPatience / TotalPatience);
+
+            // Update the patience bar fill amount
+            PatienceBar.fillAmount = fillAmount;
+        }
     }
 }

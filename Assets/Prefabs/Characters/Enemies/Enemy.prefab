@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5547851644637582550}
+  - component: {fileID: 2278356513398453096}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -33,6 +34,42 @@ Transform:
   - {fileID: 1631276665447126833}
   m_Father: {fileID: 6306620828023998174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &2278356513398453096
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77621477135208131}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 6
 --- !u!1 &2473772211496558367
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,8 +502,10 @@ MonoBehaviour:
   CurrentArmor: 0
   expToGive: 0
   healthBar: {fileID: 7370282191906881502}
-  PatienceBar: {fileID: 1073209790744301300}
   CaseBar: {fileID: 2338881300465963060}
+  PatienceBar: {fileID: 1073209790744301300}
+  TotalPatience: 5
+  CurrentPatience: 0
 --- !u!1 &5097692767414307733
 GameObject:
   m_ObjectHideFlags: 0

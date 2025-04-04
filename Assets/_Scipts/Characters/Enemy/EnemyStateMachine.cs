@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Events;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -12,15 +11,25 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
 
+    Transform target;
+
     [Header("Variables")]
-    [SerializeField] float patience;
     float idleTime;
     int attemptsCount;
+
+    [SerializeField] float wanderRadius;
+    [SerializeField] float basicRadius;
+    [SerializeField] float specialRadius;
+    [SerializeField] float ultimateRadius;
+    [SerializeField] float deAggroRadius;
 
     bool playerInRange;
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
+
+    Vector2 startingPosition;
+    Vector2 wanderPosition;
 
     public enum EnemyState
     {
@@ -98,7 +107,7 @@ public class EnemyStateMachine : MonoBehaviour
                 Fixed_WanderState();
                 break;
             case EnemyState.Chase:
-
+                Fixed_ChaseState();
                 break;
             case EnemyState.Basic:
 
@@ -186,10 +195,6 @@ public class EnemyStateMachine : MonoBehaviour
 
     #region Wander
 
-    Vector2 startingPosition;
-    Vector2 wanderPosition;
-    float wanderRadius = 5;
-
     void Enter_WanderState()
     {
         Debug.Log("Enter Wander");
@@ -237,11 +242,65 @@ public class EnemyStateMachine : MonoBehaviour
     void Enter_ChaseState()
     {
         Debug.Log("Enter Chase");
+
+        enemyAnimator.Play("Chase");
     }
 
     void ChaseState()
     {
+        enemy.UpdatePatienceBar();
 
+        if (target)
+        {
+            // Attacks
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
+            if (distanceToTarget <= basicRadius)
+            {
+                if (CanBasic)
+                {
+                    //enemyState = EnemyState.Basic;
+                    //Enter_BasicState();
+                }
+            }
+
+            // De-Aggro
+            float distanceToStartingPosition = Vector2.Distance(startingPosition, target.position);
+            if (distanceToStartingPosition >= deAggroRadius)
+            {
+                enemy.CurrentPatience += Time.deltaTime;
+
+                if (enemy.CurrentPatience >= enemy.TotalPatience)
+                {
+                    enemy.CurrentPatience = 0f;
+                    playerInRange = false;
+                    target = null;
+                    enemyState = EnemyState.Reset;
+                    Enter_ResetState();
+                }
+            }
+            else
+            {
+                enemy.CurrentPatience = 0;
+            }
+        }
+        else
+        {
+            // If Target drops during the Chase State
+            playerInRange = false;
+            enemy.CurrentPatience = 0;
+            enemyState = EnemyState.Reset;
+            Enter_ResetState();
+        }
+    }
+
+    void Fixed_ChaseState()
+    {
+        if (target)
+        {
+            // Move to Target Position
+            Vector2 direction = (target.position - transform.position).normalized;
+            enemyRB.linearVelocity = direction * enemy.BaseSpeed;
+        }
     }
 
     #endregion
@@ -273,6 +332,11 @@ public class EnemyStateMachine : MonoBehaviour
         enemyUltimateAbility.Activate(this);
     }
 
+    void Enter_ResetState()
+    {
+
+    }
+
     void ResetState()
     {
 
@@ -293,5 +357,33 @@ public class EnemyStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         enemyState = EnemyState.Idle;
         Enter_IdleState();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            target = other.transform;
+            playerInRange = true;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(startingPosition, wanderRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, basicRadius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, specialRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, ultimateRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(startingPosition, deAggroRadius);
+
     }
 }
