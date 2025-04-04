@@ -119,7 +119,7 @@ public class EnemyStateMachine : MonoBehaviour
 
                 break;
             case EnemyState.Reset:
-
+                Fixed_ResetState();
                 break;
             case EnemyState.Hurt:
 
@@ -134,15 +134,13 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Enter_SpawnState()
     {
-        Debug.Log("Enter Spawn");
-
-        enemyAnimator.Play("Spawn");
+        //enemyAnimator.Play("Spawn");
         StartCoroutine(Delay_SpawnState());
     }
 
     void SpawnState()
     {
-        Debug.Log("Spawn Update");
+
     }
 
     #endregion
@@ -151,9 +149,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Enter_IdleState()
     {
-        Debug.Log("Enter Idle");
-
-        enemyAnimator.Play("Idle");
+        //enemyAnimator.Play("Idle");
     }
 
     void IdleState()
@@ -197,9 +193,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Enter_WanderState()
     {
-        Debug.Log("Enter Wander");
-
-        enemyAnimator.Play("Wander");
+        //enemyAnimator.Play("Wander");
 
         float minWanderDistance = 1f; // Minimum distance away
         wanderPosition = GetRandomPointInCircle(startingPosition, minWanderDistance, wanderRadius);
@@ -207,11 +201,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     void WanderState()
     {
-        Debug.Log("Wander Update");
-
         if (Vector2.Distance(transform.position, wanderPosition) <= 0.1f)
         {
-            Debug.Log("Reached Wander Position -> Transition to Idle");
             enemyRB.linearVelocity = Vector2.zero;
             enemyState = EnemyState.Idle;
             Enter_IdleState();
@@ -220,11 +211,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Fixed_WanderState()
     {
-        Debug.Log("Wander Fixed");
-
-        // Move to New Wander Position
-        Vector2 direction = (wanderPosition - (Vector2)transform.position).normalized;
-        enemyRB.linearVelocity = direction * enemy.BaseSpeed;
+        MoveTowardsTarget(wanderPosition);
     }
 
     Vector2 GetRandomPointInCircle(Vector2 startingPosition, float minDistance, float maxRadius)
@@ -241,69 +228,69 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Enter_ChaseState()
     {
-        Debug.Log("Enter Chase");
-
-        enemyAnimator.Play("Chase");
+        //enemyAnimator.Play("Chase");
     }
 
     void ChaseState()
     {
         enemy.UpdatePatienceBar();
 
-        if (target)
-        {
-            // Attacks
-            float distanceToTarget = Vector2.Distance(transform.position, target.position);
-            if (distanceToTarget <= basicRadius)
-            {
-                if (CanBasic)
-                {
-                    //enemyState = EnemyState.Basic;
-                    //Enter_BasicState();
-                }
-            }
 
-            // De-Aggro
-            float distanceToStartingPosition = Vector2.Distance(startingPosition, target.position);
-            if (distanceToStartingPosition >= deAggroRadius)
-            {
-                enemy.CurrentPatience += Time.deltaTime;
-
-                if (enemy.CurrentPatience >= enemy.TotalPatience)
-                {
-                    enemy.CurrentPatience = 0f;
-                    playerInRange = false;
-                    target = null;
-                    enemyState = EnemyState.Reset;
-                    Enter_ResetState();
-                }
-            }
-            else
-            {
-                enemy.CurrentPatience = 0;
-            }
-        }
-        else
+        if (target == null)
         {
-            // If Target drops during the Chase State
-            playerInRange = false;
-            enemy.CurrentPatience = 0;
-            enemyState = EnemyState.Reset;
-            Enter_ResetState();
+            TransitionToReset();
+            return;
         }
+
+        HandleAttack();
+        HandleDeAggro();
     }
 
     void Fixed_ChaseState()
     {
         if (target)
         {
-            // Move to Target Position
-            Vector2 direction = (target.position - transform.position).normalized;
-            enemyRB.linearVelocity = direction * enemy.BaseSpeed;
+            MoveTowardsTarget(target.position);
         }
     }
 
     #endregion
+
+    #region Reset
+
+    void Enter_ResetState()
+    {
+        //enemyAnimator.Play("Wander");
+    }
+
+    void ResetState()
+    {
+        enemy.UpdatePatienceBar();
+
+        if (Vector2.Distance(transform.position, startingPosition) <= 0.1f)
+        {
+            enemyRB.linearVelocity = Vector2.zero;
+            enemyState = EnemyState.Idle;
+            Enter_IdleState();
+        }
+    }
+
+    void Fixed_ResetState()
+    {
+        MoveTowardsTarget(startingPosition);
+    }
+
+    #endregion
+
+    void HurtState()
+    {
+
+    }
+
+    void DeathState()
+    {
+
+    }
 
     void BasicState()
     {
@@ -332,25 +319,54 @@ public class EnemyStateMachine : MonoBehaviour
         enemyUltimateAbility.Activate(this);
     }
 
-    void Enter_ResetState()
-    {
+    #region Helper Methods
 
+    private void HandleAttack()
+    {
+        float distanceToTarget = Vector2.Distance(transform.position, target.position);
+        if (distanceToTarget <= basicRadius && CanBasic)
+        {
+             enemyState = EnemyState.Basic;
+        }
     }
 
-    void ResetState()
+    void HandleDeAggro()
     {
+        float distanceToStartingPosition = Vector2.Distance(startingPosition, target.position);
 
+        if (distanceToStartingPosition > deAggroRadius)
+        {
+            // If outside deAggroRadius, increase patience
+            enemy.CurrentPatience += Time.deltaTime;
+
+            if (enemy.CurrentPatience >= enemy.TotalPatience)
+            {
+                TransitionToReset();
+            }
+        }
+        else
+        {
+            // If back inside the radius, gradually decrease patience
+            enemy.CurrentPatience = Mathf.Max(0, enemy.CurrentPatience - Time.deltaTime);
+        }
     }
 
-    void HurtState()
+    void TransitionToReset()
     {
-
+        enemy.CurrentPatience = 0;
+        playerInRange = false;
+        target = null;
+        enemyState = EnemyState.Reset;
+        Enter_ResetState();
     }
 
-    void DeathState()
+    void MoveTowardsTarget(Vector3 _targetPos)
     {
-
+        Vector2 direction = (_targetPos - transform.position).normalized;
+        enemyRB.linearVelocity = direction * enemy.BaseSpeed;
     }
+
+    #endregion
 
     IEnumerator Delay_SpawnState()
     {
