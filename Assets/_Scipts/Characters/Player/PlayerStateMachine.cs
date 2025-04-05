@@ -20,6 +20,14 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerAbility[] utilityAbilities;
     [SerializeField] PlayerAbility[] ultimateAbilities;
 
+    [Header("Ability Indexes")]
+    public int currentBasicIndex = -1;
+    private int currentOffensiveIndex = -1;
+    private int currentMobilityIndex = -1;
+    private int currentDefensiveIndex = -1;
+    private int currentUtilityIndex = -1;
+    private int currentUltimateIndex = -1;
+
     [Header("Animators")]
     public Animator SwordAnimator;
     public Animator BodyAnimator;
@@ -80,17 +88,17 @@ public class PlayerStateMachine : NetworkBehaviour
 
             case State.Death: playerDeathState.UpdateState(this); break;
 
-            case State.Basic: basicAbilities[0].UpdateAbility(this); break;
+            case State.Basic: basicAbilities[currentBasicIndex].UpdateAbility(this); break;
 
-            case State.Offensive: offensiveAbilities[0].UpdateAbility(this); break;
+            case State.Offensive: offensiveAbilities[currentOffensiveIndex].UpdateAbility(this); break;
 
-            case State.Mobility: mobilityAbilities[0].UpdateAbility(this); break;
+            case State.Mobility: mobilityAbilities[currentMobilityIndex].UpdateAbility(this); break;
 
-            case State.Defensive: defensiveAbilities[0].UpdateAbility(this); break;
+            case State.Defensive: defensiveAbilities[currentDefensiveIndex].UpdateAbility(this); break;
 
-            case State.Ultility: utilityAbilities[0].UpdateAbility(this); break;
+            case State.Ultility: utilityAbilities[currentUtilityIndex].UpdateAbility(this); break;
 
-            case State.Ultimate: ultimateAbilities[0].UpdateAbility(this); break;
+            case State.Ultimate: ultimateAbilities[currentUltimateIndex].UpdateAbility(this); break;
         }
     }
 
@@ -108,17 +116,17 @@ public class PlayerStateMachine : NetworkBehaviour
 
             case State.Death: playerDeathState.FixedUpdateState(this); break;
 
-            case State.Basic: basicAbilities[0].FixedUpdateAbility(this); break;
+            case State.Basic: basicAbilities[currentBasicIndex].FixedUpdateAbility(this); break;
 
-            case State.Offensive: offensiveAbilities[0].FixedUpdateAbility(this); break;
+            case State.Offensive: offensiveAbilities[currentOffensiveIndex].FixedUpdateAbility(this); break;
 
-            case State.Mobility: mobilityAbilities[0].FixedUpdateAbility(this); break;
+            case State.Mobility: mobilityAbilities[currentMobilityIndex].FixedUpdateAbility(this); break;
 
-            case State.Defensive: defensiveAbilities[0].FixedUpdateAbility(this); break;
+            case State.Defensive: defensiveAbilities[currentDefensiveIndex].FixedUpdateAbility(this); break;
 
-            case State.Ultility: utilityAbilities[0].FixedUpdateAbility(this); break;
+            case State.Ultility: utilityAbilities[currentUtilityIndex].FixedUpdateAbility(this); break;
 
-            case State.Ultimate: ultimateAbilities[0].FixedUpdateAbility(this); break;
+            case State.Ultimate: ultimateAbilities[currentUltimateIndex].FixedUpdateAbility(this); break;
 
         }
     }
@@ -136,18 +144,6 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Roll: state = State.Roll; playerRollState.StartState(this); break;
 
             case State.Death: state = State.Death; playerDeathState.StartState(this); break;
-
-            case State.Basic: state = State.Basic; basicAbilities[0].StartAbility(this); break;
-
-            case State.Offensive: state = State.Offensive; offensiveAbilities[0].StartAbility(this); break;
-
-            case State.Mobility: state = State.Mobility; mobilityAbilities[0].StartAbility(this); break;
-
-            case State.Defensive: state = State.Defensive; defensiveAbilities[0].StartAbility(this); break;
-
-            case State.Ultility: state = State.Ultility; utilityAbilities[0].StartAbility(this); break;
-
-            case State.Ultimate: state = State.Ultimate; ultimateAbilities[0].StartAbility(this); break;
         }
     }
 
@@ -169,7 +165,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (abilityInput)
         {
-            SetState(State.Basic);
+            if (currentBasicIndex >= 0 && currentBasicIndex < basicAbilities.Length)
+            {
+                state = State.Basic;
+                basicAbilities[currentBasicIndex].StartAbility(this);
+            }
         }
     }
 
@@ -180,7 +180,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (abilityInput)
         {
-            SetState(State.Offensive);
+            if (currentOffensiveIndex >= 0 && currentOffensiveIndex < offensiveAbilities.Length)
+            {
+                state = State.Offensive;
+                offensiveAbilities[currentOffensiveIndex].StartAbility(this);
+            }
         }
     }
 
@@ -191,7 +195,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (abilityInput)
         {
-            SetState(State.Mobility);
+            if (currentMobilityIndex >= 0 && currentMobilityIndex < mobilityAbilities.Length)
+            {
+                state = State.Mobility;
+                mobilityAbilities[currentMobilityIndex].StartAbility(this);
+            }
         }
     }
 
@@ -202,7 +210,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (abilityInput)
         {
-            SetState(State.Defensive);
+            if (currentDefensiveIndex >= 0 && currentDefensiveIndex < defensiveAbilities.Length)
+            {
+                state = State.Defensive;
+                defensiveAbilities[currentDefensiveIndex].StartAbility(this);
+            }
         }
     }
 
@@ -213,7 +225,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (abilityInput)
         {
-            SetState(State.Ultility);
+            if (currentUtilityIndex >= 0 && currentUtilityIndex < utilityAbilities.Length)
+            {
+                state = State.Ultility;
+                utilityAbilities[currentUtilityIndex].StartAbility(this);
+            }
         }
     }
 
@@ -224,7 +240,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (abilityInput)
         {
-            SetState(State.Ultimate);
+            if (currentUltimateIndex >= 0 && currentUltimateIndex < ultimateAbilities.Length)
+            {
+                state = State.Ultimate;
+                ultimateAbilities[currentUltimateIndex].StartAbility(this);
+            }
         }
     }
 
