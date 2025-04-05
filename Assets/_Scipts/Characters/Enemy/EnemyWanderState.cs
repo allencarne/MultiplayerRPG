@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class EnemyWanderState : EnemyState
 {
@@ -24,8 +23,9 @@ public class EnemyWanderState : EnemyState
     {
         owner.MoveTowardsTarget(owner.WanderPosition);
 
-        owner.EnemyAnimator.SetFloat("Horizontal", owner.WanderPosition.x);
-        owner.EnemyAnimator.SetFloat("Vertical", owner.WanderPosition.y);
+        Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
+        owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
+        owner.EnemyAnimator.SetFloat("Vertical", direction.y);
     }
 
     Vector2 GetRandomPointInCircle(Vector2 startingPosition, float minDistance, float maxRadius)

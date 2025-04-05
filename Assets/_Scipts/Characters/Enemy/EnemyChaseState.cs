@@ -28,6 +28,10 @@ public class EnemyChaseState : EnemyState
         if (owner.Target)
         {
             owner.MoveTowardsTarget(owner.Target.position);
+
+            Vector2 direction = (owner.Target.position - owner.transform.position).normalized;
+            owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
+            owner.EnemyAnimator.SetFloat("Vertical", direction.y);
         }
     }
 

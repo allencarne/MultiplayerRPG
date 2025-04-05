@@ -21,5 +21,9 @@ public class EnemyResetState : EnemyState
     public override void FixedUpdateState(EnemyStateMachine owner)
     {
         owner.MoveTowardsTarget(owner.StartingPosition);
+
+        Vector2 direction = (owner.StartingPosition - (Vector2)owner.transform.position).normalized;
+        owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
+        owner.EnemyAnimator.SetFloat("Vertical", direction.y);
     }
 }
