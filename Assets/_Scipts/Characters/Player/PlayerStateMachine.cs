@@ -12,6 +12,14 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerRollState playerRollState;
     [SerializeField] PlayerDeathState playerDeathState;
 
+    [Header("Ability")]
+    [SerializeField] PlayerAbility[] basicAbilities;
+    [SerializeField] PlayerAbility[] offensiveAbilities;
+    [SerializeField] PlayerAbility[] mobilityAbilities;
+    [SerializeField] PlayerAbility[] defensiveAbilities;
+    [SerializeField] PlayerAbility[] utilityAbilities;
+    [SerializeField] PlayerAbility[] ultimateAbilities;
+
     [Header("Animators")]
     public Animator SwordAnimator;
     public Animator BodyAnimator;
@@ -20,7 +28,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [Header("Components")]
     public PlayerInputHandler InputHandler;
-    public PlayerAbilities Abilities;
     public PlayerEquipment Equipment;
     public Rigidbody2D PlayerRB;
     public Transform Aimer;
@@ -31,8 +38,11 @@ public class PlayerStateMachine : NetworkBehaviour
     [HideInInspector] public bool canRoll = true;
     [HideInInspector] public bool isAttacking = false;
     [HideInInspector] public bool CanBasic = true;
-    [HideInInspector] public bool canOffensiveAbility = true;
-    [HideInInspector] public bool canMobilityAbility = true;
+    [HideInInspector] public bool canOffensive= true;
+    [HideInInspector] public bool canMobility = true;
+    [HideInInspector] public bool canDefensive = true;
+    [HideInInspector] public bool canUtility = true;
+    [HideInInspector] public bool canUltimate = true;
 
     public enum State
     {
@@ -43,18 +53,13 @@ public class PlayerStateMachine : NetworkBehaviour
         Death,
         Basic,
         Offensive,
-        Defensive,
         Mobility,
+        Defensive,
         Ultility,
         Ultimate,
     }
 
     public State state = State.Spawn;
-
-    private void Awake()
-    {
-        //SetState(new PlayerSpawnState(this));
-    }
 
     private void Start()
     {
@@ -63,8 +68,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        //state.Update();
-
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;
@@ -77,13 +80,22 @@ public class PlayerStateMachine : NetworkBehaviour
 
             case State.Death: playerDeathState.UpdateState(this); break;
 
+            case State.Basic: basicAbilities[0].UpdateAbility(this); break;
+
+            case State.Offensive: offensiveAbilities[0].UpdateAbility(this); break;
+
+            case State.Mobility: mobilityAbilities[0].UpdateAbility(this); break;
+
+            case State.Defensive: defensiveAbilities[0].UpdateAbility(this); break;
+
+            case State.Ultility: utilityAbilities[0].UpdateAbility(this); break;
+
+            case State.Ultimate: ultimateAbilities[0].UpdateAbility(this); break;
         }
     }
 
     private void FixedUpdate()
     {
-        //state.FixedUpdate();
-
         switch (state)
         {
             case State.Spawn: playerSpawnState.FixedUpdateState(this); break;
@@ -95,6 +107,18 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Roll: playerRollState.FixedUpdateState(this); break;
 
             case State.Death: playerDeathState.FixedUpdateState(this); break;
+
+            case State.Basic: basicAbilities[0].FixedUpdateAbility(this); break;
+
+            case State.Offensive: offensiveAbilities[0].FixedUpdateAbility(this); break;
+
+            case State.Mobility: mobilityAbilities[0].FixedUpdateAbility(this); break;
+
+            case State.Defensive: defensiveAbilities[0].FixedUpdateAbility(this); break;
+
+            case State.Ultility: utilityAbilities[0].FixedUpdateAbility(this); break;
+
+            case State.Ultimate: ultimateAbilities[0].FixedUpdateAbility(this); break;
 
         }
     }
@@ -112,6 +136,18 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Roll: state = State.Roll; playerRollState.StartState(this); break;
 
             case State.Death: state = State.Death; playerDeathState.StartState(this); break;
+
+            case State.Basic: state = State.Basic; basicAbilities[0].StartAbility(this); break;
+
+            case State.Offensive: state = State.Offensive; offensiveAbilities[0].StartAbility(this); break;
+
+            case State.Mobility: state = State.Mobility; mobilityAbilities[0].StartAbility(this); break;
+
+            case State.Defensive: state = State.Defensive; defensiveAbilities[0].StartAbility(this); break;
+
+            case State.Ultility: state = State.Ultility; utilityAbilities[0].StartAbility(this); break;
+
+            case State.Ultimate: state = State.Ultimate; ultimateAbilities[0].StartAbility(this); break;
         }
     }
 
@@ -128,39 +164,67 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void BasicAbility(bool abilityInput)
     {
-        if (abilityInput && CanBasic && Equipment.IsWeaponEquipt && Abilities.basicAbilityReference != null)
+        if (!CanBasic) return;
+        if (!Equipment.IsWeaponEquipt) return;
+
+        if (abilityInput)
         {
-            if (Abilities.basicAbility != null)
-            {
-                //SetState(new PlayerBasicState(this));
-            }
+            SetState(State.Basic);
         }
     }
 
-    [ServerRpc]
-    public void AttackServerRpc(Vector3 spawnPosition, Quaternion spawnRotation)
-    {
-        var instance = Instantiate(player.AttackPrefab, spawnPosition, spawnRotation);
-        var instanceNetworkObject = instance.GetComponent<NetworkObject>();
-
-        Physics2D.IgnoreCollision(instance.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
-        instanceNetworkObject.Spawn();
-    }
-
-
     public void OffensiveAbility(bool abilityInput)
     {
+        if (!canOffensive) return;
+        if (!Equipment.IsWeaponEquipt) return;
+
         if (abilityInput)
         {
-            //SetState(new PlayerOffensiveState(this));
+            SetState(State.Offensive);
         }
     }
 
     public void MobilityAbility(bool abilityInput)
     {
+        if (!canMobility) return;
+        if (!Equipment.IsWeaponEquipt) return;
+
         if (abilityInput)
         {
-            //SetState(new PlayerMobilityState(this));
+            SetState(State.Mobility);
+        }
+    }
+
+    public void DefensiveAbility(bool abilityInput)
+    {
+        if (!canDefensive) return;
+        if (!Equipment.IsWeaponEquipt) return;
+
+        if (abilityInput)
+        {
+            SetState(State.Defensive);
+        }
+    }
+
+    public void UtilityAbility(bool abilityInput)
+    {
+        if (!canUtility) return;
+        if (!Equipment.IsWeaponEquipt) return;
+
+        if (abilityInput)
+        {
+            SetState(State.Ultility);
+        }
+    }
+
+    public void UltimateAbility(bool abilityInput)
+    {
+        if (!canUltimate) return;
+        if (!Equipment.IsWeaponEquipt) return;
+
+        if (abilityInput)
+        {
+            SetState(State.Ultimate);
         }
     }
 
