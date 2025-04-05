@@ -21,4 +21,9 @@ public class PlayerBasicState : PlayerState
             behaviour.BehaviourUpdate(stateMachine);
         }
     }
+
+    public override void FixedUpdate()
+    {
+
+    }
 }

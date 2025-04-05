@@ -12,8 +12,5 @@ public abstract class PlayerState
 
     public abstract void Update();
 
-    public virtual void FixedUpdate()
-    {
-
-    }
+    public abstract void FixedUpdate();
 }

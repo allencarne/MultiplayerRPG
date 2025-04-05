@@ -21,6 +21,11 @@ public class PlayerSpawnState : PlayerState
 
     }
 
+    public override void FixedUpdate()
+    {
+
+    }
+
     IEnumerator Duration()
     {
         yield return new WaitForSeconds(.6f);
