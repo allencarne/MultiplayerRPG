@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 6339926641741665877}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemyAnimator
+      value: 
+      objectReference: {fileID: 5455410998029124271}
     - target: {fileID: 8005737129370510059, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -104,51 +108,16 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4494865281095228816, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5049977795090828203}
     - targetCorrespondingSourceObject: {fileID: 5665242415723239216, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5455410998029124271}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
---- !u!1 &3234023876744883735 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4494865281095228816, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
-  m_PrefabInstance: {fileID: 1333478615499174791}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5049977795090828203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3234023876744883735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b84fb0694accd14897a97ad3134aca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 6339926641741665877}
-  enemyRB: {fileID: 6785213301554326978}
-  enemyAnimator: {fileID: 5455410998029124271}
-  enemyBasicAbility: {fileID: 0}
-  enemySpecialAbility: {fileID: 0}
-  enemyUltimateAbility: {fileID: 0}
-  wanderRadius: 0
-  basicRadius: 0
-  specialRadius: 0
-  ultimateRadius: 0
-  deAggroRadius: 0
-  CanBasic: 1
-  CanSpecial: 1
-  CanUltimate: 1
-  enemyState: 0
 --- !u!114 &6339926641741665877 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 1333478615499174791}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3234023876744883735}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f449f601106049d4a9c5e54c66395f8d, type: 3}
@@ -181,8 +150,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!50 &6785213301554326978 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 5523836673144577605, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
-  m_PrefabInstance: {fileID: 1333478615499174791}
-  m_PrefabAsset: {fileID: 0}

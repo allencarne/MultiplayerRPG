@@ -3,38 +3,44 @@ using System.Collections;
 
 public class EnemyStateMachine : MonoBehaviour
 {
-    [Header("Components")]
-    [SerializeField] Enemy enemy;
-    [SerializeField] Rigidbody2D enemyRB;
-    [SerializeField] Animator enemyAnimator;
+    [Header("States")]
+    [SerializeField] EnemyState enemySpawnState;
+    [SerializeField] EnemyState enemyIdleState;
+    [SerializeField] EnemyState enemyWanderState;
+    [SerializeField] EnemyState enemyChaseState;
+    [SerializeField] EnemyState enemyResetState;
 
-
-    // Ability
+    [Header("Ability")]
     [SerializeField] EnemyAbility enemyBasicAbility;
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
 
-    Transform target;
+    [Header("Components")]
+    public Enemy enemy { get; private set; }
+    public Rigidbody2D EnemyRB { get; private set; }
+    public Animator EnemyAnimator { get; private set; }
 
     [Header("Variables")]
-    float idleTime;
-    int attemptsCount;
+    public float IdleTime { get; set; }
+    public int AttemptsCount { get; set; }
+    public bool IsPlayerInRange { get; set; }
 
-    [SerializeField] float wanderRadius;
-    [SerializeField] float basicRadius;
-    [SerializeField] float specialRadius;
-    [SerializeField] float ultimateRadius;
-    [SerializeField] float deAggroRadius;
+    [Header("Radius")]
+    [SerializeField] float wanderRadius; public float WanderRadius => wanderRadius;
+    [SerializeField] float basicRadius; public float BasicRadius => basicRadius;
+    [SerializeField] float specialRadius; public float SpecialRadius => specialRadius;
+    [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
+    [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
-    bool playerInRange;
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
 
-    Vector2 startingPosition;
-    Vector2 wanderPosition;
+    public Vector2 StartingPosition { get; set; }
+    public Vector2 WanderPosition { get; set; }
+    public Transform Target { get; set; }
 
-    public enum EnemyState
+    public enum State
     {
         Spawn,
         Idle,
@@ -48,232 +54,104 @@ public class EnemyStateMachine : MonoBehaviour
         Ultimate,
     }
 
-    public EnemyState enemyState = EnemyState.Spawn;
+    public State state = State.Spawn;
+
+    private void Awake()
+    {
+        enemy = GetComponent<Enemy>();
+        EnemyRB = GetComponent<Rigidbody2D>();
+        EnemyAnimator = GetComponentInChildren<Animator>();
+    }
 
     private void Start()
     {
-        Enter_SpawnState();
+        enemySpawnState.StartState(this);
 
-        startingPosition = transform.position;
+        StartingPosition = transform.position;
     }
 
     private void Update()
     {
         //Debug.Log(enemyState);
 
-        switch (enemyState)
+        switch (state)
         {
-            case EnemyState.Spawn: SpawnState(); break;
+            case State.Spawn: enemySpawnState.UpdateState(this); break;
 
-            case EnemyState.Idle: IdleState(); break;
+            case State.Idle: enemyIdleState.UpdateState(this); break;
 
-            case EnemyState.Wander: WanderState(); break;
+            case State.Wander: enemyWanderState.UpdateState(this); break;
 
-            case EnemyState.Chase: ChaseState(); break;
+            case State.Chase: enemyChaseState.UpdateState(this); break;
 
-            case EnemyState.Reset: ResetState(); break;
+            case State.Reset: enemyResetState.UpdateState(this); break;
 
-            case EnemyState.Hurt: HurtState(); break;
+            case State.Hurt: HurtState(); break;
 
-            case EnemyState.Death: DeathState(); break;
+            case State.Death: DeathState(); break;
 
-            case EnemyState.Basic: enemyBasicAbility.AbilityUpdate(); break;
+            case State.Basic: enemyBasicAbility.AbilityUpdate(this); break;
 
-            case EnemyState.Special: SpecialState(); break;
+            case State.Special: enemySpecialAbility.AbilityUpdate(this); break;
 
-            case EnemyState.Ultimate: UltimateState(); break;
+            case State.Ultimate: enemyUltimateAbility.AbilityUpdate(this); break;
 
         }
     }
 
     private void FixedUpdate()
     {
-        switch (enemyState)
+        switch (state)
         {
-            case EnemyState.Spawn:
+            case State.Spawn: enemySpawnState.FixedUpdateState(this); break;
 
-                break;
-            case EnemyState.Idle:
+            case State.Idle: enemyIdleState.FixedUpdateState(this); break;
 
-                break;
-            case EnemyState.Wander:
-                Fixed_WanderState();
-                break;
-            case EnemyState.Chase:
-                Fixed_ChaseState();
-                break;
-            case EnemyState.Reset:
-                Fixed_ResetState();
-                break;
-            case EnemyState.Hurt:
+            case State.Wander: enemyWanderState.FixedUpdateState(this); break;
 
-                break;
-            case EnemyState.Death:
+            case State.Chase: enemyChaseState.FixedUpdateState(this); break;
 
-                break;
-            case EnemyState.Basic:
-                enemyBasicAbility.AbilityFixedUpdate();
-                break;
-            case EnemyState.Special:
+            case State.Reset: enemyResetState.FixedUpdateState(this); break;
 
-                break;
-            case EnemyState.Ultimate:
+            case State.Hurt: break;
 
-                break;
+            case State.Death: break;
+
+            case State.Basic: enemyBasicAbility.AbilityFixedUpdate(this); break;
+
+            case State.Special: enemySpecialAbility.AbilityFixedUpdate(this); break;
+
+            case State.Ultimate: enemyUltimateAbility.AbilityFixedUpdate(this); break;
+
         }
     }
 
-    #region Spawn
-
-    void Enter_SpawnState()
+    public void SetState(State newState)
     {
-        //enemyAnimator.Play("Spawn");
-        StartCoroutine(Delay_SpawnState());
-    }
-
-    void SpawnState()
-    {
-
-    }
-
-    #endregion
-
-    #region Idle
-
-    void Enter_IdleState()
-    {
-        //enemyAnimator.Play("Idle");
-    }
-
-    void IdleState()
-    {
-        idleTime += Time.deltaTime;
-
-        if (idleTime >= 5)
+        switch (newState)
         {
-            int maxAttempts = 3; // Maximum number of consecutive failed attempts
-            int consecutiveFailures = Mathf.Min(attemptsCount, maxAttempts);
+            case State.Spawn: state = State.Spawn; enemySpawnState.StartState(this); break;
 
-            // Calculate the probability of transitioning to the wander state based on the number of consecutive failures
-            float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);
+            case State.Idle: state = State.Idle; enemyIdleState.StartState(this); break;
 
-            // Check if the enemy will transition to the wander state based on the calculated probability
-            if (Random.value < wanderProbability)
-            {
-                idleTime = 0;
+            case State.Wander: state = State.Wander; enemyWanderState.StartState(this); break;
 
-                enemyState = EnemyState.Wander;
-                Enter_WanderState();
-            }
+            case State.Chase: state = State.Chase; enemyChaseState.StartState(this); break;
 
-            // Reset the idle time and update the attempts count
-            idleTime = 0;
-            attemptsCount++;
-        }
+            case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
 
-        if (playerInRange)
-        {
-            attemptsCount = 0;
-            idleTime = 0;
-            enemyState = EnemyState.Chase;
-            Enter_ChaseState();
+            case State.Hurt:
+                break;
+            case State.Death:
+                break;
+            case State.Basic: state = State.Basic; enemyBasicAbility.AbilityStart(this); break;
+
+            case State.Special: state = State.Special; enemySpecialAbility.AbilityStart(this); break;
+
+            case State.Ultimate: state = State.Ultimate; enemyUltimateAbility.AbilityStart(this); break;
+
         }
     }
-
-    #endregion
-
-    #region Wander
-
-    void Enter_WanderState()
-    {
-        //enemyAnimator.Play("Wander");
-
-        float minWanderDistance = 1f; // Minimum distance away
-        wanderPosition = GetRandomPointInCircle(startingPosition, minWanderDistance, wanderRadius);
-    }
-
-    void WanderState()
-    {
-        if (Vector2.Distance(transform.position, wanderPosition) <= 0.1f)
-        {
-            enemyRB.linearVelocity = Vector2.zero;
-            enemyState = EnemyState.Idle;
-            Enter_IdleState();
-        }
-    }
-
-    void Fixed_WanderState()
-    {
-        MoveTowardsTarget(wanderPosition);
-    }
-
-    Vector2 GetRandomPointInCircle(Vector2 startingPosition, float minDistance, float maxRadius)
-    {
-        float angle = Random.Range(0f, Mathf.PI * 2f);
-        float randomRadius = Random.Range(minDistance, maxRadius);
-        Vector2 randomPoint = startingPosition + new Vector2(Mathf.Cos(angle) * randomRadius, Mathf.Sin(angle) * randomRadius);
-        return randomPoint;
-    }
-
-    #endregion
-
-    #region Chase
-
-    void Enter_ChaseState()
-    {
-        //enemyAnimator.Play("Chase");
-    }
-
-    void ChaseState()
-    {
-        enemy.UpdatePatienceBar();
-
-
-        if (target == null)
-        {
-            TransitionToReset();
-            return;
-        }
-
-        HandleAttack();
-        HandleDeAggro();
-    }
-
-    void Fixed_ChaseState()
-    {
-        if (target)
-        {
-            MoveTowardsTarget(target.position);
-        }
-    }
-
-    #endregion
-
-    #region Reset
-
-    void Enter_ResetState()
-    {
-        //enemyAnimator.Play("Wander");
-    }
-
-    void ResetState()
-    {
-        enemy.UpdatePatienceBar();
-
-        if (Vector2.Distance(transform.position, startingPosition) <= 0.1f)
-        {
-            enemyRB.linearVelocity = Vector2.zero;
-            enemyState = EnemyState.Idle;
-            Enter_IdleState();
-        }
-    }
-
-    void Fixed_ResetState()
-    {
-        MoveTowardsTarget(startingPosition);
-    }
-
-    #endregion
 
     void HurtState()
     {
@@ -285,125 +163,36 @@ public class EnemyStateMachine : MonoBehaviour
 
     }
 
-    void Enter_BasicState()
-    {
-
-    }
-
-    void BasicState()
-    {
-        if (!CanBasic) return;
-        if (enemyBasicAbility == null) return;
-
-        Debug.Log("CanBasic");
-        //enemyBasicAbility.Activate(this);
-    }
-
-    void Fixed_BasicState()
-    {
-
-    }
-
-    void SpecialState()
-    {
-        if (!CanSpecial) return;
-        if (enemySpecialAbility == null) return;
-
-        Debug.Log("CanSpecial");
-        //enemySpecialAbility.Activate(this);
-    }
-
-    void UltimateState()
-    {
-        if (!CanUltimate) return;
-        if (enemyUltimateAbility == null) return;
-
-        Debug.Log("CanUltimate");
-        //enemyUltimateAbility.Activate(this);
-    }
-
-    #region Helper Methods
-
-    private void HandleAttack()
-    {
-        float distanceToTarget = Vector2.Distance(transform.position, target.position);
-        if (distanceToTarget <= basicRadius && CanBasic)
-        {
-            enemyState = EnemyState.Basic;
-            enemyBasicAbility.AbilityStart();
-        }
-    }
-
-    void HandleDeAggro()
-    {
-        float distanceToStartingPosition = Vector2.Distance(startingPosition, target.position);
-
-        if (distanceToStartingPosition > deAggroRadius)
-        {
-            // If outside deAggroRadius, increase patience
-            enemy.CurrentPatience += Time.deltaTime;
-
-            if (enemy.CurrentPatience >= enemy.TotalPatience)
-            {
-                TransitionToReset();
-            }
-        }
-        else
-        {
-            // If back inside the radius, gradually decrease patience
-            enemy.CurrentPatience = Mathf.Max(0, enemy.CurrentPatience - Time.deltaTime);
-        }
-    }
-
-    void TransitionToReset()
-    {
-        enemy.CurrentPatience = 0;
-        playerInRange = false;
-        target = null;
-        enemyState = EnemyState.Reset;
-        Enter_ResetState();
-    }
-
-    void MoveTowardsTarget(Vector3 _targetPos)
+    public void MoveTowardsTarget(Vector3 _targetPos)
     {
         Vector2 direction = (_targetPos - transform.position).normalized;
-        enemyRB.linearVelocity = direction * enemy.BaseSpeed;
-    }
-
-    #endregion
-
-    IEnumerator Delay_SpawnState()
-    {
-        yield return new WaitForSeconds(0.6f);
-        enemyState = EnemyState.Idle;
-        Enter_IdleState();
+        EnemyRB.linearVelocity = direction * enemy.BaseSpeed;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            target = other.transform;
-            playerInRange = true;
+            Target = other.transform;
+            IsPlayerInRange = true;
         }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(startingPosition, wanderRadius);
+        Gizmos.DrawWireSphere(StartingPosition, WanderRadius);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, basicRadius);
+        Gizmos.DrawWireSphere(transform.position, BasicRadius);
 
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, specialRadius);
+        Gizmos.DrawWireSphere(transform.position, SpecialRadius);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, ultimateRadius);
+        Gizmos.DrawWireSphere(transform.position, UltimateRadius);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(startingPosition, deAggroRadius);
-
+        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
     }
 }
