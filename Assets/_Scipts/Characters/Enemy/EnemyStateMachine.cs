@@ -7,6 +7,9 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] Enemy enemy;
     [SerializeField] Rigidbody2D enemyRB;
     [SerializeField] Animator enemyAnimator;
+
+
+    // Ability
     [SerializeField] EnemyAbility enemyBasicAbility;
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
@@ -37,12 +40,12 @@ public class EnemyStateMachine : MonoBehaviour
         Idle,
         Wander,
         Chase,
+        Reset,
+        Hurt,
+        Death,
         Basic,
         Special,
         Ultimate,
-        Reset,
-        Hurt,
-        Death
     }
 
     public EnemyState enemyState = EnemyState.Spawn;
@@ -60,36 +63,26 @@ public class EnemyStateMachine : MonoBehaviour
 
         switch (enemyState)
         {
-            case EnemyState.Spawn:
-                SpawnState();
-                break;
-            case EnemyState.Idle:
-                IdleState();
-                break;
-            case EnemyState.Wander:
-                WanderState();
-                break;
-            case EnemyState.Chase:
-                ChaseState();
-                break;
-            case EnemyState.Basic:
-                BasicState();
-                break;
-            case EnemyState.Special:
-                SpecialState();
-                break;
-            case EnemyState.Ultimate:
-                UltimateState();
-                break;
-            case EnemyState.Reset:
-                ResetState();
-                break;
-            case EnemyState.Hurt:
-                HurtState();
-                break;
-            case EnemyState.Death:
-                DeathState();
-                break;
+            case EnemyState.Spawn: SpawnState(); break;
+
+            case EnemyState.Idle: IdleState(); break;
+
+            case EnemyState.Wander: WanderState(); break;
+
+            case EnemyState.Chase: ChaseState(); break;
+
+            case EnemyState.Reset: ResetState(); break;
+
+            case EnemyState.Hurt: HurtState(); break;
+
+            case EnemyState.Death: DeathState(); break;
+
+            case EnemyState.Basic: enemyBasicAbility.AbilityUpdate(); break;
+
+            case EnemyState.Special: SpecialState(); break;
+
+            case EnemyState.Ultimate: UltimateState(); break;
+
         }
     }
 
@@ -109,15 +102,6 @@ public class EnemyStateMachine : MonoBehaviour
             case EnemyState.Chase:
                 Fixed_ChaseState();
                 break;
-            case EnemyState.Basic:
-
-                break;
-            case EnemyState.Special:
-
-                break;
-            case EnemyState.Ultimate:
-
-                break;
             case EnemyState.Reset:
                 Fixed_ResetState();
                 break;
@@ -125,6 +109,15 @@ public class EnemyStateMachine : MonoBehaviour
 
                 break;
             case EnemyState.Death:
+
+                break;
+            case EnemyState.Basic:
+                enemyBasicAbility.AbilityFixedUpdate();
+                break;
+            case EnemyState.Special:
+
+                break;
+            case EnemyState.Ultimate:
 
                 break;
         }
@@ -292,13 +285,23 @@ public class EnemyStateMachine : MonoBehaviour
 
     }
 
+    void Enter_BasicState()
+    {
+
+    }
+
     void BasicState()
     {
         if (!CanBasic) return;
         if (enemyBasicAbility == null) return;
 
         Debug.Log("CanBasic");
-        enemyBasicAbility.Activate(this);
+        //enemyBasicAbility.Activate(this);
+    }
+
+    void Fixed_BasicState()
+    {
+
     }
 
     void SpecialState()
@@ -307,7 +310,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (enemySpecialAbility == null) return;
 
         Debug.Log("CanSpecial");
-        enemySpecialAbility.Activate(this);
+        //enemySpecialAbility.Activate(this);
     }
 
     void UltimateState()
@@ -316,7 +319,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (enemyUltimateAbility == null) return;
 
         Debug.Log("CanUltimate");
-        enemyUltimateAbility.Activate(this);
+        //enemyUltimateAbility.Activate(this);
     }
 
     #region Helper Methods
@@ -326,7 +329,8 @@ public class EnemyStateMachine : MonoBehaviour
         float distanceToTarget = Vector2.Distance(transform.position, target.position);
         if (distanceToTarget <= basicRadius && CanBasic)
         {
-             enemyState = EnemyState.Basic;
+            enemyState = EnemyState.Basic;
+            enemyBasicAbility.AbilityStart();
         }
     }
 

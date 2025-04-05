@@ -3,5 +3,18 @@ using UnityEngine;
 
 public abstract class EnemyAbility : NetworkBehaviour
 {
-    public abstract void Activate(EnemyStateMachine owner);
+    public virtual void AbilityStart()
+    {
+
+    }
+
+    public virtual void AbilityUpdate()
+    {
+
+    }
+
+    public virtual void AbilityFixedUpdate()
+    {
+
+    }
 }
