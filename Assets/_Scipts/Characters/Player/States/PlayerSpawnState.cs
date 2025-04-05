@@ -4,32 +4,30 @@ using UnityEngine;
 
 public class PlayerSpawnState : PlayerState
 {
-    public PlayerSpawnState(PlayerStateMachine playerStateMachine): base(playerStateMachine) { }
-
-    public override void Start()
+    public override void StartState(PlayerStateMachine owner)
     {
-        stateMachine.SwordAnimator.Play("Spawn");
-        stateMachine.BodyAnimator.Play("Spawn");
-        stateMachine.EyeAnimator.Play("Spawn");
-        stateMachine.HairAnimator.Play("Spawn");
+        owner.SwordAnimator.Play("Spawn");
+        owner.BodyAnimator.Play("Spawn");
+        owner.EyesAnimator.Play("Spawn");
+        owner.HairAnimator.Play("Spawn");
 
-        stateMachine.StartCoroutine(Duration());
+        owner.StartCoroutine(Duration(owner));
     }
 
-    public override void Update()
+    public override void UpdateState(PlayerStateMachine owner)
     {
 
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState(PlayerStateMachine owner)
     {
 
     }
 
-    IEnumerator Duration()
+    IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(.6f);
 
-        stateMachine.SetState(new PlayerIdleState(stateMachine));
+        owner.SetState(PlayerStateMachine.State.Idle);
     }
 }

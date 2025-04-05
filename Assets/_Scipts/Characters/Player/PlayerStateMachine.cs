@@ -5,55 +5,114 @@ using UnityEngine;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
-    PlayerState state;
+    [Header("States")]
+    [SerializeField] PlayerSpawnState playerSpawnState;
+    [SerializeField] PlayerIdleState playerIdleState;
+    [SerializeField] PlayerRunState playerRunState;
+    [SerializeField] PlayerRollState playerRollState;
+    [SerializeField] PlayerDeathState playerDeathState;
+
+    [Header("Animators")]
+    public Animator SwordAnimator;
+    public Animator BodyAnimator;
+    public Animator HairAnimator;
+    public Animator EyesAnimator;
 
     [Header("Components")]
-    [SerializeField] Animator swordAnimator; public Animator SwordAnimator => swordAnimator;
-    [SerializeField] Animator bodyAnimator; public Animator BodyAnimator => bodyAnimator;
-    [SerializeField] Animator hairAnimator; public Animator HairAnimator => hairAnimator;
-    [SerializeField] Animator eyesAnimator; public Animator EyeAnimator => eyesAnimator;
-    [SerializeField] Rigidbody2D rb; public Rigidbody2D Rigidbody => rb;
-    [SerializeField] Transform aimer; public Transform Aimer => aimer;
-    [SerializeField] PlayerAbilities abilities; public PlayerAbilities Abilities => abilities;
-    [SerializeField] PlayerEquipment equipment; public PlayerEquipment Equipment => equipment;
+    public PlayerInputHandler InputHandler;
+    public PlayerAbilities Abilities;
+    public PlayerEquipment Equipment;
+    public Rigidbody2D PlayerRB;
+    public Transform Aimer;
+    public Player player;
 
-    [Header("Scripts")]
-    [SerializeField] PlayerInputHandler inputHandler; public PlayerInputHandler InputHandler => inputHandler;
-    [SerializeField] Player player; public Player Player => player;
-
-    // Variables
-    public Vector2 LastMoveDirection = Vector2.zero;
+    [Header("Variables")]
+    [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
     [HideInInspector] public bool canRoll = true;
     [HideInInspector] public bool isAttacking = false;
-
-    [Header("Basic Ability")]
     [HideInInspector] public bool CanBasic = true;
-
-    [Header("Offensive Ability")]
     [HideInInspector] public bool canOffensiveAbility = true;
-
-    [Header("Mobility Ability")]
     [HideInInspector] public bool canMobilityAbility = true;
+
+    public enum State
+    {
+        Spawn,
+        Idle,
+        Run,
+        Roll,
+        Death,
+        Basic,
+        Offensive,
+        Defensive,
+        Mobility,
+        Ultility,
+        Ultimate,
+    }
+
+    public State state = State.Spawn;
 
     private void Awake()
     {
-        SetState(new PlayerSpawnState(this));
+        //SetState(new PlayerSpawnState(this));
+    }
+
+    private void Start()
+    {
+        playerSpawnState.StartState(this);
     }
 
     private void Update()
     {
-        state.Update();
+        //state.Update();
+
+        switch (state)
+        {
+            case State.Spawn: playerSpawnState.UpdateState(this); break;
+
+            case State.Idle: playerIdleState.UpdateState(this); break;
+
+            case State.Run: playerRunState.UpdateState(this); break;
+
+            case State.Roll: playerRollState.UpdateState(this); break;
+
+            case State.Death: playerDeathState.UpdateState(this); break;
+
+        }
     }
 
     private void FixedUpdate()
     {
-        state.FixedUpdate();
+        //state.FixedUpdate();
+
+        switch (state)
+        {
+            case State.Spawn: playerSpawnState.FixedUpdateState(this); break;
+
+            case State.Idle: playerIdleState.FixedUpdateState(this); break;
+
+            case State.Run: playerRunState.FixedUpdateState(this); break;
+
+            case State.Roll: playerRollState.FixedUpdateState(this); break;
+
+            case State.Death: playerDeathState.FixedUpdateState(this); break;
+
+        }
     }
 
-    public void SetState(PlayerState newState)
+    public void SetState(State newState)
     {
-        state = newState;
-        state.Start();
+        switch (newState)
+        {
+            case State.Spawn: state = State.Spawn; playerSpawnState.StartState(this); break;
+
+            case State.Idle: state = State.Idle; playerIdleState.StartState(this); break;
+
+            case State.Run: state = State.Run; playerRunState.StartState(this); break;
+
+            case State.Roll: state = State.Roll; playerRollState.StartState(this); break;
+
+            case State.Death: state = State.Death; playerDeathState.StartState(this); break;
+        }
     }
 
     public void Roll(bool rollInput)
@@ -62,18 +121,18 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             if (player.Endurance >= 50)
             {
-                SetState(new PlayerRollState(this));
+                SetState(State.Roll);
             }
         }
     }
 
     public void BasicAbility(bool abilityInput)
     {
-        if (abilityInput && CanBasic && equipment.IsWeaponEquipt && abilities.basicAbilityReference != null)
+        if (abilityInput && CanBasic && Equipment.IsWeaponEquipt && Abilities.basicAbilityReference != null)
         {
-            if (abilities.basicAbility != null)
+            if (Abilities.basicAbility != null)
             {
-                SetState(new PlayerBasicState(this));
+                //SetState(new PlayerBasicState(this));
             }
         }
     }
@@ -103,11 +162,6 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             //SetState(new PlayerMobilityState(this));
         }
-    }
-
-    public void OnPlayerDeath()
-    {
-        //SetState(new PlayerDeathState(this));
     }
 
     // This Code allows the Last Input direction to be animated
@@ -140,7 +194,7 @@ public class PlayerStateMachine : NetworkBehaviour
         ItemPickup item = collision.GetComponent<ItemPickup>();
         if (item != null)
         {
-            if (inputHandler.PickupInput)
+            if (InputHandler.PickupInput)
             {
                 item.PickUp(player);
             }

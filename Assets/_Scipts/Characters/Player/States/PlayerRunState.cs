@@ -2,56 +2,54 @@ using UnityEngine;
 
 public class PlayerRunState : PlayerState
 {
-    public PlayerRunState(PlayerStateMachine playerStateMachine) : base(playerStateMachine) { }
-
-    public override void Start()
+    public override void StartState(PlayerStateMachine owner)
     {
-        stateMachine.SwordAnimator.Play("Run");
-        stateMachine.BodyAnimator.Play("Run");
-        stateMachine.EyeAnimator.Play("Run");
-        stateMachine.HairAnimator.Play("Run_" + stateMachine.Player.hairIndex);
+        owner.SwordAnimator.Play("Run");
+        owner.BodyAnimator.Play("Run");
+        owner.EyesAnimator.Play("Run");
+        owner.HairAnimator.Play("Run_" + owner.player.hairIndex);
     }
 
-    public override void Update()
+    public override void UpdateState(PlayerStateMachine owner)
     {
         // Transitions
-        stateMachine.Roll(stateMachine.InputHandler.RollInput);
-        stateMachine.BasicAbility(stateMachine.InputHandler.BasicAbilityInput);
-        stateMachine.OffensiveAbility(stateMachine.InputHandler.OffensiveAbilityInput);
-        stateMachine.MobilityAbility(stateMachine.InputHandler.MobilityAbilityInput);
+        owner.Roll(owner.InputHandler.RollInput);
+        owner.BasicAbility(owner.InputHandler.BasicAbilityInput);
+        owner.OffensiveAbility(owner.InputHandler.OffensiveAbilityInput);
+        owner.MobilityAbility(owner.InputHandler.MobilityAbilityInput);
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState(PlayerStateMachine owner)
     {
-        HandleMovement(stateMachine.InputHandler.MoveInput);
+        HandleMovement(owner, owner.InputHandler.MoveInput);
 
         // If we are no longer moving - Transition to Idle State
-        if (stateMachine.InputHandler.MoveInput == Vector2.zero)
+        if (owner.InputHandler.MoveInput == Vector2.zero)
         {
-            stateMachine.SetState(new PlayerIdleState(stateMachine));
+            owner.SetState(PlayerStateMachine.State.Idle);
         }
     }
 
-    void HandleMovement(Vector2 moveInput)
+    void HandleMovement(PlayerStateMachine owner, Vector2 moveInput)
     {
-        Vector2 movement = moveInput.normalized * stateMachine.Player.Speed;
-        stateMachine.Rigidbody.linearVelocity = movement;
+        Vector2 movement = moveInput.normalized * owner.player.Speed;
+        owner.PlayerRB.linearVelocity = movement;
 
         if (movement != Vector2.zero)
         {
-            Vector2 snappedDirection = stateMachine.SnapDirection(movement);
+            Vector2 snappedDirection = owner.SnapDirection(movement);
 
-            stateMachine.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
-            stateMachine.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
+            owner.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
 
-            stateMachine.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
-            stateMachine.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
+            owner.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
 
-            stateMachine.EyeAnimator.SetFloat("Horizontal", snappedDirection.x);
-            stateMachine.EyeAnimator.SetFloat("Vertical", snappedDirection.y);
+            owner.EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.EyesAnimator.SetFloat("Vertical", snappedDirection.y);
 
-            stateMachine.HairAnimator.SetFloat("Horizontal", snappedDirection.x);
-            stateMachine.HairAnimator.SetFloat("Vertical", snappedDirection.y);
+            owner.HairAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.HairAnimator.SetFloat("Vertical", snappedDirection.y);
         }
     }
 }

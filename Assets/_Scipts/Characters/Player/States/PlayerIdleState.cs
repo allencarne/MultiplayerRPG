@@ -2,31 +2,29 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerState
 {
-    public PlayerIdleState(PlayerStateMachine stateMachine) : base(stateMachine) { }
-
-    public override void Start()
+    public override void StartState(PlayerStateMachine owner)
     {
-        stateMachine.SwordAnimator.Play("Idle");
-        stateMachine.BodyAnimator.Play("Idle");
-        stateMachine.EyeAnimator.Play("Idle");
-        stateMachine.HairAnimator.Play("Idle_" + stateMachine.Player.hairIndex);
+        owner.SwordAnimator.Play("Idle");
+        owner.BodyAnimator.Play("Idle");
+        owner.EyesAnimator.Play("Idle");
+        owner.HairAnimator.Play("Idle_" + owner.player.hairIndex);
     }
 
-    public override void Update()
+    public override void UpdateState(PlayerStateMachine owner)
     {
         // Transitions
-        stateMachine.Roll(stateMachine.InputHandler.RollInput);
-        stateMachine.BasicAbility(stateMachine.InputHandler.BasicAbilityInput);
-        stateMachine.OffensiveAbility(stateMachine.InputHandler.OffensiveAbilityInput);
-        stateMachine.MobilityAbility(stateMachine.InputHandler.MobilityAbilityInput);
+        owner.Roll(owner.InputHandler.RollInput);
+        owner.BasicAbility(owner.InputHandler.BasicAbilityInput);
+        owner.OffensiveAbility(owner.InputHandler.OffensiveAbilityInput);
+        owner.MobilityAbility(owner.InputHandler.MobilityAbilityInput);
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState(PlayerStateMachine owner)
     {
         // Transition to Move State
-        if (stateMachine.InputHandler.MoveInput != Vector2.zero)
+        if (owner.InputHandler.MoveInput != Vector2.zero)
         {
-            stateMachine.SetState(new PlayerRunState(stateMachine));
+            owner.SetState(PlayerStateMachine.State.Run);
         }
     }
 }

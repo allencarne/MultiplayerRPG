@@ -60,7 +60,7 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
 
     IEnumerator AttackImpact(PlayerStateMachine stateMachine)
     {
-        float modifiedCastTime = castTime / stateMachine.Player.CurrentAttackSpeed;
+        float modifiedCastTime = castTime / stateMachine.player.CurrentAttackSpeed;
 
         yield return new WaitForSeconds(modifiedCastTime);
 
@@ -84,12 +84,12 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
 
     IEnumerator RecoveryTime(PlayerStateMachine stateMachine)
     {
-        float modifiedRecoveryTime = recoveryTime / stateMachine.Player.CurrentAttackSpeed;
+        float modifiedRecoveryTime = recoveryTime / stateMachine.player.CurrentAttackSpeed;
 
         yield return new WaitForSeconds(modifiedRecoveryTime);
 
         stateMachine.isAttacking = false;
-        stateMachine.SetState(new PlayerIdleState(stateMachine));
+        //stateMachine.SetState(new PlayerIdleState(stateMachine));
     }
 
     IEnumerator CoolDownTime(PlayerStateMachine stateMachine)
@@ -97,7 +97,7 @@ public class FrailSlash : ScriptableObject, IAbilityBehaviour
         OnBasicCoolDownStarted?.Invoke();
 
         // Adjust cooldown time based on cooldown reduction
-        float modifiedCooldown = CoolDown / stateMachine.Player.CurrentCDR;
+        float modifiedCooldown = CoolDown / stateMachine.player.CurrentCDR;
 
         yield return new WaitForSeconds(modifiedCooldown);
 

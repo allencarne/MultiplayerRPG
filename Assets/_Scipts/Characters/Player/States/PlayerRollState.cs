@@ -3,15 +3,13 @@ using UnityEngine;
 
 public class PlayerRollState : PlayerState
 {
-    public PlayerRollState(PlayerStateMachine stateMachine) : base(stateMachine) { }
-
-    public override void Start()
+    public override void StartState(PlayerStateMachine owner)
     {
-        stateMachine.Player.EnduranceBar.UpdateEndurance(50);
+        owner.player.EnduranceBar.UpdateEndurance(50);
 
-        stateMachine.StartCoroutine(Duration());
+        owner.StartCoroutine(Duration(owner));
 
-        Vector2 moveInput = stateMachine.InputHandler.MoveInput.normalized;
+        Vector2 moveInput = owner.InputHandler.MoveInput.normalized;
         Vector2 direction;
         if (moveInput != Vector2.zero)
         {
@@ -20,8 +18,8 @@ public class PlayerRollState : PlayerState
         else
         {
             // Fall back to the direction the player is currently facing
-            float horizontal = stateMachine.BodyAnimator.GetFloat("Horizontal");
-            float vertical = stateMachine.BodyAnimator.GetFloat("Vertical");
+            float horizontal = owner.BodyAnimator.GetFloat("Horizontal");
+            float vertical = owner.BodyAnimator.GetFloat("Vertical");
             direction = new Vector2(horizontal, vertical).normalized;
 
             // default to right if no direction
@@ -32,32 +30,32 @@ public class PlayerRollState : PlayerState
         }
 
         // Apply force
-        stateMachine.Rigidbody.AddForce(direction * 25, ForceMode2D.Impulse);
+        owner.PlayerRB.AddForce(direction * 25, ForceMode2D.Impulse);
 
         // Animate
-        stateMachine.BodyAnimator.SetFloat("Horizontal", direction.x);
-        stateMachine.BodyAnimator.SetFloat("Vertical", direction.y);
-        stateMachine.BodyAnimator.Play("Roll");
+        owner.BodyAnimator.SetFloat("Horizontal", direction.x);
+        owner.BodyAnimator.SetFloat("Vertical", direction.y);
+        owner.BodyAnimator.Play("Roll");
     }
 
-    public override void Update()
+    public override void UpdateState(PlayerStateMachine owner)
     {
-        
+
     }
 
-    public override void FixedUpdate()
+    public override void FixedUpdateState(PlayerStateMachine owner)
     {
-        
+
     }
 
-    IEnumerator Duration()
+    IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(.6f);
 
         // Stop Moving
-        stateMachine.Rigidbody.linearVelocity = Vector2.zero;
+        owner.PlayerRB.linearVelocity = Vector2.zero;
 
         // Transition
-        stateMachine.SetState(new PlayerIdleState(stateMachine));
+        owner.SetState(PlayerStateMachine.State.Idle);
     }
 }

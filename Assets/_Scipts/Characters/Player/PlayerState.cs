@@ -1,16 +1,10 @@
+using UnityEngine;
 
-public abstract class PlayerState
+public abstract class PlayerState: MonoBehaviour
 {
-    protected PlayerStateMachine stateMachine;
+    public abstract void StartState(PlayerStateMachine owner);
 
-    protected PlayerState(PlayerStateMachine stateMachine)
-    {
-        this.stateMachine = stateMachine;
-    }
+    public abstract void UpdateState(PlayerStateMachine owner);
 
-    public abstract void Start();
-
-    public abstract void Update();
-
-    public abstract void FixedUpdate();
+    public abstract void FixedUpdateState(PlayerStateMachine owner);
 }
