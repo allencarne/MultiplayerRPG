@@ -88,12 +88,12 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
         healthBar.UpdateHealth(Health);
     }
 
-    public void UpdatePatienceBar()
+    public void UpdatePatienceBar(float patience)
     {
         if (PatienceBar != null)
         {
             // Calculate the fill amount
-            float fillAmount = Mathf.Clamp01(CurrentPatience / TotalPatience);
+            float fillAmount = Mathf.Clamp01(patience / TotalPatience);
 
             // Update the patience bar fill amount
             PatienceBar.fillAmount = fillAmount;

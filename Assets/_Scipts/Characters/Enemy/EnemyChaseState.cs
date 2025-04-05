@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyChaseState : EnemyState
 {
@@ -10,7 +9,7 @@ public class EnemyChaseState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.UpdatePatienceBar();
+        owner.enemy.UpdatePatienceBar(owner.enemy.CurrentPatience);
 
 
         if (owner.Target == null)
