@@ -10455,6 +10455,7 @@ MonoBehaviour:
   defensiveAbilities: []
   utilityAbilities: []
   ultimateAbilities: []
+  currentBasicIndex: 0
   SwordAnimator: {fileID: 1012001254419383665}
   BodyAnimator: {fileID: 8282777624565145663}
   HairAnimator: {fileID: 1886573199325115856}
@@ -10465,7 +10466,7 @@ MonoBehaviour:
   Aimer: {fileID: 3442385175037626}
   player: {fileID: 841304983140234989}
   LastMoveDirection: {x: 0, y: 0}
-  canRoll: 1
+  CanRoll: 1
   isAttacking: 0
   CanBasic: 1
   canOffensive: 1
@@ -30264,6 +30265,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
+  castTime: 0.3
+  recoveryTime: 0.4
+  coolDown: 0.3
 --- !u!1 &9005256817396012190
 GameObject:
   m_ObjectHideFlags: 0

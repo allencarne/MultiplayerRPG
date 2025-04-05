@@ -43,14 +43,14 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
-    [HideInInspector] public bool canRoll = true;
-    [HideInInspector] public bool isAttacking = false;
-    [HideInInspector] public bool CanBasic = true;
-    [HideInInspector] public bool canOffensive= true;
-    [HideInInspector] public bool canMobility = true;
-    [HideInInspector] public bool canDefensive = true;
-    [HideInInspector] public bool canUtility = true;
-    [HideInInspector] public bool canUltimate = true;
+    [HideInInspector] public bool CanRoll = true;
+    public bool isAttacking = false;
+    public bool CanBasic = true;
+    public bool canOffensive= true;
+    public bool canMobility = true;
+    public bool canDefensive = true;
+    public bool canUtility = true;
+    public bool canUltimate = true;
 
     public enum State
     {
@@ -149,7 +149,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Roll(bool rollInput)
     {
-        if (rollInput && canRoll)
+        if (rollInput && CanRoll)
         {
             if (player.Endurance >= 50)
             {
@@ -161,6 +161,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void BasicAbility(bool abilityInput)
     {
         if (!CanBasic) return;
+        if (isAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -176,6 +177,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void OffensiveAbility(bool abilityInput)
     {
         if (!canOffensive) return;
+        if (isAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -191,6 +193,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void MobilityAbility(bool abilityInput)
     {
         if (!canMobility) return;
+        if (isAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -206,6 +209,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void DefensiveAbility(bool abilityInput)
     {
         if (!canDefensive) return;
+        if (isAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -221,6 +225,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void UtilityAbility(bool abilityInput)
     {
         if (!canUtility) return;
+        if (isAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -236,6 +241,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void UltimateAbility(bool abilityInput)
     {
         if (!canUltimate) return;
+        if (isAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
