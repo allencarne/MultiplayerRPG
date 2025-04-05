@@ -373,8 +373,53 @@ Transform:
   - {fileID: 7783353638354525564}
   - {fileID: 8721095397177214093}
   - {fileID: 3827219540044145065}
+  - {fileID: 4339600832487251053}
   m_Father: {fileID: 6306620828023998174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3618002197574499948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4339600832487251053}
+  - component: {fileID: 4602807415585494227}
+  m_Layer: 0
+  m_Name: Death
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4339600832487251053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3618002197574499948}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5515075105785554561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4602807415585494227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3618002197574499948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaac2d3ef9a7c7f4da9e2cbe0a1788c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4396367334379419357
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +678,21 @@ MonoBehaviour:
   PatienceBar: {fileID: 1073209790744301300}
   TotalPatience: 5
   CurrentPatience: 0
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8001761435941154268}
+        m_TargetAssemblyTypeName: EnemyStateMachine, Assembly-CSharp
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8001761435941154268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,11 +705,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f182a8e069d01b4db8d495efea68a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   enemySpawnState: {fileID: 5252206452251772280}
   enemyIdleState: {fileID: 5048181654644625642}
   enemyWanderState: {fileID: 1768548039441914077}
   enemyChaseState: {fileID: 2627202019172152347}
   enemyResetState: {fileID: 8334618386139856485}
+  enemyDeathState: {fileID: 4602807415585494227}
   enemyBasicAbility: {fileID: 0}
   enemySpecialAbility: {fileID: 0}
   enemyUltimateAbility: {fileID: 0}

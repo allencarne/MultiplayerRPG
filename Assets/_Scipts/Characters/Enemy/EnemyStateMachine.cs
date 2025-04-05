@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class EnemyStateMachine : MonoBehaviour
+public class EnemyStateMachine : NetworkBehaviour
 {
     [Header("States")]
     [SerializeField] EnemyState enemySpawnState;
@@ -9,6 +10,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] EnemyState enemyWanderState;
     [SerializeField] EnemyState enemyChaseState;
     [SerializeField] EnemyState enemyResetState;
+    [SerializeField] EnemyState enemyDeathState;
 
     [Header("Ability")]
     [SerializeField] EnemyAbility enemyBasicAbility;
@@ -19,6 +21,7 @@ public class EnemyStateMachine : MonoBehaviour
     public Enemy enemy { get; private set; }
     public Rigidbody2D EnemyRB { get; private set; }
     public Animator EnemyAnimator { get; private set; }
+    public Collider2D EnemyCollider { get; private set; }
 
     [Header("Variables")]
     public float IdleTime { get; set; }
@@ -47,7 +50,6 @@ public class EnemyStateMachine : MonoBehaviour
         Wander,
         Chase,
         Reset,
-        Hurt,
         Death,
         Basic,
         Special,
@@ -61,6 +63,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemy = GetComponent<Enemy>();
         EnemyRB = GetComponent<Rigidbody2D>();
         EnemyAnimator = GetComponentInChildren<Animator>();
+        EnemyCollider = GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -86,9 +89,7 @@ public class EnemyStateMachine : MonoBehaviour
 
             case State.Reset: enemyResetState.UpdateState(this); break;
 
-            case State.Hurt: HurtState(); break;
-
-            case State.Death: DeathState(); break;
+            case State.Death: enemyDeathState.UpdateState(this); break;
 
             case State.Basic: enemyBasicAbility.AbilityUpdate(this); break;
 
@@ -113,9 +114,7 @@ public class EnemyStateMachine : MonoBehaviour
 
             case State.Reset: enemyResetState.FixedUpdateState(this); break;
 
-            case State.Hurt: break;
-
-            case State.Death: break;
+            case State.Death: enemyDeathState.FixedUpdateState(this); break;
 
             case State.Basic: enemyBasicAbility.AbilityFixedUpdate(this); break;
 
@@ -124,6 +123,16 @@ public class EnemyStateMachine : MonoBehaviour
             case State.Ultimate: enemyUltimateAbility.AbilityFixedUpdate(this); break;
 
         }
+    }
+
+    public void Death()
+    {
+        SetState(State.Death);
+    }
+
+    public void DespawnEnemy()
+    {
+        GetComponent<NetworkObject>().Despawn();
     }
 
     public void SetState(State newState)
@@ -140,27 +149,14 @@ public class EnemyStateMachine : MonoBehaviour
 
             case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
 
-            case State.Hurt:
-                break;
-            case State.Death:
-                break;
+            case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
+
             case State.Basic: state = State.Basic; enemyBasicAbility.AbilityStart(this); break;
 
             case State.Special: state = State.Special; enemySpecialAbility.AbilityStart(this); break;
 
             case State.Ultimate: state = State.Ultimate; enemyUltimateAbility.AbilityStart(this); break;
-
         }
-    }
-
-    void HurtState()
-    {
-
-    }
-
-    void DeathState()
-    {
-
     }
 
     public void MoveTowardsTarget(Vector3 _targetPos)

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour, IDamageable, IHealable
@@ -33,6 +34,8 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
     public Image PatienceBar;
     public float TotalPatience;
     public float CurrentPatience;
+
+    [SerializeField] UnityEvent OnDeath;
 
     private void Start()
     {
@@ -73,7 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
 
         if (Health <= 0)
         {
-            //Die();
+            OnDeath?.Invoke();
         }
     }
 
