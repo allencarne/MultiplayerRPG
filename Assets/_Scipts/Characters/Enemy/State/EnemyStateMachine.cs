@@ -125,16 +125,6 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public void Death()
-    {
-        SetState(State.Death);
-    }
-
-    public void DespawnEnemy()
-    {
-        GetComponent<NetworkObject>().Despawn();
-    }
-
     public void SetState(State newState)
     {
         switch (newState)
@@ -163,6 +153,16 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         Vector2 direction = (_targetPos - transform.position).normalized;
         EnemyRB.linearVelocity = direction * enemy.BaseSpeed;
+    }
+
+    public void Death()
+    {
+        SetState(State.Death);
+    }
+
+    public void DespawnEnemy()
+    {
+        GetComponent<NetworkObject>().Despawn();
     }
 
     void OnTriggerEnter2D(Collider2D other)
