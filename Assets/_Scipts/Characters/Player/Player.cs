@@ -76,6 +76,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         Health = MaxHealth;
         Endurance = MaxEndurance;
+
+        healthBar.UpdateHealth(Health);
     }
 
     public override void OnNetworkSpawn()
@@ -103,7 +105,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         playerInitialize.SavePlayerStats();
     }
 
-    public void TakeDamage(float damage, DamageType damageType)
+    public void TakeDamage(float damage, DamageType damageType, ulong attackerClientId)
     {
         float finalDamage = 0f;
 
@@ -118,6 +120,12 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         Health = Mathf.Max(Health - finalDamage, 0);
         healthBar.UpdateHealth(Health);
+
+        // Get attacker and target info for logging
+        string attackerName = $"Player{attackerClientId}";
+        string targetName = $"Player{OwnerClientId}";
+
+        Debug.Log($"{attackerName} has dealt {finalDamage} damage to {targetName}");
 
         if (Health <= 0)
         {

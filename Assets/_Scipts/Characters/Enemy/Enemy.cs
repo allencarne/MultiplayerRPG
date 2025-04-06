@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
         CurrentArmor = BaseArmor;
     }
 
-    public void TakeDamage(float damage, DamageType damageType)
+    public void TakeDamage(float damage, DamageType damageType, ulong attackerClientId)
     {
         float finalDamage = 0f;
 

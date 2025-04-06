@@ -24,7 +24,7 @@ public class HealthBar : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            player.TakeDamage(1, DamageType.Flat);
+            player.TakeDamage(1, DamageType.Flat, OwnerClientId);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))

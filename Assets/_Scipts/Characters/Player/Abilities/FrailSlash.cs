@@ -67,15 +67,12 @@ public class FrailSlash : PlayerAbility
 
         owner.StartCoroutine(ImpactTime());
 
-
         if (IsServer)
         {
-            Debug.Log("WE ARE SERVER");
             SpawnAttack(owner.transform.position, attackRot, owner.OwnerClientId);
         }
         else
         {
-            Debug.Log("WE ARE NOT SERVER");
             AttackServerRpc(owner.transform.position, attackRot, owner.OwnerClientId);
         }
     }
@@ -88,22 +85,15 @@ public class FrailSlash : PlayerAbility
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, ulong attackerID)
     {
-        //NetworkObject ownerNetObj = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
-
-        //Collider2D ownerCollider = ownerNetObj.GetComponent<Collider2D>();
         GameObject attackInstance = Instantiate(attackPrefab, spawnPosition, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
-        // Give ownership to attacker
         attackNetObj.SpawnWithOwnership(attackerID);
 
-        // Ignore collision between the attack and the player
-        //Physics2D.IgnoreCollision(attackInstance.GetComponent<Collider2D>(), ownerCollider);
-
-        // Set damage values for the attack
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
+            damageOnTrigger.AttackerClientId = attackerID;
             damageOnTrigger.Damage = abilityDamage;
         }
     }

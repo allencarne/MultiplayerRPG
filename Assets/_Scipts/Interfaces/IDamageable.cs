@@ -1,7 +1,7 @@
 
 public interface IDamageable
 {
-    void TakeDamage(float damage, DamageType damageType);
+    void TakeDamage(float damage, DamageType damageType, ulong attackerClientId);
 }
 
 public enum DamageType
