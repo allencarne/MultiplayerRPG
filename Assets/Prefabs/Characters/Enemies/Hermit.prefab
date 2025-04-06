@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3142980772
+      value: 3738409575
       objectReference: {fileID: 0}
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 54f04ba658693504ab200e4335000394, type: 2}
     - target: {fileID: 4494865281095228816, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Name
-      value: Hermit Variant
+      value: Hermit
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: Health
@@ -112,10 +112,17 @@ PrefabInstance:
       propertyPath: deAggroRadius
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemyBasicAbility
+      value: 
+      objectReference: {fileID: 7515640220713172168}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7515640220713172168}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!114 &700539467145608495 stripped
 MonoBehaviour:
@@ -128,3 +135,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f449f601106049d4a9c5e54c66395f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1533910545451829500 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 5531078829168040189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7515640220713172168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533910545451829500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33ab31fc31cd044384f0fdcb135dc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

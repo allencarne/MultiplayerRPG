@@ -4,9 +4,10 @@ public class DestoryAfterAnimationNet : NetworkBehaviour
 {
     public void Net_AE_DestroyAfterAnimation()
     {
-        if (IsOwner)
+        if (IsServer)
         {
-            GetComponent<NetworkObject>().Despawn();
+            NetworkObject.Destroy(gameObject);
+            //GetComponent<NetworkObject>().Despawn();
         }
     }
 }

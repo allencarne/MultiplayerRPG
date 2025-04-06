@@ -5,6 +5,7 @@ using UnityEngine;
 public class FrailSlash : PlayerAbility
 {
     [SerializeField] GameObject attackPrefab;
+    [SerializeField] int abilityDamage;
 
     [Header("Time")]
     [SerializeField] float castTime;
@@ -17,8 +18,7 @@ public class FrailSlash : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        Debug.Log("Start");
-
+        owner.CanBasic = false;
         aimDirection = owner.Aimer.right;
         attackRot = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
@@ -40,8 +40,6 @@ public class FrailSlash : PlayerAbility
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
-        Debug.Log("Update");
-
         if (canImpact)
         {
             canImpact = false;
@@ -55,7 +53,7 @@ public class FrailSlash : PlayerAbility
 
     public override void FixedUpdateAbility(PlayerStateMachine owner)
     {
-        Debug.Log("Fixed");
+
     }
 
     IEnumerator AttackImpact(PlayerStateMachine owner)
@@ -69,20 +67,45 @@ public class FrailSlash : PlayerAbility
 
         owner.StartCoroutine(ImpactTime());
 
-        //Vector3 spawnPosition = owner.transform.position;
-        //Quaternion spawnRotation = owner.Aimer.rotation;
 
-        // Spawn
-        AttackServerRpc(owner.transform.position, attackRot);
+        if (IsServer)
+        {
+            Debug.Log("WE ARE SERVER");
+            SpawnAttack(owner.transform.position, attackRot, owner.OwnerClientId);
+        }
+        else
+        {
+            Debug.Log("WE ARE NOT SERVER");
+            AttackServerRpc(owner.transform.position, attackRot, owner.OwnerClientId);
+        }
     }
 
     [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation)
+    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, ulong attackerID)
     {
-        GameObject instance = Instantiate(attackPrefab, spawnPosition, spawnRotation);
-        NetworkObject instanceNetworkObject = instance.GetComponent<NetworkObject>();
+        SpawnAttack(spawnPosition, spawnRotation, attackerID);
+    }
 
-        instanceNetworkObject.Spawn();
+    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, ulong attackerID)
+    {
+        //NetworkObject ownerNetObj = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
+
+        //Collider2D ownerCollider = ownerNetObj.GetComponent<Collider2D>();
+        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition, spawnRotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+
+        // Give ownership to attacker
+        attackNetObj.SpawnWithOwnership(attackerID);
+
+        // Ignore collision between the attack and the player
+        //Physics2D.IgnoreCollision(attackInstance.GetComponent<Collider2D>(), ownerCollider);
+
+        // Set damage values for the attack
+        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
+        if (damageOnTrigger != null)
+        {
+            damageOnTrigger.Damage = abilityDamage;
+        }
     }
 
     IEnumerator ImpactTime()

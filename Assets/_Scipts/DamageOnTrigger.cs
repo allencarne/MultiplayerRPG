@@ -1,14 +1,16 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class DamageOnTrigger : MonoBehaviour
+public class DamageOnTrigger : NetworkBehaviour
 {
+    [HideInInspector] public int Damage;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        IDamageable damageable = collision.GetComponent<IDamageable>();
-
+        IDamageable damageable = collision.GetComponentInParent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(1, DamageType.Flat);
+            damageable.TakeDamage(Damage, DamageType.Flat);
         }
     }
 }
