@@ -16,7 +16,7 @@ public class EnemyHealthBar : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            enemy.TakeDamage(1, DamageType.Flat, OwnerClientId);
+            enemy.TakeDamage(1, DamageType.Flat, NetworkObject);
         }
 
         if (Input.GetKeyDown(KeyCode.F6))

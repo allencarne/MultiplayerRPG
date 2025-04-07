@@ -1,7 +1,9 @@
 
+using Unity.Netcode;
+
 public interface IDamageable
 {
-    void TakeDamage(float damage, DamageType damageType, ulong attackerClientId);
+    void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID);
 }
 
 public enum DamageType

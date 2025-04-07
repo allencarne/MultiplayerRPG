@@ -137,7 +137,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         playerInitialize.SavePlayerStats();
     }
 
-    public void TakeDamage(float damage, DamageType damageType, ulong attackerClientId)
+    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
 
@@ -154,7 +154,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
-        Debug.Log($"Player{attackerClientId} dealt {finalDamage} to Player{OwnerClientId}");
+        Debug.Log($"Player{attackerID} dealt {finalDamage} to Player{NetworkObject}");
 
         if (Health.Value <= 0)
         {

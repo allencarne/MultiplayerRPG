@@ -4,17 +4,15 @@ using UnityEngine;
 public class DamageOnTrigger : NetworkBehaviour
 {
     [HideInInspector] public int Damage;
-    [HideInInspector] public ulong AttackerClientId;
     [HideInInspector] public NetworkObject attacker;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        NetworkObject hitObject = collision.GetComponent<NetworkObject>();
-        if (hitObject != null)
+        NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
+        if (objectThatWasHit != null)
         {
-            if (hitObject == attacker)
+            if (objectThatWasHit == attacker)
             {
-                Debug.Log("OBJECT HIS IS ATTACKER");
                 return;
             }
         }
@@ -22,7 +20,7 @@ public class DamageOnTrigger : NetworkBehaviour
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(Damage, DamageType.Flat, AttackerClientId);
+            damageable.TakeDamage(Damage, DamageType.Flat, objectThatWasHit);
         }
     }
 }

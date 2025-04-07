@@ -95,9 +95,8 @@ public class FrailSlash : PlayerAbility
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
-            damageOnTrigger.AttackerClientId = attackerID;
-            damageOnTrigger.Damage = abilityDamage;
             damageOnTrigger.attacker = Attacker;
+            damageOnTrigger.Damage = abilityDamage;
         }
     }
 

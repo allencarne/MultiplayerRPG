@@ -82,7 +82,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         healthBar.UpdateHealthUI(newValue, Health.Value);
     }
 
-    public void TakeDamage(float damage, DamageType damageType, ulong attackerClientId)
+    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
 
@@ -99,7 +99,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
-        Debug.Log($"Player{attackerClientId} dealt {finalDamage} to Enemy{OwnerClientId}");
+        Debug.Log($"Player{attackerID} dealt {finalDamage} to Enemy{NetworkObject}");
 
         if (Health.Value <= 0)
         {
