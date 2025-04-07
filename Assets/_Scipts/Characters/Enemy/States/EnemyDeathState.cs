@@ -6,6 +6,11 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
+        if (owner.enemy.EnemySpawnerReference != null)
+        {
+            owner.enemy.EnemySpawnerReference.DecreaseEnemyCount();
+        }
+
         owner.EnemyAnimator.Play("Death");
         owner.EnemyCollider.enabled = false;
 

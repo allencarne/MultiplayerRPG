@@ -34,6 +34,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] EnemyHealthBar healthBar;
     public Image CaseBar;
 
+    [HideInInspector] public EnemySpawner EnemySpawnerReference;
     public Image PatienceBar;
     public float TotalPatience;
     public float CurrentPatience;
