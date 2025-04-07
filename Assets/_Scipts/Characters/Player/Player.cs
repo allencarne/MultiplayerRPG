@@ -92,7 +92,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            MaxHealth.Value = 10f;
+            playerInitialize.LoadPlayerStats();
             Health.Value = MaxHealth.Value;
 
             Endurance = MaxEndurance;
