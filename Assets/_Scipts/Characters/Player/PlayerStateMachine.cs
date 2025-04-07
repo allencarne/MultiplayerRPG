@@ -151,7 +151,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (rollInput && CanRoll)
         {
-            if (player.Endurance >= 50)
+            if (player.Endurance.Value >= 50)
             {
                 SetState(State.Roll);
             }

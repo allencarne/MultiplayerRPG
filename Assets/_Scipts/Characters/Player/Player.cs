@@ -33,8 +33,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Endurance")]
-    public float Endurance;
-    public float MaxEndurance;
+    public NetworkVariable<float> Endurance = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Movement Speed")]
     public float BaseSpeed;
@@ -94,12 +94,14 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             playerInitialize.LoadPlayerStats();
             Health.Value = MaxHealth.Value;
-
-            Endurance = MaxEndurance;
+            Endurance.Value = MaxEndurance.Value;
         }
 
         Health.OnValueChanged += OnHealthChanged;
         MaxHealth.OnValueChanged += OnMaxHealthChanged;
+
+        Endurance.OnValueChanged += OnEnduranceChanged;
+        MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
 
         if (IsOwner)
         {
@@ -107,17 +109,28 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         }
 
         // Initial UI update
-        healthBar.UpdateHealthUI(MaxHealth.Value, Health.Value);
+        healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
+        EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value,Endurance.Value);
     }
 
     private void OnHealthChanged(float oldValue, float newValue)
     {
-        healthBar.UpdateHealthUI(MaxHealth.Value, newValue);
+        healthBar.UpdateHealthBar(MaxHealth.Value, newValue);
     }
 
     private void OnMaxHealthChanged(float oldValue, float newValue)
     {
-        healthBar.UpdateHealthUI(newValue, Health.Value);
+        healthBar.UpdateHealthBar(newValue, Health.Value);
+    }
+
+    private void OnEnduranceChanged(float oldValue, float newValue)
+    {
+        EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, newValue);
+    }
+
+    private void OnMaxEnduranceChanged(float oldValue, float newValue)
+    {
+        EnduranceBar.UpdateEnduranceBar(newValue, Endurance.Value);
     }
 
     void PlayerCamera()

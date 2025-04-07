@@ -5,7 +5,7 @@ public class PlayerRollState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        owner.player.EnduranceBar.UpdateEndurance(50);
+        owner.player.EnduranceBar.SpendEndurance(50);
 
         owner.StartCoroutine(Duration(owner));
 
@@ -58,4 +58,6 @@ public class PlayerRollState : PlayerState
         // Transition
         owner.SetState(PlayerStateMachine.State.Idle);
     }
+
+
 }

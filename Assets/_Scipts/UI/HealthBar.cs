@@ -25,7 +25,7 @@ public class HealthBar : NetworkBehaviour
         }
     }
 
-    public void UpdateHealthUI(float maxHealth, float currentHealth)
+    public void UpdateHealthBar(float maxHealth, float currentHealth)
     {
         if (maxHealth <= 0) return;
 

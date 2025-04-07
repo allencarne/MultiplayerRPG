@@ -7,52 +7,38 @@ public class EnduranceBar : NetworkBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] Image enduranceBar;
+    [SerializeField] Image enduranceBar_Back;
     bool isRecharging = false;
 
-    private NetworkVariable<float> net_endurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
-    private NetworkVariable<float> net_maxEndurance = new NetworkVariable<float>(writePerm: NetworkVariableWritePermission.Owner);
+    private float lerpSpeed = 5f;
+    private Coroutine lerpCoroutine;
 
-    private void Start()
+    public void SpendEndurance(float amount)
     {
-        UpdateEnduranceUI(player.MaxEndurance, player.Endurance);
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        net_endurance.OnValueChanged += OnEnduranceChanged;
-        net_maxEndurance.OnValueChanged += OnMaxEnduranceChanged;
-
-        if (IsOwner)
+        if (IsServer)
         {
-            // Initialize endurance network variable
-            net_endurance.Value = player.Endurance;
-            net_maxEndurance.Value = player.MaxEndurance;
+            if (player.Endurance.Value >= amount)
+            {
+                player.Endurance.Value -= amount;
+
+                if (!isRecharging)
+                {
+                    StartCoroutine(RechargeEndurance());
+                }
+            }
         }
-
-        // Sync UI for non-owners
-        UpdateEnduranceUI(net_maxEndurance.Value, net_endurance.Value);
-    }
-
-    public override void OnDestroy()
-    {
-        net_endurance.OnValueChanged -= OnEnduranceChanged;
-        net_maxEndurance.OnValueChanged -= OnMaxEnduranceChanged;
-    }
-
-    void UpdateEnduranceUI(float maxEndurance, float currentEndurance)
-    {
-        if (maxEndurance <= 0) return;
-        enduranceBar.fillAmount = currentEndurance / maxEndurance;
-    }
-
-    public void UpdateEndurance(float amount)
-    {
-        if (IsOwner)
+        else
         {
-            player.Endurance -= amount;
+            RequestDodgeServerRpc(amount);
+        }
+    }
 
-            net_endurance.Value = player.Endurance;
-            UpdateEnduranceUI(net_maxEndurance.Value, player.Endurance);
+    [ServerRpc]
+    public void RequestDodgeServerRpc(float amount)
+    {
+        if (player.Endurance.Value >= amount)
+        {
+            player.Endurance.Value -= amount;
 
             if (!isRecharging)
             {
@@ -61,34 +47,45 @@ public class EnduranceBar : NetworkBehaviour
         }
     }
 
-    IEnumerator RechargeEndurance()
+    public void UpdateEnduranceBar(float maxEndurance, float currentEndurance)
+    {
+        if (maxEndurance <= 0) return;
+        enduranceBar.fillAmount = currentEndurance / maxEndurance;
+
+        if (lerpCoroutine != null)
+        {
+            StopCoroutine(lerpCoroutine);
+        }
+
+        lerpCoroutine = StartCoroutine(LerpEnduranceBar(currentEndurance / maxEndurance));
+    }
+
+    private IEnumerator RechargeEndurance()
     {
         isRecharging = true;
 
-        while (player.Endurance < net_maxEndurance.Value)
+        yield return new WaitForSeconds(1f); // Optional delay before recharge starts
+
+        while (player.Endurance.Value < player.MaxEndurance.Value)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.2f); // How fast it recharges
 
-            if (IsOwner)
-            {
-                player.Endurance += 5;
-                player.Endurance = Mathf.Min(player.Endurance, net_maxEndurance.Value);
-
-                net_endurance.Value = player.Endurance;
-                UpdateEnduranceUI(net_maxEndurance.Value, player.Endurance);
-            }
+            player.Endurance.Value += 5f;
+            player.Endurance.Value = Mathf.Min(player.Endurance.Value, player.MaxEndurance.Value);
         }
 
         isRecharging = false;
     }
 
-    private void OnEnduranceChanged(float oldValue, float newValue)
+    IEnumerator LerpEnduranceBar(float targetFillAmount)
     {
-        UpdateEnduranceUI(net_maxEndurance.Value, newValue);
-    }
+        float currentFillAmount = enduranceBar_Back.fillAmount;
 
-    private void OnMaxEnduranceChanged(float oldValue, float newValue)
-    {
-        UpdateEnduranceUI(newValue, net_endurance.Value);
+        while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
+        {
+            currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, lerpSpeed * Time.deltaTime);
+            enduranceBar_Back.fillAmount = currentFillAmount;
+            yield return null;
+        }
     }
 }
