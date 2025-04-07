@@ -5,8 +5,6 @@ using TMPro;
 
 public class Player : NetworkBehaviour, IDamageable, IHealable
 {
-    public GameObject AttackPrefab;
-
     [Header("Components")]
     public Inventory PlayerInventory;
     public GameObject spawn_Effect;
@@ -31,27 +29,27 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public float RequiredExperience;
 
     [Header("Health")]
-    public float Health;
-    public float MaxHealth;
+    public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Endurance")]
     public float Endurance;
     public float MaxEndurance;
 
     [Header("Movement Speed")]
-    public float Speed;
+    public float BaseSpeed;
     public float CurrentSpeed;
 
     [Header("Attack Damage")]
-    public int Damage;
+    public int BaseDamage;
     public int CurrentDamage;
 
     [Header("Attack Speed")]
-    public float AttackSpeed;
+    public float BaseAttackSpeed;
     public float CurrentAttackSpeed;
 
     [Header("CDR")]
-    public float CDR;
+    public float BaseCDR;
     public float CurrentCDR;
 
     [Header("Armor")]
@@ -74,18 +72,52 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         Instantiate(spawn_Effect, transform.position, transform.rotation);
 
-        Health = MaxHealth;
-        Endurance = MaxEndurance;
+        // Set Speed
+        CurrentSpeed = BaseSpeed;
 
-        healthBar.UpdateHealth(Health);
+        // Set Damage
+        CurrentDamage = BaseDamage;
+
+        // Set Attack Speed
+        CurrentAttackSpeed = BaseAttackSpeed;
+
+        // Set CDR
+        CurrentCDR = BaseCDR;
+
+        // Set Armor
+        CurrentArmor = BaseArmor;
     }
 
     public override void OnNetworkSpawn()
     {
+        if (IsServer)
+        {
+            MaxHealth.Value = 10f; // Or any base stat you like
+            Health.Value = MaxHealth.Value;
+
+            Endurance = MaxEndurance;
+        }
+
+        Health.OnValueChanged += OnHealthChanged;
+        MaxHealth.OnValueChanged += OnMaxHealthChanged;
+
         if (IsOwner)
         {
             PlayerCamera();
         }
+
+        // Initial UI update
+        healthBar.UpdateHealthUI(MaxHealth.Value, Health.Value);
+    }
+
+    private void OnHealthChanged(float oldValue, float newValue)
+    {
+        healthBar.UpdateHealthUI(MaxHealth.Value, newValue);
+    }
+
+    private void OnMaxHealthChanged(float oldValue, float newValue)
+    {
+        healthBar.UpdateHealthUI(newValue, Health.Value);
     }
 
     void PlayerCamera()
@@ -107,27 +139,24 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public void TakeDamage(float damage, DamageType damageType, ulong attackerClientId)
     {
+        if (!IsServer) return;
+
         float finalDamage = 0f;
 
         if (damageType == DamageType.Flat)
         {
-            finalDamage = Mathf.Max(damage - CurrentArmor, 0); // Reduce damage by armor
+            finalDamage = Mathf.Max(damage - CurrentArmor, 0);
         }
         else if (damageType == DamageType.Percentage)
         {
-            finalDamage = MaxHealth * (damage / 100f); // Percentage-based damage ignores armor
+            finalDamage = MaxHealth.Value * (damage / 100f); // Percentage-based damage ignores armor
         }
 
-        Health = Mathf.Max(Health - finalDamage, 0);
-        healthBar.UpdateHealth(Health);
+        Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
-        // Get attacker and target info for logging
-        string attackerName = $"Player{attackerClientId}";
-        string targetName = $"Player{OwnerClientId}";
+        Debug.Log($"Player{attackerClientId} dealt {finalDamage} to Player{OwnerClientId}");
 
-        Debug.Log($"{attackerName} has dealt {finalDamage} damage to {targetName}");
-
-        if (Health <= 0)
+        if (Health.Value <= 0)
         {
             //Die();
         }
@@ -135,12 +164,13 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public void GiveHeal(float healAmount, HealType healType)
     {
+        if (!IsServer) return;
+
         if (healType == HealType.Percentage)
         {
-            healAmount = MaxHealth * (healAmount / 100f); // Get %
+            healAmount = MaxHealth.Value * (healAmount / 100f); // Get %
         }
 
-        Health = Mathf.Min(Health + healAmount, MaxHealth);
-        healthBar.UpdateHealth(Health);
+        Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
     }
 }

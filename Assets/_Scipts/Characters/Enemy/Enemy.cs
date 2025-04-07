@@ -1,13 +1,15 @@
 using System.Collections;
+using System.Globalization;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour, IDamageable, IHealable
+public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
-    public float Health;
-    public float MaxHealth;
+    public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
     [Header("Speed")]
     public float BaseSpeed;
     public float CurrentSpeed;
@@ -39,9 +41,6 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
 
     private void Start()
     {
-        // Set Health
-        Health = MaxHealth;
-
         // Set Speed
         CurrentSpeed = BaseSpeed;
 
@@ -58,23 +57,51 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
         CurrentArmor = BaseArmor;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            MaxHealth.Value = 10f;
+            Health.Value = MaxHealth.Value;
+        }
+
+        Health.OnValueChanged += OnHealthChanged;
+        MaxHealth.OnValueChanged += OnMaxHealthChanged;
+
+        // Initial UI update
+        healthBar.UpdateHealthUI(MaxHealth.Value, Health.Value);
+    }
+
+    private void OnHealthChanged(float oldValue, float newValue)
+    {
+        healthBar.UpdateHealthUI(MaxHealth.Value, newValue);
+    }
+
+    private void OnMaxHealthChanged(float oldValue, float newValue)
+    {
+        healthBar.UpdateHealthUI(newValue, Health.Value);
+    }
+
     public void TakeDamage(float damage, DamageType damageType, ulong attackerClientId)
     {
+        if (!IsServer) return;
+
         float finalDamage = 0f;
 
         if (damageType == DamageType.Flat)
         {
-            finalDamage = Mathf.Max(damage - CurrentArmor, 0); // Reduce damage by armor
+            finalDamage = Mathf.Max(damage - CurrentArmor, 0);
         }
         else if (damageType == DamageType.Percentage)
         {
-            finalDamage = MaxHealth * (damage / 100f); // Percentage-based damage ignores armor
+            finalDamage = MaxHealth.Value * (damage / 100f); // Percentage-based damage ignores armor
         }
 
-        Health = Mathf.Max(Health - finalDamage, 0);
-        healthBar.UpdateHealth(Health);
+        Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
-        if (Health <= 0)
+        Debug.Log($"Player{attackerClientId} dealt {finalDamage} to Enemy{OwnerClientId}");
+
+        if (Health.Value <= 0)
         {
             OnDeath?.Invoke();
         }
@@ -82,13 +109,14 @@ public class Enemy : MonoBehaviour, IDamageable, IHealable
 
     public void GiveHeal(float healAmount, HealType healType)
     {
+        if (!IsServer) return;
+
         if (healType == HealType.Percentage)
         {
-            healAmount = MaxHealth * (healAmount / 100f); // Get %
+            healAmount = MaxHealth.Value * (healAmount / 100f); // Get %
         }
 
-        Health = Mathf.Min(Health + healAmount, MaxHealth);
-        healthBar.UpdateHealth(Health);
+        Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
     }
 
     public void UpdatePatienceBar(float patience)

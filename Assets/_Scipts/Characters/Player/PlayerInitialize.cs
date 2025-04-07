@@ -28,7 +28,11 @@ public class PlayerInitialize : NetworkBehaviour
         if (IsOwner)
         {
             LoadCustomization();
-            LoadPlayerStats();
+
+            if (IsServer)
+            {
+                LoadPlayerStats();
+            }
 
             // Set Coin Text UI
             player.CoinText.text = player.Coins.ToString();
@@ -89,22 +93,22 @@ public class PlayerInitialize : NetworkBehaviour
         player.RequiredExperience = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
         player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
 
-        player.Health = PlayerPrefs.GetFloat($"{prefix}Health", 10);
-        player.MaxHealth = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
+        player.Health.Value = PlayerPrefs.GetFloat($"{prefix}Health", 10);
+        player.MaxHealth.Value = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
 
         player.Endurance = PlayerPrefs.GetFloat($"{prefix}Endurance", 100);
         player.MaxEndurance = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
 
-        player.Speed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
+        player.BaseSpeed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
         player.CurrentSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
 
-        player.Damage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
+        player.BaseDamage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
         player.CurrentDamage = PlayerPrefs.GetInt($"{prefix}CurrentDamage", 1);
 
-        player.AttackSpeed = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
+        player.BaseAttackSpeed = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
         player.CurrentAttackSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentAttackSpeed", 1);
 
-        player.CDR = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
+        player.BaseCDR = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
         player.CurrentCDR = PlayerPrefs.GetFloat($"{prefix}CurrentCDR", 1);
 
         player.BaseArmor = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
@@ -121,22 +125,22 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}RequiredExperience", player.RequiredExperience);
         PlayerPrefs.SetFloat($"{prefix}Coins", player.Coins);
 
-        PlayerPrefs.SetFloat($"{prefix}Health", player.Health);
-        PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth);
+        PlayerPrefs.SetFloat($"{prefix}Health", player.Health.Value);
+        PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth.Value);
 
         PlayerPrefs.SetFloat($"{prefix}Endurance", player.Endurance);
         PlayerPrefs.SetFloat($"{prefix}MaxEndurance", player.MaxEndurance);
 
-        PlayerPrefs.SetFloat($"{prefix}Speed", player.Speed);
+        PlayerPrefs.SetFloat($"{prefix}Speed", player.BaseSpeed);
         PlayerPrefs.SetFloat($"{prefix}CurrentSpeed", player.CurrentSpeed);
 
-        PlayerPrefs.SetInt($"{prefix}Damage", player.Damage);
+        PlayerPrefs.SetInt($"{prefix}Damage", player.BaseDamage);
         PlayerPrefs.SetInt($"{prefix}CurrentDamage", player.CurrentDamage);
 
-        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", player.AttackSpeed);
+        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", player.BaseAttackSpeed);
         PlayerPrefs.SetFloat($"{prefix}CurrentAttackSpeed", player.CurrentAttackSpeed);
 
-        PlayerPrefs.SetFloat($"{prefix}CDR", player.CDR);
+        PlayerPrefs.SetFloat($"{prefix}CDR", player.BaseCDR);
         PlayerPrefs.SetFloat($"{prefix}CurrentCDR", player.CurrentCDR);
 
         PlayerPrefs.SetFloat($"{prefix}BaseArmor", player.BaseArmor);
