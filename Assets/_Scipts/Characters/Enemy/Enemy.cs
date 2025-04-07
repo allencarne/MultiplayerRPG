@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
+    [SerializeField] float StartingMaxHealth;
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
     [Header("Speed")]
@@ -61,7 +62,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            MaxHealth.Value = 10f;
+            MaxHealth.Value = StartingMaxHealth;
             Health.Value = MaxHealth.Value;
         }
 
