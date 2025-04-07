@@ -85,6 +85,8 @@ public class FrailSlash : PlayerAbility
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, ulong attackerID)
     {
+        NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
+
         GameObject attackInstance = Instantiate(attackPrefab, spawnPosition, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
@@ -95,6 +97,7 @@ public class FrailSlash : PlayerAbility
         {
             damageOnTrigger.AttackerClientId = attackerID;
             damageOnTrigger.Damage = abilityDamage;
+            damageOnTrigger.attacker = Attacker;
         }
     }
 
