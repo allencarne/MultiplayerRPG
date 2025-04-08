@@ -308,7 +308,10 @@ PlayerSettings:
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat: []
+  m_BuildTargetDefaultTextureCompressionFormat:
+  - serializedVersion: 3
+    m_BuildTarget: WebGL
+    m_Formats: 05000000
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -690,7 +693,7 @@ PlayerSettings:
   cloudProjectId: 70b6a458-2331-42eb-9f2d-943415e94527
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Multiplayer RPG 2024-12-05_19-33-57
+  projectName: Multiplayer RPG
   organizationId: allenrene
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
