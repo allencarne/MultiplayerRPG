@@ -108,21 +108,21 @@ public class FrailSlash : PlayerAbility
 
         if (IsServer)
         {
-            SpawnAttack(owner.transform.position, attackRot, owner.OwnerClientId);
+            SpawnAttack(owner.transform.position, attackRot, aimDirection,owner.OwnerClientId);
         }
         else
         {
-            AttackServerRpc(owner.transform.position, attackRot, owner.OwnerClientId);
+            AttackServerRpc(owner.transform.position, attackRot, aimDirection, owner.OwnerClientId);
         }
     }
 
     [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, ulong attackerID)
+    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
     {
-        SpawnAttack(spawnPosition, spawnRotation, attackerID);
+        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID);
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, ulong attackerID)
+    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
     {
         NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
 
@@ -131,7 +131,7 @@ public class FrailSlash : PlayerAbility
         GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
-        attackNetObj.SpawnWithOwnership(attackerID);
+        attackNetObj.Spawn();
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
@@ -140,7 +140,7 @@ public class FrailSlash : PlayerAbility
             damageOnTrigger.Damage = abilityDamage;
         }
 
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance?.GetComponent<KnockbackOnTrigger>();
+        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
             knockbackOnTrigger.attacker = Attacker;

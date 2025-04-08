@@ -293,6 +293,8 @@ public class PlayerStateMachine : NetworkBehaviour, IKnockbackable
 
     public void KnockBack(Vector2 direction, float amount)
     {
+        if (!IsServer) return;
+
         PlayerRB.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
     }
 }

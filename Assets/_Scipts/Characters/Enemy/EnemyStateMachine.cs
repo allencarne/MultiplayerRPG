@@ -200,6 +200,8 @@ public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
 
     public void KnockBack(Vector2 direction, float amount)
     {
+        if (!IsServer) return;
+
         EnemyRB.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
     }
 }

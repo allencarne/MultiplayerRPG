@@ -168,7 +168,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
-        Debug.Log($"Player{attackerID} dealt {finalDamage} to Player{NetworkObject}");
+        //Debug.Log($"Player{attackerID} dealt {finalDamage} to Player{NetworkObject}");
 
         TriggerFlashEffectClientRpc(Color.red);
 
