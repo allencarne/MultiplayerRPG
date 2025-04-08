@@ -6,6 +6,7 @@ public class FrailSlash : PlayerAbility
 {
     [SerializeField] GameObject attackPrefab;
     [SerializeField] int abilityDamage;
+    [SerializeField] float attackRange;
 
     [Header("Time")]
     [SerializeField] float castTime;
@@ -67,8 +68,7 @@ public class FrailSlash : PlayerAbility
     {
         if (isSliding)
         {
-            Vector2 slideDirection = owner.InputHandler.MoveInput;
-            owner.PlayerRB.linearVelocity = slideDirection * slideForce;
+            owner.PlayerRB.linearVelocity = aimDirection * slideForce;
 
             StartCoroutine(SlideDuration(owner));
         }
@@ -76,11 +76,20 @@ public class FrailSlash : PlayerAbility
 
     IEnumerator SlideDuration(PlayerStateMachine owner)
     {
-        yield return new WaitForSeconds(slideDuration);
+        float elapsed = 0f;
+        Vector2 startVelocity = aimDirection * slideForce;
 
-        isSliding = false;
+        while (elapsed < slideDuration)
+        {
+            float t = elapsed / slideDuration;
+            owner.PlayerRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
+
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
 
         owner.PlayerRB.linearVelocity = Vector2.zero;
+        isSliding = false;
     }
 
     IEnumerator AttackImpact(PlayerStateMachine owner)
@@ -114,7 +123,9 @@ public class FrailSlash : PlayerAbility
     {
         NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
 
-        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition, spawnRotation);
+        Vector2 offset = aimDirection.normalized * attackRange;
+
+        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
         attackNetObj.SpawnWithOwnership(attackerID);

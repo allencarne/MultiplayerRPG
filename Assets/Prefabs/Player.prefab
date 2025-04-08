@@ -14080,15 +14080,15 @@ MonoBehaviour:
   basic_BarImage: {fileID: 5282942666453197342}
   offensive_BarImage: {fileID: 8862440274698866437}
   mobility_BarImage: {fileID: 8572401180051850532}
-  basicAbility: {fileID: 11400000, guid: 599d2dc3f12d84c4e8ff87d7b71d11cf, type: 2}
+  basicAbility: {fileID: 0}
   basic_MenuImage: {fileID: 2514913024099996035}
-  offensiveAbility: {fileID: 11400000, guid: 599d2dc3f12d84c4e8ff87d7b71d11cf, type: 2}
+  offensiveAbility: {fileID: 0}
   offensive_MenuImage: {fileID: 7077465565032825362}
   offensive_Button: {fileID: 3586065404202701950}
-  offensiveAbility2: {fileID: 11400000, guid: 599d2dc3f12d84c4e8ff87d7b71d11cf, type: 2}
+  offensiveAbility2: {fileID: 0}
   offensive2_MenuImage: {fileID: 4520837309649861490}
   offensive2_Button: {fileID: 1050862876641240075}
-  mobilityAbility: {fileID: 11400000, guid: 599d2dc3f12d84c4e8ff87d7b71d11cf, type: 2}
+  mobilityAbility: {fileID: 0}
   mobility_MenuImage: {fileID: 151634841244804874}
   mobility_Button: {fileID: 6721423745576864569}
 --- !u!1 &3858686334177752304
@@ -17583,6 +17583,7 @@ GameObject:
   - component: {fileID: 3442385175037626}
   - component: {fileID: 6230546296620156252}
   - component: {fileID: 7449956263666482138}
+  - component: {fileID: 7266657090083994117}
   m_Layer: 0
   m_Name: Aim
   m_TagString: Untagged
@@ -17672,6 +17673,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a97133b671ba34d47a63f941ef8dde4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7266657090083994117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273801309584917438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8fabde7d5150c242853b527869b603e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 0
+  SyncPositionY: 0
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &5273857109640269345
 GameObject:
   m_ObjectHideFlags: 0
@@ -30424,11 +30461,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
   abilityDamage: 1
+  attackRange: 1
   castTime: 0.3
   recoveryTime: 0.4
   coolDown: 0.3
-  slideForce: 0
-  slideDuration: 0
+  slideForce: 3
+  slideDuration: 0.15
 --- !u!1 &9005256817396012190
 GameObject:
   m_ObjectHideFlags: 0
