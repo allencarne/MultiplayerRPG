@@ -35,6 +35,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public Image CaseBar;
 
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
+    [SerializeField] SpriteRenderer bodySprite;
     public Image PatienceBar;
     public float TotalPatience;
     public float CurrentPatience;
@@ -106,6 +107,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         Debug.Log($"Player{attackerID} dealt {finalDamage} to Enemy{NetworkObject}");
 
+        TriggerFlashEffectClientRpc(Color.red);
+
         if (Health.Value <= 0)
         {
             OnDeath?.Invoke();
@@ -122,6 +125,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         }
 
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
+
+        TriggerFlashEffectClientRpc(Color.green);
     }
 
     public void UpdatePatienceBar(float patience)
@@ -134,5 +139,28 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             // Update the patience bar fill amount
             PatienceBar.fillAmount = fillAmount;
         }
+    }
+
+    public IEnumerator FlashEffect(Color color)
+    {
+        float flashDuration = 0.1f;
+
+        bodySprite.color = color;
+        yield return new WaitForSeconds(flashDuration / 2);
+
+        bodySprite.color = Color.white;
+        yield return new WaitForSeconds(flashDuration / 2);
+
+        bodySprite.color = color;
+        yield return new WaitForSeconds(flashDuration / 2);
+
+        // Reset to original color
+        bodySprite.color = Color.white;
+    }
+
+    [ClientRpc]
+    public void TriggerFlashEffectClientRpc(Color flashColor)
+    {
+        StartCoroutine(FlashEffect(flashColor));
     }
 }

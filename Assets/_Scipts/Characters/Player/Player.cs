@@ -12,6 +12,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] Rigidbody2D rb;
     [SerializeField] HealthBar healthBar;
     [SerializeField] PlayerInitialize playerInitialize;
+    [SerializeField] SpriteRenderer bodySprite;
 
     [Header("UI")]
     public TextMeshProUGUI CoinText;
@@ -169,6 +170,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         Debug.Log($"Player{attackerID} dealt {finalDamage} to Player{NetworkObject}");
 
+        TriggerFlashEffectClientRpc(Color.red);
+
         if (Health.Value <= 0)
         {
             //Die();
@@ -185,5 +188,30 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         }
 
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
+
+        TriggerFlashEffectClientRpc(Color.green);
+    }
+
+    public IEnumerator FlashEffect(Color color)
+    {
+        float flashDuration = 0.1f;
+
+        bodySprite.color = color;
+        yield return new WaitForSeconds(flashDuration / 2);
+
+        bodySprite.color = Color.white;
+        yield return new WaitForSeconds(flashDuration / 2);
+
+        bodySprite.color = color;
+        yield return new WaitForSeconds(flashDuration / 2);
+
+        // Reset to original color
+        bodySprite.color = Color.white;
+    }
+
+    [ClientRpc]
+    public void TriggerFlashEffectClientRpc(Color flashColor)
+    {
+        StartCoroutine(FlashEffect(flashColor));
     }
 }
