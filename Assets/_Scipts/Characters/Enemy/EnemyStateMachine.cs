@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
 
-public class EnemyStateMachine : NetworkBehaviour
+public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
 {
     [Header("States")]
     [SerializeField] EnemyState enemySpawnState;
@@ -196,5 +196,10 @@ public class EnemyStateMachine : NetworkBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+    }
+
+    public void KnockBack(Vector2 direction, float amount)
+    {
+        EnemyRB.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
     }
 }

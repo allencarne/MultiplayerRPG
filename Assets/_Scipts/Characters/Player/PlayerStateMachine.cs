@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerStateMachine : NetworkBehaviour
+public class PlayerStateMachine : NetworkBehaviour, IKnockbackable
 {
     [Header("States")]
     [SerializeField] PlayerSpawnState playerSpawnState;
@@ -289,5 +289,10 @@ public class PlayerStateMachine : NetworkBehaviour
                 item.PickUp(player);
             }
         }
+    }
+
+    public void KnockBack(Vector2 direction, float amount)
+    {
+        PlayerRB.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
     }
 }

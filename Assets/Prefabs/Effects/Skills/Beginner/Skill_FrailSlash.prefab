@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 8894121348854786466}
   - component: {fileID: 7940408725805837076}
   - component: {fileID: 8573193392874070026}
+  - component: {fileID: 3874116190924247797}
   m_Layer: 0
   m_Name: Skill_FrailSlash
   m_TagString: Untagged
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2415281270
+  GlobalObjectIdHash: 540251603
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -299,3 +300,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aece8e9b25c7a1e46b30f44e7b01151f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  Damage: 0
+  attacker: {fileID: 0}
+--- !u!114 &3874116190924247797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120296350165298231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bebadc795ffe845bb07b85c9bca50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacker: {fileID: 0}
+  direction: {x: 0, y: 0}
+  Amount: 0

@@ -17,6 +17,9 @@ public class FrailSlash : PlayerAbility
     [SerializeField] float slideForce;
     [SerializeField] float slideDuration;
 
+    [Header("Knockback")]
+    [SerializeField] float knockBackAmount;
+
     bool canImpact = false;
     bool isSliding = false;
     Vector2 aimDirection;
@@ -135,6 +138,14 @@ public class FrailSlash : PlayerAbility
         {
             damageOnTrigger.attacker = Attacker;
             damageOnTrigger.Damage = abilityDamage;
+        }
+
+        KnockbackOnTrigger knockbackOnTrigger = attackInstance?.GetComponent<KnockbackOnTrigger>();
+        if (knockbackOnTrigger != null)
+        {
+            knockbackOnTrigger.attacker = Attacker;
+            knockbackOnTrigger.Amount = knockBackAmount;
+            knockbackOnTrigger.direction = aimDirection.normalized;
         }
     }
 
