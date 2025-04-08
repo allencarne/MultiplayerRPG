@@ -301,6 +301,6 @@ public class PlayerStateMachine : NetworkBehaviour, IKnockbackable
     [ClientRpc]
     void KnockbackClientRpc(Vector2 direction, float amount)
     {
-        PlayerRB.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
+        PlayerRB.linearVelocity = direction.normalized * amount;
     }
 }

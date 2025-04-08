@@ -202,6 +202,6 @@ public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
     {
         if (!IsServer) return;
 
-        EnemyRB.AddForce(direction.normalized * amount, ForceMode2D.Impulse);
+        EnemyRB.linearVelocity = direction.normalized * amount;
     }
 }
