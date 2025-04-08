@@ -12,13 +12,25 @@ public class FrailSlash : PlayerAbility
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
 
+    [Header("Slide")]
+    [SerializeField] float slideForce;
+    [SerializeField] float slideDuration;
+
     bool canImpact = false;
+    bool isSliding = false;
     Vector2 aimDirection;
     Quaternion attackRot;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        owner.PlayerRB.linearVelocity = Vector2.zero;
+        if (owner.InputHandler.MoveInput != Vector2.zero)
+        {
+            isSliding = true;
+        }
+        else
+        {
+            owner.PlayerRB.linearVelocity = Vector2.zero;
+        }
 
         owner.CanBasic = false;
         aimDirection = owner.Aimer.right;
@@ -32,8 +44,6 @@ public class FrailSlash : PlayerAbility
 
         // Sword
         owner.SwordAnimator.Play("Sword_Attack_C");
-        //stateMachine.SwordAnimator.SetFloat("Horizontal", direction.x);
-        //stateMachine.SwordAnimator.SetFloat("Vertical", direction.y);
 
         // Timers
         owner.StartCoroutine(AttackImpact(owner));
@@ -55,7 +65,22 @@ public class FrailSlash : PlayerAbility
 
     public override void FixedUpdateAbility(PlayerStateMachine owner)
     {
+        if (isSliding)
+        {
+            Vector2 slideDirection = owner.InputHandler.MoveInput;
+            owner.PlayerRB.linearVelocity = slideDirection * slideForce;
 
+            StartCoroutine(SlideDuration(owner));
+        }
+    }
+
+    IEnumerator SlideDuration(PlayerStateMachine owner)
+    {
+        yield return new WaitForSeconds(slideDuration);
+
+        isSliding = false;
+
+        owner.PlayerRB.linearVelocity = Vector2.zero;
     }
 
     IEnumerator AttackImpact(PlayerStateMachine owner)
