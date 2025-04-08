@@ -18,6 +18,8 @@ public class FrailSlash : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
+        owner.PlayerRB.linearVelocity = Vector2.zero;
+
         owner.CanBasic = false;
         aimDirection = owner.Aimer.right;
         attackRot = owner.Aimer.rotation;

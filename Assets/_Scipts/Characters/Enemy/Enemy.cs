@@ -40,6 +40,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public float CurrentPatience;
 
     [SerializeField] UnityEvent OnDeath;
+    [SerializeField] UnityEvent OnDamage;
 
     private void Start()
     {
@@ -87,6 +88,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
+
+        OnDamage?.Invoke();
 
         float finalDamage = 0f;
 

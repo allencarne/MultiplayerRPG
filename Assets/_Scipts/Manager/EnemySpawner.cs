@@ -1,7 +1,8 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : NetworkBehaviour
 {
     [Header("Enemy")]
     [SerializeField] GameObject enemyPrefab;
@@ -21,6 +22,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (!IsServer) return;
+
         if (currentEnemyCount < maxEnemyCount)
         {
             if (canSpawn)
@@ -43,10 +46,12 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy()
     {
         Vector3 spawnPosition = transform.position + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0f, 0f);
+        GameObject enemyInstance = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, transform);
 
-        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, transform);
+        NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
+        networkInstance.Spawn();
 
-        enemy.GetComponent<Enemy>().EnemySpawnerReference = this;
+        enemyInstance.GetComponent<Enemy>().EnemySpawnerReference = this;
 
         currentEnemyCount++;
     }

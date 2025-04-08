@@ -174,6 +174,12 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
+    public void OnDamageTaken()
+    {
+        // For Dummy Idle Timer Reset
+        IdleTime = 0;
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
