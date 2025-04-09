@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -17,7 +18,9 @@ using UnityEngine.SceneManagement;
 
 public class SessionManager : MonoBehaviour
 {
+    NetworkManager networkManager;
     [SerializeField] GameObject playButton;
+    [SerializeField] TextMeshProUGUI playerText;
 
     private Lobby _connectedLobby;
     private QueryResponse _lobbies;
@@ -31,7 +34,33 @@ public class SessionManager : MonoBehaviour
         playButton.SetActive(true);
     }
 
-    private void Awake() => _transport = FindAnyObjectByType<UnityTransport>();
+    private void Awake()
+    {
+        // Initialize NetworkManager
+        networkManager = NetworkManager.Singleton;
+
+        if (networkManager != null)
+        {
+            // Register the client disconnect callback
+            networkManager.OnClientDisconnectCallback += HandleClientDisconnect;
+        }
+        else
+        {
+            Debug.LogError("NetworkManager.Singleton is null!");
+        }
+
+        // Initialize UnityTransport
+        _transport = FindAnyObjectByType<UnityTransport>();
+    }
+
+    private void OnDestroy()
+    {
+        // Unregister the callback to avoid memory leaks
+        if (networkManager != null)
+        {
+            networkManager.OnClientDisconnectCallback -= HandleClientDisconnect;
+        }
+    }
 
     public async void CreateOrJoinLobby()
     {
@@ -124,27 +153,6 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        try
-        {
-            StopAllCoroutines();
-
-            if (_hasLeftLobby || _connectedLobby == null) return;
-
-            _hasLeftLobby = true;
-
-            if (_connectedLobby.HostId == _playerId)
-                LobbyService.Instance.DeleteLobbyAsync(_connectedLobby.Id);
-            else
-                LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, _playerId);
-        }
-        catch (Exception e)
-        {
-            Debug.Log($"Error shutting down lobby: {e}");
-        }
-    }
-
     public async void LeaveLobby()
     {
         try
@@ -165,6 +173,51 @@ public class SessionManager : MonoBehaviour
         catch (LobbyServiceException e)
         {
             Debug.Log($"LeaveLobby error: {e}");
+        }
+    }
+
+    private async void HandleClientDisconnect(ulong clientId)
+    {
+        // Log the client ID to the console for debugging
+        Debug.Log($"Client with ID {clientId} has disconnected.");
+
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, AuthenticationService.Instance.PlayerId);
+
+            if (NetworkManager.Singleton.IsClient)
+            {
+                Debug.Log("IS CLIENT TRUE");
+            }
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    void Destroy()
+    {
+        try
+        {
+            StopAllCoroutines();
+
+            if (_hasLeftLobby || _connectedLobby == null) return;
+
+            _hasLeftLobby = true;
+
+            if (_connectedLobby.HostId == _playerId)
+            {
+                LobbyService.Instance.DeleteLobbyAsync(_connectedLobby.Id);
+            }
+            else
+            {
+                LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, _playerId);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
         }
     }
 }
