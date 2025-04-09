@@ -63,16 +63,54 @@ public class SessionManager : MonoBehaviour
     public async void CreateOrJoinLobby()
     {
         await Authenticate();
-
         _hasLeftLobby = false;
 
-        _connectedLobby = await QuickJoinLobby() ?? await CreateLobby();
+        // Try to reconnect to previously joined lobby
+        _connectedLobby = await TryReconnectToLobby();
 
-        if (_connectedLobby != null) playButton.SetActive(false);
+        if (_connectedLobby == null)
+        {
+            // If no previous lobby or reconnect fails, try normal join
+            _connectedLobby = await QuickJoinLobby() ?? await CreateLobby();
+        }
+
+        if (_connectedLobby != null)
+        {
+            PlayerPrefs.SetString("LastLobbyId", _connectedLobby.Id); // Save for next time
+            playButton.SetActive(false);
+        }
+    }
+
+    private async Task<Lobby> TryReconnectToLobby()
+    {
+        try
+        {
+            if (PlayerPrefs.HasKey("LastLobbyId"))
+            {
+                string lobbyId = PlayerPrefs.GetString("LastLobbyId");
+                var lobby = await LobbyService.Instance.ReconnectToLobbyAsync(lobbyId);
+
+                var joinCode = lobby.Data[JoinCodeKey].Value;
+                var allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+                var relayServerData = AllocationUtils.ToRelayServerData(allocation, "wss");
+                _transport.SetRelayServerData(relayServerData);
+
+                NetworkManager.Singleton.StartClient();
+                Debug.Log("Successfully reconnected to previous lobby.");
+                return lobby;
+            }
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log($"Reconnect failed: {e}");
+        }
+
+        return null;
     }
 
     private async Task Authenticate()
     {
+
         if (!UnityServices.State.Equals(ServicesInitializationState.Initialized))
         {
             var options = new InitializationOptions();
@@ -159,6 +197,7 @@ public class SessionManager : MonoBehaviour
             {
                 _hasLeftLobby = true;
                 await LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, AuthenticationService.Instance.PlayerId);
+                PlayerPrefs.DeleteKey("LastLobbyId"); // Clear the saved lobby
             }
 
             if (NetworkManager.Singleton.IsClient)
