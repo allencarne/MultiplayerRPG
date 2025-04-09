@@ -95,14 +95,9 @@ public class SessionManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogFormat("Failed creating a lobby");
+            Debug.LogFormat($"Failed creating a lobby{e}");
             return null;
         }
-    }
-
-    private void SetTransformAsClient(JoinAllocation a)
-    {
-        _transport.SetClientRelayData(a.RelayServer.IpV4, (ushort)a.RelayServer.Port, a.AllocationIdBytes, a.Key, a.ConnectionData, a.HostConnectionData);
     }
 
     private static IEnumerator HeartBeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
