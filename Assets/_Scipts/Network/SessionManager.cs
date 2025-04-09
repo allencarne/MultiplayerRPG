@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -20,7 +19,6 @@ public class SessionManager : MonoBehaviour
 {
     NetworkManager networkManager;
     [SerializeField] GameObject playButton;
-    [SerializeField] TextMeshProUGUI playerText;
 
     private Lobby _connectedLobby;
     private QueryResponse _lobbies;
@@ -176,48 +174,9 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    private async void HandleClientDisconnect(ulong clientId)
+    private void HandleClientDisconnect(ulong clientId)
     {
         // Log the client ID to the console for debugging
         Debug.Log($"Client with ID {clientId} has disconnected.");
-
-        try
-        {
-            await LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, AuthenticationService.Instance.PlayerId);
-
-            if (NetworkManager.Singleton.IsClient)
-            {
-                Debug.Log("IS CLIENT TRUE");
-            }
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.Log(e);
-        }
-    }
-
-    void Destroy()
-    {
-        try
-        {
-            StopAllCoroutines();
-
-            if (_hasLeftLobby || _connectedLobby == null) return;
-
-            _hasLeftLobby = true;
-
-            if (_connectedLobby.HostId == _playerId)
-            {
-                LobbyService.Instance.DeleteLobbyAsync(_connectedLobby.Id);
-            }
-            else
-            {
-                LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, _playerId);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e);
-        }
     }
 }
