@@ -65,7 +65,7 @@ public class SessionManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log($"No lobbies available via quick join");
+            Debug.Log($"No lobbies available via quick join: {e}");
             return null;
         }
     }
@@ -95,7 +95,7 @@ public class SessionManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogFormat($"Failed creating a lobby{e}");
+            Debug.LogFormat($"Failed creating a lobby: {e}");
             return null;
         }
     }
