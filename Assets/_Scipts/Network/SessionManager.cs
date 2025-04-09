@@ -12,6 +12,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class SessionManager : MonoBehaviour
@@ -23,6 +24,7 @@ public class SessionManager : MonoBehaviour
     private UnityTransport _transport;
     private const string JoinCodeKey = "j";
     private string _playerId;
+    private bool _hasLeftLobby = false;
 
     private void Start()
     {
@@ -42,12 +44,30 @@ public class SessionManager : MonoBehaviour
 
     private async Task Authenticate()
     {
-        var options = new InitializationOptions();
+        try
+        {
+            if (!UnityServices.State.Equals(ServicesInitializationState.Initialized))
+            {
+                var options = new InitializationOptions();
+                await UnityServices.InitializeAsync(options);
+            }
 
-        await UnityServices.InitializeAsync(options);
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                Debug.Log("Signed in anonymously.");
+            }
+            else
+            {
+                Debug.Log("Already signed in.");
+            }
 
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        _playerId = AuthenticationService.Instance.PlayerId;
+            _playerId = AuthenticationService.Instance.PlayerId;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Authentication failed: {e}");
+        }
     }
 
     private async Task<Lobby> QuickJoinLobby()
@@ -115,17 +135,42 @@ public class SessionManager : MonoBehaviour
         try
         {
             StopAllCoroutines();
-            if (_connectedLobby != null)
-            {
-                if (_connectedLobby.HostId == _playerId)
-                    LobbyService.Instance.DeleteLobbyAsync(_connectedLobby.Id);
-                else
-                    LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, _playerId);
-            }
+
+            if (_hasLeftLobby || _connectedLobby == null) return;
+
+            _hasLeftLobby = true;
+
+            if (_connectedLobby.HostId == _playerId)
+                LobbyService.Instance.DeleteLobbyAsync(_connectedLobby.Id);
+            else
+                LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, _playerId);
         }
         catch (Exception e)
         {
             Debug.Log($"Error shutting down lobby: {e}");
+        }
+    }
+
+    public async void LeaveLobby()
+    {
+        try
+        {
+            if (_connectedLobby != null && !_hasLeftLobby)
+            {
+                _hasLeftLobby = true;
+                await LobbyService.Instance.RemovePlayerAsync(_connectedLobby.Id, AuthenticationService.Instance.PlayerId);
+            }
+
+            if (NetworkManager.Singleton.IsClient)
+            {
+                NetworkManager.Singleton.Shutdown();
+            }
+
+            SceneManager.LoadScene("CharacterSelect");
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log($"LeaveLobby error: {e}");
         }
     }
 }
