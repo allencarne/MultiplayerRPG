@@ -37,6 +37,8 @@ public class SessionManager : MonoBehaviour
     {
         await Authenticate();
 
+        _hasLeftLobby = false;
+
         _connectedLobby = await QuickJoinLobby() ?? await CreateLobby();
 
         if (_connectedLobby != null) playButton.SetActive(false);
@@ -44,29 +46,21 @@ public class SessionManager : MonoBehaviour
 
     private async Task Authenticate()
     {
-        try
+        if (!UnityServices.State.Equals(ServicesInitializationState.Initialized))
         {
-            if (!UnityServices.State.Equals(ServicesInitializationState.Initialized))
-            {
-                var options = new InitializationOptions();
-                await UnityServices.InitializeAsync(options);
-            }
+            var options = new InitializationOptions();
+            await UnityServices.InitializeAsync(options);
+        }
 
-            if (!AuthenticationService.Instance.IsSignedIn)
-            {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("Signed in anonymously.");
-            }
-            else
-            {
-                Debug.Log("Already signed in.");
-            }
-
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
             _playerId = AuthenticationService.Instance.PlayerId;
         }
-        catch (Exception e)
+        else
         {
-            Debug.LogError($"Authentication failed: {e}");
+            Debug.Log("Already signed in.");
+            _playerId = AuthenticationService.Instance.PlayerId;
         }
     }
 

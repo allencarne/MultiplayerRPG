@@ -130,6 +130,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnMousePos(InputAction.CallbackContext context)
     {
+        if (Camera.main == null) return;
+
         MousePosition = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
     }
 
