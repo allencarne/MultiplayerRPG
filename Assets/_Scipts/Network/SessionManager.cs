@@ -49,6 +49,8 @@ public class SessionManager : MonoBehaviour
 
         // Initialize UnityTransport
         _transport = FindAnyObjectByType<UnityTransport>();
+
+        LeaveLobby.OnLeaveButton += LeaveLobbyButton;
     }
 
     private void OnDestroy()
@@ -58,6 +60,8 @@ public class SessionManager : MonoBehaviour
         {
             networkManager.OnClientDisconnectCallback -= HandleClientDisconnect;
         }
+
+        LeaveLobby.OnLeaveButton -= LeaveLobbyButton;
     }
 
     public async void CreateOrJoinLobby()
@@ -83,29 +87,30 @@ public class SessionManager : MonoBehaviour
 
     private async Task<Lobby> TryReconnectToLobby()
     {
+        if (!PlayerPrefs.HasKey("LastLobbyJoinCode"))
+            return null;
+
+        string joinCode = PlayerPrefs.GetString("LastLobbyJoinCode");
+
         try
         {
-            if (PlayerPrefs.HasKey("LastLobbyId"))
-            {
-                string lobbyId = PlayerPrefs.GetString("LastLobbyId");
-                var lobby = await LobbyService.Instance.ReconnectToLobbyAsync(lobbyId);
+            // Try to join Relay with saved join code
+            var allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            var relayServerData = AllocationUtils.ToRelayServerData(allocation, "wss");
+            _transport.SetRelayServerData(relayServerData);
+            NetworkManager.Singleton.StartClient();
 
-                var joinCode = lobby.Data[JoinCodeKey].Value;
-                var allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
-                var relayServerData = AllocationUtils.ToRelayServerData(allocation, "wss");
-                _transport.SetRelayServerData(relayServerData);
-
-                NetworkManager.Singleton.StartClient();
-                Debug.Log("Successfully reconnected to previous lobby.");
-                return lobby;
-            }
+            Debug.Log("Successfully reconnected to previous relay session.");
+            return null; // You could return a placeholder Lobby object if needed
         }
-        catch (LobbyServiceException e)
+        catch (RelayServiceException e)
         {
-            Debug.Log($"Reconnect failed: {e}");
-        }
+            Debug.LogWarning($"Reconnect failed. Join code no longer valid: {e.Message}");
 
-        return null;
+            // This is key: clear out the bad join code so we don't keep trying
+            PlayerPrefs.DeleteKey("LastLobbyJoinCode");
+            return null;
+        }
     }
 
     private async Task Authenticate()
@@ -189,7 +194,7 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    public async void LeaveLobby()
+    private async void LeaveLobbyButton()
     {
         try
         {
