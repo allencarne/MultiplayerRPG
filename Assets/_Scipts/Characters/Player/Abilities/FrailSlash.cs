@@ -41,13 +41,12 @@ public class FrailSlash : PlayerAbility
         attackRot = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
 
-        // Body
-        owner.BodyAnimator.Play("Sword_Attack_C");
+        // Animate
         owner.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
         owner.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
-
-        // Sword
         owner.SwordAnimator.Play("Sword_Attack_C");
+        owner.BodyAnimator.Play("Sword_Attack_C");
+        owner.EyesAnimator.Play("Sword_Attack_C");
 
         // Timers
         owner.StartCoroutine(AttackImpact(owner));
@@ -62,6 +61,7 @@ public class FrailSlash : PlayerAbility
 
             owner.BodyAnimator.Play("Sword_Attack_R");
             owner.SwordAnimator.Play("Sword_Attack_R");
+            owner.EyesAnimator.Play("Sword_Attack_R");
 
             owner.StartCoroutine(RecoveryTime(owner));
         }
@@ -103,6 +103,7 @@ public class FrailSlash : PlayerAbility
 
         owner.BodyAnimator.Play("Sword_Attack_I");
         owner.SwordAnimator.Play("Sword_Attack_I");
+        owner.EyesAnimator.Play("Sword_Attack_I");
 
         owner.StartCoroutine(ImpactTime());
 
