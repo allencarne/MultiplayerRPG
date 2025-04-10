@@ -30,6 +30,9 @@ public class FrailSlash : PlayerAbility
     {
         owner.CanBasic = false;
 
+        // Start Cast
+        owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed);
+
         // Slide
         if (owner.InputHandler.MoveInput != Vector2.zero)
         {
@@ -68,6 +71,9 @@ public class FrailSlash : PlayerAbility
         if (canImpact)
         {
             canImpact = false;
+
+            // Start Cast
+            owner.player.CastBar.StartRecovery(recoveryTime);
 
             owner.BodyAnimator.Play("Sword_Attack_R");
             owner.SwordAnimator.Play("Sword_Attack_R");

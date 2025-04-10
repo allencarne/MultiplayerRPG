@@ -9,6 +9,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public Inventory PlayerInventory;
     public GameObject spawn_Effect;
     public EnduranceBar EnduranceBar;
+    public CastBar CastBar;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] HealthBar healthBar;
     [SerializeField] PlayerInitialize playerInitialize;
