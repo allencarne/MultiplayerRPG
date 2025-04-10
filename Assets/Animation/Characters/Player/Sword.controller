@@ -227,7 +227,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dash
+  m_Name: Roll
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -474,7 +474,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: c48b32b16a87af3459696c2efd39322f, type: 2}
+    m_Motion: {fileID: 7400000, guid: 36f08f161140846488988c786f172432, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: -1}
     m_TimeScale: 1
@@ -482,7 +482,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 7c4c417a399f9c140902ff7b07648301, type: 2}
+    m_Motion: {fileID: 7400000, guid: 2c52cf43082fb284d822857ee0c256b5, type: 2}
     m_Threshold: 0.33333334
     m_Position: {x: -1, y: 0}
     m_TimeScale: 1
@@ -490,7 +490,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 06ecfb657f241f744892073b89f2f2b1, type: 2}
+    m_Motion: {fileID: 7400000, guid: 53286c9ae3fc9fa4bb6a2adb33795159, type: 2}
     m_Threshold: 0.6666667
     m_Position: {x: 1, y: 0}
     m_TimeScale: 1
@@ -498,7 +498,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 39944549b7eadf5488f88cbe41bd1218, type: 2}
+    m_Motion: {fileID: 7400000, guid: 11f51704a7033bf43ab795d4b53a6df5, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1

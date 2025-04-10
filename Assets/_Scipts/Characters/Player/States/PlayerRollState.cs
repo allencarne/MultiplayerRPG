@@ -36,7 +36,14 @@ public class PlayerRollState : PlayerState
         owner.BodyAnimator.SetFloat("Horizontal", direction.x);
         owner.BodyAnimator.SetFloat("Vertical", direction.y);
         owner.BodyAnimator.Play("Roll");
+
+        owner.EyesAnimator.SetFloat("Horizontal", direction.x);
+        owner.EyesAnimator.SetFloat("Vertical", direction.y);
         owner.EyesAnimator.Play("Roll");
+
+        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
+        owner.SwordAnimator.SetFloat("Vertical", direction.y);
+        owner.SwordAnimator.Play("Roll");
     }
 
     public override void UpdateState(PlayerStateMachine owner)
