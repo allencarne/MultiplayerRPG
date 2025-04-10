@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CrowdControl : NetworkBehaviour, IKnockbackable
 {
@@ -12,7 +13,7 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     [Header("Bools")]
     public bool IsImmobilized;
     public bool IsInterrupted;
-    public bool IsDisarmed;
+    //public bool IsDisarmed;
 
     void Awake()
     {
@@ -52,7 +53,9 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         knockBackVelocity = direction * amount;
         knockBackDuration = duration;
 
+        Interrupt(duration);
         Immobilize(duration);
+
         StartCoroutine(KnockBackDuration(duration));
     }
 
@@ -84,5 +87,19 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         yield return new WaitForSeconds(duration);
 
         IsImmobilized = false;
+    }
+
+    public void Interrupt(float duration)
+    {
+        StartCoroutine(InterruptDuration(duration));
+    }
+
+    IEnumerator InterruptDuration(float duration)
+    {
+        IsInterrupted = true;
+
+        yield return new WaitForSeconds(duration);
+
+        IsInterrupted = false;
     }
 }

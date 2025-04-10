@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CastBar : MonoBehaviour
 {
-    [SerializeField] private Image castBar;
+    public Image castBar;
     private Coroutine currentCastCoroutine;
 
     public void StartCast(float castTime, float attackSpeed)
@@ -65,8 +65,13 @@ public class CastBar : MonoBehaviour
         castBar.fillAmount = 0f;
     }
 
-    public void CastBarInterrupted()
+    public void InterruptCastBar()
     {
+        if (currentCastCoroutine != null)
+        {
+            StopCoroutine(currentCastCoroutine);
+        }
+
         // Assign Color
         castBar.color = Color.red;
 

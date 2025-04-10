@@ -25,6 +25,7 @@ public class FrailSlash : PlayerAbility
     bool isSliding = false;
     Vector2 aimDirection;
     Quaternion attackRot;
+    Coroutine impactCoroutine;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
@@ -62,12 +63,27 @@ public class FrailSlash : PlayerAbility
         owner.EyesAnimator.Play("Sword_Attack_C");
 
         // Timers
-        owner.StartCoroutine(AttackImpact(owner));
+        impactCoroutine = owner.StartCoroutine(AttackImpact(owner));
         owner.StartCoroutine(CoolDownTime(owner));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
+        if (owner.CrowdControl.IsInterrupted)
+        {
+            if (owner.player.CastBar.castBar.color == Color.black)
+            {
+                Debug.Log("Interrupted");
+
+                owner.player.CastBar.InterruptCastBar();
+                if (impactCoroutine != null) owner.StopCoroutine(impactCoroutine);
+                //owner.isAttacking = false;
+
+                owner.SetState(PlayerStateMachine.State.Idle);
+                return;
+            }
+        }
+
         if (canImpact)
         {
             canImpact = false;
