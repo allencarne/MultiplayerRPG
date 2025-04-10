@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IKnockbackable
 {
-    void KnockBack(Vector2 direction, float amount);
+    void KnockBack(Vector2 direction, float amount, float duration);
 }

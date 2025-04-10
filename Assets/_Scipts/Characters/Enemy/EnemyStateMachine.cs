@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
 
-public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
+public class EnemyStateMachine : NetworkBehaviour
 {
     [Header("States")]
     [SerializeField] EnemyState enemySpawnState;
@@ -22,6 +22,7 @@ public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
     public Rigidbody2D EnemyRB { get; private set; }
     public Animator EnemyAnimator { get; private set; }
     public Collider2D EnemyCollider { get; private set; }
+    public CrowdControl crowdControl { get; private set; }
 
     [Header("Variables")]
     public float IdleTime { get; set; }
@@ -64,6 +65,7 @@ public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
         EnemyRB = GetComponent<Rigidbody2D>();
         EnemyAnimator = GetComponentInChildren<Animator>();
         EnemyCollider = GetComponent<Collider2D>();
+        crowdControl = GetComponent<CrowdControl>();
     }
 
     private void Start()
@@ -102,6 +104,8 @@ public class EnemyStateMachine : NetworkBehaviour, IKnockbackable
 
     private void FixedUpdate()
     {
+        if (crowdControl.IsImmobilized) return;
+
         switch (state)
         {
             case State.Spawn: enemySpawnState.FixedUpdateState(this); break;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerStateMachine : NetworkBehaviour, IKnockbackable
+public class PlayerStateMachine : NetworkBehaviour
 {
     [Header("States")]
     [SerializeField] PlayerSpawnState playerSpawnState;
@@ -36,6 +36,7 @@ public class PlayerStateMachine : NetworkBehaviour, IKnockbackable
 
     [Header("Components")]
     public PlayerInputHandler InputHandler;
+    public CrowdControl CrowdControl;
     public PlayerEquipment Equipment;
     public Rigidbody2D PlayerRB;
     public Transform Aimer;
@@ -104,6 +105,8 @@ public class PlayerStateMachine : NetworkBehaviour, IKnockbackable
 
     private void FixedUpdate()
     {
+        if (CrowdControl.IsImmobilized) return;
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.FixedUpdateState(this); break;

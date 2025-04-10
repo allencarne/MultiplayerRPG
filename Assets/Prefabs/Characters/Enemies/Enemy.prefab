@@ -480,6 +480,7 @@ GameObject:
   - component: {fileID: 5523836673144577605}
   - component: {fileID: 5006461325889791442}
   - component: {fileID: 8001761435941154268}
+  - component: {fileID: 568576347084111489}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -745,6 +746,21 @@ MonoBehaviour:
   CanSpecial: 1
   CanUltimate: 1
   state: 0
+--- !u!114 &568576347084111489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494865281095228816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a017cc8255d61448978e31100217cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsImmobilized: 0
+  IsInterrupted: 0
+  IsDisarmed: 0
 --- !u!1 &4830251803286897434
 GameObject:
   m_ObjectHideFlags: 0

@@ -9889,6 +9889,7 @@ GameObject:
   - component: {fileID: 7139024652526368089}
   - component: {fileID: 5327843948607467283}
   - component: {fileID: 5375708365107018510}
+  - component: {fileID: 6004191219924147057}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -10678,6 +10679,7 @@ MonoBehaviour:
   HairAnimator: {fileID: 1886573199325115856}
   EyesAnimator: {fileID: 940950100477045103}
   InputHandler: {fileID: 8050150357123000786}
+  CrowdControl: {fileID: 6004191219924147057}
   Equipment: {fileID: 7139024652526368089}
   PlayerRB: {fileID: 9222441055534883323}
   Aimer: {fileID: 3442385175037626}
@@ -10742,6 +10744,21 @@ MonoBehaviour:
   hairSprite: {fileID: 3619931694366323352}
   player: {fileID: 841304983140234989}
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
+--- !u!114 &6004191219924147057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a017cc8255d61448978e31100217cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsImmobilized: 0
+  IsInterrupted: 0
+  IsDisarmed: 0
 --- !u!1 &2913849871181157441
 GameObject:
   m_ObjectHideFlags: 0
@@ -30751,6 +30768,7 @@ MonoBehaviour:
   slideForce: 3
   slideDuration: 0.15
   knockBackAmount: 5
+  knockBackDuration: 0.1
 --- !u!1 &9005256817396012190
 GameObject:
   m_ObjectHideFlags: 0
