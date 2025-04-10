@@ -27,6 +27,9 @@ public class FrailSlash : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
+        owner.CanBasic = false;
+
+        // Slide
         if (owner.InputHandler.MoveInput != Vector2.zero)
         {
             isSliding = true;
@@ -36,7 +39,7 @@ public class FrailSlash : PlayerAbility
             owner.PlayerRB.linearVelocity = Vector2.zero;
         }
 
-        owner.CanBasic = false;
+        // Direction
         aimDirection = owner.Aimer.right;
         attackRot = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
@@ -44,8 +47,14 @@ public class FrailSlash : PlayerAbility
         // Animate
         owner.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
         owner.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.SwordAnimator.Play("Sword_Attack_C");
         owner.BodyAnimator.Play("Sword_Attack_C");
+
+        owner.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
+        owner.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
+        owner.SwordAnimator.Play("Sword_Attack_C");
+
+        owner.EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
+        owner.EyesAnimator.SetFloat("Vertical", snappedDirection.y);
         owner.EyesAnimator.Play("Sword_Attack_C");
 
         // Timers
