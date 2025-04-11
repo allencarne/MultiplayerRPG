@@ -73,21 +73,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     private void Start()
     {
         Instantiate(spawn_Effect, transform.position, transform.rotation);
-
-        // Set Speed
-        CurrentSpeed = BaseSpeed;
-
-        // Set Damage
-        CurrentDamage = BaseDamage;
-
-        // Set Attack Speed
-        CurrentAttackSpeed = BaseAttackSpeed;
-
-        // Set CDR
-        CurrentCDR = BaseCDR;
-
-        // Set Armor
-        CurrentArmor = BaseArmor;
     }
 
     private void Update()
@@ -108,8 +93,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         if (IsServer)
         {
             playerInitialize.LoadPlayerStats();
-            Health.Value = MaxHealth.Value;
-            Endurance.Value = MaxEndurance.Value;
         }
 
         Health.OnValueChanged += OnHealthChanged;

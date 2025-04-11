@@ -113,6 +113,25 @@ public class PlayerInitialize : NetworkBehaviour
 
         player.BaseArmor = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
         player.CurrentArmor = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
+
+        // Set Values Here
+        player.Health.Value = player.MaxHealth.Value;
+        player.Endurance.Value = player.MaxEndurance.Value;
+
+        // Set Speed
+        player.CurrentSpeed = player.BaseSpeed;
+
+        // Set Damage
+        player.CurrentDamage = player.BaseDamage;
+
+        // Set Attack Speed
+        player.CurrentAttackSpeed = player.BaseAttackSpeed;
+
+        // Set CDR
+        player.CurrentCDR = player.BaseCDR;
+
+        // Set Armor
+        player.CurrentArmor = player.BaseArmor;
     }
 
 
