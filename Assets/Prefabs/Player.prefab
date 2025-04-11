@@ -8221,7 +8221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 138bb490a5a56b84d9974792e71241af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  castBar: {fileID: 3573648353881278789}
+  ShowTopMostFoldoutHeaderGroup: 1
+  FillAmount:
+    m_InternalValue: 0
+  BarColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  castBarFill: {fileID: 3573648353881278789}
 --- !u!1 &2254411237684941432
 GameObject:
   m_ObjectHideFlags: 0
@@ -10775,7 +10780,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   IsImmobilized: 0
   IsInterrupted: 0
-  IsDisarmed: 0
 --- !u!1 &2913849871181157441
 GameObject:
   m_ObjectHideFlags: 0
@@ -24336,7 +24340,7 @@ GameObject:
   - component: {fileID: 3046120397354240871}
   - component: {fileID: 3573648353881278789}
   m_Layer: 0
-  m_Name: CastBar
+  m_Name: CastBar Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

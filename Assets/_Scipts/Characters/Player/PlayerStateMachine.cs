@@ -294,16 +294,26 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    public void KnockBack(Vector2 direction, float amount)
+    public void HandlePotentialInterrupt(Coroutine coroutine)
     {
-        if (!IsServer) return;
+        if (CrowdControl.IsInterrupted)
+        {
+            if (player.CastBar.castBarFill.color == Color.black)
+            {
+                if (IsServer)
+                {
+                    player.CastBar.InterruptCastBar();
+                }
+                else
+                {
+                    player.CastBar.InterruptServerRpc();
+                }
+                if (coroutine != null) StopCoroutine(coroutine);
+                isAttacking = false;
 
-        KnockbackClientRpc(direction, amount);
-    }
-
-    [ClientRpc]
-    void KnockbackClientRpc(Vector2 direction, float amount)
-    {
-        PlayerRB.linearVelocity = direction.normalized * amount;
+                SetState(State.Idle);
+                return;
+            }
+        }
     }
 }

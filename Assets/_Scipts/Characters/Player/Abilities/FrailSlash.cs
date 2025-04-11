@@ -32,7 +32,14 @@ public class FrailSlash : PlayerAbility
         owner.CanBasic = false;
 
         // Start Cast
-        owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed);
+        if (IsServer)
+        {
+            owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed);
+        }
+        else
+        {
+            owner.player.CastBar.StartCastServerRpc(castTime, owner.player.CurrentAttackSpeed);
+        }
 
         // Slide
         if (owner.InputHandler.MoveInput != Vector2.zero)
@@ -69,27 +76,21 @@ public class FrailSlash : PlayerAbility
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
-        if (owner.CrowdControl.IsInterrupted)
-        {
-            if (owner.player.CastBar.castBar.color == Color.black)
-            {
-                Debug.Log("Interrupted");
-
-                owner.player.CastBar.InterruptCastBar();
-                if (impactCoroutine != null) owner.StopCoroutine(impactCoroutine);
-                //owner.isAttacking = false;
-
-                owner.SetState(PlayerStateMachine.State.Idle);
-                return;
-            }
-        }
+        owner.HandlePotentialInterrupt(impactCoroutine);
 
         if (canImpact)
         {
             canImpact = false;
 
-            // Start Cast
-            owner.player.CastBar.StartRecovery(recoveryTime);
+            // Start Recovery
+            if (IsServer)
+            {
+                owner.player.CastBar.StartRecovery(recoveryTime, owner.player.CurrentAttackSpeed);
+            }
+            else
+            {
+                owner.player.CastBar.StartRecoveryServerRpc(recoveryTime, owner.player.CurrentAttackSpeed);
+            }
 
             owner.BodyAnimator.Play("Sword_Attack_R");
             owner.SwordAnimator.Play("Sword_Attack_R");

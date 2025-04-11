@@ -201,11 +201,4 @@ public class EnemyStateMachine : NetworkBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
     }
-
-    public void KnockBack(Vector2 direction, float amount)
-    {
-        if (!IsServer) return;
-
-        EnemyRB.linearVelocity = direction.normalized * amount;
-    }
 }
