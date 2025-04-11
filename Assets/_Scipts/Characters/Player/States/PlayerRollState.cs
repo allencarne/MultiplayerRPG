@@ -28,6 +28,10 @@ public class PlayerRollState : PlayerState
         owner.SwordAnimator.SetFloat("Horizontal", direction.x);
         owner.SwordAnimator.SetFloat("Vertical", direction.y);
         owner.SwordAnimator.Play("Roll");
+
+        owner.HairAnimator.SetFloat("Horizontal", direction.x);
+        owner.HairAnimator.SetFloat("Vertical", direction.y);
+        owner.HairAnimator.Play("Roll_" + owner.player.hairIndex);
     }
 
     public override void UpdateState(PlayerStateMachine owner)
