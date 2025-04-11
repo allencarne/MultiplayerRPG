@@ -31,7 +31,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public float expToGive;
 
     [Header("UI")]
-    [SerializeField] EnemyHealthBar healthBar;
+    [SerializeField] HealthBar healthBar;
     public Image CaseBar;
 
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
@@ -61,6 +61,19 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         CurrentArmor = BaseArmor;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            TakeDamage(1, DamageType.Flat, NetworkObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            GiveHeal(1, HealType.Flat);
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
@@ -73,17 +86,17 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         MaxHealth.OnValueChanged += OnMaxHealthChanged;
 
         // Initial UI update
-        healthBar.UpdateHealthUI(MaxHealth.Value, Health.Value);
+        healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
     }
 
     private void OnHealthChanged(float oldValue, float newValue)
     {
-        healthBar.UpdateHealthUI(MaxHealth.Value, newValue);
+        healthBar.UpdateHealthBar(MaxHealth.Value, newValue);
     }
 
     private void OnMaxHealthChanged(float oldValue, float newValue)
     {
-        healthBar.UpdateHealthUI(newValue, Health.Value);
+        healthBar.UpdateHealthBar(newValue, Health.Value);
     }
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)

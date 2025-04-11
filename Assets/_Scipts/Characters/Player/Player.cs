@@ -90,6 +90,19 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         CurrentArmor = BaseArmor;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            TakeDamage(1, DamageType.Flat, NetworkObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            GiveHeal(1, HealType.Flat);
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
