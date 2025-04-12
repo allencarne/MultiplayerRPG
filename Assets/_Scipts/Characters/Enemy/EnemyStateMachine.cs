@@ -25,7 +25,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public CrowdControl crowdControl { get; private set; }
 
     [Header("Variables")]
-    public float IdleTime { get; set; }
+    //public float IdleTime { get; set; }
     public int AttemptsCount { get; set; }
     public bool IsPlayerInRange { get; set; }
 
@@ -180,10 +180,10 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void OnDamageTaken()
     {
-        // For Dummy Idle Timer Reset
-        IdleTime = 0;
-
-        enemy.PatienceBar.UpdatePatienceBar(IdleTime);
+        if (IsServer)
+        {
+            enemy.PatienceBar.Patience.Value = 0;
+        }
     }
 
     private void OnDrawGizmosSelected()

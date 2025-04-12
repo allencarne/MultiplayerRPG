@@ -5,11 +5,16 @@ public class EnemyResetState : EnemyState
     public override void StartState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Wander");
+
+        if (owner.IsServer)
+        {
+            owner.enemy.PatienceBar.Patience.Value = 0;
+        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.PatienceBar.UpdatePatienceBar(owner.enemy.CurrentPatience);
+        if (!owner.IsServer) return;
 
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
         {
@@ -20,7 +25,10 @@ public class EnemyResetState : EnemyState
 
     public override void FixedUpdateState(EnemyStateMachine owner)
     {
-        owner.MoveTowardsTarget(owner.StartingPosition);
+        if (owner.IsServer)
+        {
+            owner.MoveTowardsTarget(owner.StartingPosition);
+        }
 
         Vector2 direction = (owner.StartingPosition - (Vector2)owner.transform.position).normalized;
         owner.EnemyAnimator.SetFloat("Horizontal", direction.x);

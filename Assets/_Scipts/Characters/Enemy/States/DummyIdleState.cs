@@ -9,14 +9,14 @@ public class DummyIdleState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.PatienceBar.UpdatePatienceBar(owner.IdleTime);
+        if (!owner.IsServer) return;
 
         if (owner.EnemyRB.position != owner.StartingPosition)
         {
-            owner.IdleTime += 1 * Time.deltaTime;
+            owner.enemy.PatienceBar.Patience.Value += 1 * Time.deltaTime;
         }
 
-        if (owner.IdleTime >= owner.enemy.TotalPatience)
+        if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.TotalPatience)
         {
             owner.SetState(EnemyStateMachine.State.Reset);
         }

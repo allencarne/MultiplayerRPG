@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PatienceBar : MonoBehaviour
+public class PatienceBar : NetworkBehaviour
 {
     [SerializeField] Enemy enemy;
     [SerializeField] Image patienceBarFill;

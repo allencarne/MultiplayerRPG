@@ -6,13 +6,18 @@ public class EnemyWanderState : EnemyState
     {
         owner.EnemyAnimator.Play("Wander");
 
-        float minWanderDistance = 1f; // Minimum distance away
-        owner.WanderPosition = GetRandomPointInCircle(owner.StartingPosition, minWanderDistance, owner.WanderRadius);
+        if (owner.IsServer)
+        {
+            float minWanderDistance = 1f;
+            owner.WanderPosition = GetRandomPointInCircle(owner.StartingPosition, minWanderDistance, owner.WanderRadius);
+        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        if (Vector2.Distance(transform.position, owner.WanderPosition) <= 0.1f)
+        if (!owner.IsServer) return;
+
+        if (Vector2.Distance(owner.transform.position, owner.WanderPosition) <= 0.1f)
         {
             owner.EnemyRB.linearVelocity = Vector2.zero;
             owner.SetState(EnemyStateMachine.State.Idle);
@@ -21,7 +26,10 @@ public class EnemyWanderState : EnemyState
 
     public override void FixedUpdateState(EnemyStateMachine owner)
     {
-        owner.MoveTowardsTarget(owner.WanderPosition);
+        if (owner.IsServer)
+        {
+            owner.MoveTowardsTarget(owner.WanderPosition);
+        }
 
         Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
         owner.EnemyAnimator.SetFloat("Horizontal", direction.x);

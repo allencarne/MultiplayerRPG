@@ -679,12 +679,11 @@ MonoBehaviour:
   CurrentArmor: 0
   expToGive: 0
   healthBar: {fileID: 1827727574157614942}
-  PatienceBar: {fileID: 2310162195662949134}
-  CastBar: {fileID: 0}
+  CastBar: {fileID: 2338881300465963060}
   EnemySpawnerReference: {fileID: 0}
   bodySprite: {fileID: 6097983339982761849}
+  PatienceBar: {fileID: 2310162195662949134}
   TotalPatience: 5
-  CurrentPatience: 0
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -1553,5 +1552,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074cf095ea8eb2942a3db7549166d760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   enemy: {fileID: 5006461325889791442}
   patienceBarFill: {fileID: 1073209790744301300}
+  Patience:
+    m_InternalValue: 0

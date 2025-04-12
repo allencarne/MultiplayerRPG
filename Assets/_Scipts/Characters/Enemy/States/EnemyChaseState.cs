@@ -5,11 +5,17 @@ public class EnemyChaseState : EnemyState
     public override void StartState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Chase");
+
+        if (owner.IsServer)
+        {
+            // Optionally reset patience at the start of chase
+            owner.enemy.PatienceBar.Patience.Value = 0;
+        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.PatienceBar.UpdatePatienceBar(owner.enemy.CurrentPatience);
+        if (!owner.IsServer) return;
 
 
         if (owner.Target == null)
@@ -24,6 +30,8 @@ public class EnemyChaseState : EnemyState
 
     public override void FixedUpdateState(EnemyStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         if (owner.Target)
         {
             owner.MoveTowardsTarget(owner.Target.position);
@@ -36,7 +44,7 @@ public class EnemyChaseState : EnemyState
 
     public void TransitionToReset(EnemyStateMachine owner)
     {
-        owner.enemy.CurrentPatience = 0;
+        owner.enemy.PatienceBar.Patience.Value = 0;
         owner.IsPlayerInRange = false;
         owner.Target = null;
         owner.SetState(EnemyStateMachine.State.Reset);
@@ -58,9 +66,9 @@ public class EnemyChaseState : EnemyState
         if (distanceToStartingPosition > owner.DeAggroRadius)
         {
             // If outside deAggroRadius, increase patience
-            owner.enemy.CurrentPatience += Time.deltaTime;
+            owner.enemy.PatienceBar.Patience.Value += Time.deltaTime;
 
-            if (owner.enemy.CurrentPatience >= owner.enemy.TotalPatience)
+            if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.TotalPatience)
             {
                 TransitionToReset(owner);
             }
@@ -68,7 +76,7 @@ public class EnemyChaseState : EnemyState
         else
         {
             // If back inside the radius, gradually decrease patience
-            owner.enemy.CurrentPatience = Mathf.Max(0, owner.enemy.CurrentPatience - Time.deltaTime);
+            owner.enemy.PatienceBar.Patience.Value = Mathf.Max(0, owner.enemy.PatienceBar.Patience.Value - Time.deltaTime);
         }
     }
 }
