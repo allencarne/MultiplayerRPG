@@ -76,6 +76,8 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
 
     public void Immobilize(float duration)
     {
+        rb.linearVelocity = Vector2.zero;
+
         StartCoroutine(ImmobilizeDuration(duration));
     }
 
