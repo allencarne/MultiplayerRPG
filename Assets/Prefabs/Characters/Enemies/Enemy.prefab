@@ -502,9 +502,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5547851644637582550}
-  - {fileID: 4035453947850850332}
   - {fileID: 5515075105785554561}
   - {fileID: 548914305106732688}
+  - {fileID: 4035453947850850332}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1327236019924439968
@@ -679,7 +679,7 @@ MonoBehaviour:
   CurrentArmor: 0
   expToGive: 0
   healthBar: {fileID: 1827727574157614942}
-  CastBar: {fileID: 2338881300465963060}
+  CastBar: {fileID: 7538848170769235199}
   EnemySpawnerReference: {fileID: 0}
   bodySprite: {fileID: 6097983339982761849}
   PatienceBar: {fileID: 2310162195662949134}
@@ -690,21 +690,6 @@ MonoBehaviour:
       - m_Target: {fileID: 8001761435941154268}
         m_TargetAssemblyTypeName: EnemyStateMachine, Assembly-CSharp
         m_MethodName: Death
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDamage:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8001761435941154268}
-        m_TargetAssemblyTypeName: EnemyStateMachine, Assembly-CSharp
-        m_MethodName: OnDamageTaken
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -741,9 +726,11 @@ MonoBehaviour:
   specialRadius: 0
   ultimateRadius: 0
   deAggroRadius: 0
+  IsAttacking: 0
   CanBasic: 1
   CanSpecial: 1
   CanUltimate: 1
+  CrowdControl: {fileID: 568576347084111489}
   state: 0
 --- !u!114 &568576347084111489
 MonoBehaviour:
@@ -1495,6 +1482,7 @@ GameObject:
   - component: {fileID: 1678050288238711682}
   - component: {fileID: 1827727574157614942}
   - component: {fileID: 2310162195662949134}
+  - component: {fileID: 7538848170769235199}
   m_Layer: 0
   m_Name: Healthbar
   m_TagString: Untagged
@@ -1557,3 +1545,21 @@ MonoBehaviour:
   patienceBarFill: {fileID: 1073209790744301300}
   Patience:
     m_InternalValue: 0
+--- !u!114 &7538848170769235199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132351854630010809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 138bb490a5a56b84d9974792e71241af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  FillAmount:
+    m_InternalValue: 0
+  BarColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  castBarFill: {fileID: 2338881300465963060}

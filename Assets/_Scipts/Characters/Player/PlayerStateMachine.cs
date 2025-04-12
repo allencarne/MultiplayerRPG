@@ -45,7 +45,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
     [HideInInspector] public bool CanRoll = true;
-    public bool isAttacking = false;
+    public bool IsAttacking = false;
     public bool CanBasic = true;
     public bool canOffensive= true;
     public bool canMobility = true;
@@ -164,7 +164,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void BasicAbility(bool abilityInput)
     {
         if (!CanBasic) return;
-        if (isAttacking) return;
+        if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -180,7 +180,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void OffensiveAbility(bool abilityInput)
     {
         if (!canOffensive) return;
-        if (isAttacking) return;
+        if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -196,7 +196,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void MobilityAbility(bool abilityInput)
     {
         if (!canMobility) return;
-        if (isAttacking) return;
+        if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -212,7 +212,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void DefensiveAbility(bool abilityInput)
     {
         if (!canDefensive) return;
-        if (isAttacking) return;
+        if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -228,7 +228,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void UtilityAbility(bool abilityInput)
     {
         if (!canUtility) return;
-        if (isAttacking) return;
+        if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -244,7 +244,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void UltimateAbility(bool abilityInput)
     {
         if (!canUltimate) return;
-        if (isAttacking) return;
+        if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
 
         if (abilityInput)
@@ -309,7 +309,7 @@ public class PlayerStateMachine : NetworkBehaviour
                     player.CastBar.InterruptServerRpc();
                 }
                 if (coroutine != null) StopCoroutine(coroutine);
-                isAttacking = false;
+                IsAttacking = false;
 
                 SetState(State.Idle);
                 return;

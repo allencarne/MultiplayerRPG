@@ -55,7 +55,7 @@ public class EnemyChaseState : EnemyState
         float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
         if (distanceToTarget <= owner.BasicRadius && owner.CanBasic)
         {
-            //owner.SetState(EnemyStateMachine.State.Basic);
+            owner.SetState(EnemyStateMachine.State.Basic);
         }
     }
 

@@ -32,7 +32,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     [Header("UI")]
     [SerializeField] HealthBar healthBar;
-    public Image CastBar;
+    public CastBar CastBar;
 
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
     [SerializeField] SpriteRenderer bodySprite;
@@ -40,7 +40,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public float TotalPatience;
 
     [SerializeField] UnityEvent OnDeath;
-    [SerializeField] UnityEvent OnDamage;
 
     private void Start()
     {
@@ -102,7 +101,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     {
         if (!IsServer) return;
 
-        OnDamage?.Invoke();
+        PatienceBar.Patience.Value = 0;
 
         float finalDamage = 0f;
 

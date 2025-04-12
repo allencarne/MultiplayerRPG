@@ -25,7 +25,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public CrowdControl crowdControl { get; private set; }
 
     [Header("Variables")]
-    //public float IdleTime { get; set; }
     public int AttemptsCount { get; set; }
     public bool IsPlayerInRange { get; set; }
 
@@ -36,6 +35,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
     [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
+    public bool IsAttacking = false;
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
@@ -43,6 +43,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
     public Transform Target { get; set; }
+    public CrowdControl CrowdControl;
 
     public enum State
     {
@@ -178,14 +179,6 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public void OnDamageTaken()
-    {
-        if (IsServer)
-        {
-            enemy.PatienceBar.Patience.Value = 0;
-        }
-    }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
@@ -202,5 +195,28 @@ public class EnemyStateMachine : NetworkBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+    }
+
+    public void HandlePotentialInterrupt(Coroutine coroutine)
+    {
+        if (CrowdControl.IsInterrupted)
+        {
+            if (enemy.CastBar.castBarFill.color == Color.black)
+            {
+                if (IsServer)
+                {
+                    enemy.CastBar.InterruptCastBar();
+                }
+                else
+                {
+                    enemy.CastBar.InterruptServerRpc();
+                }
+                if (coroutine != null) StopCoroutine(coroutine);
+                IsAttacking = false;
+
+                SetState(State.Idle);
+                return;
+            }
+        }
     }
 }

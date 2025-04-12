@@ -29,6 +29,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: BaseCDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseSpeed
       value: 3
       objectReference: {fileID: 0}
@@ -37,12 +41,36 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: expToGive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: BaseDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CurrentCDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentSpeed
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CurrentDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: BaseAttackSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: StartingMaxHealth
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CurrentAttackSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Sprite
@@ -134,6 +162,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
+  abilityDamage: 1
+  attackRange: 1
+  castTime: 1
+  recoveryTime: 1
+  coolDown: 1
+  knockBackAmount: 15
+  knockBackDuration: 0.2
 --- !u!114 &4092214828984433478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}

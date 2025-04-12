@@ -24,14 +24,33 @@ public class FrailSlash : PlayerAbility
     bool canImpact = false;
     bool isSliding = false;
     Vector2 aimDirection;
-    Quaternion attackRot;
+    Quaternion aimRotation;
     Coroutine impactCoroutine;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
         owner.CanBasic = false;
+        owner.IsAttacking = true;
 
-        // Start Cast
+        // Direction
+        aimDirection = owner.Aimer.right;
+        aimRotation = owner.Aimer.rotation;
+        Vector2 snappedDirection = owner.SnapDirection(aimDirection);
+
+        // Animate
+        owner.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
+        owner.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
+        owner.BodyAnimator.Play("Sword_Attack_C");
+
+        owner.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
+        owner.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
+        owner.SwordAnimator.Play("Sword_Attack_C");
+
+        owner.EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
+        owner.EyesAnimator.SetFloat("Vertical", snappedDirection.y);
+        owner.EyesAnimator.Play("Sword_Attack_C");
+
+        // Cast Bar
         if (IsServer)
         {
             owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed);
@@ -51,24 +70,6 @@ public class FrailSlash : PlayerAbility
             owner.PlayerRB.linearVelocity = Vector2.zero;
         }
 
-        // Direction
-        aimDirection = owner.Aimer.right;
-        attackRot = owner.Aimer.rotation;
-        Vector2 snappedDirection = owner.SnapDirection(aimDirection);
-
-        // Animate
-        owner.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.BodyAnimator.Play("Sword_Attack_C");
-
-        owner.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.SwordAnimator.Play("Sword_Attack_C");
-
-        owner.EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.EyesAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.EyesAnimator.Play("Sword_Attack_C");
-
         // Timers
         impactCoroutine = owner.StartCoroutine(AttackImpact(owner));
         owner.StartCoroutine(CoolDownTime(owner));
@@ -82,6 +83,10 @@ public class FrailSlash : PlayerAbility
         {
             canImpact = false;
 
+            owner.BodyAnimator.Play("Sword_Attack_R");
+            owner.SwordAnimator.Play("Sword_Attack_R");
+            owner.EyesAnimator.Play("Sword_Attack_R");
+
             // Start Recovery
             if (IsServer)
             {
@@ -91,10 +96,6 @@ public class FrailSlash : PlayerAbility
             {
                 owner.player.CastBar.StartRecoveryServerRpc(recoveryTime, owner.player.CurrentAttackSpeed);
             }
-
-            owner.BodyAnimator.Play("Sword_Attack_R");
-            owner.SwordAnimator.Play("Sword_Attack_R");
-            owner.EyesAnimator.Play("Sword_Attack_R");
 
             owner.StartCoroutine(RecoveryTime(owner));
         }
@@ -138,22 +139,45 @@ public class FrailSlash : PlayerAbility
         owner.SwordAnimator.Play("Sword_Attack_I");
         owner.EyesAnimator.Play("Sword_Attack_I");
 
-        owner.StartCoroutine(ImpactTime());
-
         if (IsServer)
         {
-            SpawnAttack(owner.transform.position, attackRot, aimDirection,owner.OwnerClientId);
+            SpawnAttack(owner.transform.position, aimRotation, aimDirection,owner.OwnerClientId);
         }
         else
         {
-            AttackServerRpc(owner.transform.position, attackRot, aimDirection, owner.OwnerClientId);
+            AttackServerRpc(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId);
         }
+
+        owner.StartCoroutine(ImpactTime());
     }
 
-    [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
+    IEnumerator ImpactTime()
     {
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID);
+        yield return new WaitForSeconds(.1f);
+
+        canImpact = true;
+    }
+
+    IEnumerator RecoveryTime(PlayerStateMachine owner)
+    {
+        float modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed;
+
+        yield return new WaitForSeconds(modifiedRecoveryTime);
+
+        owner.IsAttacking = false;
+        owner.SetState(PlayerStateMachine.State.Idle);
+    }
+
+    IEnumerator CoolDownTime(PlayerStateMachine owner)
+    {
+        //OnBasicCoolDownStarted?.Invoke();
+
+        // Adjust cooldown time based on cooldown reduction
+        float modifiedCooldown = coolDown / owner.player.CurrentCDR;
+
+        yield return new WaitForSeconds(modifiedCooldown);
+
+        owner.CanBasic = true;
     }
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
@@ -185,32 +209,9 @@ public class FrailSlash : PlayerAbility
         }
     }
 
-    IEnumerator ImpactTime()
+    [ServerRpc]
+    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
     {
-        yield return new WaitForSeconds(.1f);
-
-        canImpact = true;
-    }
-
-    IEnumerator RecoveryTime(PlayerStateMachine owner)
-    {
-        float modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed;
-
-        yield return new WaitForSeconds(modifiedRecoveryTime);
-
-        owner.isAttacking = false;
-        owner.SetState(PlayerStateMachine.State.Idle);
-    }
-
-    IEnumerator CoolDownTime(PlayerStateMachine owner)
-    {
-        //OnBasicCoolDownStarted?.Invoke();
-
-        // Adjust cooldown time based on cooldown reduction
-        float modifiedCooldown = coolDown / owner.player.CurrentCDR;
-
-        yield return new WaitForSeconds(modifiedCooldown);
-
-        owner.CanBasic = true;
+        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID);
     }
 }
