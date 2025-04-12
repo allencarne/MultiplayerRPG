@@ -182,6 +182,8 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         // For Dummy Idle Timer Reset
         IdleTime = 0;
+
+        enemy.PatienceBar.UpdatePatienceBar(IdleTime);
     }
 
     private void OnDrawGizmosSelected()

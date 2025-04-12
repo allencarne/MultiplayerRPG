@@ -9,7 +9,7 @@ public class DummyIdleState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.UpdatePatienceBar(owner.IdleTime);
+        owner.enemy.PatienceBar.UpdatePatienceBar(owner.IdleTime);
 
         if (owner.EnemyRB.position != owner.StartingPosition)
         {

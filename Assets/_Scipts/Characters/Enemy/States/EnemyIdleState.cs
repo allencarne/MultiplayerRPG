@@ -9,6 +9,8 @@ public class EnemyIdleState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
+        owner.enemy.PatienceBar.UpdatePatienceBar(owner.IdleTime);
+
         owner.IdleTime += Time.deltaTime;
 
         if (owner.IdleTime >= 5)

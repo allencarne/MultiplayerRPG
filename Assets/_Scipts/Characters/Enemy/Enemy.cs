@@ -32,11 +32,11 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     [Header("UI")]
     [SerializeField] HealthBar healthBar;
-    public Image CaseBar;
+    public PatienceBar PatienceBar;
+    public Image CastBar;
 
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
     [SerializeField] SpriteRenderer bodySprite;
-    public Image PatienceBar;
     public float TotalPatience;
     public float CurrentPatience;
 
@@ -140,18 +140,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
 
         TriggerFlashEffectClientRpc(Color.green);
-    }
-
-    public void UpdatePatienceBar(float patience)
-    {
-        if (PatienceBar != null)
-        {
-            // Calculate the fill amount
-            float fillAmount = Mathf.Clamp01(patience / TotalPatience);
-
-            // Update the patience bar fill amount
-            PatienceBar.fillAmount = fillAmount;
-        }
     }
 
     public IEnumerator FlashEffect(Color color)

@@ -14,6 +14,8 @@ public class DummyResetState : EnemyState
         yield return new WaitForSeconds(.6f);
 
         owner.IdleTime = 0;
+        owner.enemy.PatienceBar.UpdatePatienceBar(owner.IdleTime);
+
         owner.EnemyRB.linearVelocity = Vector3.zero;
         owner.EnemyRB.position = owner.StartingPosition;
 

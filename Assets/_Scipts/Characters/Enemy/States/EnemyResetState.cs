@@ -9,7 +9,7 @@ public class EnemyResetState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.UpdatePatienceBar(owner.enemy.CurrentPatience);
+        owner.enemy.PatienceBar.UpdatePatienceBar(owner.enemy.CurrentPatience);
 
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
         {

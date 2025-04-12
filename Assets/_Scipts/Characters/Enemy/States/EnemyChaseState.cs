@@ -9,7 +9,7 @@ public class EnemyChaseState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        owner.enemy.UpdatePatienceBar(owner.enemy.CurrentPatience);
+        owner.enemy.PatienceBar.UpdatePatienceBar(owner.enemy.CurrentPatience);
 
 
         if (owner.Target == null)

@@ -679,10 +679,10 @@ MonoBehaviour:
   CurrentArmor: 0
   expToGive: 0
   healthBar: {fileID: 1827727574157614942}
-  CaseBar: {fileID: 2338881300465963060}
+  PatienceBar: {fileID: 2310162195662949134}
+  CastBar: {fileID: 0}
   EnemySpawnerReference: {fileID: 0}
   bodySprite: {fileID: 6097983339982761849}
-  PatienceBar: {fileID: 1073209790744301300}
   TotalPatience: 5
   CurrentPatience: 0
   OnDeath:
@@ -1495,6 +1495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1678050288238711682}
   - component: {fileID: 1827727574157614942}
+  - component: {fileID: 2310162195662949134}
   m_Layer: 0
   m_Name: Healthbar
   m_TagString: Untagged
@@ -1540,3 +1541,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5859928345871486707}
   healthBar_Back: {fileID: 4142390380479643555}
+--- !u!114 &2310162195662949134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9132351854630010809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074cf095ea8eb2942a3db7549166d760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 5006461325889791442}
+  patienceBarFill: {fileID: 1073209790744301300}
