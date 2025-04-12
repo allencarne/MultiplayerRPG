@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -95,11 +96,11 @@ public class SnailBash : EnemyAbility
 
         if (IsServer)
         {
-            SpawnAttack(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId);
+            SpawnAttack(owner.transform.position, aimRotation, aimDirection, owner.NetworkObject);
         }
         else
         {
-            AttackServerRpc(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId);
+            AttackServerRpc(owner.transform.position, aimRotation, aimDirection);
         }
 
         owner.StartCoroutine(ImpactTime());
@@ -134,10 +135,8 @@ public class SnailBash : EnemyAbility
         owner.CanBasic = true;
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
+    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, NetworkObject attacker)
     {
-        NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
-
         Vector2 offset = aimDirection.normalized * attackRange;
 
         GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
@@ -148,14 +147,14 @@ public class SnailBash : EnemyAbility
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
-            damageOnTrigger.attacker = Attacker;
+            damageOnTrigger.attacker = attacker;
             damageOnTrigger.Damage = abilityDamage;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
-            knockbackOnTrigger.attacker = Attacker;
+            knockbackOnTrigger.attacker = attacker;
 
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
@@ -164,8 +163,10 @@ public class SnailBash : EnemyAbility
     }
 
     [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
+    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection)
     {
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID);
+        NetworkObject attacker = GetComponentInParent<NetworkObject>();
+
+        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attacker);
     }
 }
