@@ -1,12 +1,11 @@
 using System.Collections;
 using Unity.Netcode;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class SnailBash : EnemyAbility
 {
     [SerializeField] GameObject attackPrefab;
+    [SerializeField] GameObject telegraphPrefab;
     [SerializeField] int abilityDamage;
     [SerializeField] float attackRange;
 
@@ -29,6 +28,8 @@ public class SnailBash : EnemyAbility
         owner.CanBasic = false;
         owner.IsAttacking = true;
 
+        float modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
+
         // Get the direction from enemy to the target
         aimDirection = (owner.Target.position - transform.position).normalized;
 
@@ -45,10 +46,12 @@ public class SnailBash : EnemyAbility
         // Cast Bar
         if (IsServer)
         {
+            SpawnTelegraph(owner.transform.position, aimRotation, modifiedCastTime);
             owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
         }
         else
         {
+            TelegraphServerRPC(owner.transform.position, aimRotation, modifiedCastTime);
             owner.enemy.CastBar.StartCastServerRpc(castTime, owner.enemy.CurrentAttackSpeed);
         }
 
@@ -168,5 +171,27 @@ public class SnailBash : EnemyAbility
         NetworkObject attacker = GetComponentInParent<NetworkObject>();
 
         SpawnAttack(spawnPosition, spawnRotation, aimDirection, attacker);
+    }
+
+    void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
+    {
+        Vector2 offset = aimDirection.normalized * attackRange;
+
+        GameObject attackInstance = Instantiate(telegraphPrefab, spawnPosition + offset, spawnRotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+
+        attackNetObj.Spawn();
+
+        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
+        if (_fillTelegraph != null)
+        {
+            _fillTelegraph.FillSpeed.Value = modifiedCastTime;
+        }
+    }
+
+    [ServerRpc]
+    void TelegraphServerRPC(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
+    {
+        SpawnTelegraph(spawnPosition, spawnRotation, modifiedCastTime);
     }
 }
