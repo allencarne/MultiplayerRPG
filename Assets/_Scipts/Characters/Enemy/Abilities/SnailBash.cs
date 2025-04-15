@@ -22,23 +22,25 @@ public class SnailBash : EnemyAbility
     Vector2 aimDirection;
     Quaternion aimRotation;
     Coroutine impactCoroutine;
+    Vector2 spawnPosition;
+    float modifiedCastTime;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
         owner.CanBasic = false;
         owner.IsAttacking = true;
 
-        float modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
-
-        // Get the direction from enemy to the target
+        // Set Veriables
+        modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
-
-        // Convert that direction to an angle in degrees
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-
-        // Create a rotation around the Z axis
         aimRotation = Quaternion.Euler(0, 0, angle);
+        spawnPosition = owner.transform.position;
 
+        // Stop Movement
+        owner.EnemyRB.linearVelocity = Vector2.zero;
+
+        // Aim
         owner.EnemyAnimator.Play("Basic Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", aimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
@@ -46,12 +48,12 @@ public class SnailBash : EnemyAbility
         // Cast Bar
         if (IsServer)
         {
-            SpawnTelegraph(owner.transform.position, aimRotation, modifiedCastTime);
+            SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
             owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
         }
         else
         {
-            TelegraphServerRPC(owner.transform.position, aimRotation, modifiedCastTime);
+            TelegraphServerRPC(spawnPosition, aimRotation, modifiedCastTime);
             owner.enemy.CastBar.StartCastServerRpc(castTime, owner.enemy.CurrentAttackSpeed);
         }
 
@@ -91,19 +93,17 @@ public class SnailBash : EnemyAbility
 
     IEnumerator AttackImpact(EnemyStateMachine owner)
     {
-        float modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
-
         yield return new WaitForSeconds(modifiedCastTime);
 
         owner.EnemyAnimator.Play("Basic Impact");
 
         if (IsServer)
         {
-            SpawnAttack(owner.transform.position, aimRotation, aimDirection, owner.NetworkObject);
+            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
         }
         else
         {
-            AttackServerRpc(owner.transform.position, aimRotation, aimDirection);
+            AttackServerRpc(spawnPosition, aimRotation, aimDirection);
         }
 
         owner.StartCoroutine(ImpactTime());
@@ -128,9 +128,6 @@ public class SnailBash : EnemyAbility
 
     IEnumerator CoolDownTime(EnemyStateMachine owner)
     {
-        //OnBasicCoolDownStarted?.Invoke();
-
-        // Adjust cooldown time based on cooldown reduction
         float modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
 
         yield return new WaitForSeconds(modifiedCooldown);
@@ -185,7 +182,7 @@ public class SnailBash : EnemyAbility
         FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
         if (_fillTelegraph != null)
         {
-            _fillTelegraph.FillSpeed.Value = modifiedCastTime;
+            _fillTelegraph.FillSpeed = modifiedCastTime;
         }
     }
 

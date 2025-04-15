@@ -5,60 +5,29 @@ using UnityEngine;
 
 public class FillTelegraph : NetworkBehaviour
 {
-    [SerializeField] private SpriteRenderer frontSprite;
-    [SerializeField] private float maxSize;
+    [SerializeField] SpriteRenderer frontSprite;
+    public float FillSpeed;
 
-    public NetworkVariable<float> FillSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    private NetworkVariable<Vector3> CurrentScale = new(Vector3.zero, writePerm: NetworkVariableWritePermission.Server);
-
-    private void OnEnable()
+    private void Update()
     {
-        CurrentScale.OnValueChanged += OnScaleChanged;
-        UpdateSpriteScale(CurrentScale.Value);
-    }
+        if (!IsServer) return;
 
-    private void OnDisable()
-    {
-        CurrentScale.OnValueChanged -= OnScaleChanged;
-    }
+        // Calculate the scale increment per frame to achieve the target scale in FillSpeed seconds
+        float scaleIncrement = Time.deltaTime / FillSpeed;
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
+        // Adjust the scale of frontSprite
+        Vector3 currentScale = frontSprite.transform.localScale;
+        float newScaleX = Mathf.Min(currentScale.x + scaleIncrement, 1f);
+        float newScaleY = Mathf.Min(currentScale.y + scaleIncrement, 1f);
+
+        // Set the new scale
+        frontSprite.transform.localScale = new Vector3(newScaleX, newScaleY, currentScale.z);
+
+        // Check if the scale has reached 1
+        if (frontSprite.transform.localScale.x >= 1f && frontSprite.transform.localScale.y >= 1f)
         {
-            StartCoroutine(FillRoutine());
+            // Destroy this game object
+            Destroy(gameObject);
         }
-        else
-        {
-            UpdateSpriteScale(CurrentScale.Value);
-        }
-    }
-
-    private void OnScaleChanged(Vector3 oldScale, Vector3 newScale)
-    {
-        UpdateSpriteScale(newScale);
-    }
-
-    private void UpdateSpriteScale(Vector3 scale)
-    {
-        frontSprite.transform.localScale = scale;
-    }
-
-    IEnumerator FillRoutine()
-    {
-        while (CurrentScale.Value.x < maxSize || CurrentScale.Value.y < maxSize)
-        {
-            float increment = Time.deltaTime / FillSpeed.Value;
-            Vector3 newScale = CurrentScale.Value;
-            newScale.x = Mathf.Min(newScale.x + increment, maxSize);
-            newScale.y = Mathf.Min(newScale.y + increment, maxSize);
-
-            CurrentScale.Value = newScale;
-
-            yield return null;
-        }
-
-        // Clean up when fill is complete
-        GetComponent<NetworkObject>().Despawn();
     }
 }
