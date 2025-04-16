@@ -183,6 +183,7 @@ public class SnailBash : EnemyAbility
         if (_fillTelegraph != null)
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;
+            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
     }
 

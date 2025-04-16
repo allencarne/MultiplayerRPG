@@ -7,10 +7,19 @@ public class FillTelegraph : NetworkBehaviour
 {
     [SerializeField] SpriteRenderer frontSprite;
     public float FillSpeed;
+    public CrowdControl crowdControl;
 
     private void Update()
     {
         if (!IsServer) return;
+
+        if (crowdControl != null)
+        {
+            if (crowdControl.IsInterrupted)
+            {
+                Destroy(gameObject);
+            }
+        }
 
         // Calculate the scale increment per frame to achieve the target scale in FillSpeed seconds
         float scaleIncrement = Time.deltaTime / FillSpeed;
@@ -26,7 +35,6 @@ public class FillTelegraph : NetworkBehaviour
         // Check if the scale has reached 1
         if (frontSprite.transform.localScale.x >= 1f && frontSprite.transform.localScale.y >= 1f)
         {
-            // Destroy this game object
             Destroy(gameObject);
         }
     }
