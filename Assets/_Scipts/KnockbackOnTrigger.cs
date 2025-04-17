@@ -4,10 +4,9 @@ using UnityEngine;
 public class KnockbackOnTrigger : MonoBehaviour
 {
     [HideInInspector] public NetworkObject attacker;
-
     [HideInInspector] public Vector2 Direction;
     [HideInInspector] public float Amount;
-    [SerializeField] public float Duration;
+    [HideInInspector] public float Duration;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

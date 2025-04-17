@@ -5,9 +5,18 @@ public class DamageOnTrigger : NetworkBehaviour
 {
     [HideInInspector] public int Damage;
     [HideInInspector] public NetworkObject attacker;
+    [HideInInspector] public bool IgnoreEnemy;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Enemy"))
+        {
+            if (IgnoreEnemy)
+            {
+                return;
+            }
+        }
+
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
         if (objectThatWasHit != null)
         {

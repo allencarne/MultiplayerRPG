@@ -122,7 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 4092214828984433478}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: basicRadius
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: wanderRadius
@@ -167,8 +167,8 @@ MonoBehaviour:
   abilityDamage: 1
   attackRange: 1
   castTime: 1
-  recoveryTime: 1
-  coolDown: 5
+  recoveryTime: 0.3
+  coolDown: 2
   knockBackAmount: 15
   knockBackDuration: 0.2
 --- !u!114 &4092214828984433478 stripped

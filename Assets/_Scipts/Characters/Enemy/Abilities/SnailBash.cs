@@ -149,13 +149,13 @@ public class SnailBash : EnemyAbility
         {
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.Damage = abilityDamage;
+            damageOnTrigger.IgnoreEnemy = true;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
             knockbackOnTrigger.attacker = attacker;
-
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;

@@ -29,6 +29,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: BaseCDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseSpeed
       value: 3
       objectReference: {fileID: 0}
@@ -37,12 +41,36 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: expToGive
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: BaseDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CurrentCDR
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentSpeed
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CurrentDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: BaseAttackSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: StartingMaxHealth
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CurrentAttackSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Size.x
@@ -106,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 700539467145608495}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: basicRadius
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: wanderRadius
@@ -157,3 +185,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 8577604420999539810, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
+  telegraphPrefab: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
+  abilityDamage: 1
+  attackRange: 1
+  castTime: 1
+  recoveryTime: 0.3
+  coolDown: 2
+  knockBackAmount: 15
+  knockBackDuration: 0.2
