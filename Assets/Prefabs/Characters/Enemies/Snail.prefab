@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: enemyBasicAbility
       value: 
       objectReference: {fileID: 6284047356525667344}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemySpecialAbility
+      value: 
+      objectReference: {fileID: 7091144218376054601}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -143,6 +147,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6284047356525667344}
+    - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7091144218376054601}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!1 &2610729715392630421 stripped
 GameObject:
@@ -171,6 +178,35 @@ MonoBehaviour:
   coolDown: 2
   knockBackAmount: 15
   knockBackDuration: 0.2
+--- !u!1 &3154958822785688475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 9057004625187020436}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7091144218376054601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154958822785688475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d14adf4d03e0bf4db4bc12c05e77bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 2405726608416270546, guid: 06293bb383d340a478b0e577a48dcbdc, type: 3}
+  telegraphPrefab: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
+  abilityDamage: 1
+  attackRange: 1
+  castTime: 1
+  recoveryTime: 0.4
+  coolDown: 3
+  knockBackAmount: 0
+  knockBackDuration: 0
+  slideForce: 15
+  slideDuration: 0.25
 --- !u!114 &4092214828984433478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}

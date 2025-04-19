@@ -57,6 +57,12 @@ public class EnemyChaseState : EnemyState
         {
             owner.SetState(EnemyStateMachine.State.Basic);
         }
+
+
+        if (distanceToTarget <= owner.SpecialRadius && owner.CanSpecial)
+        {
+            owner.SetState(EnemyStateMachine.State.Special);
+        }
     }
 
     public void HandleDeAggro(EnemyStateMachine owner)
