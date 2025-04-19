@@ -191,6 +191,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public IEnumerator FlashEffect(Color color)
     {
+        Color _skinColor = bodySprite.color;
         float flashDuration = 0.1f;
 
         bodySprite.color = color;
@@ -203,7 +204,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         yield return new WaitForSeconds(flashDuration / 2);
 
         // Reset to original color
-        bodySprite.color = Color.white;
+        bodySprite.color = _skinColor;
     }
 
     [ClientRpc]
