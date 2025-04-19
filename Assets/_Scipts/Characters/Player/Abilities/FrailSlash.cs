@@ -50,6 +50,10 @@ public class FrailSlash : PlayerAbility
         owner.EyesAnimator.SetFloat("Vertical", snappedDirection.y);
         owner.EyesAnimator.Play("Sword_Attack_C");
 
+        owner.HairAnimator.SetFloat("Horizontal", snappedDirection.x);
+        owner.HairAnimator.SetFloat("Vertical", snappedDirection.y);
+        owner.HairAnimator.Play("Sword_Attack_C_" + owner.player.hairIndex);
+
         // Cast Bar
         if (IsServer)
         {
@@ -86,6 +90,7 @@ public class FrailSlash : PlayerAbility
             owner.BodyAnimator.Play("Sword_Attack_R");
             owner.SwordAnimator.Play("Sword_Attack_R");
             owner.EyesAnimator.Play("Sword_Attack_R");
+            owner.HairAnimator.Play("Sword_Attack_R_" + owner.player.hairIndex);
 
             // Start Recovery
             if (IsServer)
@@ -138,6 +143,7 @@ public class FrailSlash : PlayerAbility
         owner.BodyAnimator.Play("Sword_Attack_I");
         owner.SwordAnimator.Play("Sword_Attack_I");
         owner.EyesAnimator.Play("Sword_Attack_I");
+        owner.HairAnimator.Play("Sword_Attack_I_" + owner.player.hairIndex);
 
         if (IsServer)
         {
