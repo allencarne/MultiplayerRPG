@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
+using static UnityEngine.GraphicsBuffer;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
@@ -16,6 +17,8 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyAbility enemyBasicAbility;
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
+
+    [SerializeField] LayerMask obstacleLayerMask;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }
@@ -78,8 +81,6 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        //Debug.Log(enemyState);
-
         switch (state)
         {
             case State.Spawn: enemySpawnState.UpdateState(this); break;
@@ -99,7 +100,6 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Special: enemySpecialAbility.AbilityUpdate(this); break;
 
             case State.Ultimate: enemyUltimateAbility.AbilityUpdate(this); break;
-
         }
     }
 
@@ -126,7 +126,6 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Special: enemySpecialAbility.AbilityFixedUpdate(this); break;
 
             case State.Ultimate: enemyUltimateAbility.AbilityFixedUpdate(this); break;
-
         }
     }
 
@@ -156,8 +155,37 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void MoveTowardsTarget(Vector3 _targetPos)
     {
-        Vector2 direction = (_targetPos - transform.position).normalized;
+        Vector2 direction = GetDirectionAroundObstacle(_targetPos);
+
+        //Vector2 direction = (_targetPos - transform.position).normalized;
         EnemyRB.linearVelocity = direction * enemy.BaseSpeed;
+    }
+
+    public Vector3 GetDirectionAroundObstacle(Vector3 targetPos)
+    {
+        Vector2 baseDirection = (targetPos - transform.position).normalized;
+        float rayDistance = 2f;
+        int rayCount = 7;
+        float coneAngle = 60f;
+
+        Vector3 bestDirection = Vector3.zero;
+        float angleIncrement = coneAngle / (rayCount - 1);
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angleOffset = -coneAngle / 2f + angleIncrement * i;
+            Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * baseDirection;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, rayDistance, obstacleLayerMask);
+            Debug.DrawRay(transform.position, dir * rayDistance, hit ? Color.red : Color.green);
+
+            if (!hit)
+            {
+                bestDirection = dir;
+                break;
+            }
+        }
+
+        return bestDirection == Vector3.zero ? Vector3.zero : bestDirection.normalized;
     }
 
     public void Death()
