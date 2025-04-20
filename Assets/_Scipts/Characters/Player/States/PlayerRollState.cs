@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 
 public class PlayerRollState : PlayerState
 {
+    Vector2 facingDirection;
+
     public override void StartState(PlayerStateMachine owner)
     {
         owner.player.EnduranceBar.SpendEndurance(50);
@@ -11,26 +13,45 @@ public class PlayerRollState : PlayerState
         owner.StartCoroutine(Duration(owner));
 
         Vector2 moveInput = owner.InputHandler.MoveInput.normalized;
-        Vector2 direction = owner.SnapDirection(moveInput);
 
-        // Apply force
-        owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
+        if (moveInput == Vector2.zero)
+        {
+            // get Body animator horizontal and vertical float
+            float _x = owner.BodyAnimator.GetFloat("Horizontal");
+            float _y = owner.BodyAnimator.GetFloat("Vertical");
+
+            // create new vector 2
+            Vector2 _newDir = new Vector2(_x, _y);
+
+            // Apply force
+            owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
+
+            facingDirection = owner.SnapDirection(_newDir);
+
+        }
+        else
+        {
+            // Apply force
+            owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
+
+            facingDirection = owner.SnapDirection(moveInput);
+        }
 
         // Animate
-        owner.BodyAnimator.SetFloat("Horizontal", direction.x);
-        owner.BodyAnimator.SetFloat("Vertical", direction.y);
+        owner.BodyAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.BodyAnimator.SetFloat("Vertical", facingDirection.y);
         owner.BodyAnimator.Play("Roll");
 
-        owner.EyesAnimator.SetFloat("Horizontal", direction.x);
-        owner.EyesAnimator.SetFloat("Vertical", direction.y);
+        owner.EyesAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.EyesAnimator.SetFloat("Vertical", facingDirection.y);
         owner.EyesAnimator.Play("Roll");
 
-        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
-        owner.SwordAnimator.SetFloat("Vertical", direction.y);
+        owner.SwordAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.SwordAnimator.SetFloat("Vertical", facingDirection.y);
         owner.SwordAnimator.Play("Roll");
 
-        owner.HairAnimator.SetFloat("Horizontal", direction.x);
-        owner.HairAnimator.SetFloat("Vertical", direction.y);
+        owner.HairAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.HairAnimator.SetFloat("Vertical", facingDirection.y);
         owner.HairAnimator.Play("Roll_" + owner.player.hairIndex);
     }
 
