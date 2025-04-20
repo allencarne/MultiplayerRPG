@@ -6,6 +6,12 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
+        if (owner.ImpactCoroutine != null)
+        {
+            owner.StopCoroutine(owner.ImpactCoroutine);
+            owner.ImpactCoroutine = null;
+        }
+
         if (owner.enemy.EnemySpawnerReference != null)
         {
             owner.enemy.EnemySpawnerReference.DecreaseEnemyCount();

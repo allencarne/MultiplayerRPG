@@ -48,6 +48,8 @@ public class EnemyStateMachine : NetworkBehaviour
     public Transform Target { get; set; }
     public CrowdControl CrowdControl;
 
+    public Coroutine ImpactCoroutine;
+
     public enum State
     {
         Spawn,
@@ -252,9 +254,9 @@ public class EnemyStateMachine : NetworkBehaviour
                 if (coroutine != null)
                 {
                     StopCoroutine(coroutine);
-                    IsAttacking = false;
                 }
 
+                IsAttacking = false;
                 SetState(State.Idle);
                 return;
             }

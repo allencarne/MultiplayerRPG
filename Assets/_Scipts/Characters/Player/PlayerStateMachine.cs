@@ -308,9 +308,13 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     player.CastBar.InterruptServerRpc();
                 }
-                if (coroutine != null) StopCoroutine(coroutine);
-                IsAttacking = false;
 
+                if (coroutine != null)
+                {
+                    StopCoroutine(coroutine);
+                }
+
+                IsAttacking = false;
                 SetState(State.Idle);
                 return;
             }

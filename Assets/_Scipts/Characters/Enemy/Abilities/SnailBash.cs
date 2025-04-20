@@ -24,8 +24,6 @@ public class SnailBash : EnemyAbility
     Vector2 spawnPosition;
     float modifiedCastTime;
 
-    Coroutine impactCoroutine;
-
     public override void AbilityStart(EnemyStateMachine owner)
     {
         owner.CanBasic = false;
@@ -61,13 +59,13 @@ public class SnailBash : EnemyAbility
         }
 
         // Timers
-        impactCoroutine = owner.StartCoroutine(AttackImpact(owner));
+        owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
         owner.StartCoroutine(CoolDownTime(owner));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
-        owner.HandlePotentialInterrupt(impactCoroutine);
+        owner.HandlePotentialInterrupt(owner.ImpactCoroutine);
 
         if (canImpact)
         {
