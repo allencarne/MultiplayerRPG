@@ -165,23 +165,32 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         Vector2 baseDirection = (targetPos - transform.position).normalized;
         float rayDistance = 2f;
+        float rayThickness = 0.3f;
         int rayCount = 7;
-        float coneAngle = 60f;
+        float expandedConeAngle = 120f;
 
         Vector3 bestDirection = Vector3.zero;
-        float angleIncrement = coneAngle / (rayCount - 1);
 
+        // First: straight line check using thick ray
+        RaycastHit2D centerHit = Physics2D.CircleCast(transform.position, rayThickness, baseDirection, rayDistance, obstacleLayerMask);
+        Debug.DrawRay(transform.position, baseDirection * rayDistance, centerHit ? Color.red : Color.green);
+
+        if (!centerHit)
+            return baseDirection;
+
+        // If blocked: scan with wide cone
+        float angleIncrement = expandedConeAngle / (rayCount - 1);
         for (int i = 0; i < rayCount; i++)
         {
-            float angleOffset = -coneAngle / 2f + angleIncrement * i;
+            float angleOffset = -expandedConeAngle / 2f + angleIncrement * i;
             Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * baseDirection;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, rayDistance, obstacleLayerMask);
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, rayThickness, dir, rayDistance, obstacleLayerMask);
+
             Debug.DrawRay(transform.position, dir * rayDistance, hit ? Color.red : Color.green);
 
-            if (!hit)
+            if (!hit && bestDirection == Vector3.zero)
             {
                 bestDirection = dir;
-                break;
             }
         }
 
