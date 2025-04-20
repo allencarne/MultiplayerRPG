@@ -159,6 +159,7 @@ public class SnailBash : EnemyAbility
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.IgnoreEnemy = true;
         }
     }
 
