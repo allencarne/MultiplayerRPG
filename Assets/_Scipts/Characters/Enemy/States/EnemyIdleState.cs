@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyIdleState : EnemyState
 {
+    float idleTime = 0;
+
     public override void StartState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Idle");
@@ -11,8 +13,11 @@ public class EnemyIdleState : EnemyState
     {
         if (!owner.IsServer) return;
 
-        if (owner.enemy.PatienceBar.Patience.Value >= 5f)
+        idleTime += Time.deltaTime;
+
+        if (idleTime >= 5f)
         {
+
             int maxAttempts = 3;
             int consecutiveFailures = Mathf.Min(owner.AttemptsCount, maxAttempts);
             float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);
@@ -20,12 +25,12 @@ public class EnemyIdleState : EnemyState
             // Transition To Wander
             if (Random.value < wanderProbability)
             {
-                owner.enemy.PatienceBar.Patience.Value = 0;
+                idleTime = 0;
                 owner.SetState(EnemyStateMachine.State.Wander);
             }
 
             // Reset Idle
-            owner.enemy.PatienceBar.Patience.Value = 0f;
+            idleTime = 0f;
             owner.AttemptsCount++;
         }
 
@@ -33,7 +38,7 @@ public class EnemyIdleState : EnemyState
         if (owner.IsPlayerInRange)
         {
             owner.AttemptsCount = 0;
-            owner.enemy.PatienceBar.Patience.Value = 0f;
+            idleTime = 0f;
             owner.SetState(EnemyStateMachine.State.Chase);
         }
     }
