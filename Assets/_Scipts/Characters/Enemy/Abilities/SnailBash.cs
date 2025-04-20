@@ -21,9 +21,10 @@ public class SnailBash : EnemyAbility
     bool canImpact = false;
     Vector2 aimDirection;
     Quaternion aimRotation;
-    Coroutine impactCoroutine;
     Vector2 spawnPosition;
     float modifiedCastTime;
+
+    Coroutine impactCoroutine;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -39,6 +40,8 @@ public class SnailBash : EnemyAbility
 
         // Stop Movement
         owner.EnemyRB.linearVelocity = Vector2.zero;
+
+        owner.crowdControl.UnPushable(castTime);
 
         // Animate
         owner.EnemyAnimator.Play("Basic Cast");

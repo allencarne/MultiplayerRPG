@@ -248,8 +248,12 @@ public class EnemyStateMachine : NetworkBehaviour
                 {
                     enemy.CastBar.InterruptServerRpc();
                 }
-                if (coroutine != null) StopCoroutine(coroutine);
-                IsAttacking = false;
+
+                if (coroutine != null)
+                {
+                    StopCoroutine(coroutine);
+                    IsAttacking = false;
+                }
 
                 SetState(State.Idle);
                 return;

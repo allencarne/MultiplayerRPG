@@ -13,6 +13,7 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     public bool IsImmobilized;
     public bool IsInterrupted;
     //public bool IsDisarmed;
+    public bool IsUnpushable;
 
     void Awake()
     {
@@ -102,5 +103,23 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         yield return new WaitForSeconds(duration);
 
         IsInterrupted = false;
+    }
+
+    public void UnPushable(float duration)
+    {
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        StartCoroutine(UnPushableDuration(duration));
+    }
+
+    IEnumerator UnPushableDuration(float duration)
+    {
+        IsUnpushable = true;
+
+        yield return new WaitForSeconds(duration);
+
+        rb.bodyType = RigidbodyType2D.Dynamic;
+
+        IsUnpushable = false;
     }
 }

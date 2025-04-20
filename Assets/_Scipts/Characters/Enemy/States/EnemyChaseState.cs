@@ -41,16 +41,6 @@ public class EnemyChaseState : EnemyState
             owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
             owner.EnemyAnimator.SetFloat("Vertical", direction.y);
         }
-
-        if (owner.Target)
-        {
-            RaycastHit2D ray = Physics2D.Raycast(owner.transform.position, owner.Target.transform.position - owner.transform.position);
-
-            if (ray.collider != null)
-            {
-                Debug.DrawRay(owner.transform.position, owner.Target.transform.position - owner.transform.position, Color.magenta);
-            }
-        }
     }
 
     public void TransitionToReset(EnemyStateMachine owner)
