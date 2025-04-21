@@ -218,6 +218,23 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        /*
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Vector2 direction = collision.transform.position - transform.position.normalized;
+            float force = 10;
+
+            Rigidbody2D otherRB = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (otherRB != null)
+            {
+                //otherRB.linearVelocity = direction * force;
+            }
+        }
+        */
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;

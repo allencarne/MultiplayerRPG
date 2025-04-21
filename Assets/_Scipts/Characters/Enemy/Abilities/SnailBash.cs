@@ -39,8 +39,6 @@ public class SnailBash : EnemyAbility
         // Stop Movement
         owner.EnemyRB.linearVelocity = Vector2.zero;
 
-        owner.crowdControl.UnPushable(castTime);
-
         // Animate
         owner.EnemyAnimator.Play("Basic Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", aimDirection.x);
