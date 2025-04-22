@@ -7,7 +7,6 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     [Header("Knockback")]
     Rigidbody2D rb;
     Vector2 knockBackVelocity;
-    float knockBackDuration;
 
     [Header("Bools")]
     public bool IsImmobilized;
@@ -19,22 +18,11 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
-    {
-        if (knockBackDuration > 0)
-        {
-            rb.linearVelocity = knockBackVelocity;
-            knockBackDuration -= Time.fixedDeltaTime;
-        }
-    }
-
     public void KnockBack(Vector2 direction, float amount, float duration)
     {
         if (!IsServer) return;
 
-        knockBackVelocity = direction * amount;
-        knockBackDuration = duration;
-
+        direction = direction.normalized;
         ApplyKnockBackClientRpc(direction, amount, duration);
         ApplyKnockback(direction, amount, duration);
     }
@@ -49,8 +37,8 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
 
     private void ApplyKnockback(Vector2 direction, float amount, float duration)
     {
+        direction = direction.normalized;
         knockBackVelocity = direction * amount;
-        knockBackDuration = duration;
 
         Interrupt(duration);
         Immobilize(duration);
@@ -61,16 +49,16 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     IEnumerator KnockBackDuration(float duration)
     {
         float elapsedTime = 0f;
+        Vector2 initialVelocity = knockBackVelocity;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration; // Normalized time
-            rb.linearVelocity = Vector2.Lerp(knockBackVelocity, Vector2.zero, t);
-            yield return null; // Wait for the next frame
+            float t = elapsedTime / duration;
+            rb.linearVelocity = Vector2.Lerp(initialVelocity, Vector2.zero, t);
+            yield return null;
         }
 
-        // Ensure the velocity is exactly zero at the end
         rb.linearVelocity = Vector2.zero;
     }
 

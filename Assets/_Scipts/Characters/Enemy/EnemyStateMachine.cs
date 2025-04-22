@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyStateMachine : NetworkBehaviour
 {

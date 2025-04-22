@@ -38,7 +38,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] SpriteRenderer bodySprite;
     public PatienceBar PatienceBar;
     public float TotalPatience;
-
     [SerializeField] UnityEvent OnDeath;
 
     private void Start()
