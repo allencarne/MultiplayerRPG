@@ -133,6 +133,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: specialRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
       objectReference: {fileID: 6284047356525667344}
@@ -202,11 +206,11 @@ MonoBehaviour:
   attackRange: 1
   castTime: 1
   recoveryTime: 0.4
-  coolDown: 3
+  coolDown: 5
   knockBackAmount: 0
   knockBackDuration: 0
-  slideForce: 15
-  slideDuration: 0.25
+  slideForce: 25
+  slideDuration: 0.15
 --- !u!114 &4092214828984433478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}

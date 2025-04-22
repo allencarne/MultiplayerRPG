@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 public class SnailDash : EnemyAbility
@@ -21,10 +22,12 @@ public class SnailDash : EnemyAbility
     [SerializeField] float slideForce;
     [SerializeField] float slideDuration;
 
+    float modifiedCastTime;
+    Vector2 spawnPosition;
     Vector2 aimDirection;
+    Quaternion aimRotation;
     bool isSliding;
     bool canImpact;
-    Coroutine impactCoroutine;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -32,19 +35,34 @@ public class SnailDash : EnemyAbility
         owner.IsAttacking = true;
 
         // Aim
+        modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        aimRotation = Quaternion.Euler(0, 0, angle);
+        spawnPosition = owner.transform.position;
+
+        // Stop Movement
+        owner.EnemyRB.linearVelocity = Vector2.zero;
 
         // Animate
         owner.EnemyAnimator.Play("Mobility Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", aimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
 
-        // Slide
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        isSliding = true;
+        // Cast Bar
+        if (IsServer)
+        {
+            SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
+            owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
+        }
+        else
+        {
+            TelegraphServerRPC(spawnPosition, aimRotation, modifiedCastTime);
+            owner.enemy.CastBar.StartCastServerRpc(castTime, owner.enemy.CurrentAttackSpeed);
+        }
 
         // Timers
-        impactCoroutine = owner.StartCoroutine(AttackImpact(owner));
+        owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
         owner.StartCoroutine(CoolDownTime(owner));
     }
 
@@ -59,11 +77,11 @@ public class SnailDash : EnemyAbility
             // Start Recovery
             if (IsServer)
             {
-                //owner.player.CastBar.StartRecovery(recoveryTime, owner.player.CurrentAttackSpeed);
+                owner.enemy.CastBar.StartRecovery(recoveryTime, owner.enemy.CurrentAttackSpeed);
             }
             else
             {
-                //owner.player.CastBar.StartRecoveryServerRpc(recoveryTime, owner.player.CurrentAttackSpeed);
+                owner.enemy.CastBar.StartRecoveryServerRpc(recoveryTime, owner.enemy.CurrentAttackSpeed);
             }
 
             owner.StartCoroutine(RecoveryTime(owner));
@@ -82,19 +100,24 @@ public class SnailDash : EnemyAbility
 
     IEnumerator AttackImpact(EnemyStateMachine owner)
     {
-        float modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
-
         yield return new WaitForSeconds(modifiedCastTime);
 
         owner.EnemyAnimator.Play("Mobility Impact");
 
+        // Slide
+        if (owner.Target)
+        {
+            Physics2D.IgnoreCollision(owner.GetComponent<Collider2D>(), owner.Target.GetComponent<Collider2D>(), true);
+        }
+        isSliding = true;
+
         if (IsServer)
         {
-            //SpawnAttack(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId);
+            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
         }
         else
         {
-            //AttackServerRpc(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId);
+            AttackServerRpc(spawnPosition, aimRotation, aimDirection);
         }
 
         owner.StartCoroutine(ImpactTime());
@@ -142,6 +165,66 @@ public class SnailDash : EnemyAbility
         }
 
         owner.EnemyRB.linearVelocity = Vector2.zero;
+        Physics2D.IgnoreCollision(owner.GetComponent<Collider2D>(), owner.Target.GetComponent<Collider2D>(), false);
         isSliding = false;
+    }
+
+    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, NetworkObject attacker)
+    {
+        Vector2 offset = aimDirection.normalized * attackRange;
+
+        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+
+        attackNetObj.Spawn();
+
+        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
+        if (damageOnTrigger != null)
+        {
+            damageOnTrigger.attacker = attacker;
+            damageOnTrigger.Damage = abilityDamage;
+            damageOnTrigger.IgnoreEnemy = true;
+        }
+
+        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
+        if (knockbackOnTrigger != null)
+        {
+            knockbackOnTrigger.attacker = attacker;
+            knockbackOnTrigger.Amount = knockBackAmount;
+            knockbackOnTrigger.Duration = knockBackDuration;
+            knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.IgnoreEnemy = true;
+        }
+    }
+
+    [ServerRpc]
+    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection)
+    {
+        NetworkObject attacker = GetComponentInParent<NetworkObject>();
+
+        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attacker);
+    }
+
+    void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
+    {
+        Vector2 offset = aimDirection.normalized * attackRange;
+
+        GameObject attackInstance = Instantiate(telegraphPrefab, spawnPosition + offset, spawnRotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+
+        attackNetObj.Spawn();
+
+        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
+        if (_fillTelegraph != null)
+        {
+            _fillTelegraph.FillSpeed = modifiedCastTime;
+            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+        }
+    }
+
+    [ServerRpc]
+    void TelegraphServerRPC(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
+    {
+        SpawnTelegraph(spawnPosition, spawnRotation, modifiedCastTime);
     }
 }

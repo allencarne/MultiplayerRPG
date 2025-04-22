@@ -18,11 +18,11 @@ public class SnailBash : EnemyAbility
     [SerializeField] float knockBackAmount;
     [SerializeField] float knockBackDuration;
 
-    bool canImpact = false;
+    float modifiedCastTime;
+    Vector2 spawnPosition;
     Vector2 aimDirection;
     Quaternion aimRotation;
-    Vector2 spawnPosition;
-    float modifiedCastTime;
+    bool canImpact = false;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
