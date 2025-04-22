@@ -13,6 +13,7 @@ public class SnailDash : EnemyAbility
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
+    [SerializeField] float abilityDuration;
 
     [Header("Knockback")]
     [SerializeField] float knockBackAmount;
@@ -105,10 +106,7 @@ public class SnailDash : EnemyAbility
         owner.EnemyAnimator.Play("Mobility Impact");
 
         // Slide
-        if (owner.Target)
-        {
-            Physics2D.IgnoreCollision(owner.GetComponent<Collider2D>(), owner.Target.GetComponent<Collider2D>(), true);
-        }
+        owner.Buffs.Phasing(modifiedCastTime + .2f);
         isSliding = true;
 
         if (IsServer)
@@ -165,7 +163,6 @@ public class SnailDash : EnemyAbility
         }
 
         owner.EnemyRB.linearVelocity = Vector2.zero;
-        Physics2D.IgnoreCollision(owner.GetComponent<Collider2D>(), owner.Target.GetComponent<Collider2D>(), false);
         isSliding = false;
     }
 
@@ -194,6 +191,18 @@ public class SnailDash : EnemyAbility
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
+        }
+
+        StartCoroutine(DespawnAfterDuration(attackNetObj, abilityDuration));
+    }
+
+    IEnumerator DespawnAfterDuration(NetworkObject netObj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (netObj != null && netObj.IsSpawned)
+        {
+            netObj.Despawn();
         }
     }
 

@@ -7,7 +7,7 @@ public class FillTelegraph : NetworkBehaviour
 {
     [SerializeField] SpriteRenderer frontSprite;
     public float FillSpeed;
-    public CrowdControl crowdControl;
+    [HideInInspector] public CrowdControl crowdControl;
 
     private void Update()
     {

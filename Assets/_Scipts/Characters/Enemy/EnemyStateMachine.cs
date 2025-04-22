@@ -46,7 +46,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public Vector2 WanderPosition { get; set; }
     public Transform Target { get; set; }
     public CrowdControl CrowdControl;
-
+    public Buffs Buffs;
     public Coroutine ImpactCoroutine;
 
     public enum State
