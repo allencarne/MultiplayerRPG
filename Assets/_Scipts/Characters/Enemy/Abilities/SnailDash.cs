@@ -69,6 +69,8 @@ public class SnailDash : EnemyAbility
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
+        owner.HandlePotentialInterrupt(owner.ImpactCoroutine);
+
         if (canImpact)
         {
             canImpact = false;
