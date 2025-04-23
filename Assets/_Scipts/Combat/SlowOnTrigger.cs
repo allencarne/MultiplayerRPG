@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,15 +10,11 @@ public class SlowOnTrigger : MonoBehaviour
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
 
+    private HashSet<NetworkObject> slowedObjects = new HashSet<NetworkObject>();
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
-        {
-            if (IgnoreEnemy)
-            {
-                return;
-            }
-        }
+        if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
 
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
         if (objectThatWasHit != null)
@@ -28,11 +25,13 @@ public class SlowOnTrigger : MonoBehaviour
             }
         }
 
-        ISlowable slowable = collision.GetComponent<ISlowable>();
+        if (slowedObjects.Contains(objectThatWasHit)) return;
 
+        ISlowable slowable = collision.GetComponent<ISlowable>();
         if (slowable != null)
         {
             slowable.Slow(Stacks, Duration);
+            slowedObjects.Add(objectThatWasHit);
         }
     }
 }
