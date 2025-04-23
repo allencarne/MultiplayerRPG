@@ -225,7 +225,7 @@ public class SnailDash : EnemyAbility
 
         attackNetObj.Spawn();
 
-        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
+        Telegraph _fillTelegraph = attackInstance.GetComponent<Telegraph>();
         if (_fillTelegraph != null)
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;
