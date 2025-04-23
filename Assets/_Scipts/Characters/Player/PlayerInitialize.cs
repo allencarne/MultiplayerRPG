@@ -99,8 +99,8 @@ public class PlayerInitialize : NetworkBehaviour
         player.Endurance.Value = PlayerPrefs.GetFloat($"{prefix}Endurance", 100);
         player.MaxEndurance.Value = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
 
-        player.BaseSpeed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
-        player.CurrentSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
+        player.BaseSpeed.Value = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
+        player.CurrentSpeed.Value = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
 
         player.BaseDamage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
         player.CurrentDamage = PlayerPrefs.GetInt($"{prefix}CurrentDamage", 1);
@@ -119,7 +119,7 @@ public class PlayerInitialize : NetworkBehaviour
         player.Endurance.Value = player.MaxEndurance.Value;
 
         // Set Speed
-        player.CurrentSpeed = player.BaseSpeed;
+        player.CurrentSpeed.Value = player.BaseSpeed.Value;
 
         // Set Damage
         player.CurrentDamage = player.BaseDamage;
@@ -150,8 +150,8 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}Endurance", player.Endurance.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxEndurance", player.MaxEndurance.Value);
 
-        PlayerPrefs.SetFloat($"{prefix}Speed", player.BaseSpeed);
-        PlayerPrefs.SetFloat($"{prefix}CurrentSpeed", player.CurrentSpeed);
+        PlayerPrefs.SetFloat($"{prefix}Speed", player.BaseSpeed.Value);
+        PlayerPrefs.SetFloat($"{prefix}CurrentSpeed", player.CurrentSpeed.Value);
 
         PlayerPrefs.SetInt($"{prefix}Damage", player.BaseDamage);
         PlayerPrefs.SetInt($"{prefix}CurrentDamage", player.CurrentDamage);

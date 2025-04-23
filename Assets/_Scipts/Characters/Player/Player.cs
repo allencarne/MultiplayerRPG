@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Player : NetworkBehaviour, IDamageable, IHealable
 {
@@ -24,6 +25,9 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public float Coins;
     public int hairIndex;
 
+    // BASE STATS CHANGE WITH LEVEL/EQUIPMENT -- PERMANENT
+    // CURRENT STATS CHANGE WITH BUFFS/DEBUFFS -- TEMPORARY
+
     [Header("Player Stats")]
     public int PlayerLevel;
     public float CurrentExperience;
@@ -38,8 +42,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Movement Speed")]
-    public float BaseSpeed;
-    public float CurrentSpeed;
+    public NetworkVariable<float> BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> CurrentSpeed = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Attack Damage")]
     public int BaseDamage;
@@ -100,6 +104,9 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         Endurance.OnValueChanged += OnEnduranceChanged;
         MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
 
+        BaseSpeed.OnValueChanged += OnBaseSpeedChanged;
+        CurrentSpeed.OnValueChanged += OnCurrentSpeedChanged;
+
         if (IsOwner)
         {
             PlayerCamera();
@@ -128,6 +135,16 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     private void OnMaxEnduranceChanged(float oldValue, float newValue)
     {
         EnduranceBar.UpdateEnduranceBar(newValue, Endurance.Value);
+    }
+
+    private void OnBaseSpeedChanged(float previousValue, float newValue)
+    {
+        // Change Base Speed
+    }
+
+    private void OnCurrentSpeedChanged(float previousValue, float newValue)
+    {
+        // Change CurrentSpeed
     }
 
     void PlayerCamera()
