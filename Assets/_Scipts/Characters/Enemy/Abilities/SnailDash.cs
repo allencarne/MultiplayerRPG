@@ -15,9 +15,9 @@ public class SnailDash : EnemyAbility
     [SerializeField] float coolDown;
     [SerializeField] float abilityDuration;
 
-    [Header("Knockback")]
-    [SerializeField] float knockBackAmount;
-    [SerializeField] float knockBackDuration;
+    [Header("Slow")]
+    [SerializeField] int slowStacks;
+    [SerializeField] float slowDuration;
 
     [Header("Slide")]
     [SerializeField] float slideForce;
@@ -177,22 +177,20 @@ public class SnailDash : EnemyAbility
 
         attackNetObj.Spawn();
 
-        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
-        if (damageOnTrigger != null)
+        DamageOnTrigger _damage = attackInstance.GetComponent<DamageOnTrigger>();
+        if (_damage != null)
         {
-            damageOnTrigger.attacker = attacker;
-            damageOnTrigger.Damage = abilityDamage;
-            damageOnTrigger.IgnoreEnemy = true;
+            _damage.attacker = attacker;
+            _damage.Damage = abilityDamage;
+            _damage.IgnoreEnemy = true;
         }
 
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
-        if (knockbackOnTrigger != null)
+        SlowOnTrigger _slow = attackInstance.GetComponent<SlowOnTrigger>();
+        if (_slow != null)
         {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = knockBackAmount;
-            knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = aimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
+            _slow.attacker = attacker;
+            _slow.Stacks = slowStacks;
+            _slow.Duration = slowDuration;
         }
 
         StartCoroutine(DespawnAfterDuration(attackNetObj, abilityDuration));

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4260848702221066881}
   - component: {fileID: 5606085505363934973}
   - component: {fileID: 2315497008681252077}
+  - component: {fileID: 5304476992189579877}
   m_Layer: 0
   m_Name: Snail_Mobility_Effect
   m_TagString: Untagged
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1502993620
+  GlobalObjectIdHash: 2900702513
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -199,3 +200,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 4691248883346103898}
+--- !u!114 &5304476992189579877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405726608416270546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3715801a96f92774ebd4966dba7a588d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stacks: 0
+  Duration: 0
+  attacker: {fileID: 0}
+  IgnoreEnemy: 0
