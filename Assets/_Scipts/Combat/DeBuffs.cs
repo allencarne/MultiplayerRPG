@@ -16,8 +16,8 @@ public class DeBuffs : MonoBehaviour, ISlowable
     {
         IsSlowed = true;
         
-        if (player) player.CurrentSpeed -= stacks;
-        if (enemy) enemy.CurrentSpeed -= stacks;
+        if (player) player.CurrentSpeed = Mathf.Max(0.1f, player.CurrentSpeed - stacks);
+        if (enemy) enemy.CurrentSpeed = Mathf.Max(0.1f, enemy.CurrentSpeed - stacks);
 
         yield return new WaitForSeconds(duration);
 
