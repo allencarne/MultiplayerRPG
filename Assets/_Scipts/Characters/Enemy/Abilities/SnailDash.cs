@@ -46,7 +46,7 @@ public class SnailDash : EnemyAbility
         owner.EnemyRB.linearVelocity = Vector2.zero;
 
         // Animate
-        owner.EnemyAnimator.Play("Mobility Cast");
+        owner.EnemyAnimator.Play("Special Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", aimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
 
@@ -75,7 +75,7 @@ public class SnailDash : EnemyAbility
         {
             canImpact = false;
 
-            owner.EnemyAnimator.Play("Mobility Recovery");
+            owner.EnemyAnimator.Play("Special Recovery");
 
             // Start Recovery
             if (IsServer)
@@ -105,7 +105,7 @@ public class SnailDash : EnemyAbility
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
-        owner.EnemyAnimator.Play("Mobility Impact");
+        owner.EnemyAnimator.Play("Special Impact");
 
         // Slide
         owner.Buffs.Phasing(modifiedCastTime + .2f);

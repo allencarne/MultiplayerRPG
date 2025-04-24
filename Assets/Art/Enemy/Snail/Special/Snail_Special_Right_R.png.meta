@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: 206267a418a1df84ebba052e499e0840
+guid: 9d352fbf047ef8342ac0b34b7768ab0a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -67,7 +67,7 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -80,7 +80,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -93,7 +93,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,7 +106,7 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Snail_Special_Right_R_0
+      name: Snail_Mobility_Right_R_0
       rect:
         serializedVersion: 2
         x: 0
@@ -133,18 +133,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b5aa84e3a78f874fa2e1fa172d99d20
-      internalID: 488043843
+      spriteID: 75efe6cbfd12dbe4fa323abab5c65a07
+      internalID: 1660981076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Snail_Special_Right_R_1
+      name: Snail_Mobility_Right_R_1
       rect:
         serializedVersion: 2
         x: 32
@@ -154,18 +155,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe8d79bcf47822a45806d47f6ff9d84a
-      internalID: -1756576173
+      spriteID: b9d09184f4fd16c409aff920032a58e2
+      internalID: 1847274864
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Snail_Special_Right_R_2
+      name: Snail_Mobility_Right_R_2
       rect:
         serializedVersion: 2
         x: 64
@@ -175,18 +177,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e1f13f64841fa34b9032dc6e93f9d0e
-      internalID: 1782192150
+      spriteID: 42f5b79b02019aa4095e187ddb820a73
+      internalID: 1786619865
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Snail_Special_Right_R_3
+      name: Snail_Mobility_Right_R_3
       rect:
         serializedVersion: 2
         x: 96
@@ -196,38 +199,19 @@ TextureImporter:
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40e4b5177322cb24888c5632db05420e
-      internalID: 1005040222
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Snail_Special_Right_R_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b5cd9f56af59cde44aae0de6fe99c0eb
-      internalID: 2100405934
+      spriteID: 1eaf7a3c253410a4794453cec4870302
+      internalID: -150259944
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -237,12 +221,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      Snail_Special_Right_R_0: 488043843
-      Snail_Special_Right_R_1: -1756576173
-      Snail_Special_Right_R_2: 1782192150
-      Snail_Special_Right_R_3: 1005040222
-      Snail_Special_Right_R_4: 2100405934
+      Snail_Mobility_Right_R_0: 1660981076
+      Snail_Mobility_Right_R_1: 1847274864
+      Snail_Mobility_Right_R_2: 1786619865
+      Snail_Mobility_Right_R_3: -150259944
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -38,7 +38,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special Cast
+  m_Name: Ultimate Cast
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -95,7 +95,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special Impact
+  m_Name: Ultimate Impact
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -121,7 +121,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mobility Impact
+  m_Name: Special Impact
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -147,7 +147,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mobility Cast
+  m_Name: Special Cast
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -340,7 +340,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mobility Recovery
+  m_Name: Special Recovery
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -664,31 +664,31 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: -150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8918406267686264137}
-    m_Position: {x: 140, y: -240, z: 0}
+    m_Position: {x: 230, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7959311339087033335}
-    m_Position: {x: 140, y: -280, z: 0}
+    m_Position: {x: 230, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7607722697861306899}
-    m_Position: {x: 140, y: -320, z: 0}
+    m_Position: {x: 230, y: -290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1846376767894195739}
-    m_Position: {x: -60, y: -240, z: 0}
+    m_Position: {x: -170, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5752163325946426841}
-    m_Position: {x: -60, y: -280, z: 0}
+    m_Position: {x: -170, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4312661602696047447}
-    m_Position: {x: -60, y: -320, z: 0}
+    m_Position: {x: -170, y: -290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6549739647687008783}
-    m_Position: {x: 50, y: -400, z: 0}
+    m_Position: {x: 30, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7129985035262362187}
-    m_Position: {x: 50, y: -440, z: 0}
+    m_Position: {x: 30, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2733084236007572257}
-    m_Position: {x: 50, y: -480, z: 0}
+    m_Position: {x: 30, y: -290, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -878,7 +878,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Special Recovery
+  m_Name: Ultimate Recovery
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
