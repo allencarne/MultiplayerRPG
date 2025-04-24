@@ -137,6 +137,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: ultimateRadius
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
       objectReference: {fileID: 6284047356525667344}
@@ -144,6 +148,10 @@ PrefabInstance:
       propertyPath: enemySpecialAbility
       value: 
       objectReference: {fileID: 7091144218376054601}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemyUltimateAbility
+      value: 
+      objectReference: {fileID: 8314587649664734274}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -154,7 +162,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7091144218376054601}
+    - targetCorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8314587649664734274}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+--- !u!1 &1974290794805348801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 9057004625187020436}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8314587649664734274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974290794805348801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4119b5382bcb5e40a6f3e038e4bd9ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 5882438536260200050, guid: 2668a0199fb8e01418be54475e7ad45b, type: 3}
+  telegraphPrefab: {fileID: 9204542291995103585, guid: c0275caf056546e46a50c1bffb0d545b, type: 3}
+  abilityDamage: 1
+  attackRange: 0
+  castTime: 1
+  recoveryTime: 0.5
+  coolDown: 5
+  knockBackAmount: 5
+  knockBackDuration: 0.2
 --- !u!1 &2610729715392630421 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}

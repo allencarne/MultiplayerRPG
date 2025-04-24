@@ -54,15 +54,23 @@ public class EnemyChaseState : EnemyState
     public void HandleAttack(EnemyStateMachine owner)
     {
         float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
+
+        // Transition To Basic
         if (distanceToTarget <= owner.BasicRadius && owner.CanBasic)
         {
             owner.SetState(EnemyStateMachine.State.Basic);
         }
 
-
+        // Transition To Special
         if (distanceToTarget <= owner.SpecialRadius && owner.CanSpecial)
         {
             owner.SetState(EnemyStateMachine.State.Special);
+        }
+
+        // Transition To Ultimate
+        if (distanceToTarget <= owner.UltimateRadius && owner.CanUltimate)
+        {
+            owner.SetState(EnemyStateMachine.State.Ultimate);
         }
     }
 
