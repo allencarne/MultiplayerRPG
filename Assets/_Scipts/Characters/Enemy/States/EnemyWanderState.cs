@@ -17,10 +17,17 @@ public class EnemyWanderState : EnemyState
     {
         if (!owner.IsServer) return;
 
+        // Transition To Idle
         if (Vector2.Distance(owner.transform.position, owner.WanderPosition) <= 0.1f)
         {
             owner.EnemyRB.linearVelocity = Vector2.zero;
             owner.SetState(EnemyStateMachine.State.Idle);
+        }
+
+        // Transition To Chase
+        if (owner.IsPlayerInRange)
+        {
+            owner.SetState(EnemyStateMachine.State.Chase);
         }
     }
 
