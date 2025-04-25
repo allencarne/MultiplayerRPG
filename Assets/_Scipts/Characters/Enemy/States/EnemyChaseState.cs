@@ -56,20 +56,29 @@ public class EnemyChaseState : EnemyState
         float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
 
         // Transition To Basic
-        if (distanceToTarget <= owner.BasicRadius && owner.CanBasic)
+        if (distanceToTarget <= owner.BasicRadius)
         {
+            if (owner.IsAttacking) return;
+            if (!owner.CanBasic) return;
+
             owner.SetState(EnemyStateMachine.State.Basic);
         }
 
         // Transition To Special
-        if (distanceToTarget <= owner.SpecialRadius && owner.CanSpecial)
+        if (distanceToTarget <= owner.SpecialRadius)
         {
+            if (owner.IsAttacking) return;
+            if (!owner.CanSpecial) return;
+
             owner.SetState(EnemyStateMachine.State.Special);
         }
 
         // Transition To Ultimate
-        if (distanceToTarget <= owner.UltimateRadius && owner.CanUltimate)
+        if (distanceToTarget <= owner.UltimateRadius)
         {
+            if (owner.IsAttacking) return;
+            if (!owner.CanUltimate) return;
+
             owner.SetState(EnemyStateMachine.State.Ultimate);
         }
     }

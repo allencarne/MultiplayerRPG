@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class SnailShell : EnemyAbility
 {
+    [Header("Attack")]
     [SerializeField] GameObject attackPrefab;
     [SerializeField] GameObject telegraphPrefab;
     [SerializeField] int abilityDamage;
     [SerializeField] float attackRange;
+    [SerializeField] float attackDuration;
+    [SerializeField] float attackForce;
 
     [Header("Time")]
     [SerializeField] float castTime;
@@ -144,7 +147,7 @@ public class SnailShell : EnemyAbility
         attackNetObj.Spawn();
 
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
-        attackRB.AddForce(aimDirection * 10, ForceMode2D.Impulse);
+        attackRB.AddForce(aimDirection * attackForce, ForceMode2D.Impulse);
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
@@ -164,7 +167,7 @@ public class SnailShell : EnemyAbility
             knockbackOnTrigger.IgnoreEnemy = true;
         }
 
-        StartCoroutine(DespawnAfterDuration(attackNetObj, 3));
+        StartCoroutine(DespawnAfterDuration(attackNetObj, attackDuration));
     }
 
     IEnumerator DespawnAfterDuration(NetworkObject netObj, float delay)
