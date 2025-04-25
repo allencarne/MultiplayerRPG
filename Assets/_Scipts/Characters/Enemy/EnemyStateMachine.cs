@@ -167,8 +167,8 @@ public class EnemyStateMachine : NetworkBehaviour
         Vector2 baseDirection = (targetPos - transform.position).normalized;
         float rayDistance = 2f;
         float rayThickness = 0.3f;
-        int rayCount = 7;
-        float expandedConeAngle = 120f;
+        int rayCount = 13;
+        float expandedConeAngle = 180f;
 
         Vector3 bestDirection = Vector3.zero;
 
