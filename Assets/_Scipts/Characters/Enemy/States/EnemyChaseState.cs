@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -53,33 +54,27 @@ public class EnemyChaseState : EnemyState
 
     public void HandleAttack(EnemyStateMachine owner)
     {
+        if (owner.IsAttacking) return;
+
         float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
 
-        // Transition To Basic
-        if (distanceToTarget <= owner.BasicRadius)
+        // Collect all valid attack states
+        List<EnemyStateMachine.State> possibleAttacks = new();
+
+        if (distanceToTarget <= owner.BasicRadius && owner.CanBasic)
+            possibleAttacks.Add(EnemyStateMachine.State.Basic);
+
+        if (distanceToTarget <= owner.SpecialRadius && owner.CanSpecial)
+            possibleAttacks.Add(EnemyStateMachine.State.Special);
+
+        if (distanceToTarget <= owner.UltimateRadius && owner.CanUltimate)
+            possibleAttacks.Add(EnemyStateMachine.State.Ultimate);
+
+        // Choose one at random if any are valid
+        if (possibleAttacks.Count > 0)
         {
-            if (owner.IsAttacking) return;
-            if (!owner.CanBasic) return;
-
-            owner.SetState(EnemyStateMachine.State.Basic);
-        }
-
-        // Transition To Special
-        if (distanceToTarget <= owner.SpecialRadius)
-        {
-            if (owner.IsAttacking) return;
-            if (!owner.CanSpecial) return;
-
-            owner.SetState(EnemyStateMachine.State.Special);
-        }
-
-        // Transition To Ultimate
-        if (distanceToTarget <= owner.UltimateRadius)
-        {
-            if (owner.IsAttacking) return;
-            if (!owner.CanUltimate) return;
-
-            owner.SetState(EnemyStateMachine.State.Ultimate);
+            int randomIndex = Random.Range(0, possibleAttacks.Count);
+            owner.SetState(possibleAttacks[randomIndex]);
         }
     }
 
