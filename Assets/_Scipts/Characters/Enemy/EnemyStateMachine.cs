@@ -17,7 +17,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
 
-    [SerializeField] LayerMask obstacleLayerMask;
+    public LayerMask obstacleLayerMask;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }

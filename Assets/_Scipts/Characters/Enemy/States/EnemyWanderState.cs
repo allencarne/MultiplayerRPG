@@ -8,8 +8,7 @@ public class EnemyWanderState : EnemyState
 
         if (owner.IsServer)
         {
-            float minWanderDistance = 1f;
-            owner.WanderPosition = GetRandomPointInCircle(owner.StartingPosition, minWanderDistance, owner.WanderRadius);
+            owner.WanderPosition = GetRandomClearPoint(owner.StartingPosition, 1f, owner.WanderRadius, owner.obstacleLayerMask);
         }
     }
 
@@ -43,11 +42,34 @@ public class EnemyWanderState : EnemyState
         owner.EnemyAnimator.SetFloat("Vertical", direction.y);
     }
 
-    Vector2 GetRandomPointInCircle(Vector2 startingPosition, float minDistance, float maxRadius)
+    Vector2 GetRandomClearPoint(Vector2 startingPosition, float minDistance, float maxRadius, LayerMask obstacleLayer, int maxAttempts = 10)
     {
-        float angle = Random.Range(0f, Mathf.PI * 2f);
-        float randomRadius = Random.Range(minDistance, maxRadius);
-        Vector2 randomPoint = startingPosition + new Vector2(Mathf.Cos(angle) * randomRadius, Mathf.Sin(angle) * randomRadius);
-        return randomPoint;
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float randomRadius = Random.Range(minDistance, maxRadius);
+
+            Vector2 randomPoint = startingPosition + new Vector2(
+                Mathf.Cos(angle) * randomRadius,
+                Mathf.Sin(angle) * randomRadius
+            );
+
+            // Raycast toward the point
+            Vector2 direction = randomPoint - startingPosition;
+            float distance = direction.magnitude;
+            RaycastHit2D hit = Physics2D.Raycast(startingPosition, direction.normalized, distance, obstacleLayer);
+
+            // Debug: Draw the ray (green if clear, red if blocked)
+            Color rayColor = hit.collider == null ? Color.green : Color.red;
+            Debug.DrawLine(startingPosition, randomPoint, rayColor, 1f);
+
+            if (hit.collider == null)
+            {
+                return randomPoint; // found clear path
+            }
+        }
+
+        // Fallback: just return current position if all rays failed
+        return startingPosition;
     }
 }
