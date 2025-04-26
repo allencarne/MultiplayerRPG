@@ -15,6 +15,7 @@ public class PlayerRollState : PlayerState
 
         owner.Buffs.Immunity(rollDuration);
         owner.Buffs.Immoveable(rollDuration);
+        owner.Buffs.Haste(3, 3);
 
         Vector2 moveInput = owner.InputHandler.MoveInput.normalized;
 

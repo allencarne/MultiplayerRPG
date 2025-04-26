@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Buffs : MonoBehaviour
@@ -7,10 +8,15 @@ public class Buffs : MonoBehaviour
     [SerializeField] GameObject buff_Phasing;
     [SerializeField] GameObject buff_Immune;
     [SerializeField] GameObject buff_Immovable;
+    [SerializeField] GameObject buff_Haste;
+
+    GameObject hasteInstance;
 
     public bool IsPhasing;
     public bool IsImmune;
     public bool IsImmovable;
+
+    int hasteStacks = 0;
 
     #region Phasing
 
@@ -86,4 +92,34 @@ public class Buffs : MonoBehaviour
     }
 
     #endregion
+
+    public void Haste(int stacks, float duration)
+    {
+        StartCoroutine(HasteDuration(stacks, duration));
+    }
+
+    IEnumerator HasteDuration(int stacks, float duration)
+    {
+        hasteStacks += stacks;
+        hasteStacks = Mathf.Min(hasteStacks, 25);
+
+        if (!hasteInstance)
+        {
+            hasteInstance = Instantiate(buff_Haste, buffBar.transform);
+        }
+
+        hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = hasteStacks.ToString();
+
+        yield return new WaitForSeconds(duration);
+
+        hasteStacks -= stacks;
+        hasteStacks = Mathf.Max(hasteStacks, 0);
+
+        if (hasteStacks == 0)
+        {
+            Destroy(hasteInstance);
+        }
+
+        hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = hasteStacks.ToString();
+    }
 }
