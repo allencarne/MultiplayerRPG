@@ -27,6 +27,7 @@ public class Buffs : NetworkBehaviour
     float phasingTime;
 
     private Coroutine phasingCoroutine = null;
+    private object immunCoroutine;
 
     #region Phasing
 
@@ -40,12 +41,6 @@ public class Buffs : NetworkBehaviour
         {
             PhasingDurationServerRPC(duration);
         }
-    }
-
-    [ServerRpc]
-    void PhasingDurationServerRPC(float duration)
-    {
-        AddPhasingTime(duration);
     }
 
     private void AddPhasingTime(float duration)
@@ -83,6 +78,12 @@ public class Buffs : NetworkBehaviour
         phasingCoroutine = null;
     }
 
+    [ServerRpc]
+    void PhasingDurationServerRPC(float duration)
+    {
+        AddPhasingTime(duration);
+    }
+
     [ClientRpc]
     void PhasingClientRPC(bool isPhasing)
     {
@@ -104,18 +105,15 @@ public class Buffs : NetworkBehaviour
         Destroy(phasingInstance);
     }
 
-
     #endregion
 
     #region Immune
 
     public void Immunity(float duration)
     {
-        //if (IsImmune) immuneTime += duration;
-
         if (IsServer)
         {
-            StartCoroutine(ImmunityDuration(duration));
+            AddImmuneTime(duration);
         }
         else
         {
@@ -123,23 +121,39 @@ public class Buffs : NetworkBehaviour
         }
     }
 
-    IEnumerator ImmunityDuration(float duration)
+    void AddImmuneTime(float duration)
+    {
+        immuneTime += duration;
+
+        if (immunCoroutine == null)
+        {
+            immunCoroutine = StartCoroutine(ImmuneDuration());
+        }
+    }
+
+    IEnumerator ImmuneDuration()
     {
         ImmuneClientRPC(true);
 
         if (!immuneInstance) InstantiateImmuneClientRPC();
 
-        yield return new WaitForSeconds(duration);
+        while (immuneTime > 0f)
+        {
+            immuneTime -= Time.deltaTime;
+            yield return null;
+        }
 
         if (immuneInstance) DestroyImmuneClientRPC();
 
         ImmuneClientRPC(false);
+
+        immunCoroutine = null;
     }
 
     [ServerRpc]
     void ImmunityDurationServerRPC(float duration)
     {
-        StartCoroutine(ImmunityDuration(duration));
+        AddImmuneTime(duration);
     }
 
     [ClientRpc]
