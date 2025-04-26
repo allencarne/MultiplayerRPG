@@ -1,9 +1,9 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Buffs : MonoBehaviour
+public class Buffs : NetworkBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] Enemy enemy;
@@ -98,6 +98,19 @@ public class Buffs : MonoBehaviour
     #endregion
 
     public void Haste(int stacks, float duration)
+    {
+        if (IsServer)
+        {
+            StartCoroutine(HasteDuration(stacks, duration));
+        }
+        else
+        {
+            HasteDurationServerRPC(stacks, duration);
+        }
+    }
+
+    [ServerRpc]
+    void HasteDurationServerRPC(int stacks, float duration)
     {
         StartCoroutine(HasteDuration(stacks, duration));
     }
