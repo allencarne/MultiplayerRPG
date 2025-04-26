@@ -36,6 +36,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [Header("Components")]
     public PlayerInputHandler InputHandler;
+    public Collider2D Collider;
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public PlayerEquipment Equipment;

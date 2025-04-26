@@ -23,7 +23,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public Enemy enemy { get; private set; }
     public Rigidbody2D EnemyRB { get; private set; }
     public Animator EnemyAnimator { get; private set; }
-    public Collider2D EnemyCollider { get; private set; }
+    public Collider2D Collider { get; private set; }
     public CrowdControl crowdControl { get; private set; }
 
     [Header("Variables")]
@@ -69,7 +69,7 @@ public class EnemyStateMachine : NetworkBehaviour
         enemy = GetComponent<Enemy>();
         EnemyRB = GetComponent<Rigidbody2D>();
         EnemyAnimator = GetComponentInChildren<Animator>();
-        EnemyCollider = GetComponent<Collider2D>();
+        Collider = GetComponent<Collider2D>();
         crowdControl = GetComponent<CrowdControl>();
     }
 

@@ -5,12 +5,16 @@ using UnityEngine.UIElements;
 public class PlayerRollState : PlayerState
 {
     Vector2 facingDirection;
+    float rollDuration = .6f;
 
     public override void StartState(PlayerStateMachine owner)
     {
         owner.player.EnduranceBar.SpendEndurance(50);
 
         owner.StartCoroutine(Duration(owner));
+
+        owner.Buffs.Immunity(rollDuration);
+        owner.Buffs.Immoveable(rollDuration);
 
         Vector2 moveInput = owner.InputHandler.MoveInput.normalized;
 
@@ -67,7 +71,7 @@ public class PlayerRollState : PlayerState
 
     IEnumerator Duration(PlayerStateMachine owner)
     {
-        yield return new WaitForSeconds(.6f);
+        yield return new WaitForSeconds(rollDuration);
 
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;

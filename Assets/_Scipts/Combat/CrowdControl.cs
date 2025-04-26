@@ -9,14 +9,54 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     Vector2 knockBackVelocity;
 
     [Header("Bools")]
-    public bool IsImmobilized;
     public bool IsInterrupted;
+    public bool IsImmobilized;
     //public bool IsDisarmed;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
+
+    #region Interrupt
+
+    public void Interrupt(float duration)
+    {
+        StartCoroutine(InterruptDuration(duration));
+    }
+
+    IEnumerator InterruptDuration(float duration)
+    {
+        IsInterrupted = true;
+
+        yield return new WaitForSeconds(duration);
+
+        IsInterrupted = false;
+    }
+
+    #endregion
+
+    #region Immobilize
+
+    public void Immobilize(float duration)
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        StartCoroutine(ImmobilizeDuration(duration));
+    }
+
+    IEnumerator ImmobilizeDuration(float duration)
+    {
+        IsImmobilized = true;
+
+        yield return new WaitForSeconds(duration);
+
+        IsImmobilized = false;
+    }
+
+    #endregion
+
+    #region Knockback
 
     public void KnockBack(Vector2 direction, float amount, float duration)
     {
@@ -62,33 +102,5 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         rb.linearVelocity = Vector2.zero;
     }
 
-    public void Immobilize(float duration)
-    {
-        rb.linearVelocity = Vector2.zero;
-
-        StartCoroutine(ImmobilizeDuration(duration));
-    }
-
-    IEnumerator ImmobilizeDuration(float duration)
-    {
-        IsImmobilized = true;
-
-        yield return new WaitForSeconds(duration);
-
-        IsImmobilized = false;
-    }
-
-    public void Interrupt(float duration)
-    {
-        StartCoroutine(InterruptDuration(duration));
-    }
-
-    IEnumerator InterruptDuration(float duration)
-    {
-        IsInterrupted = true;
-
-        yield return new WaitForSeconds(duration);
-
-        IsInterrupted = false;
-    }
+    #endregion
 }

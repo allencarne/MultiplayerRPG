@@ -26,6 +26,15 @@ public class DamageOnTrigger : NetworkBehaviour
             }
         }
 
+        Buffs buffs = collision.GetComponent<Buffs>();
+        if (buffs != null)
+        {
+            if (buffs.IsImmune)
+            {
+                return;
+            }
+        }
+
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)
         {

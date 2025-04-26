@@ -28,6 +28,15 @@ public class KnockbackOnTrigger : MonoBehaviour
             }
         }
 
+        Buffs buffs = collision.GetComponent<Buffs>();
+        if (buffs != null)
+        {
+            if (buffs.IsImmovable)
+            {
+                return;
+            }
+        }
+
         IKnockbackable knockbackable = collision.GetComponent<IKnockbackable>();
         if (knockbackable != null)
         {

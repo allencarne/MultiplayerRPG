@@ -17,7 +17,7 @@ public class EnemyDeathState : EnemyState
         }
 
         owner.EnemyAnimator.Play("Death");
-        owner.EnemyCollider.enabled = false;
+        owner.Collider.enabled = false;
 
         StartCoroutine(Delay(owner));
     }
