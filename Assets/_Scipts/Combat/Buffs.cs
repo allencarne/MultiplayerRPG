@@ -63,9 +63,9 @@ public class Buffs : NetworkBehaviour
     void PhasingClientRPC(bool isphasing)
     {
         IsPhasing = isphasing;
-        Physics2D.IgnoreLayerCollision(6, 7, isphasing);
-        Physics2D.IgnoreLayerCollision(6, 6, isphasing);
-        Physics2D.IgnoreLayerCollision(6, 7, isphasing);
+        Physics2D.IgnoreLayerCollision(6, 7, isphasing); // Players ignore enemies
+        Physics2D.IgnoreLayerCollision(6, 6, isphasing); // Players ignore players
+        Physics2D.IgnoreLayerCollision(7, 7, isphasing); // Enemies ignore enemies
     }
 
     [ClientRpc]
