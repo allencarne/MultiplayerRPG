@@ -57,11 +57,11 @@ public class FrailSlash : PlayerAbility
         // Cast Bar
         if (IsServer)
         {
-            owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed);
+            owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed.Value);
         }
         else
         {
-            owner.player.CastBar.StartCastServerRpc(castTime, owner.player.CurrentAttackSpeed);
+            owner.player.CastBar.StartCastServerRpc(castTime, owner.player.CurrentAttackSpeed.Value);
         }
 
         // Slide
@@ -95,11 +95,11 @@ public class FrailSlash : PlayerAbility
             // Start Recovery
             if (IsServer)
             {
-                owner.player.CastBar.StartRecovery(recoveryTime, owner.player.CurrentAttackSpeed);
+                owner.player.CastBar.StartRecovery(recoveryTime, owner.player.CurrentAttackSpeed.Value);
             }
             else
             {
-                owner.player.CastBar.StartRecoveryServerRpc(recoveryTime, owner.player.CurrentAttackSpeed);
+                owner.player.CastBar.StartRecoveryServerRpc(recoveryTime, owner.player.CurrentAttackSpeed.Value);
             }
 
             owner.StartCoroutine(RecoveryTime(owner));
@@ -136,7 +136,7 @@ public class FrailSlash : PlayerAbility
 
     IEnumerator AttackImpact(PlayerStateMachine owner)
     {
-        float modifiedCastTime = castTime / owner.player.CurrentAttackSpeed;
+        float modifiedCastTime = castTime / owner.player.CurrentAttackSpeed.Value;
 
         yield return new WaitForSeconds(modifiedCastTime);
 
@@ -166,7 +166,7 @@ public class FrailSlash : PlayerAbility
 
     IEnumerator RecoveryTime(PlayerStateMachine owner)
     {
-        float modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed;
+        float modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed.Value;
 
         yield return new WaitForSeconds(modifiedRecoveryTime);
 
@@ -179,7 +179,7 @@ public class FrailSlash : PlayerAbility
         //OnBasicCoolDownStarted?.Invoke();
 
         // Adjust cooldown time based on cooldown reduction
-        float modifiedCooldown = coolDown / owner.player.CurrentCDR;
+        float modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
 
         yield return new WaitForSeconds(modifiedCooldown);
 

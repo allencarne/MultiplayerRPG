@@ -102,17 +102,17 @@ public class PlayerInitialize : NetworkBehaviour
         player.BaseSpeed.Value = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
         player.CurrentSpeed.Value = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
 
-        player.BaseDamage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
-        player.CurrentDamage = PlayerPrefs.GetInt($"{prefix}CurrentDamage", 1);
+        player.BaseDamage.Value = PlayerPrefs.GetInt($"{prefix}Damage", 1);
+        player.CurrentDamage.Value = PlayerPrefs.GetInt($"{prefix}CurrentDamage", 1);
 
-        player.BaseAttackSpeed = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
-        player.CurrentAttackSpeed = PlayerPrefs.GetFloat($"{prefix}CurrentAttackSpeed", 1);
+        player.BaseAttackSpeed.Value = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
+        player.CurrentAttackSpeed.Value = PlayerPrefs.GetFloat($"{prefix}CurrentAttackSpeed", 1);
 
-        player.BaseCDR = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
-        player.CurrentCDR = PlayerPrefs.GetFloat($"{prefix}CurrentCDR", 1);
+        player.BaseCDR.Value = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
+        player.CurrentCDR.Value = PlayerPrefs.GetFloat($"{prefix}CurrentCDR", 1);
 
-        player.BaseArmor = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
-        player.CurrentArmor = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
+        player.BaseArmor.Value = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
+        player.CurrentArmor.Value = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
 
         // Set Values Here
         player.Health.Value = player.MaxHealth.Value;
@@ -134,7 +134,6 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentArmor = player.BaseArmor;
     }
 
-
     public void SavePlayerStats()
     {
         string prefix = CharacterNumber;
@@ -153,17 +152,17 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}Speed", player.BaseSpeed.Value);
         PlayerPrefs.SetFloat($"{prefix}CurrentSpeed", player.CurrentSpeed.Value);
 
-        PlayerPrefs.SetInt($"{prefix}Damage", player.BaseDamage);
-        PlayerPrefs.SetInt($"{prefix}CurrentDamage", player.CurrentDamage);
+        PlayerPrefs.SetInt($"{prefix}Damage", player.BaseDamage.Value);
+        PlayerPrefs.SetInt($"{prefix}CurrentDamage", player.CurrentDamage.Value);
 
-        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", player.BaseAttackSpeed);
-        PlayerPrefs.SetFloat($"{prefix}CurrentAttackSpeed", player.CurrentAttackSpeed);
+        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", player.BaseAttackSpeed.Value);
+        PlayerPrefs.SetFloat($"{prefix}CurrentAttackSpeed", player.CurrentAttackSpeed.Value);
 
-        PlayerPrefs.SetFloat($"{prefix}CDR", player.BaseCDR);
-        PlayerPrefs.SetFloat($"{prefix}CurrentCDR", player.CurrentCDR);
+        PlayerPrefs.SetFloat($"{prefix}CDR", player.BaseCDR.Value);
+        PlayerPrefs.SetFloat($"{prefix}CurrentCDR", player.CurrentCDR.Value);
 
-        PlayerPrefs.SetFloat($"{prefix}BaseArmor", player.BaseArmor);
-        PlayerPrefs.SetFloat($"{prefix}CurrentArmor", player.CurrentArmor);
+        PlayerPrefs.SetFloat($"{prefix}BaseArmor", player.BaseArmor.Value);
+        PlayerPrefs.SetFloat($"{prefix}CurrentArmor", player.CurrentArmor.Value);
 
         PlayerPrefs.Save();
     }

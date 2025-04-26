@@ -46,20 +46,20 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> CurrentSpeed = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Attack Damage")]
-    public int BaseDamage;
-    public int CurrentDamage;
+    public NetworkVariable<int> BaseDamage = new (writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> CurrentDamage = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Attack Speed")]
-    public float BaseAttackSpeed;
-    public float CurrentAttackSpeed;
+    public NetworkVariable<float> BaseAttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> CurrentAttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("CDR")]
-    public float BaseCDR;
-    public float CurrentCDR;
+    public NetworkVariable<float> BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> CurrentCDR = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Armor")]
-    public float BaseArmor;
-    public float CurrentArmor;
+    public NetworkVariable<float> BaseArmor = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> CurrentArmor = new(writePerm: NetworkVariableWritePermission.Server);
 
 
     public enum PlayerClass
@@ -172,7 +172,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         if (damageType == DamageType.Flat)
         {
-            finalDamage = Mathf.Max(damage - CurrentArmor, 0);
+            finalDamage = Mathf.Max(damage - CurrentArmor.Value, 0);
         }
         else if (damageType == DamageType.Percentage)
         {
