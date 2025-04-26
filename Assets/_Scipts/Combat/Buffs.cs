@@ -122,10 +122,10 @@ public class Buffs : NetworkBehaviour
 
         if (!hasteInstance)
         {
-            hasteInstance = Instantiate(buff_Haste, buffBar.transform);
+            InstantiateClientRPC();
         }
 
-        hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = hasteStacks.ToString();
+        UpdateStackUIClientRPC(hasteStacks);
 
         // Apply Haste
         if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
@@ -142,9 +142,27 @@ public class Buffs : NetworkBehaviour
 
         if (hasteStacks == 0)
         {
-            Destroy(hasteInstance);
+            DestroyClientRPC();
         }
 
-        hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = hasteStacks.ToString();
+        UpdateStackUIClientRPC(hasteStacks);
+    }
+
+    [ClientRpc]
+    void InstantiateClientRPC()
+    {
+        hasteInstance = Instantiate(buff_Haste, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void UpdateStackUIClientRPC(int stacks)
+    {
+        hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    }
+
+    [ClientRpc]
+    void DestroyClientRPC()
+    {
+        Destroy(hasteInstance);
     }
 }
