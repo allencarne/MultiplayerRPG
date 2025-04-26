@@ -15,13 +15,15 @@ public class Buffs : NetworkBehaviour
     [SerializeField] GameObject buff_Haste;
 
     GameObject phasingInstance;
+    GameObject immuneInstance;
     GameObject hasteInstance;
 
     public bool IsPhasing;
     public bool IsImmune;
     public bool IsImmovable;
 
-    int hasteStacks = 0;
+    int hasteStacks;
+    float immuneTime;
 
     #region Phasing
 
@@ -41,16 +43,13 @@ public class Buffs : NetworkBehaviour
     {
         PhasingClientRPC(true);
 
-        if (!phasingInstance)
-        {
-            InstantiatePhasingClientRPC();
-        }
+        if (!phasingInstance) InstantiatePhasingClientRPC();
 
         yield return new WaitForSeconds(duration);
 
         PhasingClientRPC(false);
 
-        DestroyPhasingClientRPC();
+        if (phasingInstance) DestroyPhasingClientRPC();
     }
 
     [ServerRpc]
@@ -82,24 +81,57 @@ public class Buffs : NetworkBehaviour
 
     #endregion
 
-    #region Immunity
+    #region Immune
 
     public void Immunity(float duration)
     {
-        StartCoroutine(ImmunityDuration(duration));
+        //if (IsImmune) immuneTime += duration;
+
+        if (IsServer)
+        {
+            StartCoroutine(ImmunityDuration(duration));
+        }
+        else
+        {
+            ImmunityDurationServerRPC(duration);
+        }
     }
 
     IEnumerator ImmunityDuration(float duration)
     {
-        GameObject buff = Instantiate(buff_Immune, buffBar.transform);
+        ImmuneClientRPC(true);
 
-        IsImmune = true;
+        if (!immuneInstance) InstantiateImmuneClientRPC();
 
         yield return new WaitForSeconds(duration);
 
-        Destroy(buff);
+        if (immuneInstance) DestroyImmuneClientRPC();
 
-        IsImmune = false;
+        ImmuneClientRPC(false);
+    }
+
+    [ServerRpc]
+    void ImmunityDurationServerRPC(float duration)
+    {
+        StartCoroutine(ImmunityDuration(duration));
+    }
+
+    [ClientRpc]
+    void ImmuneClientRPC(bool _isImmune)
+    {
+        IsImmune = _isImmune;
+    }
+
+    [ClientRpc]
+    void InstantiateImmuneClientRPC()
+    {
+        immuneInstance = Instantiate(buff_Immune, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void DestroyImmuneClientRPC()
+    {
+        Destroy(immuneInstance);
     }
 
     #endregion

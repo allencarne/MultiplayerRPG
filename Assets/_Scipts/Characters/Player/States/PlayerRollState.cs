@@ -13,7 +13,7 @@ public class PlayerRollState : PlayerState
 
         owner.StartCoroutine(Duration(owner));
 
-        owner.Buffs.Immunity(rollDuration);
+        owner.Buffs.Immunity(6);
         owner.Buffs.Immoveable(rollDuration);
         owner.Buffs.Haste(3, 3);
 
