@@ -24,6 +24,9 @@ public class Buffs : NetworkBehaviour
 
     int hasteStacks;
     float immuneTime;
+    float phasingTime;
+
+    private Coroutine phasingCoroutine = null;
 
     #region Phasing
 
@@ -31,7 +34,7 @@ public class Buffs : NetworkBehaviour
     {
         if (IsServer)
         {
-            StartCoroutine(PhasingDuration(duration));
+            AddPhasingTime(duration);
         }
         else
         {
@@ -39,32 +42,54 @@ public class Buffs : NetworkBehaviour
         }
     }
 
-    IEnumerator PhasingDuration(float duration)
-    {
-        PhasingClientRPC(true);
-
-        if (!phasingInstance) InstantiatePhasingClientRPC();
-
-        yield return new WaitForSeconds(duration);
-
-        PhasingClientRPC(false);
-
-        if (phasingInstance) DestroyPhasingClientRPC();
-    }
-
     [ServerRpc]
     void PhasingDurationServerRPC(float duration)
     {
-        StartCoroutine(PhasingDuration(duration));
+        AddPhasingTime(duration);
+    }
+
+    private void AddPhasingTime(float duration)
+    {
+        phasingTime += duration;
+
+        if (phasingCoroutine == null)
+        {
+            phasingCoroutine = StartCoroutine(PhasingDuration());
+        }
+    }
+
+    private IEnumerator PhasingDuration()
+    {
+        PhasingClientRPC(true);
+
+        if (!phasingInstance)
+        {
+            InstantiatePhasingClientRPC();
+        }
+
+        while (phasingTime > 0f)
+        {
+            phasingTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        PhasingClientRPC(false);
+
+        if (phasingInstance)
+        {
+            DestroyPhasingClientRPC();
+        }
+
+        phasingCoroutine = null;
     }
 
     [ClientRpc]
-    void PhasingClientRPC(bool isphasing)
+    void PhasingClientRPC(bool isPhasing)
     {
-        IsPhasing = isphasing;
-        Physics2D.IgnoreLayerCollision(6, 7, isphasing); // Players ignore enemies
-        Physics2D.IgnoreLayerCollision(6, 6, isphasing); // Players ignore players
-        Physics2D.IgnoreLayerCollision(7, 7, isphasing); // Enemies ignore enemies
+        IsPhasing = isPhasing;
+        Physics2D.IgnoreLayerCollision(6, 7, isPhasing); // Players ignore enemies
+        Physics2D.IgnoreLayerCollision(6, 6, isPhasing); // Players ignore players
+        Physics2D.IgnoreLayerCollision(7, 7, isPhasing); // Enemies ignore enemies
     }
 
     [ClientRpc]
@@ -78,6 +103,7 @@ public class Buffs : NetworkBehaviour
     {
         Destroy(phasingInstance);
     }
+
 
     #endregion
 

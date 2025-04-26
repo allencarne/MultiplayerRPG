@@ -9,36 +9,30 @@ public class PlayerRollState : PlayerState
 
     public override void StartState(PlayerStateMachine owner)
     {
+        // Buffs
+        owner.Buffs.Phasing(6);
+        owner.Buffs.Immunity(rollDuration);
+        owner.Buffs.Immoveable(rollDuration);
+        //owner.Buffs.Haste(3, 3);
+
+        // Endurance
         owner.player.EnduranceBar.SpendEndurance(50);
 
+        // Roll
         owner.StartCoroutine(Duration(owner));
-
-        owner.Buffs.Immunity(6);
-        owner.Buffs.Immoveable(rollDuration);
-        owner.Buffs.Haste(3, 3);
-
         Vector2 moveInput = owner.InputHandler.MoveInput.normalized;
-
         if (moveInput == Vector2.zero)
         {
-            // get Body animator horizontal and vertical float
             float _x = owner.BodyAnimator.GetFloat("Horizontal");
             float _y = owner.BodyAnimator.GetFloat("Vertical");
-
-            // create new vector 2
             Vector2 _newDir = new Vector2(_x, _y);
-
-            // Apply force
             owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
-
             facingDirection = owner.SnapDirection(_newDir);
 
         }
         else
         {
-            // Apply force
             owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
-
             facingDirection = owner.SnapDirection(moveInput);
         }
 
@@ -73,11 +67,7 @@ public class PlayerRollState : PlayerState
     IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(rollDuration);
-
-        // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;
-
-        // Transition
         owner.SetState(PlayerStateMachine.State.Idle);
     }
 
