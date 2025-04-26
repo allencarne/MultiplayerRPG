@@ -1,9 +1,13 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Buffs : MonoBehaviour
 {
+    [SerializeField] Player player;
+    [SerializeField] Enemy enemy;
+
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject buff_Phasing;
     [SerializeField] GameObject buff_Immune;
@@ -110,10 +114,18 @@ public class Buffs : MonoBehaviour
 
         hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = hasteStacks.ToString();
 
+        // Apply Haste
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed + hasteStacks;
+
         yield return new WaitForSeconds(duration);
 
         hasteStacks -= stacks;
         hasteStacks = Mathf.Max(hasteStacks, 0);
+
+        // Apply Haste
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed + hasteStacks;
 
         if (hasteStacks == 0)
         {
