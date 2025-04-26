@@ -107,6 +107,9 @@ public class SnailDash : EnemyAbility
 
         owner.EnemyAnimator.Play("Special Impact");
 
+        // Buff
+        owner.Buffs.Immoveable(slideDuration);
+
         // Slide
         owner.Buffs.Phasing(modifiedCastTime + .2f);
         isSliding = true;
