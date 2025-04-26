@@ -16,18 +16,21 @@ public class Buffs : NetworkBehaviour
 
     GameObject phasingInstance;
     GameObject immuneInstance;
+    GameObject immovableInstance;
     GameObject hasteInstance;
 
     public bool IsPhasing;
     public bool IsImmune;
     public bool IsImmovable;
 
-    int hasteStacks;
-    float immuneTime;
     float phasingTime;
+    float immuneTime;
+    float immovableTime;
+    int hasteStacks;
 
-    private Coroutine phasingCoroutine = null;
-    private object immunCoroutine;
+    private Coroutine phasingCoroutine;
+    private Coroutine immuneCoroutine;
+    private Coroutine immovableCoroutine;
 
     #region Phasing
 
@@ -47,20 +50,14 @@ public class Buffs : NetworkBehaviour
     {
         phasingTime += duration;
 
-        if (phasingCoroutine == null)
-        {
-            phasingCoroutine = StartCoroutine(PhasingDuration());
-        }
+        if (phasingCoroutine == null) phasingCoroutine = StartCoroutine(PhasingDuration());
     }
 
     private IEnumerator PhasingDuration()
     {
         PhasingClientRPC(true);
 
-        if (!phasingInstance)
-        {
-            InstantiatePhasingClientRPC();
-        }
+        if (!phasingInstance) InstantiatePhasingClientRPC();
 
         while (phasingTime > 0f)
         {
@@ -70,10 +67,7 @@ public class Buffs : NetworkBehaviour
 
         PhasingClientRPC(false);
 
-        if (phasingInstance)
-        {
-            DestroyPhasingClientRPC();
-        }
+        if (phasingInstance) DestroyPhasingClientRPC();
 
         phasingCoroutine = null;
     }
@@ -125,10 +119,7 @@ public class Buffs : NetworkBehaviour
     {
         immuneTime += duration;
 
-        if (immunCoroutine == null)
-        {
-            immunCoroutine = StartCoroutine(ImmuneDuration());
-        }
+        if (immuneCoroutine == null) immuneCoroutine = StartCoroutine(ImmuneDuration());
     }
 
     IEnumerator ImmuneDuration()
@@ -147,7 +138,7 @@ public class Buffs : NetworkBehaviour
 
         ImmuneClientRPC(false);
 
-        immunCoroutine = null;
+        immuneCoroutine = null;
     }
 
     [ServerRpc]
@@ -180,20 +171,70 @@ public class Buffs : NetworkBehaviour
 
     public void Immoveable(float duration)
     {
-        StartCoroutine(ImmovableDuration(duration));
+        if (IsServer)
+        {
+            AddImmovableTime(duration);
+        }
+        else
+        {
+            ImmovableDurationServerRPC(duration);
+        }
     }
 
-    IEnumerator ImmovableDuration(float duration)
+    void AddImmovableTime(float duration)
     {
-        GameObject buff = Instantiate(buff_Immovable, buffBar.transform);
+        immovableTime += duration;
 
-        IsImmovable = true;
+        if (immovableCoroutine == null) immovableCoroutine = StartCoroutine(ImmovableDuration());
+    }
 
-        yield return new WaitForSeconds(duration);
+    IEnumerator ImmovableDuration()
+    {
+        ImmovableClientRPC(true);
 
-        Destroy(buff);
+        if (!immovableInstance)
+        {
+            InstantiateImmovableClientRPC();
+        }
 
-        IsImmovable = false;
+        while (immovableTime > 0f)
+        {
+            immovableTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (immovableInstance)
+        {
+            DestroyImmovableClientRPC();
+        }
+
+        ImmovableClientRPC(false);
+
+        immovableCoroutine = null;
+    }
+
+    [ServerRpc]
+    void ImmovableDurationServerRPC(float duration)
+    {
+        AddImmovableTime(duration);
+    }
+
+    [ClientRpc]
+    void ImmovableClientRPC(bool _immovable)
+    {
+        IsImmovable = _immovable;
+    }
+
+    [ClientRpc]
+    void InstantiateImmovableClientRPC()
+    {
+        immovableInstance = Instantiate(buff_Immovable, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void DestroyImmovableClientRPC()
+    {
+        Destroy(immovableInstance);
     }
 
     #endregion
@@ -217,10 +258,7 @@ public class Buffs : NetworkBehaviour
         hasteStacks += stacks;
         hasteStacks = Mathf.Min(hasteStacks, 25);
 
-        if (!hasteInstance)
-        {
-            InstantiateHasteClientRPC();
-        }
+        if (!hasteInstance) InstantiateHasteClientRPC();
 
         UpdateHasteUIClientRPC(hasteStacks);
 
@@ -237,10 +275,7 @@ public class Buffs : NetworkBehaviour
         if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
         if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed + hasteStacks;
 
-        if (hasteStacks == 0)
-        {
-            DestroyHasteClientRPC();
-        }
+        if (hasteStacks == 0) DestroyHasteClientRPC();
 
         UpdateHasteUIClientRPC(hasteStacks);
     }
