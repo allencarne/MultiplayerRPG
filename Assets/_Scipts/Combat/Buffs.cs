@@ -14,6 +14,7 @@ public class Buffs : NetworkBehaviour
     [SerializeField] GameObject buff_Immovable;
     [SerializeField] GameObject buff_Haste;
 
+    GameObject phasingInstance;
     GameObject hasteInstance;
 
     public bool IsPhasing;
@@ -26,31 +27,59 @@ public class Buffs : NetworkBehaviour
 
     public void Phasing(float duration)
     {
-        StartCoroutine(PhasingDuration(duration));
+        if (IsServer)
+        {
+            StartCoroutine(PhasingDuration(duration));
+        }
+        else
+        {
+            PhasingDurationServerRPC(duration);
+        }
     }
 
     IEnumerator PhasingDuration(float duration)
     {
-        IsPhasing = true;
+        PhasingClientRPC(true);
 
-        GameObject buff = Instantiate(buff_Phasing, buffBar.transform);
-
-        // Ignore Collision between Player Vs Enemy, Player Vs Player, Enemy Vs Enemy.
-        Physics2D.IgnoreLayerCollision(6, 7, true);
-        Physics2D.IgnoreLayerCollision(6, 6, true);
-        Physics2D.IgnoreLayerCollision(6, 7, true);
+        if (!phasingInstance)
+        {
+            InstantiatePhasingClientRPC();
+        }
 
         yield return new WaitForSeconds(duration);
 
-        IsPhasing = false;
+        PhasingClientRPC(false);
 
-        Destroy(buff);
-
-        // Remove Ignore Collision
-        Physics2D.IgnoreLayerCollision(6, 7, false);
-        Physics2D.IgnoreLayerCollision(6, 6, false);
-        Physics2D.IgnoreLayerCollision(6, 7, false);
+        DestroyPhasingClientRPC();
     }
+
+    [ServerRpc]
+    void PhasingDurationServerRPC(float duration)
+    {
+        StartCoroutine(PhasingDuration(duration));
+    }
+
+    [ClientRpc]
+    void PhasingClientRPC(bool isphasing)
+    {
+        IsPhasing = isphasing;
+        Physics2D.IgnoreLayerCollision(6, 7, isphasing);
+        Physics2D.IgnoreLayerCollision(6, 6, isphasing);
+        Physics2D.IgnoreLayerCollision(6, 7, isphasing);
+    }
+
+    [ClientRpc]
+    void InstantiatePhasingClientRPC()
+    {
+        phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void DestroyPhasingClientRPC()
+    {
+        Destroy(phasingInstance);
+    }
+
     #endregion
 
     #region Immunity
@@ -97,6 +126,8 @@ public class Buffs : NetworkBehaviour
 
     #endregion
 
+    #region Haste
+
     public void Haste(int stacks, float duration)
     {
         if (IsServer)
@@ -109,12 +140,6 @@ public class Buffs : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    void HasteDurationServerRPC(int stacks, float duration)
-    {
-        StartCoroutine(HasteDuration(stacks, duration));
-    }
-
     IEnumerator HasteDuration(int stacks, float duration)
     {
         hasteStacks += stacks;
@@ -122,10 +147,10 @@ public class Buffs : NetworkBehaviour
 
         if (!hasteInstance)
         {
-            InstantiateClientRPC();
+            InstantiateHasteClientRPC();
         }
 
-        UpdateStackUIClientRPC(hasteStacks);
+        UpdateHasteUIClientRPC(hasteStacks);
 
         // Apply Haste
         if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
@@ -142,27 +167,35 @@ public class Buffs : NetworkBehaviour
 
         if (hasteStacks == 0)
         {
-            DestroyClientRPC();
+            DestroyHasteClientRPC();
         }
 
-        UpdateStackUIClientRPC(hasteStacks);
+        UpdateHasteUIClientRPC(hasteStacks);
+    }
+
+    [ServerRpc]
+    void HasteDurationServerRPC(int stacks, float duration)
+    {
+        StartCoroutine(HasteDuration(stacks, duration));
     }
 
     [ClientRpc]
-    void InstantiateClientRPC()
+    void InstantiateHasteClientRPC()
     {
         hasteInstance = Instantiate(buff_Haste, buffBar.transform);
     }
 
     [ClientRpc]
-    void UpdateStackUIClientRPC(int stacks)
+    void UpdateHasteUIClientRPC(int stacks)
     {
         hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
-    void DestroyClientRPC()
+    void DestroyHasteClientRPC()
     {
         Destroy(hasteInstance);
     }
+
+    #endregion
 }
