@@ -8,6 +8,7 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 {
     [SerializeField] Player player;
     [SerializeField] Enemy enemy;
+    [SerializeField] Buffs buffs;
 
     [SerializeField] GameObject debuffBar;
     [SerializeField] GameObject debuff_Slow;
@@ -22,11 +23,14 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     GameObject vulnerabilityInstance;
     GameObject exhaustInstance;
 
-    int slowStacks;
-    int weaknessStacks;
-    int impedeStacks;
-    int vulnerabilityStacks;
-    int exhaustStacks;
+    public int SlowStacks;
+    public int WeaknessStacks;
+    public int ImpedeStacks;
+    public int VulnerabilityStacks;
+    public int ExhaustStacks;
+
+    public float SlowPercentage = .10f;
+
 
     #region Slow
 
@@ -44,29 +48,35 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     IEnumerator SlowDuration(int stacks, float duration)
     {
-        slowStacks += stacks;
-        slowStacks = Mathf.Min(slowStacks, 25);
+        SlowStacks += stacks;
+        SlowStacks = Mathf.Min(SlowStacks, 25);
 
         if (!slowInstance) InstantiateSlowClientRPC();
+        UpdateSlowUIClientRPC(SlowStacks);
 
-        UpdateSlowUIClientRPC(slowStacks);
-
-        // Apply Debuff
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value - slowStacks;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed - slowStacks;
+        ApplySlow();
 
         yield return new WaitForSeconds(duration);
 
-        slowStacks -= stacks;
-        slowStacks = Mathf.Max(slowStacks, 0);
+        SlowStacks -= stacks;
+        SlowStacks = Mathf.Max(SlowStacks, 0);
 
-        // Apply Debuff
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value - slowStacks;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed - slowStacks;
+        ApplySlow();
 
-        if (slowStacks == 0) DestroySlowClientRPC();
+        if (SlowStacks == 0) DestroySlowClientRPC();
 
-        UpdateSlowUIClientRPC(slowStacks);
+        UpdateSlowUIClientRPC(SlowStacks);
+    }
+
+    void ApplySlow()
+    {
+        float hasteMultiplier = buffs.HasteStacks * buffs.HastePercent;
+        float slowMultiplier = SlowStacks * SlowPercentage;
+
+        float multiplier = 1 + hasteMultiplier - slowMultiplier;
+
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 
     [ServerRpc]
@@ -111,29 +121,29 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     IEnumerator WeaknessDuration(int stacks, float duration)
     {
-        weaknessStacks += stacks;
-        weaknessStacks = Mathf.Min(weaknessStacks, 25);
+        WeaknessStacks += stacks;
+        WeaknessStacks = Mathf.Min(WeaknessStacks, 25);
 
         if (!weaknessInstance) InstantiateWeaknessClientRPC();
 
-        UpdateWeaknessUIClientRPC(weaknessStacks);
+        UpdateWeaknessUIClientRPC(WeaknessStacks);
 
         // Apply Debuff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value - weaknessStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage - weaknessStacks;
+        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value - WeaknessStacks;
+        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage - WeaknessStacks;
 
         yield return new WaitForSeconds(duration);
 
-        weaknessStacks -= stacks;
-        weaknessStacks = Mathf.Max(weaknessStacks, 0);
+        WeaknessStacks -= stacks;
+        WeaknessStacks = Mathf.Max(WeaknessStacks, 0);
 
         // Apply Debuff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value - weaknessStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage - weaknessStacks;
+        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value - WeaknessStacks;
+        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage - WeaknessStacks;
 
-        if (weaknessStacks == 0) DestroyWeaknessClientRPC();
+        if (WeaknessStacks == 0) DestroyWeaknessClientRPC();
 
-        UpdateWeaknessUIClientRPC(weaknessStacks);
+        UpdateWeaknessUIClientRPC(WeaknessStacks);
     }
 
     [ServerRpc]
@@ -178,29 +188,29 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     IEnumerator ImpedeDuration(int stacks, float duration)
     {
-        impedeStacks += stacks;
-        impedeStacks = Mathf.Min(impedeStacks, 25);
+        ImpedeStacks += stacks;
+        ImpedeStacks = Mathf.Min(ImpedeStacks, 25);
 
         if (!impedeInstance) InstantiateImpedeClientRPC();
 
-        UpdateImpedeUIClientRPC(impedeStacks);
+        UpdateImpedeUIClientRPC(ImpedeStacks);
 
         // Apply Debuff
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value - impedeStacks;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR - impedeStacks;
+        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value - ImpedeStacks;
+        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR - ImpedeStacks;
 
         yield return new WaitForSeconds(duration);
 
-        impedeStacks -= stacks;
-        impedeStacks = Mathf.Max(impedeStacks, 0);
+        ImpedeStacks -= stacks;
+        ImpedeStacks = Mathf.Max(ImpedeStacks, 0);
 
         // Apply Debuff
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value - impedeStacks;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR - impedeStacks;
+        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value - ImpedeStacks;
+        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR - ImpedeStacks;
 
-        if (impedeStacks == 0) DestroyImpedeClientRPC();
+        if (ImpedeStacks == 0) DestroyImpedeClientRPC();
 
-        UpdateImpedeUIClientRPC(impedeStacks);
+        UpdateImpedeUIClientRPC(ImpedeStacks);
     }
 
     [ServerRpc]
@@ -245,29 +255,29 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     IEnumerator VulnerabilityDuration(int stacks, float duration)
     {
-        vulnerabilityStacks += stacks;
-        vulnerabilityStacks = Mathf.Min(vulnerabilityStacks, 25);
+        VulnerabilityStacks += stacks;
+        VulnerabilityStacks = Mathf.Min(VulnerabilityStacks, 25);
 
         if (!vulnerabilityInstance) InstantiateVulnerabilityClientRPC();
 
-        UpdateVulnerabilityUIClientRPC(slowStacks);
+        UpdateVulnerabilityUIClientRPC(SlowStacks);
 
         // Apply Debuff
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value - vulnerabilityStacks;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor - vulnerabilityStacks;
+        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value - VulnerabilityStacks;
+        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor - VulnerabilityStacks;
 
         yield return new WaitForSeconds(duration);
 
-        vulnerabilityStacks -= stacks;
-        vulnerabilityStacks = Mathf.Max(vulnerabilityStacks, 0);
+        VulnerabilityStacks -= stacks;
+        VulnerabilityStacks = Mathf.Max(VulnerabilityStacks, 0);
 
         // Apply Debuff
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value - vulnerabilityStacks;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor - vulnerabilityStacks;
+        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value - VulnerabilityStacks;
+        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor - VulnerabilityStacks;
 
-        if (vulnerabilityStacks == 0) DestroyVulnerabilityClientRPC();
+        if (VulnerabilityStacks == 0) DestroyVulnerabilityClientRPC();
 
-        UpdateVulnerabilityUIClientRPC(vulnerabilityStacks);
+        UpdateVulnerabilityUIClientRPC(VulnerabilityStacks);
     }
 
     [ServerRpc]
@@ -312,29 +322,29 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     IEnumerator ExhaustDuration(int stacks, float duration)
     {
-        exhaustStacks += stacks;
-        exhaustStacks = Mathf.Min(exhaustStacks, 25);
+        ExhaustStacks += stacks;
+        ExhaustStacks = Mathf.Min(ExhaustStacks, 25);
 
         if (!exhaustInstance) InstantiateExhaustClientRPC();
 
-        UpdateExhaustUIClientRPC(exhaustStacks);
+        UpdateExhaustUIClientRPC(ExhaustStacks);
 
         // Apply Debuff
-        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value - exhaustStacks;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed - exhaustStacks;
+        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value - ExhaustStacks;
+        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed - ExhaustStacks;
 
         yield return new WaitForSeconds(duration);
 
-        exhaustStacks -= stacks;
-        exhaustStacks = Mathf.Max(exhaustStacks, 0);
+        ExhaustStacks -= stacks;
+        ExhaustStacks = Mathf.Max(ExhaustStacks, 0);
 
         // Apply Debuff
-        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value - exhaustStacks;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed - exhaustStacks;
+        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value - ExhaustStacks;
+        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed - ExhaustStacks;
 
-        if (exhaustStacks == 0) DestroyExhaustClientRPC();
+        if (ExhaustStacks == 0) DestroyExhaustClientRPC();
 
-        UpdateExhaustUIClientRPC(exhaustStacks);
+        UpdateExhaustUIClientRPC(ExhaustStacks);
     }
 
     [ServerRpc]

@@ -829,6 +829,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   enemy: {fileID: 5006461325889791442}
+  deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Phasing: {fileID: 9070118768053652353, guid: b9a8a795a138cab4ea7a6bd5e7924c8e, type: 3}
   buff_Immune: {fileID: 5676604873850875984, guid: 42ade8d608b1f514fbc2034a014c49be, type: 3}
@@ -841,6 +842,12 @@ MonoBehaviour:
   IsPhasing: 0
   IsImmune: 0
   IsImmovable: 0
+  HasteStacks: 0
+  MightStacks: 0
+  AlacrityStacks: 0
+  ProtectionStacks: 0
+  SwiftnessStacks: 0
+  HastePercent: 0.1
 --- !u!114 &1913103621938294649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,12 +863,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   enemy: {fileID: 5006461325889791442}
+  buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
   debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
   debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
   debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
   debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
+  SlowStacks: 0
+  WeaknessStacks: 0
+  ImpedeStacks: 0
+  VulnerabilityStacks: 0
+  ExhaustStacks: 0
+  SlowPercentage: 0.1
 --- !u!1 &4830251803286897434
 GameObject:
   m_ObjectHideFlags: 0

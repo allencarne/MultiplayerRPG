@@ -7,6 +7,7 @@ public class Buffs : NetworkBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] Enemy enemy;
+    [SerializeField] DeBuffs deBuffs;
 
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject buff_Phasing;
@@ -35,11 +36,13 @@ public class Buffs : NetworkBehaviour
     float immuneTime;
     float immovableTime;
 
-    int hasteStacks;
-    int mightStacks;
-    int alacrityStacks;
-    int protectionStacks;
-    int swiftnessStacks;
+    public int HasteStacks;
+    public int MightStacks;
+    public int AlacrityStacks;
+    public int ProtectionStacks;
+    public int SwiftnessStacks;
+
+    public float HastePercent = .10f;
 
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
@@ -268,29 +271,34 @@ public class Buffs : NetworkBehaviour
 
     IEnumerator HasteDuration(int stacks, float duration)
     {
-        hasteStacks += stacks;
-        hasteStacks = Mathf.Min(hasteStacks, 25);
+        HasteStacks += stacks;
+        HasteStacks = Mathf.Min(HasteStacks, 25);
 
         if (!hasteInstance) InstantiateHasteClientRPC();
+        UpdateHasteUIClientRPC(HasteStacks);
 
-        UpdateHasteUIClientRPC(hasteStacks);
-
-        // Apply Haste
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed + hasteStacks;
+        ApplyHaste();
 
         yield return new WaitForSeconds(duration);
 
-        hasteStacks -= stacks;
-        hasteStacks = Mathf.Max(hasteStacks, 0);
+        HasteStacks -= stacks;
+        HasteStacks = Mathf.Max(HasteStacks, 0);
 
-        // Apply Haste
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value + hasteStacks;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed + hasteStacks;
+        ApplyHaste();
 
-        if (hasteStacks == 0) DestroyHasteClientRPC();
+        if (HasteStacks == 0) DestroyHasteClientRPC();
+        UpdateHasteUIClientRPC(HasteStacks);
+    }
 
-        UpdateHasteUIClientRPC(hasteStacks);
+    void ApplyHaste()
+    {
+        float hasteMultiplier = HasteStacks * HastePercent;
+        float slowMultiplier = deBuffs.SlowStacks * deBuffs.SlowPercentage;
+
+        float multiplier = 1 + hasteMultiplier - slowMultiplier;
+
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 
     [ServerRpc]
@@ -335,29 +343,29 @@ public class Buffs : NetworkBehaviour
 
     IEnumerator MightDuration(int stacks, float duration)
     {
-        mightStacks += stacks;
-        mightStacks = Mathf.Min(mightStacks, 25);
+        MightStacks += stacks;
+        MightStacks = Mathf.Min(MightStacks, 25);
 
         if (!mightInstance) InstantiateMightClientRPC();
 
-        UpdateMightUIClientRPC(mightStacks);
+        UpdateMightUIClientRPC(MightStacks);
 
         // Apply Buff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + mightStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + mightStacks;
+        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + MightStacks;
+        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + MightStacks;
 
         yield return new WaitForSeconds(duration);
 
-        mightStacks -= stacks;
-        mightStacks = Mathf.Max(mightStacks, 0);
+        MightStacks -= stacks;
+        MightStacks = Mathf.Max(MightStacks, 0);
 
         // Apply Buff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + mightStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + mightStacks;
+        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + MightStacks;
+        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + MightStacks;
 
-        if (mightStacks == 0) DestroyMightClientRPC();
+        if (MightStacks == 0) DestroyMightClientRPC();
 
-        UpdateMightUIClientRPC(mightStacks);
+        UpdateMightUIClientRPC(MightStacks);
     }
 
     [ServerRpc]
@@ -402,29 +410,29 @@ public class Buffs : NetworkBehaviour
 
     IEnumerator AlacrityDuration(int stacks, float duration)
     {
-        alacrityStacks += stacks;
-        alacrityStacks = Mathf.Min(alacrityStacks, 25);
+        AlacrityStacks += stacks;
+        AlacrityStacks = Mathf.Min(AlacrityStacks, 25);
 
         if (!alacrityInstance) InstantiateAlacrityClientRPC();
 
-        UpdateAlacrityUIClientRPC(alacrityStacks);
+        UpdateAlacrityUIClientRPC(AlacrityStacks);
 
         // Apply Buff
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value + alacrityStacks;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR + alacrityStacks;
+        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value + AlacrityStacks;
+        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR + AlacrityStacks;
 
         yield return new WaitForSeconds(duration);
 
-        alacrityStacks -= stacks;
-        alacrityStacks = Mathf.Max(alacrityStacks, 0);
+        AlacrityStacks -= stacks;
+        AlacrityStacks = Mathf.Max(AlacrityStacks, 0);
 
         // Apply Buff
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value + alacrityStacks;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR + alacrityStacks;
+        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value + AlacrityStacks;
+        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR + AlacrityStacks;
 
-        if (alacrityStacks == 0) DestroyAlacrityClientRPC();
+        if (AlacrityStacks == 0) DestroyAlacrityClientRPC();
 
-        UpdateAlacrityUIClientRPC(alacrityStacks);
+        UpdateAlacrityUIClientRPC(AlacrityStacks);
     }
 
     [ServerRpc]
@@ -469,29 +477,29 @@ public class Buffs : NetworkBehaviour
 
     IEnumerator ProtectionDuration(int stacks, float duration)
     {
-        protectionStacks += stacks;
-        protectionStacks = Mathf.Min(protectionStacks, 25);
+        ProtectionStacks += stacks;
+        ProtectionStacks = Mathf.Min(ProtectionStacks, 25);
 
         if (!protectionInstance) InstantiateProtectionClientRPC();
 
-        UpdateProtectionUIClientRPC(protectionStacks);
+        UpdateProtectionUIClientRPC(ProtectionStacks);
 
         // Apply Buff
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value + protectionStacks;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor + protectionStacks;
+        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value + ProtectionStacks;
+        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor + ProtectionStacks;
 
         yield return new WaitForSeconds(duration);
 
-        protectionStacks -= stacks;
-        protectionStacks = Mathf.Max(protectionStacks, 0);
+        ProtectionStacks -= stacks;
+        ProtectionStacks = Mathf.Max(ProtectionStacks, 0);
 
         // Apply Buff
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value + protectionStacks;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor + protectionStacks;
+        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value + ProtectionStacks;
+        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor + ProtectionStacks;
 
-        if (protectionStacks == 0) DestroyProtectionClientRPC();
+        if (ProtectionStacks == 0) DestroyProtectionClientRPC();
 
-        UpdateProtectionUIClientRPC(protectionStacks);
+        UpdateProtectionUIClientRPC(ProtectionStacks);
     }
 
     [ServerRpc]
@@ -536,29 +544,29 @@ public class Buffs : NetworkBehaviour
 
     IEnumerator SwiftnessDuration(int stacks, float duration)
     {
-        swiftnessStacks += stacks;
-        swiftnessStacks = Mathf.Min(swiftnessStacks, 25);
+        SwiftnessStacks += stacks;
+        SwiftnessStacks = Mathf.Min(SwiftnessStacks, 25);
 
         if (!switnessInstance) InstantiateSwiftnessClientRPC();
 
-        UpdateSwiftnessUIClientRPC(swiftnessStacks);
+        UpdateSwiftnessUIClientRPC(SwiftnessStacks);
 
         // Apply Buff
-        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value + swiftnessStacks;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed + swiftnessStacks;
+        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value + SwiftnessStacks;
+        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed + SwiftnessStacks;
 
         yield return new WaitForSeconds(duration);
 
-        swiftnessStacks -= stacks;
-        swiftnessStacks = Mathf.Max(swiftnessStacks, 0);
+        SwiftnessStacks -= stacks;
+        SwiftnessStacks = Mathf.Max(SwiftnessStacks, 0);
 
         // Apply Buff
-        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value + swiftnessStacks;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed + swiftnessStacks;
+        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value + SwiftnessStacks;
+        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed + SwiftnessStacks;
 
-        if (swiftnessStacks == 0) DestroySwiftnessClientRPC();
+        if (SwiftnessStacks == 0) DestroySwiftnessClientRPC();
 
-        UpdateSwiftnessUIClientRPC(swiftnessStacks);
+        UpdateSwiftnessUIClientRPC(SwiftnessStacks);
     }
 
     [ServerRpc]
