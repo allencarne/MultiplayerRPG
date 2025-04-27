@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class DamageOnTrigger : NetworkBehaviour
 {
-    [HideInInspector] public int Damage;
+    [HideInInspector] public int AbilityDamage;
+    [HideInInspector] public int CharacterDamage;
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
 
@@ -38,7 +39,7 @@ public class DamageOnTrigger : NetworkBehaviour
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(Damage, DamageType.Flat, objectThatWasHit);
+            damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, objectThatWasHit);
         }
     }
 }

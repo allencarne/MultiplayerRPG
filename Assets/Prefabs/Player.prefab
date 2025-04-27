@@ -12484,14 +12484,22 @@ MonoBehaviour:
     m_InternalValue: 0
   CurrentSpeed:
     m_InternalValue: 0
-  BaseDamage: 1
-  CurrentDamage: 1
-  BaseAttackSpeed: 1
-  CurrentAttackSpeed: 1
-  BaseCDR: 1
-  CurrentCDR: 1
-  BaseArmor: 0
-  CurrentArmor: 0
+  BaseDamage:
+    m_InternalValue: 0
+  CurrentDamage:
+    m_InternalValue: 0
+  BaseAttackSpeed:
+    m_InternalValue: 0
+  CurrentAttackSpeed:
+    m_InternalValue: 0
+  BaseCDR:
+    m_InternalValue: 0
+  CurrentCDR:
+    m_InternalValue: 0
+  BaseArmor:
+    m_InternalValue: 0
+  CurrentArmor:
+    m_InternalValue: 0
   playerClass: 0
 --- !u!114 &6475613187630994528
 MonoBehaviour:
@@ -12618,6 +12626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51aa70aba569e874ba2a7b3d315379ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 841304983140234989}
   enemy: {fileID: 0}
   buffBar: {fileID: 7354079026291478614}
@@ -12625,6 +12634,10 @@ MonoBehaviour:
   buff_Immune: {fileID: 5676604873850875984, guid: 42ade8d608b1f514fbc2034a014c49be, type: 3}
   buff_Immovable: {fileID: 1074361865954493798, guid: 487569e36a7eb3b45a5cb41b21397fdb, type: 3}
   buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
+  buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
+  buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
+  buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
+  buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
   IsPhasing: 0
   IsImmune: 0
   IsImmovable: 0

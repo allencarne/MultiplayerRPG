@@ -147,7 +147,7 @@ public class SnailBash : EnemyAbility
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.Damage = abilityDamage;
+            damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
 

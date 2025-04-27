@@ -153,7 +153,7 @@ public class SnailShell : EnemyAbility
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.Damage = abilityDamage;
+            damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
 

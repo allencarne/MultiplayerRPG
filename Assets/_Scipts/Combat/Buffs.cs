@@ -13,11 +13,19 @@ public class Buffs : NetworkBehaviour
     [SerializeField] GameObject buff_Immune;
     [SerializeField] GameObject buff_Immovable;
     [SerializeField] GameObject buff_Haste;
+    [SerializeField] GameObject buff_Might;
+    [SerializeField] GameObject buff_Alacrity;
+    [SerializeField] GameObject buff_Protection;
+    [SerializeField] GameObject buff_Swiftness;
 
     GameObject phasingInstance;
     GameObject immuneInstance;
     GameObject immovableInstance;
     GameObject hasteInstance;
+    GameObject mightInstance;
+    GameObject alactrityInstance;
+    GameObject protectionInstance;
+    GameObject switnessInstance;
 
     public bool IsPhasing;
     public bool IsImmune;
@@ -26,7 +34,12 @@ public class Buffs : NetworkBehaviour
     float phasingTime;
     float immuneTime;
     float immovableTime;
+
     int hasteStacks;
+    int mightStacks;
+    int alacrityStacks;
+    int protectionStacks;
+    int switnessStacks;
 
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
@@ -302,6 +315,73 @@ public class Buffs : NetworkBehaviour
     void DestroyHasteClientRPC()
     {
         Destroy(hasteInstance);
+    }
+
+    #endregion
+
+    #region Might
+
+    public void Might(int stacks, float duration)
+    {
+        if (IsServer)
+        {
+            StartCoroutine(MightDuration(stacks, duration));
+        }
+        else
+        {
+            MightDurationServerRPC(stacks, duration);
+        }
+    }
+
+    IEnumerator MightDuration(int stacks, float duration)
+    {
+        mightStacks += stacks;
+        mightStacks = Mathf.Min(mightStacks, 25);
+
+        if (!mightInstance) InstantiateMightClientRPC();
+
+        UpdateMightUIClientRPC(mightStacks);
+
+        // Apply Buff
+        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + mightStacks;
+        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + mightStacks;
+
+        yield return new WaitForSeconds(duration);
+
+        mightStacks -= stacks;
+        mightStacks = Mathf.Max(mightStacks, 0);
+
+        // Apply Buff
+        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + mightStacks;
+        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + mightStacks;
+
+        if (mightStacks == 0) DestroyMightClientRPC();
+
+        UpdateMightUIClientRPC(mightStacks);
+    }
+
+    [ServerRpc]
+    void MightDurationServerRPC(int stacks, float duration)
+    {
+        StartCoroutine(MightDuration(stacks, duration));
+    }
+
+    [ClientRpc]
+    void InstantiateMightClientRPC()
+    {
+        mightInstance = Instantiate(buff_Might, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void UpdateMightUIClientRPC(int stacks)
+    {
+        mightInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    }
+
+    [ClientRpc]
+    void DestroyMightClientRPC()
+    {
+        Destroy(mightInstance);
     }
 
     #endregion

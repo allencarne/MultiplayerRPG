@@ -184,7 +184,7 @@ public class SnailDash : EnemyAbility
         if (_damage != null)
         {
             _damage.attacker = attacker;
-            _damage.Damage = abilityDamage;
+            _damage.AbilityDamage = abilityDamage;
             _damage.IgnoreEnemy = true;
         }
 

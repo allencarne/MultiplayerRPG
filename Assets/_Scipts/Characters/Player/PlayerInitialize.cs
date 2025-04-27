@@ -122,16 +122,16 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentSpeed.Value = player.BaseSpeed.Value;
 
         // Set Damage
-        player.CurrentDamage = player.BaseDamage;
+        player.CurrentDamage.Value = player.BaseDamage.Value;
 
         // Set Attack Speed
-        player.CurrentAttackSpeed = player.BaseAttackSpeed;
+        player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value;
 
         // Set CDR
-        player.CurrentCDR = player.BaseCDR;
+        player.CurrentCDR.Value = player.BaseCDR.Value;
 
         // Set Armor
-        player.CurrentArmor = player.BaseArmor;
+        player.CurrentArmor.Value = player.BaseArmor.Value;
     }
 
     public void SavePlayerStats()

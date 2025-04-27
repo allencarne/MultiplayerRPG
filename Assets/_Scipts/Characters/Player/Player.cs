@@ -73,6 +73,35 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public PlayerClass playerClass;
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            playerInitialize.LoadPlayerStats();
+        }
+
+        Health.OnValueChanged += OnHealthChanged;
+        MaxHealth.OnValueChanged += OnMaxHealthChanged;
+
+        Endurance.OnValueChanged += OnEnduranceChanged;
+        MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
+
+        BaseSpeed.OnValueChanged += OnBaseSpeedChanged;
+        CurrentSpeed.OnValueChanged += OnCurrentSpeedChanged;
+
+        BaseDamage.OnValueChanged += OnBaseDamageChanged;
+        CurrentDamage.OnValueChanged += OnCurrentDamageChanged;
+
+        if (IsOwner)
+        {
+            PlayerCamera();
+        }
+
+        // Initial UI update
+        healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
+        EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, Endurance.Value);
+    }
+
     private void Start()
     {
         Instantiate(spawn_Effect, transform.position, transform.rotation);
@@ -91,60 +120,44 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         }
     }
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsServer)
-        {
-            playerInitialize.LoadPlayerStats();
-        }
-
-        Health.OnValueChanged += OnHealthChanged;
-        MaxHealth.OnValueChanged += OnMaxHealthChanged;
-
-        Endurance.OnValueChanged += OnEnduranceChanged;
-        MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
-
-        BaseSpeed.OnValueChanged += OnBaseSpeedChanged;
-        CurrentSpeed.OnValueChanged += OnCurrentSpeedChanged;
-
-        if (IsOwner)
-        {
-            PlayerCamera();
-        }
-
-        // Initial UI update
-        healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
-        EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value,Endurance.Value);
-    }
-
-    private void OnHealthChanged(float oldValue, float newValue)
+    void OnHealthChanged(float oldValue, float newValue)
     {
         healthBar.UpdateHealthBar(MaxHealth.Value, newValue);
     }
 
-    private void OnMaxHealthChanged(float oldValue, float newValue)
+    void OnMaxHealthChanged(float oldValue, float newValue)
     {
         healthBar.UpdateHealthBar(newValue, Health.Value);
     }
 
-    private void OnEnduranceChanged(float oldValue, float newValue)
+    void OnEnduranceChanged(float oldValue, float newValue)
     {
         EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, newValue);
     }
 
-    private void OnMaxEnduranceChanged(float oldValue, float newValue)
+    void OnMaxEnduranceChanged(float oldValue, float newValue)
     {
         EnduranceBar.UpdateEnduranceBar(newValue, Endurance.Value);
     }
 
-    private void OnBaseSpeedChanged(float previousValue, float newValue)
+    void OnBaseSpeedChanged(float previousValue, float newValue)
     {
         // Change Base Speed
     }
 
-    private void OnCurrentSpeedChanged(float previousValue, float newValue)
+    void OnCurrentSpeedChanged(float previousValue, float newValue)
     {
         // Change CurrentSpeed
+    }
+
+    void OnBaseDamageChanged(int previousValue, int newValue)
+    {
+
+    }
+
+    void OnCurrentDamageChanged(int previousValue, int newValue)
+    {
+
     }
 
     void PlayerCamera()

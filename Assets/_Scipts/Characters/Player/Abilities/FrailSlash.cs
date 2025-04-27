@@ -147,11 +147,11 @@ public class FrailSlash : PlayerAbility
 
         if (IsServer)
         {
-            SpawnAttack(owner.transform.position, aimRotation, aimDirection,owner.OwnerClientId);
+            SpawnAttack(owner.transform.position, aimRotation, aimDirection,owner.OwnerClientId, owner.player.CurrentDamage.Value);
         }
         else
         {
-            AttackServerRpc(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId);
+            AttackServerRpc(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId, owner.player.CurrentDamage.Value);
         }
 
         owner.StartCoroutine(ImpactTime());
@@ -186,7 +186,7 @@ public class FrailSlash : PlayerAbility
         owner.CanBasic = true;
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
+    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
     {
         NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
 
@@ -201,7 +201,8 @@ public class FrailSlash : PlayerAbility
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = Attacker;
-            damageOnTrigger.Damage = abilityDamage;
+            damageOnTrigger.AbilityDamage = abilityDamage;
+            damageOnTrigger.CharacterDamage = attackerDamage;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
@@ -216,8 +217,8 @@ public class FrailSlash : PlayerAbility
     }
 
     [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID)
+    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
     {
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID);
+        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID, attackerDamage);
     }
 }
