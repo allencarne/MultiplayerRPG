@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerRollState : PlayerState
@@ -11,8 +12,6 @@ public class PlayerRollState : PlayerState
         // Buffs
         owner.Buffs.Immunity(rollDuration);
         owner.Buffs.Immoveable(rollDuration);
-        //owner.Buffs.Haste(3, 5);
-        owner.DeBuffs.Slow(3, 5);
 
         // Endurance
         owner.player.EnduranceBar.SpendEndurance(50);
@@ -68,6 +67,4 @@ public class PlayerRollState : PlayerState
         owner.PlayerRB.linearVelocity = Vector2.zero;
         owner.SetState(PlayerStateMachine.State.Idle);
     }
-
-
 }

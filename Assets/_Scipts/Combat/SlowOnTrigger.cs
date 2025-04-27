@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class SlowOnTrigger : MonoBehaviour
+public class SlowOnTrigger : NetworkBehaviour
 {
     [HideInInspector] public int Stacks;
     [HideInInspector] public float Duration;
@@ -14,6 +14,8 @@ public class SlowOnTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!IsServer) return;
+
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
 
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
