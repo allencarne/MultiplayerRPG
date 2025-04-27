@@ -24,7 +24,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public Rigidbody2D EnemyRB { get; private set; }
     public Animator EnemyAnimator { get; private set; }
     public Collider2D Collider { get; private set; }
-    public CrowdControl crowdControl { get; private set; }
 
     [Header("Variables")]
     public int AttemptsCount { get; set; }
@@ -47,6 +46,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public Transform Target { get; set; }
     public CrowdControl CrowdControl;
     public Buffs Buffs;
+    public DeBuffs DeBuffs;
     public Coroutine ImpactCoroutine;
 
     public enum State
@@ -70,7 +70,6 @@ public class EnemyStateMachine : NetworkBehaviour
         EnemyRB = GetComponent<Rigidbody2D>();
         EnemyAnimator = GetComponentInChildren<Animator>();
         Collider = GetComponent<Collider2D>();
-        crowdControl = GetComponent<CrowdControl>();
     }
 
     private void Start()
@@ -106,7 +105,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (crowdControl.IsImmobilized) return;
+        if (CrowdControl.IsImmobilized) return;
 
         switch (state)
         {

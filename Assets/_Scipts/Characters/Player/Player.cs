@@ -86,12 +86,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         Endurance.OnValueChanged += OnEnduranceChanged;
         MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
 
-        BaseSpeed.OnValueChanged += OnBaseSpeedChanged;
-        CurrentSpeed.OnValueChanged += OnCurrentSpeedChanged;
-
-        BaseDamage.OnValueChanged += OnBaseDamageChanged;
-        CurrentDamage.OnValueChanged += OnCurrentDamageChanged;
-
         if (IsOwner)
         {
             PlayerCamera();
@@ -138,26 +132,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     void OnMaxEnduranceChanged(float oldValue, float newValue)
     {
         EnduranceBar.UpdateEnduranceBar(newValue, Endurance.Value);
-    }
-
-    void OnBaseSpeedChanged(float previousValue, float newValue)
-    {
-        // Change Base Speed
-    }
-
-    void OnCurrentSpeedChanged(float previousValue, float newValue)
-    {
-        // Change CurrentSpeed
-    }
-
-    void OnBaseDamageChanged(int previousValue, int newValue)
-    {
-
-    }
-
-    void OnCurrentDamageChanged(int previousValue, int newValue)
-    {
-
     }
 
     void PlayerCamera()

@@ -39,6 +39,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Collider2D Collider;
     public CrowdControl CrowdControl;
     public Buffs Buffs;
+    public DeBuffs DeBuffs;
     public PlayerEquipment Equipment;
     public Rigidbody2D PlayerRB;
     public Transform Aimer;

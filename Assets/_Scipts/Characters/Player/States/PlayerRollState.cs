@@ -11,7 +11,8 @@ public class PlayerRollState : PlayerState
         // Buffs
         owner.Buffs.Immunity(rollDuration);
         owner.Buffs.Immoveable(rollDuration);
-        owner.Buffs.Might(3, 5);
+        //owner.Buffs.Haste(3, 5);
+        owner.DeBuffs.Slow(3, 5);
 
         // Endurance
         owner.player.EnduranceBar.SpendEndurance(50);
@@ -26,7 +27,6 @@ public class PlayerRollState : PlayerState
             Vector2 _newDir = new Vector2(_x, _y);
             owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
             facingDirection = owner.SnapDirection(_newDir);
-
         }
         else
         {
