@@ -80,6 +80,16 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            Buffs.Haste(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            DeBuffs.Slow(1, 10);
+        }
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;

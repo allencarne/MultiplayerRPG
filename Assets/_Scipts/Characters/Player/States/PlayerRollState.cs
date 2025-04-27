@@ -12,7 +12,6 @@ public class PlayerRollState : PlayerState
         // Buffs
         owner.Buffs.Immunity(rollDuration);
         owner.Buffs.Immoveable(rollDuration);
-        owner.Buffs.Haste(3, 5);
 
         // Endurance
         owner.player.EnduranceBar.SpendEndurance(50);

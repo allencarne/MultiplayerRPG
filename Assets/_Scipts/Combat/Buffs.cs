@@ -42,7 +42,11 @@ public class Buffs : NetworkBehaviour
     public int ProtectionStacks;
     public int SwiftnessStacks;
 
-    public float HastePercent = .10f;
+    public float HastePercent = 0.03f;
+    public float MightPercent = .10f;
+    public float AlacrityPercent = .10f;
+    public float ProtectionPercent = .10f;
+    public float SwiftnessPercent = .10f;
 
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
@@ -292,13 +296,17 @@ public class Buffs : NetworkBehaviour
 
     void ApplyHaste()
     {
-        float hasteMultiplier = HasteStacks * HastePercent;
-        float slowMultiplier = deBuffs.SlowStacks * deBuffs.SlowPercentage;
+        if (player != null)
+        {
+            float multiplier = 1f + (HasteStacks * 0.03f);
+            player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        }
 
-        float multiplier = 1 + hasteMultiplier - slowMultiplier;
-
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+        if (enemy != null)
+        {
+            float multiplier = 1f + (HasteStacks * 0.03f);
+            enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+        }
     }
 
     [ServerRpc]
@@ -316,13 +324,13 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void UpdateHasteUIClientRPC(int stacks)
     {
-        hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (hasteInstance) hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyHasteClientRPC()
     {
-        Destroy(hasteInstance);
+        if (hasteInstance) Destroy(hasteInstance);
     }
 
     #endregion
@@ -347,25 +355,29 @@ public class Buffs : NetworkBehaviour
         MightStacks = Mathf.Min(MightStacks, 25);
 
         if (!mightInstance) InstantiateMightClientRPC();
-
         UpdateMightUIClientRPC(MightStacks);
 
-        // Apply Buff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + MightStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + MightStacks;
+        ApplyMight();
 
         yield return new WaitForSeconds(duration);
 
         MightStacks -= stacks;
         MightStacks = Mathf.Max(MightStacks, 0);
 
-        // Apply Buff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value + MightStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage + MightStacks;
+        ApplyMight();
 
         if (MightStacks == 0) DestroyMightClientRPC();
-
         UpdateMightUIClientRPC(MightStacks);
+    }
+
+    void ApplyMight()
+    {
+        float mightMultiplier = MightStacks * MightPercent;
+        float weaknessMultiplier = deBuffs.WeaknessStacks * deBuffs.WeaknessPercent;
+
+        float multiplier = 1 + mightMultiplier - weaknessMultiplier;
+        if (player != null) player.CurrentDamage.Value = Mathf.RoundToInt(player.BaseDamage.Value * multiplier);
+        if (enemy != null) enemy.CurrentDamage = Mathf.RoundToInt(enemy.BaseDamage * multiplier);
     }
 
     [ServerRpc]

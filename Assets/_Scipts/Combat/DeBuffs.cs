@@ -29,7 +29,11 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     public int VulnerabilityStacks;
     public int ExhaustStacks;
 
-    public float SlowPercentage = .10f;
+    public float SlowPercent = 0.03f;
+    public float WeaknessPercent = .10f;
+    public float ImpedePercent = .10f;
+    public float VulnerabilityPercent = .10f;
+    public float ExhaustPercent = .10f;
 
 
     #region Slow
@@ -70,13 +74,17 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     void ApplySlow()
     {
-        float hasteMultiplier = buffs.HasteStacks * buffs.HastePercent;
-        float slowMultiplier = SlowStacks * SlowPercentage;
+        if (player != null)
+        {
+            float multiplier = 1f - (SlowStacks * 0.03f);
+            player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        }
 
-        float multiplier = 1 + hasteMultiplier - slowMultiplier;
-
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+        if (enemy != null)
+        {
+            float multiplier = 1f - (SlowStacks * 0.03f);
+            enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+        }
     }
 
     [ServerRpc]
