@@ -74,15 +74,18 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     void ApplySlow()
     {
+        float _Haste = buffs.HasteStacks * 0.03f;
+        float _Slow = SlowStacks * 0.03f;
+
+        float multiplier = 1 + _Haste - _Slow;
+
         if (player != null)
         {
-            float multiplier = 1f - (SlowStacks * 0.03f);
             player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
         }
 
         if (enemy != null)
         {
-            float multiplier = 1f - (SlowStacks * 0.03f);
             enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
         }
     }

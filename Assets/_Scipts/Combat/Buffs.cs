@@ -296,15 +296,18 @@ public class Buffs : NetworkBehaviour
 
     void ApplyHaste()
     {
+        float _Haste = HasteStacks * 0.03f;
+        float _Slow = deBuffs.SlowStacks * 0.03f;
+
+        float multiplier = 1 + _Haste - _Slow;
+
         if (player != null)
         {
-            float multiplier = 1f + (HasteStacks * 0.03f);
             player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
         }
 
         if (enemy != null)
         {
-            float multiplier = 1f + (HasteStacks * 0.03f);
             enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
         }
     }
