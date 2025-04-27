@@ -23,7 +23,7 @@ public class Buffs : NetworkBehaviour
     GameObject immovableInstance;
     GameObject hasteInstance;
     GameObject mightInstance;
-    GameObject alactrityInstance;
+    GameObject alacrityInstance;
     GameObject protectionInstance;
     GameObject switnessInstance;
 
@@ -39,7 +39,7 @@ public class Buffs : NetworkBehaviour
     int mightStacks;
     int alacrityStacks;
     int protectionStacks;
-    int switnessStacks;
+    int swiftnessStacks;
 
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
@@ -382,6 +382,207 @@ public class Buffs : NetworkBehaviour
     void DestroyMightClientRPC()
     {
         Destroy(mightInstance);
+    }
+
+    #endregion
+
+    #region Alacrity
+
+    public void Alacrity(int stacks, float duration)
+    {
+        if (IsServer)
+        {
+            StartCoroutine(AlacrityDuration(stacks, duration));
+        }
+        else
+        {
+            AlacrityDurationServerRPC(stacks, duration);
+        }
+    }
+
+    IEnumerator AlacrityDuration(int stacks, float duration)
+    {
+        alacrityStacks += stacks;
+        alacrityStacks = Mathf.Min(alacrityStacks, 25);
+
+        if (!alacrityInstance) InstantiateAlacrityClientRPC();
+
+        UpdateAlacrityUIClientRPC(alacrityStacks);
+
+        // Apply Buff
+        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value + alacrityStacks;
+        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR + alacrityStacks;
+
+        yield return new WaitForSeconds(duration);
+
+        alacrityStacks -= stacks;
+        alacrityStacks = Mathf.Max(alacrityStacks, 0);
+
+        // Apply Buff
+        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value + alacrityStacks;
+        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR + alacrityStacks;
+
+        if (alacrityStacks == 0) DestroyAlacrityClientRPC();
+
+        UpdateAlacrityUIClientRPC(alacrityStacks);
+    }
+
+    [ServerRpc]
+    void AlacrityDurationServerRPC(int stacks, float duration)
+    {
+        StartCoroutine(AlacrityDuration(stacks, duration));
+    }
+
+    [ClientRpc]
+    void InstantiateAlacrityClientRPC()
+    {
+        alacrityInstance = Instantiate(buff_Alacrity, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void UpdateAlacrityUIClientRPC(int stacks)
+    {
+        alacrityInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    }
+
+    [ClientRpc]
+    void DestroyAlacrityClientRPC()
+    {
+        Destroy(alacrityInstance);
+    }
+
+    #endregion
+
+    #region Protection
+
+    public void Protection(int stacks, float duration)
+    {
+        if (IsServer)
+        {
+            StartCoroutine(ProtectionDuration(stacks, duration));
+        }
+        else
+        {
+            ProtectionDurationServerRPC(stacks, duration);
+        }
+    }
+
+    IEnumerator ProtectionDuration(int stacks, float duration)
+    {
+        protectionStacks += stacks;
+        protectionStacks = Mathf.Min(protectionStacks, 25);
+
+        if (!protectionInstance) InstantiateProtectionClientRPC();
+
+        UpdateProtectionUIClientRPC(protectionStacks);
+
+        // Apply Buff
+        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value + protectionStacks;
+        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor + protectionStacks;
+
+        yield return new WaitForSeconds(duration);
+
+        protectionStacks -= stacks;
+        protectionStacks = Mathf.Max(protectionStacks, 0);
+
+        // Apply Buff
+        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value + protectionStacks;
+        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor + protectionStacks;
+
+        if (protectionStacks == 0) DestroyProtectionClientRPC();
+
+        UpdateProtectionUIClientRPC(protectionStacks);
+    }
+
+    [ServerRpc]
+    void ProtectionDurationServerRPC(int stacks, float duration)
+    {
+        StartCoroutine(ProtectionDuration(stacks, duration));
+    }
+
+    [ClientRpc]
+    void InstantiateProtectionClientRPC()
+    {
+        protectionInstance = Instantiate(buff_Protection, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void UpdateProtectionUIClientRPC(int stacks)
+    {
+        protectionInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    }
+
+    [ClientRpc]
+    void DestroyProtectionClientRPC()
+    {
+        Destroy(protectionInstance);
+    }
+
+    #endregion
+
+    #region Swiftness
+
+    public void Swiftness(int stacks, float duration)
+    {
+        if (IsServer)
+        {
+            StartCoroutine(SwiftnessDuration(stacks, duration));
+        }
+        else
+        {
+            SwiftnessDurationServerRPC(stacks, duration);
+        }
+    }
+
+    IEnumerator SwiftnessDuration(int stacks, float duration)
+    {
+        swiftnessStacks += stacks;
+        swiftnessStacks = Mathf.Min(swiftnessStacks, 25);
+
+        if (!switnessInstance) InstantiateSwiftnessClientRPC();
+
+        UpdateSwiftnessUIClientRPC(swiftnessStacks);
+
+        // Apply Buff
+        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value + swiftnessStacks;
+        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed + swiftnessStacks;
+
+        yield return new WaitForSeconds(duration);
+
+        swiftnessStacks -= stacks;
+        swiftnessStacks = Mathf.Max(swiftnessStacks, 0);
+
+        // Apply Buff
+        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value + swiftnessStacks;
+        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed + swiftnessStacks;
+
+        if (swiftnessStacks == 0) DestroySwiftnessClientRPC();
+
+        UpdateSwiftnessUIClientRPC(swiftnessStacks);
+    }
+
+    [ServerRpc]
+    void SwiftnessDurationServerRPC(int stacks, float duration)
+    {
+        StartCoroutine(SwiftnessDuration(stacks, duration));
+    }
+
+    [ClientRpc]
+    void InstantiateSwiftnessClientRPC()
+    {
+        switnessInstance = Instantiate(buff_Swiftness, buffBar.transform);
+    }
+
+    [ClientRpc]
+    void UpdateSwiftnessUIClientRPC(int stacks)
+    {
+        switnessInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    }
+
+    [ClientRpc]
+    void DestroySwiftnessClientRPC()
+    {
+        Destroy(switnessInstance);
     }
 
     #endregion
