@@ -80,14 +80,24 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             Buffs.Haste(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F6))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             DeBuffs.Slow(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            Buffs.Might(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            DeBuffs.Weakness(1, 10);
         }
 
         switch (state)

@@ -43,11 +43,10 @@ public class Buffs : NetworkBehaviour
     public int SwiftnessStacks;
 
     public float hastePercent = 0.036f;
-    public float MightPercent = .10f;
+    public float mightPercent = 0.036f;
     public float AlacrityPercent = .10f;
     public float ProtectionPercent = .10f;
     public float SwiftnessPercent = .10f;
-
 
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
@@ -297,10 +296,10 @@ public class Buffs : NetworkBehaviour
 
     void ApplyHaste()
     {
-        float _Haste = HasteStacks * hastePercent;
-        float _Slow = deBuffs.SlowStacks * deBuffs.slowPercent;
+        float hasteMultiplier = HasteStacks * hastePercent;
+        float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
 
-        float multiplier = 1 + _Haste - _Slow;
+        float multiplier = 1 + hasteMultiplier - slowMultiplier;
 
         if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
         if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
@@ -369,10 +368,11 @@ public class Buffs : NetworkBehaviour
 
     void ApplyMight()
     {
-        float mightMultiplier = MightStacks * MightPercent;
-        float weaknessMultiplier = deBuffs.WeaknessStacks * deBuffs.WeaknessPercent;
+        float mightMultiplier = MightStacks * mightPercent;
+        float weaknessMultiplier = deBuffs.WeaknessStacks * deBuffs.weaknessPercent;
 
         float multiplier = 1 + mightMultiplier - weaknessMultiplier;
+
         if (player != null) player.CurrentDamage.Value = Mathf.RoundToInt(player.BaseDamage.Value * multiplier);
         if (enemy != null) enemy.CurrentDamage = Mathf.RoundToInt(enemy.BaseDamage * multiplier);
     }

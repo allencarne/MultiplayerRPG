@@ -30,7 +30,7 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     public int ExhaustStacks;
 
     public float slowPercent = 0.036f;
-    public float WeaknessPercent = .10f;
+    public float weaknessPercent = 0.036f;
     public float ImpedePercent = .10f;
     public float VulnerabilityPercent = .10f;
     public float ExhaustPercent = .10f;
@@ -73,13 +73,22 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     void ApplySlow()
     {
-        float _Haste = buffs.HasteStacks * buffs.hastePercent;
-        float _Slow = SlowStacks * slowPercent;
+        float hasteMultiplier = buffs.HasteStacks * buffs.hastePercent;
+        float slowMultiplier = SlowStacks * slowPercent;
 
-        float multiplier = 1 + _Haste - _Slow;
+        float multiplier = 1 + hasteMultiplier - slowMultiplier;
 
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+        if (player != null)
+        {
+            float speed = player.BaseSpeed.Value * multiplier;
+            player.CurrentSpeed.Value = Mathf.Max(speed, 0.1f);
+        }
+
+        if (enemy != null)
+        {
+            float speed = enemy.BaseSpeed * multiplier;
+            enemy.CurrentSpeed = Mathf.Max(speed, 0.1f);
+        }
     }
 
     [ServerRpc]
@@ -128,25 +137,39 @@ public class DeBuffs : NetworkBehaviour, ISlowable
         WeaknessStacks = Mathf.Min(WeaknessStacks, 25);
 
         if (!weaknessInstance) InstantiateWeaknessClientRPC();
-
         UpdateWeaknessUIClientRPC(WeaknessStacks);
 
-        // Apply Debuff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value - WeaknessStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage - WeaknessStacks;
+        ApplyWeakness();
 
         yield return new WaitForSeconds(duration);
 
         WeaknessStacks -= stacks;
         WeaknessStacks = Mathf.Max(WeaknessStacks, 0);
 
-        // Apply Debuff
-        if (player != null) player.CurrentDamage.Value = player.BaseDamage.Value - WeaknessStacks;
-        if (enemy != null) enemy.CurrentDamage = enemy.BaseDamage - WeaknessStacks;
+        ApplyWeakness();
 
         if (WeaknessStacks == 0) DestroyWeaknessClientRPC();
-
         UpdateWeaknessUIClientRPC(WeaknessStacks);
+    }
+
+    void ApplyWeakness()
+    {
+        float mightMultiplier = buffs.MightStacks * buffs.mightPercent;
+        float weaknessMultiplier = WeaknessStacks * weaknessPercent;
+
+        float multiplier = 1 + mightMultiplier - weaknessMultiplier;
+
+        if (player != null)
+        {
+            float damage = player.BaseDamage.Value * multiplier;
+            player.CurrentDamage.Value = Mathf.Max(Mathf.RoundToInt(damage), 1);
+        }
+
+        if (enemy != null)
+        {
+            float damage = enemy.BaseDamage * multiplier;
+            enemy.CurrentDamage = Mathf.Max(Mathf.RoundToInt(damage), 1);
+        }
     }
 
     [ServerRpc]
