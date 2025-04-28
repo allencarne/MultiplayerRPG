@@ -29,12 +29,11 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     public int VulnerabilityStacks;
     public int ExhaustStacks;
 
-    public float SlowPercent = 0.03f;
+    public float slowPercent = 0.036f;
     public float WeaknessPercent = .10f;
     public float ImpedePercent = .10f;
     public float VulnerabilityPercent = .10f;
     public float ExhaustPercent = .10f;
-
 
     #region Slow
 
@@ -74,20 +73,13 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     void ApplySlow()
     {
-        float _Haste = buffs.HasteStacks * 0.03f;
-        float _Slow = SlowStacks * 0.03f;
+        float _Haste = buffs.HasteStacks * buffs.hastePercent;
+        float _Slow = SlowStacks * slowPercent;
 
         float multiplier = 1 + _Haste - _Slow;
 
-        if (player != null)
-        {
-            player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        }
-
-        if (enemy != null)
-        {
-            enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
-        }
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 
     [ServerRpc]
@@ -105,13 +97,13 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void UpdateSlowUIClientRPC(int stacks)
     {
-        slowInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (slowInstance) slowInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroySlowClientRPC()
     {
-        Destroy(slowInstance);
+        if (slowInstance) Destroy(slowInstance);
     }
 
     #endregion
@@ -172,13 +164,13 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void UpdateWeaknessUIClientRPC(int stacks)
     {
-        weaknessInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (weaknessInstance) weaknessInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyWeaknessClientRPC()
     {
-        Destroy(weaknessInstance);
+        if (weaknessInstance) Destroy(weaknessInstance);
     }
 
     #endregion
@@ -239,13 +231,13 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void UpdateImpedeUIClientRPC(int stacks)
     {
-        impedeInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (impedeInstance) impedeInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyImpedeClientRPC()
     {
-        Destroy(impedeInstance);
+        if (impedeInstance) Destroy(impedeInstance);
     }
 
     #endregion
@@ -306,13 +298,13 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void UpdateVulnerabilityUIClientRPC(int stacks)
     {
-        vulnerabilityInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (vulnerabilityInstance) vulnerabilityInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyVulnerabilityClientRPC()
     {
-        Destroy(vulnerabilityInstance);
+        if (vulnerabilityInstance) Destroy(vulnerabilityInstance);
     }
 
     #endregion
@@ -367,13 +359,13 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void InstantiateExhaustClientRPC()
     {
-        exhaustInstance = Instantiate(debuff_Exhaust, debuffBar.transform);
+        if (exhaustInstance) exhaustInstance = Instantiate(debuff_Exhaust, debuffBar.transform);
     }
 
     [ClientRpc]
     void UpdateExhaustUIClientRPC(int stacks)
     {
-        exhaustInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (exhaustInstance) exhaustInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]

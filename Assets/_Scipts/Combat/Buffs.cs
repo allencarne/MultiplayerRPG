@@ -42,11 +42,12 @@ public class Buffs : NetworkBehaviour
     public int ProtectionStacks;
     public int SwiftnessStacks;
 
-    public float HastePercent = 0.03f;
+    public float hastePercent = 0.036f;
     public float MightPercent = .10f;
     public float AlacrityPercent = .10f;
     public float ProtectionPercent = .10f;
     public float SwiftnessPercent = .10f;
+
 
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
@@ -296,20 +297,13 @@ public class Buffs : NetworkBehaviour
 
     void ApplyHaste()
     {
-        float _Haste = HasteStacks * 0.03f;
-        float _Slow = deBuffs.SlowStacks * 0.03f;
+        float _Haste = HasteStacks * hastePercent;
+        float _Slow = deBuffs.SlowStacks * deBuffs.slowPercent;
 
         float multiplier = 1 + _Haste - _Slow;
 
-        if (player != null)
-        {
-            player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        }
-
-        if (enemy != null)
-        {
-            enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
-        }
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 
     [ServerRpc]
@@ -398,13 +392,13 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void UpdateMightUIClientRPC(int stacks)
     {
-        mightInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (mightInstance) mightInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyMightClientRPC()
     {
-        Destroy(mightInstance);
+        if (mightInstance) Destroy(mightInstance);
     }
 
     #endregion
@@ -465,13 +459,13 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void UpdateAlacrityUIClientRPC(int stacks)
     {
-        alacrityInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (alacrityInstance) alacrityInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyAlacrityClientRPC()
     {
-        Destroy(alacrityInstance);
+        if (alacrityInstance) Destroy(alacrityInstance);
     }
 
     #endregion
@@ -532,13 +526,13 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void UpdateProtectionUIClientRPC(int stacks)
     {
-        protectionInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (protectionInstance) protectionInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroyProtectionClientRPC()
     {
-        Destroy(protectionInstance);
+        if (protectionInstance) Destroy(protectionInstance);
     }
 
     #endregion
@@ -599,13 +593,13 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void UpdateSwiftnessUIClientRPC(int stacks)
     {
-        switnessInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        if (switnessInstance) switnessInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
     }
 
     [ClientRpc]
     void DestroySwiftnessClientRPC()
     {
-        Destroy(switnessInstance);
+        if (switnessInstance) Destroy(switnessInstance);
     }
 
     #endregion
