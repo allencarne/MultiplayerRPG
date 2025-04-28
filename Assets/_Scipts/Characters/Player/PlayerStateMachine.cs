@@ -100,6 +100,36 @@ public class PlayerStateMachine : NetworkBehaviour
             DeBuffs.Weakness(1, 10);
         }
 
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            Buffs.Alacrity(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            DeBuffs.Impede(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            Buffs.Protection(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            DeBuffs.Vulnerability(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            Buffs.Swiftness(1, 10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            DeBuffs.Exhaust(1, 10);
+        }
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;

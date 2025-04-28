@@ -23,17 +23,17 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     GameObject vulnerabilityInstance;
     GameObject exhaustInstance;
 
-    public int SlowStacks;
-    public int WeaknessStacks;
-    public int ImpedeStacks;
-    public int VulnerabilityStacks;
-    public int ExhaustStacks;
+    [HideInInspector] public int SlowStacks;
+    [HideInInspector] public int WeaknessStacks;
+    [HideInInspector] public int ImpedeStacks;
+    [HideInInspector] public int VulnerabilityStacks;
+    [HideInInspector] public int ExhaustStacks;
 
-    public float slowPercent = 0.036f;
-    public float weaknessPercent = 0.036f;
-    public float ImpedePercent = .10f;
-    public float VulnerabilityPercent = .10f;
-    public float ExhaustPercent = .10f;
+    [HideInInspector] public float slowPercent = 0.036f;
+    [HideInInspector] public float weaknessPercent = 0.036f;
+    [HideInInspector] public float impedePercent = 0.036f;
+    [HideInInspector] public float vulnerabilityPercent = 0.036f;
+    [HideInInspector] public float exhaustPercent = 0.036f;
 
     #region Slow
 
@@ -218,25 +218,39 @@ public class DeBuffs : NetworkBehaviour, ISlowable
         ImpedeStacks = Mathf.Min(ImpedeStacks, 25);
 
         if (!impedeInstance) InstantiateImpedeClientRPC();
-
         UpdateImpedeUIClientRPC(ImpedeStacks);
 
-        // Apply Debuff
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value - ImpedeStacks;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR - ImpedeStacks;
+        ApplyImpede();
 
         yield return new WaitForSeconds(duration);
 
         ImpedeStacks -= stacks;
         ImpedeStacks = Mathf.Max(ImpedeStacks, 0);
 
-        // Apply Debuff
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value - ImpedeStacks;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR - ImpedeStacks;
+        ApplyImpede();
 
         if (ImpedeStacks == 0) DestroyImpedeClientRPC();
-
         UpdateImpedeUIClientRPC(ImpedeStacks);
+    }
+
+    void ApplyImpede()
+    {
+        float alacrityMultiplier = buffs.AlacrityStacks * buffs.alacrityPercent;
+        float impedeMultiplier = ImpedeStacks * impedePercent;
+
+        float multiplier = 1 + alacrityMultiplier - impedeMultiplier;
+
+        if (player != null)
+        {
+            float cdr = player.BaseCDR.Value * multiplier;
+            player.CurrentCDR.Value = Mathf.Max(cdr, 0.1f);
+        }
+
+        if (enemy != null)
+        {
+            float cdr = enemy.BaseCDR * multiplier;
+            enemy.CurrentCDR = Mathf.Max(cdr, 0.1f);
+        }
     }
 
     [ServerRpc]
@@ -285,25 +299,39 @@ public class DeBuffs : NetworkBehaviour, ISlowable
         VulnerabilityStacks = Mathf.Min(VulnerabilityStacks, 25);
 
         if (!vulnerabilityInstance) InstantiateVulnerabilityClientRPC();
+        UpdateVulnerabilityUIClientRPC(VulnerabilityStacks);
 
-        UpdateVulnerabilityUIClientRPC(SlowStacks);
-
-        // Apply Debuff
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value - VulnerabilityStacks;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor - VulnerabilityStacks;
+        ApplyVulnerability();
 
         yield return new WaitForSeconds(duration);
 
         VulnerabilityStacks -= stacks;
         VulnerabilityStacks = Mathf.Max(VulnerabilityStacks, 0);
 
-        // Apply Debuff
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value - VulnerabilityStacks;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor - VulnerabilityStacks;
+        ApplyVulnerability();
 
         if (VulnerabilityStacks == 0) DestroyVulnerabilityClientRPC();
-
         UpdateVulnerabilityUIClientRPC(VulnerabilityStacks);
+    }
+
+    void ApplyVulnerability()
+    {
+        float protectionMultiplier = buffs.ProtectionStacks * buffs.protectionPercent;
+        float vulnerabilityMultiplier = VulnerabilityStacks * vulnerabilityPercent;
+
+        float multiplier = 1 + protectionMultiplier - vulnerabilityMultiplier;
+
+        if (player != null)
+        {
+            float armor = player.BaseArmor.Value * multiplier;
+            player.CurrentArmor.Value = Mathf.Max(armor, 0.1f);
+        }
+
+        if (enemy != null)
+        {
+            float armor = enemy.BaseArmor * multiplier;
+            enemy.CurrentArmor = Mathf.Max(armor, 0.1f);
+        }
     }
 
     [ServerRpc]
@@ -352,25 +380,39 @@ public class DeBuffs : NetworkBehaviour, ISlowable
         ExhaustStacks = Mathf.Min(ExhaustStacks, 25);
 
         if (!exhaustInstance) InstantiateExhaustClientRPC();
-
         UpdateExhaustUIClientRPC(ExhaustStacks);
 
-        // Apply Debuff
-        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value - ExhaustStacks;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed - ExhaustStacks;
+        ApplyExhaust();
 
         yield return new WaitForSeconds(duration);
 
         ExhaustStacks -= stacks;
         ExhaustStacks = Mathf.Max(ExhaustStacks, 0);
 
-        // Apply Debuff
-        if (player != null) player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value - ExhaustStacks;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed - ExhaustStacks;
+        ApplyExhaust();
 
         if (ExhaustStacks == 0) DestroyExhaustClientRPC();
-
         UpdateExhaustUIClientRPC(ExhaustStacks);
+    }
+
+    void ApplyExhaust()
+    {
+        float swiftnessMultiplier = buffs.SwiftnessStacks * buffs.swiftnessPercent;
+        float exhaustMultiplier = ExhaustStacks * exhaustPercent;
+
+        float multiplier = 1 + swiftnessMultiplier - exhaustMultiplier;
+
+        if (player != null)
+        {
+            float attackspeed = player.BaseAttackSpeed.Value * multiplier;
+            player.CurrentAttackSpeed.Value = Mathf.Max(attackspeed, 0.1f);
+        }
+
+        if (enemy != null)
+        {
+            float attackspeed = enemy.BaseAttackSpeed * multiplier;
+            enemy.CurrentAttackSpeed = Mathf.Max(attackspeed, 0.1f);
+        }
     }
 
     [ServerRpc]
@@ -382,7 +424,7 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void InstantiateExhaustClientRPC()
     {
-        if (exhaustInstance) exhaustInstance = Instantiate(debuff_Exhaust, debuffBar.transform);
+        exhaustInstance = Instantiate(debuff_Exhaust, debuffBar.transform);
     }
 
     [ClientRpc]
@@ -394,7 +436,7 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [ClientRpc]
     void DestroyExhaustClientRPC()
     {
-        Destroy(exhaustInstance);
+        if (exhaustInstance) Destroy(exhaustInstance);
     }
 
     #endregion
