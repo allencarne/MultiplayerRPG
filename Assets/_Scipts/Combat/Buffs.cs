@@ -77,7 +77,7 @@ public class Buffs : NetworkBehaviour
     {
         PhasingClientRPC(true);
 
-        if (!phasingInstance) InstantiatePhasingClientRPC();
+        InstantiatePhasingClientRPC();
 
         while (phasingTime > 0f)
         {
@@ -110,7 +110,17 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void InstantiatePhasingClientRPC()
     {
-        phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
+        if (!phasingInstance)
+        {
+            phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
+        }
+
+        StatusEffects _UI = phasingInstance.GetComponent<StatusEffects>();
+
+        if (_UI != null)
+        {
+            _UI.Initialize(phasingTime);
+        }
     }
 
     [ClientRpc]
