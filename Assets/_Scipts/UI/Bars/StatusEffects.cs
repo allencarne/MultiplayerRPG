@@ -5,22 +5,25 @@ public class StatusEffects : MonoBehaviour
 {
     [SerializeField] private Image imageFill;
 
-    private float totalDuration;
-    private float remainingDuration;
+    private float maxDuration;
 
     public void Initialize(float duration)
     {
-        totalDuration = duration;
-        remainingDuration = duration;
+        maxDuration = duration;
+        UpdateUI(duration);
     }
 
-    private void Update()
+    public void UpdateUI(float remainingTime)
     {
-        if (remainingDuration > 0)
-        {
-            remainingDuration -= Time.deltaTime;
-            float fillAmount = Mathf.Clamp01(remainingDuration / totalDuration);
-            imageFill.fillAmount = fillAmount;
-        }
+        if (maxDuration <= 0f)
+            maxDuration = 1f; // prevent division by zero
+
+        float fillAmount = Mathf.Clamp01(remainingTime / maxDuration);
+        imageFill.fillAmount = fillAmount;
+    }
+
+    public void SetMaxDuration(float newMax)
+    {
+        maxDuration = newMax;
     }
 }

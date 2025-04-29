@@ -70,18 +70,40 @@ public class Buffs : NetworkBehaviour
     {
         phasingTime += duration;
 
-        if (phasingCoroutine == null) phasingCoroutine = StartCoroutine(PhasingDuration());
+        // If already has a phasing UI instance, update it
+        if (phasingInstance)
+        {
+            StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.SetMaxDuration(phasingTime);
+                ui.UpdateUI(phasingTime);
+            }
+        }
+
+        if (phasingCoroutine == null)
+            phasingCoroutine = StartCoroutine(PhasingDuration());
     }
 
     private IEnumerator PhasingDuration()
     {
         PhasingClientRPC(true);
 
-        InstantiatePhasingClientRPC();
+        if (!phasingInstance) InstantiatePhasingClientRPC();
 
         while (phasingTime > 0f)
         {
             phasingTime -= Time.deltaTime;
+
+            if (phasingInstance)
+            {
+                StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
+                if (ui != null)
+                {
+                    ui.UpdateUI(phasingTime);
+                }
+            }
+
             yield return null;
         }
 
@@ -110,11 +132,7 @@ public class Buffs : NetworkBehaviour
     [ClientRpc]
     void InstantiatePhasingClientRPC()
     {
-        if (!phasingInstance)
-        {
-            phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
-        }
-
+        phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
         StatusEffects _UI = phasingInstance.GetComponent<StatusEffects>();
 
         if (_UI != null)
