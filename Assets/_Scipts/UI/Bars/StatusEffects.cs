@@ -18,7 +18,7 @@ public class StatusEffects : MonoBehaviour
         if (maxDuration <= 0f)
             maxDuration = 1f; // prevent division by zero
 
-        float fillAmount = Mathf.Clamp01(remainingTime / maxDuration);
+        float fillAmount = 1f - Mathf.Clamp01(remainingTime / maxDuration);
         imageFill.fillAmount = fillAmount;
     }
 

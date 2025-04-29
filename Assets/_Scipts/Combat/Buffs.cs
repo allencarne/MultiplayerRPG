@@ -70,7 +70,6 @@ public class Buffs : NetworkBehaviour
     {
         phasingTime += duration;
 
-        // If already has a phasing UI instance, update it
         if (phasingInstance)
         {
             StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
@@ -167,6 +166,16 @@ public class Buffs : NetworkBehaviour
     {
         immuneTime += duration;
 
+        if (immuneInstance)
+        {
+            StatusEffects ui = immuneInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.SetMaxDuration(immuneTime);
+                ui.UpdateUI(immuneTime);
+            }
+        }
+
         if (immuneCoroutine == null) immuneCoroutine = StartCoroutine(ImmuneDuration());
     }
 
@@ -179,12 +188,22 @@ public class Buffs : NetworkBehaviour
         while (immuneTime > 0f)
         {
             immuneTime -= Time.deltaTime;
+
+            if (immuneInstance)
+            {
+                StatusEffects ui = immuneInstance.GetComponent<StatusEffects>();
+                if (ui != null)
+                {
+                    ui.UpdateUI(immuneTime);
+                }
+            }
+
             yield return null;
         }
 
-        if (immuneInstance) DestroyImmuneClientRPC();
-
         ImmuneClientRPC(false);
+
+        if (immuneInstance) DestroyImmuneClientRPC();
 
         immuneCoroutine = null;
     }
@@ -205,6 +224,11 @@ public class Buffs : NetworkBehaviour
     void InstantiateImmuneClientRPC()
     {
         immuneInstance = Instantiate(buff_Immune, buffBar.transform);
+        StatusEffects ui = immuneInstance.GetComponent<StatusEffects>();
+        if (ui != null)
+        {
+            ui.Initialize(immuneTime);
+        }
     }
 
     [ClientRpc]
@@ -233,6 +257,16 @@ public class Buffs : NetworkBehaviour
     {
         immovableTime += duration;
 
+        if (immovableInstance)
+        {
+            StatusEffects ui = immovableInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.SetMaxDuration(immovableTime);
+                ui.UpdateUI(immovableTime);
+            }
+        }
+
         if (immovableCoroutine == null) immovableCoroutine = StartCoroutine(ImmovableDuration());
     }
 
@@ -248,6 +282,16 @@ public class Buffs : NetworkBehaviour
         while (immovableTime > 0f)
         {
             immovableTime -= Time.deltaTime;
+
+            if (immovableInstance)
+            {
+                StatusEffects ui = immovableInstance.GetComponent<StatusEffects>();
+                if (ui != null)
+                {
+                    ui.UpdateUI(immovableTime);
+                }
+            }
+
             yield return null;
         }
 
@@ -277,6 +321,11 @@ public class Buffs : NetworkBehaviour
     void InstantiateImmovableClientRPC()
     {
         immovableInstance = Instantiate(buff_Immovable, buffBar.transform);
+        StatusEffects ui = immovableInstance.GetComponent<StatusEffects>();
+        if (ui != null)
+        {
+            ui.Initialize(immovableTime);
+        }
     }
 
     [ClientRpc]
