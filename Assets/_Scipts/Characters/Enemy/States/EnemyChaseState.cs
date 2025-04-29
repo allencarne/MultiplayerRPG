@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyChaseState : EnemyState
 {
@@ -10,8 +9,7 @@ public class EnemyChaseState : EnemyState
 
         if (owner.IsServer)
         {
-            // Optionally reset patience at the start of chase
-            owner.enemy.PatienceBar.Patience.Value = 0;
+            //owner.enemy.PatienceBar.Patience.Value = 0;
         }
     }
 

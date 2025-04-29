@@ -39,6 +39,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public PatienceBar PatienceBar;
     public float TotalPatience;
     [SerializeField] UnityEvent OnDeath;
+    public bool isDummy;
 
     private void Start()
     {
@@ -99,29 +100,51 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
+        if (isDummy) PatienceBar.Patience.Value = 0;
 
-        PatienceBar.Patience.Value = 0;
+        // Calculate how much damage should actually be applied after defenses.
+        float finalDamage = CalculateFinalDamage(damage, damageType);
 
-        float finalDamage = 0f;
-
-        if (damageType == DamageType.Flat)
-        {
-            finalDamage = Mathf.Max(damage - CurrentArmor, 0);
-        }
-        else if (damageType == DamageType.Percentage)
-        {
-            finalDamage = MaxHealth.Value * (damage / 100f); // Percentage-based damage ignores armor
-        }
-
+        // Subtract final damage from health, but don't let health go below 0.
         Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
-        //Debug.Log($"Player{attackerID} dealt {finalDamage} to Enemy{NetworkObject}");
-
+        // Feedback
         TriggerFlashEffectClientRpc(Color.red);
 
         if (Health.Value <= 0)
         {
             OnDeath?.Invoke();
+        }
+    }
+
+    private float CalculateFinalDamage(float baseDamage, DamageType damageType)
+    {
+        float armor = CurrentArmor; // Get the target's current armor
+
+        switch (damageType)
+        {
+            case DamageType.Flat:
+                {
+                    float armorMultiplier = 100f / (100f + armor); // How much of the damage is applied after armor
+                    return baseDamage * armorMultiplier; // Flat base damage reduced by armor
+                }
+
+            case DamageType.Percent:
+                {
+                    float percentDamage = MaxHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
+                    float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
+                    return percentDamage * armorMultiplier; // % Health damage reduced by armor
+                }
+
+            case DamageType.True:
+                {
+                    return baseDamage; // Ignore Armor
+                }
+
+            default:
+                {
+                    return baseDamage; // Fallback
+                }
         }
     }
 

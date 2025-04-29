@@ -9,5 +9,6 @@ public interface IDamageable
 public enum DamageType
 {
     Flat,       // Example: -10 HP
-    Percentage  // Example: -10% of max HP
+    Percent,    // Example: -10% of max HP
+    True        // Ignores Armor
 }
