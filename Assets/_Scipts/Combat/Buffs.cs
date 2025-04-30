@@ -35,6 +35,7 @@ public class Buffs : NetworkBehaviour
     float phasingTime;
     float immuneTime;
     float immovableTime;
+    float hasteTime;
 
     [HideInInspector] public int HasteStacks;
     [HideInInspector] public int MightStacks;
@@ -355,12 +356,28 @@ public class Buffs : NetworkBehaviour
         HasteStacks += stacks;
         HasteStacks = Mathf.Min(HasteStacks, 25);
 
-        if (!hasteInstance) InstantiateHasteClientRPC(duration);
+        hasteTime += duration;
+
+        InstantiateHasteClientRPC();
         UpdateHasteUIClientRPC(HasteStacks);
 
         ApplyHaste();
 
-        yield return new WaitForSeconds(duration);
+        while (hasteTime > 0)
+        {
+            hasteTime -= Time.deltaTime;
+
+            if (hasteInstance)
+            {
+                StatusEffects ui = hasteInstance.GetComponent<StatusEffects>();
+                if (ui != null)
+                {
+                    ui.UpdateUI(hasteTime);
+                }
+            }
+
+            yield return null;
+        }
 
         HasteStacks -= stacks;
         HasteStacks = Mathf.Max(HasteStacks, 0);
@@ -389,13 +406,25 @@ public class Buffs : NetworkBehaviour
     }
 
     [ClientRpc]
-    void InstantiateHasteClientRPC(float duration)
+    void InstantiateHasteClientRPC()
     {
-        hasteInstance = Instantiate(buff_Haste, buffBar.transform);
-        StatusEffects ui = hasteInstance.GetComponent<StatusEffects>();
-        if (ui != null)
+        if (hasteInstance)
         {
-            ui.UpdateStackUI(duration);
+            StatusEffects ui = hasteInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.SetMaxDuration(hasteTime);
+                ui.UpdateUI(hasteTime);
+            }
+        }
+        else
+        {
+            hasteInstance = Instantiate(buff_Haste, buffBar.transform);
+            StatusEffects ui = hasteInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.Initialize(hasteTime);
+            }
         }
     }
 
