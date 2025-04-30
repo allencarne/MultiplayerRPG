@@ -130,6 +130,7 @@ public class PlayerStateMachine : NetworkBehaviour
             DeBuffs.Exhaust(1, 10);
         }
 
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;

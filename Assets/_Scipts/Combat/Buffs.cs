@@ -57,6 +57,8 @@ public class Buffs : NetworkBehaviour
 
     public void Phasing(float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             AddPhasingTime(duration);
@@ -341,6 +343,8 @@ public class Buffs : NetworkBehaviour
 
     public void Haste(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(HasteDuration(stacks, duration));

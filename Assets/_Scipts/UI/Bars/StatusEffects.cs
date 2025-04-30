@@ -6,15 +6,10 @@ public class StatusEffects : MonoBehaviour
     [SerializeField] private Image imageFill;
 
     private float maxDuration;
-    private float elapsedTime;
-    private bool isStackable = false;
-
-    #region Non-Stackable
 
     public void Initialize(float duration)
     {
         maxDuration = duration;
-        isStackable = false;
         UpdateUI(duration);
     }
 
@@ -29,31 +24,6 @@ public class StatusEffects : MonoBehaviour
 
     public void SetMaxDuration(float newMax)
     {
-        if (!isStackable)
-            maxDuration = newMax;
+        maxDuration = newMax;
     }
-
-    #endregion
-
-    #region Stackable
-
-    public void UpdateStackUI(float buffDuration)
-    {
-        maxDuration = buffDuration;
-        elapsedTime = 0f;
-        isStackable = true;
-    }
-
-    private void Update()
-    {
-        if (!isStackable)
-            return;
-
-        elapsedTime += Time.deltaTime;
-
-        float fillAmount = Mathf.Clamp01(elapsedTime / maxDuration);
-        imageFill.fillAmount = fillAmount;
-    }
-
-    #endregion
 }
