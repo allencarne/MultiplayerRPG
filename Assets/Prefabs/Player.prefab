@@ -12506,7 +12506,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2868109441062658180}
         m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
-        m_MethodName: DamageText
+        m_MethodName: TakeDamageText
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34165,10 +34165,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  DamagePopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
-  HealingPopUp: {fileID: 0}
-  BuffPopUp: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
-  DebuffPopUp: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
+  DealDamagePopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
+  TakeDamagePopUp: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
+  HealingPopUp: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
 --- !u!1 &8370235890687825796
 GameObject:
   m_ObjectHideFlags: 0
