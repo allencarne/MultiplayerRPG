@@ -23,7 +23,5 @@ public class TextPopUp : NetworkBehaviour
         GameObject popUp = Instantiate(textPopUp, spawnPosition, Quaternion.identity, transform);
         TextMeshProUGUI popUpText = popUp.GetComponent<TextMeshProUGUI>();
         popUpText.text = amount.ToString();
-
-        Destroy(popUp, 0.5f);
     }
 }
