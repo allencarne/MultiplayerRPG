@@ -12501,12 +12501,27 @@ MonoBehaviour:
     m_InternalValue: 0
   CurrentArmor:
     m_InternalValue: 0
-  onDamageTaken:
+  OnDamaged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2868109441062658180}
         m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
-        m_MethodName: InstantiatePopUp
+        m_MethodName: DamageText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2868109441062658180}
+        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
+        m_MethodName: HealingText
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34150,7 +34165,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  textPopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
+  DamagePopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
+  HealingPopUp: {fileID: 0}
+  BuffPopUp: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
+  DebuffPopUp: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
 --- !u!1 &8370235890687825796
 GameObject:
   m_ObjectHideFlags: 0

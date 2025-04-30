@@ -41,6 +41,9 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] UnityEvent OnDeath;
     public bool isDummy;
 
+    public UnityEvent<float> OnDamaged;
+    public UnityEvent<float> OnHealed;
+
     private void Start()
     {
         // Set Speed
@@ -57,19 +60,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         // Set Armor
         CurrentArmor = BaseArmor;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            TakeDamage(1, DamageType.Flat, NetworkObject);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            GiveHeal(1, HealType.Flat);
-        }
     }
 
     public override void OnNetworkSpawn()
@@ -110,6 +100,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         // Feedback
         TriggerFlashEffectClientRpc(Color.red);
+        OnDamaged?.Invoke(finalDamage);
 
         if (Health.Value <= 0)
         {
@@ -160,6 +151,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
 
         TriggerFlashEffectClientRpc(Color.green);
+        OnHealed?.Invoke(healAmount);
     }
 
     public IEnumerator FlashEffect(Color color)

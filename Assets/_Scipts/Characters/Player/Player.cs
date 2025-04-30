@@ -62,7 +62,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> BaseArmor = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> CurrentArmor = new(writePerm: NetworkVariableWritePermission.Server);
 
-    public UnityEvent<float> onDamageTaken;
+    public UnityEvent<float> OnDamaged;
+    public UnityEvent<float> OnHealed;
 
     public enum PlayerClass
     {
@@ -152,13 +153,14 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         
         // Feedback
         TriggerFlashEffectClientRpc(Color.red);
-        onDamageTaken?.Invoke(finalDamage);
+        OnDamaged?.Invoke(finalDamage);
 
         if (Health.Value <= 0)
         {
             // Die();
         }
     }
+
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
@@ -202,7 +204,9 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
 
+        // Feedback
         TriggerFlashEffectClientRpc(Color.green);
+        OnHealed?.Invoke(healAmount);
     }
 
     public IEnumerator FlashEffect(Color color)

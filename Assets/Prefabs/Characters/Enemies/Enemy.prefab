@@ -708,6 +708,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isDummy: 0
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8745992878867028754}
+        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
+        m_MethodName: DamageText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8745992878867028754}
+        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
+        m_MethodName: HealingText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8001761435941154268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,7 +878,11 @@ MonoBehaviour:
   AlacrityStacks: 0
   ProtectionStacks: 0
   SwiftnessStacks: 0
-  HastePercent: 0.1
+  hastePercent: 0.036
+  mightPercent: 0.036
+  alacrityPercent: 0.036
+  protectionPercent: 0.036
+  swiftnessPercent: 0.036
 --- !u!114 &1913103621938294649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -875,7 +910,11 @@ MonoBehaviour:
   ImpedeStacks: 0
   VulnerabilityStacks: 0
   ExhaustStacks: 0
-  SlowPercentage: 0.1
+  slowPercent: 0.036
+  weaknessPercent: 0.036
+  impedePercent: 0.036
+  vulnerabilityPercent: 0.036
+  exhaustPercent: 0.036
 --- !u!1 &4830251803286897434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,6 +1337,59 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5911281330218254361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9095509754017204285}
+  - component: {fileID: 8745992878867028754}
+  m_Layer: 0
+  m_Name: TextPopUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &9095509754017204285
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911281330218254361}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1678050288238711682}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -43.2}
+  m_SizeDelta: {x: 16.34, y: 9.346}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8745992878867028754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5911281330218254361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b8ec23d9779434da45162594f210bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  DamagePopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
+  HealingPopUp: {fileID: 0}
+  BuffPopUp: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
+  DebuffPopUp: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
 --- !u!1 &6230831158410067215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,6 +1790,7 @@ RectTransform:
   - {fileID: 4159241086931037296}
   - {fileID: 8641451937495037658}
   - {fileID: 3175871053581206948}
+  - {fileID: 9095509754017204285}
   m_Father: {fileID: 4035453947850850332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
