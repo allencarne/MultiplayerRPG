@@ -355,7 +355,7 @@ public class Buffs : NetworkBehaviour
         HasteStacks += stacks;
         HasteStacks = Mathf.Min(HasteStacks, 25);
 
-        if (!hasteInstance) InstantiateHasteClientRPC();
+        if (!hasteInstance) InstantiateHasteClientRPC(duration);
         UpdateHasteUIClientRPC(HasteStacks);
 
         ApplyHaste();
@@ -389,9 +389,14 @@ public class Buffs : NetworkBehaviour
     }
 
     [ClientRpc]
-    void InstantiateHasteClientRPC()
+    void InstantiateHasteClientRPC(float duration)
     {
         hasteInstance = Instantiate(buff_Haste, buffBar.transform);
+        StatusEffects ui = hasteInstance.GetComponent<StatusEffects>();
+        if (ui != null)
+        {
+            ui.UpdateStackUI(duration);
+        }
     }
 
     [ClientRpc]

@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.Events;
 
 public class Player : NetworkBehaviour, IDamageable, IHealable
 {
@@ -61,6 +62,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> BaseArmor = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> CurrentArmor = new(writePerm: NetworkVariableWritePermission.Server);
 
+    public UnityEvent<float> onDamageTaken;
 
     public enum PlayerClass
     {
@@ -150,6 +152,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         
         // Feedback
         TriggerFlashEffectClientRpc(Color.red);
+        onDamageTaken?.Invoke(finalDamage);
 
         if (Health.Value <= 0)
         {
