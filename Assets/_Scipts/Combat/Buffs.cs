@@ -37,6 +37,8 @@ public class Buffs : NetworkBehaviour
     float immovableTime;
     float hasteTime;
 
+    private NetworkVariable<float> networkPhasingTime = new(writePerm: NetworkVariableWritePermission.Server);
+
     [HideInInspector] public int HasteStacks;
     [HideInInspector] public int MightStacks;
     [HideInInspector] public int AlacrityStacks;
@@ -52,6 +54,14 @@ public class Buffs : NetworkBehaviour
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
     private Coroutine immovableCoroutine;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsClient)
+        {
+            networkPhasingTime.OnValueChanged += OnPhasingTimeChanged;
+        }
+    }
 
     #region Phasing
 
@@ -72,40 +82,21 @@ public class Buffs : NetworkBehaviour
     private void AddPhasingTime(float duration)
     {
         phasingTime += duration;
+        networkPhasingTime.Value = phasingTime;
 
-        if (phasingInstance)
-        {
-            StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
-            if (ui != null)
-            {
-                ui.SetMaxDuration(phasingTime);
-                ui.UpdateUI(phasingTime);
-            }
-        }
-
-        if (phasingCoroutine == null)
-            phasingCoroutine = StartCoroutine(PhasingDuration());
+        if (phasingCoroutine == null) phasingCoroutine = StartCoroutine(PhasingDuration());
     }
 
     private IEnumerator PhasingDuration()
     {
         PhasingClientRPC(true);
 
-        if (!phasingInstance) InstantiatePhasingClientRPC();
+        if (!phasingInstance) InstantiatePhasingClientRPC(networkPhasingTime.Value);
 
         while (phasingTime > 0f)
         {
             phasingTime -= Time.deltaTime;
-
-            if (phasingInstance)
-            {
-                StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
-                if (ui != null)
-                {
-                    ui.UpdateUI(phasingTime);
-                }
-            }
-
+            networkPhasingTime.Value = phasingTime;
             yield return null;
         }
 
@@ -114,6 +105,18 @@ public class Buffs : NetworkBehaviour
         if (phasingInstance) DestroyPhasingClientRPC();
 
         phasingCoroutine = null;
+    }
+
+    private void OnPhasingTimeChanged(float oldValue, float newValue)
+    {
+        if (phasingInstance)
+        {
+            var ui = phasingInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.UpdateUI(newValue);
+            }
+        }
     }
 
     [ServerRpc]
@@ -132,14 +135,14 @@ public class Buffs : NetworkBehaviour
     }
 
     [ClientRpc]
-    void InstantiatePhasingClientRPC()
+    void InstantiatePhasingClientRPC(float time)
     {
         phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
         StatusEffects _UI = phasingInstance.GetComponent<StatusEffects>();
 
         if (_UI != null)
         {
-            _UI.Initialize(phasingTime);
+            _UI.Initialize(time);
         }
     }
 
