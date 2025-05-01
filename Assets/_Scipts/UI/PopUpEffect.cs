@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class PopUpEffect : MonoBehaviour
 {
-    public float floatSpeed = 0.5f;
-    public float lifetime = 0.5f;
-    public float fadeDuration = 0.5f;
+    float floatSpeed = 0.5f;
+    float lifetime = 1f;
+    float fadeDuration = 0.8f;
 
     private TextMeshProUGUI text;
     private Color originalColor;

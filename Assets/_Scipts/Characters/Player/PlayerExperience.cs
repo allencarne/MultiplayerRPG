@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class PlayerExperience : NetworkBehaviour
 {
     [Header("UI")]
+    [SerializeField] TextPopUp textPopUp;
     [SerializeField] RectTransform rect;
     [SerializeField] TextMeshProUGUI experienceText;
     [SerializeField] TextMeshProUGUI levelText;
@@ -87,7 +88,7 @@ public class PlayerExperience : NetworkBehaviour
 
     public void IncreaseEXP(float xpGained)
     {
-        //ShowFloatingText(xpGained, expText);
+        textPopUp.EXPText(xpGained);
 
         player.CurrentExperience += xpGained;
         lerpTimer = 0f;

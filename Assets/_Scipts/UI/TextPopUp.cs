@@ -7,12 +7,14 @@ public class TextPopUp : NetworkBehaviour
     [SerializeField] GameObject DealDamagePopUp;
     [SerializeField] GameObject TakeDamagePopUp;
     [SerializeField] GameObject HealingPopUp;
+    [SerializeField] GameObject ExpPopUp;
 
     public enum PopUpType
     {
         DealDamage,
         TakeDamage,
         Healing,
+        Exp,
     }
 
     public void DealDamageText(float amount)
@@ -39,6 +41,14 @@ public class TextPopUp : NetworkBehaviour
         }
     }
 
+    public void EXPText(float amount)
+    {
+        if (IsServer)
+        {
+            PopUpClientRPC(amount, PopUpType.Exp);
+        }
+    }
+
     [ClientRpc]
     void PopUpClientRPC(float amount, PopUpType type)
     {
@@ -50,7 +60,15 @@ public class TextPopUp : NetworkBehaviour
 
         GameObject popUp = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
         TextMeshProUGUI popUpText = popUp.GetComponent<TextMeshProUGUI>();
-        popUpText.text = amount.ToString();
+
+        if (type == PopUpType.Exp)
+        {
+            popUpText.text = "+" + amount.ToString() + " EXP";
+        }
+        else
+        {
+            popUpText.text = amount.ToString();
+        }
     }
 
     GameObject GetPrefabForType(PopUpType type)
@@ -60,6 +78,7 @@ public class TextPopUp : NetworkBehaviour
             case PopUpType.DealDamage: return DealDamagePopUp;
             case PopUpType.TakeDamage: return TakeDamagePopUp;
             case PopUpType.Healing: return HealingPopUp;
+            case PopUpType.Exp: return ExpPopUp;
             default: return null;
         }
     }
