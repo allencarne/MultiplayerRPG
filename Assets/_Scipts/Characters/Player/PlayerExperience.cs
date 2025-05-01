@@ -101,14 +101,19 @@ public class PlayerExperience : NetworkBehaviour
         player.PlayerLevel++;
         levelText.text = player.PlayerLevel.ToString();
 
+        //Stats
+        // Attribute Points
+        // Skill Points
+        // Health + Damage
+        // SAVE
+
         // Increase Player Health
-        //player.MaxHealth++;
-        //float missingHealth = player.MaxHealth - player.Health;
-        //player.Heal(missingHealth, false);
+        player.MaxHealth.Value++;
+        player.Health.Value++;
 
         // Increase Player Damage
-        //player.BaseDamage++;
-        //player.CurrentDamage++;
+        player.BaseDamage.Value++;
+        player.CurrentDamage.Value++;
 
         // Update Bar
         frontXpBar.fillAmount = 0f;
