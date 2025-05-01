@@ -33,14 +33,14 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [Header("UI")]
     [SerializeField] HealthBar healthBar;
     public CastBar CastBar;
-
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
     [SerializeField] SpriteRenderer bodySprite;
     public PatienceBar PatienceBar;
     public float TotalPatience;
-    [SerializeField] UnityEvent OnDeath;
     public bool isDummy;
 
+    [Header("Events")]
+    [SerializeField] UnityEvent OnDeath;
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
 
@@ -104,6 +104,12 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
+            PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
+            if (exp)
+            {
+                exp.IncreaseEXP(expToGive);
+            }
+
             OnDeath?.Invoke();
         }
     }

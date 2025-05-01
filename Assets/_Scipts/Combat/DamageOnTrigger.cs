@@ -39,7 +39,7 @@ public class DamageOnTrigger : NetworkBehaviour
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, objectThatWasHit);
+            damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
         }
     }
 }
