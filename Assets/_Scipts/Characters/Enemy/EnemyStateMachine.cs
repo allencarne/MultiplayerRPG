@@ -218,19 +218,18 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        /*
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Vector2 direction = collision.transform.position - transform.position.normalized;
-            float force = 10;
+        if (enemy.isDummy) return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
-            Rigidbody2D otherRB = collision.gameObject.GetComponent<Rigidbody2D>();
-            if (otherRB != null)
-            {
-                //otherRB.linearVelocity = direction * force;
-            }
+        Player player = collision.gameObject.GetComponent<Player>();
+        CrowdControl cc = player.GetComponent<CrowdControl>();
+
+        if (player != null && cc != null)
+        {
+            player.TakeDamage(1, DamageType.Flat, NetworkObject);
+            Vector2 dir = player.transform.position - transform.position;
+            cc.KnockBack(dir, 15, .3f);
         }
-        */
     }
 
     private void OnDrawGizmosSelected()

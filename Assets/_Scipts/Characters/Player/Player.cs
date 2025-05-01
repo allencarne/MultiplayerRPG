@@ -161,7 +161,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         }
     }
 
-
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
         float armor = CurrentArmor.Value; // Get the target's current armor
