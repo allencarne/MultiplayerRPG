@@ -82,7 +82,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            Buffs.Haste(1, 10);
+            Buffs.Immunity(10);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))

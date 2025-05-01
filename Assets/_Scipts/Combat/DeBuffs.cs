@@ -39,6 +39,8 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     public void Slow(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(SlowDuration(stacks, duration));
@@ -121,6 +123,8 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     public void Weakness(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(WeaknessDuration(stacks, duration));
@@ -202,6 +206,8 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     public void Impede(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(ImpedeDuration(stacks, duration));
@@ -283,6 +289,8 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     public void Vulnerability(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(VulnerabilityDuration(stacks, duration));
@@ -364,6 +372,8 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     public void Exhaust(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(ExhaustDuration(stacks, duration));

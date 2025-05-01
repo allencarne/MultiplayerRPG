@@ -37,8 +37,6 @@ public class Buffs : NetworkBehaviour
     float immovableTime;
     float hasteTime;
 
-    private NetworkVariable<float> networkPhasingTime = new(writePerm: NetworkVariableWritePermission.Server);
-
     [HideInInspector] public int HasteStacks;
     [HideInInspector] public int MightStacks;
     [HideInInspector] public int AlacrityStacks;
@@ -54,14 +52,6 @@ public class Buffs : NetworkBehaviour
     private Coroutine phasingCoroutine;
     private Coroutine immuneCoroutine;
     private Coroutine immovableCoroutine;
-
-    public override void OnNetworkSpawn()
-    {
-        if (IsClient)
-        {
-            networkPhasingTime.OnValueChanged += OnPhasingTimeChanged;
-        }
-    }
 
     #region Phasing
 
@@ -82,7 +72,16 @@ public class Buffs : NetworkBehaviour
     private void AddPhasingTime(float duration)
     {
         phasingTime += duration;
-        networkPhasingTime.Value = phasingTime;
+
+        if (phasingInstance)
+        {
+            StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
+            if (ui != null)
+            {
+                ui.SetMaxDuration(phasingTime);
+                ui.UpdateUI(phasingTime);
+            }
+        }
 
         if (phasingCoroutine == null) phasingCoroutine = StartCoroutine(PhasingDuration());
     }
@@ -90,33 +89,27 @@ public class Buffs : NetworkBehaviour
     private IEnumerator PhasingDuration()
     {
         PhasingClientRPC(true);
-
-        if (!phasingInstance) InstantiatePhasingClientRPC(networkPhasingTime.Value);
+        if (!phasingInstance) InstantiatePhasingClientRPC();
 
         while (phasingTime > 0f)
         {
             phasingTime -= Time.deltaTime;
-            networkPhasingTime.Value = phasingTime;
+
+            if (phasingInstance)
+            {
+                StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
+                if (ui != null)
+                {
+                    ui.UpdateUI(phasingTime);
+                }
+            }
+
             yield return null;
         }
 
         PhasingClientRPC(false);
-
         if (phasingInstance) DestroyPhasingClientRPC();
-
         phasingCoroutine = null;
-    }
-
-    private void OnPhasingTimeChanged(float oldValue, float newValue)
-    {
-        if (phasingInstance)
-        {
-            var ui = phasingInstance.GetComponent<StatusEffects>();
-            if (ui != null)
-            {
-                ui.UpdateUI(newValue);
-            }
-        }
     }
 
     [ServerRpc]
@@ -135,14 +128,14 @@ public class Buffs : NetworkBehaviour
     }
 
     [ClientRpc]
-    void InstantiatePhasingClientRPC(float time)
+    void InstantiatePhasingClientRPC()
     {
         phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
         StatusEffects _UI = phasingInstance.GetComponent<StatusEffects>();
 
         if (_UI != null)
         {
-            _UI.Initialize(time);
+            _UI.Initialize(phasingTime);
         }
     }
 
@@ -158,6 +151,8 @@ public class Buffs : NetworkBehaviour
 
     public void Immunity(float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             AddImmuneTime(duration);
@@ -249,6 +244,8 @@ public class Buffs : NetworkBehaviour
 
     public void Immoveable(float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             AddImmovableTime(duration);
@@ -453,6 +450,8 @@ public class Buffs : NetworkBehaviour
 
     public void Might(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(MightDuration(stacks, duration));
@@ -525,6 +524,8 @@ public class Buffs : NetworkBehaviour
 
     public void Alacrity(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(AlacrityDuration(stacks, duration));
@@ -597,6 +598,8 @@ public class Buffs : NetworkBehaviour
 
     public void Protection(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(ProtectionDuration(stacks, duration));
@@ -669,6 +672,8 @@ public class Buffs : NetworkBehaviour
 
     public void Swiftness(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             StartCoroutine(SwiftnessDuration(stacks, duration));

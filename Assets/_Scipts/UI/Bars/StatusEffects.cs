@@ -1,10 +1,10 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StatusEffects : MonoBehaviour
 {
     [SerializeField] private Image imageFill;
-
     private float maxDuration;
 
     public void Initialize(float duration)
