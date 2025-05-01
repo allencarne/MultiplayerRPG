@@ -1,10 +1,7 @@
 using System.Collections;
-using System.Xml.Linq;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerExperience : NetworkBehaviour
@@ -104,7 +101,6 @@ public class PlayerExperience : NetworkBehaviour
         //Stats
         // Attribute Points
         // Skill Points
-        // Health + Damage
         // SAVE
 
         // Increase Player Health
