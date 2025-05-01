@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,13 @@ public class PlayerExperience : NetworkBehaviour
     [SerializeField] GameObject levelUpParticle_Back;
     [SerializeField] GameObject levelUpText;
 
+    Coroutine lerp;
+
+    private void Start()
+    {
+        UpdateEXPBar(player.CurrentExperience, player.RequiredExperience);
+    }
+
     public void IncreaseEXP(float amout)
     {
         player.CurrentExperience += amout;
@@ -23,6 +31,8 @@ public class PlayerExperience : NetworkBehaviour
         {
             LevelUp();
         }
+
+        UpdateEXPBar(player.CurrentExperience, player.RequiredExperience);
     }
 
     void LevelUp()
@@ -30,8 +40,37 @@ public class PlayerExperience : NetworkBehaviour
         SpawnEffectClientRPC();
 
         player.PlayerLevel++;
-        player.CurrentExperience = 0;
-        player.RequiredExperience = player.RequiredExperience + 5;
+        player.CurrentExperience -= player.RequiredExperience;
+        player.RequiredExperience += 5;
+
+        if (player.CurrentExperience >= player.RequiredExperience)
+        {
+            LevelUp();
+        }
+    }
+
+    public void UpdateEXPBar(float currentEXP, float reqEXP)
+    {
+        if (reqEXP <= 0) return;
+
+        expBar_Back.fillAmount = currentEXP / reqEXP;
+
+        if (lerp != null)
+        {
+            StopCoroutine(lerp);
+        }
+        lerp = StartCoroutine(LerpBar(currentEXP / reqEXP));
+    }
+
+    IEnumerator LerpBar(float targetFillAmount)
+    {
+        float currentFillAmount = expBar.fillAmount;
+        while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
+        {
+            currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, 5f * Time.deltaTime);
+            expBar.fillAmount = currentFillAmount;
+            yield return null;
+        }
     }
 
     [ClientRpc]
