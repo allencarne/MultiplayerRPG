@@ -33,7 +33,7 @@ public class InventorySlot : MonoBehaviour
         inventory.items[slotIndex] = null; // Update the inventory array
         icon.sprite = null;
         icon.enabled = true; // Ensure the Image component is always enabled
-        icon.color = new Color(icon.color.r, icon.color.g, icon.color.b, 0f);
+        icon.color = Color.black;
     }
 
     public void RemoveItem()
