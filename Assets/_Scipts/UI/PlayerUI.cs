@@ -85,6 +85,7 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(null);
 
                     input.SwitchCurrentActionMap("Player");
                 }
@@ -96,6 +97,7 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 JournalPanel.SetActive(true);
                 journalButton.interactable = false;
+                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
                 input.SwitchCurrentActionMap("UI");
             }
@@ -109,6 +111,7 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             JournalPanel.SetActive(true);
             journalButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
             input.SwitchCurrentActionMap("UI");
         }
@@ -126,6 +129,7 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(null);
 
                     input.SwitchCurrentActionMap("Player");
                 }
@@ -137,6 +141,7 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 SocialPanel.SetActive(true);
                 socialButton.interactable = false;
+                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
                 input.SwitchCurrentActionMap("UI");
             }
@@ -150,6 +155,7 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             SocialPanel.SetActive(true);
             socialButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
             input.SwitchCurrentActionMap("UI");
         }
@@ -167,6 +173,7 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(null);
 
                     input.SwitchCurrentActionMap("Player");
                 }
@@ -178,6 +185,7 @@ public class PlayerUI : MonoBehaviour
                 HeroPanel.SetActive(true);
                 MapPanel.SetActive(true);
                 mapButton.interactable = false;
+                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
                 input.SwitchCurrentActionMap("UI");
             }
@@ -191,6 +199,7 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             MapPanel.SetActive(true);
             mapButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
             input.SwitchCurrentActionMap("UI");
         }
@@ -208,6 +217,7 @@ public class PlayerUI : MonoBehaviour
                 {
                     CloseHeroPanel();
                     HUD.SetActive(true);
+                    EventSystem.current.SetSelectedGameObject(null);
 
                     input.SwitchCurrentActionMap("Player");
                 }
@@ -216,6 +226,7 @@ public class PlayerUI : MonoBehaviour
             {
                 CloseHeroPanel();
                 HUD.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(null);
 
                 input.SwitchCurrentActionMap("Player");
             }
@@ -229,6 +240,7 @@ public class PlayerUI : MonoBehaviour
             HeroPanel.SetActive(true);
             SettingsPanel.SetActive(true);
             settingsButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
 
             input.SwitchCurrentActionMap("UI");
         }
@@ -239,6 +251,7 @@ public class PlayerUI : MonoBehaviour
         CloseHeroPanel();
         HUD.SetActive(true);
         input.SwitchCurrentActionMap("Player");
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void CloseHeroPanel()
