@@ -30,9 +30,11 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     // CURRENT STATS CHANGE WITH BUFFS/DEBUFFS -- TEMPORARY
 
     [Header("Player Stats")]
+    public string PlayerName;
     public int PlayerLevel;
     public float CurrentExperience;
     public float RequiredExperience;
+    public float AttributePoints;
 
     [Header("Health")]
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
