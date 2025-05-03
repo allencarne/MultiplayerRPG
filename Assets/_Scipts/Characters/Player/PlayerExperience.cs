@@ -100,6 +100,7 @@ public class PlayerExperience : NetworkBehaviour
 
         //Stats
         // Attribute Points
+        player.AttributePoints += 5;
         // Skill Points
         // SAVE
 

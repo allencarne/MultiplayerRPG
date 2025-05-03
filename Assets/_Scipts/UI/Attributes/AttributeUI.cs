@@ -43,7 +43,7 @@ public class AttributeUI : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("UpdateUI", 1,1);
+        InvokeRepeating("UpdateUI", 0,1);
     }
 
     void UpdateUI()
@@ -59,7 +59,6 @@ public class AttributeUI : MonoBehaviour
         baseHealth.text = player.Health.Value.ToString();
         bonusHealth.text = (player.MaxHealth.Value - player.Health.Value).ToString();
         totalHealth.text = player.MaxHealth.Value.ToString();
-
 
         // Damage
         baseDamage.text = player.BaseDamage.Value.ToString();

@@ -36,6 +36,7 @@ public class PlayerInitialize : NetworkBehaviour
 
             // Set Coin Text UI
             player.CoinText.text = player.Coins.ToString();
+            player.PlayerName = net_playerName.Value.ToString();
         }
         else
         {
@@ -92,6 +93,7 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentExperience = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
         player.RequiredExperience = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
         player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
+        player.AttributePoints = PlayerPrefs.GetFloat($"{prefix}AP", 0);
 
         player.Health.Value = PlayerPrefs.GetFloat($"{prefix}Health", 10);
         player.MaxHealth.Value = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
@@ -142,6 +144,7 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}CurrentExperience", player.CurrentExperience);
         PlayerPrefs.SetFloat($"{prefix}RequiredExperience", player.RequiredExperience);
         PlayerPrefs.SetFloat($"{prefix}Coins", player.Coins);
+        PlayerPrefs.SetFloat($"{prefix}AP", player.AttributePoints);
 
         PlayerPrefs.SetFloat($"{prefix}Health", player.Health.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth.Value);
