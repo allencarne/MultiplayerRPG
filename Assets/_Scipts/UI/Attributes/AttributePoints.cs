@@ -30,6 +30,11 @@ public class AttributePoints : MonoBehaviour
 
     private void Update()
     {
+        if (player.AttributePoints != 0)
+        {
+            ApplyButton.enabled = true;
+        }
+
         var colors = HealthPlus.colors; // Copy the struct
         colors.normalColor = player.AttributePoints != 0 ? Color.yellow : Color.white;
         HealthPlus.colors = colors; // Re-assign the modified copy
