@@ -114,7 +114,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     void OnMaxHealthChanged(float oldValue, float newValue)
     {
         healthBar.UpdateHealthBar(newValue, Health.Value);
-        playerInitialize.SavePlayerStats();
     }
 
     void OnEnduranceChanged(float oldValue, float newValue)

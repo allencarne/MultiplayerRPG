@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
@@ -6,6 +7,7 @@ using UnityEngine;
 
 public class PlayerInitialize : NetworkBehaviour
 {
+    [SerializeField] TextMeshProUGUI saveText;
     [SerializeField] TextMeshProUGUI playerNameText;
     [SerializeField] SpriteRenderer bodySprite;
     [SerializeField] SpriteRenderer hairSprite;
@@ -168,6 +170,14 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}CurrentArmor", player.CurrentArmor.Value);
 
         PlayerPrefs.Save();
+        StartCoroutine(SaveText());
+    }
+
+    IEnumerator SaveText()
+    {
+        saveText.text = "Save";
+        yield return new WaitForSeconds(1);
+        saveText.text = "";
     }
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
