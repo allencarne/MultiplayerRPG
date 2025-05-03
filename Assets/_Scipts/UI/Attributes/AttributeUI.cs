@@ -53,7 +53,7 @@ public class AttributeUI : MonoBehaviour
         playerClass.text = "Class: " + player.playerClass.ToString();
         GetClassIcon();
         playerLevel.text = "LvL: " + player.PlayerLevel.ToString();
-        attributePoints.text = "Avaliable Points: " + player.AttributePoints.ToString();
+        attributePoints.text = "Attribute Points: " + player.AttributePoints.ToString();
 
         // Health
         baseHealth.text = player.Health.Value.ToString();

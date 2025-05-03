@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerExperience : NetworkBehaviour
@@ -33,6 +34,9 @@ public class PlayerExperience : NetworkBehaviour
     public float powerMultiplier = 2;
     [Range(7f, 14f)]
     public float divisionMultiplier = 7;
+
+    public UnityEvent OnEXPGained;
+    public UnityEvent OnLevelUp;
 
     void Start()
     {
@@ -90,6 +94,8 @@ public class PlayerExperience : NetworkBehaviour
         player.CurrentExperience += xpGained;
         lerpTimer = 0f;
         delayTimer = 0f;
+
+        OnEXPGained?.Invoke();
     }
 
     public void LevelUp()
@@ -101,8 +107,6 @@ public class PlayerExperience : NetworkBehaviour
         //Stats
         // Attribute Points
         player.AttributePoints += 5;
-        // Skill Points
-        // SAVE
 
         // Increase Player Health
         player.MaxHealth.Value++;
@@ -120,6 +124,8 @@ public class PlayerExperience : NetworkBehaviour
 
         // Effects
         SpawnEffectClientRPC();
+
+        OnLevelUp?.Invoke();
     }
 
 
