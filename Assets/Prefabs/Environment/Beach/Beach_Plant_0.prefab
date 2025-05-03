@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3626725072091204425}
   - component: {fileID: 7468029368456820920}
-  - component: {fileID: 4104775091660728038}
+  - component: {fileID: 3806947475642385606}
   - component: {fileID: 8070354178754175778}
   m_Layer: 3
   m_Name: Beach_Plant_0
@@ -178,8 +178,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!70 &4104775091660728038
-CapsuleCollider2D:
+--- !u!58 &3806947475642385606
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -213,8 +213,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.6, y: 0.3}
-  m_Direction: 1
+  m_Radius: 0.1
 --- !u!114 &8070354178754175778
 MonoBehaviour:
   m_ObjectHideFlags: 0
