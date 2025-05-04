@@ -48,6 +48,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public Buffs Buffs;
     public DeBuffs DeBuffs;
     public Coroutine ImpactCoroutine;
+    public Coroutine RecoveryCoroutine;
 
     public enum State
     {

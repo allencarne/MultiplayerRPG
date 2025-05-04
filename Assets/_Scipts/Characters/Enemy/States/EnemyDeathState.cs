@@ -33,6 +33,12 @@ public class EnemyDeathState : EnemyState
             owner.StopCoroutine(owner.ImpactCoroutine);
             owner.ImpactCoroutine = null;
         }
+
+        if (owner.RecoveryCoroutine != null)
+        {
+            owner.StopCoroutine(owner.RecoveryCoroutine);
+            owner.RecoveryCoroutine = null;
+        }
     }
 
     public override void FixedUpdateState(EnemyStateMachine owner)

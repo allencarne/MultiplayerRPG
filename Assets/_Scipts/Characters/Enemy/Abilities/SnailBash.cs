@@ -81,7 +81,7 @@ public class SnailBash : EnemyAbility
                 owner.enemy.CastBar.StartRecoveryServerRpc(recoveryTime, owner.enemy.CurrentAttackSpeed);
             }
 
-            owner.StartCoroutine(RecoveryTime(owner));
+            owner.RecoveryCoroutine = owner.StartCoroutine(RecoveryTime(owner));
         }
     }
 
