@@ -62,22 +62,22 @@ public class AttributeUI : MonoBehaviour
 
         // Damage
         baseDamage.text = player.BaseDamage.Value.ToString();
-        bonusDamage.text = (player.CurrentDamage.Value - player.BaseDamage.Value).ToString();
+        bonusDamage.text = (player.BaseDamage.Value - player.CurrentDamage.Value).ToString();
         totalDamage.text = player.CurrentDamage.Value.ToString();
 
         // Attack Speed
         baseAttackSpeed.text = player.BaseAttackSpeed.Value.ToString("F2");
-        bonusAttackSpeed.text = (player.CurrentAttackSpeed.Value - player.BaseAttackSpeed.Value).ToString("F2");
+        bonusAttackSpeed.text = (player.BaseAttackSpeed.Value - player.CurrentAttackSpeed.Value).ToString("F2");
         totalAttackSpeed.text = player.CurrentAttackSpeed.Value.ToString("F2");
 
         // Cooldown Reduction (CDR)
         baseCDR.text = player.BaseCDR.Value.ToString("F2");
-        bonusCDR.text = (player.CurrentCDR.Value - player.BaseCDR.Value).ToString("F2");
+        bonusCDR.text = (player.BaseCDR.Value - player.CurrentCDR.Value).ToString("F2");
         totalCDR.text = player.CurrentCDR.Value.ToString("F2");
 
         // Speed
         baseSpeed.text = player.BaseSpeed.Value.ToString("F2");
-        bonusSpeed.text = (player.CurrentSpeed.Value - player.BaseSpeed.Value).ToString("F2");
+        bonusSpeed.text = (player.BaseSpeed.Value - player.CurrentSpeed.Value).ToString("F2");
         totalSpeed.text = player.CurrentSpeed.Value.ToString("F2");
 
         // Endurance
@@ -87,7 +87,7 @@ public class AttributeUI : MonoBehaviour
 
         // Armor
         baseArmor.text = player.BaseArmor.Value.ToString();
-        bonusArmor.text = (player.CurrentArmor.Value - player.BaseArmor.Value).ToString();
+        bonusArmor.text = (player.BaseArmor.Value - player.CurrentArmor.Value).ToString();
         totalArmor.text = player.CurrentArmor.Value.ToString();
     }
 

@@ -5,11 +5,8 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        if (owner.ImpactCoroutine != null)
-        {
-            owner.StopCoroutine(owner.ImpactCoroutine);
-            owner.ImpactCoroutine = null;
-        }
+        owner.enemy.CastBar.gameObject.SetActive(false);
+        owner.enemy.shadowSprite.enabled = false;
 
         if (owner.enemy.EnemySpawnerReference != null)
         {
@@ -31,7 +28,11 @@ public class EnemyDeathState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-
+        if (owner.ImpactCoroutine != null)
+        {
+            owner.StopCoroutine(owner.ImpactCoroutine);
+            owner.ImpactCoroutine = null;
+        }
     }
 
     public override void FixedUpdateState(EnemyStateMachine owner)

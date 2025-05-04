@@ -35,6 +35,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public CastBar CastBar;
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
     [SerializeField] SpriteRenderer bodySprite;
+    public SpriteRenderer shadowSprite;
     public PatienceBar PatienceBar;
     public float TotalPatience;
     public bool isDummy;
