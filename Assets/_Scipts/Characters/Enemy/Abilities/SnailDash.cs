@@ -183,14 +183,15 @@ public class SnailDash : EnemyAbility
         DamageOnTrigger _damage = attackInstance.GetComponent<DamageOnTrigger>();
         if (_damage != null)
         {
+            _damage.IgnoreEnemy = true;
             _damage.attacker = attacker;
             _damage.AbilityDamage = abilityDamage;
-            _damage.IgnoreEnemy = true;
         }
 
         SlowOnTrigger _slow = attackInstance.GetComponent<SlowOnTrigger>();
         if (_slow != null)
         {
+            _slow.IgnoreEnemy = true;
             _slow.attacker = attacker;
             _slow.Stacks = slowStacks;
             _slow.Duration = slowDuration;
