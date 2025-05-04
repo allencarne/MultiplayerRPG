@@ -18,9 +18,9 @@ public class CharacterStatPreview : MonoBehaviour
         classText.text = "Class: Beginner";
         levelText.text = "Level: " + PlayerPrefs.GetInt($"Character{playerIndex}_PlayerLevel", 1).ToString();
         coinText.text = "Coins: " + PlayerPrefs.GetFloat($"Character{playerIndex}_Coins", 0).ToString();
-        healthText.text = "Health: " + PlayerPrefs.GetInt($"Character{playerIndex}_MaxHealth", 10).ToString();
+        healthText.text = "Health: " + PlayerPrefs.GetFloat($"Character{playerIndex}_MaxHealth", 10).ToString();
         damageText.text = "Damage: " + PlayerPrefs.GetInt($"Character{playerIndex}_Damage", 1).ToString();
-        attackSpeedText.text = "Attack Speed: " + PlayerPrefs.GetInt($"Character{playerIndex}_AttackSpeed", 1).ToString();
-        cdrText.text = "Cool Down: " + PlayerPrefs.GetInt($"Character{playerIndex}_CDR", 1).ToString();
+        attackSpeedText.text = "Attack Speed: " + PlayerPrefs.GetFloat($"Character{playerIndex}_AttackSpeed", 1).ToString();
+        cdrText.text = "Cool Down: " + PlayerPrefs.GetFloat($"Character{playerIndex}_CDR", 1).ToString();
     }
 }

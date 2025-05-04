@@ -132,6 +132,8 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void SetState(State newState)
     {
+        if (enemy.Health.Value <= 0) return;
+
         switch (newState)
         {
             case State.Spawn: state = State.Spawn; enemySpawnState.StartState(this); break;

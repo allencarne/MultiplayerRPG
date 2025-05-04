@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CharacterCreator : MonoBehaviour
@@ -28,8 +29,10 @@ public class CharacterCreator : MonoBehaviour
 
     void Start()
     {
+        EventSystem.current.SetSelectedGameObject(nameInput.gameObject);
+
         // Disable Continue Button
-        continueButton.interactable = false;
+        continueButton.gameObject.SetActive(false);
 
         // UI
         UpdateUI();
@@ -109,7 +112,7 @@ public class CharacterCreator : MonoBehaviour
         {
             feedbackText.text = "Name must be at least 3 characters long.";
             feedbackText.color = Color.red;
-            continueButton.interactable = false;
+            continueButton.gameObject.SetActive(false);
             return;
         }
 
@@ -120,7 +123,7 @@ public class CharacterCreator : MonoBehaviour
             {
                 feedbackText.text = "Name contains prohibited words.";
                 feedbackText.color = Color.red;
-                continueButton.interactable = false;
+                continueButton.gameObject.SetActive(false);
                 return;
             }
         }
@@ -128,7 +131,7 @@ public class CharacterCreator : MonoBehaviour
         // If all checks pass
         feedbackText.text = "Name accepted.";
         feedbackText.color = Color.green;
-        continueButton.interactable = true;
+        continueButton.gameObject.SetActive(true);
     }
 
     void OnDestroy()
