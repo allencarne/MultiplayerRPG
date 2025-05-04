@@ -132,7 +132,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void SetState(State newState)
     {
-        if (enemy.Health.Value <= 0) return;
+        if (enemy.isDead) return;
 
         switch (newState)
         {

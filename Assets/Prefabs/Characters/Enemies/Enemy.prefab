@@ -536,10 +536,10 @@ GameObject:
   - component: {fileID: 633168359915633923}
   - component: {fileID: 5523836673144577605}
   - component: {fileID: 1327236019924439968}
-  - component: {fileID: 8001761435941154268}
   - component: {fileID: 7231263033550627338}
   - component: {fileID: 4308624374852627709}
   - component: {fileID: 5006461325889791442}
+  - component: {fileID: 8001761435941154268}
   - component: {fileID: 6402268282429907237}
   - component: {fileID: 1913103621938294649}
   - component: {fileID: 568576347084111489}
@@ -657,44 +657,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &8001761435941154268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4494865281095228816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f182a8e069d01b4db8d495efea68a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  enemySpawnState: {fileID: 5252206452251772280}
-  enemyIdleState: {fileID: 5048181654644625642}
-  enemyWanderState: {fileID: 1768548039441914077}
-  enemyChaseState: {fileID: 2627202019172152347}
-  enemyResetState: {fileID: 8334618386139856485}
-  enemyDeathState: {fileID: 4602807415585494227}
-  enemyBasicAbility: {fileID: 0}
-  enemySpecialAbility: {fileID: 0}
-  enemyUltimateAbility: {fileID: 0}
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  wanderRadius: 0
-  basicRadius: 0
-  specialRadius: 0
-  ultimateRadius: 0
-  deAggroRadius: 0
-  IsAttacking: 0
-  CanBasic: 1
-  CanSpecial: 1
-  CanUltimate: 1
-  CrowdControl: {fileID: 568576347084111489}
-  Buffs: {fileID: 6402268282429907237}
-  DeBuffs: {fileID: 1913103621938294649}
-  state: 0
 --- !u!114 &7231263033550627338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,6 +671,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
   AuthorityMode: 0
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
@@ -830,6 +802,44 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8001761435941154268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494865281095228816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f182a8e069d01b4db8d495efea68a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  enemySpawnState: {fileID: 5252206452251772280}
+  enemyIdleState: {fileID: 5048181654644625642}
+  enemyWanderState: {fileID: 1768548039441914077}
+  enemyChaseState: {fileID: 2627202019172152347}
+  enemyResetState: {fileID: 8334618386139856485}
+  enemyDeathState: {fileID: 4602807415585494227}
+  enemyBasicAbility: {fileID: 0}
+  enemySpecialAbility: {fileID: 0}
+  enemyUltimateAbility: {fileID: 0}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  wanderRadius: 0
+  basicRadius: 0
+  specialRadius: 0
+  ultimateRadius: 0
+  deAggroRadius: 0
+  IsAttacking: 0
+  CanBasic: 1
+  CanSpecial: 1
+  CanUltimate: 1
+  CrowdControl: {fileID: 568576347084111489}
+  Buffs: {fileID: 6402268282429907237}
+  DeBuffs: {fileID: 1913103621938294649}
+  state: 0
 --- !u!114 &6402268282429907237
 MonoBehaviour:
   m_ObjectHideFlags: 0

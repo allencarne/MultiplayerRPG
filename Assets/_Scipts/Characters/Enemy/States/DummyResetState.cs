@@ -6,6 +6,10 @@ public class DummyResetState : EnemyState
     public override void StartState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Reset");
+
+        float missingHealth = owner.enemy.MaxHealth.Value - owner.enemy.Health.Value;
+        owner.enemy.GiveHeal(missingHealth, HealType.Flat);
+
         StartCoroutine(Delay(owner));
     }
 

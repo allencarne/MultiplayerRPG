@@ -39,6 +39,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public PatienceBar PatienceBar;
     public float TotalPatience;
     public bool isDummy;
+    public bool isDead;
 
     [Header("Events")]
     [SerializeField] UnityEvent OnDeath;
@@ -105,6 +106,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
+            if (isDummy) return;
+
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
             if (exp)
             {
@@ -112,6 +115,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             }
 
             OnDeath?.Invoke();
+            isDead = true;
         }
     }
 
