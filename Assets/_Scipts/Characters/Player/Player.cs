@@ -22,6 +22,14 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] RectTransform playerUIRect;
 
+    [Header("Ability Indexes")]
+    public int BasicIndex = -1;
+    public int OffensiveIndex = -1;
+    public int MobilityIndex = -1;
+    public int DefensiveIndex = -1;
+    public int UtilityIndex = -1;
+    public int UltimateIndex = -1;
+
     [Header("Stats")]
     public float Coins;
     public int hairIndex;
