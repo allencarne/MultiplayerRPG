@@ -122,6 +122,14 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         Instantiate(spawn_Effect, transform.position, transform.rotation);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Fury.Value++;
+        }
+    }
+
     void OnHealthChanged(float oldValue, float newValue)
     {
         healthBar.UpdateHealthBar(MaxHealth.Value, newValue);

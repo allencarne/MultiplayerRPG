@@ -100,6 +100,9 @@ public class PlayerInitialize : NetworkBehaviour
         player.Health.Value = PlayerPrefs.GetFloat($"{prefix}Health", 10);
         player.MaxHealth.Value = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
 
+        player.Fury.Value = PlayerPrefs.GetFloat($"{prefix}Fury", 0);
+        player.MaxFury.Value = PlayerPrefs.GetFloat($"{prefix}MaxFury", 100);
+
         player.Endurance.Value = PlayerPrefs.GetFloat($"{prefix}Endurance", 100);
         player.MaxEndurance.Value = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
 
@@ -120,21 +123,12 @@ public class PlayerInitialize : NetworkBehaviour
 
         // Set Values Here
         player.Health.Value = player.MaxHealth.Value;
+        player.Fury.Value = 0;
         player.Endurance.Value = player.MaxEndurance.Value;
-
-        // Set Speed
         player.CurrentSpeed.Value = player.BaseSpeed.Value;
-
-        // Set Damage
         player.CurrentDamage.Value = player.BaseDamage.Value;
-
-        // Set Attack Speed
         player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value;
-
-        // Set CDR
         player.CurrentCDR.Value = player.BaseCDR.Value;
-
-        // Set Armor
         player.CurrentArmor.Value = player.BaseArmor.Value;
     }
 
@@ -150,6 +144,9 @@ public class PlayerInitialize : NetworkBehaviour
 
         PlayerPrefs.SetFloat($"{prefix}Health", player.Health.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth.Value);
+
+        PlayerPrefs.SetFloat($"{prefix}Fury", player.Fury.Value);
+        PlayerPrefs.SetFloat($"{prefix}MaxFury", player.MaxFury.Value);
 
         PlayerPrefs.SetFloat($"{prefix}Endurance", player.Endurance.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxEndurance", player.MaxEndurance.Value);
