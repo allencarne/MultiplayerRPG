@@ -5,7 +5,7 @@ public class SkillPanel : MonoBehaviour
 {
     [SerializeField] Player player;
 
-    [Header("Ability")]
+    [Header("Skills")]
     public PlayerAbility[] basicAbilities;
     public PlayerAbility[] offensiveAbilities;
     public PlayerAbility[] mobilityAbilities;

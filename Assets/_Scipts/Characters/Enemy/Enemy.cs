@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Globalization;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
