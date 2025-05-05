@@ -19,6 +19,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator EyesAnimator;
 
     [Header("Components")]
+    [HideInInspector] public SkillPanel skills;
     public PlayerInputHandler InputHandler;
     public Collider2D Collider;
     public CrowdControl CrowdControl;
@@ -40,13 +41,6 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool canUtility = true;
     public bool canUltimate = true;
 
-    [SerializeField] SkillPanel begginerSkills;
-    [SerializeField] SkillPanel warriorSkills;
-    [SerializeField] SkillPanel magicianSkills;
-    [SerializeField] SkillPanel archerSkills;
-    [SerializeField] SkillPanel rogueSkills;
-    SkillPanel skills;
-
     public enum State
     {
         Spawn,
@@ -67,25 +61,6 @@ public class PlayerStateMachine : NetworkBehaviour
     private void Start()
     {
         playerSpawnState.StartState(this);
-
-        switch (player.playerClass)
-        {
-            case Player.PlayerClass.Beginner:
-                skills = begginerSkills;
-                break;
-            case Player.PlayerClass.Warrior:
-                skills = warriorSkills;
-                break;
-            case Player.PlayerClass.Magician:
-                skills = magicianSkills;
-                break;
-            case Player.PlayerClass.Archer:
-                skills = archerSkills;
-                break;
-            case Player.PlayerClass.Rogue:
-                skills = rogueSkills;
-                break;
-        }
     }
 
     private void Update()
