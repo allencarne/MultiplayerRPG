@@ -1,9 +1,11 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillPanel : MonoBehaviour
 {
     [SerializeField] Player player;
+    [SerializeField] GameObject powerUp_Effect;
 
     [Header("Skills")]
     public PlayerAbility[] firstPassive;
@@ -72,9 +74,9 @@ public class SkillPanel : MonoBehaviour
         YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive1);
         YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive2);
 
-        YellowBorder(player.BasicIndex,2, icon_Basic0);
-        YellowBorder(player.BasicIndex, 2, icon_Basic1);
-        YellowBorder(player.BasicIndex, 2, icon_Basic2);
+        YellowBorder(player.BasicIndex,0, icon_Basic0);
+        YellowBorder(player.BasicIndex, 0, icon_Basic1);
+        YellowBorder(player.BasicIndex, 0, icon_Basic2);
         YellowBorder(player.OffensiveIndex, 4, icon_Offensive0);
         YellowBorder(player.OffensiveIndex, 4, icon_Offensive1);
         YellowBorder(player.OffensiveIndex, 4, icon_Offensive2);
@@ -121,6 +123,7 @@ public class SkillPanel : MonoBehaviour
     public void FirstPassiveButton(int index)
     {
         player.FirstPassiveIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -147,8 +150,9 @@ public class SkillPanel : MonoBehaviour
 
     public void BasicButton(int index)
     {
-        if (player.PlayerLevel < 2) return;
+        //if (player.PlayerLevel < 2) return;
         player.BasicIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -174,6 +178,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (player.PlayerLevel < 4) return;
         player.OffensiveIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -199,6 +204,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (player.PlayerLevel < 8) return;
         player.MobilityIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -224,6 +230,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (player.PlayerLevel < 12) return;
         player.DefensiveIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -249,6 +256,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (player.PlayerLevel < 16) return;
         player.UtilityIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -274,6 +282,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (player.PlayerLevel < 20) return;
         player.UltimateIndex = index;
+        EffectClientRPC();
 
         switch (index)
         {
@@ -293,5 +302,12 @@ public class SkillPanel : MonoBehaviour
                 SetColor(icon_Ultimate2, Color.blue);
                 break;
         }
+    }
+
+    [ClientRpc]
+    void EffectClientRPC()
+    {
+        GameObject effect = Instantiate(powerUp_Effect, player.transform.position, Quaternion.identity);
+        Destroy(effect, 1);
     }
 }
