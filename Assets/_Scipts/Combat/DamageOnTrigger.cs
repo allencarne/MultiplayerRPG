@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DamageOnTrigger : NetworkBehaviour
 {
@@ -7,6 +8,8 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public int CharacterDamage;
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
+
+    public static UnityEvent OnDamageDealt = new UnityEvent();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,6 +43,7 @@ public class DamageOnTrigger : NetworkBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
+            OnDamageDealt?.Invoke();
         }
     }
 }
