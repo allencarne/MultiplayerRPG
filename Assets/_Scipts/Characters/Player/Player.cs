@@ -23,6 +23,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] RectTransform playerUIRect;
 
     [Header("Ability Indexes")]
+    public int FirstPassiveIndex = -1;
     public int BasicIndex = -1;
     public int OffensiveIndex = -1;
     public int MobilityIndex = -1;

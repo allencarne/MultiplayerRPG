@@ -6,6 +6,7 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] Player player;
 
     [Header("Skills")]
+    public PlayerAbility[] firstPassive;
     public PlayerAbility[] basicAbilities;
     public PlayerAbility[] offensiveAbilities;
     public PlayerAbility[] mobilityAbilities;
@@ -13,6 +14,10 @@ public class SkillPanel : MonoBehaviour
     public PlayerAbility[] utilityAbilities;
     public PlayerAbility[] ultimateAbilities;
 
+    [Header("FirstPassive")]
+    [SerializeField] Image icon_FirstPassive0;
+    [SerializeField] Image icon_FirstPassive1;
+    [SerializeField] Image icon_FirstPassive2;
     [Header("Basic")]
     [SerializeField] Image icon_Basic0;
     [SerializeField] Image icon_Basic1;
@@ -40,6 +45,10 @@ public class SkillPanel : MonoBehaviour
 
     private void Start()
     {
+        AssignIcon(icon_FirstPassive0, firstPassive, 0);
+        AssignIcon(icon_FirstPassive1, firstPassive, 1);
+        AssignIcon(icon_FirstPassive2, firstPassive, 2);
+
         AssignIcon(icon_Basic0, basicAbilities, 0);
         AssignIcon(icon_Basic1, basicAbilities, 1);
         AssignIcon(icon_Basic2, basicAbilities, 2);
@@ -59,26 +68,25 @@ public class SkillPanel : MonoBehaviour
         AssignIcon(icon_Ultimate1, ultimateAbilities, 1);
         AssignIcon(icon_Ultimate2, ultimateAbilities, 2);
 
+        YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive0);
+        YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive1);
+        YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive2);
+
         YellowBorder(player.BasicIndex,2, icon_Basic0);
         YellowBorder(player.BasicIndex, 2, icon_Basic1);
         YellowBorder(player.BasicIndex, 2, icon_Basic2);
-
         YellowBorder(player.OffensiveIndex, 4, icon_Offensive0);
         YellowBorder(player.OffensiveIndex, 4, icon_Offensive1);
         YellowBorder(player.OffensiveIndex, 4, icon_Offensive2);
-
         YellowBorder(player.MobilityIndex, 8, icon_Mobility0);
         YellowBorder(player.MobilityIndex, 8, icon_Mobility1);
         YellowBorder(player.MobilityIndex, 8, icon_Mobility2);
-
         YellowBorder(player.DefensiveIndex, 12, icon_Defensive0);
         YellowBorder(player.DefensiveIndex, 12, icon_Defensive1);
         YellowBorder(player.DefensiveIndex, 12, icon_Defensive2);
-
         YellowBorder(player.UtilityIndex, 16, icon_Utility0);
         YellowBorder(player.UtilityIndex, 16, icon_Utility1);
         YellowBorder(player.UtilityIndex, 16, icon_Utility2);
-
         YellowBorder(player.UltimateIndex, 20, icon_Ultimate0);
         YellowBorder(player.UltimateIndex, 20, icon_Ultimate1);
         YellowBorder(player.UltimateIndex, 20, icon_Ultimate2);
@@ -108,6 +116,33 @@ public class SkillPanel : MonoBehaviour
         ColorBlock colors = button.colors;
         colors.normalColor = color;
         button.colors = colors;
+    }
+
+    public void FirstPassiveButton(int index)
+    {
+        player.FirstPassiveIndex = index;
+
+        switch (index)
+        {
+            case 0:
+                SetColor(icon_FirstPassive0, Color.blue);
+                SetColor(icon_FirstPassive1, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_FirstPassive2, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 1:
+                SetColor(icon_FirstPassive0, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_FirstPassive1, Color.blue);
+                SetColor(icon_FirstPassive2, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 2:
+                SetColor(icon_FirstPassive0, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_FirstPassive1, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_FirstPassive2, Color.blue);
+                break;
+        }
+
+        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
+        firstPassive[index].StartAbility(stateMachine);
     }
 
     public void BasicButton(int index)

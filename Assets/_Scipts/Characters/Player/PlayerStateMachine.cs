@@ -116,6 +116,11 @@ public class PlayerStateMachine : NetworkBehaviour
         }
 
 
+        if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
+        {
+            skills.firstPassive[player.FirstPassiveIndex].UpdateAbility(this);
+        }
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;
@@ -145,6 +150,11 @@ public class PlayerStateMachine : NetworkBehaviour
     private void FixedUpdate()
     {
         if (CrowdControl.IsImmobilized) return;
+
+        if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
+        {
+            skills.firstPassive[player.FirstPassiveIndex].FixedUpdateAbility(this);
+        }
 
         switch (state)
         {
