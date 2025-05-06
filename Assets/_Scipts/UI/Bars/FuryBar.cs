@@ -14,7 +14,7 @@ public class FuryBar : MonoBehaviour
     {
         if (maxFury <= 0) return;
 
-        furyBar.fillAmount = currentFury / maxFury;
+        furyBar_Back.fillAmount = currentFury / maxFury;
 
         if (lerpCoroutine != null)
         {
@@ -25,12 +25,12 @@ public class FuryBar : MonoBehaviour
 
     IEnumerator LerpHealthBarBack(float targetFillAmount)
     {
-        float currentFillAmount = furyBar_Back.fillAmount;
+        float currentFillAmount = furyBar.fillAmount;
 
         while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
         {
             currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, lerpSpeed * Time.deltaTime);
-            furyBar_Back.fillAmount = currentFillAmount;
+            furyBar.fillAmount = currentFillAmount;
             yield return null;
         }
     }
