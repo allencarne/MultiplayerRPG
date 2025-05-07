@@ -107,7 +107,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (icon == null) return;
         if (index > -1) return;
-        if (player.PlayerLevel < reqLevel) return;
+        if (player.PlayerLevel.Value < reqLevel) return;
 
         SetColor(icon, Color.yellow);
     }
@@ -176,7 +176,7 @@ public class SkillPanel : MonoBehaviour
 
     public void OffensiveButton(int index)
     {
-        if (player.PlayerLevel < 4) return;
+        if (player.PlayerLevel.Value < 4) return;
         player.OffensiveIndex = index;
         EffectClientRPC();
 
@@ -202,7 +202,7 @@ public class SkillPanel : MonoBehaviour
 
     public void MobilityButton(int index)
     {
-        if (player.PlayerLevel < 8) return;
+        if (player.PlayerLevel.Value < 8) return;
         player.MobilityIndex = index;
         EffectClientRPC();
 
@@ -228,7 +228,7 @@ public class SkillPanel : MonoBehaviour
 
     public void DefensiveButton(int index)
     {
-        if (player.PlayerLevel < 12) return;
+        if (player.PlayerLevel.Value < 12) return;
         player.DefensiveIndex = index;
         EffectClientRPC();
 
@@ -254,7 +254,7 @@ public class SkillPanel : MonoBehaviour
 
     public void UtilityButton(int index)
     {
-        if (player.PlayerLevel < 16) return;
+        if (player.PlayerLevel.Value < 16) return;
         player.UtilityIndex = index;
         EffectClientRPC();
 
@@ -280,7 +280,7 @@ public class SkillPanel : MonoBehaviour
 
     public void UltimateButton(int index)
     {
-        if (player.PlayerLevel < 20) return;
+        if (player.PlayerLevel.Value < 20) return;
         player.UltimateIndex = index;
         EffectClientRPC();
 

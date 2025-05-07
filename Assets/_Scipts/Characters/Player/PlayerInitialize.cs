@@ -91,7 +91,7 @@ public class PlayerInitialize : NetworkBehaviour
     {
         string prefix = CharacterNumber;
 
-        player.PlayerLevel = PlayerPrefs.GetInt($"{prefix}PlayerLevel", 1);
+        player.PlayerLevel.Value = PlayerPrefs.GetInt($"{prefix}PlayerLevel", 1);
         player.CurrentExperience = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
         player.RequiredExperience = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
         player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
@@ -136,7 +136,7 @@ public class PlayerInitialize : NetworkBehaviour
     {
         string prefix = CharacterNumber;
 
-        PlayerPrefs.SetInt($"{prefix}PlayerLevel", player.PlayerLevel);
+        PlayerPrefs.SetInt($"{prefix}PlayerLevel", player.PlayerLevel.Value);
         PlayerPrefs.SetFloat($"{prefix}CurrentExperience", player.CurrentExperience);
         PlayerPrefs.SetFloat($"{prefix}RequiredExperience", player.RequiredExperience);
         PlayerPrefs.SetFloat($"{prefix}Coins", player.Coins);
@@ -172,6 +172,7 @@ public class PlayerInitialize : NetworkBehaviour
 
     IEnumerator SaveText()
     {
+        Debug.Log("SAVE");
         saveText.text = "Save";
         yield return new WaitForSeconds(1);
         saveText.text = "";

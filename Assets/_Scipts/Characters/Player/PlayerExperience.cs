@@ -45,7 +45,7 @@ public class PlayerExperience : NetworkBehaviour
 
         player.RequiredExperience = CalculateRequiredXp();
 
-        levelText.text = player.PlayerLevel.ToString();
+        levelText.text = player.PlayerLevel.Value.ToString();
     }
 
     void Update()
@@ -80,7 +80,7 @@ public class PlayerExperience : NetworkBehaviour
     private int CalculateRequiredXp()
     {
         int solveForRequiredXp = 0;
-        for (int levelCycle = 1; levelCycle <= player.PlayerLevel; levelCycle++)
+        for (int levelCycle = 1; levelCycle <= player.PlayerLevel.Value; levelCycle++)
         {
             solveForRequiredXp += (int)Mathf.Floor(levelCycle + additionMultiplier * Mathf.Pow(powerMultiplier, levelCycle / divisionMultiplier));
         }
@@ -100,11 +100,9 @@ public class PlayerExperience : NetworkBehaviour
 
     public void LevelUp()
     {
-        if (!IsServer) return;
-
         // Increase Player Level
-        player.PlayerLevel++;
-        levelText.text = player.PlayerLevel.ToString();
+        player.PlayerLevel.Value++;
+        levelText.text = player.PlayerLevel.Value.ToString();
 
         //Stats
         // Attribute Points

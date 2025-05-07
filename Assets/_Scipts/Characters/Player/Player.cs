@@ -41,7 +41,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Player Stats")]
     public string PlayerName;
-    public int PlayerLevel;
+    public NetworkVariable<int> PlayerLevel = new (writePerm: NetworkVariableWritePermission.Server);
     public float CurrentExperience;
     public float RequiredExperience;
     public float AttributePoints;
