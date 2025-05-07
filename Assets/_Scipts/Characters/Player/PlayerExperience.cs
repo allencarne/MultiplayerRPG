@@ -37,11 +37,10 @@ public class PlayerExperience : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         player.CurrentExperience.OnValueChanged += OnExperienceChanged;
+        player.PlayerLevel.OnValueChanged += OnLevelChanged;
 
         frontXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
         backXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
-
-        levelText.text = player.PlayerLevel.Value.ToString();
 
         if (IsServer)
         {
@@ -64,10 +63,15 @@ public class PlayerExperience : NetworkBehaviour
         }
     }
 
+    void OnLevelChanged(int oldValue, int newValue)
+    {
+        levelText.text = player.PlayerLevel.Value.ToString();
+    }
+
     IEnumerator LerpXpBar()
     {
         float elapsed = 0f;
-        float duration = 1.5f; // total lerp time
+        float duration = 1.5f;
         float startFill = frontXpBar.fillAmount;
         float targetFill = player.CurrentExperience.Value / player.RequiredExperience.Value;
 
@@ -81,7 +85,7 @@ public class PlayerExperience : NetworkBehaviour
             yield return null;
         }
 
-        frontXpBar.fillAmount = targetFill; // ensure exact finish
+        frontXpBar.fillAmount = targetFill;
     }
 
     private int CalculateRequiredXp()
@@ -108,9 +112,7 @@ public class PlayerExperience : NetworkBehaviour
     {
         // Increase Player Level
         player.PlayerLevel.Value++;
-        levelText.text = player.PlayerLevel.Value.ToString();
 
-        //Stats
         // Attribute Points
         player.AttributePoints += 5;
 

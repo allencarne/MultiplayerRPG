@@ -2736,62 +2736,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &560207944718613675
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 717236529809338248}
-  - component: {fileID: 6222539570572222465}
-  m_Layer: 0
-  m_Name: Frail Slash
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &717236529809338248
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560207944718613675}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -199.07812, y: -78, z: -1440}
-  m_LocalScale: {x: 16, y: 16, z: 16}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1169001659211047520}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6222539570572222465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560207944718613675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcfac1ec21e113f448a94cc01c76999c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 21300000, guid: 8753af9cf5ebdf945be31052a1c614f1, type: 3}
-  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  abilityDamage: 1
-  attackRange: 1
-  castTime: 0.3
-  recoveryTime: 0.4
-  coolDown: 0.3
-  slideForce: 3
-  slideDuration: 0.15
-  knockBackAmount: 5
-  knockBackDuration: 0.3
 --- !u!1 &564397867671499232
 GameObject:
   m_ObjectHideFlags: 0
@@ -3867,62 +3811,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!1 &750444840397798207
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3262538932415217276}
-  - component: {fileID: 5630044535546172373}
-  m_Layer: 0
-  m_Name: Frail Slash
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3262538932415217276
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750444840397798207}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -199.07812, y: -78, z: -1440}
-  m_LocalScale: {x: 16, y: 16, z: 16}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5417760996135284140}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5630044535546172373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750444840397798207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcfac1ec21e113f448a94cc01c76999c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 21300000, guid: 8753af9cf5ebdf945be31052a1c614f1, type: 3}
-  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  abilityDamage: 1
-  attackRange: 1
-  castTime: 0.3
-  recoveryTime: 0.4
-  coolDown: 0.3
-  slideForce: 3
-  slideDuration: 0.15
-  knockBackAmount: 5
-  knockBackDuration: 0.3
 --- !u!1 &756679410868963319
 GameObject:
   m_ObjectHideFlags: 0
@@ -9654,62 +9542,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &2104487793107422486
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6895248747761181031}
-  - component: {fileID: 2336358085271529642}
-  m_Layer: 0
-  m_Name: Frail Slash
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6895248747761181031
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104487793107422486}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -199.07812, y: -78, z: -1440}
-  m_LocalScale: {x: 16, y: 16, z: 16}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6196510899093890680}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2336358085271529642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104487793107422486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcfac1ec21e113f448a94cc01c76999c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 21300000, guid: 8753af9cf5ebdf945be31052a1c614f1, type: 3}
-  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  abilityDamage: 1
-  attackRange: 1
-  castTime: 0.3
-  recoveryTime: 0.4
-  coolDown: 0.3
-  slideForce: 3
-  slideDuration: 0.15
-  knockBackAmount: 5
-  knockBackDuration: 0.3
 --- !u!1 &2118204928425169597
 GameObject:
   m_ObjectHideFlags: 0
@@ -14548,8 +14380,10 @@ MonoBehaviour:
   PlayerName: 
   PlayerLevel:
     m_InternalValue: 0
-  CurrentExperience: 0
-  RequiredExperience: 0
+  CurrentExperience:
+    m_InternalValue: 0
+  RequiredExperience:
+    m_InternalValue: 0
   AttributePoints: 0
   Health:
     m_InternalValue: 0
@@ -18739,7 +18573,7 @@ MonoBehaviour:
   powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
-  - {fileID: 8999361053907847162}
+  - {fileID: 0}
   offensiveAbilities: []
   mobilityAbilities: []
   defensiveAbilities: []
@@ -18967,7 +18801,7 @@ MonoBehaviour:
   powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
-  - {fileID: 5630044535546172373}
+  - {fileID: 0}
   offensiveAbilities: []
   mobilityAbilities: []
   defensiveAbilities: []
@@ -28055,62 +27889,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5982661870971986150}
   m_CullTransparentMesh: 1
---- !u!1 &5992336441078268413
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8987611360194436358}
-  - component: {fileID: 8999361053907847162}
-  m_Layer: 0
-  m_Name: Frail Slash
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8987611360194436358
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5992336441078268413}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -199.07812, y: -78, z: -1440}
-  m_LocalScale: {x: 16, y: 16, z: 16}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3714916257950843287}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8999361053907847162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5992336441078268413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcfac1ec21e113f448a94cc01c76999c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 21300000, guid: 8753af9cf5ebdf945be31052a1c614f1, type: 3}
-  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  abilityDamage: 1
-  attackRange: 1
-  castTime: 0.3
-  recoveryTime: 0.4
-  coolDown: 0.3
-  slideForce: 3
-  slideDuration: 0.15
-  knockBackAmount: 5
-  knockBackDuration: 0.3
 --- !u!1 &6025750162439380683
 GameObject:
   m_ObjectHideFlags: 0
@@ -30671,7 +30449,7 @@ MonoBehaviour:
   powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
-  - {fileID: 6222539570572222465}
+  - {fileID: 0}
   offensiveAbilities: []
   mobilityAbilities: []
   defensiveAbilities: []
@@ -33854,7 +33632,7 @@ MonoBehaviour:
   powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
-  - {fileID: 2336358085271529642}
+  - {fileID: 0}
   offensiveAbilities: []
   mobilityAbilities: []
   defensiveAbilities: []
@@ -46714,10 +46492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4404273512947694490, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8987611360194436358}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
 --- !u!224 &3714916257950843287 stripped
@@ -50541,10 +50316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4404273512947694490, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 717236529809338248}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
 --- !u!224 &1169001659211047520 stripped
@@ -58110,10 +57882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4404273512947694490, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6895248747761181031}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
 --- !u!224 &6196510899093890680 stripped
@@ -59921,10 +59690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4404273512947694490, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3262538932415217276}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
 --- !u!224 &5417760996135284140 stripped
