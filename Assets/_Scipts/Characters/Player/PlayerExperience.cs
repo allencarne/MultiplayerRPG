@@ -41,26 +41,28 @@ public class PlayerExperience : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         player.CurrentExperience.OnValueChanged += OnExperienceChanged;
+
+        frontXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
+        backXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
+
+        levelText.text = player.PlayerLevel.Value.ToString();
+
+        if (IsServer)
+        {
+            player.RequiredExperience.Value = CalculateRequiredXp();
+        }
+
+        UpdateXpUI();
     }
 
     void OnExperienceChanged(float oldValue, float newValue)
     {
         UpdateXpUI();
 
-        if (player.CurrentExperience.Value >= player.RequiredExperience.Value)
+        if (player.CurrentExperience.Value >= player.RequiredExperience.Value && IsServer)
         {
             LevelUp();
         }
-    }
-
-    void Start()
-    {
-        frontXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
-        backXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
-
-        player.RequiredExperience.Value = CalculateRequiredXp();
-
-        levelText.text = player.PlayerLevel.Value.ToString();
     }
 
     public void UpdateXpUI()
@@ -94,12 +96,13 @@ public class PlayerExperience : NetworkBehaviour
 
     public void IncreaseEXP(float xpGained)
     {
-        textPopUp.EXPText(xpGained);
+        if (!IsServer) return;
 
         player.CurrentExperience.Value += xpGained;
         lerpTimer = 0f;
         delayTimer = 0f;
 
+        textPopUp.EXPText(xpGained);
         OnEXPGained?.Invoke();
     }
 
