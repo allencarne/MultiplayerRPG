@@ -51,7 +51,7 @@ public class AttributePoints : MonoBehaviour
         }
 
         ColorBlock colors = HealthPlus.colors; // Copy the struct
-        colors.normalColor = player.AttributePoints != 0 ? Color.yellow : Color.white;
+        colors.normalColor = player.AttributePoints.Value != 0 ? Color.yellow : Color.white;
         HealthPlus.colors = colors;
         HealthMinus.colors = colors;
         DamagePlus.colors = colors;
@@ -66,8 +66,8 @@ public class AttributePoints : MonoBehaviour
     {
         int TotalToAdd = healthToAdd + damageToAdd + asToAdd + cdrToAdd;
 
-        if (player.AttributePoints <= 0) return;
-        if (TotalToAdd >= player.AttributePoints) return;
+        if (player.AttributePoints.Value <= 0) return;
+        if (TotalToAdd >= player.AttributePoints.Value) return;
 
         switch (stat)
         {
@@ -121,25 +121,25 @@ public class AttributePoints : MonoBehaviour
     {
         player.MaxHealth.Value += healthToAdd;
         player.Health.Value += healthToAdd;
-        player.AttributePoints -= healthToAdd;
+        player.AttributePoints.Value -= healthToAdd;
         healthToAdd = 0;
         healthText.text = healthToAdd.ToString();
 
         player.BaseDamage.Value += damageToAdd;
         player.CurrentDamage.Value += damageToAdd;
-        player.AttributePoints -= damageToAdd;
+        player.AttributePoints.Value -= damageToAdd;
         damageToAdd = 0;
         DamageText.text = damageToAdd.ToString();
 
         player.BaseAttackSpeed.Value += asToAdd;
         player.CurrentAttackSpeed.Value += asToAdd;
-        player.AttributePoints -= asToAdd;
+        player.AttributePoints.Value -= asToAdd;
         asToAdd = 0;
         ASText.text = asToAdd.ToString();
 
         player.BaseCDR.Value += cdrToAdd;
         player.CurrentCDR.Value += cdrToAdd;
-        player.AttributePoints -= cdrToAdd;
+        player.AttributePoints.Value -= cdrToAdd;
         cdrToAdd = 0;
         CDRText.text = cdrToAdd.ToString();
 

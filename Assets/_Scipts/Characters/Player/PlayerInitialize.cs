@@ -95,7 +95,7 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentExperience.Value = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
         player.RequiredExperience.Value = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
         player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
-        player.AttributePoints = PlayerPrefs.GetFloat($"{prefix}AP", 0);
+        player.AttributePoints.Value = PlayerPrefs.GetInt($"{prefix}AP", 0);
 
         player.Health.Value = PlayerPrefs.GetFloat($"{prefix}Health", 10);
         player.MaxHealth.Value = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
@@ -140,7 +140,7 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}CurrentExperience", player.CurrentExperience.Value);
         PlayerPrefs.SetFloat($"{prefix}RequiredExperience", player.RequiredExperience.Value);
         PlayerPrefs.SetFloat($"{prefix}Coins", player.Coins);
-        PlayerPrefs.SetFloat($"{prefix}AP", player.AttributePoints);
+        PlayerPrefs.SetInt($"{prefix}AP", player.AttributePoints.Value);
 
         PlayerPrefs.SetFloat($"{prefix}Health", player.Health.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth.Value);

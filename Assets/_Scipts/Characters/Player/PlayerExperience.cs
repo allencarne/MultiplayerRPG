@@ -47,6 +47,7 @@ public class PlayerExperience : NetworkBehaviour
             player.RequiredExperience.Value = CalculateRequiredXp();
         }
 
+        levelText.text = player.PlayerLevel.Value.ToString();
         experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
         StartCoroutine(LerpXpBar());
     }
@@ -114,7 +115,7 @@ public class PlayerExperience : NetworkBehaviour
         player.PlayerLevel.Value++;
 
         // Attribute Points
-        player.AttributePoints += 5;
+        player.AttributePoints.Value += 5;
 
         // Increase Player Health
         player.MaxHealth.Value++;
