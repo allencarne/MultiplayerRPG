@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class Fury : PlayerAbility
@@ -20,9 +21,29 @@ public class Fury : PlayerAbility
 
     }
 
-    public void GainFury()
+    void GainFury()
     {
-        _owner.player.Fury.Value = Mathf.Min(_owner.player.Fury.Value + 5, _owner.player.MaxFury.Value);
+        if (_owner.IsServer)
+        {
+            _owner.player.Fury.Value = Mathf.Min(_owner.player.Fury.Value + 5, _owner.player.MaxFury.Value);
+        }
+        else
+        {
+            GainFuryServerRPC(_owner.player.NetworkObject);
+        }
+    }
+
+    [ServerRpc]
+    void GainFuryServerRPC(NetworkObjectReference playerRef)
+    {
+        if (playerRef.TryGet(out NetworkObject networkObject))
+        {
+            Player player = networkObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Fury.Value = Mathf.Min(player.Fury.Value + 5, player.MaxFury.Value);
+            }
+        }
     }
 
     public override void OnDestroy()

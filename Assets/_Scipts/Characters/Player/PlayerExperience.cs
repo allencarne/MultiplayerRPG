@@ -100,6 +100,8 @@ public class PlayerExperience : NetworkBehaviour
 
     public void LevelUp()
     {
+        if (!IsServer) return;
+
         // Increase Player Level
         player.PlayerLevel++;
         levelText.text = player.PlayerLevel.ToString();
