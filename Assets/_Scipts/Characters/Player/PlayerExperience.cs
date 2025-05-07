@@ -38,29 +38,34 @@ public class PlayerExperience : NetworkBehaviour
     public UnityEvent OnEXPGained;
     public UnityEvent OnLevelUp;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        frontXpBar.fillAmount = player.CurrentExperience / player.RequiredExperience;
-        backXpBar.fillAmount = player.CurrentExperience / player.RequiredExperience;
-
-        player.RequiredExperience = CalculateRequiredXp();
-
-        levelText.text = player.PlayerLevel.Value.ToString();
+        player.CurrentExperience.OnValueChanged += OnExperienceChanged;
     }
 
-    void Update()
+    void OnExperienceChanged(float oldValue, float newValue)
     {
         UpdateXpUI();
 
-        if (player.CurrentExperience >= player.RequiredExperience)
+        if (player.CurrentExperience.Value >= player.RequiredExperience.Value)
         {
             LevelUp();
         }
     }
 
+    void Start()
+    {
+        frontXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
+        backXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
+
+        player.RequiredExperience.Value = CalculateRequiredXp();
+
+        levelText.text = player.PlayerLevel.Value.ToString();
+    }
+
     public void UpdateXpUI()
     {
-        float xpFraction = player.CurrentExperience / player.RequiredExperience;
+        float xpFraction = player.CurrentExperience.Value / player.RequiredExperience.Value;
         float FXP = frontXpBar.fillAmount;
         if (FXP < xpFraction)
         {
@@ -74,7 +79,7 @@ public class PlayerExperience : NetworkBehaviour
             }
         }
 
-        experienceText.text = player.CurrentExperience + "/" + player.RequiredExperience;
+        experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
     }
 
     private int CalculateRequiredXp()
@@ -91,7 +96,7 @@ public class PlayerExperience : NetworkBehaviour
     {
         textPopUp.EXPText(xpGained);
 
-        player.CurrentExperience += xpGained;
+        player.CurrentExperience.Value += xpGained;
         lerpTimer = 0f;
         delayTimer = 0f;
 
@@ -119,15 +124,14 @@ public class PlayerExperience : NetworkBehaviour
         // Update Bar
         frontXpBar.fillAmount = 0f;
         backXpBar.fillAmount = 0f;
-        player.CurrentExperience = Mathf.RoundToInt(player.CurrentExperience - player.RequiredExperience);
-        player.RequiredExperience = CalculateRequiredXp();
+        player.CurrentExperience.Value = Mathf.RoundToInt(player.CurrentExperience.Value - player.RequiredExperience.Value);
+        player.RequiredExperience.Value = CalculateRequiredXp();
 
         // Effects
         SpawnEffectClientRPC();
 
         OnLevelUp?.Invoke();
     }
-
 
     [ClientRpc]
     void SpawnEffectClientRPC()
