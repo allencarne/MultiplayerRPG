@@ -23,10 +23,6 @@ public class PlayerExperience : NetworkBehaviour
     [SerializeField] GameObject levelUpParticle;
     [SerializeField] GameObject levelUpParticle_Back;
 
-    [Header("Variables")]
-    private float lerpTimer;
-    private float delayTimer;
-
     [Header("Multipliers")]
     [Range(1f, 300f)]
     public float additionMultiplier = 300;
@@ -52,12 +48,15 @@ public class PlayerExperience : NetworkBehaviour
             player.RequiredExperience.Value = CalculateRequiredXp();
         }
 
-        UpdateXpUI();
+        experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
+        StartCoroutine(LerpXpBar());
     }
 
     void OnExperienceChanged(float oldValue, float newValue)
     {
-        UpdateXpUI();
+        StartCoroutine(LerpXpBar());
+
+        experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
 
         if (player.CurrentExperience.Value >= player.RequiredExperience.Value && IsServer)
         {
@@ -65,23 +64,24 @@ public class PlayerExperience : NetworkBehaviour
         }
     }
 
-    public void UpdateXpUI()
+    IEnumerator LerpXpBar()
     {
-        float xpFraction = player.CurrentExperience.Value / player.RequiredExperience.Value;
-        float FXP = frontXpBar.fillAmount;
-        if (FXP < xpFraction)
+        float elapsed = 0f;
+        float duration = 1.5f; // total lerp time
+        float startFill = frontXpBar.fillAmount;
+        float targetFill = player.CurrentExperience.Value / player.RequiredExperience.Value;
+
+        backXpBar.fillAmount = targetFill;
+
+        while (elapsed < duration)
         {
-            delayTimer += Time.deltaTime;
-            backXpBar.fillAmount = xpFraction;
-            if (delayTimer > 0.5)
-            {
-                lerpTimer += Time.deltaTime;
-                float percentComplete = lerpTimer / 4;
-                frontXpBar.fillAmount = Mathf.Lerp(FXP, backXpBar.fillAmount, percentComplete);
-            }
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            frontXpBar.fillAmount = Mathf.Lerp(startFill, targetFill, t);
+            yield return null;
         }
 
-        experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
+        frontXpBar.fillAmount = targetFill; // ensure exact finish
     }
 
     private int CalculateRequiredXp()
@@ -99,8 +99,6 @@ public class PlayerExperience : NetworkBehaviour
         if (!IsServer) return;
 
         player.CurrentExperience.Value += xpGained;
-        lerpTimer = 0f;
-        delayTimer = 0f;
 
         textPopUp.EXPText(xpGained);
         OnEXPGained?.Invoke();
