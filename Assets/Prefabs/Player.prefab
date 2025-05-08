@@ -4322,6 +4322,7 @@ GameObject:
   - component: {fileID: 3175472540148101207}
   - component: {fileID: 1690592256284744884}
   - component: {fileID: 1083819572394120150}
+  - component: {fileID: 8213140386547283737}
   m_Layer: 0
   m_Name: WorldUI
   m_TagString: Untagged
@@ -4416,6 +4417,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8213140386547283737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818786303329478144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882dda46c03cc3a488c050d98e5ff415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 841304983140234989}
+  skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
 --- !u!1 &827474578726091968
 GameObject:
   m_ObjectHideFlags: 0
@@ -17560,7 +17576,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
-  powerUp_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
   firstPassive:
   - {fileID: 8689513215090771404}
   basicAbilities:
@@ -17591,6 +17606,21 @@ MonoBehaviour:
   icon_Ultimate0: {fileID: 6190206854494781098}
   icon_Ultimate1: {fileID: 5776093783410493213}
   icon_Ultimate2: {fileID: 3799915425615300859}
+  OnSkillSelected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8213140386547283737}
+        m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
+        m_MethodName: SkillSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3796222018916250093
 GameObject:
   m_ObjectHideFlags: 0
@@ -18571,7 +18601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
-  powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
   - {fileID: 0}
@@ -18601,6 +18630,9 @@ MonoBehaviour:
   icon_Ultimate0: {fileID: 0}
   icon_Ultimate1: {fileID: 0}
   icon_Ultimate2: {fileID: 0}
+  OnSkillSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4144048645243575700
 GameObject:
   m_ObjectHideFlags: 0
@@ -18799,7 +18831,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
-  powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
   - {fileID: 0}
@@ -18829,6 +18860,9 @@ MonoBehaviour:
   icon_Ultimate0: {fileID: 0}
   icon_Ultimate1: {fileID: 0}
   icon_Ultimate2: {fileID: 0}
+  OnSkillSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4176602506218430861
 GameObject:
   m_ObjectHideFlags: 0
@@ -29692,6 +29726,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8213140386547283737}
+        m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
+        m_MethodName: SkillSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1257700093633426174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30447,7 +30493,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
-  powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
   - {fileID: 0}
@@ -30477,6 +30522,9 @@ MonoBehaviour:
   icon_Ultimate0: {fileID: 0}
   icon_Ultimate1: {fileID: 0}
   icon_Ultimate2: {fileID: 0}
+  OnSkillSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6558296990310186033
 GameObject:
   m_ObjectHideFlags: 0
@@ -33630,7 +33678,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
-  powerUp_Effect: {fileID: 0}
   firstPassive: []
   basicAbilities:
   - {fileID: 0}
@@ -33660,6 +33707,9 @@ MonoBehaviour:
   icon_Ultimate0: {fileID: 0}
   icon_Ultimate1: {fileID: 0}
   icon_Ultimate2: {fileID: 0}
+  OnSkillSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7187583386041368768
 GameObject:
   m_ObjectHideFlags: 0
