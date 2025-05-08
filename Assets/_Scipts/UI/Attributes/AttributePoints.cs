@@ -119,31 +119,24 @@ public class AttributePoints : MonoBehaviour
 
     public void ApplyButton()
     {
-        player.MaxHealth.Value += healthToAdd;
-        player.Health.Value += healthToAdd;
-        player.AttributePoints.Value -= healthToAdd;
+        player.IncreaseHealth(healthToAdd);
+        player.IncreaseDamage(damageToAdd);
+        player.IncreaseAttackSpeed(asToAdd);
+        player.IncreaseCoolDown(cdrToAdd);
+
         healthToAdd = 0;
         healthText.text = healthToAdd.ToString();
 
-        player.BaseDamage.Value += damageToAdd;
-        player.CurrentDamage.Value += damageToAdd;
-        player.AttributePoints.Value -= damageToAdd;
         damageToAdd = 0;
         DamageText.text = damageToAdd.ToString();
 
-        player.BaseAttackSpeed.Value += asToAdd;
-        player.CurrentAttackSpeed.Value += asToAdd;
-        player.AttributePoints.Value -= asToAdd;
         asToAdd = 0;
         ASText.text = asToAdd.ToString();
 
-        player.BaseCDR.Value += cdrToAdd;
-        player.CurrentCDR.Value += cdrToAdd;
-        player.AttributePoints.Value -= cdrToAdd;
         cdrToAdd = 0;
         CDRText.text = cdrToAdd.ToString();
 
-        apText.text = player.AttributePoints.ToString();
+        //apText.text = player.AttributePoints.Value.ToString();
         OnStatsApplied?.Invoke();
     }
 }

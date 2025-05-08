@@ -252,4 +252,92 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         StartCoroutine(FlashEffect());
     }
+
+    public void IncreaseHealth(float amount)
+    {
+        if (IsServer)
+        {
+            MaxHealth.Value += amount;
+            Health.Value += amount;
+            AttributePoints.Value -= Mathf.RoundToInt(amount);
+        }
+        else
+        {
+            IncreaseHealthServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseHealthServerRPC(float amount)
+    {
+        MaxHealth.Value += amount;
+        Health.Value += amount;
+        AttributePoints.Value -= Mathf.RoundToInt(amount);
+    }
+
+    public void IncreaseDamage(int amount)
+    {
+        if (IsServer)
+        {
+            BaseDamage.Value += amount;
+            CurrentDamage.Value += amount;
+            AttributePoints.Value -= amount;
+        }
+        else
+        {
+            IncreaseDamageServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseDamageServerRPC(int amount)
+    {
+        BaseDamage.Value += amount;
+        CurrentDamage.Value += amount;
+        AttributePoints.Value -= amount;
+    }
+
+    public void IncreaseAttackSpeed(float amount)
+    {
+        if (IsServer)
+        {
+            BaseAttackSpeed.Value += amount;
+            CurrentAttackSpeed.Value += amount;
+            AttributePoints.Value -= Mathf.RoundToInt(amount);
+        }
+        else
+        {
+            IncreaseAttackSpeedServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseAttackSpeedServerRPC(float amount)
+    {
+        BaseAttackSpeed.Value += amount;
+        CurrentAttackSpeed.Value += amount;
+        AttributePoints.Value -= Mathf.RoundToInt(amount);
+    }
+
+    public void IncreaseCoolDown(float amount)
+    {
+        if (IsServer)
+        {
+            BaseCDR.Value += amount;
+            CurrentCDR.Value += amount;
+            AttributePoints.Value -= Mathf.RoundToInt(amount);
+        }
+        else
+        {
+            IncreaseCoolDownServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseCoolDownServerRPC(float amount)
+    {
+        BaseCDR.Value += amount;
+        CurrentCDR.Value += amount;
+        AttributePoints.Value -= Mathf.RoundToInt(amount);
+    }
 }
