@@ -4432,6 +4432,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 841304983140234989}
   skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
+  levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}
+  levelUpBack_Effect: {fileID: 3654259978403221703, guid: 8bfd947952fd891428f3edc5e7503187, type: 3}
 --- !u!1 &827474578726091968
 GameObject:
   m_ObjectHideFlags: 0
@@ -14654,8 +14656,6 @@ MonoBehaviour:
   player: {fileID: 841304983140234989}
   frontXpBar: {fileID: 6438291673167540992}
   backXpBar: {fileID: 2824420699212628155}
-  levelUpParticle: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}
-  levelUpParticle_Back: {fileID: 3654259978403221703, guid: 8bfd947952fd891428f3edc5e7503187, type: 3}
   additionMultiplier: 3
   powerMultiplier: 2
   divisionMultiplier: 7
@@ -14680,6 +14680,18 @@ MonoBehaviour:
       - m_Target: {fileID: 5375708365107018510}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
         m_MethodName: SavePlayerStats
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8213140386547283737}
+        m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
+        m_MethodName: LevelUpClientRPC
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

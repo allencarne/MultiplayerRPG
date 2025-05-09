@@ -1,10 +1,11 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerUI : MonoBehaviour
+public class PlayerUI : NetworkBehaviour
 {
     [SerializeField] GameObject HUD;
 
@@ -26,11 +27,15 @@ public class PlayerUI : MonoBehaviour
 
     private void Start()
     {
+        if (!IsOwner) return;
+
         CloseHeroPanel();
     }
 
     public void OpenCharacterUI(bool isMenuButton)
     {
+        if (!IsOwner) return;
+
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
@@ -75,6 +80,8 @@ public class PlayerUI : MonoBehaviour
 
     public void OpenJournalUI(bool isMenuButton)
     {
+        if (!IsOwner) return;
+
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
@@ -119,6 +126,8 @@ public class PlayerUI : MonoBehaviour
 
     public void OpenSocialUI(bool isMenuButton)
     {
+        if (!IsOwner) return;
+
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
@@ -163,6 +172,8 @@ public class PlayerUI : MonoBehaviour
 
     public void OpenMapUI(bool isMenuButton)
     {
+        if (!IsOwner) return;
+
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
@@ -207,6 +218,8 @@ public class PlayerUI : MonoBehaviour
 
     public void OpenSettingsUI(bool isMenuButton)
     {
+        if (!IsOwner) return;
+
         if (HeroPanel.activeSelf)
         {
             // If hero panel is enabled
@@ -248,6 +261,8 @@ public class PlayerUI : MonoBehaviour
 
     public void CloseButton()
     {
+        if (!IsOwner) return;
+
         CloseHeroPanel();
         HUD.SetActive(true);
         input.SwitchCurrentActionMap("Player");
@@ -256,6 +271,8 @@ public class PlayerUI : MonoBehaviour
 
     public void CloseHeroPanel()
     {
+        if (!IsOwner) return;
+
         HeroPanel.SetActive(false);
 
         CharacterPanel.SetActive(false);

@@ -19,10 +19,6 @@ public class PlayerExperience : NetworkBehaviour
     [SerializeField] Image frontXpBar;
     [SerializeField] Image backXpBar;
 
-    [Header("Particles")]
-    [SerializeField] GameObject levelUpParticle;
-    [SerializeField] GameObject levelUpParticle_Back;
-
     [Header("Multipliers")]
     [Range(1f, 300f)]
     public float additionMultiplier = 300;
@@ -131,21 +127,6 @@ public class PlayerExperience : NetworkBehaviour
         player.CurrentExperience.Value = Mathf.RoundToInt(player.CurrentExperience.Value - player.RequiredExperience.Value);
         player.RequiredExperience.Value = CalculateRequiredXp();
 
-        // Effects
-        SpawnEffectClientRPC();
-
         OnLevelUp?.Invoke();
-    }
-
-    [ClientRpc]
-    void SpawnEffectClientRPC()
-    {
-        GameObject text = Instantiate(levelUpText, rect.transform.position, Quaternion.identity, rect.transform);
-        GameObject effect = Instantiate(levelUpParticle, transform.position, Quaternion.identity, transform);
-        GameObject effect_back = Instantiate(levelUpParticle_Back, transform.position, Quaternion.identity, transform);
-
-        Destroy(text, 3);
-        Destroy(effect, 2);
-        Destroy(effect_back, 2);
     }
 }
