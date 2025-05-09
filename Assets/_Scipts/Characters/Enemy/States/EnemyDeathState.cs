@@ -5,16 +5,14 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        owner.enemy.CastBar.gameObject.SetActive(false);
-        owner.enemy.shadowSprite.enabled = false;
+        owner.EnemyAnimator.Play("Death");
+
+        owner.HandleDeathClientRPC();
 
         if (owner.enemy.EnemySpawnerReference != null)
         {
             owner.enemy.EnemySpawnerReference.DecreaseEnemyCount();
         }
-
-        owner.EnemyAnimator.Play("Death");
-        owner.Collider.enabled = false;
 
         StartCoroutine(Delay(owner));
     }

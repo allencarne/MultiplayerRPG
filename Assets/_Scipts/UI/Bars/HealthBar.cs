@@ -16,6 +16,9 @@ public class HealthBar : MonoBehaviour
 
         healthBar.fillAmount = currentHealth / maxHealth;
 
+        if (!gameObject.activeInHierarchy)
+            return;
+
         if (lerpCoroutine != null)
         {
             StopCoroutine(lerpCoroutine);
