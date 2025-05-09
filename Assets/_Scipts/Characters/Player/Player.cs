@@ -12,6 +12,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public CastBar CastBar;
     [SerializeField] PlayerInitialize playerInitialize;
     [SerializeField] SpriteRenderer bodySprite;
+    [SerializeField] PlayerInputHandler input;
 
     [Header("UI")]
     [SerializeField] HealthBar healthBar;
@@ -161,6 +162,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         cameraInstance.GetComponent<CameraZoom>().inputHandler = gameObject.GetComponent<PlayerInputHandler>();
         cameraInstance.GetComponent<CameraZoom>().GetPlayer();
         playerUI.worldCamera = cameraInstance.GetComponent<Camera>();
+        input.cameraInstance = cameraInstance.GetComponent<Camera>();
     }
 
     public void CoinCollected(float amount)

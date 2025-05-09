@@ -29,6 +29,7 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnMapUIInput;
     public UnityEvent OnSettingsUIInput;
     public event UnityAction<Vector2> ZoomPerformed;
+    public Camera cameraInstance;
 
     private void Awake()
     {
@@ -130,9 +131,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnMousePos(InputAction.CallbackContext context)
     {
-        if (Camera.main == null) return;
+        if (cameraInstance == null) return;
 
-        MousePosition = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+        MousePosition = cameraInstance.ScreenToWorldPoint(context.ReadValue<Vector2>());
     }
 
     public void OnPickup(InputAction.CallbackContext context)
