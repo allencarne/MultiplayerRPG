@@ -23,13 +23,13 @@ public class PlayerInputHandler : MonoBehaviour
 
     LayerMask ignoredLayers;
 
+    [HideInInspector] public Camera cameraInstance;
     public UnityEvent OnCharacterUIInput;
     public UnityEvent OnJournalUIInput;
     public UnityEvent OnSocialUIInput;
     public UnityEvent OnMapUIInput;
     public UnityEvent OnSettingsUIInput;
     public event UnityAction<Vector2> ZoomPerformed;
-    public Camera cameraInstance;
 
     private void Awake()
     {

@@ -37,7 +37,7 @@ public class SetSkillPanel : MonoBehaviour
         GetPlayerClass();
     }
 
-    void GetPlayerClass()
+    public void GetPlayerClass()
     {
         switch (player.playerClass)
         {
