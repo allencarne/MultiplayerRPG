@@ -132,7 +132,8 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentArmor.Value = player.BaseArmor.Value;
     }
 
-    public void SavePlayerStats()
+    [ClientRpc]
+    public void SavePlayerStatsClientRPC()
     {
         string prefix = CharacterNumber;
 
@@ -172,7 +173,6 @@ public class PlayerInitialize : NetworkBehaviour
 
     IEnumerator SaveText()
     {
-        Debug.Log("SAVE");
         saveText.text = "Save";
         yield return new WaitForSeconds(1);
         saveText.text = "";

@@ -167,7 +167,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         Coins += amount;
         CoinText.text = Coins.ToString();
-        playerInitialize.SavePlayerStats();
+        playerInitialize.SavePlayerStatsClientRPC();
     }
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
