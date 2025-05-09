@@ -59,11 +59,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnBasicAbility(InputAction.CallbackContext context)
     {
-        if (!isMouseOverUI(ignoredLayers))
-        {
-            BasicAbilityInput = context.ReadValueAsButton();
-        }
-        else
+        BasicAbilityInput = context.ReadValueAsButton();
+
+        if (context.canceled)
         {
             BasicAbilityInput = false;
         }
@@ -71,11 +69,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnOffensiveAbility(InputAction.CallbackContext context)
     {
-        if (!isMouseOverUI(ignoredLayers))
-        {
-            OffensiveAbilityInput = context.ReadValueAsButton();
-        }
-        else
+        OffensiveAbilityInput = context.ReadValueAsButton();
+
+        if (context.canceled)
         {
             OffensiveAbilityInput = false;
         }
@@ -83,11 +79,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnMobilityAbility(InputAction.CallbackContext context)
     {
-        if (!isMouseOverUI(ignoredLayers))
-        {
-            MobilityAbilityInput = context.ReadValueAsButton();
-        }
-        else
+        MobilityAbilityInput = context.ReadValueAsButton();
+
+        if (context.canceled)
         {
             MobilityAbilityInput = false;
         }
@@ -95,11 +89,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnDefensiveAbility(InputAction.CallbackContext context)
     {
-        if (!isMouseOverUI(ignoredLayers))
-        {
-            DefensiveAbilityInput = context.ReadValueAsButton();
-        }
-        else
+        DefensiveAbilityInput = context.ReadValueAsButton();
+
+        if (context.canceled)
         {
             DefensiveAbilityInput = false;
         }
@@ -107,11 +99,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnUtilityAbility(InputAction.CallbackContext context)
     {
-        if (!isMouseOverUI(ignoredLayers))
-        {
-            UtilityAbilityInput = context.ReadValueAsButton();
-        }
-        else
+        UtilityAbilityInput = context.ReadValueAsButton();
+
+        if (context.canceled)
         {
             UtilityAbilityInput = false;
         }
@@ -119,11 +109,9 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnUltimateAbility(InputAction.CallbackContext context)
     {
-        if (!isMouseOverUI(ignoredLayers))
-        {
-            UltimateAbilityInput = context.ReadValueAsButton();
-        }
-        else
+        UltimateAbilityInput = context.ReadValueAsButton();
+
+        if (context.canceled)
         {
             UltimateAbilityInput = false;
         }
