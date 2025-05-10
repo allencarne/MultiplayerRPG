@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Fury : PlayerAbility
@@ -7,7 +8,6 @@ public class Fury : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        _owner = owner;
         DamageOnTrigger.OnDamageDealt.AddListener(GainFury);
     }
 
@@ -21,28 +21,12 @@ public class Fury : PlayerAbility
 
     }
 
-    void GainFury()
+    void GainFury(NetworkObject attacker)
     {
-        if (_owner.IsServer)
+        PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
+        if (owner != null)
         {
-            _owner.player.Fury.Value = Mathf.Min(_owner.player.Fury.Value + 5, _owner.player.MaxFury.Value);
-        }
-        else
-        {
-            GainFuryServerRPC(_owner.player.NetworkObject);
-        }
-    }
-
-    [ServerRpc]
-    void GainFuryServerRPC(NetworkObjectReference playerRef)
-    {
-        if (playerRef.TryGet(out NetworkObject networkObject))
-        {
-            Player player = networkObject.GetComponent<Player>();
-            if (player != null)
-            {
-                player.Fury.Value = Mathf.Min(player.Fury.Value + 5, player.MaxFury.Value);
-            }
+            owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + 5, owner.player.MaxFury.Value);
         }
     }
 

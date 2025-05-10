@@ -34,10 +34,10 @@ public class SetSkillPanel : MonoBehaviour
         ArcherPanel.SetActive(false);
         RoguePanel.SetActive(false);
 
-        GetPlayerClass();
+        SetSkills();
     }
 
-    public void GetPlayerClass()
+    public void SetSkills()
     {
         switch (player.playerClass)
         {

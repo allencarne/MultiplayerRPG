@@ -9,10 +9,12 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
 
-    public static UnityEvent OnDamageDealt = new UnityEvent();
+    public static UnityEvent<NetworkObject> OnDamageDealt = new UnityEvent<NetworkObject>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!IsServer) return;
+
         if (collision.CompareTag("Enemy"))
         {
             if (IgnoreEnemy)
@@ -43,7 +45,7 @@ public class DamageOnTrigger : NetworkBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
-            OnDamageDealt?.Invoke();
+            OnDamageDealt?.Invoke(attacker);
         }
     }
 }
