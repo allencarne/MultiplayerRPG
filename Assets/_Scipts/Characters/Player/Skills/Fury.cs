@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Fury : PlayerAbility
 {
-    private PlayerStateMachine _owner;
-
     public override void StartAbility(PlayerStateMachine owner)
     {
         DamageOnTrigger.OnDamageDealt.AddListener(GainFury);
