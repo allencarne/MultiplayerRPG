@@ -41,9 +41,9 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Player Stats")]
     public string PlayerName;
-    public NetworkVariable<int> PlayerLevel = new (writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CurrentExperience = new (writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> RequiredExperience = new (writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> PlayerLevel = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> CurrentExperience = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> RequiredExperience = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> AttributePoints = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Health")]
@@ -63,7 +63,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> CurrentSpeed = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Attack Damage")]
-    public NetworkVariable<int> BaseDamage = new (writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> BaseDamage = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> CurrentDamage = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Attack Speed")]
@@ -169,6 +169,20 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         Coins += amount;
         CoinText.text = Coins.ToString();
+
+        if (IsServer)
+        {
+            playerInitialize.SavePlayerStatsClientRPC();
+        }
+        else
+        {
+            CoinCollectServerRPC();
+        }
+    }
+
+    [ServerRpc]
+    void CoinCollectServerRPC()
+    {
         playerInitialize.SavePlayerStatsClientRPC();
     }
 
