@@ -14666,7 +14666,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5375708365107018510}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
-        m_MethodName: SavePlayerStatsClientRPC
+        m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14693,7 +14693,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 5375708365107018510}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
-        m_MethodName: SavePlayerStatsClientRPC
+        m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17639,6 +17639,18 @@ MonoBehaviour:
       - m_Target: {fileID: 4657129753721047416}
         m_TargetAssemblyTypeName: SetSkillPanel, Assembly-CSharp
         m_MethodName: SetSkills
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5375708365107018510}
+        m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
+        m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

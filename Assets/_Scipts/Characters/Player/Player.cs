@@ -170,20 +170,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         Coins += amount;
         CoinText.text = Coins.ToString();
 
-        if (IsServer)
-        {
-            playerInitialize.SavePlayerStatsClientRPC();
-        }
-        else
-        {
-            CoinCollectServerRPC();
-        }
-    }
-
-    [ServerRpc]
-    void CoinCollectServerRPC()
-    {
-        playerInitialize.SavePlayerStatsClientRPC();
+        playerInitialize.SaveStats();
     }
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)

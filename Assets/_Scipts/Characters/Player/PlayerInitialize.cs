@@ -132,8 +132,26 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentArmor.Value = player.BaseArmor.Value;
     }
 
+    public void SaveStats()
+    {
+        if (IsServer)
+        {
+            SaveClientRPC();
+        }
+        else
+        {
+            SaveServerRPC();
+        }
+    }
+
+    [ServerRpc]
+    void SaveServerRPC()
+    {
+        SaveClientRPC();
+    }
+
     [ClientRpc]
-    public void SavePlayerStatsClientRPC()
+    void SaveClientRPC()
     {
         string prefix = CharacterNumber;
 
