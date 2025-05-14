@@ -9,6 +9,7 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
     [SerializeField] GameObject hitSpark;
+    [SerializeField] GameObject hitSpark_Special;
 
     public static UnityEvent<NetworkObject> OnDamageDealt = new UnityEvent<NetworkObject>();
 
@@ -48,11 +49,14 @@ public class DamageOnTrigger : NetworkBehaviour
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
             OnDamageDealt?.Invoke(attacker);
 
+            Vector2 hitPosition = collision.ClosestPoint(transform.position);
+            Vector2 attackerPosition = attacker.transform.position;
 
-            Vector2 pos = collision.ClosestPoint(transform.position);
-            Quaternion rot = collision.transform.rotation;
+            Vector2 direction = (hitPosition - attackerPosition).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
-            HitSparkClientRPC(pos, rot);
+            HitSparkClientRPC(hitPosition, rotation);
         }
     }
 
@@ -60,5 +64,7 @@ public class DamageOnTrigger : NetworkBehaviour
     void HitSparkClientRPC(Vector2 position, Quaternion rotation)
     {
         Instantiate(hitSpark, position, rotation);
+
+        if (hitSpark_Special) Instantiate(hitSpark_Special, position, rotation);
     }
 }
