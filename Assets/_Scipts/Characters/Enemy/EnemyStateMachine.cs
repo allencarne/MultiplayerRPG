@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
@@ -41,6 +42,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
+    public bool canImpact = false;
 
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
@@ -65,6 +67,13 @@ public class EnemyStateMachine : NetworkBehaviour
     }
 
     public State state = State.Spawn;
+
+    public enum SkillType 
+    { 
+        Basic,
+        Special,
+        Ultimate,
+    }
 
     private void Awake()
     {
@@ -295,7 +304,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     // Helper Methods
 
-    public IEnumerator CoolDownTime(float skillCoolDown, int index)
+    public IEnumerator CoolDownTime(int index, float skillCoolDown)
     {
         float modifiedCooldown = skillCoolDown / enemy.CurrentCDR;
 
@@ -307,5 +316,49 @@ public class EnemyStateMachine : NetworkBehaviour
             case 1: CanSpecial = true; break;
             case 2: CanUltimate = true; break;
         }
+    }
+
+    public IEnumerator AttackImpact(int index, float modifiedCastTime, float recoveryTime)
+    {
+        yield return new WaitForSeconds(modifiedCastTime);
+
+        if (enemy.Health.Value > 0)
+        {
+            switch (index)
+            {
+                case 0: EnemyAnimator.Play("Basic Impact"); break;
+                case 1: EnemyAnimator.Play("Special Impact"); break;
+                case 2: EnemyAnimator.Play("Ultimate Impact"); break;
+            }
+
+            StartCoroutine(ImpactTime(index, recoveryTime));
+        }
+    }
+
+    IEnumerator ImpactTime(int index, float recoveryTime)
+    {
+        yield return new WaitForSeconds(.1f);
+
+        canImpact = true;
+
+        // Start Recovery
+        switch (index)
+        {
+            case 0: EnemyAnimator.Play("Basic Recovery"); break;
+            case 1: EnemyAnimator.Play("Special Recovery"); break;
+            case 2: EnemyAnimator.Play("Ultimate Recovery"); break;
+        }
+
+        enemy.CastBar.StartRecovery(recoveryTime, enemy.CurrentAttackSpeed);
+
+        StartCoroutine(RecoveryTime(recoveryTime));
+    }
+
+    public IEnumerator RecoveryTime(float modifiedRecoveryTime)
+    {
+        yield return new WaitForSeconds(modifiedRecoveryTime);
+
+        IsAttacking = false;
+        SetState(State.Idle);
     }
 }

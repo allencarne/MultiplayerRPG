@@ -19,18 +19,19 @@ public class SnailBash : EnemyAbility
     [SerializeField] float knockBackDuration;
 
     float modifiedCastTime;
+    float modifiedRecoveryTime;
     Vector2 spawnPosition;
     Vector2 aimDirection;
     Quaternion aimRotation;
-    bool canImpact = false;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
         owner.CanBasic = false;
         owner.IsAttacking = true;
 
-        // Set Veriables
+        // Set Variables
         modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
+        modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
@@ -49,72 +50,26 @@ public class SnailBash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
-        StartCoroutine(owner.CoolDownTime(coolDown, 0));
+        StartCoroutine(owner.AttackImpact(0, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CoolDownTime(0, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
         owner.HandlePotentialInterrupt(owner.ImpactCoroutine);
 
-        if (canImpact)
+        if (owner.canImpact)
         {
-            canImpact = false;
+            owner.canImpact = false;
 
-            owner.EnemyAnimator.Play("Basic Recovery");
-
-            // Start Recovery
-            if (IsServer)
-            {
-                owner.enemy.CastBar.StartRecovery(recoveryTime, owner.enemy.CurrentAttackSpeed);
-            }
-            else
-            {
-                owner.enemy.CastBar.StartRecoveryServerRpc(recoveryTime, owner.enemy.CurrentAttackSpeed);
-            }
-
-            owner.RecoveryCoroutine = owner.StartCoroutine(RecoveryTime(owner));
+            // Attack
+            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
         }
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
     {
 
-    }
-
-    IEnumerator AttackImpact(EnemyStateMachine owner)
-    {
-        yield return new WaitForSeconds(modifiedCastTime);
-
-        owner.EnemyAnimator.Play("Basic Impact");
-
-        if (IsServer)
-        {
-            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
-        }
-        else
-        {
-            AttackServerRpc(spawnPosition, aimRotation, aimDirection);
-        }
-
-        owner.StartCoroutine(ImpactTime());
-    }
-
-    IEnumerator ImpactTime()
-    {
-        yield return new WaitForSeconds(.1f);
-
-        canImpact = true;
-    }
-
-    IEnumerator RecoveryTime(EnemyStateMachine owner)
-    {
-        float modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
-
-        yield return new WaitForSeconds(modifiedRecoveryTime);
-
-        owner.IsAttacking = false;
-        owner.SetState(EnemyStateMachine.State.Idle);
     }
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, NetworkObject attacker)
@@ -143,14 +98,6 @@ public class SnailBash : EnemyAbility
             knockbackOnTrigger.Direction = aimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
-    }
-
-    [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection)
-    {
-        NetworkObject attacker = GetComponentInParent<NetworkObject>();
-
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attacker);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)

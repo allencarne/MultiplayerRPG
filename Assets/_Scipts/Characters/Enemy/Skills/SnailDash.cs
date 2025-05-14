@@ -24,19 +24,20 @@ public class SnailDash : EnemyAbility
     [SerializeField] float slideDuration;
 
     float modifiedCastTime;
+    float modifiedRecoveryTime;
     Vector2 spawnPosition;
     Vector2 aimDirection;
     Quaternion aimRotation;
     bool isSliding;
-    bool canImpact;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
         owner.CanSpecial = false;
         owner.IsAttacking = true;
 
-        // Aim
+        // Set Veriables
         modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
+        modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
@@ -55,31 +56,27 @@ public class SnailDash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
-        StartCoroutine(owner.CoolDownTime(coolDown, 1));
+        StartCoroutine(owner.AttackImpact(1, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CoolDownTime(1, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
         owner.HandlePotentialInterrupt(owner.ImpactCoroutine);
 
-        if (canImpact)
+        if (owner.canImpact)
         {
-            canImpact = false;
+            owner.canImpact = false;
+            isSliding = true;
 
-            owner.EnemyAnimator.Play("Special Recovery");
+            // Attack
+            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
 
-            // Start Recovery
-            if (IsServer)
-            {
-                owner.enemy.CastBar.StartRecovery(recoveryTime, owner.enemy.CurrentAttackSpeed);
-            }
-            else
-            {
-                owner.enemy.CastBar.StartRecoveryServerRpc(recoveryTime, owner.enemy.CurrentAttackSpeed);
-            }
+            // Buff
+            owner.Buffs.Immoveable(slideDuration);
 
-            owner.RecoveryCoroutine = owner.StartCoroutine(RecoveryTime(owner));
+            // Slide
+            owner.Buffs.Phasing(modifiedCastTime + .2f);
         }
     }
 
@@ -91,48 +88,6 @@ public class SnailDash : EnemyAbility
 
             StartCoroutine(SlideDuration(owner));
         }
-    }
-
-    IEnumerator AttackImpact(EnemyStateMachine owner)
-    {
-        yield return new WaitForSeconds(modifiedCastTime);
-
-        owner.EnemyAnimator.Play("Special Impact");
-
-        // Buff
-        owner.Buffs.Immoveable(slideDuration);
-
-        // Slide
-        owner.Buffs.Phasing(modifiedCastTime + .2f);
-        isSliding = true;
-
-        if (IsServer)
-        {
-            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
-        }
-        else
-        {
-            AttackServerRpc(spawnPosition, aimRotation, aimDirection);
-        }
-
-        owner.StartCoroutine(ImpactTime());
-    }
-
-    IEnumerator ImpactTime()
-    {
-        yield return new WaitForSeconds(.1f);
-
-        canImpact = true;
-    }
-
-    IEnumerator RecoveryTime(EnemyStateMachine owner)
-    {
-        float modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
-
-        yield return new WaitForSeconds(modifiedRecoveryTime);
-
-        owner.IsAttacking = false;
-        owner.SetState(EnemyStateMachine.State.Idle);
     }
 
     IEnumerator SlideDuration(EnemyStateMachine owner)
@@ -190,14 +145,6 @@ public class SnailDash : EnemyAbility
         {
             netObj.Despawn();
         }
-    }
-
-    [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection)
-    {
-        NetworkObject attacker = GetComponentInParent<NetworkObject>();
-
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attacker);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
