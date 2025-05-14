@@ -47,17 +47,9 @@ public class SnailShell : EnemyAbility
         owner.EnemyAnimator.SetFloat("Horizontal", aimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
 
-        // Cast Bar
-        if (IsServer)
-        {
-            SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
-            owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
-        }
-        else
-        {
-            TelegraphServerRPC(spawnPosition, aimRotation, modifiedCastTime);
-            owner.enemy.CastBar.StartCastServerRpc(castTime, owner.enemy.CurrentAttackSpeed);
-        }
+        // Telegraph
+        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
+        owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
         owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
@@ -203,11 +195,5 @@ public class SnailShell : EnemyAbility
             _fillTelegraph.FillSpeed = modifiedCastTime;
             _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
-    }
-
-    [ServerRpc]
-    void TelegraphServerRPC(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
-    {
-        SpawnTelegraph(spawnPosition, spawnRotation, modifiedCastTime);
     }
 }
