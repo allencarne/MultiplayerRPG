@@ -53,7 +53,7 @@ public class SnailShell : EnemyAbility
 
         // Timers
         owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
-        owner.StartCoroutine(CoolDownTime(owner));
+        StartCoroutine(owner.CoolDownTime(coolDown, 2));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
@@ -118,15 +118,6 @@ public class SnailShell : EnemyAbility
 
         owner.IsAttacking = false;
         owner.SetState(EnemyStateMachine.State.Idle);
-    }
-
-    IEnumerator CoolDownTime(EnemyStateMachine owner)
-    {
-        float modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
-
-        yield return new WaitForSeconds(modifiedCooldown);
-
-        owner.CanUltimate = true;
     }
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, NetworkObject attacker)

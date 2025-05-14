@@ -56,7 +56,7 @@ public class SnailDash : EnemyAbility
 
         // Timers
         owner.ImpactCoroutine = owner.StartCoroutine(AttackImpact(owner));
-        owner.StartCoroutine(CoolDownTime(owner));
+        StartCoroutine(owner.CoolDownTime(coolDown, 1));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
@@ -133,16 +133,6 @@ public class SnailDash : EnemyAbility
 
         owner.IsAttacking = false;
         owner.SetState(EnemyStateMachine.State.Idle);
-    }
-
-    IEnumerator CoolDownTime(EnemyStateMachine owner)
-    {
-        // Adjust cooldown time based on cooldown reduction
-        float modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
-
-        yield return new WaitForSeconds(modifiedCooldown);
-
-        owner.CanSpecial = true;
     }
 
     IEnumerator SlideDuration(EnemyStateMachine owner)

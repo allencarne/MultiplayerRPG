@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
@@ -285,6 +286,26 @@ public class EnemyStateMachine : NetworkBehaviour
                 SetState(State.Idle);
                 return;
             }
+        }
+    }
+
+
+
+
+
+    // Helper Methods
+
+    public IEnumerator CoolDownTime(float skillCoolDown, int index)
+    {
+        float modifiedCooldown = skillCoolDown / enemy.CurrentCDR;
+
+        yield return new WaitForSeconds(modifiedCooldown);
+
+        switch (index)
+        {
+            case 0: CanBasic = true; break;
+            case 1: CanSpecial = true; break;
+            case 2: CanUltimate = true; break;
         }
     }
 }
