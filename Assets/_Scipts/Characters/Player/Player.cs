@@ -305,7 +305,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             BaseAttackSpeed.Value += amount;
             CurrentAttackSpeed.Value += amount;
-            AttributePoints.Value -= Mathf.RoundToInt(amount);
+            AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
         }
         else
         {
@@ -318,7 +318,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         BaseAttackSpeed.Value += amount;
         CurrentAttackSpeed.Value += amount;
-        AttributePoints.Value -= Mathf.RoundToInt(amount);
+        AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
     }
 
     public void IncreaseCoolDown(float amount)
@@ -327,7 +327,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             BaseCDR.Value += amount;
             CurrentCDR.Value += amount;
-            AttributePoints.Value -= Mathf.RoundToInt(amount);
+            AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
         }
         else
         {
@@ -340,6 +340,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         BaseCDR.Value += amount;
         CurrentCDR.Value += amount;
-        AttributePoints.Value -= Mathf.RoundToInt(amount);
+        AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
     }
 }
