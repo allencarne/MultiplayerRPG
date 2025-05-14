@@ -56,13 +56,13 @@ public class SnailDash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.AttackImpact(1, modifiedCastTime, modifiedRecoveryTime));
+        owner.CastCoroutine = StartCoroutine(owner.CastTime(1, modifiedCastTime, modifiedRecoveryTime));
         StartCoroutine(owner.CoolDownTime(1, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
-        owner.HandlePotentialInterrupt(owner.ImpactCoroutine);
+        owner.HandlePotentialInterrupt();
 
         if (owner.canImpact)
         {

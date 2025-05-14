@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
@@ -50,6 +48,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
+    public Coroutine CastCoroutine;
     public Coroutine ImpactCoroutine;
     public Coroutine RecoveryCoroutine;
 
@@ -271,38 +270,43 @@ public class EnemyStateMachine : NetworkBehaviour
         Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
     }
 
-    public void HandlePotentialInterrupt(Coroutine coroutine)
+    public void HandlePotentialInterrupt()
     {
-        if (CrowdControl.IsInterrupted)
+        if (!CrowdControl.IsInterrupted) return;
+        if (enemy.CastBar.castBarFill.color != Color.black) return;
+
+        if (IsServer)
         {
-            if (enemy.CastBar.castBarFill.color == Color.black)
-            {
-                if (IsServer)
-                {
-                    enemy.CastBar.InterruptCastBar();
-                }
-                else
-                {
-                    enemy.CastBar.InterruptServerRpc();
-                }
-
-                if (coroutine != null)
-                {
-                    StopCoroutine(coroutine);
-                }
-
-                IsAttacking = false;
-                SetState(State.Idle);
-                return;
-            }
+            enemy.CastBar.InterruptCastBar();
         }
+        else
+        {
+            enemy.CastBar.InterruptServerRpc();
+        }
+
+        if (CastCoroutine != null)
+        {
+            StopCoroutine(CastCoroutine);
+            CastCoroutine = null;
+        }
+
+        if (ImpactCoroutine != null)
+        {
+            StopCoroutine(ImpactCoroutine);
+            ImpactCoroutine = null;
+        }
+
+        if (RecoveryCoroutine != null)
+        {
+            StopCoroutine(RecoveryCoroutine);
+            RecoveryCoroutine = null;
+        }
+
+        canImpact = false;
+        IsAttacking = false;
+        SetState(State.Idle);
+        return;
     }
-
-
-
-
-
-    // Helper Methods
 
     public IEnumerator CoolDownTime(int index, float skillCoolDown)
     {
@@ -318,26 +322,32 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public IEnumerator AttackImpact(int index, float modifiedCastTime, float recoveryTime)
+    public IEnumerator CastTime(int index, float modifiedCastTime, float recoveryTime)
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
-        if (enemy.Health.Value > 0)
-        {
-            switch (index)
-            {
-                case 0: EnemyAnimator.Play("Basic Impact"); break;
-                case 1: EnemyAnimator.Play("Special Impact"); break;
-                case 2: EnemyAnimator.Play("Ultimate Impact"); break;
-            }
+        if (!IsAttacking) yield break;
 
-            StartCoroutine(ImpactTime(index, recoveryTime));
+        switch (index)
+        {
+            case 0: EnemyAnimator.Play("Basic Impact"); break;
+            case 1: EnemyAnimator.Play("Special Impact"); break;
+            case 2: EnemyAnimator.Play("Ultimate Impact"); break;
         }
+
+        if (ImpactCoroutine != null)
+        {
+            StopCoroutine(ImpactCoroutine);
+            ImpactCoroutine = null;
+        }
+        ImpactCoroutine = StartCoroutine(ImpactTime(index, recoveryTime));
     }
 
     IEnumerator ImpactTime(int index, float recoveryTime)
     {
         yield return new WaitForSeconds(.1f);
+
+        if (!IsAttacking) yield break;
 
         canImpact = true;
 
@@ -351,12 +361,19 @@ public class EnemyStateMachine : NetworkBehaviour
 
         enemy.CastBar.StartRecovery(recoveryTime, enemy.CurrentAttackSpeed);
 
-        StartCoroutine(RecoveryTime(recoveryTime));
+        if (RecoveryCoroutine != null)
+        {
+            StopCoroutine(RecoveryCoroutine);
+            RecoveryCoroutine = null;
+        }
+        RecoveryCoroutine = StartCoroutine(RecoveryTime(recoveryTime));
     }
 
     public IEnumerator RecoveryTime(float modifiedRecoveryTime)
     {
         yield return new WaitForSeconds(modifiedRecoveryTime);
+
+        if (!IsAttacking) yield break;
 
         IsAttacking = false;
         SetState(State.Idle);

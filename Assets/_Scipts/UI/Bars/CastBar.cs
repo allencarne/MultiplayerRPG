@@ -64,6 +64,8 @@ public class CastBar : NetworkBehaviour
 
     public void StartRecovery(float recoveryTime, float attackSpeed)
     {
+        if (!gameObject.activeInHierarchy) return;
+
         float modifiedRecoveryTime = recoveryTime / attackSpeed;
 
         if (currentCastCoroutine != null)
@@ -110,6 +112,8 @@ public class CastBar : NetworkBehaviour
 
     public void InterruptCastBar()
     {
+        if (!gameObject.activeInHierarchy) return;
+
         if (currentCastCoroutine != null)
         {
             StopCoroutine(currentCastCoroutine);

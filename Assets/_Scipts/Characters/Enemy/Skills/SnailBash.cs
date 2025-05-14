@@ -50,13 +50,13 @@ public class SnailBash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.AttackImpact(0, modifiedCastTime, modifiedRecoveryTime));
+        owner.CastCoroutine = StartCoroutine(owner.CastTime(0, modifiedCastTime, modifiedRecoveryTime));
         StartCoroutine(owner.CoolDownTime(0, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
-        owner.HandlePotentialInterrupt(owner.ImpactCoroutine);
+        owner.HandlePotentialInterrupt();
 
         if (owner.canImpact)
         {
