@@ -56,7 +56,7 @@ public class SnailDash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        owner.CastCoroutine = StartCoroutine(owner.CastTime(1, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CastTime(1, modifiedCastTime, modifiedRecoveryTime));
         StartCoroutine(owner.CoolDownTime(1, coolDown));
     }
 

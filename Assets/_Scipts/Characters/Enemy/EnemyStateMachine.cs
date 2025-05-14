@@ -48,9 +48,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
-    public Coroutine CastCoroutine;
-    public Coroutine ImpactCoroutine;
-    public Coroutine RecoveryCoroutine;
 
     public enum State
     {
@@ -219,6 +216,7 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         Collider.enabled = false;
         enemy.CastBar.gameObject.SetActive(false);
+        //enemy.bodySprite.gameObject.SetActive(false);
         enemy.shadowSprite.enabled = false;
     }
 
@@ -284,24 +282,6 @@ public class EnemyStateMachine : NetworkBehaviour
             enemy.CastBar.InterruptServerRpc();
         }
 
-        if (CastCoroutine != null)
-        {
-            StopCoroutine(CastCoroutine);
-            CastCoroutine = null;
-        }
-
-        if (ImpactCoroutine != null)
-        {
-            StopCoroutine(ImpactCoroutine);
-            ImpactCoroutine = null;
-        }
-
-        if (RecoveryCoroutine != null)
-        {
-            StopCoroutine(RecoveryCoroutine);
-            RecoveryCoroutine = null;
-        }
-
         canImpact = false;
         IsAttacking = false;
         SetState(State.Idle);
@@ -327,6 +307,7 @@ public class EnemyStateMachine : NetworkBehaviour
         yield return new WaitForSeconds(modifiedCastTime);
 
         if (!IsAttacking) yield break;
+        if (enemy.isDead) yield break;
 
         switch (index)
         {
@@ -335,12 +316,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case 2: EnemyAnimator.Play("Ultimate Impact"); break;
         }
 
-        if (ImpactCoroutine != null)
-        {
-            StopCoroutine(ImpactCoroutine);
-            ImpactCoroutine = null;
-        }
-        ImpactCoroutine = StartCoroutine(ImpactTime(index, recoveryTime));
+        StartCoroutine(ImpactTime(index, recoveryTime));
     }
 
     IEnumerator ImpactTime(int index, float recoveryTime)
@@ -348,6 +324,7 @@ public class EnemyStateMachine : NetworkBehaviour
         yield return new WaitForSeconds(.1f);
 
         if (!IsAttacking) yield break;
+        if (enemy.isDead) yield break;
 
         canImpact = true;
 
@@ -361,12 +338,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
         enemy.CastBar.StartRecovery(recoveryTime, enemy.CurrentAttackSpeed);
 
-        if (RecoveryCoroutine != null)
-        {
-            StopCoroutine(RecoveryCoroutine);
-            RecoveryCoroutine = null;
-        }
-        RecoveryCoroutine = StartCoroutine(RecoveryTime(recoveryTime));
+        StartCoroutine(RecoveryTime(recoveryTime));
     }
 
     public IEnumerator RecoveryTime(float modifiedRecoveryTime)
@@ -374,6 +346,7 @@ public class EnemyStateMachine : NetworkBehaviour
         yield return new WaitForSeconds(modifiedRecoveryTime);
 
         if (!IsAttacking) yield break;
+        if (enemy.isDead) yield break;
 
         IsAttacking = false;
         SetState(State.Idle);
