@@ -115,10 +115,19 @@ public class PlayerStateMachine : NetworkBehaviour
             DeBuffs.Exhaust(1, 10);
         }
 
-
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].UpdateAbility(this);
+        }
+
+        if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
+        {
+            skills.secondPassive[player.SecondPassiveIndex].UpdateAbility(this);
+        }
+
+        if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
+        {
+            skills.thirdPassive[player.ThirdPassiveIndex].UpdateAbility(this);
         }
 
         switch (state)
@@ -154,6 +163,16 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].FixedUpdateAbility(this);
+        }
+
+        if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
+        {
+            skills.secondPassive[player.SecondPassiveIndex].FixedUpdateAbility(this);
+        }
+
+        if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
+        {
+            skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateAbility(this);
         }
 
         switch (state)

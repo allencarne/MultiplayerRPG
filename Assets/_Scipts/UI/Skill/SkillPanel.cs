@@ -9,6 +9,8 @@ public class SkillPanel : MonoBehaviour
 
     [Header("Skills")]
     public PlayerAbility[] firstPassive;
+    public PlayerAbility[] secondPassive;
+    public PlayerAbility[] thirdPassive;
     public PlayerAbility[] basicAbilities;
     public PlayerAbility[] offensiveAbilities;
     public PlayerAbility[] mobilityAbilities;
@@ -20,6 +22,14 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] Image icon_FirstPassive0;
     [SerializeField] Image icon_FirstPassive1;
     [SerializeField] Image icon_FirstPassive2;
+    [Header("SecondPassive")]
+    [SerializeField] Image icon_SecondPassive0;
+    [SerializeField] Image icon_SecondPassive1;
+    [SerializeField] Image icon_SecondPassive2;
+    [Header("ThirdPassive")]
+    [SerializeField] Image icon_ThirdPassive0;
+    [SerializeField] Image icon_ThirdPassive1;
+    [SerializeField] Image icon_ThirdPassive2;
     [Header("Basic")]
     [SerializeField] Image icon_Basic0;
     [SerializeField] Image icon_Basic1;
@@ -52,6 +62,12 @@ public class SkillPanel : MonoBehaviour
         AssignIcon(icon_FirstPassive0, firstPassive, 0);
         AssignIcon(icon_FirstPassive1, firstPassive, 1);
         AssignIcon(icon_FirstPassive2, firstPassive, 2);
+        AssignIcon(icon_SecondPassive0, secondPassive, 0);
+        AssignIcon(icon_SecondPassive1, secondPassive, 1);
+        AssignIcon(icon_SecondPassive2, secondPassive, 2);
+        AssignIcon(icon_ThirdPassive0, thirdPassive, 0);
+        AssignIcon(icon_ThirdPassive1, thirdPassive, 1);
+        AssignIcon(icon_ThirdPassive2, thirdPassive, 2);
 
         AssignIcon(icon_Basic0, basicAbilities, 0);
         AssignIcon(icon_Basic1, basicAbilities, 1);
@@ -75,6 +91,12 @@ public class SkillPanel : MonoBehaviour
         YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive0);
         YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive1);
         YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive2);
+        YellowBorder(player.SecondPassiveIndex, 0, icon_SecondPassive0);
+        YellowBorder(player.SecondPassiveIndex, 0, icon_SecondPassive1);
+        YellowBorder(player.SecondPassiveIndex, 0, icon_SecondPassive2);
+        YellowBorder(player.ThirdPassiveIndex, 0, icon_ThirdPassive0);
+        YellowBorder(player.ThirdPassiveIndex, 0, icon_ThirdPassive1);
+        YellowBorder(player.ThirdPassiveIndex, 0, icon_ThirdPassive2);
 
         YellowBorder(player.BasicIndex,0, icon_Basic0);
         YellowBorder(player.BasicIndex, 0, icon_Basic1);
@@ -148,6 +170,62 @@ public class SkillPanel : MonoBehaviour
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         firstPassive[index].StartAbility(stateMachine);
+    }
+
+    public void SecondPassiveButton(int index)
+    {
+        player.SecondPassiveIndex = index;
+        OnSkillSelected?.Invoke();
+
+        switch (index)
+        {
+            case 0:
+                SetColor(icon_SecondPassive0, Color.blue);
+                SetColor(icon_SecondPassive1, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_SecondPassive2, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 1:
+                SetColor(icon_SecondPassive0, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_SecondPassive1, Color.blue);
+                SetColor(icon_SecondPassive2, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 2:
+                SetColor(icon_SecondPassive0, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_SecondPassive1, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_SecondPassive2, Color.blue);
+                break;
+        }
+
+        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
+        secondPassive[index].StartAbility(stateMachine);
+    }
+
+    public void ThirdPassiveButton(int index)
+    {
+        player.ThirdPassiveIndex = index;
+        OnSkillSelected?.Invoke();
+
+        switch (index)
+        {
+            case 0:
+                SetColor(icon_ThirdPassive0, Color.blue);
+                SetColor(icon_ThirdPassive1, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_ThirdPassive2, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 1:
+                SetColor(icon_ThirdPassive0, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_ThirdPassive1, Color.blue);
+                SetColor(icon_ThirdPassive2, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 2:
+                SetColor(icon_ThirdPassive0, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_ThirdPassive1, new Color(1f, 1f, 1f, 0f));
+                SetColor(icon_ThirdPassive2, Color.blue);
+                break;
+        }
+
+        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
+        thirdPassive[index].StartAbility(stateMachine);
     }
 
     public void BasicButton(int index)
