@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Fury : PlayerAbility
@@ -51,12 +52,37 @@ public class Fury : PlayerAbility
         {
             owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + 5, owner.player.MaxFury.Value);
             idleTime = 0;
+            GiveBuff(owner);
 
             if (timer != null)
             {
                 StopCoroutine(timer);
                 timer = null;
             }
+        }
+    }
+
+    void GiveBuff(PlayerStateMachine owner)
+    {
+        if (owner.player.Fury.Value >= 100)
+        {
+            owner.Buffs.Swiftness(5, 5);
+        }
+        else if (owner.player.Fury.Value >= 80)
+        {
+            owner.Buffs.Swiftness(4, 5);
+        }
+        else if (owner.player.Fury.Value >= 60)
+        {
+            owner.Buffs.Swiftness(3, 5);
+        }
+        else if (owner.player.Fury.Value >= 40)
+        {
+            owner.Buffs.Swiftness(2, 5);
+        }
+        else if (owner.player.Fury.Value >= 20)
+        {
+            owner.Buffs.Swiftness(1,5);
         }
     }
 
