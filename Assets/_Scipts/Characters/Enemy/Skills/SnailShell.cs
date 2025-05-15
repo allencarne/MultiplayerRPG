@@ -39,6 +39,7 @@ public class SnailShell : EnemyAbility
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
         spawnPosition = owner.transform.position;
+        //EnemyStateMachine.SkillType type = EnemyStateMachine.SkillType.Basic;
 
         // Stop Movement
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -53,8 +54,8 @@ public class SnailShell : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(2, modifiedCastTime, modifiedRecoveryTime));
-        StartCoroutine(owner.CoolDownTime(2, coolDown));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Ultimate, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Ultimate, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)

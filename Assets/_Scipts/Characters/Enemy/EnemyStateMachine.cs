@@ -288,38 +288,38 @@ public class EnemyStateMachine : NetworkBehaviour
         return;
     }
 
-    public IEnumerator CoolDownTime(int index, float skillCoolDown)
+    public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
     {
         float modifiedCooldown = skillCoolDown / enemy.CurrentCDR;
 
         yield return new WaitForSeconds(modifiedCooldown);
 
-        switch (index)
+        switch (type)
         {
-            case 0: CanBasic = true; break;
-            case 1: CanSpecial = true; break;
-            case 2: CanUltimate = true; break;
+            case SkillType.Basic: CanBasic = true; break;
+            case SkillType.Special: CanSpecial = true; break;
+            case SkillType.Ultimate: CanUltimate = true; break;
         }
     }
 
-    public IEnumerator CastTime(int index, float modifiedCastTime, float recoveryTime)
+    public IEnumerator CastTime(SkillType type, float modifiedCastTime, float recoveryTime)
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
         if (!IsAttacking) yield break;
         if (enemy.isDead) yield break;
 
-        switch (index)
+        switch (type)
         {
-            case 0: EnemyAnimator.Play("Basic Impact"); break;
-            case 1: EnemyAnimator.Play("Special Impact"); break;
-            case 2: EnemyAnimator.Play("Ultimate Impact"); break;
+            case SkillType.Basic: EnemyAnimator.Play("Basic Impact"); break;
+            case SkillType.Special: EnemyAnimator.Play("Special Impact"); break;
+            case SkillType.Ultimate: EnemyAnimator.Play("Ultimate Impact"); break;
         }
 
-        StartCoroutine(ImpactTime(index, recoveryTime));
+        StartCoroutine(ImpactTime(type, recoveryTime));
     }
 
-    IEnumerator ImpactTime(int index, float recoveryTime)
+    IEnumerator ImpactTime(SkillType type, float recoveryTime)
     {
         yield return new WaitForSeconds(.1f);
 
@@ -329,11 +329,11 @@ public class EnemyStateMachine : NetworkBehaviour
         canImpact = true;
 
         // Start Recovery
-        switch (index)
+        switch (type)
         {
-            case 0: EnemyAnimator.Play("Basic Recovery"); break;
-            case 1: EnemyAnimator.Play("Special Recovery"); break;
-            case 2: EnemyAnimator.Play("Ultimate Recovery"); break;
+            case SkillType.Basic: EnemyAnimator.Play("Basic Recovery"); break;
+            case SkillType.Special: EnemyAnimator.Play("Special Recovery"); break;
+            case SkillType.Ultimate: EnemyAnimator.Play("Ultimate Recovery"); break;
         }
 
         enemy.CastBar.StartRecovery(recoveryTime, enemy.CurrentAttackSpeed);

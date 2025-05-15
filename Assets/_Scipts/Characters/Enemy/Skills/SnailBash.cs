@@ -50,8 +50,8 @@ public class SnailBash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(0, modifiedCastTime, modifiedRecoveryTime));
-        StartCoroutine(owner.CoolDownTime(0, coolDown));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Basic, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Basic, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
