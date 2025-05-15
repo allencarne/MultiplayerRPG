@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 9102248480694595354}
   - component: {fileID: 3211966869068444344}
   - component: {fileID: 8570714399084388781}
+  - component: {fileID: 6783825349702677258}
   m_Layer: 0
   m_Name: Snail_Ultimate_Effect
   m_TagString: Untagged
@@ -380,6 +381,7 @@ MonoBehaviour:
   attacker: {fileID: 0}
   IgnoreEnemy: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
+  hitSpark_Special: {fileID: 0}
 --- !u!114 &8570714399084388781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,3 +399,16 @@ MonoBehaviour:
   Amount: 0
   Duration: 0
   IgnoreEnemy: 0
+--- !u!114 &6783825349702677258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5882438536260200050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b4a1f2aa257e2418b3e82552c92589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

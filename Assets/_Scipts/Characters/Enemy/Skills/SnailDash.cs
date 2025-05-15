@@ -134,16 +134,10 @@ public class SnailDash : EnemyAbility
             _slow.Duration = slowDuration;
         }
 
-        StartCoroutine(DespawnAfterDuration(attackNetObj, abilityDuration));
-    }
-
-    IEnumerator DespawnAfterDuration(NetworkObject netObj, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (netObj != null && netObj.IsSpawned)
+        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
+        if (despawnDelay != null)
         {
-            netObj.Despawn();
+            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(abilityDuration));
         }
     }
 

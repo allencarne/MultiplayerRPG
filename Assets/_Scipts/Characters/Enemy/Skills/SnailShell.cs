@@ -39,7 +39,6 @@ public class SnailShell : EnemyAbility
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
         spawnPosition = owner.transform.position;
-        //EnemyStateMachine.SkillType type = EnemyStateMachine.SkillType.Basic;
 
         // Stop Movement
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -106,16 +105,10 @@ public class SnailShell : EnemyAbility
             knockbackOnTrigger.IgnoreEnemy = true;
         }
 
-        StartCoroutine(DespawnAfterDuration(attackNetObj, attackDuration));
-    }
-
-    IEnumerator DespawnAfterDuration(NetworkObject netObj, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (netObj != null && netObj.IsSpawned)
+        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
+        if (despawnDelay != null)
         {
-            netObj.Despawn();
+            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(attackDuration));
         }
     }
 
