@@ -23,6 +23,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] RectTransform playerUIRect;
 
+    public bool IsDead = false;
+
     [Header("Ability Indexes")]
     public int FirstPassiveIndex = -1;
     public int SecondPassiveIndex = -1;

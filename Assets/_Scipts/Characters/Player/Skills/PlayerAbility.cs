@@ -9,4 +9,9 @@ public abstract class PlayerAbility : NetworkBehaviour
     public abstract void UpdateAbility(PlayerStateMachine owner);
 
     public abstract void FixedUpdateAbility(PlayerStateMachine owner);
+
+    public virtual void Impact(PlayerStateMachine owner)
+    {
+        
+    }
 }

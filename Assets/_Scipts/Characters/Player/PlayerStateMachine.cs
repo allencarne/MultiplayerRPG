@@ -35,11 +35,11 @@ public class PlayerStateMachine : NetworkBehaviour
     [HideInInspector] public bool CanRoll = true;
     public bool IsAttacking = false;
     public bool CanBasic = true;
-    public bool canOffensive= true;
-    public bool canMobility = true;
-    public bool canDefensive = true;
-    public bool canUtility = true;
-    public bool canUltimate = true;
+    public bool CanOffensive= true;
+    public bool CanMobility = true;
+    public bool CanDefensive = true;
+    public bool CanUtility = true;
+    public bool CanUltimate = true;
 
     public enum State
     {
@@ -256,7 +256,7 @@ public class PlayerStateMachine : NetworkBehaviour
     
     public void OffensiveAbility(bool abilityInput)
     {
-        if (!canOffensive) return;
+        if (!CanOffensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
         if (player.OffensiveIndex < 0) return;
@@ -271,7 +271,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void MobilityAbility(bool abilityInput)
     {
-        if (!canMobility) return;
+        if (!CanMobility) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
         if (player.MobilityIndex < 0) return;
@@ -286,7 +286,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void DefensiveAbility(bool abilityInput)
     {
-        if (!canDefensive) return;
+        if (!CanDefensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
         if (player.DefensiveIndex < 0) return;
@@ -301,7 +301,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void UtilityAbility(bool abilityInput)
     {
-        if (!canUtility) return;
+        if (!CanUtility) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
         if (player.UtilityIndex < 0) return;
@@ -316,7 +316,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void UltimateAbility(bool abilityInput)
     {
-        if (!canUltimate) return;
+        if (!CanUltimate) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
         if (player.UltimateIndex < 0) return;
@@ -366,32 +366,92 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    public void HandlePotentialInterrupt(Coroutine coroutine)
+    public void HandlePotentialInterrupt()
     {
-        if (CrowdControl.IsInterrupted)
+        if (!CrowdControl.IsInterrupted) return;
+        if (player.CastBar.castBarFill.color != Color.black) return;
+
+        if (IsServer)
         {
-            if (player.CastBar.castBarFill.color == Color.black)
-            {
-                if (IsServer)
-                {
-                    player.CastBar.InterruptCastBar();
-                }
-                else
-                {
-                    player.CastBar.InterruptServerRpc();
-                }
+            player.CastBar.InterruptCastBar();
+        }
+        else
+        {
+            player.CastBar.InterruptServerRpc();
+        }
 
-                if (coroutine != null)
-                {
-                    StopCoroutine(coroutine);
-                }
+        IsAttacking = false;
+        SetState(State.Idle);
+        return;
+    }
 
-                IsAttacking = false;
-                SetState(State.Idle);
-                return;
-            }
+    public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
+    {
+        float modifiedCooldown = skillCoolDown / player.CurrentCDR.Value;
+
+        yield return new WaitForSeconds(modifiedCooldown);
+
+        switch (type)
+        {
+            case SkillType.Basic: CanBasic = true; break;
+            case SkillType.Offensive: CanOffensive = true; break;
+            case SkillType.Mobility: CanMobility = true; break;
+            case SkillType.Defensive: CanDefensive = true; break;
+            case SkillType.Utility: CanUtility = true; break;
+            case SkillType.Ultimate: CanUltimate = true; break;
         }
     }
 
+    public IEnumerator CastTime(float modifiedCastTime, float recoveryTime, PlayerAbility ability)
+    {
+        yield return new WaitForSeconds(modifiedCastTime);
 
+        if (!IsAttacking) yield break;
+        if (player.IsDead) yield break;
+
+        BodyAnimator.Play("Sword_Attack_I");
+        SwordAnimator.Play("Sword_Attack_I");
+        EyesAnimator.Play("Sword_Attack_I");
+        HairAnimator.Play("Sword_Attack_I_" + player.hairIndex);
+
+        StartCoroutine(ImpactTime(recoveryTime, ability));
+    }
+
+    IEnumerator ImpactTime(float recoveryTime, PlayerAbility ability)
+    {
+        yield return new WaitForSeconds(.1f);
+
+        if (!IsAttacking) yield break;
+        if (player.IsDead) yield break;
+
+        ability.Impact(this);
+
+        BodyAnimator.Play("Sword_Attack_R");
+        SwordAnimator.Play("Sword_Attack_R");
+        EyesAnimator.Play("Sword_Attack_R");
+        HairAnimator.Play("Sword_Attack_R_" + player.hairIndex);
+
+        // Start Recovery
+        if (IsServer)
+        {
+            player.CastBar.StartRecovery(recoveryTime, player.CurrentAttackSpeed.Value);
+        }
+        else
+        {
+            player.CastBar.StartRecoveryServerRpc(recoveryTime, player.CurrentAttackSpeed.Value);
+        }
+
+        StartCoroutine(RecoveryTime(recoveryTime));
+    }
+
+    IEnumerator RecoveryTime(float modifiedRecoveryTime)
+    {
+        yield return new WaitForSeconds(modifiedRecoveryTime);
+
+        if (!IsAttacking) yield break;
+        if (player.IsDead) yield break;
+
+        IsAttacking = false;
+        SetState(State.Idle);
+    }
 }

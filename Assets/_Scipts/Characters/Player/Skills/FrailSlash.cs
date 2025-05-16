@@ -21,11 +21,11 @@ public class FrailSlash : PlayerAbility
     [SerializeField] float knockBackAmount;
     [SerializeField] float knockBackDuration;
 
-    bool canImpact = false;
+    float modifiedCastTime;
+    float modifiedRecoveryTime;
     bool isSliding = false;
     Vector2 aimDirection;
     Quaternion aimRotation;
-    Coroutine impactCoroutine;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
@@ -33,6 +33,8 @@ public class FrailSlash : PlayerAbility
         owner.IsAttacking = true;
 
         // Direction
+        modifiedCastTime = castTime / owner.player.CurrentAttackSpeed.Value;
+        modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed.Value;
         aimDirection = owner.Aimer.right;
         aimRotation = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
@@ -75,34 +77,24 @@ public class FrailSlash : PlayerAbility
         }
 
         // Timers
-        impactCoroutine = owner.StartCoroutine(AttackImpact(owner));
-        owner.StartCoroutine(CoolDownTime(owner));
+        StartCoroutine(owner.CastTime(modifiedCastTime, modifiedRecoveryTime, this));
+        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Basic, coolDown));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
-        owner.HandlePotentialInterrupt(impactCoroutine);
+        owner.HandlePotentialInterrupt();
+    }
 
-        if (canImpact)
+    public override void Impact(PlayerStateMachine owner)
+    {
+        if (IsServer)
         {
-            canImpact = false;
-
-            owner.BodyAnimator.Play("Sword_Attack_R");
-            owner.SwordAnimator.Play("Sword_Attack_R");
-            owner.EyesAnimator.Play("Sword_Attack_R");
-            owner.HairAnimator.Play("Sword_Attack_R_" + owner.player.hairIndex);
-
-            // Start Recovery
-            if (IsServer)
-            {
-                owner.player.CastBar.StartRecovery(recoveryTime, owner.player.CurrentAttackSpeed.Value);
-            }
-            else
-            {
-                owner.player.CastBar.StartRecoveryServerRpc(recoveryTime, owner.player.CurrentAttackSpeed.Value);
-            }
-
-            owner.StartCoroutine(RecoveryTime(owner));
+            SpawnAttack(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
+        }
+        else
+        {
+            AttackServerRpc(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
         }
     }
 
@@ -132,58 +124,6 @@ public class FrailSlash : PlayerAbility
 
         owner.PlayerRB.linearVelocity = Vector2.zero;
         isSliding = false;
-    }
-
-    IEnumerator AttackImpact(PlayerStateMachine owner)
-    {
-        float modifiedCastTime = castTime / owner.player.CurrentAttackSpeed.Value;
-
-        yield return new WaitForSeconds(modifiedCastTime);
-
-        owner.BodyAnimator.Play("Sword_Attack_I");
-        owner.SwordAnimator.Play("Sword_Attack_I");
-        owner.EyesAnimator.Play("Sword_Attack_I");
-        owner.HairAnimator.Play("Sword_Attack_I_" + owner.player.hairIndex);
-
-        if (IsServer)
-        {
-            SpawnAttack(owner.transform.position, aimRotation, aimDirection,owner.OwnerClientId, owner.player.CurrentDamage.Value);
-        }
-        else
-        {
-            AttackServerRpc(owner.transform.position, aimRotation, aimDirection, owner.OwnerClientId, owner.player.CurrentDamage.Value);
-        }
-
-        owner.StartCoroutine(ImpactTime());
-    }
-
-    IEnumerator ImpactTime()
-    {
-        yield return new WaitForSeconds(.1f);
-
-        canImpact = true;
-    }
-
-    IEnumerator RecoveryTime(PlayerStateMachine owner)
-    {
-        float modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed.Value;
-
-        yield return new WaitForSeconds(modifiedRecoveryTime);
-
-        owner.IsAttacking = false;
-        owner.SetState(PlayerStateMachine.State.Idle);
-    }
-
-    IEnumerator CoolDownTime(PlayerStateMachine owner)
-    {
-        //OnBasicCoolDownStarted?.Invoke();
-
-        // Adjust cooldown time based on cooldown reduction
-        float modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
-
-        yield return new WaitForSeconds(modifiedCooldown);
-
-        owner.CanBasic = true;
     }
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
