@@ -58,6 +58,16 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public State state = State.Spawn;
 
+    public enum SkillType
+    {
+        Basic,
+        Offensive,
+        Mobility,
+        Defensive,
+        Utility,
+        Ultimate,
+    }
+
     private void Start()
     {
         playerSpawnState.StartState(this);
@@ -382,4 +392,6 @@ public class PlayerStateMachine : NetworkBehaviour
             }
         }
     }
+
+
 }
