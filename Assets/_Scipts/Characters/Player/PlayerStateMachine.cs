@@ -255,34 +255,48 @@ public class PlayerStateMachine : NetworkBehaviour
             skills.basicAbilities[player.BasicIndex].StartAbility(this);
         }
     }
-    
+
+    private float offensiveBufferTime = .2f;
+    private float offensiveTimer = 0f;
+    private bool hasBufferedOffensive = false;
+
     public void OffensiveAbility()
     {
-        if (!CanOffensive || 
-            IsAttacking || 
-            !Equipment.IsWeaponEquipt ||
-            player.OffensiveIndex < 0 || 
-            player.OffensiveIndex >= skills.offensiveAbilities.Length)
-        {
-            // Even if we can't use the ability, clear the input release so it's not buffered
-            InputHandler.IsOffensiveReleased = false;
-            return;
-        }
-
-        if (InputHandler.IsOffensiveHeld)
-        {
-            Debug.Log("Held");
-        }
-        else
-        {
-            Debug.Log("Not Held");
-        }
-
+        // If we released the button this frame, buffer it
         if (InputHandler.IsOffensiveReleased)
         {
+            InputHandler.IsOffensiveReleased = false;
+            hasBufferedOffensive = true;
+            offensiveTimer = offensiveBufferTime;
+        }
+
+        // Count down the buffer timer
+        if (hasBufferedOffensive)
+        {
+            offensiveTimer -= Time.deltaTime;
+            if (offensiveTimer <= 0f)
+            {
+                hasBufferedOffensive = false;
+            }
+        }
+
+        // Show targeting indicators if needed
+        if (InputHandler.IsOffensiveHeld)
+        {
+            Debug.Log("Held: show targeting indicator");
+        }
+
+        // If conditions allow and there's a buffered input, execute the ability
+        if (CanOffensive &&
+            !IsAttacking &&
+            Equipment.IsWeaponEquipt &&
+            player.OffensiveIndex >= 0 &&
+            player.OffensiveIndex < skills.offensiveAbilities.Length &&
+            hasBufferedOffensive)
+        {
+            hasBufferedOffensive = false;
             state = State.Offensive;
             skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
-            InputHandler.IsOffensiveReleased = false;
         }
     }
 
