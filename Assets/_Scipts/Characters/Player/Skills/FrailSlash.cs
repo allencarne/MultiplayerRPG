@@ -23,7 +23,6 @@ public class FrailSlash : PlayerAbility
 
     float modifiedCastTime;
     float modifiedRecoveryTime;
-    bool isSliding = false;
     Vector2 aimDirection;
     Quaternion aimRotation;
 
@@ -40,41 +39,13 @@ public class FrailSlash : PlayerAbility
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
 
         // Animate
-        owner.BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.BodyAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.BodyAnimator.Play("Sword_Attack_C");
-
-        owner.SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.SwordAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.SwordAnimator.Play("Sword_Attack_C");
-
-        owner.EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.EyesAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.EyesAnimator.Play("Sword_Attack_C");
-
-        owner.HairAnimator.SetFloat("Horizontal", snappedDirection.x);
-        owner.HairAnimator.SetFloat("Vertical", snappedDirection.y);
-        owner.HairAnimator.Play("Sword_Attack_C_" + owner.player.hairIndex);
+        owner.AnimateCast(snappedDirection);
 
         // Cast Bar
-        if (IsServer)
-        {
-            owner.player.CastBar.StartCast(castTime, owner.player.CurrentAttackSpeed.Value);
-        }
-        else
-        {
-            owner.player.CastBar.StartCastServerRpc(castTime, owner.player.CurrentAttackSpeed.Value);
-        }
+        owner.StartCast(castTime);
 
         // Slide
-        if (owner.InputHandler.MoveInput != Vector2.zero)
-        {
-            isSliding = true;
-        }
-        else
-        {
-            owner.PlayerRB.linearVelocity = Vector2.zero;
-        }
+        owner.StartSlide();
 
         // Timers
         StartCoroutine(owner.CastTime(modifiedCastTime, modifiedRecoveryTime, this));
@@ -84,6 +55,15 @@ public class FrailSlash : PlayerAbility
     public override void UpdateAbility(PlayerStateMachine owner)
     {
         owner.HandlePotentialInterrupt();
+    }
+
+    public override void FixedUpdateAbility(PlayerStateMachine owner)
+    {
+        if (owner.IsSliding)
+        {
+            owner.PlayerRB.linearVelocity = aimDirection * slideForce;
+            StartCoroutine(owner.SlideDuration(aimDirection,slideForce,slideDuration));
+        }
     }
 
     public override void Impact(PlayerStateMachine owner)
@@ -96,34 +76,6 @@ public class FrailSlash : PlayerAbility
         {
             AttackServerRpc(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
         }
-    }
-
-    public override void FixedUpdateAbility(PlayerStateMachine owner)
-    {
-        if (isSliding)
-        {
-            owner.PlayerRB.linearVelocity = aimDirection * slideForce;
-
-            StartCoroutine(SlideDuration(owner));
-        }
-    }
-
-    IEnumerator SlideDuration(PlayerStateMachine owner)
-    {
-        float elapsed = 0f;
-        Vector2 startVelocity = aimDirection * slideForce;
-
-        while (elapsed < slideDuration)
-        {
-            float t = elapsed / slideDuration;
-            owner.PlayerRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
-
-            elapsed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        owner.PlayerRB.linearVelocity = Vector2.zero;
-        isSliding = false;
     }
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)

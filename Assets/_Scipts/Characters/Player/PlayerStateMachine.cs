@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -34,6 +35,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
     [HideInInspector] public bool CanRoll = true;
     public bool IsAttacking = false;
+    public bool IsSliding = false;
     public bool CanBasic = true;
     public bool CanOffensive= true;
     public bool CanMobility = true;
@@ -453,5 +455,66 @@ public class PlayerStateMachine : NetworkBehaviour
 
         IsAttacking = false;
         SetState(State.Idle);
+    }
+
+    public IEnumerator SlideDuration(Vector2 aimDirection, float slideForce, float slideDuration)
+    {
+        float elapsed = 0f;
+        Vector2 startVelocity = aimDirection * slideForce;
+
+        while (elapsed < slideDuration)
+        {
+            float t = elapsed / slideDuration;
+            PlayerRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
+
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        PlayerRB.linearVelocity = Vector2.zero;
+        IsSliding = false;
+    }
+
+    public void AnimateCast(Vector2 snappedDirection)
+    {
+        BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
+        BodyAnimator.SetFloat("Vertical", snappedDirection.y);
+        BodyAnimator.Play("Sword_Attack_C");
+
+        SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
+        SwordAnimator.SetFloat("Vertical", snappedDirection.y);
+        SwordAnimator.Play("Sword_Attack_C");
+
+        EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
+        EyesAnimator.SetFloat("Vertical", snappedDirection.y);
+        EyesAnimator.Play("Sword_Attack_C");
+
+        HairAnimator.SetFloat("Horizontal", snappedDirection.x);
+        HairAnimator.SetFloat("Vertical", snappedDirection.y);
+        HairAnimator.Play("Sword_Attack_C_" + player.hairIndex);
+    }
+
+    public void StartCast(float castTime)
+    {
+        if (IsServer)
+        {
+            player.CastBar.StartCast(castTime, player.CurrentAttackSpeed.Value);
+        }
+        else
+        {
+            player.CastBar.StartCastServerRpc(castTime, player.CurrentAttackSpeed.Value);
+        }
+    }
+
+    public void StartSlide()
+    {
+        if (InputHandler.MoveInput != Vector2.zero)
+        {
+            IsSliding = true;
+        }
+        else
+        {
+            PlayerRB.linearVelocity = Vector2.zero;
+        }
     }
 }

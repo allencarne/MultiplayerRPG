@@ -14388,6 +14388,7 @@ MonoBehaviour:
   playerUI: {fileID: 3299133459724338860}
   cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
   playerUIRect: {fileID: 1319158235293109785}
+  IsDead: 0
   FirstPassiveIndex: -1
   SecondPassiveIndex: -1
   ThirdPassiveIndex: -1
@@ -14506,12 +14507,13 @@ MonoBehaviour:
   LastMoveDirection: {x: 0, y: 0}
   CanRoll: 1
   IsAttacking: 0
+  IsSliding: 0
   CanBasic: 1
-  canOffensive: 1
-  canMobility: 1
-  canDefensive: 1
-  canUtility: 1
-  canUltimate: 1
+  CanOffensive: 1
+  CanMobility: 1
+  CanDefensive: 1
+  CanUtility: 1
+  CanUltimate: 1
   state: 0
 --- !u!114 &7139024652526368089
 MonoBehaviour:
@@ -16619,6 +16621,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   SkillIcon: {fileID: -3236811720319166957, guid: 3d929e99c6b30b8478684fae9e35c031, type: 3}
+  attackPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
+  abilityDamage: 2
+  attackRange: 0
+  castTime: 0.4
+  recoveryTime: 0.4
+  coolDown: 3
+  slideForce: 5
+  slideDuration: 0.3
 --- !u!1 &3545801185872779538
 GameObject:
   m_ObjectHideFlags: 0
