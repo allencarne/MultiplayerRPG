@@ -7,18 +7,14 @@ public class FlickerShot : PlayerAbility
     [SerializeField] GameObject attackPrefab;
     [SerializeField] int abilityDamage;
     [SerializeField] float attackRange;
+    [SerializeField] float attackDuration;
+    [SerializeField] float attackForce;
 
     [Header("Time")]
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
 
-    [Header("Slide")]
-    [SerializeField] float slideForce;
-    [SerializeField] float slideDuration;
-
-    float modifiedCastTime;
-    float modifiedRecoveryTime;
     Vector2 aimDirection;
     Quaternion aimRotation;
 
@@ -28,8 +24,6 @@ public class FlickerShot : PlayerAbility
         owner.IsAttacking = true;
 
         // Set Variables
-        modifiedCastTime = castTime / owner.player.CurrentAttackSpeed.Value;
-        modifiedRecoveryTime = recoveryTime / owner.player.CurrentAttackSpeed.Value;
         aimDirection = owner.Aimer.right;
         aimRotation = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
@@ -40,11 +34,8 @@ public class FlickerShot : PlayerAbility
         // Cast Bar
         owner.StartCast(castTime);
 
-        // Slide
-        owner.StartSlide();
-
         // Timers
-        StartCoroutine(owner.CastTime(modifiedCastTime, modifiedRecoveryTime, this));
+        StartCoroutine(owner.CastTime(castTime, recoveryTime, this));
         StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, coolDown));
     }
 
@@ -55,11 +46,7 @@ public class FlickerShot : PlayerAbility
 
     public override void FixedUpdateAbility(PlayerStateMachine owner)
     {
-        if (owner.IsSliding)
-        {
-            owner.PlayerRB.linearVelocity = aimDirection * slideForce;
-            StartCoroutine(owner.SlideDuration(aimDirection, slideForce, slideDuration));
-        }
+
     }
 
     public override void Impact(PlayerStateMachine owner)
@@ -85,12 +72,21 @@ public class FlickerShot : PlayerAbility
 
         attackNetObj.Spawn();
 
+        Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
+        attackRB.AddForce(aimDirection * attackForce, ForceMode2D.Impulse);
+
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = Attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = attackerDamage;
+        }
+
+        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
+        if (despawnDelay != null)
+        {
+            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(attackDuration));
         }
     }
 

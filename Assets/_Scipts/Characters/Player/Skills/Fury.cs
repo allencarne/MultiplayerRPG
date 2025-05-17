@@ -9,7 +9,7 @@ public class Fury : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        DamageOnTrigger.OnDamageDealt.AddListener(GainFury);
+        DamageOnTrigger.OnBasicAttack.AddListener(GainFury);
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
@@ -87,6 +87,6 @@ public class Fury : PlayerAbility
 
     public override void OnDestroy()
     {
-        DamageOnTrigger.OnDamageDealt.RemoveListener(GainFury);
+        DamageOnTrigger.OnBasicAttack.RemoveListener(GainFury);
     }
 }

@@ -8,10 +8,12 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public int CharacterDamage;
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
+    [HideInInspector] public bool IsBasic;
     [SerializeField] GameObject hitSpark;
     [SerializeField] GameObject hitSpark_Special;
 
-    public static UnityEvent<NetworkObject> OnDamageDealt = new UnityEvent<NetworkObject>();
+
+    public static UnityEvent<NetworkObject> OnBasicAttack = new UnityEvent<NetworkObject>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -47,7 +49,10 @@ public class DamageOnTrigger : NetworkBehaviour
         if (damageable != null)
         {
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
-            OnDamageDealt?.Invoke(attacker);
+            if (IsBasic)
+            {
+                OnBasicAttack?.Invoke(attacker);
+            }
 
             Vector2 hitPosition = collision.ClosestPoint(transform.position);
             Vector2 attackerPosition = attacker.transform.position;
