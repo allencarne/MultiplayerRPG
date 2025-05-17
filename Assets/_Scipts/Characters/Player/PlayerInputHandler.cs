@@ -12,10 +12,30 @@ public class PlayerInputHandler : MonoBehaviour
     public bool BasicAbilityInput { get; private set; }
     public bool IsOffensiveHeld { get; private set; }
     public bool IsOffensiveReleased;
-    public bool MobilityAbilityInput { get; private set; }
-    public bool DefensiveAbilityInput { get; private set; }
-    public bool UtilityAbilityInput { get; private set; }
-    public bool UltimateAbilityInput { get; private set; }
+    public float OffensiveBufferTime = .2f;
+    public float OffensiveTimer = 0f;
+    public bool HasBufferedOffensiveInput = false;
+    public bool IsMobilityHeld { get; private set; }
+    public bool IsMobilityReleased;
+    public float MobilityBufferTime = .2f;
+    public float MobilityTimer = 0f;
+    public bool HasBufferedMobilityInput = false;
+    public bool IsDefensiveHeld { get; private set; }
+    public bool IsDefensiveReleased;
+    public float DefensiveBufferTime = .2f;
+    public float DefensiveTimer = 0f;
+    public bool HasBufferedDefensiveInput = false;
+    public bool IsUtilityHeld { get; private set; }
+    public bool IsUtilityReleased;
+    public float UtilityBufferTime = .2f;
+    public float UtilityTimer = 0f;
+    public bool HasBufferedUtilityInput = false;
+    public bool IsUltimateHeld { get; private set; }
+    public bool IsUltimateReleased;
+    public float UltimateBufferTime = .2f;
+    public float UltimateTimer = 0f;
+    public bool HasBufferedUltimateInput = false;
+
     public Vector2 MousePosition { get; private set; }
     public bool PickupInput { get; private set; }
     public bool InteractInput { get; private set; }
@@ -72,13 +92,11 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            // Button was just pressed
             IsOffensiveHeld = true;
             IsOffensiveReleased = false;
         }
         else if (context.canceled)
         {
-            // Button was just released
             IsOffensiveHeld = false;
             IsOffensiveReleased = true;
         }
@@ -86,41 +104,57 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnMobilityAbility(InputAction.CallbackContext context)
     {
-        MobilityAbilityInput = context.ReadValueAsButton();
-
-        if (context.canceled)
+        if (context.started)
         {
-            MobilityAbilityInput = false;
+            IsMobilityHeld = true;
+            IsMobilityReleased = false;
+        }
+        else if (context.canceled)
+        {
+            IsMobilityHeld = false;
+            IsMobilityReleased = true;
         }
     }
 
     public void OnDefensiveAbility(InputAction.CallbackContext context)
     {
-        DefensiveAbilityInput = context.ReadValueAsButton();
-
-        if (context.canceled)
+        if (context.started)
         {
-            DefensiveAbilityInput = false;
+            IsDefensiveHeld = true;
+            IsDefensiveReleased = false;
+        }
+        else if (context.canceled)
+        {
+            IsDefensiveHeld = false;
+            IsDefensiveReleased = true;
         }
     }
 
     public void OnUtilityAbility(InputAction.CallbackContext context)
     {
-        UtilityAbilityInput = context.ReadValueAsButton();
-
-        if (context.canceled)
+        if (context.started)
         {
-            UtilityAbilityInput = false;
+            IsUtilityHeld = true;
+            IsUtilityReleased = false;
+        }
+        else if (context.canceled)
+        {
+            IsUtilityHeld = false;
+            IsUtilityReleased = true;
         }
     }
 
     public void OnUltimateAbility(InputAction.CallbackContext context)
     {
-        UltimateAbilityInput = context.ReadValueAsButton();
-
-        if (context.canceled)
+        if (context.started)
         {
-            UltimateAbilityInput = false;
+            IsUltimateHeld = true;
+            IsUltimateReleased = false;
+        }
+        else if (context.canceled)
+        {
+            IsUltimateHeld = false;
+            IsUltimateReleased = true;
         }
     }
 

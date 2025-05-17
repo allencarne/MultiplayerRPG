@@ -28,6 +28,9 @@ public class FlickerShot : PlayerAbility
         aimRotation = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
 
+        // Stop
+        owner.PlayerRB.linearVelocity = Vector2.zero;
+
         // Animate
         owner.AnimateCast(snappedDirection);
 

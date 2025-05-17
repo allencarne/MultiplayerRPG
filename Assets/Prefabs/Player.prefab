@@ -14182,6 +14182,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedcc48fc094bcb449331f50ba556bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsOffensiveReleased: 0
+  OffensiveBufferTime: 0.2
+  OffensiveTimer: 0
+  HasBufferedOffensiveInput: 0
+  IsMobilityReleased: 0
+  MobilityBufferTime: 0.2
+  MobilityTimer: 0
+  HasBufferedMobilityInput: 0
+  IsDefensiveReleased: 0
+  DefensiveBufferTime: 0.2
+  DefensiveTimer: 0
+  HasBufferedDefensiveInput: 0
+  IsUtilityReleased: 0
+  UtilityBufferTime: 0.2
+  UtilityTimer: 0
+  HasBufferedUtilityInput: 0
+  IsUltimateReleased: 0
+  UltimateBufferTime: 0.2
+  UltimateTimer: 0
+  HasBufferedUltimateInput: 0
   cameraInstance: {fileID: 0}
   OnCharacterUIInput:
     m_PersistentCalls:
@@ -14495,7 +14515,7 @@ MonoBehaviour:
   HairAnimator: {fileID: 1886573199325115856}
   EyesAnimator: {fileID: 940950100477045103}
   skills: {fileID: 0}
-  InputHandler: {fileID: 8050150357123000786}
+  Input: {fileID: 8050150357123000786}
   Collider: {fileID: 6574121733873154346}
   CrowdControl: {fileID: 6004191219924147057}
   Buffs: {fileID: 1521853271822668813}

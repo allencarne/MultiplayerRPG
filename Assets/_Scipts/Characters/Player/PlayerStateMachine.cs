@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -21,7 +20,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [Header("Components")]
     [HideInInspector] public SkillPanel skills;
-    public PlayerInputHandler InputHandler;
+    public PlayerInputHandler Input;
     public Collider2D Collider;
     public CrowdControl CrowdControl;
     public Buffs Buffs;
@@ -37,7 +36,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool IsAttacking = false;
     public bool IsSliding = false;
     public bool CanBasic = true;
-    public bool CanOffensive= true;
+    public bool CanOffensive = true;
     public bool CanMobility = true;
     public bool CanDefensive = true;
     public bool CanUtility = true;
@@ -77,52 +76,52 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
         {
             Buffs.Haste(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
         {
             DeBuffs.Slow(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
         {
             Buffs.Might(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F4))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
         {
             DeBuffs.Weakness(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
         {
             Buffs.Alacrity(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F6))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
         {
             DeBuffs.Impede(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F7))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
         {
             Buffs.Protection(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F8))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
         {
             DeBuffs.Vulnerability(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F9))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
         {
             Buffs.Swiftness(1, 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.F10))
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
         {
             DeBuffs.Exhaust(1, 10);
         }
@@ -230,9 +229,9 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    public void Roll(bool rollInput)
+    public void Roll()
     {
-        if (rollInput && CanRoll)
+        if (Input.RollInput && CanRoll)
         {
             if (player.Endurance.Value >= 50)
             {
@@ -241,7 +240,7 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    public void BasicAbility(bool abilityInput)
+    public void BasicAbility()
     {
         if (!CanBasic) return;
         if (IsAttacking) return;
@@ -249,117 +248,193 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.BasicIndex < 0) return;
         if (player.BasicIndex >= skills.basicAbilities.Length) return;
 
-        if (abilityInput)
+        if (Input.BasicAbilityInput)
         {
             state = State.Basic;
             skills.basicAbilities[player.BasicIndex].StartAbility(this);
         }
     }
 
-    private float offensiveBufferTime = .2f;
-    private float offensiveTimer = 0f;
-    private bool hasBufferedOffensive = false;
-
     public void OffensiveAbility()
     {
-        // If we released the button this frame, buffer it
-        if (InputHandler.IsOffensiveReleased)
+        if (Input.IsOffensiveReleased)
         {
-            InputHandler.IsOffensiveReleased = false;
-            hasBufferedOffensive = true;
-            offensiveTimer = offensiveBufferTime;
+            Input.IsOffensiveReleased = false;
+            Input.HasBufferedOffensiveInput = true;
+            Input.OffensiveTimer = Input.OffensiveBufferTime;
         }
 
-        // Count down the buffer timer
-        if (hasBufferedOffensive)
+        if (Input.HasBufferedOffensiveInput)
         {
-            offensiveTimer -= Time.deltaTime;
-            if (offensiveTimer <= 0f)
+            Input.OffensiveTimer -= Time.deltaTime;
+            if (Input.OffensiveTimer <= 0f)
             {
-                hasBufferedOffensive = false;
+                Input.HasBufferedOffensiveInput = false;
             }
         }
 
-        // Show targeting indicators if needed
-        if (InputHandler.IsOffensiveHeld)
+        if (Input.IsOffensiveHeld)
         {
             Debug.Log("Held: show targeting indicator");
         }
 
-        // If conditions allow and there's a buffered input, execute the ability
         if (CanOffensive &&
             !IsAttacking &&
             Equipment.IsWeaponEquipt &&
             player.OffensiveIndex >= 0 &&
             player.OffensiveIndex < skills.offensiveAbilities.Length &&
-            hasBufferedOffensive)
+            Input.HasBufferedOffensiveInput)
         {
-            hasBufferedOffensive = false;
+            Input.HasBufferedOffensiveInput = false;
             state = State.Offensive;
             skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
         }
     }
 
-    public void MobilityAbility(bool abilityInput)
+    public void MobilityAbility()
     {
-        if (!CanMobility) return;
-        if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
-        if (player.MobilityIndex < 0) return;
-        if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
-
-        if (abilityInput)
+        if (Input.IsMobilityReleased)
         {
+            Input.IsMobilityReleased = false;
+            Input.HasBufferedMobilityInput = true;
+            Input.MobilityTimer = Input.MobilityBufferTime;
+        }
+
+        if (Input.HasBufferedMobilityInput)
+        {
+            Input.MobilityTimer -= Time.deltaTime;
+            if (Input.MobilityTimer <= 0f)
+            {
+                Input.HasBufferedMobilityInput = false;
+            }
+        }
+
+        if (Input.IsMobilityHeld)
+        {
+            Debug.Log("Mobility Held");
+        }
+
+        if (CanMobility &&
+            !IsAttacking &&
+            Equipment.IsWeaponEquipt &&
+            player.MobilityIndex >= 0 &&
+            player.MobilityIndex < skills.mobilityAbilities.Length &&
+            Input.HasBufferedMobilityInput)
+        {
+            Input.HasBufferedMobilityInput = false;
             state = State.Mobility;
             skills.mobilityAbilities[player.MobilityIndex].StartAbility(this);
         }
     }
 
-    public void DefensiveAbility(bool abilityInput)
+    public void DefensiveAbility()
     {
-        if (!CanDefensive) return;
-        if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
-        if (player.DefensiveIndex < 0) return;
-        if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
-
-        if (abilityInput)
+        if (Input.IsDefensiveReleased)
         {
+            Input.IsDefensiveReleased = false;
+            Input.HasBufferedDefensiveInput = true;
+            Input.DefensiveTimer = Input.DefensiveBufferTime;
+        }
+
+        if (Input.HasBufferedDefensiveInput)
+        {
+            Input.DefensiveTimer -= Time.deltaTime;
+            if (Input.DefensiveTimer <= 0f)
+            {
+                Input.HasBufferedDefensiveInput = false;
+            }
+        }
+
+        if (Input.IsDefensiveHeld)
+        {
+            Debug.Log("Defensive Held");
+        }
+
+        if (CanDefensive &&
+            !IsAttacking &&
+            Equipment.IsWeaponEquipt &&
+            player.DefensiveIndex >= 0 &&
+            player.DefensiveIndex < skills.defensiveAbilities.Length &&
+            Input.HasBufferedDefensiveInput)
+        {
+            Input.HasBufferedDefensiveInput = false;
             state = State.Defensive;
             skills.defensiveAbilities[player.DefensiveIndex].StartAbility(this);
         }
     }
 
-    public void UtilityAbility(bool abilityInput)
+    public void UtilityAbility()
     {
-        if (!CanUtility) return;
-        if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
-        if (player.UtilityIndex < 0) return;
-        if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
-
-        if (abilityInput)
+        if (Input.IsUtilityReleased)
         {
+            Input.IsUtilityReleased = false;
+            Input.HasBufferedUtilityInput = true;
+            Input.UtilityTimer = Input.UtilityBufferTime;
+        }
+
+        if (Input.HasBufferedUtilityInput)
+        {
+            Input.UtilityTimer -= Time.deltaTime;
+            if (Input.UtilityTimer <= 0f)
+            {
+                Input.HasBufferedUtilityInput = false;
+            }
+        }
+
+        if (Input.IsUtilityHeld)
+        {
+            Debug.Log("Utility Held");
+        }
+
+        if (CanUtility &&
+            !IsAttacking &&
+            Equipment.IsWeaponEquipt &&
+            player.UtilityIndex >= 0 &&
+            player.UtilityIndex < skills.utilityAbilities.Length &&
+            Input.HasBufferedUtilityInput)
+        {
+            Input.HasBufferedUtilityInput = false;
             state = State.Ultility;
             skills.utilityAbilities[player.UtilityIndex].StartAbility(this);
         }
     }
 
-    public void UltimateAbility(bool abilityInput)
+    public void UltimateAbility()
     {
-        if (!CanUltimate) return;
-        if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
-        if (player.UltimateIndex < 0) return;
-        if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
-
-        if (abilityInput)
+        if (Input.IsUltimateReleased)
         {
+            Input.IsUltimateReleased = false;
+            Input.HasBufferedUltimateInput = true;
+            Input.UltimateTimer = Input.UltimateBufferTime;
+        }
+
+        if (Input.HasBufferedUltimateInput)
+        {
+            Input.UltimateTimer -= Time.deltaTime;
+            if (Input.UltimateTimer <= 0f)
+            {
+                Input.HasBufferedUltimateInput = false;
+            }
+        }
+
+        if (Input.IsUltimateHeld)
+        {
+            Debug.Log("Ultimate Held");
+        }
+
+        if (CanUltimate &&
+            !IsAttacking &&
+            Equipment.IsWeaponEquipt &&
+            player.UltimateIndex >= 0 &&
+            player.UltimateIndex < skills.ultimateAbilities.Length &&
+            Input.HasBufferedUltimateInput)
+        {
+            Input.HasBufferedUltimateInput = false;
             state = State.Ultimate;
             skills.ultimateAbilities[player.UltimateIndex].StartAbility(this);
         }
     }
-    
+
     // This Code allows the Last Input direction to be animated
     public Vector2 SnapDirection(Vector2 direction)
     {
@@ -390,7 +465,7 @@ public class PlayerStateMachine : NetworkBehaviour
         ItemPickup item = collision.GetComponent<ItemPickup>();
         if (item != null)
         {
-            if (InputHandler.PickupInput)
+            if (Input.PickupInput)
             {
                 item.PickUp(player);
             }
@@ -537,7 +612,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void StartSlide()
     {
-        if (InputHandler.MoveInput != Vector2.zero)
+        if (Input.MoveInput != Vector2.zero)
         {
             IsSliding = true;
         }

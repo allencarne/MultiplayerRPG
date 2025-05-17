@@ -18,7 +18,7 @@ public class PlayerRollState : PlayerState
 
         // Roll
         owner.StartCoroutine(Duration(owner));
-        Vector2 moveInput = owner.InputHandler.MoveInput.normalized;
+        Vector2 moveInput = owner.Input.MoveInput.normalized;
         if (moveInput == Vector2.zero)
         {
             float _x = owner.BodyAnimator.GetFloat("Horizontal");

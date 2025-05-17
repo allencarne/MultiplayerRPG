@@ -13,21 +13,21 @@ public class PlayerRunState : PlayerState
     public override void UpdateState(PlayerStateMachine owner)
     {
         // Transitions
-        owner.Roll(owner.InputHandler.RollInput);
-        owner.BasicAbility(owner.InputHandler.BasicAbilityInput);
+        owner.Roll();
+        owner.BasicAbility();
         owner.OffensiveAbility();
-        owner.MobilityAbility(owner.InputHandler.MobilityAbilityInput);
-        owner.DefensiveAbility(owner.InputHandler.DefensiveAbilityInput);
-        owner.UtilityAbility(owner.InputHandler.UtilityAbilityInput);
-        owner.UltimateAbility(owner.InputHandler.UltimateAbilityInput);
+        owner.MobilityAbility();
+        owner.DefensiveAbility();
+        owner.UtilityAbility();
+        owner.UltimateAbility();
     }
 
     public override void FixedUpdateState(PlayerStateMachine owner)
     {
-        HandleMovement(owner, owner.InputHandler.MoveInput);
+        HandleMovement(owner, owner.Input.MoveInput);
 
         // If we are no longer moving - Transition to Idle State
-        if (owner.InputHandler.MoveInput == Vector2.zero)
+        if (owner.Input.MoveInput == Vector2.zero)
         {
             owner.SetState(PlayerStateMachine.State.Idle);
         }
