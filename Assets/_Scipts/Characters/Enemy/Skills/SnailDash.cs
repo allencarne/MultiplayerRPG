@@ -56,28 +56,27 @@ public class SnailDash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, modifiedRecoveryTime, this));
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
         owner.HandlePotentialInterrupt();
+    }
 
-        if (owner.canImpact)
-        {
-            owner.canImpact = false;
-            isSliding = true;
+    public override void Impact(EnemyStateMachine owner)
+    {
+        isSliding = true;
 
-            // Attack
-            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
+        // Attack
+        SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
 
-            // Buff
-            owner.Buffs.Immoveable(slideDuration);
+        // Buff
+        owner.Buffs.Immoveable(slideDuration);
 
-            // Slide
-            owner.Buffs.Phasing(modifiedCastTime + .2f);
-        }
+        // Slide
+        owner.Buffs.Phasing(modifiedCastTime + .2f);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)

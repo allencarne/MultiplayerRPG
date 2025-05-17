@@ -8,4 +8,9 @@ public abstract class EnemyAbility : NetworkBehaviour
     public abstract void AbilityUpdate(EnemyStateMachine owner);
 
     public abstract void AbilityFixedUpdate(EnemyStateMachine owner);
+
+    public virtual void Impact(EnemyStateMachine owner)
+    {
+
+    }
 }

@@ -40,7 +40,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
-    public bool canImpact = false;
 
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
@@ -282,7 +281,6 @@ public class EnemyStateMachine : NetworkBehaviour
             enemy.CastBar.InterruptServerRpc();
         }
 
-        canImpact = false;
         IsAttacking = false;
         SetState(State.Idle);
         return;
@@ -302,7 +300,7 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public IEnumerator CastTime(SkillType type, float modifiedCastTime, float recoveryTime)
+    public IEnumerator CastTime(SkillType type, float modifiedCastTime, float recoveryTime, EnemyAbility ability)
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
@@ -316,17 +314,17 @@ public class EnemyStateMachine : NetworkBehaviour
             case SkillType.Ultimate: EnemyAnimator.Play("Ultimate Impact"); break;
         }
 
-        StartCoroutine(ImpactTime(type, recoveryTime));
+        StartCoroutine(ImpactTime(type, recoveryTime, ability));
     }
 
-    IEnumerator ImpactTime(SkillType type, float recoveryTime)
+    IEnumerator ImpactTime(SkillType type, float recoveryTime, EnemyAbility ability)
     {
         yield return new WaitForSeconds(.1f);
 
         if (!IsAttacking) yield break;
         if (enemy.isDead) yield break;
 
-        canImpact = true;
+        ability.Impact(this);
 
         // Start Recovery
         switch (type)

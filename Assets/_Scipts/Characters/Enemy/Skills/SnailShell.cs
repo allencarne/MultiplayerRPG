@@ -53,21 +53,18 @@ public class SnailShell : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Ultimate, modifiedCastTime, modifiedRecoveryTime));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Ultimate, modifiedCastTime, modifiedRecoveryTime, this));
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Ultimate, coolDown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
         owner.HandlePotentialInterrupt();
+    }
 
-        if (owner.canImpact)
-        {
-            owner.canImpact = false;
-
-            // Attack
-            SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
-        }
+    public override void Impact(EnemyStateMachine owner)
+    {
+        SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
