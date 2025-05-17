@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class PlayerAbility : NetworkBehaviour
 {
     public Sprite SkillIcon;
+    public GameObject IndicatorPrefab;
     public abstract void StartAbility(PlayerStateMachine owner);
 
     public abstract void UpdateAbility(PlayerStateMachine owner);

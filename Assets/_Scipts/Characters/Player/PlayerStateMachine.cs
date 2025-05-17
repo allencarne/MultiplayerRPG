@@ -255,6 +255,8 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
+    GameObject indicator;
+
     public void OffensiveAbility()
     {
         if (Input.IsOffensiveReleased)
@@ -273,22 +275,42 @@ public class PlayerStateMachine : NetworkBehaviour
             }
         }
 
+        if (!CanOffensive) return;
+        if (IsAttacking) return;
+        if (!Equipment.IsWeaponEquipt) return;
+        if (player.OffensiveIndex < 0) return;
+        if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
+
         if (Input.IsOffensiveHeld)
         {
-            Debug.Log("Held: show targeting indicator");
+            if (indicator == null)
+            {
+                indicator = Instantiate(
+                    skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab,
+                    transform.position,
+                    Aimer.rotation,
+                    transform
+                );
+            }
+            else
+            {
+                indicator.transform.rotation = Aimer.rotation;
+            }
+        }
+        else
+        {
+            if (indicator != null)
+            {
+                Destroy(indicator);
+                indicator = null;
+            }
         }
 
-        if (CanOffensive &&
-            !IsAttacking &&
-            Equipment.IsWeaponEquipt &&
-            player.OffensiveIndex >= 0 &&
-            player.OffensiveIndex < skills.offensiveAbilities.Length &&
-            Input.HasBufferedOffensiveInput)
-        {
-            Input.HasBufferedOffensiveInput = false;
-            state = State.Offensive;
-            skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
-        }
+        if (!Input.HasBufferedOffensiveInput) return;
+
+        Input.HasBufferedOffensiveInput = false;
+        state = State.Offensive;
+        skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
     }
 
     public void MobilityAbility()
