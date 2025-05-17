@@ -15,7 +15,7 @@ public class PlayerRunState : PlayerState
         // Transitions
         owner.Roll(owner.InputHandler.RollInput);
         owner.BasicAbility(owner.InputHandler.BasicAbilityInput);
-        owner.OffensiveAbility(owner.InputHandler.OffensiveAbilityInput);
+        owner.OffensiveAbility();
         owner.MobilityAbility(owner.InputHandler.MobilityAbilityInput);
         owner.DefensiveAbility(owner.InputHandler.DefensiveAbilityInput);
         owner.UtilityAbility(owner.InputHandler.UtilityAbilityInput);

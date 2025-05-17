@@ -256,18 +256,33 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
     
-    public void OffensiveAbility(bool abilityInput)
+    public void OffensiveAbility()
     {
-        if (!CanOffensive) return;
-        if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
-        if (player.OffensiveIndex < 0) return;
-        if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
+        if (!CanOffensive || 
+            IsAttacking || 
+            !Equipment.IsWeaponEquipt ||
+            player.OffensiveIndex < 0 || 
+            player.OffensiveIndex >= skills.offensiveAbilities.Length)
+        {
+            // Even if we can't use the ability, clear the input release so it's not buffered
+            InputHandler.IsOffensiveReleased = false;
+            return;
+        }
 
-        if (abilityInput)
+        if (InputHandler.IsOffensiveHeld)
+        {
+            Debug.Log("Held");
+        }
+        else
+        {
+            Debug.Log("Not Held");
+        }
+
+        if (InputHandler.IsOffensiveReleased)
         {
             state = State.Offensive;
             skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
+            InputHandler.IsOffensiveReleased = false;
         }
     }
 

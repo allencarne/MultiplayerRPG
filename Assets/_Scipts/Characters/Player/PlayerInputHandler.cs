@@ -10,7 +10,8 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool BasicAbilityInput { get; private set; }
-    public bool OffensiveAbilityInput { get; private set; }
+    public bool IsOffensiveHeld { get; private set; }
+    public bool IsOffensiveReleased;
     public bool MobilityAbilityInput { get; private set; }
     public bool DefensiveAbilityInput { get; private set; }
     public bool UtilityAbilityInput { get; private set; }
@@ -69,11 +70,17 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnOffensiveAbility(InputAction.CallbackContext context)
     {
-        OffensiveAbilityInput = context.ReadValueAsButton();
-
-        if (context.canceled)
+        if (context.started)
         {
-            OffensiveAbilityInput = false;
+            // Button was just pressed
+            IsOffensiveHeld = true;
+            IsOffensiveReleased = false;
+        }
+        else if (context.canceled)
+        {
+            // Button was just released
+            IsOffensiveHeld = false;
+            IsOffensiveReleased = true;
         }
     }
 
