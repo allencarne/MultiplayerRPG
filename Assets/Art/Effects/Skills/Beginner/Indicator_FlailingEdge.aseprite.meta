@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 301dcd40cd8faf34fbd3daea4691ba15
+guid: e308935052e1f404cb53e29d2a60b358
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,28 +122,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Skill_FlailingEdge
-    originalName: 
-    pivot: {x: 0.50526315, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 108
-      y: 107
-      width: 95
-      height: 95
-    spriteID: 5eec4806f51fd3c4c95099875812c6cb
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 108, y: 107}
-  - name: Frame_1
+  - name: Indicator_FlailingEdge
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -154,8 +133,8 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 96
-      height: 95
-    spriteID: 4be045a4db8fd224b8853a55d11a1cef
+      height: 96
+    spriteID: 85ad3a89414d67e4d816b1d102bddcd6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -164,153 +143,24 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: Frame_2
-    originalName: 
-    pivot: {x: 0.49473685, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 107
-      width: 95
-      height: 96
-    spriteID: 5dc8459d90aef2345870bf267628b158
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 107}
-  - name: Frame_3
-    originalName: 
-    pivot: {x: 0.5, y: -0.010526316}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 211
-      width: 96
-      height: 95
-    spriteID: 9782c480bec4b604292c0494054714ad
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 211}
-  - name: Frame_4
-    originalName: 
-    pivot: {x: 0.50526315, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 314
-      width: 95
-      height: 96
-    spriteID: 47f9b1d8a8ed18149b04f3e69456ba00
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 314}
-  - name: Frame_5
-    originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 108
-      y: 4
-      width: 96
-      height: 95
-    spriteID: 323bb436e17a56949acc1d9f8ecdd393
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 108, y: 4}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 644824667
-    name: Skill_FlailingEdge
+    guid: -1527458501
+    name: Indicator_FlailingEdge
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Frame_0
+    - name: Indicator_FlailingEdge
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 95
-        height: 95
-      spriteId: 5eec4806f51fd3c4c95099875812c6cb
-    - name: Frame_1
-      frameIndex: 1
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 0
         width: 96
-        height: 95
-      spriteId: 4be045a4db8fd224b8853a55d11a1cef
-    - name: Frame_2
-      frameIndex: 2
-      additiveSortOrder: 0
-      cellRect:
-        x: 1
-        y: 0
-        width: 95
         height: 96
-      spriteId: 5dc8459d90aef2345870bf267628b158
-    - name: Frame_3
-      frameIndex: 3
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 1
-        width: 96
-        height: 95
-      spriteId: 9782c480bec4b604292c0494054714ad
-    - name: Frame_4
-      frameIndex: 4
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 0
-        width: 95
-        height: 96
-      spriteId: 47f9b1d8a8ed18149b04f3e69456ba00
-    - name: Frame_5
-      frameIndex: 5
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 0
-        width: 96
-        height: 95
-      spriteId: 323bb436e17a56949acc1d9f8ecdd393
+      spriteId: 85ad3a89414d67e4d816b1d102bddcd6
     linkedCells: []
     parentIndex: -1
   platformSettings:

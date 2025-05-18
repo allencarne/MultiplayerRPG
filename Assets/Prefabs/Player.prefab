@@ -17711,6 +17711,7 @@ MonoBehaviour:
   - {fileID: 3452262834436433122}
   offensiveAbilities:
   - {fileID: 8334984662146335593}
+  - {fileID: 1843352191152424704}
   mobilityAbilities: []
   defensiveAbilities: []
   utilityAbilities: []
@@ -23926,6 +23927,59 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!1 &5276097329150746406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5461102921186978966}
+  - component: {fileID: 1843352191152424704}
+  m_Layer: 6
+  m_Name: FlailingEdge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5461102921186978966
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5276097329150746406}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4230217141041238692}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1843352191152424704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5276097329150746406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8338fc4ce0045a44b9945e6d3cb1d36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  SkillIcon: {fileID: 2113826936, guid: 3d929e99c6b30b8478684fae9e35c031, type: 3}
+  IndicatorPrefab: {fileID: 5634513536252481035, guid: d9ca1ba647590f04791b11977ff2c2e7, type: 3}
+  attackPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
+  abilityDamage: 5
+  attackRange: 0
+  castTime: 0.6
+  recoveryTime: 0.4
+  coolDown: 3
 --- !u!1 &5289496096554081371
 GameObject:
   m_ObjectHideFlags: 0
@@ -39062,6 +39116,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2332783446570139197}
+  - {fileID: 5461102921186978966}
   m_Father: {fileID: 343629285000957764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8003847649093219976

@@ -64,7 +64,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: f8edc9148ff50244ba01ab147098a907, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -158,7 +158,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 2
+  m_Radius: 3
 --- !u!114 &8901867340546446476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +292,7 @@ MonoBehaviour:
   CharacterDamage: 0
   attacker: {fileID: 0}
   IgnoreEnemy: 0
+  IsBasic: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
 --- !u!95 &2710294622042561463
