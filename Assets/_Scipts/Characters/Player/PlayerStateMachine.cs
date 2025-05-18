@@ -259,22 +259,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void OffensiveAbility()
     {
-        if (Input.IsOffensiveReleased)
-        {
-            Input.IsOffensiveReleased = false;
-            Input.HasBufferedOffensiveInput = true;
-            Input.OffensiveTimer = Input.OffensiveBufferTime;
-        }
-
-        if (Input.HasBufferedOffensiveInput)
-        {
-            Input.OffensiveTimer -= Time.deltaTime;
-            if (Input.OffensiveTimer <= 0f)
-            {
-                Input.HasBufferedOffensiveInput = false;
-            }
-        }
-
         if (!CanOffensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipt) return;
@@ -315,22 +299,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void MobilityAbility()
     {
-        if (Input.IsMobilityReleased)
-        {
-            Input.IsMobilityReleased = false;
-            Input.HasBufferedMobilityInput = true;
-            Input.MobilityTimer = Input.MobilityBufferTime;
-        }
-
-        if (Input.HasBufferedMobilityInput)
-        {
-            Input.MobilityTimer -= Time.deltaTime;
-            if (Input.MobilityTimer <= 0f)
-            {
-                Input.HasBufferedMobilityInput = false;
-            }
-        }
-
         if (Input.IsMobilityHeld)
         {
             Debug.Log("Mobility Held");
@@ -351,22 +319,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void DefensiveAbility()
     {
-        if (Input.IsDefensiveReleased)
-        {
-            Input.IsDefensiveReleased = false;
-            Input.HasBufferedDefensiveInput = true;
-            Input.DefensiveTimer = Input.DefensiveBufferTime;
-        }
-
-        if (Input.HasBufferedDefensiveInput)
-        {
-            Input.DefensiveTimer -= Time.deltaTime;
-            if (Input.DefensiveTimer <= 0f)
-            {
-                Input.HasBufferedDefensiveInput = false;
-            }
-        }
-
         if (Input.IsDefensiveHeld)
         {
             Debug.Log("Defensive Held");

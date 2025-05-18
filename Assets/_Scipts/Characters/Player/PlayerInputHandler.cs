@@ -42,8 +42,6 @@ public class PlayerInputHandler : MonoBehaviour
     public bool RollInput { get; private set; }
     public Vector2 ZoomInput { get; private set; }
 
-    LayerMask ignoredLayers;
-
     [HideInInspector] public Camera cameraInstance;
     public UnityEvent OnCharacterUIInput;
     public UnityEvent OnJournalUIInput;
@@ -52,10 +50,13 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnSettingsUIInput;
     public event UnityAction<Vector2> ZoomPerformed;
 
-    private void Awake()
+    private void Update()
     {
-        // Initialize ignoredLayers
-        ignoredLayers = 1 << LayerMask.NameToLayer("IgnoredUI");
+        BufferOffensive();
+        BufferMobility();
+        BufferDefensive();
+        BufferUtility();
+        BufferUltimate();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -246,29 +247,95 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    bool isMouseOverUI(LayerMask ignoredLayers)
+    void BufferOffensive()
     {
-        // Create a new PointerEventData
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = Input.mousePosition;
-
-        // Create a list to store the results of the raycast
-        List<RaycastResult> results = new List<RaycastResult>();
-
-        // Perform the raycast
-        EventSystem.current.RaycastAll(eventData, results);
-
-        // Check if any of the hit objects are not on the ignored layers
-        foreach (RaycastResult result in results)
+        if (IsOffensiveReleased)
         {
-            if ((ignoredLayers & (1 << result.gameObject.layer)) == 0)
+            IsOffensiveReleased = false;
+            HasBufferedOffensiveInput = true;
+            OffensiveTimer = OffensiveBufferTime;
+        }
+        if (HasBufferedOffensiveInput)
+        {
+            OffensiveTimer -= Time.deltaTime;
+            if (OffensiveTimer <= 0f)
             {
-                // If the hit object is not on the ignored layers, return true
-                return true;
+                HasBufferedOffensiveInput = false;
             }
         }
+    }
 
-        // If none of the hit objects are not on the ignored layers, return false
-        return false;
+    void BufferMobility()
+    {
+        if (IsMobilityReleased)
+        {
+            IsMobilityReleased = false;
+            HasBufferedMobilityInput = true;
+            MobilityTimer = MobilityBufferTime;
+        }
+        if (HasBufferedMobilityInput)
+        {
+            MobilityTimer -= Time.deltaTime;
+            if (MobilityTimer <= 0f)
+            {
+                HasBufferedMobilityInput = false;
+            }
+        }
+    }
+
+    void BufferDefensive()
+    {
+        if (IsDefensiveReleased)
+        {
+            IsDefensiveReleased = false;
+            HasBufferedDefensiveInput = true;
+            DefensiveTimer = DefensiveBufferTime;
+        }
+        if (HasBufferedDefensiveInput)
+        {
+            DefensiveTimer -= Time.deltaTime;
+            if (DefensiveTimer <= 0f)
+            {
+                HasBufferedDefensiveInput = false;
+            }
+        }
+    }
+
+    void BufferUtility()
+    {
+        if (IsUtilityReleased)
+        {
+            IsUtilityReleased = false;
+            HasBufferedUtilityInput = true;
+            UtilityTimer = UtilityBufferTime;
+        }
+
+        if (HasBufferedUtilityInput)
+        {
+            UtilityTimer -= Time.deltaTime;
+            if (UtilityTimer <= 0f)
+            {
+                HasBufferedUtilityInput = false;
+            }
+        }
+    }
+
+    void BufferUltimate()
+    {
+        if (IsUltimateReleased)
+        {
+            IsUltimateReleased = false;
+            HasBufferedUltimateInput = true;
+            UltimateTimer = UltimateBufferTime;
+        }
+
+        if (HasBufferedUltimateInput)
+        {
+            UltimateTimer -= Time.deltaTime;
+            if (UltimateTimer <= 0f)
+            {
+                HasBufferedUltimateInput = false;
+            }
+        }
     }
 }
