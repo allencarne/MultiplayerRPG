@@ -256,6 +256,7 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     GameObject indicator;
+    string indicatorType = null;
 
     public void OffensiveAbility()
     {
@@ -267,27 +268,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsOffensiveHeld)
         {
-            if (indicator == null)
-            {
-                indicator = Instantiate(
-                    skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab,
-                    transform.position,
-                    Aimer.rotation,
-                    transform
-                );
-            }
-            else
-            {
-                indicator.transform.rotation = Aimer.rotation;
-            }
+            InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
         }
         else
         {
-            if (indicator != null)
-            {
-                Destroy(indicator);
-                indicator = null;
-            }
+            DestroyIndicator("Offensive");
         }
 
         if (!Input.HasBufferedOffensiveInput) return;
@@ -307,27 +292,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsMobilityHeld)
         {
-            if (indicator == null)
-            {
-                indicator = Instantiate(
-                    skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab,
-                    transform.position,
-                    Aimer.rotation,
-                    transform
-                );
-            }
-            else
-            {
-                indicator.transform.rotation = Aimer.rotation;
-            }
+            InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
         }
         else
         {
-            if (indicator != null)
-            {
-                Destroy(indicator);
-                indicator = null;
-            }
+            DestroyIndicator("Mobility");
         }
 
         if (!Input.HasBufferedMobilityInput) return;
@@ -347,27 +316,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsDefensiveHeld)
         {
-            if (indicator == null)
-            {
-                indicator = Instantiate(
-                    skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab,
-                    transform.position,
-                    Aimer.rotation,
-                    transform
-                );
-            }
-            else
-            {
-                indicator.transform.rotation = Aimer.rotation;
-            }
+            InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
         }
         else
         {
-            if (indicator != null)
-            {
-                Destroy(indicator);
-                indicator = null;
-            }
+            DestroyIndicator("Defensive");
         }
 
         if (!Input.HasBufferedDefensiveInput) return;
@@ -387,27 +340,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUtilityHeld)
         {
-            if (indicator == null)
-            {
-                indicator = Instantiate(
-                    skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab,
-                    transform.position,
-                    Aimer.rotation,
-                    transform
-                );
-            }
-            else
-            {
-                indicator.transform.rotation = Aimer.rotation;
-            }
+            InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
         }
         else
         {
-            if (indicator != null)
-            {
-                Destroy(indicator);
-                indicator = null;
-            }
+            DestroyIndicator("Utility");
         }
 
         if (!Input.HasBufferedUtilityInput) return;
@@ -427,27 +364,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUltimateHeld)
         {
-            if (indicator == null)
-            {
-                indicator = Instantiate(
-                    skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab,
-                    transform.position,
-                    Aimer.rotation,
-                    transform
-                );
-            }
-            else
-            {
-                indicator.transform.rotation = Aimer.rotation;
-            }
+            InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
         }
         else
         {
-            if (indicator != null)
-            {
-                Destroy(indicator);
-                indicator = null;
-            }
+            DestroyIndicator("Ultimate");
         }
 
         if (!Input.HasBufferedUltimateInput) return;
@@ -455,6 +376,35 @@ public class PlayerStateMachine : NetworkBehaviour
         Input.HasBufferedUltimateInput = false;
         state = State.Ultimate;
         skills.ultimateAbilities[player.UltimateIndex].StartAbility(this);
+    }
+
+    private void InstantiateIndicator(GameObject prefab, string type)
+    {
+        if (indicator != null && indicatorType != type)
+        {
+            Destroy(indicator);
+            indicator = null;
+        }
+
+        if (indicator == null)
+        {
+            indicator = Instantiate(prefab, transform.position, Aimer.rotation, transform);
+            indicatorType = type;
+        }
+        else
+        {
+            indicator.transform.rotation = Aimer.rotation;
+        }
+    }
+
+    private void DestroyIndicator(string type)
+    {
+        if (indicator != null && indicatorType == type)
+        {
+            Destroy(indicator);
+            indicator = null;
+            indicatorType = null;
+        }
     }
 
     // This Code allows the Last Input direction to be animated

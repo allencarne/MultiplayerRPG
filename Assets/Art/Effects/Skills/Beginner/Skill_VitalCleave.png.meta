@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 6dcf421f0611a2148a0226f909aeabf5
+guid: 2fadf52f9be57eb46a38779eb7a869f8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2617191537832431528
-    second: Skill_FlailingEdge_0
+      213: -3492248065928495824
+    second: Skill_VitalCleave_0
+  - first:
+      213: 7509106605854285079
+    second: Skill_VitalCleave_1
+  - first:
+      213: 2022668931354675644
+    second: Skill_VitalCleave_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +52,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Skill_FlailingEdge_0
+      name: Skill_VitalCleave_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 96
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8af09a156d1225420800000000000000
-      internalID: 2617191537832431528
+      spriteID: 03d79c203ea098fc0800000000000000
+      internalID: -3492248065928495824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_VitalCleave_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71ddb7e4ca4b53860800000000000000
+      internalID: 7509106605854285079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Skill_VitalCleave_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb94d9f2da6f11c10800000000000000
+      internalID: 2022668931354675644
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 86407ebfb6c4d494a9bd35cca7cce69c
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Skill_FlailingEdge_0: 2617191537832431528
+      Skill_VitalCleave_0: -3492248065928495824
+      Skill_VitalCleave_1: 7509106605854285079
+      Skill_VitalCleave_2: 2022668931354675644
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
