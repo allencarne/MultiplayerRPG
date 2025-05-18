@@ -6,6 +6,8 @@ public class FlickerShot : PlayerAbility
     [SerializeField] GameObject attackPrefab;
     [SerializeField] int abilityDamage;
     [SerializeField] float attackRange;
+
+    [Header("Projectile")]
     [SerializeField] float attackDuration;
     [SerializeField] float attackForce;
 
@@ -90,6 +92,8 @@ public class FlickerShot : PlayerAbility
         {
             despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(attackDuration));
         }
+
+        // Stun on Trigger
     }
 
     [ServerRpc]

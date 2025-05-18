@@ -79,6 +79,8 @@ public class FlailingEdge : PlayerAbility
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = attackerDamage;
         }
+
+        // Stun On Trigger
     }
 
     [ServerRpc]

@@ -583,6 +583,18 @@ public class PlayerStateMachine : NetworkBehaviour
         SetState(State.Idle);
     }
 
+    public void StartSlide(bool requireMoveInput)
+    {
+        if (!requireMoveInput || Input.MoveInput != Vector2.zero)
+        {
+            IsSliding = true;
+        }
+        else
+        {
+            PlayerRB.linearVelocity = Vector2.zero;
+        }
+    }
+
     public IEnumerator SlideDuration(Vector2 aimDirection, float slideForce, float slideDuration)
     {
         float elapsed = 0f;
@@ -629,18 +641,6 @@ public class PlayerStateMachine : NetworkBehaviour
         else
         {
             player.CastBar.StartCastServerRpc(castTime, player.CurrentAttackSpeed.Value);
-        }
-    }
-
-    public void StartSlide()
-    {
-        if (Input.MoveInput != Vector2.zero)
-        {
-            IsSliding = true;
-        }
-        else
-        {
-            PlayerRB.linearVelocity = Vector2.zero;
         }
     }
 }

@@ -9,6 +9,8 @@ public class SnailShell : EnemyAbility
     [SerializeField] GameObject telegraphPrefab;
     [SerializeField] int abilityDamage;
     [SerializeField] float attackRange;
+
+    [Header("Projectile")]
     [SerializeField] float attackDuration;
     [SerializeField] float attackForce;
 

@@ -7458,7 +7458,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4008130081786821684}
   m_Father: {fileID: 343629285000957764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1694268689870023094
@@ -17712,7 +17713,8 @@ MonoBehaviour:
   offensiveAbilities:
   - {fileID: 8334984662146335593}
   - {fileID: 1843352191152424704}
-  mobilityAbilities: []
+  mobilityAbilities:
+  - {fileID: 3661384663506111182}
   defensiveAbilities: []
   utilityAbilities: []
   ultimateAbilities: []
@@ -22558,6 +22560,61 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5110941256405115931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4008130081786821684}
+  - component: {fileID: 3661384663506111182}
+  m_Layer: 6
+  m_Name: VitalCleave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4008130081786821684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110941256405115931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1503005459792935887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3661384663506111182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5110941256405115931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f910671c02f3ac747a19243aa42906a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  SkillIcon: {fileID: -1349171447, guid: 3d929e99c6b30b8478684fae9e35c031, type: 3}
+  IndicatorPrefab: {fileID: 7783375558335291162, guid: d48fa1ddaf28e6544b2c7a2372498d0f, type: 3}
+  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
+  abilityDamage: 5
+  attackRange: 1
+  castTime: 0.1
+  recoveryTime: 0.4
+  coolDown: 3
+  slideForce: 25
+  slideDuration: 0.1
 --- !u!1 &5121641778720288117
 GameObject:
   m_ObjectHideFlags: 0
