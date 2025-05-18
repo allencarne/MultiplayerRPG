@@ -299,114 +299,162 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void MobilityAbility()
     {
+        if (!CanMobility) return;
+        if (IsAttacking) return;
+        if (!Equipment.IsWeaponEquipt) return;
+        if (player.MobilityIndex < 0) return;
+        if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
+
         if (Input.IsMobilityHeld)
         {
-            Debug.Log("Mobility Held");
+            if (indicator == null)
+            {
+                indicator = Instantiate(
+                    skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab,
+                    transform.position,
+                    Aimer.rotation,
+                    transform
+                );
+            }
+            else
+            {
+                indicator.transform.rotation = Aimer.rotation;
+            }
+        }
+        else
+        {
+            if (indicator != null)
+            {
+                Destroy(indicator);
+                indicator = null;
+            }
         }
 
-        if (CanMobility &&
-            !IsAttacking &&
-            Equipment.IsWeaponEquipt &&
-            player.MobilityIndex >= 0 &&
-            player.MobilityIndex < skills.mobilityAbilities.Length &&
-            Input.HasBufferedMobilityInput)
-        {
-            Input.HasBufferedMobilityInput = false;
-            state = State.Mobility;
-            skills.mobilityAbilities[player.MobilityIndex].StartAbility(this);
-        }
+        if (!Input.HasBufferedMobilityInput) return;
+
+        Input.HasBufferedMobilityInput = false;
+        state = State.Mobility;
+        skills.mobilityAbilities[player.MobilityIndex].StartAbility(this);
     }
 
     public void DefensiveAbility()
     {
+        if (!CanDefensive) return;
+        if (IsAttacking) return;
+        if (!Equipment.IsWeaponEquipt) return;
+        if (player.DefensiveIndex < 0) return;
+        if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
+
         if (Input.IsDefensiveHeld)
         {
-            Debug.Log("Defensive Held");
+            if (indicator == null)
+            {
+                indicator = Instantiate(
+                    skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab,
+                    transform.position,
+                    Aimer.rotation,
+                    transform
+                );
+            }
+            else
+            {
+                indicator.transform.rotation = Aimer.rotation;
+            }
+        }
+        else
+        {
+            if (indicator != null)
+            {
+                Destroy(indicator);
+                indicator = null;
+            }
         }
 
-        if (CanDefensive &&
-            !IsAttacking &&
-            Equipment.IsWeaponEquipt &&
-            player.DefensiveIndex >= 0 &&
-            player.DefensiveIndex < skills.defensiveAbilities.Length &&
-            Input.HasBufferedDefensiveInput)
-        {
-            Input.HasBufferedDefensiveInput = false;
-            state = State.Defensive;
-            skills.defensiveAbilities[player.DefensiveIndex].StartAbility(this);
-        }
+        if (!Input.HasBufferedDefensiveInput) return;
+
+        Input.HasBufferedDefensiveInput = false;
+        state = State.Defensive;
+        skills.defensiveAbilities[player.DefensiveIndex].StartAbility(this);
     }
 
     public void UtilityAbility()
     {
-        if (Input.IsUtilityReleased)
-        {
-            Input.IsUtilityReleased = false;
-            Input.HasBufferedUtilityInput = true;
-            Input.UtilityTimer = Input.UtilityBufferTime;
-        }
-
-        if (Input.HasBufferedUtilityInput)
-        {
-            Input.UtilityTimer -= Time.deltaTime;
-            if (Input.UtilityTimer <= 0f)
-            {
-                Input.HasBufferedUtilityInput = false;
-            }
-        }
+        if (!CanUtility) return;
+        if (IsAttacking) return;
+        if (!Equipment.IsWeaponEquipt) return;
+        if (player.UtilityIndex < 0) return;
+        if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
 
         if (Input.IsUtilityHeld)
         {
-            Debug.Log("Utility Held");
+            if (indicator == null)
+            {
+                indicator = Instantiate(
+                    skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab,
+                    transform.position,
+                    Aimer.rotation,
+                    transform
+                );
+            }
+            else
+            {
+                indicator.transform.rotation = Aimer.rotation;
+            }
+        }
+        else
+        {
+            if (indicator != null)
+            {
+                Destroy(indicator);
+                indicator = null;
+            }
         }
 
-        if (CanUtility &&
-            !IsAttacking &&
-            Equipment.IsWeaponEquipt &&
-            player.UtilityIndex >= 0 &&
-            player.UtilityIndex < skills.utilityAbilities.Length &&
-            Input.HasBufferedUtilityInput)
-        {
-            Input.HasBufferedUtilityInput = false;
-            state = State.Ultility;
-            skills.utilityAbilities[player.UtilityIndex].StartAbility(this);
-        }
+        if (!Input.HasBufferedUtilityInput) return;
+
+        Input.HasBufferedUtilityInput = false;
+        state = State.Ultility;
+        skills.utilityAbilities[player.UtilityIndex].StartAbility(this);
     }
 
     public void UltimateAbility()
     {
-        if (Input.IsUltimateReleased)
-        {
-            Input.IsUltimateReleased = false;
-            Input.HasBufferedUltimateInput = true;
-            Input.UltimateTimer = Input.UltimateBufferTime;
-        }
-
-        if (Input.HasBufferedUltimateInput)
-        {
-            Input.UltimateTimer -= Time.deltaTime;
-            if (Input.UltimateTimer <= 0f)
-            {
-                Input.HasBufferedUltimateInput = false;
-            }
-        }
+        if (!CanUltimate) return;
+        if (IsAttacking) return;
+        if (!Equipment.IsWeaponEquipt) return;
+        if (player.UltimateIndex < 0) return;
+        if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
 
         if (Input.IsUltimateHeld)
         {
-            Debug.Log("Ultimate Held");
+            if (indicator == null)
+            {
+                indicator = Instantiate(
+                    skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab,
+                    transform.position,
+                    Aimer.rotation,
+                    transform
+                );
+            }
+            else
+            {
+                indicator.transform.rotation = Aimer.rotation;
+            }
+        }
+        else
+        {
+            if (indicator != null)
+            {
+                Destroy(indicator);
+                indicator = null;
+            }
         }
 
-        if (CanUltimate &&
-            !IsAttacking &&
-            Equipment.IsWeaponEquipt &&
-            player.UltimateIndex >= 0 &&
-            player.UltimateIndex < skills.ultimateAbilities.Length &&
-            Input.HasBufferedUltimateInput)
-        {
-            Input.HasBufferedUltimateInput = false;
-            state = State.Ultimate;
-            skills.ultimateAbilities[player.UltimateIndex].StartAbility(this);
-        }
+        if (!Input.HasBufferedUltimateInput) return;
+
+        Input.HasBufferedUltimateInput = false;
+        state = State.Ultimate;
+        skills.ultimateAbilities[player.UltimateIndex].StartAbility(this);
     }
 
     // This Code allows the Last Input direction to be animated
