@@ -1,8 +1,7 @@
-using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class SnailBash : EnemyAbility
+public class EnemyBasic : EnemyAbility
 {
     [SerializeField] GameObject attackPrefab;
     [SerializeField] GameObject telegraphPrefab;
@@ -59,14 +58,31 @@ public class SnailBash : EnemyAbility
         owner.HandlePotentialInterrupt();
     }
 
+    public override void AbilityFixedUpdate(EnemyStateMachine owner)
+    {
+
+    }
+
     public override void Impact(EnemyStateMachine owner)
     {
         SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
     }
 
-    public override void AbilityFixedUpdate(EnemyStateMachine owner)
+    void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
     {
+        Vector2 offset = aimDirection.normalized * attackRange;
 
+        GameObject attackInstance = Instantiate(telegraphPrefab, spawnPosition + offset, spawnRotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+
+        attackNetObj.Spawn();
+
+        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
+        if (_fillTelegraph != null)
+        {
+            _fillTelegraph.FillSpeed = modifiedCastTime;
+            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+        }
     }
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, NetworkObject attacker)
@@ -94,23 +110,6 @@ public class SnailBash : EnemyAbility
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
-        }
-    }
-
-    void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
-    {
-        Vector2 offset = aimDirection.normalized * attackRange;
-
-        GameObject attackInstance = Instantiate(telegraphPrefab, spawnPosition + offset, spawnRotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
-        attackNetObj.Spawn();
-
-        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
-        if (_fillTelegraph != null)
-        {
-            _fillTelegraph.FillSpeed = modifiedCastTime;
-            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
     }
 }

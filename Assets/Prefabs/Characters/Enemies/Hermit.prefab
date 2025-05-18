@@ -151,14 +151,14 @@ PrefabInstance:
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
-      objectReference: {fileID: 7515640220713172168}
+      objectReference: {fileID: 4019068577714441734}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7515640220713172168}
+      addedObject: {fileID: 4019068577714441734}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!114 &700539467145608495 stripped
 MonoBehaviour:
@@ -176,7 +176,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 5531078829168040189}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7515640220713172168
+--- !u!114 &4019068577714441734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,16 +185,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1533910545451829500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33ab31fc31cd044384f0fdcb135dc85, type: 3}
+  m_Script: {fileID: 11500000, guid: 66ba8b762d077af4b8f8ed6f3a39ce4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   attackPrefab: {fileID: 8577604420999539810, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
   telegraphPrefab: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
-  abilityDamage: 1
+  abilityDamage: 5
   attackRange: 1
   castTime: 1
-  recoveryTime: 0.3
-  coolDown: 2
-  knockBackAmount: 15
-  knockBackDuration: 0.2
+  recoveryTime: 0.4
+  coolDown: 1
+  knockBackAmount: 5
+  knockBackDuration: 0.3

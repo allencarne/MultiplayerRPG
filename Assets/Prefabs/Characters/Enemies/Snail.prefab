@@ -143,7 +143,7 @@ PrefabInstance:
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
-      objectReference: {fileID: 6284047356525667344}
+      objectReference: {fileID: 4017548377933114702}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemySpecialAbility
       value: 
@@ -158,7 +158,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6284047356525667344}
+      addedObject: {fileID: 4017548377933114702}
     - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7091144218376054601}
@@ -200,7 +200,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 9057004625187020436}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6284047356525667344
+--- !u!114 &4017548377933114702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2610729715392630421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33ab31fc31cd044384f0fdcb135dc85, type: 3}
+  m_Script: {fileID: 11500000, guid: 66ba8b762d077af4b8f8ed6f3a39ce4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
@@ -218,7 +218,7 @@ MonoBehaviour:
   abilityDamage: 1
   attackRange: 1
   castTime: 1
-  recoveryTime: 0.3
+  recoveryTime: 0.4
   coolDown: 1
   knockBackAmount: 5
   knockBackDuration: 0.3
