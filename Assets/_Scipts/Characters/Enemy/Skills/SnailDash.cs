@@ -11,6 +11,7 @@ public class SnailDash : EnemyAbility
 
     [Header("Time")]
     [SerializeField] float castTime;
+    float impactTime = .1f;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
     [SerializeField] float abilityDuration;
@@ -24,7 +25,6 @@ public class SnailDash : EnemyAbility
     [SerializeField] float slideDuration;
 
     float modifiedCastTime;
-    float impactTime = .1f;
     float modifiedRecoveryTime;
     Vector2 spawnPosition;
     Vector2 aimDirection;

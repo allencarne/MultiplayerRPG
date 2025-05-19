@@ -11,6 +11,7 @@ public class HermitSpecial : EnemyAbility
 
     [Header("Time")]
     [SerializeField] float castTime;
+    [SerializeField] float impactTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
 
@@ -21,7 +22,6 @@ public class HermitSpecial : EnemyAbility
     [Header("Dash")]
     [SerializeField] float dashForce;
 
-    [SerializeField] float impactTime;
     float modifiedCastTime;
     float modifiedRecoveryTime;
     Vector2 spawnPosition;
@@ -96,6 +96,8 @@ public class HermitSpecial : EnemyAbility
     IEnumerator DashDuration(EnemyStateMachine owner)
     {
         yield return new WaitForSeconds(modifiedCastTime);
+
+        owner.Buffs.Phasing(impactTime + .2f);
 
         owner.CanDash = true;
 

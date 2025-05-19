@@ -16,6 +16,7 @@ public class SnailShell : EnemyAbility
 
     [Header("Time")]
     [SerializeField] float castTime;
+    float impactTime = .1f;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
 
@@ -24,7 +25,6 @@ public class SnailShell : EnemyAbility
     [SerializeField] float knockBackDuration;
 
     float modifiedCastTime;
-    float impactTime = .1f;
     float modifiedRecoveryTime;
     Vector2 spawnPosition;
     Vector2 aimDirection;
