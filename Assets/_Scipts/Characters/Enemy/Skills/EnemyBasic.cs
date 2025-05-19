@@ -18,6 +18,7 @@ public class EnemyBasic : EnemyAbility
     [SerializeField] float knockBackDuration;
 
     float modifiedCastTime;
+    float impactTime = .1f;
     float modifiedRecoveryTime;
     Vector2 spawnPosition;
     Vector2 aimDirection;
@@ -49,7 +50,7 @@ public class EnemyBasic : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Basic, modifiedCastTime, modifiedRecoveryTime, this));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Basic, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Basic, coolDown));
     }
 

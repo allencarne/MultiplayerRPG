@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 700539467145608495}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: basicRadius
-      value: 1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: wanderRadius
@@ -146,12 +146,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: specialRadius
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
       objectReference: {fileID: 4019068577714441734}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemySpecialAbility
+      value: 
+      objectReference: {fileID: 1500451498470972653}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemyUltimateAbility
+      value: 
+      objectReference: {fileID: 1222323759926526049}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -159,6 +167,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4019068577714441734}
+    - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1500451498470972653}
+    - targetCorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1222323759926526049}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!114 &700539467145608495 stripped
 MonoBehaviour:
@@ -189,8 +203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  attackPrefab: {fileID: 8577604420999539810, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
-  telegraphPrefab: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
+  attackPrefab: {fileID: 1689845277531116501, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
+  telegraphPrefab: {fileID: 8082874607347805388, guid: cc1b0cfecec1b07458f3a1ac53a26ab7, type: 3}
   abilityDamage: 5
   attackRange: 1
   castTime: 1
@@ -198,3 +212,60 @@ MonoBehaviour:
   coolDown: 1
   knockBackAmount: 5
   knockBackDuration: 0.3
+--- !u!1 &1925866148617332210 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 5531078829168040189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1500451498470972653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925866148617332210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf95b9cacec347442a97759193fae24f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
+  telegraphPrefab: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
+  abilityDamage: 5
+  attackRange: 0
+  castTime: 0.4
+  recoveryTime: 0.4
+  coolDown: 5
+  knockBackAmount: 0
+  knockBackDuration: 0
+  dashForce: 5
+  dashDuration: 0.4
+  impactTime: 0.4
+--- !u!1 &3032242371528708008 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 5531078829168040189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222323759926526049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3032242371528708008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1dfab8efd935d498ea164ce19dcf66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attackPrefab: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
+  telegraphPrefab: {fileID: 5728596397132900320, guid: cdd4378d8bd589245a2761fb81d7a9df, type: 3}
+  abilityDamage: 4
+  attackRange: 1
+  castTime: 0.4
+  recoveryTime: 0.4
+  coolDown: 5
+  knockBackAmount: 0
+  knockBackDuration: 0

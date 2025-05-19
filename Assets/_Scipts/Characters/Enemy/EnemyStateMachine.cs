@@ -36,6 +36,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
     [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
+    public bool CanDash = false;
     public bool IsAttacking = false;
     public bool CanBasic = true;
     public bool CanSpecial = true;
@@ -300,9 +301,9 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public IEnumerator CastTime(SkillType type, float modifiedCastTime, float recoveryTime, EnemyAbility ability)
+    public IEnumerator CastTime(SkillType type, float castTime, float impactTime, float recoveryTime, EnemyAbility ability)
     {
-        yield return new WaitForSeconds(modifiedCastTime);
+        yield return new WaitForSeconds(castTime);
 
         if (!IsAttacking) yield break;
         if (enemy.isDead) yield break;
@@ -314,12 +315,12 @@ public class EnemyStateMachine : NetworkBehaviour
             case SkillType.Ultimate: EnemyAnimator.Play("Ultimate Impact"); break;
         }
 
-        StartCoroutine(ImpactTime(type, recoveryTime, ability));
+        StartCoroutine(ImpactTime(type, impactTime, recoveryTime, ability));
     }
 
-    IEnumerator ImpactTime(SkillType type, float recoveryTime, EnemyAbility ability)
+    IEnumerator ImpactTime(SkillType type, float impactTime, float recoveryTime, EnemyAbility ability)
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(impactTime);
 
         if (!IsAttacking) yield break;
         if (enemy.isDead) yield break;
@@ -339,9 +340,9 @@ public class EnemyStateMachine : NetworkBehaviour
         StartCoroutine(RecoveryTime(recoveryTime));
     }
 
-    public IEnumerator RecoveryTime(float modifiedRecoveryTime)
+    public IEnumerator RecoveryTime(float recoverTime)
     {
-        yield return new WaitForSeconds(modifiedRecoveryTime);
+        yield return new WaitForSeconds(recoverTime);
 
         if (!IsAttacking) yield break;
         if (enemy.isDead) yield break;

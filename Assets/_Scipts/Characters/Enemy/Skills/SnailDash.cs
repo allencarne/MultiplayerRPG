@@ -24,6 +24,7 @@ public class SnailDash : EnemyAbility
     [SerializeField] float slideDuration;
 
     float modifiedCastTime;
+    float impactTime = .1f;
     float modifiedRecoveryTime;
     Vector2 spawnPosition;
     Vector2 aimDirection;
@@ -56,7 +57,7 @@ public class SnailDash : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, modifiedRecoveryTime, this));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, coolDown));
     }
 
