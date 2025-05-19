@@ -213,7 +213,7 @@ MonoBehaviour:
   attackRange: 1
   castTime: 1
   recoveryTime: 0.4
-  coolDown: 1
+  coolDown: 2
   knockBackAmount: 5
   knockBackDuration: 0.3
 --- !u!1 &1925866148617332210 stripped
@@ -238,7 +238,7 @@ MonoBehaviour:
   telegraphPrefab: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
   abilityDamage: 5
   attackRange: 0
-  castTime: 0.4
+  castTime: 0.8
   impactTime: 0.4
   recoveryTime: 0.4
   coolDown: 7
@@ -267,9 +267,7 @@ MonoBehaviour:
   telegraphPrefab: {fileID: 5728596397132900320, guid: cdd4378d8bd589245a2761fb81d7a9df, type: 3}
   abilityDamage: 4
   attackRange: 0
-  castTime: 0.4
+  castTime: 0.8
   impactTime: 2
   recoveryTime: 0.4
   coolDown: 10
-  knockBackAmount: 0
-  knockBackDuration: 0
