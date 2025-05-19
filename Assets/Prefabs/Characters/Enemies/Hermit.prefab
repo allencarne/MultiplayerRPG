@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 700539467145608495}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: basicRadius
-      value: 0
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: wanderRadius
@@ -147,6 +147,10 @@ PrefabInstance:
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: specialRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: ultimateRadius
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
@@ -237,7 +241,7 @@ MonoBehaviour:
   castTime: 0.4
   impactTime: 0.4
   recoveryTime: 0.4
-  coolDown: 5
+  coolDown: 7
   knockBackAmount: 7
   knockBackDuration: 0.3
   dashForce: 5
@@ -262,9 +266,10 @@ MonoBehaviour:
   attackPrefab: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
   telegraphPrefab: {fileID: 5728596397132900320, guid: cdd4378d8bd589245a2761fb81d7a9df, type: 3}
   abilityDamage: 4
-  attackRange: 1
+  attackRange: 0
   castTime: 0.4
+  impactTime: 2
   recoveryTime: 0.4
-  coolDown: 5
+  coolDown: 10
   knockBackAmount: 0
   knockBackDuration: 0

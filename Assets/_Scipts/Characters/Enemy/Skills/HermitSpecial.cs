@@ -31,7 +31,7 @@ public class HermitSpecial : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.CanBasic = false;
+        owner.CanSpecial = false;
         owner.IsAttacking = true;
 
         // Set Variables
@@ -63,12 +63,12 @@ public class HermitSpecial : EnemyAbility
         owner.EnemyAnimator.SetFloat("Horizontal", aimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
 
-        // Telegraph
-        SpawnTelegraph(vectorToTarget, aimRotation, modifiedCastTime);
-        owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
-
         // Dash
         StartCoroutine(DashDuration(owner));
+
+        // Telegraph
+        SpawnTelegraph(vectorToTarget, aimRotation, modifiedCastTime + impactTime);
+        owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
         StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
@@ -88,22 +88,17 @@ public class HermitSpecial : EnemyAbility
         }
     }
 
-    public override void Impact(EnemyStateMachine owner)
-    {
-        SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
-    }
-
     IEnumerator DashDuration(EnemyStateMachine owner)
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
         owner.Buffs.Phasing(impactTime + .2f);
-
         owner.CanDash = true;
 
         yield return new WaitForSeconds(impactTime);
 
         owner.CanDash = false;
+        SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)

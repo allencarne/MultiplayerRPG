@@ -10,13 +10,9 @@ public class HermitUltimate : EnemyAbility
 
     [Header("Time")]
     [SerializeField] float castTime;
-    float impactTime = .1f;
+    [SerializeField] float impactTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
-
-    [Header("Knockback")]
-    [SerializeField] float knockBackAmount;
-    [SerializeField] float knockBackDuration;
 
     float modifiedCastTime;
     float modifiedRecoveryTime;
@@ -26,7 +22,7 @@ public class HermitUltimate : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.CanBasic = false;
+        owner.CanUltimate = false;
         owner.IsAttacking = true;
 
         // Set Variables
@@ -66,6 +62,9 @@ public class HermitUltimate : EnemyAbility
 
     public override void Impact(EnemyStateMachine owner)
     {
+        owner.Buffs.Phasing(5);
+        owner.Buffs.Protection(2, 5);
+
         SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
     }
 
@@ -101,16 +100,6 @@ public class HermitUltimate : EnemyAbility
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.IgnoreEnemy = true;
-        }
-
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
-        if (knockbackOnTrigger != null)
-        {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = knockBackAmount;
-            knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = aimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
         }
     }
 }

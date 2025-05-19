@@ -320,12 +320,12 @@ public class EnemyStateMachine : NetworkBehaviour
 
     IEnumerator ImpactTime(SkillType type, float impactTime, float recoveryTime, EnemyAbility ability)
     {
+        ability.Impact(this);
+
         yield return new WaitForSeconds(impactTime);
 
         if (!IsAttacking) yield break;
         if (enemy.isDead) yield break;
-
-        ability.Impact(this);
 
         // Start Recovery
         switch (type)
