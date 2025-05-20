@@ -1,9 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler
+public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 {
+    private RectTransform rectTransform;
+    private Vector3 originalScale;
+    public Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1f);
+
+    void Start()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        originalScale = rectTransform.localScale;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         Button button = GetComponent<Button>();
@@ -11,5 +22,18 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler
         {
             EventSystem.current.SetSelectedGameObject(gameObject);
         }
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (rectTransform == null)
+            rectTransform = GetComponent<RectTransform>();
+
+        rectTransform.localScale = selectedScale;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        rectTransform.localScale = originalScale;
     }
 }
