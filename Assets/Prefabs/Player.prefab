@@ -2981,6 +2981,7 @@ GameObject:
   - component: {fileID: 7867530632741787033}
   - component: {fileID: 8282777624565145663}
   - component: {fileID: 9128309640187693723}
+  - component: {fileID: 313382664705451341}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -3095,6 +3096,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 8282777624565145663}
+--- !u!114 &313382664705451341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599776711134826537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d6bd278ac867f438154625e2b0bbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSmoke: {fileID: 8608896469346149396, guid: 68cdcfdb8ae27224ebaedbc0da1fd02d, type: 3}
+  footStep: {fileID: 1764401499374198566, guid: a8d27fac4c59613459a85dcb01a40b44, type: 3}
 --- !u!1 &634572473958255196
 GameObject:
   m_ObjectHideFlags: 0
@@ -16642,7 +16657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 660219655841129318, guid: ea5aae3e584b1d4449a9c6245c54c2e9, type: 3}
+  SkillIcon: {fileID: 21300000, guid: 401ce0747c7ad4a46b44b6c3875ce42f, type: 3}
   IndicatorPrefab: {fileID: 884016442176713266, guid: f1e5b41113a75514db48d9b767019796, type: 3}
   attackPrefab: {fileID: 1324840749770008434, guid: c4ad46a8b1638414d8296e99dccfd8c4, type: 3}
   abilityDamage: 2
@@ -22605,7 +22620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: -1349171447, guid: 3d929e99c6b30b8478684fae9e35c031, type: 3}
+  SkillIcon: {fileID: 21300000, guid: f5ed0d9d0a2d8554d9c4215ae38d743e, type: 3}
   IndicatorPrefab: {fileID: 7783375558335291162, guid: d48fa1ddaf28e6544b2c7a2372498d0f, type: 3}
   attackPrefab: {fileID: 7132417452424499324, guid: 7e1e71396f530874dbecad4bf3c6b6e3, type: 3}
   abilityDamage: 5
@@ -24029,7 +24044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 2113826936, guid: 3d929e99c6b30b8478684fae9e35c031, type: 3}
+  SkillIcon: {fileID: 21300000, guid: 7b6ee69dbb6536e4abddcc3b907ec5b0, type: 3}
   IndicatorPrefab: {fileID: 5634513536252481035, guid: d9ca1ba647590f04791b11977ff2c2e7, type: 3}
   attackPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
   abilityDamage: 5
@@ -41577,7 +41592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  SkillIcon: {fileID: 1456891752009184346, guid: d95240939eb77264dab3add0cea1be27, type: 3}
+  SkillIcon: {fileID: 21300000, guid: 269b7b83cfba7064da39ab90dac148c7, type: 3}
   IndicatorPrefab: {fileID: 0}
 --- !u!1 &8409847121948273211
 GameObject:
