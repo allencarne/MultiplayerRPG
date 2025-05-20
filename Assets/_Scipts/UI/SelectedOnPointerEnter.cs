@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 {
     RectTransform rectTransform;
+    [SerializeField] RectTransform[] imageRectTransform;
     Vector3 originalScale;
     Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1f);
 
@@ -26,14 +27,30 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (rectTransform == null)
-            rectTransform = GetComponent<RectTransform>();
-
+        if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
         rectTransform.localScale = selectedScale;
+
+        if (imageRectTransform != null)
+        {
+            foreach (RectTransform rt in imageRectTransform)
+            {
+                if (rt != null)
+                    rt.localScale = selectedScale;
+            }
+        }
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
         rectTransform.localScale = originalScale;
+
+        if (imageRectTransform != null)
+        {
+            foreach (RectTransform rt in imageRectTransform)
+            {
+                if (rt != null)
+                    rt.localScale = originalScale;
+            }
+        }
     }
 }

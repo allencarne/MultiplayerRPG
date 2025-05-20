@@ -19,7 +19,7 @@ public class SkillPanel : MonoBehaviour
     public PlayerAbility[] ultimateAbilities;
 
     int passive1Req = 1;
-    int basicReq = 2;
+    int basicReq = 1; // Set to 2 Later
     int offensiveReq = 4;
     int passive2Req = 6;
     int mobilityReq = 8;
