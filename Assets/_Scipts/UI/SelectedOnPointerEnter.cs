@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 {
-    private RectTransform rectTransform;
-    private Vector3 originalScale;
-    public Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1f);
+    RectTransform rectTransform;
+    Vector3 originalScale;
+    Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1f);
 
     void Start()
     {

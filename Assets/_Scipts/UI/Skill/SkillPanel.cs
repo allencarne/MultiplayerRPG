@@ -18,6 +18,16 @@ public class SkillPanel : MonoBehaviour
     public PlayerAbility[] utilityAbilities;
     public PlayerAbility[] ultimateAbilities;
 
+    int passive1Req = 1;
+    int basicReq = 2;
+    int offensiveReq = 4;
+    int passive2Req = 6;
+    int mobilityReq = 8;
+    int defensiveReq = 12;
+    int passive3Req = 14;
+    int utilityReq = 16;
+    int ultimateReq = 20;
+
     [Header("FirstPassive")]
     [SerializeField] Image icon_FirstPassive0;
     [SerializeField] Image icon_FirstPassive1;
@@ -88,34 +98,34 @@ public class SkillPanel : MonoBehaviour
         AssignIcon(icon_Ultimate1, ultimateAbilities, 1);
         AssignIcon(icon_Ultimate2, ultimateAbilities, 2);
 
-        YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive0);
-        YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive1);
-        YellowBorder(player.FirstPassiveIndex, 0, icon_FirstPassive2);
-        YellowBorder(player.SecondPassiveIndex, 0, icon_SecondPassive0);
-        YellowBorder(player.SecondPassiveIndex, 0, icon_SecondPassive1);
-        YellowBorder(player.SecondPassiveIndex, 0, icon_SecondPassive2);
-        YellowBorder(player.ThirdPassiveIndex, 0, icon_ThirdPassive0);
-        YellowBorder(player.ThirdPassiveIndex, 0, icon_ThirdPassive1);
-        YellowBorder(player.ThirdPassiveIndex, 0, icon_ThirdPassive2);
+        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive0);
+        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive1);
+        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive2);
+        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive0);
+        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive1);
+        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive2);
+        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive0);
+        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive1);
+        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive2);
 
-        YellowBorder(player.BasicIndex,0, icon_Basic0);
-        YellowBorder(player.BasicIndex, 0, icon_Basic1);
-        YellowBorder(player.BasicIndex, 0, icon_Basic2);
-        YellowBorder(player.OffensiveIndex, 4, icon_Offensive0);
-        YellowBorder(player.OffensiveIndex, 4, icon_Offensive1);
-        YellowBorder(player.OffensiveIndex, 4, icon_Offensive2);
-        YellowBorder(player.MobilityIndex, 8, icon_Mobility0);
-        YellowBorder(player.MobilityIndex, 8, icon_Mobility1);
-        YellowBorder(player.MobilityIndex, 8, icon_Mobility2);
-        YellowBorder(player.DefensiveIndex, 12, icon_Defensive0);
-        YellowBorder(player.DefensiveIndex, 12, icon_Defensive1);
-        YellowBorder(player.DefensiveIndex, 12, icon_Defensive2);
-        YellowBorder(player.UtilityIndex, 16, icon_Utility0);
-        YellowBorder(player.UtilityIndex, 16, icon_Utility1);
-        YellowBorder(player.UtilityIndex, 16, icon_Utility2);
-        YellowBorder(player.UltimateIndex, 20, icon_Ultimate0);
-        YellowBorder(player.UltimateIndex, 20, icon_Ultimate1);
-        YellowBorder(player.UltimateIndex, 20, icon_Ultimate2);
+        YellowBorder(player.BasicIndex,basicReq, icon_Basic0);
+        YellowBorder(player.BasicIndex, basicReq, icon_Basic1);
+        YellowBorder(player.BasicIndex, basicReq, icon_Basic2);
+        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive0);
+        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive1);
+        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive2);
+        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility0);
+        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility1);
+        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility2);
+        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive0);
+        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive1);
+        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive2);
+        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility0);
+        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility1);
+        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility2);
+        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate0);
+        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate1);
+        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate2);
     }
 
     private void AssignIcon(Image icon, PlayerAbility[] abilities, int index)
@@ -138,14 +148,20 @@ public class SkillPanel : MonoBehaviour
 
     void SetColor(Image icon, Color color)
     {
+        if (icon == null) return;
+
         Button button = icon.GetComponentInParent<Button>();
-        ColorBlock colors = button.colors;
-        colors.normalColor = color;
-        button.colors = colors;
+        if (button != null)
+        {
+            ColorBlock colors = button.colors;
+            colors.normalColor = color;
+            button.colors = colors;
+        }
     }
 
     public void FirstPassiveButton(int index)
     {
+        if (player.PlayerLevel.Value < passive1Req) return;
         player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -174,6 +190,7 @@ public class SkillPanel : MonoBehaviour
 
     public void SecondPassiveButton(int index)
     {
+        if (player.PlayerLevel.Value < passive2Req) return;
         player.SecondPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -202,6 +219,7 @@ public class SkillPanel : MonoBehaviour
 
     public void ThirdPassiveButton(int index)
     {
+        if (player.PlayerLevel.Value < passive3Req) return;
         player.ThirdPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -230,7 +248,7 @@ public class SkillPanel : MonoBehaviour
 
     public void BasicButton(int index)
     {
-        //if (player.PlayerLevel < 2) return;
+        if (player.PlayerLevel.Value < basicReq) return;
         player.BasicIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -256,7 +274,7 @@ public class SkillPanel : MonoBehaviour
 
     public void OffensiveButton(int index)
     {
-        if (player.PlayerLevel.Value < 4) return;
+        if (player.PlayerLevel.Value < offensiveReq) return;
         player.OffensiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -282,7 +300,7 @@ public class SkillPanel : MonoBehaviour
 
     public void MobilityButton(int index)
     {
-        if (player.PlayerLevel.Value < 8) return;
+        if (player.PlayerLevel.Value < mobilityReq) return;
         player.MobilityIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -308,7 +326,7 @@ public class SkillPanel : MonoBehaviour
 
     public void DefensiveButton(int index)
     {
-        if (player.PlayerLevel.Value < 12) return;
+        if (player.PlayerLevel.Value < defensiveReq) return;
         player.DefensiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -334,7 +352,7 @@ public class SkillPanel : MonoBehaviour
 
     public void UtilityButton(int index)
     {
-        if (player.PlayerLevel.Value < 16) return;
+        if (player.PlayerLevel.Value < utilityReq) return;
         player.UtilityIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -360,7 +378,7 @@ public class SkillPanel : MonoBehaviour
 
     public void UltimateButton(int index)
     {
-        if (player.PlayerLevel.Value < 20) return;
+        if (player.PlayerLevel.Value < ultimateReq) return;
         player.UltimateIndex = index;
         OnSkillSelected?.Invoke();
 
