@@ -40,25 +40,25 @@ public class FootSteps : MonoBehaviour
 
     public void Smoke_East()
     {
-        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 180));
+        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 180), transform);
         Destroy(smoke, smokeDuration);
     }
 
     public void Smoke_North()
     {
-        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 270));
+        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 270), transform);
         Destroy(smoke, smokeDuration);
     }
 
     public void Smoke_West()
     {
-        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 0));
+        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 0), transform);
         Destroy(smoke, smokeDuration);
     }
 
     public void Smoke_South()
     {
-        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 90));
+        GameObject smoke = Instantiate(runSmoke, transform.position, Quaternion.Euler(0, 0, 90), transform);
         Destroy(smoke, smokeDuration);
     }
 }
