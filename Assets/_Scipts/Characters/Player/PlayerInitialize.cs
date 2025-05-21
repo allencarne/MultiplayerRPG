@@ -134,6 +134,8 @@ public class PlayerInitialize : NetworkBehaviour
 
     public void SaveStats()
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             SaveClientRPC();

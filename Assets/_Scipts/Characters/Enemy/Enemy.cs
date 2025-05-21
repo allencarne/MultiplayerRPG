@@ -29,6 +29,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public float expToGive;
 
     [Header("UI")]
+    [SerializeField] GameObject spawn_Effect;
+    [SerializeField] GameObject death_Effect;
     [SerializeField] HealthBar healthBar;
     public CastBar CastBar;
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
@@ -46,6 +48,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     private void Start()
     {
+        Instantiate(spawn_Effect, transform.position, transform.rotation);
+
         // Set Speed
         CurrentSpeed = BaseSpeed;
 
@@ -112,6 +116,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
                 exp.IncreaseEXP(expToGive);
             }
 
+            Instantiate(death_Effect, transform.position, transform.rotation);
             OnDeath?.Invoke();
             isDead = true;
         }

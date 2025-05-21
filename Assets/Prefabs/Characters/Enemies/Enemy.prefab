@@ -749,6 +749,8 @@ MonoBehaviour:
   BaseArmor: 0
   CurrentArmor: 0
   expToGive: 0
+  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
+  death_Effect: {fileID: 9055290867830457399, guid: 5370dc13588e4a244aeeaac9b5360091, type: 3}
   healthBar: {fileID: 1827727574157614942}
   CastBar: {fileID: 7538848170769235199}
   EnemySpawnerReference: {fileID: 0}
@@ -833,6 +835,7 @@ MonoBehaviour:
   specialRadius: 0
   ultimateRadius: 0
   deAggroRadius: 0
+  CanDash: 0
   IsAttacking: 0
   CanBasic: 1
   CanSpecial: 1
