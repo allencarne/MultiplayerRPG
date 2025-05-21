@@ -25,17 +25,8 @@ public class Fury : PlayerAbility
         }
         else if (timer != null)
         {
-            StopCoroutine(DecreaseFury(owner));
+            StopCoroutine(timer);
             timer = null;
-        }
-    }
-
-    IEnumerator DecreaseFury(PlayerStateMachine owner)
-    {
-        while (owner.player.Fury.Value > 0 && idleTime >= 8)
-        {
-            owner.player.Fury.Value--;
-            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -59,6 +50,30 @@ public class Fury : PlayerAbility
                 timer = null;
             }
         }
+    }
+
+    IEnumerator DecreaseFury(PlayerStateMachine owner)
+    {
+        while (owner.player.Fury.Value > 0 && idleTime >= 8)
+        {
+            if (IsServer)
+            {
+                owner.player.Fury.Value--;
+            }
+            else
+            {
+                DecreaseFuryServerRPC();
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    [ServerRpc]
+    void DecreaseFuryServerRPC()
+    {
+        PlayerStateMachine _owner = GetComponentInParent<PlayerStateMachine>();
+
+        _owner.player.Fury.Value--;
     }
 
     void GiveBuff(PlayerStateMachine owner)

@@ -70,38 +70,40 @@ public class FrailSlash : PlayerAbility
     {
         if (IsServer)
         {
-            SpawnAttack(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
+            SpawnAttack(aimDirection, aimRotation);
         }
         else
         {
-            AttackServerRpc(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
+            AttackServerRpc(aimDirection, aimRotation);
         }
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
+    void SpawnAttack(Vector2 aimDirection, Quaternion aimRotation)
     {
-        NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
-
+        // Info
+        NetworkObject attacker = GetComponentInParent<NetworkObject>();
+        Player player = GetComponentInParent<Player>();
         Vector2 offset = aimDirection.normalized * attackRange;
+        Vector2 spawnPosition = transform.position;
 
-        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
+        // Spawn
+        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, aimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
         attackNetObj.Spawn();
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
             damageOnTrigger.IsBasic = true;
-            damageOnTrigger.attacker = Attacker;
+            damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
-            damageOnTrigger.CharacterDamage = attackerDamage;
+            damageOnTrigger.CharacterDamage = player.CurrentDamage.Value;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
-            knockbackOnTrigger.attacker = Attacker;
+            knockbackOnTrigger.attacker = attacker;
 
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
@@ -110,8 +112,8 @@ public class FrailSlash : PlayerAbility
     }
 
     [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
+    void AttackServerRpc(Vector2 aimDirection, Quaternion aimRotation)
     {
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID, attackerDamage);
+        SpawnAttack(aimDirection, aimRotation);
     }
 }
