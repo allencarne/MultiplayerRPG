@@ -70,7 +70,7 @@ public class FrailSlash : PlayerAbility
     {
         if (IsServer)
         {
-            SpawnAttack(aimDirection, aimRotation);
+            SpawnAttack();
         }
         else
         {
@@ -78,7 +78,7 @@ public class FrailSlash : PlayerAbility
         }
     }
 
-    void SpawnAttack(Vector2 aimDirection, Quaternion aimRotation)
+    void SpawnAttack()
     {
         // Info
         NetworkObject attacker = GetComponentInParent<NetworkObject>();
@@ -112,8 +112,10 @@ public class FrailSlash : PlayerAbility
     }
 
     [ServerRpc]
-    void AttackServerRpc(Vector2 aimDirection, Quaternion aimRotation)
+    void AttackServerRpc(Vector2 sentAimDirection, Quaternion sentAimRotation)
     {
-        SpawnAttack(aimDirection, aimRotation);
+        aimDirection = sentAimDirection;
+        aimRotation = sentAimRotation;
+        SpawnAttack();
     }
 }
