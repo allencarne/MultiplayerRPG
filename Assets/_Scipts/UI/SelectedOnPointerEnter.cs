@@ -42,7 +42,15 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
 
     public void OnDeselect(BaseEventData eventData)
     {
-        rectTransform.localScale = originalScale;
+        ResetScale();
+    }
+
+    void ResetScale()
+    {
+        if (rectTransform != null)
+        {
+            rectTransform.localScale = originalScale;
+        }
 
         if (imageRectTransform != null)
         {
@@ -51,6 +59,15 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
                 if (rt != null)
                     rt.localScale = originalScale;
             }
+        }
+    }
+
+    void OnDisable()
+    {
+        ResetScale();
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == gameObject)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 }
