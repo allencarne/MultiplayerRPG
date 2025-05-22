@@ -60,32 +60,49 @@ public class Buffs : NetworkBehaviour
     {
         if (IsServer)
         {
-            Debug.Log("Server");
+            StartPhasing(duration);
         }
         else
         {
-            Debug.Log("Not");
+            PhasingServerRPC(duration);
         }
-
-        StartCoroutine(PhasingDuration(duration));
     }
 
-    private IEnumerator PhasingDuration(float duration)
+    void StartPhasing(float duration)
     {
-        PhasingClientRPC(true);
+        if (!IsPhasing)
+        {
+            PhasingClientRPC(true);
+            IsPhasing = true;
+        }
 
-        yield return new WaitForSeconds(duration);
+        phasingTime = Mathf.Max(phasingTime, Time.time) + duration;
+    }
 
-        PhasingClientRPC(false);
+    [ServerRpc]
+    private void PhasingServerRPC(float duration)
+    {
+        StartPhasing(duration);
     }
 
     [ClientRpc]
-    void PhasingClientRPC(bool isPhasing)
+    private void PhasingClientRPC(bool isPhasing)
     {
         IsPhasing = isPhasing;
         Physics2D.IgnoreLayerCollision(6, 7, isPhasing); // Players ignore enemies
         Physics2D.IgnoreLayerCollision(6, 6, isPhasing); // Players ignore players
         Physics2D.IgnoreLayerCollision(7, 7, isPhasing); // Enemies ignore enemies
+    }
+
+    private void Update()
+    {
+        if (!IsServer || !IsPhasing) return;
+
+        if (Time.time >= phasingTime)
+        {
+            PhasingClientRPC(false);
+            phasingTime = 0f;
+        }
     }
 
     #endregion
