@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -57,65 +58,25 @@ public class Buffs : NetworkBehaviour
 
     public void Phasing(float duration)
     {
-        if (!IsOwner) return;
-
         if (IsServer)
         {
-            AddPhasingTime(duration);
+            Debug.Log("Server");
         }
         else
         {
-            PhasingDurationServerRPC(duration);
-        }
-    }
-
-    private void AddPhasingTime(float duration)
-    {
-        phasingTime += duration;
-
-        if (phasingInstance)
-        {
-            StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
-            if (ui != null)
-            {
-                ui.SetMaxDuration(phasingTime);
-                ui.UpdateUI(phasingTime);
-            }
+            Debug.Log("Not");
         }
 
-        if (phasingCoroutine == null) phasingCoroutine = StartCoroutine(PhasingDuration());
+        StartCoroutine(PhasingDuration(duration));
     }
 
-    private IEnumerator PhasingDuration()
+    private IEnumerator PhasingDuration(float duration)
     {
         PhasingClientRPC(true);
-        if (!phasingInstance) InstantiatePhasingClientRPC();
 
-        while (phasingTime > 0f)
-        {
-            phasingTime -= Time.deltaTime;
-
-            if (phasingInstance)
-            {
-                StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
-                if (ui != null)
-                {
-                    ui.UpdateUI(phasingTime);
-                }
-            }
-
-            yield return null;
-        }
+        yield return new WaitForSeconds(duration);
 
         PhasingClientRPC(false);
-        if (phasingInstance) DestroyPhasingClientRPC();
-        phasingCoroutine = null;
-    }
-
-    [ServerRpc]
-    void PhasingDurationServerRPC(float duration)
-    {
-        AddPhasingTime(duration);
     }
 
     [ClientRpc]
@@ -125,24 +86,6 @@ public class Buffs : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(6, 7, isPhasing); // Players ignore enemies
         Physics2D.IgnoreLayerCollision(6, 6, isPhasing); // Players ignore players
         Physics2D.IgnoreLayerCollision(7, 7, isPhasing); // Enemies ignore enemies
-    }
-
-    [ClientRpc]
-    void InstantiatePhasingClientRPC()
-    {
-        phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
-        StatusEffects _UI = phasingInstance.GetComponent<StatusEffects>();
-
-        if (_UI != null)
-        {
-            _UI.Initialize(phasingTime);
-        }
-    }
-
-    [ClientRpc]
-    void DestroyPhasingClientRPC()
-    {
-        Destroy(phasingInstance);
     }
 
     #endregion
