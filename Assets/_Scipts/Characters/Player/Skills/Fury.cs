@@ -4,30 +4,17 @@ using UnityEngine;
 
 public class Fury : PlayerAbility
 {
-    float idleTime;
-    Coroutine timer;
+    Coroutine idleCoroutine;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
+        if (!IsServer) return;
         DamageOnTrigger.OnBasicAttack.AddListener(GainFury);
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
-        idleTime += Time.deltaTime;
 
-        if (idleTime >= 8 && owner.player.Fury.Value > 0)
-        {
-            if (timer == null)
-            {
-                timer = StartCoroutine(DecreaseFury(owner));
-            }
-        }
-        else if (timer != null)
-        {
-            StopCoroutine(timer);
-            timer = null;
-        }
     }
 
     public override void FixedUpdateAbility(PlayerStateMachine owner)
@@ -37,43 +24,34 @@ public class Fury : PlayerAbility
 
     void GainFury(NetworkObject attacker)
     {
-        PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
-        if (owner != null)
-        {
-            owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + 5, owner.player.MaxFury.Value);
-            idleTime = 0;
-            GiveBuff(owner);
+        if (!IsServer) return;
 
-            if (timer != null)
-            {
-                StopCoroutine(timer);
-                timer = null;
-            }
+        PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
+        if (owner == null) return;
+
+        // Gain Fury
+        owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + 5, owner.player.MaxFury.Value);
+        GiveBuff(owner);
+
+        // Restart idle coroutine
+        if (idleCoroutine != null)
+        {
+            StopCoroutine(idleCoroutine);
         }
+        idleCoroutine = StartCoroutine(IdleFuryDecay(owner));
     }
 
-    IEnumerator DecreaseFury(PlayerStateMachine owner)
+    IEnumerator IdleFuryDecay(PlayerStateMachine owner)
     {
-        while (owner.player.Fury.Value > 0 && idleTime >= 8)
+        yield return new WaitForSeconds(8f);
+
+        while (owner.player.Fury.Value > 0)
         {
-            if (IsServer)
-            {
-                owner.player.Fury.Value--;
-            }
-            else
-            {
-                DecreaseFuryServerRPC();
-            }
+            owner.player.Fury.Value--;
             yield return new WaitForSeconds(1f);
         }
-    }
 
-    [ServerRpc]
-    void DecreaseFuryServerRPC()
-    {
-        PlayerStateMachine _owner = GetComponentInParent<PlayerStateMachine>();
-
-        _owner.player.Fury.Value--;
+        idleCoroutine = null;
     }
 
     void GiveBuff(PlayerStateMachine owner)
@@ -102,6 +80,7 @@ public class Fury : PlayerAbility
 
     public override void OnDestroy()
     {
+        if (!IsServer) return;
         DamageOnTrigger.OnBasicAttack.RemoveListener(GainFury);
     }
 }
