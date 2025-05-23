@@ -80,7 +80,9 @@ public class Buffs : NetworkBehaviour
             IsPhasing = true;
         }
 
-        PhasingClientRPC(true, phasingTotalDuration);
+        // Send remaining time to clients for UI
+        float remainingTime = phasingTotalDuration - phasingElapsedTime;
+        PhasingClientRPC(true, remainingTime);
     }
 
     [ServerRpc]
@@ -90,7 +92,7 @@ public class Buffs : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void PhasingClientRPC(bool isPhasing, float duration = 0f)
+    private void PhasingClientRPC(bool isPhasing, float remainingTime = 0f)
     {
         IsPhasing = isPhasing;
         Physics2D.IgnoreLayerCollision(6, 7, isPhasing); // Players ignore enemies
@@ -106,11 +108,15 @@ public class Buffs : NetworkBehaviour
 
             // Reset UI timer progress
             localPhasingElapsed = 0f;
-            localPhasingTotal = duration - (phasingElapsedTime); // sync UI to remaining time
+            localPhasingTotal = remainingTime;
         }
         else
         {
-            Destroy(phasingInstance);
+            if (phasingInstance != null)
+            {
+                Destroy(phasingInstance);
+            }
+
             localPhasingElapsed = 0f;
             localPhasingTotal = 0f;
         }
@@ -118,34 +124,33 @@ public class Buffs : NetworkBehaviour
 
     private void Update()
     {
-        // Server handles authority logic
-        if (IsServer)
+        // SERVER: Track buff timing
+        if (IsServer && IsPhasing)
         {
-            if (IsPhasing)
+            phasingElapsedTime += Time.deltaTime;
+
+            if (phasingElapsedTime >= phasingTotalDuration)
             {
-                phasingElapsedTime += Time.deltaTime;
-                if (phasingElapsedTime >= phasingTotalDuration)
-                {
-                    PhasingClientRPC(false);
-                    IsPhasing = false;
-                    phasingElapsedTime = 0f;
-                    phasingTotalDuration = 0f;
-                }
+                PhasingClientRPC(false);
+                IsPhasing = false;
+
+                phasingElapsedTime = 0f;
+                phasingTotalDuration = 0f;
             }
         }
 
-        // Client handles only UI visuals
+        // CLIENT: Update UI fill
         if (IsPhasing && localPhasingTotal > 0f)
         {
             localPhasingElapsed += Time.deltaTime;
-            float remaining = localPhasingTotal - localPhasingElapsed;
+            float fill = Mathf.Clamp01(localPhasingElapsed / localPhasingTotal);
 
             if (phasingInstance != null)
             {
                 var ui = phasingInstance.GetComponent<StatusEffects>();
                 if (ui != null)
                 {
-                    ui.UpdateUI(remaining, localPhasingTotal);
+                    ui.UpdateFill(fill);
                 }
             }
         }

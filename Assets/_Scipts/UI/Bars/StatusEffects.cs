@@ -6,6 +6,11 @@ public class StatusEffects : MonoBehaviour
 {
     [SerializeField] private Image imageFill;
 
+    public void UpdateFill(float fillAmount)
+    {
+        imageFill.fillAmount = fillAmount;
+    }
+
     public void UpdateUI(float remainingTime, float maxDuration)
     {
         if (maxDuration <= 0f)
