@@ -73,14 +73,14 @@ public class Buffs : NetworkBehaviour
 
     void StartPhasing(float duration)
     {
+        phasingTotalDuration += duration;
+
         if (!IsPhasing)
         {
-            PhasingClientRPC(true, duration);
             IsPhasing = true;
         }
 
-        // Add to total duration
-        phasingTotalDuration += duration;
+        PhasingClientRPC(true, phasingTotalDuration);
     }
 
     [ServerRpc]
@@ -99,9 +99,13 @@ public class Buffs : NetworkBehaviour
 
         if (isPhasing)
         {
-            phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
-            localPhasingElapsed = 0f;
-            localPhasingTotal = duration;
+            if (phasingInstance == null)
+            {
+                phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
+                localPhasingElapsed = 0f;
+            }
+
+            localPhasingTotal = duration; // Always update total
         }
         else
         {
