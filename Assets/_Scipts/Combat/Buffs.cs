@@ -102,10 +102,11 @@ public class Buffs : NetworkBehaviour
             if (phasingInstance == null)
             {
                 phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
-                localPhasingElapsed = 0f;
             }
 
-            localPhasingTotal = duration; // Always update total
+            // Reset UI timer progress
+            localPhasingElapsed = 0f;
+            localPhasingTotal = duration - (phasingElapsedTime); // sync UI to remaining time
         }
         else
         {
