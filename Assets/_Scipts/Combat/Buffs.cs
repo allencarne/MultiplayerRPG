@@ -55,7 +55,6 @@ public class Buffs : NetworkBehaviour
     private float localHasteTotal = 0f;
 
     [HideInInspector] public int HasteStacks;
-    private int hasteStackDecay = 0;
     [HideInInspector] public int MightStacks;
     [HideInInspector] public int AlacrityStacks;
     [HideInInspector] public int ProtectionStacks;
@@ -392,12 +391,6 @@ public class Buffs : NetworkBehaviour
 
     void StartHaste(int stacks, float duration)
     {
-        int spaceLeft = 25 - HasteStacks;
-        int actualStacksAdded = Mathf.Min(stacks, spaceLeft);
-
-        HasteStacks += actualStacksAdded;
-        hasteStackDecay = actualStacksAdded; // ← store this amount for later
-
         hasteTotalDuration += duration;
 
         if (!IsHasted)
@@ -406,20 +399,42 @@ public class Buffs : NetworkBehaviour
         }
 
         float remainingTime = hasteTotalDuration - hasteElapsedTime;
-        HasteClientRPC(true, HasteStacks, remainingTime);
+        HasteClientRPC(true, remainingTime);
+
+        StartCoroutine(HasteDuration(stacks, duration));
+    }
+
+    IEnumerator HasteDuration(int stacks, float duration)
+    {
+        HasteStacks += stacks;
+        HasteStacks = Mathf.Min(HasteStacks, 25);
+        UpdateHasteSpeedClientRPC();
+
+        yield return new WaitForSeconds(duration);
+
+        HasteStacks -= stacks;
+        HasteStacks = Mathf.Max(HasteStacks, 0);
+        UpdateHasteSpeedClientRPC();
     }
 
     [ClientRpc]
-    void HasteClientRPC(bool isHasted, int stacks, float remainingTime = 0f)
+    void UpdateHasteSpeedClientRPC()
     {
-        IsHasted = isHasted;
-
-        // Apply Haste Buff
-        float hasteMultiplier = stacks * hastePercent;
+        float hasteMultiplier = HasteStacks * hastePercent;
         float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
         float multiplier = 1 + hasteMultiplier - slowMultiplier;
         if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
         if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+
+
+        if (hasteInstance != null)
+            hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = HasteStacks.ToString();
+    }
+
+    [ClientRpc]
+    void HasteClientRPC(bool isHasted, float remainingTime = 0f)
+    {
+        IsHasted = isHasted;
 
         if (isHasted)
         {
@@ -427,8 +442,6 @@ public class Buffs : NetworkBehaviour
             {
                 hasteInstance = Instantiate(buff_Haste, buffBar.transform);
             }
-
-            hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
 
             localHasteElapsed = 0f;
             localHasteTotal = remainingTime;
@@ -453,11 +466,6 @@ public class Buffs : NetworkBehaviour
 
             if (hasteElapsedTime >= hasteTotalDuration)
             {
-                HasteStacks -= hasteStackDecay;
-                HasteStacks = Mathf.Max(HasteStacks, 0);
-
-                hasteStackDecay = 0;
-
                 HasteClientRPC(false, HasteStacks);
                 IsHasted = false;
 
