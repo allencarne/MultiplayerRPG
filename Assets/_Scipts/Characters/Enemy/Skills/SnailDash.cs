@@ -74,7 +74,7 @@ public class SnailDash : EnemyAbility
         SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
 
         // Buff
-        //owner.Buffs.Immoveable(slideDuration);
+        owner.Buffs.Immovable(slideDuration);
 
         // Slide
         owner.Buffs.Phasing(modifiedCastTime + .2f);
