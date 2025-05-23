@@ -63,7 +63,7 @@ public class HermitUltimate : EnemyAbility
     public override void Impact(EnemyStateMachine owner)
     {
         owner.Buffs.Phasing(5);
-        owner.Buffs.Protection(2, 5);
+        //owner.Buffs.Protection(2, 5);
 
         SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
     }

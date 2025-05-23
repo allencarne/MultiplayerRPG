@@ -78,7 +78,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
         {
-            Buffs.Haste(1, 10);
+            //Buffs.Haste(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
@@ -88,7 +88,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
         {
-            Buffs.Might(1, 10);
+            //Buffs.Might(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
@@ -98,7 +98,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
         {
-            Buffs.Alacrity(1, 10);
+            //Buffs.Alacrity(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
@@ -108,7 +108,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
         {
-            Buffs.Protection(1, 10);
+            //Buffs.Protection(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
@@ -118,7 +118,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
         {
-            Buffs.Swiftness(1, 10);
+            //Buffs.Swiftness(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F10))

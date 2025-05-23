@@ -33,7 +33,8 @@ public class Buffs : NetworkBehaviour
     public bool IsImmune;
     public bool IsImmovable;
 
-    float phasingTime;
+    private float phasingElapsedTime = 0f;
+    private float phasingTotalDuration = 0f;
     float immuneTime;
     float immovableTime;
     float hasteTime;
@@ -76,7 +77,8 @@ public class Buffs : NetworkBehaviour
             IsPhasing = true;
         }
 
-        phasingTime = Mathf.Max(phasingTime, Time.time) + duration;
+        // Add to total duration
+        phasingTotalDuration += duration;
     }
 
     [ServerRpc]
@@ -92,21 +94,51 @@ public class Buffs : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(6, 7, isPhasing); // Players ignore enemies
         Physics2D.IgnoreLayerCollision(6, 6, isPhasing); // Players ignore players
         Physics2D.IgnoreLayerCollision(7, 7, isPhasing); // Enemies ignore enemies
+
+        if (isPhasing)
+        {
+            phasingInstance = Instantiate(buff_Phasing, buffBar.transform);
+        }
+        else
+        {
+            Destroy(phasingInstance);
+        }
     }
 
     private void Update()
     {
-        if (!IsServer || !IsPhasing) return;
+        if (!IsServer) return;
 
-        if (Time.time >= phasingTime)
+        if (IsPhasing)
         {
-            PhasingClientRPC(false);
-            phasingTime = 0f;
+            phasingElapsedTime += Time.deltaTime;
+            float remainingTime = phasingTotalDuration - phasingElapsedTime;
+
+            // Update UI
+            if (phasingInstance != null)
+            {
+                StatusEffects ui = phasingInstance.GetComponent<StatusEffects>();
+                if (ui != null)
+                {
+                    ui.UpdateUI(remainingTime, phasingTotalDuration);
+                }
+            }
+
+            if (phasingElapsedTime >= phasingTotalDuration)
+            {
+                PhasingClientRPC(false);
+                IsPhasing = false;
+
+                // Reset timers
+                phasingElapsedTime = 0f;
+                phasingTotalDuration = 0f;
+            }
         }
     }
 
     #endregion
 
+    /*
     #region Immune
 
     public void Immunity(float duration)
@@ -701,4 +733,5 @@ public class Buffs : NetworkBehaviour
     }
 
     #endregion
+    */
 }
