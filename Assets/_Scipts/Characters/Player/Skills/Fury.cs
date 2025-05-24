@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Fury : PlayerAbility
 {
+    int furyHasteStacks = 0;
+    int furyPerHit = 5;
+    int furyFallOff = 5;
+    int furyIdleTime = 8;
+
     Dictionary<PlayerStateMachine, Coroutine> idleCoroutines = new();
 
     public override void StartAbility(PlayerStateMachine owner)
@@ -30,11 +35,9 @@ public class Fury : PlayerAbility
         PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
         if (owner == null) return;
 
-        // Gain Fury
-        owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + 5, owner.player.MaxFury.Value);
+        owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + furyPerHit, owner.player.MaxFury.Value);
         UpdateFuryBuff(owner);
 
-        // Restart that player's coroutine
         if (idleCoroutines.TryGetValue(owner, out Coroutine existing))
         {
             StopCoroutine(existing);
@@ -46,11 +49,11 @@ public class Fury : PlayerAbility
 
     IEnumerator IdleFuryDecay(PlayerStateMachine owner)
     {
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(furyIdleTime);
 
         while (owner.player.Fury.Value > 0)
         {
-            owner.player.Fury.Value--;
+            owner.player.Fury.Value -= furyFallOff;
             UpdateFuryBuff(owner);
             yield return new WaitForSeconds(1f);
         }
@@ -61,15 +64,26 @@ public class Fury : PlayerAbility
     void UpdateFuryBuff(PlayerStateMachine owner)
     {
         float fury = owner.player.Fury.Value;
-        int stacks = 0;
+        int newStacks = 0;
 
-        if (fury >= 100) stacks = 5;
-        else if (fury >= 80) stacks = 4;
-        else if (fury >= 60) stacks = 3;
-        else if (fury >= 40) stacks = 2;
-        else if (fury >= 20) stacks = 1;
+        if (fury >= 100) newStacks = 5;
+        else if (fury >= 80) newStacks = 4;
+        else if (fury >= 60) newStacks = 3;
+        else if (fury >= 40) newStacks = 2;
+        else if (fury >= 20) newStacks = 1;
 
-        owner.Buffs.SetExactConditionalHaste(stacks); // new method, see below
+        int delta = newStacks - furyHasteStacks;
+
+        if (delta > 0)
+        {
+            owner.Buffs.SetConditionalHaste(delta);
+        }
+        else if (delta < 0)
+        {
+            owner.Buffs.RemoveConditionalHaste(-delta);
+        }
+
+        furyHasteStacks = newStacks; // Update tracker
     }
 
     public override void OnDestroy()

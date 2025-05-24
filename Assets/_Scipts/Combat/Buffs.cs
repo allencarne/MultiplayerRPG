@@ -29,10 +29,13 @@ public class Buffs : NetworkBehaviour
     GameObject protectionInstance;
     GameObject switnessInstance;
 
+    GameObject durationHasteUI = null;
+    GameObject conditionalHasteUI = null;
+
     public bool IsPhasing;
     public bool IsImmune;
     public bool IsImmovable;
-    //public bool IsHasted;
+    bool IsHasted => TotalHasteStacks > 0;
 
     private float phasingElapsedTime = 0f;
     private float phasingTotalDuration = 0f;
@@ -49,8 +52,8 @@ public class Buffs : NetworkBehaviour
     private float localImmovableElapsed = 0f;
     private float localImmovableTotal = 0f;
 
-    private float hasteElapsed = 0f;
-    private float hasteTotal = 0f;
+    float hasteElapsed = 0f;
+    float hasteTotal = 0f;
 
     [HideInInspector] public int HasteStacks;
     [HideInInspector] public int MightStacks;
@@ -58,24 +61,16 @@ public class Buffs : NetworkBehaviour
     [HideInInspector] public int ProtectionStacks;
     [HideInInspector] public int SwiftnessStacks;
 
+    int durationHasteStacks = 0;
+    int conditionalHasteStacks = 0;
+
+    public int TotalHasteStacks => durationHasteStacks + conditionalHasteStacks;
+
     [HideInInspector] public float hastePercent = 0.036f;
     [HideInInspector] public float mightPercent = 0.036f;
     [HideInInspector] public float alacrityPercent = 0.036f;
     [HideInInspector] public float protectionPercent = 0.036f;
     [HideInInspector] public float swiftnessPercent = 0.036f;
-
-    // Fields
-    int durationHasteStacks = 0;
-    int conditionalHasteStacks = 0;
-    public int TotalHasteStacks => durationHasteStacks + conditionalHasteStacks;
-
-    bool IsHasted => TotalHasteStacks > 0;
-
-    GameObject durationHasteUI = null;
-    GameObject conditionalHasteUI = null;
-
-    float durationElapsed = 0f;
-    float durationTotal = 0f;
 
     private void Update()
     {
@@ -411,7 +406,7 @@ public class Buffs : NetworkBehaviour
         UpdateHasteUI();
         RecalculateSpeed();
 
-        if (duration > durationTotal - durationElapsed)
+        if (duration > hasteTotal - hasteElapsed)
         {
             HasteUIDurationClientRPC(durationHasteStacks, duration);
         }
@@ -481,8 +476,8 @@ public class Buffs : NetworkBehaviour
 
             if (remaining > 0f)
             {
-                durationElapsed = 0f;
-                durationTotal = remaining;
+                hasteElapsed = 0f;
+                hasteTotal = remaining;
             }
         }
         else
@@ -493,8 +488,8 @@ public class Buffs : NetworkBehaviour
                 durationHasteUI = null;
             }
 
-            durationElapsed = 0f;
-            durationTotal = 0f;
+            hasteElapsed = 0f;
+            hasteTotal = 0f;
         }
     }
 
@@ -518,32 +513,12 @@ public class Buffs : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    void HasteSpeedClientRPC(int stacks)
-    {
-        if (!IsOwner) return;
-        HasteSpeedServerRPC(stacks);
-    }
-
-    [ServerRpc]
-    void HasteSpeedServerRPC(int stacks)
-    {
-        HasteStacks = stacks;
-
-        float hasteMultiplier = HasteStacks * hastePercent;
-        float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
-        float multiplier = 1 + hasteMultiplier - slowMultiplier;
-
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
-    }
-
     void UpdateHasteUI()
     {
-        if (durationTotal > 0f && durationHasteUI != null)
+        if (hasteTotal > 0f && durationHasteUI != null)
         {
-            durationElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(durationElapsed / durationTotal);
+            hasteElapsed += Time.deltaTime;
+            float fill = Mathf.Clamp01(hasteElapsed / hasteTotal);
 
             var ui = durationHasteUI.GetComponent<StatusEffects>();
             if (ui != null) ui.UpdateFill(fill);
