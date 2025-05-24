@@ -58,23 +58,23 @@ public class Fury : PlayerAbility
     {
         if (owner.player.Fury.Value >= 100)
         {
-            //owner.Buffs.Swiftness(5, 5);
+            owner.Buffs.SetConditionalHaste(1);
         }
         else if (owner.player.Fury.Value >= 80)
         {
-            //owner.Buffs.Swiftness(4, 5);
+            owner.Buffs.SetConditionalHaste(1);
         }
         else if (owner.player.Fury.Value >= 60)
         {
-            //owner.Buffs.Swiftness(3, 5);
+            owner.Buffs.SetConditionalHaste(1);
         }
         else if (owner.player.Fury.Value >= 40)
         {
-            //owner.Buffs.Swiftness(2, 5);
+            owner.Buffs.SetConditionalHaste(1);
         }
         else if (owner.player.Fury.Value >= 20)
         {
-            //owner.Buffs.Swiftness(1,5);
+            owner.Buffs.SetConditionalHaste(1);
         }
     }
 

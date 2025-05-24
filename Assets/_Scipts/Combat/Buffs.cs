@@ -32,7 +32,7 @@ public class Buffs : NetworkBehaviour
     public bool IsPhasing;
     public bool IsImmune;
     public bool IsImmovable;
-    public bool IsHasted;
+    //public bool IsHasted;
 
     private float phasingElapsedTime = 0f;
     private float phasingTotalDuration = 0f;
@@ -63,6 +63,19 @@ public class Buffs : NetworkBehaviour
     [HideInInspector] public float alacrityPercent = 0.036f;
     [HideInInspector] public float protectionPercent = 0.036f;
     [HideInInspector] public float swiftnessPercent = 0.036f;
+
+    // Fields
+    int durationHasteStacks = 0;
+    int conditionalHasteStacks = 0;
+    public int TotalHasteStacks => durationHasteStacks + conditionalHasteStacks;
+
+    bool IsHasted => TotalHasteStacks > 0;
+
+    GameObject durationHasteUI = null;
+    GameObject conditionalHasteUI = null;
+
+    float durationElapsed = 0f;
+    float durationTotal = 0f;
 
     private void Update()
     {
@@ -368,87 +381,117 @@ public class Buffs : NetworkBehaviour
 
     #region Haste
 
-    public void Haste(int stacks, float duration)
+    public void Haste(int stacks, float? duration = null)
     {
         if (!IsOwner) return;
 
         if (IsServer)
         {
-            StartCoroutine(StartHaste(stacks, duration));
+            if (duration.HasValue)
+                StartCoroutine(StartDurationHaste(stacks, duration.Value));
         }
         else
         {
-            HasteServerRPC(stacks, duration);
+            if (duration.HasValue)
+                HasteServerRPC(stacks, duration.Value);
         }
     }
 
     [ServerRpc]
     void HasteServerRPC(int stacks, float duration)
     {
-        StartCoroutine(StartHaste(stacks, duration));
+        StartCoroutine(StartDurationHaste(stacks, duration));
     }
 
-    IEnumerator StartHaste(int stacks, float duration)
+    IEnumerator StartDurationHaste(int stacks, float duration)
     {
-        HasteStacks += stacks;
-        HasteStacks = Mathf.Min(HasteStacks, 25);
-        IsHasted = true;
+        durationHasteStacks += stacks;
+        durationHasteStacks = Mathf.Min(durationHasteStacks, 25);
 
-        if (duration >= hasteTotal - hasteElapsed)
+        UpdateHasteUI();
+        RecalculateSpeed();
+
+        if (duration > durationTotal - durationElapsed)
         {
-            HasteUIClientRPC(true, HasteStacks, duration);
-            HasteSpeedClientRPC(HasteStacks);
+            HasteUIDurationClientRPC(durationHasteStacks, duration);
         }
 
         yield return new WaitForSeconds(duration);
 
-        HasteStacks -= stacks;
-        HasteStacks = Mathf.Max(HasteStacks, 0);
+        durationHasteStacks -= stacks;
+        durationHasteStacks = Mathf.Max(durationHasteStacks, 0);
 
-        if (HasteStacks == 0)
+        UpdateHasteUI();
+        RecalculateSpeed();
+
+        HasteUIDurationClientRPC(durationHasteStacks);
+    }
+
+    public void SetConditionalHaste(int stacks)
+    {
+        conditionalHasteStacks = Mathf.Clamp(stacks, 0, 25);
+
+        UpdateHasteUI();
+        RecalculateSpeed();
+        HasteUIConditionalClientRPC(conditionalHasteStacks);
+    }
+
+    void RecalculateSpeed()
+    {
+        float hasteMultiplier = TotalHasteStacks * hastePercent;
+        float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
+        float multiplier = 1 + hasteMultiplier - slowMultiplier;
+
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
+    }
+
+    [ClientRpc]
+    void HasteUIDurationClientRPC(int stacks, float remaining = -1f)
+    {
+        if (stacks > 0)
         {
-            IsHasted = false;
-            HasteUIClientRPC(false, 0);
-            HasteSpeedClientRPC(0);
+            if (durationHasteUI == null)
+                durationHasteUI = Instantiate(buff_Haste, buffBar.transform);
+
+            durationHasteUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+
+            if (remaining > 0f)
+            {
+                durationElapsed = 0f;
+                durationTotal = remaining;
+            }
         }
         else
         {
-            HasteUIClientRPC(true, HasteStacks);
-            HasteSpeedClientRPC(HasteStacks);
+            if (durationHasteUI != null)
+            {
+                Destroy(durationHasteUI);
+                durationHasteUI = null;
+            }
+
+            durationElapsed = 0f;
+            durationTotal = 0f;
         }
     }
 
     [ClientRpc]
-    void HasteUIClientRPC(bool isHasted, int stacks, float remainingTime = -1f)
+    void HasteUIConditionalClientRPC(int stacks)
     {
-        IsHasted = isHasted;
-        HasteStacks = stacks;
-
-        if (isHasted)
+        if (stacks > 0)
         {
-            if (hasteInstance == null)
-            {
-                hasteInstance = Instantiate(buff_Haste, buffBar.transform);
-            }
+            if (conditionalHasteUI == null)
+                conditionalHasteUI = Instantiate(buff_Haste, buffBar.transform);
 
-            hasteInstance.GetComponentInChildren<TextMeshProUGUI>().text = HasteStacks.ToString();
-
-            if (remainingTime > 0f)
-            {
-                hasteElapsed = 0f;
-                hasteTotal = remainingTime;
-            }
+            conditionalHasteUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
         }
         else
         {
-            if (hasteInstance != null)
+            if (conditionalHasteUI != null)
             {
-                Destroy(hasteInstance);
-                hasteInstance = null;
+                Destroy(conditionalHasteUI);
+                conditionalHasteUI = null;
             }
-
-            hasteElapsed = 0f;
-            hasteTotal = 0f;
         }
     }
 
@@ -474,19 +517,13 @@ public class Buffs : NetworkBehaviour
 
     void UpdateHasteUI()
     {
-        if (IsHasted && hasteTotal > 0f)
+        if (durationTotal > 0f && durationHasteUI != null)
         {
-            hasteElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(hasteElapsed / hasteTotal);
+            durationElapsed += Time.deltaTime;
+            float fill = Mathf.Clamp01(durationElapsed / durationTotal);
 
-            if (hasteInstance != null)
-            {
-                var ui = hasteInstance.GetComponent<StatusEffects>();
-                if (ui != null)
-                {
-                    ui.UpdateFill(fill);
-                }
-            }
+            var ui = durationHasteUI.GetComponent<StatusEffects>();
+            if (ui != null) ui.UpdateFill(fill);
         }
     }
 
