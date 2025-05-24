@@ -1,10 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Fury : PlayerAbility
 {
-    Coroutine idleCoroutine;
+    Dictionary<PlayerStateMachine, Coroutine> idleCoroutines = new();
 
     public override void StartAbility(PlayerStateMachine owner)
     {
@@ -31,14 +32,16 @@ public class Fury : PlayerAbility
 
         // Gain Fury
         owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + 5, owner.player.MaxFury.Value);
-        GiveBuff(owner);
+        UpdateFuryBuff(owner);
 
-        // Restart idle coroutine
-        if (idleCoroutine != null)
+        // Restart that player's coroutine
+        if (idleCoroutines.TryGetValue(owner, out Coroutine existing))
         {
-            StopCoroutine(idleCoroutine);
+            StopCoroutine(existing);
         }
-        idleCoroutine = StartCoroutine(IdleFuryDecay(owner));
+
+        Coroutine newCoroutine = StartCoroutine(IdleFuryDecay(owner));
+        idleCoroutines[owner] = newCoroutine;
     }
 
     IEnumerator IdleFuryDecay(PlayerStateMachine owner)
@@ -48,39 +51,36 @@ public class Fury : PlayerAbility
         while (owner.player.Fury.Value > 0)
         {
             owner.player.Fury.Value--;
+            UpdateFuryBuff(owner);
             yield return new WaitForSeconds(1f);
         }
 
-        idleCoroutine = null;
+        idleCoroutines.Remove(owner);
     }
 
-    void GiveBuff(PlayerStateMachine owner)
+    void UpdateFuryBuff(PlayerStateMachine owner)
     {
-        if (owner.player.Fury.Value >= 100)
-        {
-            owner.Buffs.SetConditionalHaste(1);
-        }
-        else if (owner.player.Fury.Value >= 80)
-        {
-            owner.Buffs.SetConditionalHaste(1);
-        }
-        else if (owner.player.Fury.Value >= 60)
-        {
-            owner.Buffs.SetConditionalHaste(1);
-        }
-        else if (owner.player.Fury.Value >= 40)
-        {
-            owner.Buffs.SetConditionalHaste(1);
-        }
-        else if (owner.player.Fury.Value >= 20)
-        {
-            owner.Buffs.SetConditionalHaste(1);
-        }
+        float fury = owner.player.Fury.Value;
+        int stacks = 0;
+
+        if (fury >= 100) stacks = 5;
+        else if (fury >= 80) stacks = 4;
+        else if (fury >= 60) stacks = 3;
+        else if (fury >= 40) stacks = 2;
+        else if (fury >= 20) stacks = 1;
+
+        owner.Buffs.SetExactConditionalHaste(stacks); // new method, see below
     }
 
     public override void OnDestroy()
     {
         if (!IsServer) return;
         DamageOnTrigger.OnBasicAttack.RemoveListener(GainFury);
+
+        foreach (var coroutine in idleCoroutines.Values)
+        {
+            StopCoroutine(coroutine);
+        }
+        idleCoroutines.Clear();
     }
 }
