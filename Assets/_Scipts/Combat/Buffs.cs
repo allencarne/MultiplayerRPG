@@ -49,10 +49,8 @@ public class Buffs : NetworkBehaviour
     private float localImmovableElapsed = 0f;
     private float localImmovableTotal = 0f;
 
-    private float hasteElapsedTime = 0f;
-    private float hasteTotalDuration = 0f;
-    private float localHasteElapsed = 0f;
-    private float localHasteTotal = 0f;
+    private float hasteElapsed = 0f;
+    private float hasteTotal = 0f;
 
     [HideInInspector] public int HasteStacks;
     [HideInInspector] public int MightStacks;
@@ -372,9 +370,11 @@ public class Buffs : NetworkBehaviour
 
     public void Haste(int stacks, float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
-            StartCoroutine(HandleHaste(stacks, duration));
+            StartCoroutine(StartHaste(stacks, duration));
         }
         else
         {
@@ -385,53 +385,44 @@ public class Buffs : NetworkBehaviour
     [ServerRpc]
     void HasteServerRPC(int stacks, float duration)
     {
-        StartCoroutine(HandleHaste(stacks, duration));
+        StartCoroutine(StartHaste(stacks, duration));
     }
 
-    IEnumerator HandleHaste(int stacks, float duration)
+    IEnumerator StartHaste(int stacks, float duration)
     {
-        // Apply haste
         HasteStacks += stacks;
         HasteStacks = Mathf.Min(HasteStacks, 25);
         IsHasted = true;
 
-        // Only update local UI duration if this is the longest
-        if (duration >= localHasteTotal - localHasteElapsed)
+        if (duration >= hasteTotal - hasteElapsed)
         {
-            HasteClientRPC(true, HasteStacks, duration);
+            HasteUIClientRPC(true, HasteStacks, duration);
+            HasteSpeedClientRPC(HasteStacks);
         }
 
-        // Wait for stack duration
         yield return new WaitForSeconds(duration);
 
-        // Remove haste
         HasteStacks -= stacks;
         HasteStacks = Mathf.Max(HasteStacks, 0);
 
         if (HasteStacks == 0)
         {
             IsHasted = false;
-            HasteClientRPC(false, 0);
+            HasteUIClientRPC(false, 0);
+            HasteSpeedClientRPC(0);
         }
         else
         {
-            HasteClientRPC(true, HasteStacks);
+            HasteUIClientRPC(true, HasteStacks);
+            HasteSpeedClientRPC(HasteStacks);
         }
     }
 
     [ClientRpc]
-    void HasteClientRPC(bool isHasted, int stacks, float remainingTime = -1f)
+    void HasteUIClientRPC(bool isHasted, int stacks, float remainingTime = -1f)
     {
         IsHasted = isHasted;
         HasteStacks = stacks;
-
-        // Apply movement speed buff
-        float hasteMultiplier = HasteStacks * hastePercent;
-        float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
-        float multiplier = 1 + hasteMultiplier - slowMultiplier;
-
-        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
 
         if (isHasted)
         {
@@ -444,8 +435,8 @@ public class Buffs : NetworkBehaviour
 
             if (remainingTime > 0f)
             {
-                localHasteElapsed = 0f;
-                localHasteTotal = remainingTime;
+                hasteElapsed = 0f;
+                hasteTotal = remainingTime;
             }
         }
         else
@@ -456,17 +447,37 @@ public class Buffs : NetworkBehaviour
                 hasteInstance = null;
             }
 
-            localHasteElapsed = 0f;
-            localHasteTotal = 0f;
+            hasteElapsed = 0f;
+            hasteTotal = 0f;
         }
+    }
+
+    [ClientRpc]
+    void HasteSpeedClientRPC(int stacks)
+    {
+        if (!IsOwner) return;
+        HasteSpeedServerRPC(stacks);
+    }
+
+    [ServerRpc]
+    void HasteSpeedServerRPC(int stacks)
+    {
+        HasteStacks = stacks;
+
+        float hasteMultiplier = HasteStacks * hastePercent;
+        float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
+        float multiplier = 1 + hasteMultiplier - slowMultiplier;
+
+        if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;
+        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 
     void UpdateHasteUI()
     {
-        if (IsHasted && localHasteTotal > 0f)
+        if (IsHasted && hasteTotal > 0f)
         {
-            localHasteElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(localHasteElapsed / localHasteTotal);
+            hasteElapsed += Time.deltaTime;
+            float fill = Mathf.Clamp01(hasteElapsed / hasteTotal);
 
             if (hasteInstance != null)
             {
