@@ -432,18 +432,6 @@ public class Buffs : NetworkBehaviour
         HasteUIConditionalClientRPC(conditionalHasteStacks);
     }
 
-    public void SetExactConditionalHaste(int targetStacks)
-    {
-        targetStacks = Mathf.Clamp(targetStacks, 0, 25);
-        if (conditionalHasteStacks == targetStacks) return;
-
-        conditionalHasteStacks = targetStacks;
-
-        UpdateHasteUI();
-        RecalculateSpeed();
-        HasteUIConditionalClientRPC(conditionalHasteStacks);
-    }
-
     public void RemoveConditionalHaste(int stacks)
     {
         conditionalHasteStacks -= stacks;
