@@ -35,13 +35,12 @@ public class Fury : PlayerAbility
         if (IsServer)
         {
             _owner.player.Fury.Value = Mathf.Min(_owner.player.Fury.Value + furyPerHit, _owner.player.MaxFury.Value);
+            UpdateFuryBuff();
         }
         else
         {
             IncreaseFuryServerRPC();
         }
-
-        UpdateFuryBuff();
 
         if (idleCoroutine != null)
         {
@@ -56,6 +55,7 @@ public class Fury : PlayerAbility
     {
         Player player = GetComponentInParent<Player>();
         player.Fury.Value = Mathf.Min(player.Fury.Value + furyPerHit, player.MaxFury.Value);
+        UpdateFuryBuff();
     }
 
     IEnumerator IdleFuryDecay()
@@ -67,13 +67,12 @@ public class Fury : PlayerAbility
             if (IsServer)
             {
                 _owner.player.Fury.Value -= furyFallOff;
+                UpdateFuryBuff();
             }
             else
             {
                 DecayFuryServerRPC();
             }
-
-            UpdateFuryBuff();
             yield return new WaitForSeconds(1f);
         }
     }
@@ -83,11 +82,15 @@ public class Fury : PlayerAbility
     {
         Player player = GetComponentInParent<Player>();
         player.Fury.Value -= furyFallOff;
+        UpdateFuryBuff();
     }
 
     void UpdateFuryBuff()
     {
-        float fury = _owner.player.Fury.Value;
+        Player player = GetComponentInParent<Player>();
+        PlayerStateMachine stateMachine = GetComponentInParent<PlayerStateMachine>();
+
+        float fury = player.Fury.Value;
         int newStacks = 0;
 
         if (fury >= 100) newStacks = 5;
@@ -99,7 +102,7 @@ public class Fury : PlayerAbility
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            _owner.Buffs.SetConditionalHaste(delta);
+            stateMachine.Buffs.ConditionalHaste(delta);
         }
 
         furyHasteStacks = newStacks;

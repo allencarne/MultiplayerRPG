@@ -12,9 +12,6 @@ public class DamageOnTrigger : NetworkBehaviour
     [SerializeField] GameObject hitSpark;
     [SerializeField] GameObject hitSpark_Special;
 
-
-    public static UnityEvent<NetworkObject> OnBasicAttack = new UnityEvent<NetworkObject>();
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
