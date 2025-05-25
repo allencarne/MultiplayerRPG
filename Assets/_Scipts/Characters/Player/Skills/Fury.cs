@@ -34,8 +34,7 @@ public class Fury : PlayerAbility
 
         if (IsServer)
         {
-            _owner.player.Fury.Value = Mathf.Min(_owner.player.Fury.Value + furyPerHit, _owner.player.MaxFury.Value);
-            UpdateFuryBuff();
+            ApplyFury();
         }
         else
         {
@@ -53,9 +52,16 @@ public class Fury : PlayerAbility
     [ServerRpc]
     void IncreaseFuryServerRPC()
     {
+        ApplyFury();
+    }
+
+    void ApplyFury()
+    {
         Player player = GetComponentInParent<Player>();
         player.Fury.Value = Mathf.Min(player.Fury.Value + furyPerHit, player.MaxFury.Value);
-        UpdateFuryBuff();
+
+        int newStacks = CalculateHasteStacks(player.Fury.Value);
+        ApplyHasteClientRpc(newStacks);
     }
 
     IEnumerator IdleFuryDecay()
@@ -67,7 +73,8 @@ public class Fury : PlayerAbility
             if (IsServer)
             {
                 _owner.player.Fury.Value -= furyFallOff;
-                UpdateFuryBuff();
+                int newStacks = CalculateHasteStacks(_owner.player.Fury.Value);
+                ApplyHasteClientRpc(newStacks);
             }
             else
             {
@@ -82,27 +89,31 @@ public class Fury : PlayerAbility
     {
         Player player = GetComponentInParent<Player>();
         player.Fury.Value -= furyFallOff;
-        UpdateFuryBuff();
+
+        int newStacks = CalculateHasteStacks(player.Fury.Value);
+        ApplyHasteClientRpc(newStacks);
     }
 
-    void UpdateFuryBuff()
+    int CalculateHasteStacks(float fury)
     {
-        Player player = GetComponentInParent<Player>();
-        PlayerStateMachine stateMachine = GetComponentInParent<PlayerStateMachine>();
+        if (fury >= 100) return 5;
+        if (fury >= 80) return 4;
+        if (fury >= 60) return 3;
+        if (fury >= 40) return 2;
+        if (fury >= 20) return 1;
+        return 0;
+    }
 
-        float fury = player.Fury.Value;
-        int newStacks = 0;
 
-        if (fury >= 100) newStacks = 5;
-        else if (fury >= 80) newStacks = 4;
-        else if (fury >= 60) newStacks = 3;
-        else if (fury >= 40) newStacks = 2;
-        else if (fury >= 20) newStacks = 1;
+    [ClientRpc]
+    void ApplyHasteClientRpc(int newStacks)
+    {
+        if (!IsOwner) return;
 
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            stateMachine.Buffs.ConditionalHaste(delta);
+            _owner.Buffs.SetConditionalHaste(delta);
         }
 
         furyHasteStacks = newStacks;
