@@ -165,7 +165,7 @@ public class Buffs : NetworkBehaviour
             }
         }
     }
-    
+
     void UpdatePhasingUI()
     {
         if (IsPhasing && localPhasingTotal > 0f)
@@ -424,17 +424,27 @@ public class Buffs : NetworkBehaviour
 
     public void SetConditionalHaste(int stacks)
     {
-        conditionalHasteStacks += stacks;
-        conditionalHasteStacks = Mathf.Clamp(conditionalHasteStacks, 0, 25);
+        if (!IsOwner) return;
 
-        UpdateHasteUI();
-        RecalculateSpeed();
-        HasteUIConditionalClientRPC(conditionalHasteStacks);
+        if (IsServer)
+        {
+            ConditionalHaste(stacks);
+        }
+        else
+        {
+            ConditionalHasteServerRPC(stacks);
+        }
     }
 
-    public void RemoveConditionalHaste(int stacks)
+    [ServerRpc]
+    void ConditionalHasteServerRPC(int stacks)
     {
-        conditionalHasteStacks -= stacks;
+        ConditionalHaste(stacks);
+    }
+
+    void ConditionalHaste(int stacks)
+    {
+        conditionalHasteStacks += stacks;
         conditionalHasteStacks = Mathf.Clamp(conditionalHasteStacks, 0, 25);
 
         UpdateHasteUI();

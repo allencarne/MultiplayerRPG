@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class Fury : PlayerAbility
     int furyFallOff = 5;
     int furyIdleTime = 8;
 
-    Dictionary<PlayerStateMachine, Coroutine> idleCoroutines = new();
+    Coroutine idleCoroutine;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
@@ -30,21 +29,18 @@ public class Fury : PlayerAbility
 
     void GainFury(NetworkObject attacker)
     {
-        if (!IsServer) return;
-
         PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
         if (owner == null) return;
 
         owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + furyPerHit, owner.player.MaxFury.Value);
         UpdateFuryBuff(owner);
 
-        if (idleCoroutines.TryGetValue(owner, out Coroutine existing))
+        if (idleCoroutine != null)
         {
-            StopCoroutine(existing);
+            StopCoroutine(idleCoroutine);
         }
 
-        Coroutine newCoroutine = StartCoroutine(IdleFuryDecay(owner));
-        idleCoroutines[owner] = newCoroutine;
+        idleCoroutine = StartCoroutine(IdleFuryDecay(owner));
     }
 
     IEnumerator IdleFuryDecay(PlayerStateMachine owner)
@@ -57,8 +53,6 @@ public class Fury : PlayerAbility
             UpdateFuryBuff(owner);
             yield return new WaitForSeconds(1f);
         }
-
-        idleCoroutines.Remove(owner);
     }
 
     void UpdateFuryBuff(PlayerStateMachine owner)
@@ -73,28 +67,17 @@ public class Fury : PlayerAbility
         else if (fury >= 20) newStacks = 1;
 
         int delta = newStacks - furyHasteStacks;
-
-        if (delta > 0)
+        if (delta != 0)
         {
             owner.Buffs.SetConditionalHaste(delta);
         }
-        else if (delta < 0)
-        {
-            owner.Buffs.RemoveConditionalHaste(-delta);
-        }
 
-        furyHasteStacks = newStacks; // Update tracker
+        furyHasteStacks = newStacks;
     }
 
     public override void OnDestroy()
     {
         if (!IsServer) return;
         DamageOnTrigger.OnBasicAttack.RemoveListener(GainFury);
-
-        foreach (var coroutine in idleCoroutines.Values)
-        {
-            StopCoroutine(coroutine);
-        }
-        idleCoroutines.Clear();
     }
 }
