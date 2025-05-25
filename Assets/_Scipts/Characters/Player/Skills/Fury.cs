@@ -10,10 +10,11 @@ public class Fury : PlayerAbility
     int furyIdleTime = 8;
 
     Coroutine idleCoroutine;
+    PlayerStateMachine _owner;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        DamageOnTrigger.OnBasicAttack.AddListener(GainFury);
+        _owner = owner;
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
@@ -26,39 +27,67 @@ public class Fury : PlayerAbility
 
     }
 
-    void GainFury(NetworkObject attacker)
+    [ClientRpc]
+    public void FuryClientRPC()
     {
-        Debug.Log("Gain Fury " + attacker.OwnerClientId);
+        if (!IsOwner) return;
 
-        PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
-        if (owner == null) return;
+        if (IsServer)
+        {
+            _owner.player.Fury.Value = Mathf.Min(_owner.player.Fury.Value + furyPerHit, _owner.player.MaxFury.Value);
+        }
+        else
+        {
+            IncreaseFuryServerRPC();
+        }
 
-        owner.player.Fury.Value = Mathf.Min(owner.player.Fury.Value + furyPerHit, owner.player.MaxFury.Value);
-        UpdateFuryBuff(owner);
+        UpdateFuryBuff();
 
         if (idleCoroutine != null)
         {
             StopCoroutine(idleCoroutine);
         }
 
-        idleCoroutine = StartCoroutine(IdleFuryDecay(owner));
+        idleCoroutine = StartCoroutine(IdleFuryDecay());
     }
 
-    IEnumerator IdleFuryDecay(PlayerStateMachine owner)
+    [ServerRpc]
+    void IncreaseFuryServerRPC()
+    {
+        Player player = GetComponentInParent<Player>();
+        player.Fury.Value = Mathf.Min(player.Fury.Value + furyPerHit, player.MaxFury.Value);
+    }
+
+    IEnumerator IdleFuryDecay()
     {
         yield return new WaitForSeconds(furyIdleTime);
 
-        while (owner.player.Fury.Value > 0)
+        while (_owner.player.Fury.Value > 0)
         {
-            owner.player.Fury.Value -= furyFallOff;
-            UpdateFuryBuff(owner);
+            if (IsServer)
+            {
+                _owner.player.Fury.Value -= furyFallOff;
+            }
+            else
+            {
+                DecayFuryServerRPC();
+            }
+
+            UpdateFuryBuff();
             yield return new WaitForSeconds(1f);
         }
     }
 
-    void UpdateFuryBuff(PlayerStateMachine owner)
+    [ServerRpc]
+    void DecayFuryServerRPC()
     {
-        float fury = owner.player.Fury.Value;
+        Player player = GetComponentInParent<Player>();
+        player.Fury.Value -= furyFallOff;
+    }
+
+    void UpdateFuryBuff()
+    {
+        float fury = _owner.player.Fury.Value;
         int newStacks = 0;
 
         if (fury >= 100) newStacks = 5;
@@ -70,15 +99,9 @@ public class Fury : PlayerAbility
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            Debug.Log("ConditionalHaste " + owner.OwnerClientId);
-            owner.Buffs.ConditionalHaste(delta);
+            _owner.Buffs.SetConditionalHaste(delta);
         }
 
         furyHasteStacks = newStacks;
-    }
-
-    public override void OnDestroy()
-    {
-        DamageOnTrigger.OnBasicAttack.RemoveListener(GainFury);
     }
 }

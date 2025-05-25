@@ -51,7 +51,15 @@ public class DamageOnTrigger : NetworkBehaviour
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
             if (IsBasic)
             {
-                OnBasicAttack?.Invoke(attacker);
+                var stateMachine = attacker.GetComponent<PlayerStateMachine>();
+                if (stateMachine != null)
+                {
+                    var fury = stateMachine.GetComponentInChildren<Fury>();
+                    if (fury != null)
+                    {
+                        fury.FuryClientRPC();
+                    }
+                }
             }
 
             Vector2 hitPosition = collision.ClosestPoint(transform.position);
