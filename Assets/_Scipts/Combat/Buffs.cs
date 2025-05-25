@@ -442,7 +442,7 @@ public class Buffs : NetworkBehaviour
         ConditionalHaste(stacks);
     }
 
-    void ConditionalHaste(int stacks)
+    public void ConditionalHaste(int stacks)
     {
         conditionalHasteStacks += stacks;
         conditionalHasteStacks = Mathf.Clamp(conditionalHasteStacks, 0, 25);

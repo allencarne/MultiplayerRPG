@@ -13,7 +13,6 @@ public class Fury : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        if (!IsServer) return;
         DamageOnTrigger.OnBasicAttack.AddListener(GainFury);
     }
 
@@ -29,6 +28,8 @@ public class Fury : PlayerAbility
 
     void GainFury(NetworkObject attacker)
     {
+        Debug.Log("Gain Fury " + attacker.OwnerClientId);
+
         PlayerStateMachine owner = attacker.GetComponent<PlayerStateMachine>();
         if (owner == null) return;
 
@@ -69,7 +70,8 @@ public class Fury : PlayerAbility
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            owner.Buffs.SetConditionalHaste(delta);
+            Debug.Log("ConditionalHaste " + owner.OwnerClientId);
+            owner.Buffs.ConditionalHaste(delta);
         }
 
         furyHasteStacks = newStacks;
@@ -77,7 +79,6 @@ public class Fury : PlayerAbility
 
     public override void OnDestroy()
     {
-        if (!IsServer) return;
         DamageOnTrigger.OnBasicAttack.RemoveListener(GainFury);
     }
 }
