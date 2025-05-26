@@ -266,6 +266,12 @@ public class EnemyStateMachine : NetworkBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, WanderPosition);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(WanderPosition, 0.2f);
     }
 
     public void HandlePotentialInterrupt()

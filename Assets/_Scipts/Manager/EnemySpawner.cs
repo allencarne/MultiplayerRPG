@@ -17,7 +17,6 @@ public class EnemySpawner : NetworkBehaviour
     [SerializeField] Color color;
 
     int currentEnemyCount;
-    float spawnDelay = 6;
     bool canSpawn = true;
 
     private void Update()
@@ -37,6 +36,8 @@ public class EnemySpawner : NetworkBehaviour
     {
         canSpawn = false;
 
+        int spawnDelay = Random.Range(1, 6);
+
         yield return new WaitForSeconds(spawnDelay);
 
         canSpawn = true;
@@ -53,8 +54,13 @@ public class EnemySpawner : NetworkBehaviour
 
         // Rotate the local offset using the spawner's Z rotation
         Vector3 worldOffset = transform.rotation * (Vector3)localOffset;
-
         Vector3 spawnPosition = transform.position + worldOffset;
+
+        if (CheckForObstacles(spawnPosition))
+        {
+            SpawnEnemy();
+            return;
+        }
 
         GameObject enemyInstance = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, transform);
         NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
@@ -63,6 +69,17 @@ public class EnemySpawner : NetworkBehaviour
         enemyInstance.GetComponent<Enemy>().EnemySpawnerReference = this;
 
         currentEnemyCount++;
+    }
+
+    bool CheckForObstacles(Vector3 spawnPosition)
+    {
+        Collider2D hit = Physics2D.OverlapCircle(spawnPosition, 1f);
+        if (hit != null && hit.CompareTag("Obstacle"))
+        {
+            Debug.Log("Spawn blocked by obstacle: " + hit.name);
+            return true;
+        }
+        return false;
     }
 
     public void DecreaseEnemyCount()
