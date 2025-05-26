@@ -6,38 +6,17 @@ using UnityEngine;
 
 public class Buffs : NetworkBehaviour
 {
+    [SerializeField] GameObject buffBar;
     public Buff_Phase phase;
     public Buff_Immune immune;
     public Buff_Immoveable immoveable;
     public Buff_Haste haste;
+    public Buff_Might might;
+    public Buff_Alacrity alacrity;
+    public Buff_Protection protection;
+    public Buff_Swiftness swiftness;
 
-    [SerializeField] GameObject buffBar;
-    [SerializeField] GameObject buff_Might;
-    [SerializeField] GameObject buff_Alacrity;
-    [SerializeField] GameObject buff_Protection;
-    [SerializeField] GameObject buff_Swiftness;
-
-    GameObject mightInstance;
-    GameObject alacrityInstance;
-    GameObject protectionInstance;
-    GameObject switnessInstance;
-
-    [HideInInspector] public int MightStacks;
-    [HideInInspector] public int AlacrityStacks;
-    [HideInInspector] public int ProtectionStacks;
-    [HideInInspector] public int SwiftnessStacks;
-
-    [HideInInspector] public float mightPercent = 0.036f;
-    [HideInInspector] public float alacrityPercent = 0.036f;
-    [HideInInspector] public float protectionPercent = 0.036f;
-    [HideInInspector] public float swiftnessPercent = 0.036f;
-
-    #region Haste
-
-        #endregion
-
-        /*
-
+    /*
         #region Might
 
         public void Might(int stacks, float duration)
@@ -334,5 +313,5 @@ public class Buffs : NetworkBehaviour
 
         #endregion
 
-        */
+    */
     }

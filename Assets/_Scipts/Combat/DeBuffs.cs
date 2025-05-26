@@ -4,7 +4,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class DeBuffs : NetworkBehaviour, ISlowable
+public class DeBuffs : NetworkBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] Enemy enemy;
@@ -34,7 +34,7 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     [HideInInspector] public float impedePercent = 0.036f;
     [HideInInspector] public float vulnerabilityPercent = 0.036f;
     [HideInInspector] public float exhaustPercent = 0.036f;
-
+    /*
     #region Slow
 
     public void Slow(int stacks, float duration)
@@ -450,4 +450,5 @@ public class DeBuffs : NetworkBehaviour, ISlowable
     }
 
     #endregion
+    */
 }

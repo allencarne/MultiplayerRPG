@@ -83,47 +83,47 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
         {
-            //DeBuffs.Slow(1, 10);
+            Buffs.might.StartMight(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
         {
-            //Buffs.Might(1, 10);
+            Buffs.alacrity.StartAlacrity(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
         {
-            DeBuffs.Weakness(1, 10);
+            Buffs.protection.StartProtection(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
         {
-            //Buffs.Alacrity(1, 10);
+            Buffs.swiftness.StartSwiftness(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
         {
-            DeBuffs.Impede(1, 10);
+
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
         {
-            //Buffs.Protection(1, 10);
+
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
         {
-            DeBuffs.Vulnerability(1, 10);
+
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
         {
-            //Buffs.Swiftness(1, 10);
+
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
         {
-            DeBuffs.Exhaust(1, 10);
+
         }
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
