@@ -250,6 +250,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.BasicAbilityInput)
         {
+            DestroyAllIndicators();
             state = State.Basic;
             skills.basicAbilities[player.BasicIndex].StartAbility(this);
         }
@@ -277,6 +278,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedOffensiveInput) return;
 
+        DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
         state = State.Offensive;
         skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
@@ -301,6 +303,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedMobilityInput) return;
 
+        DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
         state = State.Mobility;
         skills.mobilityAbilities[player.MobilityIndex].StartAbility(this);
@@ -325,6 +328,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedDefensiveInput) return;
 
+        DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
         state = State.Defensive;
         skills.defensiveAbilities[player.DefensiveIndex].StartAbility(this);
@@ -349,6 +353,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedUtilityInput) return;
 
+        DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
         state = State.Ultility;
         skills.utilityAbilities[player.UtilityIndex].StartAbility(this);
@@ -373,12 +378,13 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedUltimateInput) return;
 
+        DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
         state = State.Ultimate;
         skills.ultimateAbilities[player.UltimateIndex].StartAbility(this);
     }
 
-    private void InstantiateIndicator(GameObject prefab, string type)
+    void InstantiateIndicator(GameObject prefab, string type)
     {
         if (indicator != null && indicatorType != type)
         {
@@ -397,7 +403,7 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    private void DestroyIndicator(string type)
+    void DestroyIndicator(string type)
     {
         if (indicator != null && indicatorType == type)
         {
@@ -407,9 +413,19 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    // This Code allows the Last Input direction to be animated
+    void DestroyAllIndicators()
+    {
+        DestroyIndicator("Offensive");
+        DestroyIndicator("Mobility");
+        DestroyIndicator("Defensive");
+        DestroyIndicator("Utility");
+        DestroyIndicator("Ultimate");
+    }
+
     public Vector2 SnapDirection(Vector2 direction)
     {
+        // This Code allows the Last Input direction to be animated
+        
         // Check if the x component of the direction is greater in magnitude than the y component
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
         {
