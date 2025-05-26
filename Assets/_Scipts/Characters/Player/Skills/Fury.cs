@@ -113,7 +113,7 @@ public class Fury : PlayerAbility
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            _owner.Buffs.SetConditionalHaste(delta);
+            _owner.Buffs.haste.StartConditionalHaste(delta);
         }
 
         furyHasteStacks = newStacks;

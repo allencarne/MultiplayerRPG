@@ -36,7 +36,7 @@ public class DamageOnTrigger : NetworkBehaviour
         Buffs buffs = collision.GetComponent<Buffs>();
         if (buffs != null)
         {
-            if (buffs.IsImmune)
+            if (buffs.immune.IsImmune)
             {
                 return;
             }

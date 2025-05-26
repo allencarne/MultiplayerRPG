@@ -74,10 +74,10 @@ public class SnailDash : EnemyAbility
         SpawnAttack(spawnPosition, aimRotation, aimDirection, owner.NetworkObject);
 
         // Buff
-        owner.Buffs.Immovable(slideDuration);
+        owner.Buffs.immoveable.StartImmovable(slideDuration);
 
         // Slide
-        owner.Buffs.Phasing(modifiedCastTime + .2f);
+        owner.Buffs.phase.StartPhase(modifiedCastTime + .2f);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)

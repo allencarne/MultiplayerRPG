@@ -10,8 +10,8 @@ public class PlayerRollState : PlayerState
     public override void StartState(PlayerStateMachine owner)
     {
         // Buffs
-        owner.Buffs.Immunity(rollDuration);
-        owner.Buffs.Immovable(rollDuration);
+        owner.Buffs.immune.StartImmune(rollDuration);
+        owner.Buffs.immoveable.StartImmovable(rollDuration);
 
         // Endurance
         owner.player.EnduranceBar.SpendEndurance(50);

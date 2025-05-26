@@ -78,13 +78,11 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
         {
-            Buffs.SetConditionalHaste(1);
-            //Buffs.Haste(1, 10);
+            Buffs.haste.StartHaste(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
         {
-            Buffs.SetConditionalHaste(-1);
             //DeBuffs.Slow(1, 10);
         }
 

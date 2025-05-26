@@ -92,8 +92,8 @@ public class HermitSpecial : EnemyAbility
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
-        owner.Buffs.Phasing(impactTime + .2f);
-        owner.Buffs.Immovable(impactTime);
+        owner.Buffs.phase.StartPhase(impactTime + .2f);
+        owner.Buffs.immoveable.StartImmovable(impactTime);
         owner.CanDash = true;
 
         yield return new WaitForSeconds(impactTime);

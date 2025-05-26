@@ -31,7 +31,7 @@ public class KnockbackOnTrigger : MonoBehaviour
         Buffs buffs = collision.GetComponent<Buffs>();
         if (buffs != null)
         {
-            if (buffs.IsImmovable)
+            if (buffs.immoveable.IsImmovable)
             {
                 return;
             }

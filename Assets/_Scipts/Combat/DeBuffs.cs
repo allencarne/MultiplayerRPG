@@ -75,7 +75,7 @@ public class DeBuffs : NetworkBehaviour, ISlowable
 
     void ApplySlow()
     {
-        float hasteMultiplier = buffs.HasteStacks * buffs.hastePercent;
+        float hasteMultiplier = buffs.haste.HasteStacks * buffs.haste.hastePercent;
         float slowMultiplier = SlowStacks * slowPercent;
 
         float multiplier = 1 + hasteMultiplier - slowMultiplier;
