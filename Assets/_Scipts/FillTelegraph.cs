@@ -8,6 +8,7 @@ public class FillTelegraph : NetworkBehaviour
     [SerializeField] SpriteRenderer frontSprite;
     public float FillSpeed;
     [HideInInspector] public CrowdControl crowdControl;
+    [HideInInspector] public Enemy enemy;
 
     private void Update()
     {
@@ -19,6 +20,12 @@ public class FillTelegraph : NetworkBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+
+        if (enemy != null && enemy.isDead)
+        {
+            Destroy(gameObject);
+            return;
         }
 
         // Calculate the scale increment per frame to achieve the target scale in FillSpeed seconds

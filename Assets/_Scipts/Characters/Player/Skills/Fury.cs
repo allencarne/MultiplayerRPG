@@ -104,7 +104,6 @@ public class Fury : PlayerAbility
         return 0;
     }
 
-
     [ClientRpc]
     void ApplyBuffClientRpc(int newStacks)
     {

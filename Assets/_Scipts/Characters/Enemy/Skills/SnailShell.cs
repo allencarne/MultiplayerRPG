@@ -24,8 +24,7 @@ public class SnailShell : EnemyAbility
     [SerializeField] float knockBackAmount;
     [SerializeField] float knockBackDuration;
 
-    float modifiedCastTime;
-    float modifiedRecoveryTime;
+    float modifiedCooldown;
     Vector2 spawnPosition;
     Vector2 aimDirection;
     Quaternion aimRotation;
@@ -36,12 +35,11 @@ public class SnailShell : EnemyAbility
         owner.IsAttacking = true;
 
         // Set Veriables
-        modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
-        modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
         spawnPosition = owner.transform.position;
+        modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
 
         // Stop Movement
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -52,12 +50,12 @@ public class SnailShell : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
 
         // Telegraph
-        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
+        SpawnTelegraph(spawnPosition, aimRotation, castTime);
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Ultimate, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
-        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Ultimate, coolDown));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Ultimate, castTime, impactTime, recoveryTime, this));
+        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Ultimate, modifiedCooldown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
@@ -126,6 +124,7 @@ public class SnailShell : EnemyAbility
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;
             _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
 }

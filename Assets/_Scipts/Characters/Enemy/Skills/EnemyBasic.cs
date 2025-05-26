@@ -83,6 +83,7 @@ public class EnemyBasic : EnemyAbility
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;
             _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
 

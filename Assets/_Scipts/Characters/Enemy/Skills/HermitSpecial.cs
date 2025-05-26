@@ -22,8 +22,7 @@ public class HermitSpecial : EnemyAbility
     [Header("Dash")]
     [SerializeField] float dashForce;
 
-    float modifiedCastTime;
-    float modifiedRecoveryTime;
+    float modifiedCooldown;
     Vector2 spawnPosition;
     Vector2 aimDirection;
     Quaternion aimRotation;
@@ -35,12 +34,11 @@ public class HermitSpecial : EnemyAbility
         owner.IsAttacking = true;
 
         // Set Variables
-        modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
-        modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
         spawnPosition = owner.transform.position;
+        modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
 
         float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
         // Check if the target is within Range
@@ -67,12 +65,12 @@ public class HermitSpecial : EnemyAbility
         StartCoroutine(DashDuration(owner));
 
         // Telegraph
-        SpawnTelegraph(vectorToTarget, aimRotation, modifiedCastTime + impactTime);
+        SpawnTelegraph(vectorToTarget, aimRotation, castTime + impactTime);
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
-        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, coolDown));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, castTime, impactTime, recoveryTime, this));
+        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, modifiedCooldown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
@@ -90,7 +88,7 @@ public class HermitSpecial : EnemyAbility
 
     IEnumerator DashDuration(EnemyStateMachine owner)
     {
-        yield return new WaitForSeconds(modifiedCastTime);
+        yield return new WaitForSeconds(castTime);
 
         owner.Buffs.phase.StartPhase(impactTime + .2f);
         owner.Buffs.immoveable.StartImmovable(impactTime);
@@ -116,6 +114,7 @@ public class HermitSpecial : EnemyAbility
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;
             _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
 

@@ -289,9 +289,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
     {
-        float modifiedCooldown = skillCoolDown / enemy.CurrentCDR;
-
-        yield return new WaitForSeconds(modifiedCooldown);
+        yield return new WaitForSeconds(skillCoolDown);
 
         switch (type)
         {

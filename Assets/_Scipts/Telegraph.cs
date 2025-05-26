@@ -7,6 +7,7 @@ public class Telegraph : NetworkBehaviour
     public float FillSpeed = 1f;
 
     [HideInInspector] public CrowdControl crowdControl;
+    [HideInInspector] public Enemy enemy;
 
     private void Start()
     {
@@ -22,6 +23,12 @@ public class Telegraph : NetworkBehaviour
         if (!IsServer) return;
 
         if (crowdControl != null && crowdControl.IsInterrupted)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        if (enemy != null && enemy.isDead)
         {
             Destroy(gameObject);
             return;

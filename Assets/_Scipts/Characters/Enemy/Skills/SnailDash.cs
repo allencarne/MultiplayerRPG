@@ -24,8 +24,7 @@ public class SnailDash : EnemyAbility
     [SerializeField] float slideForce;
     [SerializeField] float slideDuration;
 
-    float modifiedCastTime;
-    float modifiedRecoveryTime;
+    float modifiedCooldown;
     Vector2 spawnPosition;
     Vector2 aimDirection;
     Quaternion aimRotation;
@@ -37,12 +36,11 @@ public class SnailDash : EnemyAbility
         owner.IsAttacking = true;
 
         // Set Veriables
-        modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
-        modifiedRecoveryTime = recoveryTime / owner.enemy.CurrentAttackSpeed;
         aimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimRotation = Quaternion.Euler(0, 0, angle);
         spawnPosition = owner.transform.position;
+        modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
 
         // Stop Movement
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -53,12 +51,12 @@ public class SnailDash : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", aimDirection.y);
 
         // Telegraph
-        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
+        SpawnTelegraph(spawnPosition, aimRotation, castTime);
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
-        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, coolDown));
+        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, castTime, impactTime, recoveryTime, this));
+        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, modifiedCooldown));
     }
 
     public override void AbilityUpdate(EnemyStateMachine owner)
@@ -77,7 +75,7 @@ public class SnailDash : EnemyAbility
         owner.Buffs.immoveable.StartImmovable(slideDuration);
 
         // Slide
-        owner.Buffs.phase.StartPhase(modifiedCastTime + .2f);
+        owner.Buffs.phase.StartPhase(castTime + .2f);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
@@ -155,6 +153,7 @@ public class SnailDash : EnemyAbility
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;
             _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
 }
