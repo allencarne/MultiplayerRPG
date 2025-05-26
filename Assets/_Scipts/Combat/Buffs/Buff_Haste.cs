@@ -106,7 +106,7 @@ public class Buff_Haste : NetworkBehaviour
     void CalculateSpeed()
     {
         float hasteMultiplier = TotalHasteStacks * hastePercent;
-        float slowMultiplier = deBuffs.SlowStacks * deBuffs.slowPercent;
+        float slowMultiplier = deBuffs.slow.TotalSlowStacks * deBuffs.slow.slowPercent;
         float multiplier = 1 + hasteMultiplier - slowMultiplier;
 
         if (player != null) player.CurrentSpeed.Value = player.BaseSpeed.Value * multiplier;

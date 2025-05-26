@@ -106,7 +106,7 @@ public class Buff_Swiftness : NetworkBehaviour
     void CalculateAttackSpeed()
     {
         float swiftnessMultiplier = TotalSwiftnessStacks * swiftnessPercent;
-        float exhaustMultiplier = deBuffs.ExhaustStacks * deBuffs.exhaustPercent;
+        float exhaustMultiplier = deBuffs.exhaust.TotalExhaustStacks * deBuffs.exhaust.exhaustPercent;
 
         float multiplier = 1 + swiftnessMultiplier - exhaustMultiplier;
 

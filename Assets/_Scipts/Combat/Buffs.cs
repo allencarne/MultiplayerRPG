@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Buffs : NetworkBehaviour
 {
-    [SerializeField] GameObject buffBar;
     public Buff_Phase phase;
     public Buff_Immune immune;
     public Buff_Immoveable immoveable;

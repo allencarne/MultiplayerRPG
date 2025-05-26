@@ -6,34 +6,12 @@ using UnityEngine;
 
 public class DeBuffs : NetworkBehaviour
 {
-    [SerializeField] Player player;
-    [SerializeField] Enemy enemy;
-    [SerializeField] Buffs buffs;
+    public Debuff_Slow slow;
+    public Debuff_Weakness weakness;
+    public Debuff_Impede impede;
+    public Debuff_Vulnerability vulnerability;
+    public Debuff_Exhaust exhaust;
 
-    [SerializeField] GameObject debuffBar;
-    [SerializeField] GameObject debuff_Slow;
-    [SerializeField] GameObject debuff_Weakness;
-    [SerializeField] GameObject debuff_Impede;
-    [SerializeField] GameObject debuff_Vulnerability;
-    [SerializeField] GameObject debuff_Exhaust;
-
-    GameObject slowInstance;
-    GameObject weaknessInstance;
-    GameObject impedeInstance;
-    GameObject vulnerabilityInstance;
-    GameObject exhaustInstance;
-
-    [HideInInspector] public int SlowStacks;
-    [HideInInspector] public int WeaknessStacks;
-    [HideInInspector] public int ImpedeStacks;
-    [HideInInspector] public int VulnerabilityStacks;
-    [HideInInspector] public int ExhaustStacks;
-
-    [HideInInspector] public float slowPercent = 0.036f;
-    [HideInInspector] public float weaknessPercent = 0.036f;
-    [HideInInspector] public float impedePercent = 0.036f;
-    [HideInInspector] public float vulnerabilityPercent = 0.036f;
-    [HideInInspector] public float exhaustPercent = 0.036f;
     /*
     #region Slow
 

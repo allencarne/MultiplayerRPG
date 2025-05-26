@@ -1,21 +1,18 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class FlickerShot : PlayerAbility
+public class FlailingEdge : PlayerAbility
 {
     [SerializeField] GameObject attackPrefab;
     [SerializeField] int abilityDamage;
     [SerializeField] float attackRange;
-
-    [Header("Projectile")]
-    [SerializeField] float attackDuration;
-    [SerializeField] float attackForce;
 
     [Header("Time")]
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
 
+    float modifiedCooldown;
     Vector2 aimDirection;
     Quaternion aimRotation;
 
@@ -28,6 +25,7 @@ public class FlickerShot : PlayerAbility
         aimDirection = owner.Aimer.right;
         aimRotation = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
+        modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
 
         // Stop
         owner.PlayerRB.linearVelocity = Vector2.zero;
@@ -40,7 +38,7 @@ public class FlickerShot : PlayerAbility
 
         // Timers
         StartCoroutine(owner.CastTime(castTime, recoveryTime, this));
-        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, coolDown));
+        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, modifiedCooldown));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
@@ -76,9 +74,6 @@ public class FlickerShot : PlayerAbility
 
         attackNetObj.Spawn();
 
-        Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
-        attackRB.AddForce(aimDirection * attackForce, ForceMode2D.Impulse);
-
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
@@ -87,13 +82,7 @@ public class FlickerShot : PlayerAbility
             damageOnTrigger.CharacterDamage = attackerDamage;
         }
 
-        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null)
-        {
-            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(attackDuration));
-        }
-
-        // Stun on Trigger
+        // Stun On Trigger
     }
 
     [ServerRpc]

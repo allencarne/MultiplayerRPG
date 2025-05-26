@@ -74,7 +74,6 @@ public class Buff_Might : NetworkBehaviour
         BroadcastClientRPC(durationMightStacks);
     }
 
-
     [ClientRpc]
     void BroadcastClientRPC(int stacks, float remaining = -1f)
     {
@@ -107,7 +106,7 @@ public class Buff_Might : NetworkBehaviour
     void CalculateDamage()
     {
         float mightMultiplier = TotalMightStacks * mightPercent;
-        float weaknessMultiplier = deBuffs.WeaknessStacks * deBuffs.weaknessPercent;
+        float weaknessMultiplier = deBuffs.weakness.TotalWeaknessStacks * deBuffs.weakness.weaknessPercent;
         float multiplier = 1 + mightMultiplier - weaknessMultiplier;
 
         if (player != null) player.CurrentDamage.Value = Mathf.RoundToInt(player.BaseDamage.Value * multiplier);

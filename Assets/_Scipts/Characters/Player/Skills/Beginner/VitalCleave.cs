@@ -16,6 +16,7 @@ public class VitalCleave : PlayerAbility
     [SerializeField] float slideForce;
     [SerializeField] float slideDuration;
 
+    float modifiedCooldown;
     Vector2 aimDirection;
     Quaternion aimRotation;
 
@@ -28,6 +29,7 @@ public class VitalCleave : PlayerAbility
         aimDirection = owner.Aimer.right;
         aimRotation = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
+        modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
 
         // Stop
         owner.PlayerRB.linearVelocity = Vector2.zero;
@@ -43,7 +45,7 @@ public class VitalCleave : PlayerAbility
 
         // Timers
         StartCoroutine(owner.CastTime(castTime, recoveryTime, this));
-        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, coolDown));
+        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, modifiedCooldown));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)

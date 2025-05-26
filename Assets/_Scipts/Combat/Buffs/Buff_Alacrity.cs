@@ -106,7 +106,7 @@ public class Buff_Alacrity : NetworkBehaviour
     void CalculateCooldown()
     {
         float alacrityMultiplier = TotalAlacrityStacks * alacrityPercent;
-        float impedeMultiplier = deBuffs.ImpedeStacks * deBuffs.impedePercent;
+        float impedeMultiplier = deBuffs.impede.TotalImpedeStacks * deBuffs.impede.impedePercent;
         float multiplier = 1f + alacrityMultiplier - impedeMultiplier;
 
         if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value * multiplier;

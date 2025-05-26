@@ -60,8 +60,8 @@ public class Fury : PlayerAbility
         Player player = GetComponentInParent<Player>();
         player.Fury.Value = Mathf.Min(player.Fury.Value + furyPerHit, player.MaxFury.Value);
 
-        int newStacks = CalculateHasteStacks(player.Fury.Value);
-        ApplyHasteClientRpc(newStacks);
+        int newStacks = CalculateBuffStacks(player.Fury.Value);
+        ApplyBuffClientRpc(newStacks);
     }
 
     IEnumerator IdleFuryDecay()
@@ -73,8 +73,8 @@ public class Fury : PlayerAbility
             if (IsServer)
             {
                 _owner.player.Fury.Value -= furyFallOff;
-                int newStacks = CalculateHasteStacks(_owner.player.Fury.Value);
-                ApplyHasteClientRpc(newStacks);
+                int newStacks = CalculateBuffStacks(_owner.player.Fury.Value);
+                ApplyBuffClientRpc(newStacks);
             }
             else
             {
@@ -90,11 +90,11 @@ public class Fury : PlayerAbility
         Player player = GetComponentInParent<Player>();
         player.Fury.Value -= furyFallOff;
 
-        int newStacks = CalculateHasteStacks(player.Fury.Value);
-        ApplyHasteClientRpc(newStacks);
+        int newStacks = CalculateBuffStacks(player.Fury.Value);
+        ApplyBuffClientRpc(newStacks);
     }
 
-    int CalculateHasteStacks(float fury)
+    int CalculateBuffStacks(float fury)
     {
         if (fury >= 100) return 5;
         if (fury >= 80) return 4;
@@ -106,14 +106,14 @@ public class Fury : PlayerAbility
 
 
     [ClientRpc]
-    void ApplyHasteClientRpc(int newStacks)
+    void ApplyBuffClientRpc(int newStacks)
     {
         if (!IsOwner) return;
 
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            _owner.Buffs.haste.StartConditionalHaste(delta);
+            _owner.Buffs.swiftness.StartConditionalSwiftness(delta);
         }
 
         furyHasteStacks = newStacks;

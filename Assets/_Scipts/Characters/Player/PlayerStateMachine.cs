@@ -103,27 +103,27 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
         {
-
+            DeBuffs.slow.StartSlow(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
         {
-
+            DeBuffs.weakness.StartWeakness(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
         {
-
+            DeBuffs.impede.StartImpede(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
         {
-
+            DeBuffs.vulnerability.StartVulnerability(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
         {
-
+            DeBuffs.exhaust.StartExhaust(1, 10);
         }
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
@@ -465,9 +465,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
     {
-        float modifiedCooldown = skillCoolDown / player.CurrentCDR.Value;
-
-        yield return new WaitForSeconds(modifiedCooldown);
+        yield return new WaitForSeconds(skillCoolDown);
 
         switch (type)
         {

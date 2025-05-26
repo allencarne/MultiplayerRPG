@@ -106,7 +106,7 @@ public class Buff_Protection : NetworkBehaviour
     void CalculateArmor()
     {
         float protectionMultiplier = TotalProtectionStacks * protectionPercent;
-        float vulnerabilityMultiplier = deBuffs.VulnerabilityStacks * deBuffs.vulnerabilityPercent;
+        float vulnerabilityMultiplier = deBuffs.vulnerability.TotalVulnerabilityStacks * deBuffs.vulnerability.vulnerabilityPercent;
         float multiplier = 1 + protectionMultiplier - vulnerabilityMultiplier;
 
         if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value * multiplier;
