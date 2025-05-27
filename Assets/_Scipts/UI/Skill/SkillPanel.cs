@@ -69,63 +69,12 @@ public class SkillPanel : MonoBehaviour
 
     private void Start()
     {
-        AssignIcon(icon_FirstPassive0, firstPassive, 0);
-        AssignIcon(icon_FirstPassive1, firstPassive, 1);
-        AssignIcon(icon_FirstPassive2, firstPassive, 2);
-        AssignIcon(icon_SecondPassive0, secondPassive, 0);
-        AssignIcon(icon_SecondPassive1, secondPassive, 1);
-        AssignIcon(icon_SecondPassive2, secondPassive, 2);
-        AssignIcon(icon_ThirdPassive0, thirdPassive, 0);
-        AssignIcon(icon_ThirdPassive1, thirdPassive, 1);
-        AssignIcon(icon_ThirdPassive2, thirdPassive, 2);
+        SetIcons();
+    }
 
-        AssignIcon(icon_Basic0, basicAbilities, 0);
-        AssignIcon(icon_Basic1, basicAbilities, 1);
-        AssignIcon(icon_Basic2, basicAbilities, 2);
-        AssignIcon(icon_Offensive0, offensiveAbilities, 0);
-        AssignIcon(icon_Offensive1, offensiveAbilities, 1);
-        AssignIcon(icon_Offensive2, offensiveAbilities, 2);
-        AssignIcon(icon_Mobility0, mobilityAbilities, 0);
-        AssignIcon(icon_Mobility1, mobilityAbilities, 1);
-        AssignIcon(icon_Mobility2, mobilityAbilities, 2);
-        AssignIcon(icon_Defensive0, defensiveAbilities, 0);
-        AssignIcon(icon_Defensive1, defensiveAbilities, 1);
-        AssignIcon(icon_Defensive2, defensiveAbilities, 2);
-        AssignIcon(icon_Utility0, utilityAbilities, 0);
-        AssignIcon(icon_Utility1, utilityAbilities, 1);
-        AssignIcon(icon_Utility2, utilityAbilities, 2);
-        AssignIcon(icon_Ultimate0, ultimateAbilities, 0);
-        AssignIcon(icon_Ultimate1, ultimateAbilities, 1);
-        AssignIcon(icon_Ultimate2, ultimateAbilities, 2);
-
-        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive0);
-        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive1);
-        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive2);
-        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive0);
-        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive1);
-        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive2);
-        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive0);
-        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive1);
-        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive2);
-
-        YellowBorder(player.BasicIndex,basicReq, icon_Basic0);
-        YellowBorder(player.BasicIndex, basicReq, icon_Basic1);
-        YellowBorder(player.BasicIndex, basicReq, icon_Basic2);
-        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive0);
-        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive1);
-        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive2);
-        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility0);
-        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility1);
-        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility2);
-        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive0);
-        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive1);
-        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive2);
-        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility0);
-        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility1);
-        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility2);
-        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate0);
-        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate1);
-        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate2);
+    private void OnEnable()
+    {
+        SetYellowBorders();
     }
 
     private void AssignIcon(Image icon, PlayerAbility[] abilities, int index)
@@ -157,6 +106,70 @@ public class SkillPanel : MonoBehaviour
             colors.normalColor = color;
             button.colors = colors;
         }
+    }
+
+    void SetIcons()
+    {
+        AssignIcon(icon_FirstPassive0, firstPassive, 0);
+        AssignIcon(icon_FirstPassive1, firstPassive, 1);
+        AssignIcon(icon_FirstPassive2, firstPassive, 2);
+        AssignIcon(icon_SecondPassive0, secondPassive, 0);
+        AssignIcon(icon_SecondPassive1, secondPassive, 1);
+        AssignIcon(icon_SecondPassive2, secondPassive, 2);
+        AssignIcon(icon_ThirdPassive0, thirdPassive, 0);
+        AssignIcon(icon_ThirdPassive1, thirdPassive, 1);
+        AssignIcon(icon_ThirdPassive2, thirdPassive, 2);
+
+        AssignIcon(icon_Basic0, basicAbilities, 0);
+        AssignIcon(icon_Basic1, basicAbilities, 1);
+        AssignIcon(icon_Basic2, basicAbilities, 2);
+        AssignIcon(icon_Offensive0, offensiveAbilities, 0);
+        AssignIcon(icon_Offensive1, offensiveAbilities, 1);
+        AssignIcon(icon_Offensive2, offensiveAbilities, 2);
+        AssignIcon(icon_Mobility0, mobilityAbilities, 0);
+        AssignIcon(icon_Mobility1, mobilityAbilities, 1);
+        AssignIcon(icon_Mobility2, mobilityAbilities, 2);
+        AssignIcon(icon_Defensive0, defensiveAbilities, 0);
+        AssignIcon(icon_Defensive1, defensiveAbilities, 1);
+        AssignIcon(icon_Defensive2, defensiveAbilities, 2);
+        AssignIcon(icon_Utility0, utilityAbilities, 0);
+        AssignIcon(icon_Utility1, utilityAbilities, 1);
+        AssignIcon(icon_Utility2, utilityAbilities, 2);
+        AssignIcon(icon_Ultimate0, ultimateAbilities, 0);
+        AssignIcon(icon_Ultimate1, ultimateAbilities, 1);
+        AssignIcon(icon_Ultimate2, ultimateAbilities, 2);
+    }
+
+    public void SetYellowBorders()
+    {
+        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive0);
+        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive1);
+        YellowBorder(player.FirstPassiveIndex, passive1Req, icon_FirstPassive2);
+        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive0);
+        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive1);
+        YellowBorder(player.SecondPassiveIndex, passive2Req, icon_SecondPassive2);
+        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive0);
+        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive1);
+        YellowBorder(player.ThirdPassiveIndex, passive3Req, icon_ThirdPassive2);
+
+        YellowBorder(player.BasicIndex, basicReq, icon_Basic0);
+        YellowBorder(player.BasicIndex, basicReq, icon_Basic1);
+        YellowBorder(player.BasicIndex, basicReq, icon_Basic2);
+        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive0);
+        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive1);
+        YellowBorder(player.OffensiveIndex, offensiveReq, icon_Offensive2);
+        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility0);
+        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility1);
+        YellowBorder(player.MobilityIndex, mobilityReq, icon_Mobility2);
+        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive0);
+        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive1);
+        YellowBorder(player.DefensiveIndex, defensiveReq, icon_Defensive2);
+        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility0);
+        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility1);
+        YellowBorder(player.UtilityIndex, utilityReq, icon_Utility2);
+        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate0);
+        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate1);
+        YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate2);
     }
 
     public void FirstPassiveButton(int index)
