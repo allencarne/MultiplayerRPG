@@ -36,7 +36,6 @@ public class EnemyWanderState : EnemyState
         {
             Vector2 dir = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
             owner.EnemyRB.linearVelocity = dir * owner.enemy.BaseSpeed;
-            //owner.MoveTowardsTarget(owner.WanderPosition);
         }
 
         Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
@@ -60,17 +59,17 @@ public class EnemyWanderState : EnemyState
             // Raycast from Enemy Position to the random point
             RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir.normalized, distance, obstacleLayer);
 
-            // Debug: Draw the ray (green if clear, red if blocked)
+            // Draw Line
             Color rayColor = hit.collider == null ? Color.green : Color.red;
             Debug.DrawLine(transform.position, randomPos, rayColor, 1f);
 
-            if (hit.collider == null)
+            if (hit.collider == null && !Physics2D.OverlapCircle(randomPos, .5f, obstacleLayer))
             {
-                return randomPos; // found clear path
+                return randomPos;
             }
         }
 
-        // Fallback: just return current position if all rays failed
+        // If no valid position is found
         return startingPosition;
     }
 }
