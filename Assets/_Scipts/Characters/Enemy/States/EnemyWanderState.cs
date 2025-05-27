@@ -34,7 +34,9 @@ public class EnemyWanderState : EnemyState
     {
         if (owner.IsServer)
         {
-            owner.MoveTowardsTarget(owner.WanderPosition);
+            Vector2 dir = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
+            owner.EnemyRB.linearVelocity = dir * owner.enemy.BaseSpeed;
+            //owner.MoveTowardsTarget(owner.WanderPosition);
         }
 
         Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
@@ -50,13 +52,13 @@ public class EnemyWanderState : EnemyState
             Vector2 randomPos = startingPosition + Random.insideUnitCircle * maxRadius;
 
             // Get Direction to Point
-            Vector2 randomDir = (randomPos - (Vector2)transform.position).normalized;
+            Vector2 randomDir = (randomPos - (Vector2)transform.position);
 
             // Get Distance to Point
             float distance = randomDir.magnitude;
 
             // Raycast from Enemy Position to the random point
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir, distance, obstacleLayer);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir.normalized, distance, obstacleLayer);
 
             // Debug: Draw the ray (green if clear, red if blocked)
             Color rayColor = hit.collider == null ? Color.green : Color.red;
