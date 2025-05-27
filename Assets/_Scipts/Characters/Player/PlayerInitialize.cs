@@ -134,27 +134,6 @@ public class PlayerInitialize : NetworkBehaviour
 
     public void SaveStats()
     {
-        if (!IsOwner) return;
-
-        if (IsServer)
-        {
-            SaveClientRPC();
-        }
-        else
-        {
-            SaveServerRPC();
-        }
-    }
-
-    [ServerRpc]
-    void SaveServerRPC()
-    {
-        SaveClientRPC();
-    }
-
-    [ClientRpc]
-    void SaveClientRPC()
-    {
         string prefix = CharacterNumber;
 
         PlayerPrefs.SetInt($"{prefix}PlayerLevel", player.PlayerLevel.Value);

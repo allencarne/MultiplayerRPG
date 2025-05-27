@@ -76,7 +76,6 @@ public class EnemySpawner : NetworkBehaviour
         Collider2D hit = Physics2D.OverlapCircle(spawnPosition, 1f);
         if (hit != null && hit.CompareTag("Obstacle"))
         {
-            Debug.Log("Spawn blocked by obstacle: " + hit.name);
             return true;
         }
         return false;
