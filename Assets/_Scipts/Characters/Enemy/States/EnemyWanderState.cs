@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class EnemyWanderState : EnemyState
 {
+    float wanderTime;
+
     public override void StartState(EnemyStateMachine owner)
     {
+        wanderTime = 0;
         owner.EnemyAnimator.Play("Wander");
 
         if (owner.IsServer)
@@ -15,6 +18,15 @@ public class EnemyWanderState : EnemyState
     public override void UpdateState(EnemyStateMachine owner)
     {
         if (!owner.IsServer) return;
+
+        wanderTime += Time.deltaTime;
+
+        if (wanderTime >= 15f)
+        {
+            Debug.Log("Wander for 15 seconds");
+            wanderTime = 0;
+            owner.SetState(EnemyStateMachine.State.Idle);
+        }
 
         // Transition To Idle
         if (Vector2.Distance(owner.transform.position, owner.WanderPosition) <= 0.1f)
@@ -63,6 +75,7 @@ public class EnemyWanderState : EnemyState
             Color rayColor = hit.collider == null ? Color.green : Color.red;
             Debug.DrawLine(transform.position, randomPos, rayColor, 1f);
 
+            // If Valid Path is Found
             if (hit.collider == null && !Physics2D.OverlapCircle(randomPos, .5f, obstacleLayer))
             {
                 return randomPos;
