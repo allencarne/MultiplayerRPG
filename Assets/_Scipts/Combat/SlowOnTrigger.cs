@@ -29,7 +29,7 @@ public class SlowOnTrigger : NetworkBehaviour
 
         if (slowedObjects.Contains(objectThatWasHit)) return;
 
-        ISlowable slowable = collision.GetComponent<ISlowable>();
+        ISlowable slowable = collision.GetComponentInChildren<ISlowable>();
         if (slowable != null)
         {
             slowable.StartSlow(Stacks, Duration);
