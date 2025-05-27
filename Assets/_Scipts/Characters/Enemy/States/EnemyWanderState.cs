@@ -8,7 +8,7 @@ public class EnemyWanderState : EnemyState
 
         if (owner.IsServer)
         {
-            owner.WanderPosition = GetRandomClearPoint(owner.StartingPosition, 1f, owner.WanderRadius, owner.obstacleLayerMask);
+            owner.WanderPosition = GetRandomClearPoint(owner.StartingPosition, owner.WanderRadius, owner.obstacleLayerMask);
         }
     }
 
@@ -42,30 +42,29 @@ public class EnemyWanderState : EnemyState
         owner.EnemyAnimator.SetFloat("Vertical", direction.y);
     }
 
-    Vector2 GetRandomClearPoint(Vector2 startingPosition, float minDistance, float maxRadius, LayerMask obstacleLayer, int maxAttempts = 10)
+    Vector2 GetRandomClearPoint(Vector2 startingPosition, float maxRadius, LayerMask obstacleLayer, int maxAttempts = 10)
     {
         for (int i = 0; i < maxAttempts; i++)
         {
-            float angle = Random.Range(0f, Mathf.PI * 2f);
-            float randomRadius = Random.Range(minDistance, maxRadius);
+            // Get Random Point within Wander Radius
+            Vector2 randomPos = startingPosition + Random.insideUnitCircle * maxRadius;
 
-            Vector2 randomPoint = startingPosition + new Vector2(
-                Mathf.Cos(angle) * randomRadius,
-                Mathf.Sin(angle) * randomRadius
-            );
+            // Get Direction to Point
+            Vector2 randomDir = (randomPos - (Vector2)transform.position).normalized;
 
-            // Raycast toward the point
-            Vector2 direction = randomPoint - startingPosition;
-            float distance = direction.magnitude;
-            RaycastHit2D hit = Physics2D.Raycast(startingPosition, direction.normalized, distance, obstacleLayer);
+            // Get Distance to Point
+            float distance = randomDir.magnitude;
+
+            // Raycast from Enemy Position to the random point
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir, distance, obstacleLayer);
 
             // Debug: Draw the ray (green if clear, red if blocked)
             Color rayColor = hit.collider == null ? Color.green : Color.red;
-            Debug.DrawLine(startingPosition, randomPoint, rayColor, 1f);
+            Debug.DrawLine(transform.position, randomPos, rayColor, 1f);
 
             if (hit.collider == null)
             {
-                return randomPoint; // found clear path
+                return randomPos; // found clear path
             }
         }
 
