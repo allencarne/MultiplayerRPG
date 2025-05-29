@@ -76,55 +76,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
-        {
-            Buffs.haste.StartHaste(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
-        {
-            Buffs.might.StartMight(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
-        {
-            Buffs.alacrity.StartAlacrity(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
-        {
-            Buffs.protection.StartProtection(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
-        {
-            Buffs.swiftness.StartSwiftness(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
-        {
-            DeBuffs.slow.StartSlow(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
-        {
-            DeBuffs.weakness.StartWeakness(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
-        {
-            DeBuffs.impede.StartImpede(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
-        {
-            DeBuffs.vulnerability.StartVulnerability(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
-        {
-            DeBuffs.exhaust.StartExhaust(1, 10);
-        }
+        TestMethods();
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
@@ -605,6 +557,59 @@ public class PlayerStateMachine : NetworkBehaviour
         else
         {
             player.CastBar.StartCastServerRpc(castTime, player.CurrentAttackSpeed.Value);
+        }
+    }
+
+    void TestMethods()
+    {
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
+        {
+            Buffs.haste.StartHaste(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
+        {
+            Buffs.might.StartMight(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
+        {
+            Buffs.alacrity.StartAlacrity(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
+        {
+            Buffs.protection.StartProtection(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
+        {
+            Buffs.swiftness.StartSwiftness(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
+        {
+            DeBuffs.slow.StartSlow(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
+        {
+            DeBuffs.weakness.StartWeakness(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
+        {
+            DeBuffs.impede.StartImpede(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
+        {
+            DeBuffs.vulnerability.StartVulnerability(1, 10);
+        }
+
+        if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
+        {
+            DeBuffs.exhaust.StartExhaust(1, 10);
         }
     }
 }

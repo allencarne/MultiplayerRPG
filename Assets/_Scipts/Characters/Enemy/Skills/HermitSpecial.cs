@@ -97,7 +97,10 @@ public class HermitSpecial : EnemyAbility
         yield return new WaitForSeconds(impactTime);
 
         owner.CanDash = false;
-        SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
+        if (owner.IsAttacking)
+        {
+            SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
+        }
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)

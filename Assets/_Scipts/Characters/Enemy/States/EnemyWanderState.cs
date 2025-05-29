@@ -23,7 +23,6 @@ public class EnemyWanderState : EnemyState
 
         if (wanderTime >= 15f)
         {
-            Debug.Log("Wander for 15 seconds");
             wanderTime = 0;
             owner.SetState(EnemyStateMachine.State.Idle);
         }

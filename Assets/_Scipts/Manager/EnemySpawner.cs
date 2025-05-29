@@ -46,13 +46,13 @@ public class EnemySpawner : NetworkBehaviour
 
     void SpawnEnemy()
     {
-        // Random local position within the box (centered at origin)
+        // Get Local Position
         Vector2 localOffset = new Vector2(
             Random.Range(-size.x / 2, size.x / 2),
             Random.Range(-size.y / 2, size.y / 2)
         );
 
-        // Rotate the local offset using the spawner's Z rotation
+        // Handle Rotation and Position
         Vector3 worldOffset = transform.rotation * (Vector3)localOffset;
         Vector3 spawnPosition = transform.position + worldOffset;
 
