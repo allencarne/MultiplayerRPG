@@ -97,7 +97,7 @@ public class HermitSpecial : EnemyAbility
         yield return new WaitForSeconds(impactTime);
 
         owner.CanDash = false;
-        if (owner.IsAttacking)
+        if (owner.IsAttacking && !owner.enemy.isDead)
         {
             SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
         }
@@ -146,6 +146,12 @@ public class HermitSpecial : EnemyAbility
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
+        }
+
+        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
+        if (death != null)
+        {
+            death.enemy = GetComponentInParent<Enemy>();
         }
     }
 }

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1053738826628110458}
   - component: {fileID: 7387251111344838501}
   - component: {fileID: 7328109656098611043}
+  - component: {fileID: 9121534280240230093}
   m_Layer: 0
   m_Name: Hermit_Special_Effect
   m_TagString: Untagged
@@ -142,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3158132961
+  GlobalObjectIdHash: 1516850214
   InScenePlacedSourceGlobalObjectIdHash: 4161145182
   DeferredDespawnTick: 0
   Ownership: 1
@@ -271,3 +272,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9121534280240230093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022057894855090406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 0}
+  enemy: {fileID: 0}

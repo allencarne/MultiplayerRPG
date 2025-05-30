@@ -100,5 +100,11 @@ public class HermitUltimate : EnemyAbility
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
+
+        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
+        if (death != null)
+        {
+            death.enemy = GetComponentInParent<Enemy>();
+        }
     }
 }

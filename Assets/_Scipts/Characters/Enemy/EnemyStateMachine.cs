@@ -162,48 +162,54 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public void MoveTowardsTarget(Vector3 _targetPos)
+    public void MoveTowardsTarget(Vector2 _targetPos)
     {
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-
-        //Vector2 direction = (_targetPos - transform.position).normalized;
         EnemyRB.linearVelocity = direction * enemy.BaseSpeed;
     }
 
-    public Vector3 GetDirectionAroundObstacle(Vector3 targetPos)
+    public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
     {
-        Vector2 baseDirection = (targetPos - transform.position).normalized;
-        float rayDistance = 2f;
-        float rayThickness = 0.3f;
+        Vector2 currentPos = transform.position;
+        Vector2 direction = (targetPos - currentPos).normalized;
+        Vector2 bestDirection = Vector2.zero;
+        float distance = 2f;
+        float thickness = 0.3f;
         int rayCount = 13;
-        float expandedConeAngle = 180f;
+        float coneSpread = 180f;
 
-        Vector3 bestDirection = Vector3.zero;
+        // straight Ray Cast
+        RaycastHit2D centerRay = Physics2D.CircleCast(transform.position, thickness, direction, distance, obstacleLayerMask);
+        Debug.DrawRay(transform.position, direction * distance, centerRay ? Color.red : Color.green);
 
-        // First: straight line check using thick ray
-        RaycastHit2D centerHit = Physics2D.CircleCast(transform.position, rayThickness, baseDirection, rayDistance, obstacleLayerMask);
-        Debug.DrawRay(transform.position, baseDirection * rayDistance, centerHit ? Color.red : Color.green);
+        // If straight path is clear
+        if (!centerRay)
+        {
+            return direction;
+        }
 
-        if (!centerHit)
-            return baseDirection;
+        // Get Spread angle
+        float angleIncrement = coneSpread / (rayCount - 1);
 
-        // If blocked: scan with wide cone
-        float angleIncrement = expandedConeAngle / (rayCount - 1);
         for (int i = 0; i < rayCount; i++)
         {
-            float angleOffset = -expandedConeAngle / 2f + angleIncrement * i;
-            Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * baseDirection;
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, rayThickness, dir, rayDistance, obstacleLayerMask);
+            // Get Offset
+            float angleOffset = -coneSpread / 2f + angleIncrement * i;
+            Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
 
-            Debug.DrawRay(transform.position, dir * rayDistance, hit ? Color.red : Color.green);
+            // Ray in offset Direction
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, thickness, dir, distance, obstacleLayerMask);
+            Debug.DrawRay(transform.position, dir * distance, hit ? Color.red : Color.green);
 
-            if (!hit && bestDirection == Vector3.zero)
+            // If path is clear
+            if (!hit && bestDirection == Vector2.zero)
             {
                 bestDirection = dir;
             }
         }
 
-        return bestDirection == Vector3.zero ? Vector3.zero : bestDirection.normalized;
+        // If we found a valid direction
+        return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
     public void Death()

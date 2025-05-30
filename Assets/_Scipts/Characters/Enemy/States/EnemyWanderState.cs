@@ -67,7 +67,7 @@ public class EnemyWanderState : EnemyState
             // Get Distance to Point
             float distance = randomDir.magnitude;
 
-            // Raycast from Enemy Position to the random point
+            // Raycast from Enemy Position
             RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir.normalized, distance, obstacleLayer);
 
             // Draw Line

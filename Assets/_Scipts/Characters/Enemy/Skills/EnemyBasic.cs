@@ -113,5 +113,11 @@ public class EnemyBasic : EnemyAbility
             knockbackOnTrigger.Direction = aimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
+
+        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
+        if (death != null)
+        {
+            death.enemy = GetComponentInParent<Enemy>();
+        }
     }
 }
