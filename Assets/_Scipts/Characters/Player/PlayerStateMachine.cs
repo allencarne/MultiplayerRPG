@@ -199,6 +199,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.BasicIndex < 0) return;
         if (player.BasicIndex >= skills.basicAbilities.Length) return;
+        if (CrowdControl.disarm.IsDisarmed) return;
 
         if (Input.BasicAbilityInput)
         {
@@ -218,6 +219,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.OffensiveIndex < 0) return;
         if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
+        if (CrowdControl.IsSilenced) return;
 
         if (Input.IsOffensiveHeld)
         {
@@ -243,6 +245,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.MobilityIndex < 0) return;
         if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
+        if (CrowdControl.IsSilenced) return;
 
         if (Input.IsMobilityHeld)
         {
@@ -268,6 +271,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.DefensiveIndex < 0) return;
         if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
+        if (CrowdControl.IsSilenced) return;
 
         if (Input.IsDefensiveHeld)
         {
@@ -293,6 +297,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.UtilityIndex < 0) return;
         if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
+        if (CrowdControl.IsSilenced) return;
 
         if (Input.IsUtilityHeld)
         {
@@ -318,6 +323,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.UltimateIndex < 0) return;
         if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
+        if (CrowdControl.IsSilenced) return;
 
         if (Input.IsUltimateHeld)
         {
@@ -564,7 +570,8 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
         {
-            Buffs.haste.StartHaste(1, 10);
+            //Buffs.haste.StartHaste(1, 10);
+            CrowdControl.disarm.StartDisarm(4);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F2))

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CrowdControl : NetworkBehaviour, IKnockbackable
 {
+    public CC_Disarm disarm;
     [Header("Knockback")]
     Rigidbody2D rb;
     Vector2 knockBackVelocity;
@@ -11,7 +12,7 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     [Header("Bools")]
     public bool IsInterrupted;
     public bool IsImmobilized;
-    //public bool IsDisarmed;
+    public bool IsSilenced;
 
     void Awake()
     {
@@ -103,4 +104,16 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     }
 
     #endregion
+
+    public void Silence(float duration)
+    {
+        StartCoroutine(SilenceDuration(duration));
+    }
+
+    IEnumerator SilenceDuration(float duration)
+    {
+        IsSilenced = true;
+        yield return new WaitForSeconds(duration);
+        IsSilenced = false;
+    }
 }
