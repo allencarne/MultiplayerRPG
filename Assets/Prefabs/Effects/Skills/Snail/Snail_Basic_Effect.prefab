@@ -64,7 +64,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 07ba1962104c24b45be881cb0612757a, type: 2}
+  - {fileID: 2100000, guid: fea3b81aa38acc94f9892b929da969f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,7 +90,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -271,6 +271,7 @@ MonoBehaviour:
   attacker: {fileID: 0}
   IgnoreEnemy: 0
   IsBasic: 0
+  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 6048214899820172089, guid: 0ecf87478caad874bbf36c95ea5d8a93, type: 3}
 --- !u!114 &372010164289580214

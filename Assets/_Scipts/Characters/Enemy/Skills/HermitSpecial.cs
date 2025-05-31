@@ -65,7 +65,7 @@ public class HermitSpecial : EnemyAbility
         StartCoroutine(DashDuration(owner));
 
         // Telegraph
-        SpawnTelegraph(vectorToTarget, aimRotation, castTime + impactTime);
+        SpawnTelegraph(vectorToTarget, aimRotation, castTime + impactTime + .3f);
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
@@ -94,7 +94,7 @@ public class HermitSpecial : EnemyAbility
         owner.Buffs.immoveable.StartImmovable(impactTime);
         owner.CanDash = true;
 
-        yield return new WaitForSeconds(impactTime);
+        yield return new WaitForSeconds(impactTime + .3f);
 
         owner.CanDash = false;
         if (owner.IsAttacking && !owner.enemy.isDead)
@@ -125,7 +125,7 @@ public class HermitSpecial : EnemyAbility
     {
         Vector2 offset = aimDirection.normalized * attackRange;
 
-        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
+        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, Quaternion.identity);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
         attackNetObj.Spawn();

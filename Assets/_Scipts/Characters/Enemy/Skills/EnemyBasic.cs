@@ -91,7 +91,7 @@ public class EnemyBasic : EnemyAbility
     {
         Vector2 offset = aimDirection.normalized * attackRange;
 
-        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
+        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, Quaternion.identity);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
         attackNetObj.Spawn();
