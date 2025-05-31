@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: 676fda0e4019f1d4dbbeb243a556b4f4
+guid: 113172c6047ca9648800f4d2794cf3d5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3573048395807603837
-    second: Snail_Basic_Effect_0
-  - first:
-      213: -904635082500152302
-    second: Snail_Basic_Effect_1
-  - first:
-      213: 2942424026271714023
-    second: Snail_Basic_Effect_2
-  - first:
-      213: 5683616667088273032
-    second: Snail_Basic_Effect_3
-  - first:
-      213: -741428102502645846
-    second: Snail_Basic_Effect_4
+      213: 8412210139037532126
+    second: Snail_Ultimate_Effect_Glow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -58,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -87,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Snail_Basic_Effect_0
+      name: Snail_Ultimate_Effect_Glow_0
       rect:
         serializedVersion: 2
-        x: 14
-        y: 37
-        width: 6
-        height: 9
+        x: 0
+        y: 0
+        width: 15
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d7c346dc594069130800000000000000
-      internalID: 3573048395807603837
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Snail_Basic_Effect_1
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 15
-        width: 28
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 214e8387f271273f0800000000000000
-      internalID: -904635082500152302
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Snail_Basic_Effect_2
-      rect:
-        serializedVersion: 2
-        x: 44
-        y: 37
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7ea0080ff0795d820800000000000000
-      internalID: 2942424026271714023
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Snail_Basic_Effect_3
-      rect:
-        serializedVersion: 2
-        x: 14
-        y: 18
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 88e3941ee3340ee40800000000000000
-      internalID: 5683616667088273032
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Snail_Basic_Effect_4
-      rect:
-        serializedVersion: 2
-        x: 44
-        y: 18
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: aaf76dba11be5b5f0800000000000000
-      internalID: -741428102502645846
+      spriteID: edf75493d8c2eb470800000000000000
+      internalID: 8412210139037532126
       vertices: []
       indices: 
       edges: []
@@ -238,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -247,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Snail_Ultimate_Effect_Glow_0: 8412210139037532126
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
