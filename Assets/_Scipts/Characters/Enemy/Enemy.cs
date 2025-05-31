@@ -28,7 +28,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [Header("Exp")]
     public float expToGive;
 
-    [Header("UI")]
+    [Header("Components")]
+    EnemyStateMachine stateMachine;
     [SerializeField] GameObject spawn_Effect;
     [SerializeField] GameObject death_Effect;
     [SerializeField] HealthBar healthBar;
@@ -45,6 +46,11 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] UnityEvent OnDeath;
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
+
+    private void Awake()
+    {
+        stateMachine = GetComponent<EnemyStateMachine>();
+    }
 
     private void Start()
     {
@@ -96,6 +102,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         if (!IsServer) return;
         if (isDummy) PatienceBar.Patience.Value = 0;
 
+        TargetAttacker(attackerID);
+
         // Calculate how much damage should actually be applied after defenses.
         float finalDamage = CalculateFinalDamage(damage, damageType);
 
@@ -119,6 +127,15 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             Instantiate(death_Effect, transform.position, transform.rotation);
             OnDeath?.Invoke();
             isDead = true;
+        }
+    }
+
+    void TargetAttacker(NetworkObject attackerID)
+    {
+        if (stateMachine.Target == null)
+        {
+            stateMachine.Target = attackerID.transform;
+            stateMachine.IsPlayerInRange = true;
         }
     }
 
