@@ -1,6 +1,5 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DamageOnTrigger : NetworkBehaviour
 {
@@ -9,12 +8,28 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public NetworkObject attacker;
     [HideInInspector] public bool IgnoreEnemy;
     [HideInInspector] public bool IsBasic;
+    [HideInInspector] public bool IsBreakable;
     [SerializeField] GameObject hitSpark;
     [SerializeField] GameObject hitSpark_Special;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
+
+        Vector2 hitPosition = collision.ClosestPoint(transform.position);
+        Vector2 attackerPosition = attacker.transform.position;
+        Vector2 direction = (hitPosition - attackerPosition).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        if (collision.CompareTag("Obstacle"))
+        {
+            if (IsBreakable)
+            {
+                HitSparkClientRPC(hitPosition, rotation);
+                NetworkObject.Despawn(true);
+            }
+        }
 
         if (collision.CompareTag("Enemy"))
         {
@@ -58,13 +73,6 @@ public class DamageOnTrigger : NetworkBehaviour
                     }
                 }
             }
-
-            Vector2 hitPosition = collision.ClosestPoint(transform.position);
-            Vector2 attackerPosition = attacker.transform.position;
-
-            Vector2 direction = (hitPosition - attackerPosition).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
             HitSparkClientRPC(hitPosition, rotation);
         }

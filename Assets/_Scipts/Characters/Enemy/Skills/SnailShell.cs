@@ -91,6 +91,7 @@ public class SnailShell : EnemyAbility
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.IgnoreEnemy = true;
+            damageOnTrigger.IsBreakable = true;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
