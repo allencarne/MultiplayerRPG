@@ -219,7 +219,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.OffensiveIndex < 0) return;
         if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
-        if (CrowdControl.IsSilenced) return;
+        if (CrowdControl.silence.IsSilenced) return;
 
         if (Input.IsOffensiveHeld)
         {
@@ -245,7 +245,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.MobilityIndex < 0) return;
         if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
-        if (CrowdControl.IsSilenced) return;
+        if (CrowdControl.silence.IsSilenced) return;
 
         if (Input.IsMobilityHeld)
         {
@@ -271,7 +271,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.DefensiveIndex < 0) return;
         if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
-        if (CrowdControl.IsSilenced) return;
+        if (CrowdControl.silence.IsSilenced) return;
 
         if (Input.IsDefensiveHeld)
         {
@@ -297,7 +297,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.UtilityIndex < 0) return;
         if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
-        if (CrowdControl.IsSilenced) return;
+        if (CrowdControl.silence.IsSilenced) return;
 
         if (Input.IsUtilityHeld)
         {
@@ -323,7 +323,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!Equipment.IsWeaponEquipt) return;
         if (player.UltimateIndex < 0) return;
         if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
-        if (CrowdControl.IsSilenced) return;
+        if (CrowdControl.silence.IsSilenced) return;
 
         if (Input.IsUltimateHeld)
         {
@@ -576,7 +576,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
         {
-            Buffs.might.StartMight(1, 10);
+            CrowdControl.silence.StartSilence(4);
+            //Buffs.might.StartMight(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F3))

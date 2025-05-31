@@ -56,23 +56,28 @@ public class EnemyChaseState : EnemyState
 
         float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
 
-        // Collect all valid attack states
-        List<EnemyStateMachine.State> possibleAttacks = new();
-
-        if (distanceToTarget <= owner.BasicRadius && owner.CanBasic)
-            possibleAttacks.Add(EnemyStateMachine.State.Basic);
-
-        if (distanceToTarget <= owner.SpecialRadius && owner.CanSpecial)
-            possibleAttacks.Add(EnemyStateMachine.State.Special);
-
-        if (distanceToTarget <= owner.UltimateRadius && owner.CanUltimate)
-            possibleAttacks.Add(EnemyStateMachine.State.Ultimate);
-
-        // Choose one at random if any are valid
-        if (possibleAttacks.Count > 0)
+        if (distanceToTarget <= owner.UltimateRadius)
         {
-            int randomIndex = Random.Range(0, possibleAttacks.Count);
-            owner.SetState(possibleAttacks[randomIndex]);
+            if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
+            {
+                owner.SetState(EnemyStateMachine.State.Ultimate);
+            }
+        }
+
+        if (distanceToTarget <= owner.SpecialRadius)
+        {
+            if (owner.CanSpecial && !owner.CrowdControl.silence.IsSilenced)
+            {
+                owner.SetState(EnemyStateMachine.State.Special);
+            }
+        }
+
+        if (distanceToTarget <= owner.BasicRadius)
+        {
+            if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
+            {
+                owner.SetState(EnemyStateMachine.State.Basic);
+            }
         }
     }
 
