@@ -282,6 +282,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d28c581ae20abc429f84b17ade30ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1615020197211048949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6649234762106035899}
+  - component: {fileID: 3211822102543212139}
+  m_Layer: 8
+  m_Name: CC_KnockBack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6649234762106035899
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615020197211048949}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000563406889795294}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 2.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3211822102543212139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615020197211048949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed47557557192a44681d8c184aede700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  buffBar: {fileID: 3479727012297293821}
+  cc_KnockBack: {fileID: 8164425050445079930, guid: 65cad9bc5c4e50e478fb4028c3c59bc0, type: 3}
+  IsKnockedBack: 0
+  rb: {fileID: 5523836673144577605}
+  crowdControl: {fileID: 568576347084111489}
 --- !u!1 &1754617305072220180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,6 +1492,7 @@ MonoBehaviour:
   disarm: {fileID: 6635128124303987770}
   silence: {fileID: 4774464374340092515}
   immobilize: {fileID: 4635129407895307073}
+  knockBack: {fileID: 3211822102543212139}
   IsInterrupted: 0
 --- !u!1 &4830251803286897434
 GameObject:
@@ -2706,6 +2761,7 @@ RectTransform:
   - {fileID: 5174646500886429433}
   - {fileID: 6031196014233466277}
   - {fileID: 8778958180580504253}
+  - {fileID: 6649234762106035899}
   m_Father: {fileID: 67878199580936367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

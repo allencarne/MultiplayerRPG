@@ -227,7 +227,7 @@ public class EnemyStateMachine : NetworkBehaviour
         {
             player.TakeDamage(1, DamageType.Flat, NetworkObject);
             Vector2 dir = player.transform.position - transform.position;
-            cc.KnockBack(dir, 15, .3f);
+            cc.knockBack.KnockBack(dir, 15, .3f);
         }
     }
 

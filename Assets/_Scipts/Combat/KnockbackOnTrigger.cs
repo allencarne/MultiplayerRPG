@@ -37,7 +37,7 @@ public class KnockbackOnTrigger : MonoBehaviour
             }
         }
 
-        IKnockbackable knockbackable = collision.GetComponent<IKnockbackable>();
+        IKnockbackable knockbackable = collision.GetComponentInChildren<IKnockbackable>();
         if (knockbackable != null)
         {
             knockbackable.KnockBack(Direction, Amount, Duration);
