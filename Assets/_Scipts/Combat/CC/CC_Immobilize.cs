@@ -20,6 +20,8 @@ public class CC_Immobilize : NetworkBehaviour
 
     public void StartImmobilize(float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             Initialize(duration);

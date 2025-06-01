@@ -20,6 +20,8 @@ public class CC_Silence : NetworkBehaviour
 
     public void StartSilence(float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             Initialize(duration);

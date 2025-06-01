@@ -30,13 +30,17 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
         if (IsServer)
         {
+            Debug.Log("Server");
+
             Initialize(duration);
             ApplyKnockback(direction, amount, duration);
+            ApplyKnockBackClientRPC(direction, amount, duration);
         }
         else
         {
+            Debug.Log("Not Server");
+
             RequestServerRPC(duration);
-            ApplyKnockBackClientRpc(direction, amount, duration);
         }
     }
 
@@ -133,7 +137,7 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
     }
 
     [ClientRpc]
-    private void ApplyKnockBackClientRpc(Vector2 direction, float amount, float duration)
+    private void ApplyKnockBackClientRPC(Vector2 direction, float amount, float duration)
     {
         if (IsServer) return;
 

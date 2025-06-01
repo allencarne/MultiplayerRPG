@@ -20,6 +20,8 @@ public class CC_Disarm : NetworkBehaviour
 
     public void StartDisarm(float duration)
     {
+        if (!IsOwner) return;
+
         if (IsServer)
         {
             Initialize(duration);

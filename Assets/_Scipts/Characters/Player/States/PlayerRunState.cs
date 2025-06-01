@@ -20,13 +20,19 @@ public class PlayerRunState : PlayerState
         owner.DefensiveAbility();
         owner.UtilityAbility();
         owner.UltimateAbility();
+
+        // Leave if we are Immobilized
+        if (owner.CrowdControl.immobilize.IsImmobilized)
+        {
+            owner.SetState(PlayerStateMachine.State.Idle);
+        }
     }
 
     public override void FixedUpdateState(PlayerStateMachine owner)
     {
         HandleMovement(owner, owner.Input.MoveInput);
 
-        // If we are no longer moving - Transition to Idle State
+        // Leave if no move input
         if (owner.Input.MoveInput == Vector2.zero)
         {
             owner.SetState(PlayerStateMachine.State.Idle);
