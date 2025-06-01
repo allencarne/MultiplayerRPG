@@ -121,8 +121,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (CrowdControl.IsImmobilized) return;
-
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].FixedUpdateAbility(this);
@@ -582,7 +580,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
         {
-            Buffs.alacrity.StartAlacrity(1, 10);
+            CrowdControl.immobilize.StartImmobilize(4);
+            //Buffs.alacrity.StartAlacrity(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F4))

@@ -6,13 +6,14 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
 {
     public CC_Disarm disarm;
     public CC_Silence silence;
+    public CC_Immobilize immobilize;
+
     [Header("Knockback")]
     Rigidbody2D rb;
     Vector2 knockBackVelocity;
 
     [Header("Bools")]
     public bool IsInterrupted;
-    public bool IsImmobilized;
 
     void Awake()
     {
@@ -33,26 +34,6 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         yield return new WaitForSeconds(duration);
 
         IsInterrupted = false;
-    }
-
-    #endregion
-
-    #region Immobilize
-
-    public void Immobilize(float duration)
-    {
-        rb.linearVelocity = Vector2.zero;
-
-        StartCoroutine(ImmobilizeDuration(duration));
-    }
-
-    IEnumerator ImmobilizeDuration(float duration)
-    {
-        IsImmobilized = true;
-
-        yield return new WaitForSeconds(duration);
-
-        IsImmobilized = false;
     }
 
     #endregion
@@ -82,7 +63,7 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
         knockBackVelocity = direction * amount;
 
         Interrupt(duration);
-        Immobilize(duration);
+        immobilize.StartImmobilize(duration);
 
         StartCoroutine(KnockBackDuration(duration));
     }

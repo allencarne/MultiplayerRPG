@@ -112,8 +112,6 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (CrowdControl.IsImmobilized) return;
-
         switch (state)
         {
             case State.Spawn: enemySpawnState.FixedUpdateState(this); break;

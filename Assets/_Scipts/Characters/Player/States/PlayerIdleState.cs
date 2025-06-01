@@ -27,7 +27,10 @@ public class PlayerIdleState : PlayerState
         // Transition to Move State
         if (owner.Input.MoveInput != Vector2.zero)
         {
-            owner.SetState(PlayerStateMachine.State.Run);
+            if (!owner.CrowdControl.immobilize.IsImmobilized)
+            {
+                owner.SetState(PlayerStateMachine.State.Run);
+            }
         }
     }
 }
