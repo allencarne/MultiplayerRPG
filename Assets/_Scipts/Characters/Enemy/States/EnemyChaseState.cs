@@ -61,6 +61,7 @@ public class EnemyChaseState : EnemyState
             if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
             {
                 owner.SetState(EnemyStateMachine.State.Ultimate);
+                return;
             }
         }
 
@@ -69,6 +70,7 @@ public class EnemyChaseState : EnemyState
             if (owner.CanSpecial && !owner.CrowdControl.silence.IsSilenced)
             {
                 owner.SetState(EnemyStateMachine.State.Special);
+                return;
             }
         }
 
@@ -77,6 +79,7 @@ public class EnemyChaseState : EnemyState
             if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
             {
                 owner.SetState(EnemyStateMachine.State.Basic);
+                return;
             }
         }
     }

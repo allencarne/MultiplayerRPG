@@ -91,21 +91,13 @@ public class EnemyStateMachine : NetworkBehaviour
         switch (state)
         {
             case State.Spawn: enemySpawnState.UpdateState(this); break;
-
             case State.Idle: enemyIdleState.UpdateState(this); break;
-
             case State.Wander: enemyWanderState.UpdateState(this); break;
-
             case State.Chase: enemyChaseState.UpdateState(this); break;
-
             case State.Reset: enemyResetState.UpdateState(this); break;
-
             case State.Death: enemyDeathState.UpdateState(this); break;
-
             case State.Basic: enemyBasicAbility.AbilityUpdate(this); break;
-
             case State.Special: enemySpecialAbility.AbilityUpdate(this); break;
-
             case State.Ultimate: enemyUltimateAbility.AbilityUpdate(this); break;
         }
     }
@@ -115,21 +107,13 @@ public class EnemyStateMachine : NetworkBehaviour
         switch (state)
         {
             case State.Spawn: enemySpawnState.FixedUpdateState(this); break;
-
             case State.Idle: enemyIdleState.FixedUpdateState(this); break;
-
             case State.Wander: enemyWanderState.FixedUpdateState(this); break;
-
             case State.Chase: enemyChaseState.FixedUpdateState(this); break;
-
             case State.Reset: enemyResetState.FixedUpdateState(this); break;
-
             case State.Death: enemyDeathState.FixedUpdateState(this); break;
-
             case State.Basic: enemyBasicAbility.AbilityFixedUpdate(this); break;
-
             case State.Special: enemySpecialAbility.AbilityFixedUpdate(this); break;
-
             case State.Ultimate: enemyUltimateAbility.AbilityFixedUpdate(this); break;
         }
     }
@@ -141,27 +125,20 @@ public class EnemyStateMachine : NetworkBehaviour
         switch (newState)
         {
             case State.Spawn: state = State.Spawn; enemySpawnState.StartState(this); break;
-
             case State.Idle: state = State.Idle; enemyIdleState.StartState(this); break;
-
             case State.Wander: state = State.Wander; enemyWanderState.StartState(this); break;
-
             case State.Chase: state = State.Chase; enemyChaseState.StartState(this); break;
-
             case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
-
             case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
-
             case State.Basic: state = State.Basic; enemyBasicAbility.AbilityStart(this); break;
-
             case State.Special: state = State.Special; enemySpecialAbility.AbilityStart(this); break;
-
             case State.Ultimate: state = State.Ultimate; enemyUltimateAbility.AbilityStart(this); break;
         }
     }
 
     public void MoveTowardsTarget(Vector2 _targetPos)
     {
+        if (CrowdControl.immobilize.IsImmobilized) return;
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
         EnemyRB.linearVelocity = direction * enemy.BaseSpeed;
     }

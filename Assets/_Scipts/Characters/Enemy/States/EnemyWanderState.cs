@@ -43,6 +43,8 @@ public class EnemyWanderState : EnemyState
 
     public override void FixedUpdateState(EnemyStateMachine owner)
     {
+        if (owner.CrowdControl.immobilize.IsImmobilized) return;
+
         if (owner.IsServer)
         {
             Vector2 dir = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;

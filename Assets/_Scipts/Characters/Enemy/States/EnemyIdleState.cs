@@ -17,7 +17,6 @@ public class EnemyIdleState : EnemyState
 
         if (idleTime >= 5f)
         {
-
             int maxAttempts = 3;
             int consecutiveFailures = Mathf.Min(owner.AttemptsCount, maxAttempts);
             float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);

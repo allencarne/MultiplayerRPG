@@ -12,7 +12,6 @@ public class CrowdControl : NetworkBehaviour, IKnockbackable
     Rigidbody2D rb;
     Vector2 knockBackVelocity;
 
-    [Header("Bools")]
     public bool IsInterrupted;
 
     void Awake()
