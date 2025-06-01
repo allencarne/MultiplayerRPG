@@ -30,16 +30,12 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
         if (IsServer)
         {
-            Debug.Log("Server");
-
             Initialize(duration);
             ApplyKnockback(direction, amount, duration);
             ApplyKnockBackClientRPC(direction, amount, duration);
         }
         else
         {
-            Debug.Log("Not Server");
-
             RequestServerRPC(duration);
         }
     }
@@ -132,6 +128,8 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
         crowdControl.Interrupt(duration);
         crowdControl.immobilize.StartImmobilize(duration);
+        crowdControl.disarm.StartDisarm(duration);
+        crowdControl.silence.StartSilence(duration);
 
         StartCoroutine(KnockBackDuration(duration));
     }
