@@ -586,7 +586,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
         {
-            Buffs.protection.StartProtection(1, 10);
+            CrowdControl.stun.StartStun(4);
+            //Buffs.protection.StartProtection(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F5))

@@ -1493,6 +1493,10 @@ MonoBehaviour:
   silence: {fileID: 4774464374340092515}
   immobilize: {fileID: 4635129407895307073}
   knockBack: {fileID: 3211822102543212139}
+  stun: {fileID: 5113055613159101467}
+  knockUp: {fileID: 0}
+  incapacitate: {fileID: 0}
+  pull: {fileID: 0}
   IsInterrupted: 0
 --- !u!1 &4830251803286897434
 GameObject:
@@ -2387,6 +2391,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 548914305106732688}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7690869420454522406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6261775383551059559}
+  - component: {fileID: 5113055613159101467}
+  m_Layer: 8
+  m_Name: CC_Stun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6261775383551059559
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7690869420454522406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000563406889795294}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 2.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5113055613159101467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7690869420454522406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20501721e074a35428a85eace55af598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  crowdControl: {fileID: 568576347084111489}
+  buffBar: {fileID: 3479727012297293821}
+  cc_Stun: {fileID: 3683380647998201373, guid: fe4189d89e585fd428089755e00ae62a, type: 3}
+  IsStunned: 0
 --- !u!1 &7718053580365454685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2762,6 +2819,7 @@ RectTransform:
   - {fileID: 6031196014233466277}
   - {fileID: 8778958180580504253}
   - {fileID: 6649234762106035899}
+  - {fileID: 6261775383551059559}
   m_Father: {fileID: 67878199580936367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

@@ -8,6 +8,10 @@ public class CrowdControl : NetworkBehaviour
     public CC_Silence silence;
     public CC_Immobilize immobilize;
     public CC_KnockBack knockBack;
+    public CC_Stun stun;
+    public CC_KnockUp knockUp;
+    public CC_Incapacitate incapacitate;
+    public CC_Pull pull;
     public bool IsInterrupted;
     public void Interrupt(float duration)
     {

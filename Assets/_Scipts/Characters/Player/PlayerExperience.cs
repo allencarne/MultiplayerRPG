@@ -118,8 +118,8 @@ public class PlayerExperience : NetworkBehaviour
         player.Health.Value++;
 
         // Increase Player Damage
-        player.BaseDamage.Value++;
-        player.CurrentDamage.Value++;
+        //player.BaseDamage.Value++;
+        //player.CurrentDamage.Value++;
 
         // Update Bar
         frontXpBar.fillAmount = 0f;

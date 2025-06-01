@@ -15,6 +15,7 @@ public class FlickerShot : PlayerAbility
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
+    [SerializeField] float stunDuration;
 
     float modifiedCooldown;
     Vector2 aimDirection;
@@ -96,7 +97,12 @@ public class FlickerShot : PlayerAbility
             despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(attackDuration));
         }
 
-        // Stun on Trigger
+        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
+        if (stunOnTrigger != null)
+        {
+            stunOnTrigger.attacker = Attacker;
+            stunOnTrigger.Duration = stunDuration;
+        }
     }
 
     [ServerRpc]

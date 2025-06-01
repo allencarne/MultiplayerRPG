@@ -11,6 +11,7 @@ public class FlailingEdge : PlayerAbility
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
     [SerializeField] float coolDown;
+    [SerializeField] float stunDuration;
 
     float modifiedCooldown;
     Vector2 aimDirection;
@@ -82,7 +83,12 @@ public class FlailingEdge : PlayerAbility
             damageOnTrigger.CharacterDamage = attackerDamage;
         }
 
-        // Stun On Trigger
+        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
+        if (stunOnTrigger != null)
+        {
+            stunOnTrigger.attacker = Attacker;
+            stunOnTrigger.Duration = stunDuration;
+        }
     }
 
     [ServerRpc]

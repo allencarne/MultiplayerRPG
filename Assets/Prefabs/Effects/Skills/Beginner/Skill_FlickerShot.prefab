@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1130664236213025216}
   - component: {fileID: 3132455004056181440}
   - component: {fileID: 5186176382038161399}
+  - component: {fileID: 3210892748642926558}
   m_Layer: 0
   m_Name: Skill_FlickerShot
   m_TagString: Untagged
@@ -380,6 +381,7 @@ MonoBehaviour:
   attacker: {fileID: 0}
   IgnoreEnemy: 0
   IsBasic: 0
+  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
 --- !u!114 &5186176382038161399
@@ -395,3 +397,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &3210892748642926558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324840749770008434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae0587a04378e44e9e8a9a3f60e517e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attacker: {fileID: 0}
+  Duration: 0
+  IgnoreEnemy: 0

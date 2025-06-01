@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 8048719268308897080}
   - component: {fileID: 800735646256446619}
   - component: {fileID: 2710294622042561463}
+  - component: {fileID: 2781751982144720619}
   m_Layer: 0
   m_Name: Skill_FlailingEdge
   m_TagString: Untagged
@@ -293,6 +294,7 @@ MonoBehaviour:
   attacker: {fileID: 0}
   IgnoreEnemy: 0
   IsBasic: 0
+  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
 --- !u!95 &2710294622042561463
@@ -317,3 +319,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2781751982144720619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7380043795572263007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae0587a04378e44e9e8a9a3f60e517e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attacker: {fileID: 0}
+  Duration: 0
+  IgnoreEnemy: 0
