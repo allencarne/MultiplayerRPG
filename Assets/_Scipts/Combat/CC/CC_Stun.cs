@@ -23,8 +23,6 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
     public void StartStun(float duration)
     {
-        if (!IsOwner) return;
-
         if (IsServer)
         {
             Initialize(duration);
