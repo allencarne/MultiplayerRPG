@@ -181,7 +181,10 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Roll()
     {
-        if (Input.RollInput && CanRoll)
+        if (CrowdControl.stun.IsStunned) return;
+        if (!CanRoll) return;
+
+        if (Input.RollInput)
         {
             if (player.Endurance.Value >= 50)
             {

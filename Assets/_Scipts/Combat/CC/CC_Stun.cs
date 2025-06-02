@@ -13,6 +13,8 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     private float localStunElapsed = 0f;
     private float localStunTotal = 0f;
 
+    [SerializeField] Animator[] animators;
+
     private void Update()
     {
         UpdateTimer();
@@ -71,6 +73,11 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = remainingTime;
+
+            for (int i = 0; i < animators.Length; i++)
+            {
+                animators[i].speed = 0f;
+            }
         }
         else
         {
@@ -81,6 +88,11 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = 0f;
+
+            for (int i = 0; i < animators.Length; i++)
+            {
+                animators[i].speed = 1f;
+            }
         }
     }
 
