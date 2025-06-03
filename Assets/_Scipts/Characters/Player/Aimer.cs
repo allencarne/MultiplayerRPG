@@ -7,8 +7,9 @@ public class Aimer : MonoBehaviour
 {
     PlayerInputHandler inputHandler;
     PlayerInput playerInput;
-
     private float lastAngle;
+
+    bool isMobile = false;
 
     private void Awake()
     {
@@ -16,18 +17,33 @@ public class Aimer : MonoBehaviour
         playerInput = GetComponentInParent<PlayerInput>();
     }
 
+    private void Start()
+    {
+        if (Application.isMobilePlatform)
+        {
+            isMobile = true;
+        }
+    }
+
     private void Update()
     {
-        if (inputHandler != null && playerInput)
+        if (isMobile)
         {
-            if (playerInput.currentControlScheme == "Gamepad")
+            RotateOnMobile();
+        }
+        else
+        {
+            if (inputHandler != null && playerInput)
             {
-                RotateOnGamePad();
-            }
+                if (playerInput.currentControlScheme == "Gamepad")
+                {
+                    RotateOnGamePad();
+                }
 
-            if (playerInput.currentControlScheme == "Keyboard")
-            {
-                RotateOnKeyboard();
+                if (playerInput.currentControlScheme == "Keyboard")
+                {
+                    RotateOnKeyboard();
+                }
             }
         }
     }
@@ -58,6 +74,23 @@ public class Aimer : MonoBehaviour
         // Get the look input values
         float horizontalLook = inputHandler.LookInput.x;
         float verticalLook = inputHandler.LookInput.y;
+
+        // Check if there is input from the right stick
+        if (horizontalLook != 0 || verticalLook != 0)
+        {
+            // Calculate the rotation angle based on input
+            lastAngle = Mathf.Atan2(verticalLook, horizontalLook) * Mathf.Rad2Deg;
+        }
+
+        // Apply rotation to the Aimer
+        transform.rotation = Quaternion.Euler(0f, 0f, lastAngle);
+    }
+
+    void RotateOnMobile()
+    {
+        // Get the look input values
+        float horizontalLook = inputHandler.MoveInput.x;
+        float verticalLook = inputHandler.MoveInput.y;
 
         // Check if there is input from the right stick
         if (horizontalLook != 0 || verticalLook != 0)
