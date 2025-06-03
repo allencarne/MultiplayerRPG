@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Globalization;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CC_KnockUp : NetworkBehaviour
@@ -18,6 +16,8 @@ public class CC_KnockUp : NetworkBehaviour
     [SerializeField] CrowdControl crowdControl;
     [SerializeField] Transform[] parts;
     [SerializeField] Canvas canvas;
+
+    Vector3 maxHeight = new Vector3(0, 1.5f, 0);
 
     private void Update()
     {
@@ -70,10 +70,17 @@ public class CC_KnockUp : NetworkBehaviour
             if (knockUpInstance == null)
             {
                 knockUpInstance = Instantiate(cc_KnockUp, buffBar.transform);
+
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    parts[i].transform.position = parts[i].transform.position + maxHeight;
+                    canvas.transform.position = canvas.transform.position + new Vector3(0, .3f, 0);
+                }
             }
 
             localKnockUpElapsed = 0f;
             localKnockUpTotal = remainingTime;
+
         }
         else
         {
@@ -84,6 +91,12 @@ public class CC_KnockUp : NetworkBehaviour
 
             localKnockUpElapsed = 0f;
             localKnockUpTotal = 0f;
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                parts[i].transform.position = parts[i].transform.position + -maxHeight;
+                canvas.transform.position = canvas.transform.position + new Vector3(0, -.3f, 0);
+            }
         }
     }
 
@@ -128,24 +141,5 @@ public class CC_KnockUp : NetworkBehaviour
         crowdControl.immobilize.StartImmobilize(duration);
         crowdControl.disarm.StartDisarm(duration);
         crowdControl.silence.StartSilence(duration);
-
-        StartCoroutine(KnockUpDuration(duration));
-    }
-
-    IEnumerator KnockUpDuration(float duration)
-    {
-        for (int i = 0; i < parts.Length; i++)
-        {
-            parts[i].transform.position = parts[i].transform.position + new Vector3(0, 1.5f, 0);
-            canvas.transform.position = canvas.transform.position + new Vector3(0, .3f, 0);
-        }
-
-        yield return new WaitForSeconds(duration - .2f);
-
-        for (int i = 0; i < parts.Length; i++)
-        {
-            parts[i].transform.position = parts[i].transform.position + new Vector3(0, -1.5f, 0);
-            canvas.transform.position = canvas.transform.position + new Vector3(0, -.3f, 0);
-        }
     }
 }
