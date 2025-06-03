@@ -133,27 +133,25 @@ public class CC_KnockUp : NetworkBehaviour
 
     IEnumerator KnockUpDuration(float duration)
     {
-        float half = duration / 2;
-        float elapsedTime = 0f;
+        Vector3 maxHeight = new Vector3(0, 2, 0);
+        Vector3 minHeight = new Vector3(0, 0, 0);
 
-        while (elapsedTime < half)
+        for (int i = 0; i < parts.Length; i++)
         {
-            elapsedTime += Time.deltaTime;
-            for (int i = 0; i < parts.Length; i++)
+            if (parts[i].transform.position != maxHeight)
             {
-                parts[i].transform.Translate(Vector2.up * Time.deltaTime);
+                parts[i].transform.position = parts[i].transform.position + new Vector3(0, 1, 0);
             }
         }
 
-        yield return new WaitForSeconds(half);
+        yield return new WaitForSeconds(duration - .2f);
 
-        elapsedTime = 0f;
-        while (elapsedTime < half)
+        for (int i = 0; i < parts.Length; i++)
         {
-            elapsedTime += Time.deltaTime;
-            for (int i = 0; i < parts.Length; i++)
+            if (parts[i].transform.position != minHeight)
             {
-                parts[i].transform.Translate(-Vector2.up * Time.deltaTime);
+                parts[i].transform.position = parts[i].transform.position + new Vector3(0, -1, 0);
+
             }
         }
     }

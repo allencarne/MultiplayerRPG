@@ -595,7 +595,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
         {
-            CrowdControl.knockUp.StartKnockUp(4);
+            CrowdControl.knockUp.StartKnockUp(.5f);
             //Buffs.swiftness.StartSwiftness(1, 10);
         }
 
