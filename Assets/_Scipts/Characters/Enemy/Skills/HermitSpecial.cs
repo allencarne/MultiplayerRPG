@@ -90,8 +90,8 @@ public class HermitSpecial : EnemyAbility
     {
         yield return new WaitForSeconds(castTime);
 
-        owner.Buffs.phase.StartPhase(impactTime + .2f);
-        owner.Buffs.immoveable.StartImmovable(impactTime);
+        owner.Buffs.phase.StartPhase(impactTime + .7f);
+        owner.Buffs.immoveable.StartImmovable(impactTime + .3f);
         owner.CanDash = true;
 
         yield return new WaitForSeconds(impactTime + .3f);
@@ -138,14 +138,12 @@ public class HermitSpecial : EnemyAbility
             damageOnTrigger.IgnoreEnemy = true;
         }
 
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
-        if (knockbackOnTrigger != null)
+        KnockupOnTrigger knockup = attackInstance.GetComponent<KnockupOnTrigger>();
+        if (knockup != null)
         {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = knockBackAmount;
-            knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = aimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
+            knockup.attacker = attacker;
+            knockup.Duration = .2f;
+            knockup.IgnoreEnemy = true;
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();

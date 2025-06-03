@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CC_KnockUp : NetworkBehaviour
+public class CC_KnockUp : NetworkBehaviour, IKnockupable
 {
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject cc_KnockUp;

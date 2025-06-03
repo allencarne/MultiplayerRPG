@@ -217,8 +217,9 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (enemy.isDummy) return;
         if (!collision.gameObject.CompareTag("Player")) return;
+        if (enemy.isDummy) return;
+        if (Buffs.phase.IsPhased) return;
 
         Player player = collision.gameObject.GetComponent<Player>();
         CrowdControl cc = player.GetComponent<CrowdControl>();
@@ -227,7 +228,7 @@ public class EnemyStateMachine : NetworkBehaviour
         {
             player.TakeDamage(1, DamageType.Flat, NetworkObject);
             Vector2 dir = player.transform.position - transform.position;
-            cc.knockBack.KnockBack(dir, 15, .3f);
+            cc.knockBack.KnockBack(dir, 5, .3f);
         }
     }
 

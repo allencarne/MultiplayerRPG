@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7387251111344838501}
   - component: {fileID: 7328109656098611043}
   - component: {fileID: 9121534280240230093}
+  - component: {fileID: 4793116975795324181}
   m_Layer: 0
   m_Name: Hermit_Special_Effect
   m_TagString: Untagged
@@ -248,6 +249,7 @@ MonoBehaviour:
   attacker: {fileID: 0}
   IgnoreEnemy: 0
   IsBasic: 0
+  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 6392920354953364969, guid: 35cd492a9f0adc34089d17f6c56608e0, type: 3}
 --- !u!95 &7328109656098611043
@@ -287,3 +289,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   enemy: {fileID: 0}
+--- !u!114 &4793116975795324181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022057894855090406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70185c3a94f504d45b6cf4867d2f5c1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  attacker: {fileID: 0}
+  Duration: 0
+  IgnoreEnemy: 0
