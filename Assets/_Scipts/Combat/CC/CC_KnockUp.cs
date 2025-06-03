@@ -17,6 +17,7 @@ public class CC_KnockUp : NetworkBehaviour
 
     [SerializeField] CrowdControl crowdControl;
     [SerializeField] Transform[] parts;
+    [SerializeField] Canvas canvas;
 
     private void Update()
     {
@@ -133,26 +134,18 @@ public class CC_KnockUp : NetworkBehaviour
 
     IEnumerator KnockUpDuration(float duration)
     {
-        Vector3 maxHeight = new Vector3(0, 2, 0);
-        Vector3 minHeight = new Vector3(0, 0, 0);
-
         for (int i = 0; i < parts.Length; i++)
         {
-            if (parts[i].transform.position != maxHeight)
-            {
-                parts[i].transform.position = parts[i].transform.position + new Vector3(0, 1, 0);
-            }
+            parts[i].transform.position = parts[i].transform.position + new Vector3(0, 1.5f, 0);
+            canvas.transform.position = canvas.transform.position + new Vector3(0, .3f, 0);
         }
 
         yield return new WaitForSeconds(duration - .2f);
 
         for (int i = 0; i < parts.Length; i++)
         {
-            if (parts[i].transform.position != minHeight)
-            {
-                parts[i].transform.position = parts[i].transform.position + new Vector3(0, -1, 0);
-
-            }
+            parts[i].transform.position = parts[i].transform.position + new Vector3(0, -1.5f, 0);
+            canvas.transform.position = canvas.transform.position + new Vector3(0, -.3f, 0);
         }
     }
 }
