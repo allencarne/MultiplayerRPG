@@ -31,40 +31,93 @@ public class PlayerUI : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        CloseHeroPanel();
-        MobileUI();
+        CloseMenu();
     }
 
-    public void CharacterUI()
+    public void OpenCharacterUI()
     {
         if (!IsOwner) return;
 
-        if (HeroPanel.activeSelf)
+        if (HeroPanel.activeSelf && CharacterPanel.activeSelf)
         {
-            if (CharacterPanel.activeSelf)
-            {
-                CloseMenu();
-            }
-            else
-            {
-                EnableUI();
-                CharacterPanel.SetActive(true);
-                characterButton.interactable = false;
-                EventSystem.current.SetSelectedGameObject(characterFirstSelect);
-            }
+            CloseMenu();
+            return;
         }
-        else
+
+        EnableUI();
+        CharacterPanel.SetActive(true);
+        characterButton.interactable = false;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(characterFirstSelect);
+    }
+
+    public void OpenJournalUI()
+    {
+        if (!IsOwner) return;
+
+        if (HeroPanel.activeSelf && JournalPanel.activeSelf)
         {
-            EnableUI();
-            CharacterPanel.SetActive(true);
-            characterButton.interactable = false;
-            EventSystem.current.SetSelectedGameObject(characterFirstSelect);
+            CloseMenu();
+            return;
         }
+
+        EnableUI();
+        JournalPanel.SetActive(true);
+        journalButton.interactable = false;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
+    }
+
+    public void OpenSocialUI()
+    {
+        if (!IsOwner) return;
+
+        if (HeroPanel.activeSelf && SocialPanel.activeSelf)
+        {
+            CloseMenu();
+            return;
+        }
+
+        EnableUI();
+        SocialPanel.SetActive(true);
+        socialButton.interactable = false;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
+    }
+
+    public void OpenMapUI()
+    {
+        if (!IsOwner) return;
+
+        if (HeroPanel.activeSelf && MapPanel.activeSelf)
+        {
+            CloseMenu();
+            return;
+        }
+
+        EnableUI();
+        MapPanel.SetActive(true);
+        mapButton.interactable = false;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
+    }
+
+    public void OpenSettingsUI()
+    {
+        if (!IsOwner) return;
+
+        if (HeroPanel.activeSelf && SettingsPanel.activeSelf)
+        {
+            CloseMenu();
+            return;
+        }
+
+        EnableUI();
+        SettingsPanel.SetActive(true);
+        settingsButton.interactable = false;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
     }
 
     void EnableUI()
     {
         HUD.SetActive(false);
+        MobileUI(false);
         ClosePanels();
         HeroPanel.SetActive(true);
         input.SwitchCurrentActionMap("UI");
@@ -76,8 +129,17 @@ public class PlayerUI : NetworkBehaviour
 
         ClosePanels();
         HUD.SetActive(true);
+        MobileUI(true);
         EventSystem.current.SetSelectedGameObject(null);
         input.SwitchCurrentActionMap("Player");
+    }
+
+    void MobileUI(bool isMobile)
+    {
+        if (Application.isMobilePlatform)
+        {
+            MobileHUD.SetActive(isMobile);
+        }
     }
 
     void ClosePanels()
@@ -93,290 +155,5 @@ public class PlayerUI : NetworkBehaviour
         socialButton.interactable = true;
         mapButton.interactable = true;
         settingsButton.interactable = true;
-    }
-
-    public void OpenCharacterUI(bool isMenuButton)
-    {
-        if (!IsOwner) return;
-
-        if (HeroPanel.activeSelf)
-        {
-            // If hero panel is enabled
-
-            if (CharacterPanel.activeSelf)
-            {
-                if (isMenuButton)
-                {
-                    CloseHeroPanel();
-                    HUD.SetActive(true);
-                    EventSystem.current.SetSelectedGameObject(null);
-
-                    input.SwitchCurrentActionMap("Player");
-                }
-            }
-            else
-            {
-                HUD.SetActive(false);
-                CloseHeroPanel();
-                HeroPanel.SetActive(true);
-                CharacterPanel.SetActive(true);
-                characterButton.interactable = false;
-                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-                input.SwitchCurrentActionMap("UI");
-            }
-        }
-        else
-        {
-            // If hero panel is disabled
-
-            HUD.SetActive(false);
-            CloseHeroPanel();
-            HeroPanel.SetActive(true);
-            CharacterPanel.SetActive(true);
-            characterButton.interactable = false;
-            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-            input.SwitchCurrentActionMap("UI");
-        }
-
-        MobileUI();
-    }
-
-    public void OpenJournalUI(bool isMenuButton)
-    {
-        if (!IsOwner) return;
-
-        if (HeroPanel.activeSelf)
-        {
-            // If hero panel is enabled
-
-            if (JournalPanel.activeSelf)
-            {
-                if (isMenuButton)
-                {
-                    CloseHeroPanel();
-                    HUD.SetActive(true);
-                    EventSystem.current.SetSelectedGameObject(null);
-
-                    input.SwitchCurrentActionMap("Player");
-                }
-            }
-            else
-            {
-                HUD.SetActive(false);
-                CloseHeroPanel();
-                HeroPanel.SetActive(true);
-                JournalPanel.SetActive(true);
-                journalButton.interactable = false;
-                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-                input.SwitchCurrentActionMap("UI");
-            }
-        }
-        else
-        {
-            // If hero panel is disabled
-
-            HUD.SetActive(false);
-            CloseHeroPanel();
-            HeroPanel.SetActive(true);
-            JournalPanel.SetActive(true);
-            journalButton.interactable = false;
-            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-            input.SwitchCurrentActionMap("UI");
-        }
-
-        MobileUI();
-    }
-
-    public void OpenSocialUI(bool isMenuButton)
-    {
-        if (!IsOwner) return;
-
-        if (HeroPanel.activeSelf)
-        {
-            // If hero panel is enabled
-
-            if (SocialPanel.activeSelf)
-            {
-                if (isMenuButton)
-                {
-                    CloseHeroPanel();
-                    HUD.SetActive(true);
-                    EventSystem.current.SetSelectedGameObject(null);
-
-                    input.SwitchCurrentActionMap("Player");
-                }
-            }
-            else
-            {
-                HUD.SetActive(false);
-                CloseHeroPanel();
-                HeroPanel.SetActive(true);
-                SocialPanel.SetActive(true);
-                socialButton.interactable = false;
-                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-                input.SwitchCurrentActionMap("UI");
-            }
-        }
-        else
-        {
-            // If hero panel is disabled
-
-            HUD.SetActive(false);
-            CloseHeroPanel();
-            HeroPanel.SetActive(true);
-            SocialPanel.SetActive(true);
-            socialButton.interactable = false;
-            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-            input.SwitchCurrentActionMap("UI");
-        }
-
-        MobileUI();
-    }
-
-    public void OpenMapUI(bool isMenuButton)
-    {
-        if (!IsOwner) return;
-
-        if (HeroPanel.activeSelf)
-        {
-            // If hero panel is enabled
-
-            if (MapPanel.activeSelf)
-            {
-                if (isMenuButton)
-                {
-                    CloseHeroPanel();
-                    HUD.SetActive(true);
-                    EventSystem.current.SetSelectedGameObject(null);
-
-                    input.SwitchCurrentActionMap("Player");
-                }
-            }
-            else
-            {
-                HUD.SetActive(false);
-                CloseHeroPanel();
-                HeroPanel.SetActive(true);
-                MapPanel.SetActive(true);
-                mapButton.interactable = false;
-                EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-                input.SwitchCurrentActionMap("UI");
-            }
-        }
-        else
-        {
-            // If hero panel is disabled
-
-            HUD.SetActive(false);
-            CloseHeroPanel();
-            HeroPanel.SetActive(true);
-            MapPanel.SetActive(true);
-            mapButton.interactable = false;
-            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-            input.SwitchCurrentActionMap("UI");
-        }
-
-        MobileUI();
-    }
-
-    public void OpenSettingsUI(bool isMenuButton)
-    {
-        if (!IsOwner) return;
-
-        if (HeroPanel.activeSelf)
-        {
-            // If hero panel is enabled
-
-            if (SettingsPanel.activeSelf)
-            {
-                if (isMenuButton)
-                {
-                    CloseHeroPanel();
-                    HUD.SetActive(true);
-                    EventSystem.current.SetSelectedGameObject(null);
-
-                    input.SwitchCurrentActionMap("Player");
-                }
-            }
-            else
-            {
-                CloseHeroPanel();
-                HUD.SetActive(true);
-                EventSystem.current.SetSelectedGameObject(null);
-
-                input.SwitchCurrentActionMap("Player");
-            }
-        }
-        else
-        {
-            // If hero panel is disabled
-
-            HUD.SetActive(false);
-            CloseHeroPanel();
-            HeroPanel.SetActive(true);
-            SettingsPanel.SetActive(true);
-            settingsButton.interactable = false;
-            EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
-
-            input.SwitchCurrentActionMap("UI");
-        }
-
-        MobileUI();
-    }
-
-    public void CloseButton()
-    {
-        if (!IsOwner) return;
-
-        CloseHeroPanel();
-        HUD.SetActive(true);
-        input.SwitchCurrentActionMap("Player");
-        EventSystem.current.SetSelectedGameObject(null);
-    }
-
-    public void CloseHeroPanel()
-    {
-        if (!IsOwner) return;
-
-        HeroPanel.SetActive(false);
-
-        CharacterPanel.SetActive(false);
-        JournalPanel.SetActive(false);
-        SocialPanel.SetActive(false);
-        MapPanel.SetActive(false);
-        SettingsPanel.SetActive(false);
-
-        characterButton.interactable = true;
-        journalButton.interactable = true;
-        socialButton.interactable = true;
-        mapButton.interactable= true;
-        settingsButton.interactable = true;
-    }
-
-    void MobileUI()
-    {
-        if (Application.isMobilePlatform)
-        {
-            if (HeroPanel.activeInHierarchy)
-            {
-                MobileHUD.SetActive(false);
-            }
-            else
-            {
-                MobileHUD.SetActive(true);
-            }
-        }
-        else
-        {
-            MobileHUD.SetActive(false);
-        }
     }
 }
