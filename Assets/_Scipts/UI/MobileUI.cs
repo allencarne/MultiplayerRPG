@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ShowOnMobile : MonoBehaviour
+public class MobileUI : MonoBehaviour
 {
     private void Start()
     {

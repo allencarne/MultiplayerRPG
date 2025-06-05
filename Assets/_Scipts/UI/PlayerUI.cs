@@ -1,4 +1,3 @@
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +7,9 @@ using UnityEngine.UI;
 public class PlayerUI : NetworkBehaviour
 {
     [SerializeField] GameObject HUD;
+    [SerializeField] GameObject MobileHUD;
+
+    [SerializeField] GameObject characterFirstSelect;
 
     [SerializeField] GameObject HeroPanel;
     [SerializeField] GameObject CharacterPanel;
@@ -30,6 +32,67 @@ public class PlayerUI : NetworkBehaviour
         if (!IsOwner) return;
 
         CloseHeroPanel();
+        MobileUI();
+    }
+
+    public void CharacterUI()
+    {
+        if (!IsOwner) return;
+
+        if (HeroPanel.activeSelf)
+        {
+            if (CharacterPanel.activeSelf)
+            {
+                CloseMenu();
+            }
+            else
+            {
+                EnableUI();
+                CharacterPanel.SetActive(true);
+                characterButton.interactable = false;
+                EventSystem.current.SetSelectedGameObject(characterFirstSelect);
+            }
+        }
+        else
+        {
+            EnableUI();
+            CharacterPanel.SetActive(true);
+            characterButton.interactable = false;
+            EventSystem.current.SetSelectedGameObject(characterFirstSelect);
+        }
+    }
+
+    void EnableUI()
+    {
+        HUD.SetActive(false);
+        ClosePanels();
+        HeroPanel.SetActive(true);
+        input.SwitchCurrentActionMap("UI");
+    }
+
+    void CloseMenu()
+    {
+        if (!IsOwner) return;
+
+        ClosePanels();
+        HUD.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        input.SwitchCurrentActionMap("Player");
+    }
+
+    void ClosePanels()
+    {
+        HeroPanel.SetActive(false);
+        CharacterPanel.SetActive(false);
+        JournalPanel.SetActive(false);
+        SocialPanel.SetActive(false);
+        MapPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
+        characterButton.interactable = true;
+        journalButton.interactable = true;
+        socialButton.interactable = true;
+        mapButton.interactable = true;
+        settingsButton.interactable = true;
     }
 
     public void OpenCharacterUI(bool isMenuButton)
@@ -76,6 +139,8 @@ public class PlayerUI : NetworkBehaviour
 
             input.SwitchCurrentActionMap("UI");
         }
+
+        MobileUI();
     }
 
     public void OpenJournalUI(bool isMenuButton)
@@ -122,6 +187,8 @@ public class PlayerUI : NetworkBehaviour
 
             input.SwitchCurrentActionMap("UI");
         }
+
+        MobileUI();
     }
 
     public void OpenSocialUI(bool isMenuButton)
@@ -168,6 +235,8 @@ public class PlayerUI : NetworkBehaviour
 
             input.SwitchCurrentActionMap("UI");
         }
+
+        MobileUI();
     }
 
     public void OpenMapUI(bool isMenuButton)
@@ -214,6 +283,8 @@ public class PlayerUI : NetworkBehaviour
 
             input.SwitchCurrentActionMap("UI");
         }
+
+        MobileUI();
     }
 
     public void OpenSettingsUI(bool isMenuButton)
@@ -257,6 +328,8 @@ public class PlayerUI : NetworkBehaviour
 
             input.SwitchCurrentActionMap("UI");
         }
+
+        MobileUI();
     }
 
     public void CloseButton()
@@ -286,5 +359,24 @@ public class PlayerUI : NetworkBehaviour
         socialButton.interactable = true;
         mapButton.interactable= true;
         settingsButton.interactable = true;
+    }
+
+    void MobileUI()
+    {
+        if (Application.isMobilePlatform)
+        {
+            if (HeroPanel.activeInHierarchy)
+            {
+                MobileHUD.SetActive(false);
+            }
+            else
+            {
+                MobileHUD.SetActive(true);
+            }
+        }
+        else
+        {
+            MobileHUD.SetActive(false);
+        }
     }
 }
