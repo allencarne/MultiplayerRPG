@@ -114,6 +114,13 @@ public class PlayerUI : NetworkBehaviour
         if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(closeButton.gameObject);
     }
 
+    public void CloseButton()
+    {
+        if (!IsOwner) return;
+
+        CloseMenu();
+    }
+
     void EnableUI()
     {
         HUD.SetActive(false);
