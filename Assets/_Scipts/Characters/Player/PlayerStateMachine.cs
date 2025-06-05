@@ -72,6 +72,8 @@ public class PlayerStateMachine : NetworkBehaviour
     private void Start()
     {
         playerSpawnState.StartState(this);
+
+        BodyAnimator.SetFloat("Vertical", -1);
     }
 
     private void Update()
