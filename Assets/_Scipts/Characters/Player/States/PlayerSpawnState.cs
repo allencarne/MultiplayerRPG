@@ -6,6 +6,8 @@ public class PlayerSpawnState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
+        Instantiate(owner.player.spawn_Effect, transform.position, transform.rotation);
+
         owner.SwordAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
         owner.EyesAnimator.Play("Spawn");

@@ -43,7 +43,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public bool isDead;
 
     [Header("Events")]
-    [SerializeField] UnityEvent OnDeath;
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
 
@@ -125,8 +124,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             }
 
             Instantiate(death_Effect, transform.position, transform.rotation);
-            OnDeath?.Invoke();
-            isDead = true;
+            stateMachine.Death();
         }
     }
 

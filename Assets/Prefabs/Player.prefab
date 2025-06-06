@@ -16822,8 +16822,14 @@ MonoBehaviour:
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   CastBar: {fileID: 8073125645903022343}
   playerInitialize: {fileID: 5375708365107018510}
-  bodySprite: {fileID: 7867530632741787033}
   input: {fileID: 8050150357123000786}
+  SwordSprite: {fileID: 5543647698223086082}
+  BodySprite: {fileID: 7867530632741787033}
+  EyeSprite: {fileID: 279537451489674445}
+  HairSprite: {fileID: 3619931694366323352}
+  ShadowSprite: {fileID: 6137828857873210559}
+  AimerSprite: {fileID: 6230546296620156252}
+  stateMachine: {fileID: 6475613187630994528}
   healthBar: {fileID: 5769076625789949914}
   furyBar: {fileID: 6187664669656075518}
   EnduranceBar: {fileID: 7859199294462323109}
@@ -18786,7 +18792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2754633210120073998
 RectTransform:
   m_ObjectHideFlags: 0

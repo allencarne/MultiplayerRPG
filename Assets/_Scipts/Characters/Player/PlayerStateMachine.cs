@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -624,6 +625,29 @@ public class PlayerStateMachine : NetworkBehaviour
         if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
         {
             DeBuffs.exhaust.StartExhaust(1, 10);
+        }
+    }
+
+    public void Death()
+    {
+        SetState(State.Death);
+    }
+
+    [ClientRpc]
+    public void HandleDeathClientRPC(bool isEnabled)
+    {
+        Collider.enabled = isEnabled;
+        player.CastBar.gameObject.SetActive(isEnabled);
+        player.SwordSprite.enabled = isEnabled;
+        player.BodySprite.enabled = isEnabled;
+        player.EyeSprite.enabled = isEnabled;
+        player.HairSprite.enabled = isEnabled;
+        player.ShadowSprite.enabled = isEnabled;
+        player.AimerSprite.enabled = isEnabled;
+
+        if (isEnabled)
+        {
+            transform.position = Vector3.zero;
         }
     }
 }

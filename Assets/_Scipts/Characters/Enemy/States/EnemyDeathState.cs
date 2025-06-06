@@ -5,6 +5,7 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
+        owner.enemy.isDead = true;
         owner.EnemyAnimator.Play("Death");
 
         owner.HandleDeathClientRPC();

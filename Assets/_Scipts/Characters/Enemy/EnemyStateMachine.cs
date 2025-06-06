@@ -197,7 +197,6 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         Collider.enabled = false;
         enemy.CastBar.gameObject.SetActive(false);
-        //enemy.bodySprite.gameObject.SetActive(false);
         enemy.shadowSprite.enabled = false;
     }
 

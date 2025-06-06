@@ -11,10 +11,18 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public GameObject spawn_Effect;
     public CastBar CastBar;
     [SerializeField] PlayerInitialize playerInitialize;
-    [SerializeField] SpriteRenderer bodySprite;
     [SerializeField] PlayerInputHandler input;
 
+    [Header("Sprites")]
+    public SpriteRenderer SwordSprite;
+    public SpriteRenderer BodySprite;
+    public SpriteRenderer EyeSprite;
+    public SpriteRenderer HairSprite;
+    public SpriteRenderer ShadowSprite;
+    public SpriteRenderer AimerSprite;
+
     [Header("UI")]
+    [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] HealthBar healthBar;
     [SerializeField] FuryBar furyBar;
     public EnduranceBar EnduranceBar;
@@ -123,11 +131,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, Endurance.Value);
     }
 
-    private void Start()
-    {
-        Instantiate(spawn_Effect, transform.position, transform.rotation);
-    }
-
     void OnHealthChanged(float oldValue, float newValue)
     {
         healthBar.UpdateHealthBar(MaxHealth.Value, newValue);
@@ -194,7 +197,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
-            // Die();
+            stateMachine.Death();
         }
     }
 
@@ -247,11 +250,11 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public IEnumerator FlashEffect()
     {
-        bodySprite.color = Color.white;
+        BodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
 
         // Reset to original color
-        bodySprite.color = playerInitialize.net_bodyColor.Value;
+        BodySprite.color = playerInitialize.net_bodyColor.Value;
     }
 
     [ClientRpc]
