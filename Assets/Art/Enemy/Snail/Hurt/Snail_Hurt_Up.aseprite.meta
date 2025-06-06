@@ -124,15 +124,15 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Snail_Hurt_Up_Frame_0
     originalName: 
-    pivot: {x: 0.4615385, y: -0.30434784}
+    pivot: {x: 0.5, y: -0.30434784}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 69
-      width: 13
+      y: 4
+      width: 8
       height: 23
     spriteID: df18adecee2af4e48a0895b6653aa050
     spriteBone: []
@@ -142,19 +142,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 69}
+    uvTransform: {x: 4, y: 4}
   - name: Snail_Hurt_Up_Frame_1
     originalName: 
-    pivot: {x: 0.4615385, y: -0.2916667}
+    pivot: {x: 0.5, y: -0.30434784}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
+      x: 20
       y: 4
-      width: 13
-      height: 24
+      width: 8
+      height: 23
     spriteID: de21b5e08c1a31143a51a5d2c8d964e3
     spriteBone: []
     spriteOutline: []
@@ -163,19 +163,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 20, y: 4}
   - name: Snail_Hurt_Up_Frame_2
     originalName: 
-    pivot: {x: 0.4166667, y: -0.28}
+    pivot: {x: 0.5, y: -0.30434784}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 36
-      width: 12
-      height: 25
+      x: 36
+      y: 4
+      width: 8
+      height: 23
     spriteID: 73a1410cff32ed1429928786fc1bae67
     spriteBone: []
     spriteOutline: []
@@ -184,7 +184,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 36}
+    uvTransform: {x: 36, y: 4}
   - name: Snail_Hurt_Up_Frame_3
     originalName: 
     pivot: {x: 0.5, y: -0.35}
@@ -193,8 +193,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 100
+      x: 52
+      y: 4
       width: 8
       height: 20
     spriteID: e8d1dc323efca1b418536d96efe13bb0
@@ -205,7 +205,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 100}
+    uvTransform: {x: 52, y: 4}
   - name: Snail_Hurt_Up_Frame_4
     originalName: 
     pivot: {x: 0.5, y: -0.36842105}
@@ -214,8 +214,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 25
-      y: 4
+      x: 4
+      y: 35
       width: 8
       height: 19
     spriteID: dededd71972beea4eaf669f8b5e051bf
@@ -226,7 +226,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 25, y: 4}
+    uvTransform: {x: 4, y: 35}
   - name: Snail_Hurt_Up_Frame_5
     originalName: 
     pivot: {x: 0.5, y: -0.3888889}
@@ -235,8 +235,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 25
-      y: 31
+      x: 20
+      y: 35
       width: 8
       height: 18
     spriteID: 1a015d706cb1b4149a97e86835227530
@@ -247,7 +247,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 25, y: 31}
+    uvTransform: {x: 20, y: 35}
   - name: Snail_Hurt_Up_Frame_6
     originalName: 
     pivot: {x: 0.5, y: -0.4117647}
@@ -256,8 +256,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 25
-      y: 57
+      x: 36
+      y: 35
       width: 8
       height: 17
     spriteID: e0dcf82d1068eec469f3c081039e2a6a
@@ -268,7 +268,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 25, y: 57}
+    uvTransform: {x: 36, y: 35}
   - name: Snail_Hurt_Up_Frame_7
     originalName: 
     pivot: {x: 0.5, y: -0.4117647}
@@ -277,8 +277,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 25
-      y: 82
+      x: 52
+      y: 35
       width: 8
       height: 17
     spriteID: 846a2fd3feb2a714496e8b673b52587f
@@ -289,7 +289,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 25, y: 82}
+    uvTransform: {x: 52, y: 35}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
@@ -303,28 +303,28 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 10
+        x: 12
         y: 7
-        width: 13
+        width: 8
         height: 23
       spriteId: df18adecee2af4e48a0895b6653aa050
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
-        x: 10
+        x: 12
         y: 7
-        width: 13
-        height: 24
+        width: 8
+        height: 23
       spriteId: de21b5e08c1a31143a51a5d2c8d964e3
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
-        x: 11
+        x: 12
         y: 7
-        width: 12
-        height: 25
+        width: 8
+        height: 23
       spriteId: 73a1410cff32ed1429928786fc1bae67
     - name: Frame_3
       frameIndex: 3
