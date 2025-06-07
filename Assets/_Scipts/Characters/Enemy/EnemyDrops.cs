@@ -4,18 +4,22 @@ public class EnemyDrops : MonoBehaviour
 {
     [SerializeField] Item[] droppableItems;
     Item selectedItem;
+    float dropRadius = 1;
 
     public void DropItem()
     {
         if (droppableItems.Length == 0) return;
 
-        int randomItem = Random.Range(0, droppableItems.Length);
-        Item selectedItem = droppableItems[randomItem];
-        int randomChance = Random.Range(0, 101);
-
-        if (randomChance <= selectedItem.DropChance)
+        for (int i = 0; i < droppableItems.Length; i++)
         {
-            Instantiate(selectedItem.Prefab, transform.position, Quaternion.identity);
+            Item selectedItem = droppableItems[i];
+            int randomChance = Random.Range(0, 101);
+
+            if (randomChance <= selectedItem.DropChance)
+            {
+                Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * dropRadius;
+                Instantiate(selectedItem.Prefab, randomPoint, Quaternion.identity);
+            }
         }
     }
 }
