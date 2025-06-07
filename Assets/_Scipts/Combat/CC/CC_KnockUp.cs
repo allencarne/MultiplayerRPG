@@ -17,7 +17,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
     [SerializeField] Transform[] parts;
     [SerializeField] Canvas canvas;
 
-    Vector3 maxHeight = new Vector3(0, 1.5f, 0);
+    Vector3 maxHeight = new Vector3(0, 1f, 0);
 
     private void Update()
     {
@@ -74,7 +74,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
                 for (int i = 0; i < parts.Length; i++)
                 {
                     parts[i].transform.position = parts[i].transform.position + maxHeight;
-                    canvas.transform.position = canvas.transform.position + new Vector3(0, .3f, 0);
+                    canvas.transform.position = canvas.transform.position + new Vector3(0, .2f, 0);
                 }
             }
 
@@ -95,7 +95,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
             for (int i = 0; i < parts.Length; i++)
             {
                 parts[i].transform.position = parts[i].transform.position + -maxHeight;
-                canvas.transform.position = canvas.transform.position + new Vector3(0, -.3f, 0);
+                canvas.transform.position = canvas.transform.position + new Vector3(0, -.2f, 0);
             }
         }
     }

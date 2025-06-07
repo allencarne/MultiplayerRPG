@@ -7,6 +7,7 @@ public class EnemyDeathState : EnemyState
     {
         owner.enemy.isDead = true;
         owner.EnemyAnimator.Play("Death");
+        owner.Drops.DropItem();
 
         owner.HandleDeathClientRPC();
 

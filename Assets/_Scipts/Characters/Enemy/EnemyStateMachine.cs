@@ -48,6 +48,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
+    public EnemyDrops Drops;
 
     public enum State
     {
