@@ -15,7 +15,6 @@ public class EnemyDrops : MonoBehaviour
 
         if (randomChance <= selectedItem.DropChance)
         {
-            // Spawn the item
             Instantiate(selectedItem.Prefab, transform.position, Quaternion.identity);
         }
     }

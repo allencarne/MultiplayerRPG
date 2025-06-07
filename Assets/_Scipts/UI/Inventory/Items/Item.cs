@@ -13,6 +13,7 @@ public class Item : ScriptableObject
     public int SellValue; // What you can sell to vendors for
     public string Description;
     public ItemRarity ItemRarity;
+    [Range(0, 100)]
     public int DropChance;
 
     [Header("Currency")]
