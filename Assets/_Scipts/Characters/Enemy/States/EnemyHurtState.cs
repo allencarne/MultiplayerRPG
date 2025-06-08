@@ -7,7 +7,7 @@ public class EnemyHurtState : EnemyState
     {
         Debug.Log("Hurt");
 
-        owner.CrowdControl.IsInterrupted = true;
+        //owner.CrowdControl.IsInterrupted = true;
         owner.EnemyAnimator.Play("Hurt");
     }
 
@@ -15,8 +15,8 @@ public class EnemyHurtState : EnemyState
     {
         if (!owner.CrowdControl.knockBack.IsKnockedBack)
         {
-            owner.CrowdControl.IsInterrupted = false;
-            owner.SetState(EnemyStateMachine.State.Idle);
+            //owner.CrowdControl.IsInterrupted = false;
+            //owner.SetState(EnemyStateMachine.State.Idle);
         }
     }
 

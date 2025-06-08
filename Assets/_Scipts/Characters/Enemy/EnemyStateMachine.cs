@@ -278,7 +278,7 @@ public class EnemyStateMachine : NetworkBehaviour
         }
 
         IsAttacking = false;
-        SetState(State.Idle);
+        //SetState(State.Idle);
         return;
     }
 

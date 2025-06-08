@@ -129,7 +129,8 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
         direction = direction.normalized;
         knockBackVelocity = direction * amount;
 
-        // Set Hurt State
+        crowdControl.Interrupt(duration);
+
         if (player != null)
         {
             
@@ -137,13 +138,12 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
         if (enemy != null)
         {
-            //enemy.Hurt();
+            enemy.Hurt();
         }
 
-        crowdControl.Interrupt(duration);
-        crowdControl.immobilize.StartImmobilize(duration);
-        crowdControl.disarm.StartDisarm(duration);
-        crowdControl.silence.StartSilence(duration);
+        //crowdControl.immobilize.StartImmobilize(duration);
+        //crowdControl.disarm.StartDisarm(duration);
+        //crowdControl.silence.StartSilence(duration);
 
         StartCoroutine(KnockBackDuration(duration));
     }
