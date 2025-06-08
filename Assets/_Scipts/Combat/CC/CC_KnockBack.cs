@@ -18,6 +18,9 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
     [SerializeField] CrowdControl crowdControl;
     Vector2 knockBackVelocity;
 
+    [SerializeField] PlayerStateMachine player;
+    [SerializeField] EnemyStateMachine enemy;
+
     private void Update()
     {
         UpdateTimer();
@@ -125,6 +128,17 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
     {
         direction = direction.normalized;
         knockBackVelocity = direction * amount;
+
+        // Set Hurt State
+        if (player != null)
+        {
+            
+        }
+
+        if (enemy != null)
+        {
+            //enemy.Hurt();
+        }
 
         crowdControl.Interrupt(duration);
         crowdControl.immobilize.StartImmobilize(duration);

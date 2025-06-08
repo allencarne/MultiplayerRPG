@@ -10,6 +10,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyState enemyWanderState;
     [SerializeField] EnemyState enemyChaseState;
     [SerializeField] EnemyState enemyResetState;
+    [SerializeField] EnemyState enemyHurtState;
     [SerializeField] EnemyState enemyDeathState;
 
     [Header("Ability")]
@@ -57,6 +58,7 @@ public class EnemyStateMachine : NetworkBehaviour
         Wander,
         Chase,
         Reset,
+        Hurt,
         Death,
         Basic,
         Special,
@@ -96,6 +98,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: enemyWanderState.UpdateState(this); break;
             case State.Chase: enemyChaseState.UpdateState(this); break;
             case State.Reset: enemyResetState.UpdateState(this); break;
+            case State.Hurt: enemyHurtState.UpdateState(this); break;
             case State.Death: enemyDeathState.UpdateState(this); break;
             case State.Basic: enemyBasicAbility.AbilityUpdate(this); break;
             case State.Special: enemySpecialAbility.AbilityUpdate(this); break;
@@ -112,6 +115,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: enemyWanderState.FixedUpdateState(this); break;
             case State.Chase: enemyChaseState.FixedUpdateState(this); break;
             case State.Reset: enemyResetState.FixedUpdateState(this); break;
+            case State.Hurt: enemyHurtState.FixedUpdateState(this); break;
             case State.Death: enemyDeathState.FixedUpdateState(this); break;
             case State.Basic: enemyBasicAbility.AbilityFixedUpdate(this); break;
             case State.Special: enemySpecialAbility.AbilityFixedUpdate(this); break;
@@ -130,6 +134,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: state = State.Wander; enemyWanderState.StartState(this); break;
             case State.Chase: state = State.Chase; enemyChaseState.StartState(this); break;
             case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
+            case State.Hurt: state = State.Hurt; enemyHurtState.StartState(this); break;
             case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
             case State.Basic: state = State.Basic; enemyBasicAbility.AbilityStart(this); break;
             case State.Special: state = State.Special; enemySpecialAbility.AbilityStart(this); break;
@@ -186,6 +191,11 @@ public class EnemyStateMachine : NetworkBehaviour
 
         // If we found a valid direction
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
+    }
+
+    public void Hurt()
+    {
+        SetState(State.Hurt);
     }
 
     public void Death()
