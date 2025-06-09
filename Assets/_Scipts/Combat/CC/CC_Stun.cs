@@ -67,7 +67,6 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
         if (enemy != null)
         {
-            Debug.Log("Hurt");
             enemy.Hurt();
         }
 

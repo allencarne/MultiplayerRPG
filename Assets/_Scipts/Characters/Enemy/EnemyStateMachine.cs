@@ -263,6 +263,8 @@ public class EnemyStateMachine : NetworkBehaviour
         Gizmos.DrawSphere(WanderPosition, 0.2f);
     }
 
+    Coroutine CurrentAttack;
+
     public void HandlePotentialInterrupt()
     {
         if (!CrowdControl.IsInterrupted) return;
@@ -278,7 +280,6 @@ public class EnemyStateMachine : NetworkBehaviour
         }
 
         IsAttacking = false;
-        //SetState(State.Idle);
         return;
     }
 

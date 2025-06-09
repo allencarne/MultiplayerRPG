@@ -75,7 +75,7 @@ public class HermitSpecial : EnemyAbility
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
-        owner.HandlePotentialInterrupt();
+
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)

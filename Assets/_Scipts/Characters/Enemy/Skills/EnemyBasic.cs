@@ -56,7 +56,7 @@ public class EnemyBasic : EnemyAbility
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
-        owner.HandlePotentialInterrupt();
+
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
