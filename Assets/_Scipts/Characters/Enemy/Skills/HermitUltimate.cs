@@ -44,7 +44,7 @@ public class HermitUltimate : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Ultimate, castTime, impactTime, recoveryTime, this));
+        owner.StartCast(EnemyStateMachine.SkillType.Ultimate, castTime, impactTime, recoveryTime, this);
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Ultimate, modifiedCooldown));
     }
 

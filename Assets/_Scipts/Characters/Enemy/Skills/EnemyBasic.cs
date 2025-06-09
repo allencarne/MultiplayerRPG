@@ -50,7 +50,7 @@ public class EnemyBasic : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Basic, modifiedCastTime, impactTime, modifiedRecoveryTime, this));
+        owner.StartCast(EnemyStateMachine.SkillType.Basic, modifiedCastTime, impactTime, modifiedRecoveryTime, this);
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Basic, coolDown));
     }
 

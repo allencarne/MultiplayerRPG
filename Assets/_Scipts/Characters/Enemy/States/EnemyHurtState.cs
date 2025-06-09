@@ -11,7 +11,7 @@ public class EnemyHurtState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        //owner.HandlePotentialInterrupt();
+        owner.HandlePotentialInterrupt();
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack && !owner.CrowdControl.stun.IsStunned)
         {

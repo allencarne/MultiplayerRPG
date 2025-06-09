@@ -69,7 +69,7 @@ public class HermitSpecial : EnemyAbility
         owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
 
         // Timers
-        StartCoroutine(owner.CastTime(EnemyStateMachine.SkillType.Special, castTime, impactTime, recoveryTime, this));
+        owner.StartCast(EnemyStateMachine.SkillType.Special, castTime, impactTime, recoveryTime, this);
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, modifiedCooldown));
     }
 

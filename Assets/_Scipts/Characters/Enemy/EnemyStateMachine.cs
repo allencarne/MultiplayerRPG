@@ -279,6 +279,13 @@ public class EnemyStateMachine : NetworkBehaviour
             enemy.CastBar.InterruptServerRpc();
         }
 
+        if (CurrentAttack != null)
+        {
+            StopCoroutine(CurrentAttack);
+            CurrentAttack = null;
+        }
+
+
         IsAttacking = false;
         return;
     }
@@ -295,7 +302,12 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public IEnumerator CastTime(SkillType type, float castTime, float impactTime, float recoveryTime, EnemyAbility ability)
+    public void StartCast(SkillType type, float castTime, float impactTime, float recoveryTime, EnemyAbility ability)
+    {
+        CurrentAttack = StartCoroutine(CastTime(type, castTime, impactTime, recoveryTime, ability));
+    }
+
+    IEnumerator CastTime(SkillType type, float castTime, float impactTime, float recoveryTime, EnemyAbility ability)
     {
         yield return new WaitForSeconds(castTime);
 
@@ -342,6 +354,9 @@ public class EnemyStateMachine : NetworkBehaviour
         if (enemy.isDead) yield break;
 
         IsAttacking = false;
-        SetState(State.Idle);
+        if (state != State.Hurt)
+        {
+            SetState(State.Idle);
+        }
     }
 }
