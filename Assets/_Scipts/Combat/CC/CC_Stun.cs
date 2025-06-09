@@ -13,7 +13,10 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     private float localStunElapsed = 0f;
     private float localStunTotal = 0f;
 
-    [SerializeField] Animator[] animators;
+    [SerializeField] PlayerStateMachine player;
+    [SerializeField] EnemyStateMachine enemy;
+
+    //[SerializeField] Animator[] animators;
 
     private void Update()
     {
@@ -57,10 +60,16 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     {
         IsStunned = isStunned;
 
-        crowdControl.Interrupt(duration);
-        crowdControl.immobilize.StartImmobilize(duration);
-        crowdControl.disarm.StartDisarm(duration);
-        crowdControl.silence.StartSilence(duration);
+        if (player != null)
+        {
+
+        }
+
+        if (enemy != null)
+        {
+            Debug.Log("Hurt");
+            enemy.Hurt();
+        }
 
         if (isStunned)
         {
@@ -71,11 +80,6 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = remainingTime;
-
-            for (int i = 0; i < animators.Length; i++)
-            {
-                animators[i].speed = 0f;
-            }
         }
         else
         {
@@ -86,11 +90,6 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = 0f;
-
-            for (int i = 0; i < animators.Length; i++)
-            {
-                animators[i].speed = 1f;
-            }
         }
     }
 

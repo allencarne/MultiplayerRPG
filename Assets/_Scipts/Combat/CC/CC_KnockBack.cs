@@ -129,11 +129,6 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
         direction = direction.normalized;
         knockBackVelocity = direction * amount;
 
-        //crowdControl.Interrupt(duration);
-        //crowdControl.immobilize.StartImmobilize(duration);
-        //crowdControl.disarm.StartDisarm(duration);
-        //crowdControl.silence.StartSilence(duration);
-
         if (player != null)
         {
             
