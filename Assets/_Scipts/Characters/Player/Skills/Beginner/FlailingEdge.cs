@@ -44,7 +44,7 @@ public class FlailingEdge : PlayerAbility
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
-        owner.HandlePotentialInterrupt();
+
     }
 
     public override void FixedUpdateAbility(PlayerStateMachine owner)
