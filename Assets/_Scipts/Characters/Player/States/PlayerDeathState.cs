@@ -5,8 +5,7 @@ public class PlayerDeathState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        owner.BodyAnimator.Play("Death");
-        owner.player.IsDead = true;
+        // This code is executed by the server only (not run locally by client)
         owner.HandleDeathClientRPC(false);
         StartCoroutine(Delay(owner));
     }
@@ -15,7 +14,6 @@ public class PlayerDeathState : PlayerState
     {
         yield return new WaitForSeconds(1);
         owner.SetState(PlayerStateMachine.State.Spawn);
-        owner.player.IsDead = false;
         owner.player.GiveHeal(100, HealType.Percentage);
         owner.HandleDeathClientRPC(true);
     }
