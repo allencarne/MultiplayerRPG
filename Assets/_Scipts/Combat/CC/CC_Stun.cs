@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CC_Stun : NetworkBehaviour, IStunnable
 {
@@ -60,18 +61,10 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     {
         IsStunned = isStunned;
 
-        if (player != null)
-        {
-
-        }
-
-        if (enemy != null)
-        {
-            enemy.Hurt();
-        }
-
         if (isStunned)
         {
+            ApplyStun();
+
             if (stunInstance == null)
             {
                 stunInstance = Instantiate(cc_Stun, buffBar.transform);
@@ -124,6 +117,19 @@ public class CC_Stun : NetworkBehaviour, IStunnable
                     ui.UpdateFill(fill);
                 }
             }
+        }
+    }
+
+    void ApplyStun()
+    {
+        if (player != null)
+        {
+
+        }
+
+        if (enemy != null)
+        {
+            enemy.Hurt();
         }
     }
 }

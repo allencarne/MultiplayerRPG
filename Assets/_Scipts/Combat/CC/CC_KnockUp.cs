@@ -13,6 +13,9 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
     private float localKnockUpElapsed = 0f;
     private float localKnockUpTotal = 0f;
 
+    [SerializeField] PlayerStateMachine player;
+    [SerializeField] EnemyStateMachine enemy;
+
     [SerializeField] CrowdControl crowdControl;
     [SerializeField] Transform[] parts;
     [SerializeField] Canvas canvas;
@@ -65,7 +68,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
         if (isKnockedUp)
         {
-            ApplyKnockUp(duration);
+            ApplyKnockUp();
 
             if (knockUpInstance == null)
             {
@@ -135,11 +138,16 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
         }
     }
 
-    void ApplyKnockUp(float duration)
+    void ApplyKnockUp()
     {
-        crowdControl.Interrupt(duration);
-        crowdControl.immobilize.StartImmobilize(duration);
-        crowdControl.disarm.StartDisarm(duration);
-        crowdControl.silence.StartSilence(duration);
+        if (player != null)
+        {
+
+        }
+
+        if (enemy != null)
+        {
+            enemy.Hurt();
+        }
     }
 }

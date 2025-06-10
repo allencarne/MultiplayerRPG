@@ -13,7 +13,10 @@ public class EnemyHurtState : EnemyState
     {
         owner.HandlePotentialInterrupt();
 
-        if (!owner.CrowdControl.knockBack.IsKnockedBack && !owner.CrowdControl.stun.IsStunned)
+        if (!owner.CrowdControl.knockBack.IsKnockedBack && 
+            !owner.CrowdControl.stun.IsStunned && 
+            !owner.CrowdControl.knockUp.IsKnockedUp && 
+            !owner.CrowdControl.pull.IsPulled)
         {
             owner.CrowdControl.IsInterrupted = false;
             owner.SetState(EnemyStateMachine.State.Idle);

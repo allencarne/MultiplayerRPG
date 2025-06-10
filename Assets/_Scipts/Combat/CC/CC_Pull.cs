@@ -13,6 +13,9 @@ public class CC_Pull : NetworkBehaviour, IPullable
     private float localPullElapsed = 0f;
     private float localPullTotal = 0f;
 
+    [SerializeField] PlayerStateMachine player;
+    [SerializeField] EnemyStateMachine enemy;
+
     [Header("Knockback")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] CrowdControl crowdControl;
@@ -126,10 +129,15 @@ public class CC_Pull : NetworkBehaviour, IPullable
         direction = direction.normalized;
         pullVelocity = direction * amount;
 
-        crowdControl.Interrupt(duration);
-        crowdControl.immobilize.StartImmobilize(duration);
-        crowdControl.disarm.StartDisarm(duration);
-        crowdControl.silence.StartSilence(duration);
+        if (player != null)
+        {
+
+        }
+
+        if (enemy != null)
+        {
+            enemy.Hurt();
+        }
 
         StartCoroutine(PullDuration(duration));
     }
