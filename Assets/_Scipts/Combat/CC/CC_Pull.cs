@@ -131,7 +131,7 @@ public class CC_Pull : NetworkBehaviour, IPullable
 
         if (player != null)
         {
-
+            player.Hurt();
         }
 
         if (enemy != null)

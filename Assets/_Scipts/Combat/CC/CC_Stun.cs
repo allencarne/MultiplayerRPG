@@ -124,7 +124,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     {
         if (player != null)
         {
-
+            player.Hurt();
         }
 
         if (enemy != null)

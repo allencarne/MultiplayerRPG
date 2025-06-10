@@ -48,7 +48,7 @@ public class FrailSlash : PlayerAbility
         owner.StartSlide(true);
 
         // Timers
-        StartCoroutine(owner.CastTime(modifiedCastTime, modifiedRecoveryTime, this));
+        owner.StartCast(modifiedCastTime, modifiedRecoveryTime, this);
         StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Basic, coolDown));
     }
 

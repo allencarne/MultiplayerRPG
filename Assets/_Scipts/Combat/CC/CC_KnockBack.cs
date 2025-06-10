@@ -131,7 +131,7 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
         if (player != null)
         {
-            
+            player.Hurt();
         }
 
         if (enemy != null)

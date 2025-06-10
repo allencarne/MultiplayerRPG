@@ -16940,6 +16940,7 @@ MonoBehaviour:
   playerIdleState: {fileID: 4175066047058421697}
   playerRunState: {fileID: 6250160744336573081}
   playerRollState: {fileID: 8861671175455474516}
+  playerHurtState: {fileID: 1009346017491287177}
   playerDeathState: {fileID: 3774031646297609908}
   SwordAnimator: {fileID: 1012001254419383665}
   BodyAnimator: {fileID: 8282777624565145663}
@@ -26179,6 +26180,7 @@ Transform:
   - {fileID: 8958194080860319172}
   - {fileID: 2398157614384508031}
   - {fileID: 339924766019614001}
+  - {fileID: 6543247806048100469}
   - {fileID: 149512632728993610}
   m_Father: {fileID: 5144383124475292198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47393,6 +47395,50 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!1 &8390530415964231522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6543247806048100469}
+  - component: {fileID: 1009346017491287177}
+  m_Layer: 0
+  m_Name: Hurt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6543247806048100469
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390530415964231522}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8264740097536149685}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1009346017491287177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390530415964231522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8533a0f3c92f8804f942cad19f94bf86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8409847121948273211
 GameObject:
   m_ObjectHideFlags: 0

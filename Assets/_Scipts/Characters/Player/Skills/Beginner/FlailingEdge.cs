@@ -38,7 +38,7 @@ public class FlailingEdge : PlayerAbility
         owner.StartCast(castTime);
 
         // Timers
-        StartCoroutine(owner.CastTime(castTime, recoveryTime, this));
+        owner.StartCast(castTime, recoveryTime, this);
         StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, modifiedCooldown));
     }
 

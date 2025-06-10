@@ -142,7 +142,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
     {
         if (player != null)
         {
-
+            player.Hurt();
         }
 
         if (enemy != null)

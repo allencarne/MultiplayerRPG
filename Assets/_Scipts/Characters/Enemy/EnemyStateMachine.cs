@@ -285,7 +285,6 @@ public class EnemyStateMachine : NetworkBehaviour
             CurrentAttack = null;
         }
 
-
         IsAttacking = false;
         return;
     }

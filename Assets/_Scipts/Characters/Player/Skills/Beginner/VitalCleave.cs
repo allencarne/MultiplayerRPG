@@ -44,7 +44,7 @@ public class VitalCleave : PlayerAbility
         owner.StartSlide(false);
 
         // Timers
-        StartCoroutine(owner.CastTime(castTime, recoveryTime, this));
+        owner.StartCast(castTime, recoveryTime, this);
         StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, modifiedCooldown));
     }
 

@@ -11,6 +11,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerIdleState playerIdleState;
     [SerializeField] PlayerRunState playerRunState;
     [SerializeField] PlayerRollState playerRollState;
+    [SerializeField] PlayerHurtState playerHurtState;
     [SerializeField] PlayerDeathState playerDeathState;
 
     [Header("Animators")]
@@ -49,6 +50,7 @@ public class PlayerStateMachine : NetworkBehaviour
         Idle,
         Run,
         Roll,
+        Hurt,
         Death,
         Basic,
         Offensive,
@@ -99,25 +101,16 @@ public class PlayerStateMachine : NetworkBehaviour
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;
-
             case State.Idle: playerIdleState.UpdateState(this); break;
-
             case State.Run: playerRunState.UpdateState(this); break;
-
             case State.Roll: playerRollState.UpdateState(this); break;
-
+            case State.Hurt: playerHurtState.UpdateState(this); break;
             case State.Death: playerDeathState.UpdateState(this); break;
-
             case State.Basic: skills.basicAbilities[player.BasicIndex].UpdateAbility(this); break;
-
             case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].UpdateAbility(this); break;
-
             case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].UpdateAbility(this); break;
-
             case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].UpdateAbility(this); break;
-
             case State.Ultility: skills.utilityAbilities[player.UtilityIndex].UpdateAbility(this); break;
-
             case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].UpdateAbility(this); break;
         }
     }
@@ -142,27 +135,17 @@ public class PlayerStateMachine : NetworkBehaviour
         switch (state)
         {
             case State.Spawn: playerSpawnState.FixedUpdateState(this); break;
-
             case State.Idle: playerIdleState.FixedUpdateState(this); break;
-
             case State.Run: playerRunState.FixedUpdateState(this); break;
-
             case State.Roll: playerRollState.FixedUpdateState(this); break;
-
+            case State.Hurt: playerHurtState.FixedUpdateState(this); break;
             case State.Death: playerDeathState.FixedUpdateState(this); break;
-
             case State.Basic: skills.basicAbilities[player.BasicIndex].FixedUpdateAbility(this); break;
-
             case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].FixedUpdateAbility(this); break;
-
             case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].FixedUpdateAbility(this); break;
-
             case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].FixedUpdateAbility(this); break;
-
             case State.Ultility: skills.utilityAbilities[player.UtilityIndex].FixedUpdateAbility(this); break;
-
             case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].FixedUpdateAbility(this); break;
-
         }
     }
 
@@ -171,13 +154,10 @@ public class PlayerStateMachine : NetworkBehaviour
         switch (newState)
         {
             case State.Spawn: state = State.Spawn; playerSpawnState.StartState(this); break;
-
             case State.Idle: state = State.Idle; playerIdleState.StartState(this); break;
-
             case State.Run: state = State.Run; playerRunState.StartState(this); break;
-
             case State.Roll: state = State.Roll; playerRollState.StartState(this); break;
-
+            case State.Hurt: state = State.Hurt; playerHurtState.StartState(this); break;
             case State.Death: state = State.Death; playerDeathState.StartState(this); break;
         }
     }
@@ -422,6 +402,8 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
+    Coroutine CurrentAttack;
+
     public void HandlePotentialInterrupt()
     {
         if (!CrowdControl.IsInterrupted) return;
@@ -436,8 +418,13 @@ public class PlayerStateMachine : NetworkBehaviour
             player.CastBar.InterruptServerRpc();
         }
 
+        if (CurrentAttack != null)
+        {
+            StopCoroutine(CurrentAttack);
+            CurrentAttack = null;
+        }
+
         IsAttacking = false;
-        SetState(State.Idle);
         return;
     }
 
@@ -456,7 +443,12 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    public IEnumerator CastTime(float modifiedCastTime, float recoveryTime, PlayerAbility ability)
+    public void StartCast(float modifiedCastTime, float recoveryTime, PlayerAbility ability)
+    {
+        CurrentAttack = StartCoroutine(CastTime(modifiedCastTime, recoveryTime, ability));
+    }
+
+    IEnumerator CastTime(float modifiedCastTime, float recoveryTime, PlayerAbility ability)
     {
         yield return new WaitForSeconds(modifiedCastTime);
 
@@ -506,7 +498,10 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.IsDead) yield break;
 
         IsAttacking = false;
-        SetState(State.Idle);
+        if (state != State.Hurt)
+        {
+            SetState(State.Idle);
+        }
     }
 
     public void StartSlide(bool requireMoveInput)
@@ -628,6 +623,11 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
+    public void Hurt()
+    {
+        SetState(State.Hurt);
+    }
+
     public void Death()
     {
         SetState(State.Death);
@@ -639,10 +639,10 @@ public class PlayerStateMachine : NetworkBehaviour
         Collider.enabled = isEnabled;
         player.CastBar.gameObject.SetActive(isEnabled);
         player.SwordSprite.enabled = isEnabled;
-        player.BodySprite.enabled = isEnabled;
+        //player.BodySprite.enabled = isEnabled;
         player.EyeSprite.enabled = isEnabled;
         player.HairSprite.enabled = isEnabled;
-        player.ShadowSprite.enabled = isEnabled;
+        //player.ShadowSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
 
         if (isEnabled)
