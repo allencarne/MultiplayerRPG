@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,7 +9,6 @@ public class Buff_Regeneration : NetworkBehaviour
 
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject buff_Regeneration;
-    GameObject regenUI;
 
     public void Regeneration(HealType type, float amount, float rate, float duration)
     {
@@ -18,12 +16,18 @@ public class Buff_Regeneration : NetworkBehaviour
 
         if (IsServer)
         {
-            StartCoroutine(Duration(type, amount, rate,duration));
+            StartCoroutine(Duration(type, amount, rate, duration));
         }
         else
         {
-
+            RequestRegenerationServerRPC(type, amount, rate, duration);
         }
+    }
+
+    [ServerRpc]
+    void RequestRegenerationServerRPC(HealType type, float amount, float rate, float duration)
+    {
+        StartCoroutine(Duration(type, amount, rate, duration));
     }
 
     IEnumerator Duration(HealType type, float amount, float rate, float duration)
