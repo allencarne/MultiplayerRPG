@@ -569,8 +569,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
         {
-            //Buffs.haste.StartHaste(1, 10);
-            CrowdControl.disarm.StartDisarm(4);
+            Buffs.regeneration.Regeneration(HealType.Flat, 1,.5f,10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F2))

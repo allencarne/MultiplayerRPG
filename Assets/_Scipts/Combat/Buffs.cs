@@ -13,4 +13,5 @@ public class Buffs : NetworkBehaviour
     public Buff_Alacrity alacrity;
     public Buff_Protection protection;
     public Buff_Swiftness swiftness;
+    public Buff_Regeneration regeneration;
 }
