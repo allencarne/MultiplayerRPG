@@ -32,18 +32,14 @@ public class Buff_Regeneration : NetworkBehaviour
 
     IEnumerator Duration(HealType type, float amount, float rate, float duration)
     {
+        UIClientRpc(duration);
+
         float elapsed = 0f;
         float nextHealTime = rate;
-
-        GameObject UI = Instantiate(buff_Regeneration, buffBar.transform);
-        StatusEffects fill = UI.GetComponent<StatusEffects>();
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-
-            if (fill != null)
-                fill.UpdateFill(elapsed / duration);
 
             if (elapsed >= nextHealTime)
             {
@@ -53,7 +49,30 @@ public class Buff_Regeneration : NetworkBehaviour
 
             yield return null;
         }
+    }
 
-        Destroy(UI);
+    [ClientRpc]
+    void UIClientRpc(float duration)
+    {
+        GameObject UI = Instantiate(buff_Regeneration, buffBar.transform);
+        StatusEffects fill = UI.GetComponent<StatusEffects>();
+        StartCoroutine(UpdateUIFill(UI, fill, duration));
+    }
+
+    IEnumerator UpdateUIFill(GameObject uiObject, StatusEffects fill, float duration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            if (fill != null)
+                fill.UpdateFill(elapsed / duration);
+
+            yield return null;
+        }
+
+        Destroy(uiObject);
     }
 }
