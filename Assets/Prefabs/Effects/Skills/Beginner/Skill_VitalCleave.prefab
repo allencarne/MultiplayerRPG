@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 4509309591214494439}
   - component: {fileID: 1001649035954586154}
   - component: {fileID: 6768485862872011384}
-  - component: {fileID: 4211249415634167486}
   m_Layer: 0
   m_Name: Skill_VitalCleave
   m_TagString: Untagged
@@ -194,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1369034593
+  GlobalObjectIdHash: 274633652
   InScenePlacedSourceGlobalObjectIdHash: 540251603
   DeferredDespawnTick: 0
   Ownership: 1
@@ -316,22 +315,6 @@ MonoBehaviour:
   attacker: {fileID: 0}
   IgnoreEnemy: 0
   IsBasic: 0
+  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
---- !u!114 &4211249415634167486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7132417452424499324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bebadc795ffe845bb07b85c9bca50c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attacker: {fileID: 0}
-  Direction: {x: 0, y: 0}
-  Amount: 0
-  Duration: 0
-  IgnoreEnemy: 0
