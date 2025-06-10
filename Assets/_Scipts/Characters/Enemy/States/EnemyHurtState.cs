@@ -11,6 +11,8 @@ public class EnemyHurtState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
+        if (!owner.IsOwner) return;
+
         owner.HandlePotentialInterrupt();
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack && 

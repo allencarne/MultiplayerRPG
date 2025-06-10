@@ -10,6 +10,8 @@ public class PlayerHurtState : PlayerState
 
     public override void UpdateState(PlayerStateMachine owner)
     {
+        if (!owner.IsOwner) return;
+
         owner.HandlePotentialInterrupt();
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack &&

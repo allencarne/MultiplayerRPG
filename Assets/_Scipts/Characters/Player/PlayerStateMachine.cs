@@ -409,6 +409,15 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!CrowdControl.IsInterrupted) return;
         if (player.CastBar.castBarFill.color != Color.black) return;
 
+        if (IsOwner)
+        {
+            Debug.Log("IsOwner");
+        }
+        else
+        {
+            Debug.Log("NotOwner");
+        }
+
         if (IsServer)
         {
             player.CastBar.InterruptCastBar();

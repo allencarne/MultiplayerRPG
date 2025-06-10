@@ -4,7 +4,6 @@ using UnityEngine;
 public class SecondWind : PlayerAbility
 {
     bool isOnCooldown = false;
-    bool isHealing = false;
 
     int healAmount = 1;
     float healRate = 1f;
@@ -18,38 +17,22 @@ public class SecondWind : PlayerAbility
 
     public override void UpdateAbility(PlayerStateMachine owner)
     {
+        if (!owner.IsOwner) return;
+
         float healthPercent = owner.player.Health.Value / owner.player.MaxHealth.Value;
 
-        if (!isHealing && !isOnCooldown && healthPercent <= 0.4f)
+        if (!isOnCooldown && healthPercent <= 0.4f)
         {
-            isHealing = true;
-            owner.StartCoroutine(HealOverTime(owner));
+            isOnCooldown = true;
+
+            owner.Buffs.regeneration.Regeneration(HealType.Flat, healAmount, healRate, abilityDuration);
+            owner.StartCoroutine(CoolDownTime());
         }
     }
 
     public override void FixedUpdateAbility(PlayerStateMachine owner)
     {
 
-    }
-
-    private IEnumerator HealOverTime(PlayerStateMachine owner)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < abilityDuration)
-        {
-            // Heal the player once per tick
-            owner.player.GiveHeal(healAmount, HealType.Flat);
-
-            yield return new WaitForSeconds(healRate);
-            elapsed += healRate;
-        }
-
-        isHealing = false;
-        isOnCooldown = true;
-
-        // Start cooldown timer
-        owner.StartCoroutine(CoolDownTime());
     }
 
     private IEnumerator CoolDownTime()
