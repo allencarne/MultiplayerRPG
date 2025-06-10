@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HermitSpecial : EnemyAbility
@@ -88,7 +89,13 @@ public class HermitSpecial : EnemyAbility
 
     IEnumerator DashDuration(EnemyStateMachine owner)
     {
+        if (!owner.IsAttacking) yield break;
+        if (owner.enemy.isDead) yield break;
+
         yield return new WaitForSeconds(castTime);
+
+        if (!owner.IsAttacking) yield break;
+        if (owner.enemy.isDead) yield break;
 
         owner.Buffs.phase.StartPhase(impactTime + .7f);
         owner.Buffs.immoveable.StartImmovable(impactTime + .3f);
@@ -97,10 +104,11 @@ public class HermitSpecial : EnemyAbility
         yield return new WaitForSeconds(impactTime + .3f);
 
         owner.CanDash = false;
-        if (owner.IsAttacking && !owner.enemy.isDead)
-        {
-            SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
-        }
+
+        if (!owner.IsAttacking) yield break;
+        if (owner.enemy.isDead) yield break;
+
+        SpawnAttack(vectorToTarget, aimRotation, aimDirection, owner.NetworkObject);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
