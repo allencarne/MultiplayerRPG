@@ -56,7 +56,7 @@ public class PlayerEquipment : NetworkBehaviour
 			{
                 IsWeaponEquipt = true;
                 EquipWeapon(newWeapon);
-                Debug.Log($"Equipped: {newWeapon.itemIndex}");
+                //Debug.Log($"Equipped: {newWeapon.itemIndex}");
             }
 
             // Handle armor equip
