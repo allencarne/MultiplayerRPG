@@ -199,8 +199,15 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
-            stateMachine.Death();
+            HandleDeathClientRPC();
         }
+    }
+
+    [ClientRpc]
+    void HandleDeathClientRPC()
+    {
+        if (!IsOwner) return;
+        stateMachine.Death();
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)

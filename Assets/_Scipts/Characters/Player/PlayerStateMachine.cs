@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -633,31 +631,42 @@ public class PlayerStateMachine : NetworkBehaviour
         SetState(State.Death);
     }
 
-    [ClientRpc]
-    public void HandleDeathClientRPC(bool isEnabled)
+    [ServerRpc]
+    public void RequestDisableColliderServerRpc()
     {
-        if (isEnabled)
-        {
-            transform.position = Vector3.zero;
-            player.IsDead = false;
-        }
-        else
-        {
-            player.IsDead = true;
-            BodyAnimator.Play("Death");
-        }
+        Collider.enabled = false;
+        player.SwordSprite.enabled = false;
+        player.EyeSprite.enabled = false;
+        player.HairSprite.enabled = false;
+        player.AimerSprite.enabled = false;
+        ApplyColliderStateClientRpc(false);
+    }
 
+    [ServerRpc]
+    public void RequestEnableColliderServerRpc()
+    {
+        Collider.enabled = true;
+        player.SwordSprite.enabled = true;
+        player.EyeSprite.enabled = true;
+        player.HairSprite.enabled = true;
+        player.AimerSprite.enabled = true;
+        ApplyColliderStateClientRpc(true);
+    }
+
+    [ClientRpc]
+    void ApplyColliderStateClientRpc(bool isEnabled)
+    {
         Collider.enabled = isEnabled;
-        player.CastBar.gameObject.SetActive(isEnabled);
-        /*
-        for (int i = 0; i < player.playerImages.Length; i++)
-        {
-            player.playerImages[i].enabled = isEnabled;
-        }
-        */
         player.SwordSprite.enabled = isEnabled;
         player.EyeSprite.enabled = isEnabled;
         player.HairSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
+    }
+
+    [ServerRpc]
+    public void RequestRespawnServerRpc(Vector3 position)
+    {
+        transform.position = position;
+        player.GiveHeal(100, HealType.Percentage);
     }
 }
