@@ -83,6 +83,11 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         TestMethods();
 
+        if (IsOwner)
+        {
+            Debug.Log(state);
+        }
+
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].UpdateAbility(this);
@@ -637,17 +642,21 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         Collider.enabled = isEnabled;
         player.CastBar.gameObject.SetActive(isEnabled);
+        /*
+        for (int i = 0; i < player.playerImages.Length; i++)
+        {
+            player.playerImages[i].enabled = isEnabled;
+        }
+        */
         player.SwordSprite.enabled = isEnabled;
-        //player.BodySprite.enabled = isEnabled;
         player.EyeSprite.enabled = isEnabled;
         player.HairSprite.enabled = isEnabled;
-        //player.ShadowSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
 
         if (isEnabled)
         {
-            player.IsDead = false;
             transform.position = Vector3.zero;
+            player.IsDead = false;
         }
         else
         {

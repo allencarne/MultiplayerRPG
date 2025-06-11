@@ -12,7 +12,7 @@ public class PlayerDeathState : PlayerState
 
     IEnumerator Delay(PlayerStateMachine owner)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5);
         owner.SetState(PlayerStateMachine.State.Spawn);
         owner.player.GiveHeal(100, HealType.Percentage);
         owner.HandleDeathClientRPC(true);

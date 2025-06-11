@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Player : NetworkBehaviour, IDamageable, IHealable
 {
@@ -22,6 +23,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public SpriteRenderer AimerSprite;
 
     [Header("UI")]
+    public Image[] playerImages;
     [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] HealthBar healthBar;
     [SerializeField] FuryBar furyBar;
