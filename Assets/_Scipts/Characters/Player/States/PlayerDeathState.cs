@@ -5,6 +5,8 @@ public class PlayerDeathState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
+        Debug.Log("Death");
+
         // This code is executed by the server only (not run locally by client)
         owner.HandleDeathClientRPC(false);
         StartCoroutine(Delay(owner));

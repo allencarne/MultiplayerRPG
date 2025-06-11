@@ -83,11 +83,6 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         TestMethods();
 
-        if (IsOwner)
-        {
-            Debug.Log(state);
-        }
-
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].UpdateAbility(this);
@@ -629,6 +624,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Hurt()
     {
+        if (player.IsDead) return;
         SetState(State.Hurt);
     }
 
@@ -640,6 +636,17 @@ public class PlayerStateMachine : NetworkBehaviour
     [ClientRpc]
     public void HandleDeathClientRPC(bool isEnabled)
     {
+        if (isEnabled)
+        {
+            transform.position = Vector3.zero;
+            player.IsDead = false;
+        }
+        else
+        {
+            player.IsDead = true;
+            BodyAnimator.Play("Death");
+        }
+
         Collider.enabled = isEnabled;
         player.CastBar.gameObject.SetActive(isEnabled);
         /*
@@ -652,16 +659,5 @@ public class PlayerStateMachine : NetworkBehaviour
         player.EyeSprite.enabled = isEnabled;
         player.HairSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
-
-        if (isEnabled)
-        {
-            transform.position = Vector3.zero;
-            player.IsDead = false;
-        }
-        else
-        {
-            player.IsDead = true;
-            BodyAnimator.Play("Death");
-        }
     }
 }

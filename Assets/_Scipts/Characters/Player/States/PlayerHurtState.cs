@@ -4,6 +4,9 @@ public class PlayerHurtState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
+        if (!owner.IsOwner) return;
+
+        Debug.Log("Hurt");
         owner.CrowdControl.IsInterrupted = true;
         owner.BodyAnimator.Play("Hurt");
     }

@@ -146,7 +146,6 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
     private void ApplyKnockBackClientRPC(Vector2 direction, float amount, float duration)
     {
         if (IsServer) return;
-
         ApplyKnockback(direction, amount, duration);
     }
 
