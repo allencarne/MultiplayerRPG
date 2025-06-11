@@ -7,12 +7,12 @@ public class NetworkInput : NetworkBehaviour
     [SerializeField] PlayerInputHandler playerInputHandler;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PlayerStateMachine playerStateMachine;
+    [SerializeField] GameObject PlayerUI;
 
     private void Awake()
     {
         playerInputHandler.enabled = false;
         playerInput.enabled = false;
-        //playerStateMachine.enabled = false;
     }
 
     public override void OnNetworkSpawn()
@@ -23,7 +23,10 @@ public class NetworkInput : NetworkBehaviour
         {
             playerInputHandler.enabled = true;
             playerInput.enabled = true;
-            //playerStateMachine.enabled = true;
+        }
+        else
+        {
+            PlayerUI.SetActive(false);
         }
     }
 }
