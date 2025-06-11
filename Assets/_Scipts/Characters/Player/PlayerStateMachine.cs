@@ -664,9 +664,8 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void RequestRespawnServerRpc(Vector3 position)
+    public void RequestRespawnServerRpc()
     {
-        transform.position = position;
         player.GiveHeal(100, HealType.Percentage);
     }
 }

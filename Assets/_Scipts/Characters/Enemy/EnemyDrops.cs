@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class EnemyDrops : MonoBehaviour
@@ -18,7 +19,9 @@ public class EnemyDrops : MonoBehaviour
             if (randomChance <= selectedItem.DropChance)
             {
                 Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * dropRadius;
-                Instantiate(selectedItem.Prefab, randomPoint, Quaternion.identity);
+                GameObject item = Instantiate(selectedItem.Prefab, randomPoint, Quaternion.identity);
+                NetworkObject netItem = item.GetComponent<NetworkObject>();
+                netItem.Spawn();
             }
         }
     }

@@ -7,14 +7,27 @@ public class ItemPickup : NetworkBehaviour
     public Item Item;
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
+    bool _hasBeenPickedUp = false;
 
     public void PickUp(Player player)
     {
+        // Prevent duplicate pickup
+        if (_hasBeenPickedUp) return;
+        _hasBeenPickedUp = true;
+
         if (Item.IsCurrency)
         {
             player.CoinCollected(Item.Quantity);
 
-            Destroy(gameObject);
+            if (IsServer)
+            {
+                NetworkObject.Despawn(true);
+            }
+            else
+            {
+                DespawnServerRPC();
+            }
+
             return;
         }
 
@@ -24,8 +37,25 @@ public class ItemPickup : NetworkBehaviour
         // Destroy item if it was collected
         if (wasPickedUp)
         {
-            Destroy(gameObject);
+            if (IsServer)
+            {
+                NetworkObject.Despawn(true);
+            }
+            else
+            {
+                DespawnServerRPC();
+            }
         }
+        else
+        {
+            _hasBeenPickedUp = false;
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void DespawnServerRPC()
+    {
+        NetworkObject.Despawn(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
