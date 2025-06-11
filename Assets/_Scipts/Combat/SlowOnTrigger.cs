@@ -18,22 +18,27 @@ public class SlowOnTrigger : NetworkBehaviour
 
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
 
-        NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
-        if (objectThatWasHit != null)
-        {
-            if (objectThatWasHit == attacker)
-            {
-                return;
-            }
-        }
+        NetworkObject targetNetObj = collision.GetComponent<NetworkObject>();
+        if (targetNetObj == null || targetNetObj == attacker) return;
+        if (slowedObjects.Contains(targetNetObj)) return;
 
-        if (slowedObjects.Contains(objectThatWasHit)) return;
+        // Mark as slowed so we don't repeat it
+        slowedObjects.Add(targetNetObj);
 
-        ISlowable slowable = collision.GetComponentInChildren<ISlowable>();
+        // Tell all clients to apply the slow if they own the object
+        SlowClientRPC(targetNetObj, Stacks, Duration);
+    }
+
+    [ClientRpc]
+    void SlowClientRPC(NetworkObjectReference targetRef, int stacks, float duration)
+    {
+        if (!targetRef.TryGet(out NetworkObject netObj)) return;
+        if (!netObj.IsOwner) return;
+
+        ISlowable slowable = netObj.GetComponentInChildren<ISlowable>();
         if (slowable != null)
         {
-            slowable.StartSlow(Stacks, Duration);
-            slowedObjects.Add(objectThatWasHit);
+            slowable.StartSlow(stacks, duration);
         }
     }
 }

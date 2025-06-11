@@ -6,7 +6,6 @@ public class PlayerHurtState : PlayerState
     {
         if (!owner.IsOwner) return;
 
-        Debug.Log("Hurt");
         owner.CrowdControl.IsInterrupted = true;
         owner.BodyAnimator.Play("Hurt");
     }
