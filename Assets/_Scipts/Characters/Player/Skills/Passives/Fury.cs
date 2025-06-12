@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Fury : PlayerAbility
 {
@@ -11,6 +12,9 @@ public class Fury : PlayerAbility
 
     Coroutine idleCoroutine;
     PlayerStateMachine _owner;
+
+    [SerializeField] Material glow;
+    [SerializeField] Image border;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
@@ -116,5 +120,17 @@ public class Fury : PlayerAbility
         }
 
         furyHasteStacks = newStacks;
+    }
+
+    void HandleGlow()
+    {
+        if (_owner.player.Fury.Value >= _owner.player.MaxFury.Value)
+        {
+            border.material = glow;
+        }
+        else
+        {
+            border.material = null;
+        }
     }
 }
