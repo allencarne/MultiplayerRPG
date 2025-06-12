@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
@@ -244,6 +241,22 @@ public class PlayerInputHandler : MonoBehaviour
             ZoomInput = context.ReadValue<Vector2>();
 
             ZoomPerformed?.Invoke(ZoomInput);
+        }
+    }
+
+    public void OnZoomIn(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ZoomPerformed?.Invoke(new Vector2(0, 1)); // Simulate scroll up
+        }
+    }
+
+    public void OnZoomOut(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            ZoomPerformed?.Invoke(new Vector2(0, -1)); // Simulate scroll down
         }
     }
 
