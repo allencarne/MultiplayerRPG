@@ -123,8 +123,7 @@ public class PlayerUI : NetworkBehaviour
 
     void EnableUI()
     {
-        HUD.SetActive(false);
-        MobileUI(false);
+        SetHUD(false);
         ClosePanels();
         HeroPanel.SetActive(true);
         input.SwitchCurrentActionMap("UI");
@@ -135,17 +134,20 @@ public class PlayerUI : NetworkBehaviour
         if (!IsOwner) return;
 
         ClosePanels();
-        HUD.SetActive(true);
-        MobileUI(true);
+        SetHUD(true);
         EventSystem.current.SetSelectedGameObject(null);
         input.SwitchCurrentActionMap("Player");
     }
 
-    void MobileUI(bool isMobile)
+    void SetHUD(bool isMobile)
     {
         if (Application.isMobilePlatform)
         {
             MobileHUD.SetActive(isMobile);
+        }
+        else
+        {
+            HUD.SetActive(isMobile);
         }
     }
 

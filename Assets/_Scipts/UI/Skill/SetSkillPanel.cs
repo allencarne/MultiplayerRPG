@@ -19,12 +19,20 @@ public class SetSkillPanel : MonoBehaviour
     [SerializeField] SkillPanel rogueSkills;
 
     [Header("Ability Bar")]
-    [SerializeField] Image skillBar_Basic;
-    [SerializeField] Image skillBar_Offensive;
-    [SerializeField] Image skillBar_Mobility;
-    [SerializeField] Image skillBar_Defensive;
-    [SerializeField] Image skillBar_Utility;
-    [SerializeField] Image skillBar_Ultimate;
+    [SerializeField] Image[] skillBar_Basic;
+    [SerializeField] Image[] skillBar_Offensive;
+    [SerializeField] Image[] skillBar_Mobility;
+    [SerializeField] Image[] skillBar_Defensive;
+    [SerializeField] Image[] skillBar_Utility;
+    [SerializeField] Image[] skillBar_Ultimate;
+
+    [Header("Ability Bar Locks")]
+    [SerializeField] Image[] skillBar_Basic_Lock;
+    [SerializeField] Image[] skillBar_Offensive_Lock;
+    [SerializeField] Image[] skillBar_Mobility_Lock;
+    [SerializeField] Image[] skillBar_Defensive_Lock;
+    [SerializeField] Image[] skillBar_Utility_Lock;
+    [SerializeField] Image[] skillBar_Ultimate_Lock;
 
     private void Start()
     {
@@ -35,6 +43,7 @@ public class SetSkillPanel : MonoBehaviour
         RoguePanel.SetActive(false);
 
         SetSkills();
+        OnLevelUp();
     }
 
     public void SetSkills()
@@ -73,38 +82,107 @@ public class SetSkillPanel : MonoBehaviour
     {
         if (player.BasicIndex > -1)
         {
-            skillBar_Basic.color = Color.white;
-            skillBar_Basic.sprite = skills.basicAbilities[player.BasicIndex].SkillIcon;
+            for (int i = 0; i < skillBar_Basic.Length; i++)
+            {
+                skillBar_Basic[i].color = Color.white;
+                skillBar_Basic[i].sprite = skills.basicAbilities[player.BasicIndex].SkillIcon;
+            }
         }
 
         if (player.OffensiveIndex > -1)
         {
-            skillBar_Offensive.color = Color.white;
-            skillBar_Offensive.sprite = skills.offensiveAbilities[player.OffensiveIndex].SkillIcon;
+            for (int i = 0; i < skillBar_Basic.Length; i++)
+            {
+                skillBar_Offensive[i].color = Color.white;
+                skillBar_Offensive[i].sprite = skills.offensiveAbilities[player.OffensiveIndex].SkillIcon;
+            }
         }
 
         if (player.MobilityIndex > -1)
         {
-            skillBar_Mobility.color = Color.white;
-            skillBar_Mobility.sprite = skills.mobilityAbilities[player.MobilityIndex].SkillIcon;
+            for (int i = 0; i < skillBar_Basic.Length; i++)
+            {
+                skillBar_Mobility[i].color = Color.white;
+                skillBar_Mobility[i].sprite = skills.mobilityAbilities[player.MobilityIndex].SkillIcon;
+            }
         }
 
         if (player.DefensiveIndex > -1)
         {
-            skillBar_Defensive.color = Color.white;
-            skillBar_Defensive.sprite = skills.defensiveAbilities[player.DefensiveIndex].SkillIcon;
+            for (int i = 0; i < skillBar_Basic.Length; i++)
+            {
+                skillBar_Defensive[i].color = Color.white;
+                skillBar_Defensive[i].sprite = skills.defensiveAbilities[player.DefensiveIndex].SkillIcon;
+            }
         }
 
         if (player.UtilityIndex > -1)
         {
-            skillBar_Utility.color = Color.white;
-            skillBar_Utility.sprite = skills.utilityAbilities[player.UtilityIndex].SkillIcon;
+            for (int i = 0; i < skillBar_Basic.Length; i++)
+            {
+                skillBar_Utility[i].color = Color.white;
+                skillBar_Utility[i].sprite = skills.utilityAbilities[player.UtilityIndex].SkillIcon;
+            }
         }
 
         if (player.UltimateIndex > -1)
         {
-            skillBar_Ultimate.color = Color.white;
-            skillBar_Ultimate.sprite = skills.ultimateAbilities[player.UltimateIndex].SkillIcon;
+            for (int i = 0; i < skillBar_Basic.Length; i++)
+            {
+                skillBar_Ultimate[i].color = Color.white;
+                skillBar_Ultimate[i].sprite = skills.ultimateAbilities[player.UltimateIndex].SkillIcon;
+            }
+        }
+    }
+
+    public void OnLevelUp()
+    {
+        if (player.PlayerLevel.Value >= 1)
+        {
+            for (int i = 0; i < skillBar_Basic_Lock.Length; i++)
+            {
+                skillBar_Basic_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (player.PlayerLevel.Value >= 4)
+        {
+            for (int i = 0; i < skillBar_Offensive_Lock.Length; i++)
+            {
+                skillBar_Offensive_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (player.PlayerLevel.Value >= 8)
+        {
+            for (int i = 0; i < skillBar_Mobility_Lock.Length; i++)
+            {
+                skillBar_Mobility_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (player.PlayerLevel.Value >= 12)
+        {
+            for (int i = 0; i < skillBar_Defensive_Lock.Length; i++)
+            {
+                skillBar_Defensive_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (player.PlayerLevel.Value >= 16)
+        {
+            for (int i = 0; i < skillBar_Utility_Lock.Length; i++)
+            {
+                skillBar_Utility_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (player.PlayerLevel.Value >= 20)
+        {
+            for (int i = 0; i < skillBar_Ultimate_Lock.Length; i++)
+            {
+                skillBar_Ultimate_Lock[i].gameObject.SetActive(false);
+            }
         }
     }
 }
