@@ -43,7 +43,8 @@ public class Buff_Regeneration : NetworkBehaviour
 
             if (elapsed >= nextHealTime)
             {
-                player.GiveHeal(amount, type);
+                if (player != null) player.GiveHeal(amount, type);
+                if (enemy != null) enemy.GiveHeal(amount, type);
                 nextHealTime += rate;
             }
 

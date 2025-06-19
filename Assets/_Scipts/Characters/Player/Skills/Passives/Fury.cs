@@ -42,7 +42,7 @@ public class Fury : PlayerAbility
         }
         else
         {
-            IncreaseFuryServerRPC();
+            ApplyFuryServerRPC();
         }
 
         if (idleCoroutine != null)
@@ -54,7 +54,7 @@ public class Fury : PlayerAbility
     }
 
     [ServerRpc]
-    void IncreaseFuryServerRPC()
+    void ApplyFuryServerRPC()
     {
         ApplyFury();
     }
@@ -124,7 +124,8 @@ public class Fury : PlayerAbility
 
     void HandleGlow()
     {
-        if (_owner.player.Fury.Value >= _owner.player.MaxFury.Value)
+        Player player = GetComponentInParent<Player>();
+        if (player.Fury.Value >= player.MaxFury.Value)
         {
             border.material = glow;
         }

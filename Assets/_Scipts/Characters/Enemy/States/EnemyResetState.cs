@@ -10,6 +10,11 @@ public class EnemyResetState : EnemyState
         {
             owner.enemy.PatienceBar.Patience.Value = 0;
         }
+
+        if (owner.enemy.Health.Value < owner.enemy.MaxHealth.Value)
+        {
+            owner.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)
