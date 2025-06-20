@@ -114,7 +114,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             CombatTime += Time.deltaTime;
 
-            if (CombatTime >= 5)
+            if (CombatTime >= 10)
             {
                 CombatTime = 0;
                 InCombat = false;
