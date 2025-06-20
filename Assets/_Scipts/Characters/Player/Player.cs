@@ -35,7 +35,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public bool IsDead = false;
     public bool InCombat = false;
-    float combatTime = 0;
+    public float CombatTime = 0;
 
     [Header("Ability Indexes")]
     public int FirstPassiveIndex = -1;
@@ -112,13 +112,17 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         if (InCombat)
         {
-            combatTime += Time.deltaTime;
+            CombatTime += Time.deltaTime;
 
-            if (combatTime >= 5)
+            if (CombatTime >= 5)
             {
+                CombatTime = 0;
                 InCombat = false;
 
-                stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+                if (Health.Value < MaxHealth.Value)
+                {
+                    stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+                }
             }
         }
     }
@@ -203,7 +207,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         if (!IsServer) return;
 
-        combatTime = 0;
+        CombatTime = 0;
         InCombat = true;
 
         // Calculate how much damage should actually be applied after defenses.
@@ -264,9 +268,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public void GiveHeal(float healAmount, HealType healType)
     {
         if (!IsServer) return;
-
-        combatTime = 0;
-        InCombat = true;
 
         if (healType == HealType.Percentage)
         {
