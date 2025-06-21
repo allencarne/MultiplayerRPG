@@ -1,6 +1,7 @@
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PickupToolTip : MonoBehaviour
 {
@@ -8,15 +9,23 @@ public class PickupToolTip : MonoBehaviour
 
     [SerializeField] ItemRarityInfo riarityInfo;
     [SerializeField] GameObject gemSlotsImage;
+
+    [SerializeField] Image itemIcon;
+    [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
     private void Start()
     {
         if (itemPickup.Item != null)
         {
-            if (itemPickup.Item is Currency)
+            if (itemPickup.Item is Currency currency)
             {
-                UpdateCurrencyInfo();
+                UpdateCurrencyInfo(currency);
+            }
+
+            if (itemPickup.Item is Collectable collectable)
+            {
+                UpdateCollectableInfo(collectable);
             }
 
             if (itemPickup.Item is Equipment equipment)
@@ -31,19 +40,34 @@ public class PickupToolTip : MonoBehaviour
         }
     }
 
-    public void UpdateCurrencyInfo()
+    public void UpdateCurrencyInfo(Currency currency)
     {
         // Hide gem slots for currency
         gemSlotsImage.SetActive(false);
 
-        // Build text info
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(itemPickup.Item.Prefab.name, itemPickup.Item.ItemRarity));
-        sb.AppendLine();
-        sb.AppendLine(itemPickup.Item.Description); // Description
+        // Sprite
+        itemIcon.sprite = currency.Icon;
 
-        // Update text
-        itemInfo_Text.text = sb.ToString();
+        // Name
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+
+        // Description
+        itemInfo_Text.text = itemPickup.Item.Description;
+    }
+
+    public void UpdateCollectableInfo(Collectable collectable)
+    {
+        // Hide gem slots for currency
+        gemSlotsImage.SetActive(false);
+
+        // Sprite
+        itemIcon.sprite = collectable.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+
+        // Description
+        itemInfo_Text.text = itemPickup.Item.Description;
     }
 
     public void UpdateEquipmentInfo(Equipment equipment)
@@ -51,10 +75,14 @@ public class PickupToolTip : MonoBehaviour
         // Show gem slots for equipment
         gemSlotsImage.SetActive(true);
 
+        // Sprite
+        itemIcon.sprite = equipment.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+
         // Build text info
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(equipment.Prefab.name, equipment.ItemRarity));
-        sb.AppendLine();
 
         // Add modifiers (hide if 0)
         if (equipment.healthModifier != 0)
@@ -84,10 +112,14 @@ public class PickupToolTip : MonoBehaviour
         // Show gem slots for weapons
         gemSlotsImage.SetActive(true);
 
+        // Sprite
+        itemIcon.sprite = weapon.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+
         // Build text info
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(weapon.Prefab.name, weapon.ItemRarity));
-        sb.AppendLine();
 
         // Add modifiers (hide if 0)
         if (weapon.healthModifier != 0)
