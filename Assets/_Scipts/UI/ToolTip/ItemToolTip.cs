@@ -14,7 +14,7 @@ public class ItemToolTip : MonoBehaviour
     {
         if (inventoryItem.Item != null)
         {
-            if (inventoryItem.Item.IsCurrency)
+            if (inventoryItem.Item is Currency)
             {
                 UpdateCurrencyInfo();
             }

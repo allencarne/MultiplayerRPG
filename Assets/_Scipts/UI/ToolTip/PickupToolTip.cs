@@ -14,7 +14,7 @@ public class PickupToolTip : MonoBehaviour
     {
         if (itemPickup.Item != null)
         {
-            if (itemPickup.Item.IsCurrency)
+            if (itemPickup.Item is Currency)
             {
                 UpdateCurrencyInfo();
             }

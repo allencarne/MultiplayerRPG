@@ -14,7 +14,7 @@ public class EquipmentToolTip : MonoBehaviour
     {
         if (equipmentSlot.Item != null)
         {
-            if (equipmentSlot.Item.IsCurrency)
+            if (equipmentSlot.Item is Currency)
             {
                 UpdateCurrencyInfo();
             }

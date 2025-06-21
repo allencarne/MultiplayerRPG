@@ -15,7 +15,7 @@ public class ItemPickup : NetworkBehaviour
         if (_hasBeenPickedUp) return;
         _hasBeenPickedUp = true;
 
-        if (Item.IsCurrency)
+        if (Item is Currency)
         {
             player.CoinCollected(Item.Quantity);
 

@@ -17,7 +17,6 @@ public class Item : ScriptableObject
     public int DropChance;
 
     [Header("Currency")]
-    public bool IsCurrency;
     public bool IsStackable;
     public int Quantity; // Amount of this item. Example: Drop 10 coins at once
 
