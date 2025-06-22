@@ -7,5 +7,7 @@ public class ItemRarityInfo : ScriptableObject
     public Color UnCommonColor;
     public Color RareColor;
     public Color EpicColor;
+    public Color ExoticColor;
+    public Color MythicColor;
     public Color LegendaryColor;
 }

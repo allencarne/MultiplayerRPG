@@ -11,6 +11,7 @@ public class PickupToolTip : MonoBehaviour
     [SerializeField] GameObject gemSlotsImage;
 
     [SerializeField] Image itemIcon;
+    [SerializeField] Image textBox;
     [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
@@ -153,6 +154,8 @@ public class PickupToolTip : MonoBehaviour
             ItemRarity.Uncommon => riarityInfo.UnCommonColor,
             ItemRarity.Rare => riarityInfo.RareColor,
             ItemRarity.Epic => riarityInfo.EpicColor,
+            ItemRarity.Exotic => riarityInfo.ExoticColor,
+            ItemRarity.Mythic => riarityInfo.MythicColor,
             ItemRarity.Legendary => riarityInfo.LegendaryColor,
             _ => Color.white // Default to white
         };
