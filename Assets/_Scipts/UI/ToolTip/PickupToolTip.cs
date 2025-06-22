@@ -160,6 +160,13 @@ public class PickupToolTip : MonoBehaviour
             _ => Color.white // Default to white
         };
 
+        // Assign Box Color
+        textBox.color = color;
+
+        var tempColor = textBox.color;
+        tempColor.a = .90f;
+        textBox.color = tempColor;
+
         // Convert the Color to a hex string
         string colorHex = ColorUtility.ToHtmlStringRGB(color);
 
