@@ -85,6 +85,9 @@ public class PickupToolTip : MonoBehaviour
         // Build text info
         StringBuilder sb = new StringBuilder();
 
+        sb.AppendLine($"+{equipment.modifiers} Health");
+
+        /*
         // Add modifiers (hide if 0)
         if (equipment.healthModifier != 0)
         {
@@ -95,6 +98,7 @@ public class PickupToolTip : MonoBehaviour
             sb.AppendLine($"+{equipment.damageModifier} Health");
         }
         sb.AppendLine();
+        */
 
         // Add additional info
         //sb.AppendLine($"{equipment.ItemRarity}");
@@ -121,16 +125,14 @@ public class PickupToolTip : MonoBehaviour
 
         // Build text info
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine();
 
-        // Add modifiers (hide if 0)
-        if (weapon.healthModifier != 0)
+        // Loop through each stat modifier
+        foreach (var mod in weapon.modifiers)
         {
-            sb.AppendLine($"+{weapon.healthModifier} Health");
+            sb.AppendLine($"+{mod.value} {mod.statType}");
         }
-        if (weapon.damageModifier != 0)
-        {
-            sb.AppendLine($"+{weapon.damageModifier} Health");
-        }
+
         sb.AppendLine();
 
         // Add additional info

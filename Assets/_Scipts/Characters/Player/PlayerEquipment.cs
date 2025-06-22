@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
+    Player player;
     [SerializeField] CharacterCustomizationData characterData;
     [SerializeField] SpriteRenderer Sword;
     [SerializeField] SpriteRenderer Staff;
@@ -47,10 +48,34 @@ public class PlayerEquipment : NetworkBehaviour
         net_itemIndex.OnValueChanged -= OnItemIndexChanged;
     }
 
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+    }
+
     public void OnEquipmentChanged(Equipment newItem, Equipment oldItem)
 	{
 		if (newItem != null)
 		{
+            foreach (StatModifier mod in newItem.modifiers)
+            {
+                switch (mod.statType)
+                {
+                    case StatType.Health:
+                        player.IncreaseHealth(mod.value);
+                        break;
+                    case StatType.Damage:
+                        player.IncreaseDamage(mod.value);
+                        break;
+                    case StatType.CoolDown:
+                        player.IncreaseCoolDown(mod.value);
+                        break;
+                    case StatType.AttackSpeed:
+                        player.IncreaseAttackSpeed(mod.value);
+                        break;
+                }
+            }
+
 			Weapon newWeapon = newItem as Weapon;
             if (newWeapon != null)
 			{
@@ -64,6 +89,25 @@ public class PlayerEquipment : NetworkBehaviour
         }
         else
         {
+            foreach (StatModifier mod in oldItem.modifiers)
+            {
+                switch (mod.statType)
+                {
+                    case StatType.Health:
+                        player.IncreaseHealth(-mod.value);
+                        break;
+                    case StatType.Damage:
+                        player.IncreaseDamage(-mod.value);
+                        break;
+                    case StatType.CoolDown:
+                        player.IncreaseCoolDown(-mod.value);
+                        break;
+                    case StatType.AttackSpeed:
+                        player.IncreaseAttackSpeed(-mod.value);
+                        break;
+                }
+            }
+
             Weapon oldWeapon = oldItem as Weapon;
             if (oldWeapon != null)
             {

@@ -56,6 +56,7 @@ public class ItemToolTip : MonoBehaviour
         sb.AppendLine(FormatNameWithRarity(equipment.Prefab.name, equipment.ItemRarity));
         sb.AppendLine();
 
+        /*
         // Add modifiers (hide if 0)
         if (equipment.healthModifier != 0)
         {
@@ -66,6 +67,7 @@ public class ItemToolTip : MonoBehaviour
             sb.AppendLine($"+{equipment.damageModifier} Health");
         }
         sb.AppendLine();
+        */
 
         // Add additional info
         //sb.AppendLine($"{equipment.ItemRarity}");
@@ -89,6 +91,7 @@ public class ItemToolTip : MonoBehaviour
         sb.AppendLine(FormatNameWithRarity(weapon.Prefab.name, weapon.ItemRarity));
         sb.AppendLine();
 
+        /*
         // Add modifiers (hide if 0)
         if (weapon.healthModifier != 0)
         {
@@ -99,6 +102,7 @@ public class ItemToolTip : MonoBehaviour
             sb.AppendLine($"+{weapon.damageModifier} Health");
         }
         sb.AppendLine();
+        */
 
         // Add additional info
         //sb.AppendLine($"{weapon.ItemRarity}");

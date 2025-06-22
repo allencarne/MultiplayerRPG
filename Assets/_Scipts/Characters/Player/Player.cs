@@ -296,13 +296,30 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         StartCoroutine(FlashEffect());
     }
 
+    public void ConsumeAttributePoints(int amount)
+    {
+        if (IsServer)
+        {
+            AttributePoints.Value -= amount;
+        }
+        else
+        {
+            ConsumeAttributePointsServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void ConsumeAttributePointsServerRPC(int amount)
+    {
+        AttributePoints.Value -= amount;
+    }
+
     public void IncreaseHealth(float amount)
     {
         if (IsServer)
         {
             MaxHealth.Value += amount;
             Health.Value += amount;
-            AttributePoints.Value -= Mathf.RoundToInt(amount);
         }
         else
         {
@@ -315,7 +332,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         MaxHealth.Value += amount;
         Health.Value += amount;
-        AttributePoints.Value -= Mathf.RoundToInt(amount);
     }
 
     public void IncreaseDamage(int amount)
@@ -324,7 +340,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             BaseDamage.Value += amount;
             CurrentDamage.Value += amount;
-            AttributePoints.Value -= amount;
         }
         else
         {
@@ -337,7 +352,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         BaseDamage.Value += amount;
         CurrentDamage.Value += amount;
-        AttributePoints.Value -= amount;
     }
 
     public void IncreaseAttackSpeed(float amount)
@@ -346,7 +360,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             BaseAttackSpeed.Value += amount;
             CurrentAttackSpeed.Value += amount;
-            AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
         }
         else
         {
@@ -359,7 +372,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         BaseAttackSpeed.Value += amount;
         CurrentAttackSpeed.Value += amount;
-        AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
     }
 
     public void IncreaseCoolDown(float amount)
@@ -368,7 +380,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             BaseCDR.Value += amount;
             CurrentCDR.Value += amount;
-            AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
         }
         else
         {
@@ -381,6 +392,5 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         BaseCDR.Value += amount;
         CurrentCDR.Value += amount;
-        AttributePoints.Value -= Mathf.RoundToInt(amount * 10);
     }
 }

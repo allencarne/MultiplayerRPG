@@ -123,6 +123,7 @@ public class AttributePoints : MonoBehaviour
         player.IncreaseDamage(damageToAdd);
         player.IncreaseAttackSpeed(asToAdd * 0.1f);
         player.IncreaseCoolDown(cdrToAdd * 0.1f);
+        player.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;
         healthText.text = healthToAdd.ToString();

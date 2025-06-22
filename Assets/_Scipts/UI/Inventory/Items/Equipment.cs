@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Equipment", menuName = "ScriptableObjects/Inventory/Equipment")]
@@ -11,8 +12,9 @@ public class Equipment : Item
     public ClassRequirement ClassRequirement;
 
     [Header("Modifiers")]
-    public int healthModifier;
-    public int damageModifier;
+    public List<StatModifier> modifiers = new List<StatModifier>();
+    //public int healthModifier;
+    //public int damageModifier;
 
     public override void Use(Inventory _inventory, EquipmentManager _equipmentManager)
     {
