@@ -12,6 +12,7 @@ public class PickupToolTip : MonoBehaviour
 
     [SerializeField] Image itemIcon;
     [SerializeField] Image textBox;
+
     [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 

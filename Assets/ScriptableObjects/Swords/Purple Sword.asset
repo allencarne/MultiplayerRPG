@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 3887862565978086386, guid: 6aeae224199201a40ba23916e2b11e56, type: 3}
   Icon: {fileID: 21300000, guid: 164967836992f6e448da98d7f6a798ba, type: 3}
-  LevelRequirement: 0
+  LevelRequirement: 30
   PurchaseValue: 0
   SellValue: 0
   Description: 
@@ -25,7 +25,10 @@ MonoBehaviour:
   itemIndex: 0
   equipmentType: 5
   ClassRequirement: 0
-  healthModifier: 0
-  damageModifier: 0
+  modifiers:
+  - statType: 0
+    value: 7
+  - statType: 1
+    value: 7
   weaponSprite: {fileID: -1946264028, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
   weaponType: 0
