@@ -271,14 +271,19 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         if (healType == HealType.Percentage)
         {
-            healAmount = MaxHealth.Value * (healAmount / 100f); // Get %
+            healAmount = MaxHealth.Value * (healAmount / 100f);
         }
 
-        Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
+        // Heal
+        float missingHealth = MaxHealth.Value - Health.Value;
+        float actualHeal = Mathf.Min(healAmount, missingHealth);
+        int roundedHeal = Mathf.FloorToInt(actualHeal);
+
+        Health.Value += roundedHeal;
 
         // Feedback
         TriggerFlashEffectClientRpc();
-        OnHealed?.Invoke(healAmount);
+        OnHealed?.Invoke(roundedHeal);
     }
 
     public IEnumerator FlashEffect()
