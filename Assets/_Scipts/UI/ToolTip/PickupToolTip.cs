@@ -91,9 +91,9 @@ public class PickupToolTip : MonoBehaviour
         // Add additional info
         sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(), equipment.ItemRarity));
         sb.AppendLine($"{equipment.equipmentType}");
-        sb.AppendLine($"Level Req: {equipment.LevelRequirement}");
-        sb.AppendLine($"Class Req: {equipment.ClassRequirement}");
-        sb.AppendLine($"Sell Value: {equipment.SellValue}");
+        sb.AppendLine($"Required Level: {equipment.LevelRequirement}");
+        sb.AppendLine($"Required Class: {equipment.ClassRequirement}");
+        sb.AppendLine($"{equipment.SellValue}<sprite index=0>");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
