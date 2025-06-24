@@ -88,21 +88,7 @@ public class PickupToolTip : MonoBehaviour
 
         sb.AppendLine($"+{equipment.modifiers} Health");
 
-        /*
-        // Add modifiers (hide if 0)
-        if (equipment.healthModifier != 0)
-        {
-            sb.AppendLine($"+{equipment.healthModifier} Health");
-        }
-        if (equipment.damageModifier != 0)
-        {
-            sb.AppendLine($"+{equipment.damageModifier} Health");
-        }
-        sb.AppendLine();
-        */
-
         // Add additional info
-        //sb.AppendLine($"{equipment.ItemRarity}");
         sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(), equipment.ItemRarity));
         sb.AppendLine($"{equipment.equipmentType}");
         sb.AppendLine($"Level Req: {equipment.LevelRequirement}");
@@ -137,12 +123,11 @@ public class PickupToolTip : MonoBehaviour
         sb.AppendLine();
 
         // Add additional info
-        //sb.AppendLine($"{weapon.ItemRarity}");
         sb.AppendLine(FormatNameWithRarity(weapon.ItemRarity.ToString(), weapon.ItemRarity));
         sb.AppendLine($"{weapon.weaponType}");
-        sb.AppendLine($"Level Req: {weapon.LevelRequirement}");
-        sb.AppendLine($"Class Req: {weapon.ClassRequirement}");
-        sb.AppendLine($"Sell Value: {weapon.SellValue}");
+        sb.AppendLine($"Required Level: {weapon.LevelRequirement}");
+        sb.AppendLine($"Required Class: {weapon.ClassRequirement}");
+        sb.AppendLine($"{weapon.SellValue}<sprite index=0>");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
