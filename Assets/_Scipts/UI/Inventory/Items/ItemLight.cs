@@ -16,6 +16,10 @@ public class ItemLight : MonoBehaviour
                 itemLight.color = info.CommonColor;
                 itemLight2.color = info.CommonColor;
 
+                Color common = itemLight.color;
+                common.a = .50f;
+                itemLight.color = common;
+
                 ParticleSystem.MainModule ma = particles.main;
                 ma.startColor = info.CommonColor;
 
@@ -71,7 +75,7 @@ public class ItemLight : MonoBehaviour
                 break;
         }
 
-        var tempColor = itemLight2.color;
+        Color tempColor = itemLight2.color;
         tempColor.a = .15f;
         itemLight2.color = tempColor;
     }
