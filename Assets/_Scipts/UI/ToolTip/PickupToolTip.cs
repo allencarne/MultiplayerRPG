@@ -85,8 +85,15 @@ public class PickupToolTip : MonoBehaviour
 
         // Build text info
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine();
 
-        sb.AppendLine($"+{equipment.modifiers} Health");
+        // Loop through each stat modifier
+        foreach (var mod in equipment.modifiers)
+        {
+            sb.AppendLine($"+{mod.value} {mod.statType}");
+        }
+
+        sb.AppendLine();
 
         // Add additional info
         sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(), equipment.ItemRarity));
