@@ -5,7 +5,10 @@ using UnityEngine;
 public class Equipment : Item
 {
     [Header("Index")]
-    public int itemIndex; // Used to determine what Equipment to place on the character
+    public int itemIndex; // Used to determine what Equipment (Not Weapon) to place on the character
+
+    [Header("Stats")]
+    public int PurchaseValue;
 
     [Header("Equipment")]
     public int LevelRequirement;
@@ -14,8 +17,6 @@ public class Equipment : Item
 
     [Header("Modifiers")]
     public List<StatModifier> modifiers = new List<StatModifier>();
-    //public int healthModifier;
-    //public int damageModifier;
 
     public override void Use(Inventory _inventory, EquipmentManager _equipmentManager)
     {

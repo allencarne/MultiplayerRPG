@@ -28,7 +28,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     [SerializeField] GameObject tooltip;
     [SerializeField] Image icon;
-    [SerializeField] TextMeshProUGUI name;
+    [SerializeField] TextMeshProUGUI skillName;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextMeshProUGUI cooldown;
 
@@ -48,20 +48,20 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
                         {
                             case 0:
                                 icon.sprite = beginnerSkills.basicAbilities[0].SkillIcon;
-                                name.text = "[BASIC] " + beginnerSkills.basicAbilities[0].name;
+                                skillName.text = "[BASIC] " + beginnerSkills.basicAbilities[0].name;
                                 description.text = beginnerSkills.basicAbilities[0].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.basicAbilities[0].CoolDown;
                                 break;
                             case 1:
                                 icon.sprite = beginnerSkills.basicAbilities[1].SkillIcon;
-                                name.text = "[BASIC] " + beginnerSkills.basicAbilities[1].name;
+                                skillName.text = "[BASIC] " + beginnerSkills.basicAbilities[1].name;
                                 description.text = beginnerSkills.basicAbilities[1].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.basicAbilities[1].CoolDown;
                                 break;
 
                             case 2:
                                 icon.sprite = beginnerSkills.basicAbilities[2].SkillIcon;
-                                name.text = "[BASIC] " + beginnerSkills.basicAbilities[2].name;
+                                skillName.text = "[BASIC] " + beginnerSkills.basicAbilities[2].name;
                                 description.text = beginnerSkills.basicAbilities[2].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.basicAbilities[1].CoolDown;
                                 break;
@@ -76,20 +76,20 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
                         {
                             case 0:
                                 icon.sprite = beginnerSkills.offensiveAbilities[0].SkillIcon;
-                                name.text = "[Offensive] " + beginnerSkills.offensiveAbilities[0].name;
+                                skillName.text = "[Offensive] " + beginnerSkills.offensiveAbilities[0].name;
                                 description.text = beginnerSkills.offensiveAbilities[0].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.offensiveAbilities[0].CoolDown;
                                 break;
                             case 1:
                                 icon.sprite = beginnerSkills.offensiveAbilities[1].SkillIcon;
-                                name.text = "[Offensive] " + beginnerSkills.offensiveAbilities[1].name;
+                                skillName.text = "[Offensive] " + beginnerSkills.offensiveAbilities[1].name;
                                 description.text = beginnerSkills.offensiveAbilities[1].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.offensiveAbilities[1].CoolDown;
                                 break;
 
                             case 2:
                                 icon.sprite = beginnerSkills.offensiveAbilities[2].SkillIcon;
-                                name.text = "[Offensive] " + beginnerSkills.offensiveAbilities[2].name;
+                                skillName.text = "[Offensive] " + beginnerSkills.offensiveAbilities[2].name;
                                 description.text = beginnerSkills.offensiveAbilities[2].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.offensiveAbilities[2].CoolDown;
                                 break;
@@ -104,20 +104,20 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
                         {
                             case 0:
                                 icon.sprite = beginnerSkills.mobilityAbilities[0].SkillIcon;
-                                name.text = "[Mobility] " + beginnerSkills.mobilityAbilities[0].name;
+                                skillName.text = "[Mobility] " + beginnerSkills.mobilityAbilities[0].name;
                                 description.text = beginnerSkills.mobilityAbilities[0].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.mobilityAbilities[0].CoolDown;
                                 break;
                             case 1:
                                 icon.sprite = beginnerSkills.mobilityAbilities[1].SkillIcon;
-                                name.text = "[Mobility] " + beginnerSkills.mobilityAbilities[1].name;
+                                skillName.text = "[Mobility] " + beginnerSkills.mobilityAbilities[1].name;
                                 description.text = beginnerSkills.mobilityAbilities[1].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.mobilityAbilities[1].CoolDown;
                                 break;
 
                             case 2:
                                 icon.sprite = beginnerSkills.mobilityAbilities[2].SkillIcon;
-                                name.text = "[Mobility] " + beginnerSkills.mobilityAbilities[2].name;
+                                skillName.text = "[Mobility] " + beginnerSkills.mobilityAbilities[2].name;
                                 description.text = beginnerSkills.mobilityAbilities[2].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.mobilityAbilities[2].CoolDown;
                                 break;
@@ -132,20 +132,20 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
                         {
                             case 0:
                                 icon.sprite = beginnerSkills.defensiveAbilities[0].SkillIcon;
-                                name.text = "[Defensive] " + beginnerSkills.defensiveAbilities[0].name;
+                                skillName.text = "[Defensive] " + beginnerSkills.defensiveAbilities[0].name;
                                 description.text = beginnerSkills.defensiveAbilities[0].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.defensiveAbilities[0].CoolDown;
                                 break;
                             case 1:
                                 icon.sprite = beginnerSkills.defensiveAbilities[1].SkillIcon;
-                                name.text = "[Defensive] " + beginnerSkills.defensiveAbilities[1].name;
+                                skillName.text = "[Defensive] " + beginnerSkills.defensiveAbilities[1].name;
                                 description.text = beginnerSkills.defensiveAbilities[1].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.defensiveAbilities[1].CoolDown;
                                 break;
 
                             case 2:
                                 icon.sprite = beginnerSkills.defensiveAbilities[2].SkillIcon;
-                                name.text = "[Defensive] " + beginnerSkills.defensiveAbilities[2].name;
+                                skillName.text = "[Defensive] " + beginnerSkills.defensiveAbilities[2].name;
                                 description.text = beginnerSkills.defensiveAbilities[2].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.defensiveAbilities[2].CoolDown;
                                 break;
@@ -160,20 +160,20 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
                         {
                             case 0:
                                 icon.sprite = beginnerSkills.utilityAbilities[0].SkillIcon;
-                                name.text = "[Utility] " + beginnerSkills.utilityAbilities[0].name;
+                                skillName.text = "[Utility] " + beginnerSkills.utilityAbilities[0].name;
                                 description.text = beginnerSkills.utilityAbilities[0].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.utilityAbilities[0].CoolDown;
                                 break;
                             case 1:
                                 icon.sprite = beginnerSkills.utilityAbilities[1].SkillIcon;
-                                name.text = "[Utility] " + beginnerSkills.utilityAbilities[1].name;
+                                skillName.text = "[Utility] " + beginnerSkills.utilityAbilities[1].name;
                                 description.text = beginnerSkills.utilityAbilities[1].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.utilityAbilities[1].CoolDown;
                                 break;
 
                             case 2:
                                 icon.sprite = beginnerSkills.utilityAbilities[2].SkillIcon;
-                                name.text = "[Utility] " + beginnerSkills.utilityAbilities[2].name;
+                                skillName.text = "[Utility] " + beginnerSkills.utilityAbilities[2].name;
                                 description.text = beginnerSkills.utilityAbilities[2].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.utilityAbilities[2].CoolDown;
                                 break;
@@ -188,20 +188,20 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
                         {
                             case 0:
                                 icon.sprite = beginnerSkills.ultimateAbilities[0].SkillIcon;
-                                name.text = "[Ultimate] " + beginnerSkills.ultimateAbilities[0].name;
+                                skillName.text = "[Ultimate] " + beginnerSkills.ultimateAbilities[0].name;
                                 description.text = beginnerSkills.ultimateAbilities[0].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.ultimateAbilities[0].CoolDown;
                                 break;
                             case 1:
                                 icon.sprite = beginnerSkills.ultimateAbilities[1].SkillIcon;
-                                name.text = "[Ultimate] " + beginnerSkills.ultimateAbilities[1].name;
+                                skillName.text = "[Ultimate] " + beginnerSkills.ultimateAbilities[1].name;
                                 description.text = beginnerSkills.ultimateAbilities[1].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.ultimateAbilities[1].CoolDown;
                                 break;
 
                             case 2:
                                 icon.sprite = beginnerSkills.ultimateAbilities[2].SkillIcon;
-                                name.text = "[Ultimate] " + beginnerSkills.ultimateAbilities[2].name;
+                                skillName.text = "[Ultimate] " + beginnerSkills.ultimateAbilities[2].name;
                                 description.text = beginnerSkills.ultimateAbilities[2].Description;
                                 cooldown.text = "Cooldown: " + beginnerSkills.ultimateAbilities[2].CoolDown;
                                 break;
