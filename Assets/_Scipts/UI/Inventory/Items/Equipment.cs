@@ -8,6 +8,7 @@ public class Equipment : Item
     public int itemIndex; // Used to determine what Equipment to place on the character
 
     [Header("Equipment")]
+    public int LevelRequirement;
     public EquipmentType equipmentType;
     public ClassRequirement ClassRequirement;
 

@@ -69,7 +69,12 @@ public class PickupToolTip : MonoBehaviour
         itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
 
         // Description
-        itemInfo_Text.text = itemPickup.Item.Description;
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine(itemPickup.Item.Description);
+        sb.AppendLine($"{collectable.SellValue}<sprite index=0>");
+
+        // Update text
+        itemInfo_Text.text = sb.ToString();
     }
 
     public void UpdateEquipmentInfo(Equipment equipment)
