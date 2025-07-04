@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerEquipment : NetworkBehaviour
 {
     Player player;
+    PlayerInitialize init;
     [SerializeField] CharacterCustomizationData characterData;
     [SerializeField] SpriteRenderer Sword;
     [SerializeField] SpriteRenderer Staff;
@@ -51,6 +52,7 @@ public class PlayerEquipment : NetworkBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        init = GetComponent<PlayerInitialize>();
     }
 
     public void OnEquipmentChanged(Equipment newItem, Equipment oldItem)
@@ -74,6 +76,8 @@ public class PlayerEquipment : NetworkBehaviour
                         player.IncreaseAttackSpeed(mod.value);
                         break;
                 }
+
+                init.SaveStats();
             }
 
 			Weapon newWeapon = newItem as Weapon;
@@ -106,6 +110,8 @@ public class PlayerEquipment : NetworkBehaviour
                         player.IncreaseAttackSpeed(-mod.value);
                         break;
                 }
+
+                init.SaveStats();
             }
 
             Weapon oldWeapon = oldItem as Weapon;
