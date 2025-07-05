@@ -197,6 +197,8 @@ public class SkillPanel : MonoBehaviour
 
     void SetBlueBorders(int index, Image zero, Image one, Image two)
     {
+        if (index > -1) return;
+
         switch (index)
         {
             case 0:

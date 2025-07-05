@@ -80,20 +80,56 @@ public class PlayerStateMachine : NetworkBehaviour
 
         setSkills.SetSkills();
 
+        if (skills == null) return;
+
         switch (player.playerClass)
         {
             case Player.PlayerClass.Beginner:
 
-                setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
-                setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
-                setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
+                if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
+                {
+                    setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
+                }
 
-                setSkills.begginerSkills.BasicButton(player.BasicIndex);
-                setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
-                setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
-                setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
-                setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
-                setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
+                if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
+                {
+                    setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
+                }
+
+                if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
+                {
+                    setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
+                }
+
+                if (player.BasicIndex > -1 && player.BasicIndex <= skills.basicAbilities.Length)
+                {
+                    setSkills.begginerSkills.BasicButton(player.BasicIndex);
+                }
+
+                if (player.OffensiveIndex > -1 && player.OffensiveIndex <= skills.offensiveAbilities.Length)
+                {
+                    setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
+                }
+
+                if (player.MobilityIndex > -1 && player.MobilityIndex <= skills.mobilityAbilities.Length)
+                {
+                    setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
+                }
+
+                if (player.DefensiveIndex > -1 && player.DefensiveIndex <= skills.defensiveAbilities.Length)
+                {
+                    setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
+                }
+
+                if (player.UtilityIndex > -1 && player.UtilityIndex <= skills.utilityAbilities.Length)
+                {
+                    setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
+                }
+
+                if (player.UltimateIndex > -1 && player.UltimateIndex <= skills.ultimateAbilities.Length)
+                {
+                    setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
+                }
 
                 break;
             case Player.PlayerClass.Warrior:
