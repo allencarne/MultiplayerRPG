@@ -20,6 +20,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [Header("Components")]
     [HideInInspector] public SkillPanel skills;
+    [SerializeField] SetSkillPanel setSkills;
     public PlayerInputHandler Input;
     public Collider2D Collider;
     public CrowdControl CrowdControl;
@@ -41,6 +42,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanDefensive = true;
     public bool CanUtility = true;
     public bool CanUltimate = true;
+
 
     public enum State
     {
@@ -75,6 +77,34 @@ public class PlayerStateMachine : NetworkBehaviour
         playerSpawnState.StartState(this);
 
         BodyAnimator.SetFloat("Vertical", -1);
+
+        setSkills.SetSkills();
+
+        switch (player.playerClass)
+        {
+            case Player.PlayerClass.Beginner:
+
+                setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
+                setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
+                setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
+
+                setSkills.begginerSkills.BasicButton(player.BasicIndex);
+                setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
+                setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
+                setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
+                setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
+                setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
+
+                break;
+            case Player.PlayerClass.Warrior:
+                break;
+            case Player.PlayerClass.Magician:
+                break;
+            case Player.PlayerClass.Archer:
+                break;
+            case Player.PlayerClass.Rogue:
+                break;
+        }
     }
 
     private void Update()

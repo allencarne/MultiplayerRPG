@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -75,6 +76,28 @@ public class SkillPanel : MonoBehaviour
     private void OnEnable()
     {
         SetYellowBorders();
+
+        SetBlueBorders(0, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
+        SetBlueBorders(0, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
+        SetBlueBorders(0, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
+        SetBlueBorders(0, icon_Basic0, icon_Basic1, icon_Basic2);
+        SetBlueBorders(1, icon_Basic0, icon_Basic1, icon_Basic2);
+        SetBlueBorders(2, icon_Basic0, icon_Basic1, icon_Basic2);
+        SetBlueBorders(0, icon_Offensive0, icon_Offensive1, icon_Offensive2);
+        SetBlueBorders(1, icon_Offensive0, icon_Offensive1, icon_Offensive2);
+        SetBlueBorders(2, icon_Offensive0, icon_Offensive1, icon_Offensive2);
+        SetBlueBorders(0, icon_Mobility0, icon_Mobility1, icon_Mobility2);
+        SetBlueBorders(1, icon_Mobility0, icon_Mobility1, icon_Mobility2);
+        SetBlueBorders(2, icon_Mobility0, icon_Mobility1, icon_Mobility2);
+        SetBlueBorders(0, icon_Defensive0, icon_Defensive1, icon_Defensive2);
+        SetBlueBorders(1, icon_Defensive0, icon_Defensive1, icon_Defensive2);
+        SetBlueBorders(2, icon_Defensive0, icon_Defensive1, icon_Defensive2);
+        SetBlueBorders(0, icon_Utility0, icon_Utility1, icon_Utility2);
+        SetBlueBorders(1, icon_Utility0, icon_Utility1, icon_Utility2);
+        SetBlueBorders(2, icon_Utility0, icon_Utility1, icon_Utility2);
+        SetBlueBorders(0, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
+        SetBlueBorders(1, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
+        SetBlueBorders(2, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
     }
 
     private void AssignIcon(Image icon, PlayerAbility[] abilities, int index)
@@ -172,30 +195,35 @@ public class SkillPanel : MonoBehaviour
         YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate2);
     }
 
+    void SetBlueBorders(int index, Image zero, Image one, Image two)
+    {
+        switch (index)
+        {
+            case 0:
+                SetColor(zero, Color.blue);
+                SetColor(one, new Color(1f, 1f, 1f, 0f));
+                SetColor(two, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 1:
+                SetColor(zero, new Color(1f, 1f, 1f, 0f));
+                SetColor(one, Color.blue);
+                SetColor(two, new Color(1f, 1f, 1f, 0f));
+                break;
+            case 2:
+                SetColor(zero, new Color(1f, 1f, 1f, 0f));
+                SetColor(one, new Color(1f, 1f, 1f, 0f));
+                SetColor(two, Color.blue);
+                break;
+        }
+    }
+
     public void FirstPassiveButton(int index)
     {
         if (player.PlayerLevel.Value < passive1Req) return;
         player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_FirstPassive0, Color.blue);
-                SetColor(icon_FirstPassive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_FirstPassive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_FirstPassive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_FirstPassive1, Color.blue);
-                SetColor(icon_FirstPassive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_FirstPassive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_FirstPassive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_FirstPassive2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         firstPassive[index].StartAbility(stateMachine);
@@ -207,24 +235,7 @@ public class SkillPanel : MonoBehaviour
         player.SecondPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_SecondPassive0, Color.blue);
-                SetColor(icon_SecondPassive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_SecondPassive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_SecondPassive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_SecondPassive1, Color.blue);
-                SetColor(icon_SecondPassive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_SecondPassive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_SecondPassive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_SecondPassive2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         secondPassive[index].StartAbility(stateMachine);
@@ -236,24 +247,7 @@ public class SkillPanel : MonoBehaviour
         player.ThirdPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_ThirdPassive0, Color.blue);
-                SetColor(icon_ThirdPassive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_ThirdPassive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_ThirdPassive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_ThirdPassive1, Color.blue);
-                SetColor(icon_ThirdPassive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_ThirdPassive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_ThirdPassive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_ThirdPassive2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         thirdPassive[index].StartAbility(stateMachine);
@@ -265,24 +259,7 @@ public class SkillPanel : MonoBehaviour
         player.BasicIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_Basic0,Color.blue);
-                SetColor(icon_Basic1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Basic2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_Basic0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Basic1, Color.blue);
-                SetColor(icon_Basic2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_Basic0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Basic1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Basic2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_Basic0, icon_Basic1, icon_Basic2);
     }
 
     public void OffensiveButton(int index)
@@ -291,24 +268,7 @@ public class SkillPanel : MonoBehaviour
         player.OffensiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_Offensive0, Color.blue);
-                SetColor(icon_Offensive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Offensive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_Offensive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Offensive1, Color.blue);
-                SetColor(icon_Offensive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_Offensive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Offensive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Offensive2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_Offensive0, icon_Offensive1, icon_Offensive2);
     }
 
     public void MobilityButton(int index)
@@ -317,24 +277,7 @@ public class SkillPanel : MonoBehaviour
         player.MobilityIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_Mobility0, Color.blue);
-                SetColor(icon_Mobility1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Mobility2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_Mobility0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Mobility1, Color.blue);
-                SetColor(icon_Mobility2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_Mobility0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Mobility1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Mobility2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_Mobility0, icon_Mobility1, icon_Mobility2);
     }
 
     public void DefensiveButton(int index)
@@ -343,24 +286,7 @@ public class SkillPanel : MonoBehaviour
         player.DefensiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_Defensive0, Color.blue);
-                SetColor(icon_Defensive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Defensive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_Defensive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Defensive1, Color.blue);
-                SetColor(icon_Defensive2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_Defensive0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Defensive1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Defensive2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_Defensive0, icon_Defensive1, icon_Defensive2);
     }
 
     public void UtilityButton(int index)
@@ -369,24 +295,7 @@ public class SkillPanel : MonoBehaviour
         player.UtilityIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_Utility0, Color.blue);
-                SetColor(icon_Utility1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Utility2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_Utility0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Utility1, Color.blue);
-                SetColor(icon_Utility2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_Utility0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Utility1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Utility2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_Utility0, icon_Utility1, icon_Utility2);
     }
 
     public void UltimateButton(int index)
@@ -395,23 +304,6 @@ public class SkillPanel : MonoBehaviour
         player.UltimateIndex = index;
         OnSkillSelected?.Invoke();
 
-        switch (index)
-        {
-            case 0:
-                SetColor(icon_Ultimate0, Color.blue);
-                SetColor(icon_Ultimate1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Ultimate2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 1:
-                SetColor(icon_Ultimate0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Ultimate1, Color.blue);
-                SetColor(icon_Ultimate2, new Color(1f, 1f, 1f, 0f));
-                break;
-            case 2:
-                SetColor(icon_Ultimate0, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Ultimate1, new Color(1f, 1f, 1f, 0f));
-                SetColor(icon_Ultimate2, Color.blue);
-                break;
-        }
+        SetBlueBorders(index, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
     }
 }

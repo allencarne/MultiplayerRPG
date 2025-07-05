@@ -97,6 +97,7 @@ public class PlayerInitialize : NetworkBehaviour
         player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
         player.AttributePoints.Value = PlayerPrefs.GetInt($"{prefix}AP", 0);
 
+        // Stats
         player.Health.Value = PlayerPrefs.GetFloat($"{prefix}Health", 10);
         player.MaxHealth.Value = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
 
@@ -121,6 +122,17 @@ public class PlayerInitialize : NetworkBehaviour
         player.BaseArmor.Value = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
         player.CurrentArmor.Value = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
 
+        // Skills
+        player.FirstPassiveIndex = PlayerPrefs.GetInt($"{prefix}FirstPassive", -1);
+        player.SecondPassiveIndex = PlayerPrefs.GetInt($"{prefix}SecondPassive", -1);
+        player.ThirdPassiveIndex = PlayerPrefs.GetInt($"{prefix}ThirdPassive", -1);
+        player.BasicIndex = PlayerPrefs.GetInt($"{prefix}Basic", -1);
+        player.OffensiveIndex = PlayerPrefs.GetInt($"{prefix}Offensive", -1);
+        player.MobilityIndex = PlayerPrefs.GetInt($"{prefix}Mobility", -1);
+        player.DefensiveIndex = PlayerPrefs.GetInt($"{prefix}Defensive", -1);
+        player.UtilityIndex = PlayerPrefs.GetInt($"{prefix}Utility", -1);
+        player.UltimateIndex = PlayerPrefs.GetInt($"{prefix}Ultimate", -1);
+
         // Set Values Here
         player.Health.Value = player.MaxHealth.Value;
         player.Fury.Value = 0;
@@ -142,6 +154,7 @@ public class PlayerInitialize : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}Coins", player.Coins);
         PlayerPrefs.SetInt($"{prefix}AP", player.AttributePoints.Value);
 
+        // Stats
         PlayerPrefs.SetFloat($"{prefix}Health", player.Health.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxHealth", player.MaxHealth.Value);
 
@@ -165,6 +178,17 @@ public class PlayerInitialize : NetworkBehaviour
 
         PlayerPrefs.SetFloat($"{prefix}BaseArmor", player.BaseArmor.Value);
         PlayerPrefs.SetFloat($"{prefix}CurrentArmor", player.CurrentArmor.Value);
+
+        // Skills
+        PlayerPrefs.SetInt($"{prefix}FirstPassive", player.FirstPassiveIndex);
+        PlayerPrefs.SetInt($"{prefix}SecondPassive", player.SecondPassiveIndex);
+        PlayerPrefs.SetInt($"{prefix}ThirdPassive", player.ThirdPassiveIndex);
+        PlayerPrefs.SetInt($"{prefix}Basic", player.BasicIndex);
+        PlayerPrefs.SetInt($"{prefix}Offensive", player.OffensiveIndex);
+        PlayerPrefs.SetInt($"{prefix}Mobility", player.MobilityIndex);
+        PlayerPrefs.SetInt($"{prefix}Defensive", player.DefensiveIndex);
+        PlayerPrefs.SetInt($"{prefix}Utility", player.UtilityIndex);
+        PlayerPrefs.SetInt($"{prefix}Ultimate", player.UltimateIndex);
 
         PlayerPrefs.Save();
         StartCoroutine(SaveText());

@@ -12,11 +12,11 @@ public class SetSkillPanel : MonoBehaviour
     [SerializeField] GameObject ArcherPanel;
     [SerializeField] GameObject RoguePanel;
 
-    [SerializeField] SkillPanel begginerSkills;
-    [SerializeField] SkillPanel warriorSkills;
-    [SerializeField] SkillPanel magicianSkills;
-    [SerializeField] SkillPanel archerSkills;
-    [SerializeField] SkillPanel rogueSkills;
+    public SkillPanel begginerSkills;
+    public SkillPanel warriorSkills;
+    public SkillPanel magicianSkills;
+    public SkillPanel archerSkills;
+    public SkillPanel rogueSkills;
 
     [Header("Ability Bar")]
     [SerializeField] Image[] skillBar_Basic;
