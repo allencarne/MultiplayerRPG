@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class Inventory : MonoBehaviour
 
     public int inventorySlots = 30;
     public Item[] items;
+
+    public UnityEvent OnItemChanged;
 
     void Awake()
     {
@@ -36,6 +39,9 @@ public class Inventory : MonoBehaviour
                     // If the item exists, increase its quantity
                     items[existingItemIndex].Quantity++;
                     inventoryUI.UpdateUI();
+
+                    OnItemChanged?.Invoke();
+
                     return true;
                 }
             }
@@ -62,6 +68,8 @@ public class Inventory : MonoBehaviour
         {
             // Remove the item from the inventory by setting its slot to null
             items[itemIndex] = null;
+
+            OnItemChanged?.Invoke();
         }
 
         inventoryUI.UpdateUI();
