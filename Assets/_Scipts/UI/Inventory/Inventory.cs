@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField] private ItemList itemDatabase;
     [SerializeField] PlayerInitialize initialize;
     [SerializeField] InventoryUI inventoryUI;
     public int inventorySlots = 30;
@@ -70,6 +71,50 @@ public class Inventory : MonoBehaviour
             items[itemIndex] = null;
 
             initialize.SaveInventory(removedItem, itemIndex);
+        }
+
+        inventoryUI.UpdateUI();
+    }
+
+    public void LoadInventory()
+    {
+        string prefix = initialize.CharacterNumber;
+
+        for (int i = 0; i < inventorySlots; i++)
+        {
+            string key = $"{prefix}InventorySlot_{i}";
+
+            if (PlayerPrefs.HasKey(key))
+            {
+                string saved = PlayerPrefs.GetString(key);
+                string[] parts = saved.Split('|');
+
+                if (parts.Length == 2)
+                {
+                    string itemName = parts[0];
+                    int quantity = int.Parse(parts[1]);
+
+                    Item itemTemplate = itemDatabase.GetItemByName(itemName);
+                    if (itemTemplate != null)
+                    {
+                        Item newItem = Instantiate(itemTemplate);
+                        newItem.Quantity = quantity;
+                        items[i] = newItem;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Item '{itemName}' not found in ItemDatabase.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Malformed inventory string for key: {key}");
+                }
+            }
+            else
+            {
+                items[i] = null;
+            }
         }
 
         inventoryUI.UpdateUI();

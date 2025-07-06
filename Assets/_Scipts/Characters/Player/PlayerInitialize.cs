@@ -19,7 +19,8 @@ public class PlayerInitialize : NetworkBehaviour
 
     [SerializeField] Player player;
     [SerializeField] CharacterCustomizationData customizationData;
-    private string CharacterNumber => $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
+    [SerializeField] Inventory inventory;
+    public string CharacterNumber => $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
 
     public override void OnNetworkSpawn()
     {
@@ -34,6 +35,7 @@ public class PlayerInitialize : NetworkBehaviour
             if (IsServer)
             {
                 LoadPlayerStats();
+                inventory.LoadInventory();
             }
 
             // Set Coin Text UI

@@ -6,11 +6,14 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] Transform itemsParent;
     InventorySlot[] iSlots;
 
-    private void Start()
+    private void Awake()
     {
         // Get all inventory slots from the itemsParent
         iSlots = itemsParent.GetComponentsInChildren<InventorySlot>();
+    }
 
+    private void Start()
+    {
         // Assign slot indices to each slot
         for (int i = 0; i < iSlots.Length; i++)
         {
