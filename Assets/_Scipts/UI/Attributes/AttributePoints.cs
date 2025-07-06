@@ -1,10 +1,13 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class AttributePoints : MonoBehaviour
 {
+    [SerializeField] GameObject buttonToSelect;
+
     [SerializeField] Player player;
     [SerializeField] Button applyButton;
     [SerializeField] TextMeshProUGUI apText;
@@ -139,5 +142,7 @@ public class AttributePoints : MonoBehaviour
 
         //apText.text = player.AttributePoints.Value.ToString();
         OnStatsApplied?.Invoke();
+
+        EventSystem.current.SetSelectedGameObject(buttonToSelect);
     }
 }

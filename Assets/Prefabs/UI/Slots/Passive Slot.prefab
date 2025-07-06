@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7683202507167653388}
   - component: {fileID: 993875620646206716}
   - component: {fileID: 1587844583683922450}
+  - component: {fileID: 3458429214079609283}
   m_Layer: 5
   m_Name: Passive Slot
   m_TagString: Untagged
@@ -134,6 +135,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c83d322e6202ec4180d765079a7eb4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageRectTransform: []
+--- !u!114 &3458429214079609283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172326571879323079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c84f7a00e6c48d499ed60b484551e00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashSpeed: 2
+  minAlpha: 0.2
+  maxAlpha: 1
 --- !u!1 &6706284417331849520
 GameObject:
   m_ObjectHideFlags: 0
