@@ -76,28 +76,7 @@ public class SkillPanel : MonoBehaviour
     private void OnEnable()
     {
         SetYellowBorders();
-
-        SetBlueBorders(0, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
-        SetBlueBorders(0, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
-        SetBlueBorders(0, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
-        SetBlueBorders(0, icon_Basic0, icon_Basic1, icon_Basic2);
-        SetBlueBorders(1, icon_Basic0, icon_Basic1, icon_Basic2);
-        SetBlueBorders(2, icon_Basic0, icon_Basic1, icon_Basic2);
-        SetBlueBorders(0, icon_Offensive0, icon_Offensive1, icon_Offensive2);
-        SetBlueBorders(1, icon_Offensive0, icon_Offensive1, icon_Offensive2);
-        SetBlueBorders(2, icon_Offensive0, icon_Offensive1, icon_Offensive2);
-        SetBlueBorders(0, icon_Mobility0, icon_Mobility1, icon_Mobility2);
-        SetBlueBorders(1, icon_Mobility0, icon_Mobility1, icon_Mobility2);
-        SetBlueBorders(2, icon_Mobility0, icon_Mobility1, icon_Mobility2);
-        SetBlueBorders(0, icon_Defensive0, icon_Defensive1, icon_Defensive2);
-        SetBlueBorders(1, icon_Defensive0, icon_Defensive1, icon_Defensive2);
-        SetBlueBorders(2, icon_Defensive0, icon_Defensive1, icon_Defensive2);
-        SetBlueBorders(0, icon_Utility0, icon_Utility1, icon_Utility2);
-        SetBlueBorders(1, icon_Utility0, icon_Utility1, icon_Utility2);
-        SetBlueBorders(2, icon_Utility0, icon_Utility1, icon_Utility2);
-        SetBlueBorders(0, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
-        SetBlueBorders(1, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
-        SetBlueBorders(2, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
+        SetBlueBorders();
     }
 
     private void AssignIcon(Image icon, PlayerAbility[] abilities, int index)
@@ -195,9 +174,23 @@ public class SkillPanel : MonoBehaviour
         YellowBorder(player.UltimateIndex, ultimateReq, icon_Ultimate2);
     }
 
-    void SetBlueBorders(int index, Image zero, Image one, Image two)
+    public void SetBlueBorders()
     {
-        if (index > -1) return;
+        BlueBorder(player.FirstPassiveIndex, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
+        BlueBorder(player.SecondPassiveIndex, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
+        BlueBorder(player.ThirdPassiveIndex, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
+
+        BlueBorder(player.BasicIndex, icon_Basic0, icon_Basic1, icon_Basic2);
+        BlueBorder(player.OffensiveIndex, icon_Offensive0, icon_Offensive1, icon_Offensive2);
+        BlueBorder(player.MobilityIndex, icon_Mobility0, icon_Mobility1, icon_Mobility2);
+        BlueBorder(player.DefensiveIndex, icon_Defensive0, icon_Defensive1, icon_Defensive2);
+        BlueBorder(player.UtilityIndex, icon_Utility0, icon_Utility1, icon_Utility2);
+        BlueBorder(player.UltimateIndex, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
+    }
+
+    void BlueBorder(int index, Image zero, Image one, Image two)
+    {
+        if (index < 0) return;
 
         switch (index)
         {
@@ -225,7 +218,7 @@ public class SkillPanel : MonoBehaviour
         player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
+        BlueBorder(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         firstPassive[index].StartAbility(stateMachine);
@@ -237,7 +230,7 @@ public class SkillPanel : MonoBehaviour
         player.SecondPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
+        BlueBorder(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         secondPassive[index].StartAbility(stateMachine);
@@ -249,7 +242,7 @@ public class SkillPanel : MonoBehaviour
         player.ThirdPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
+        BlueBorder(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         thirdPassive[index].StartAbility(stateMachine);
@@ -261,7 +254,7 @@ public class SkillPanel : MonoBehaviour
         player.BasicIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_Basic0, icon_Basic1, icon_Basic2);
+        BlueBorder(index, icon_Basic0, icon_Basic1, icon_Basic2);
     }
 
     public void OffensiveButton(int index)
@@ -270,7 +263,7 @@ public class SkillPanel : MonoBehaviour
         player.OffensiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_Offensive0, icon_Offensive1, icon_Offensive2);
+        BlueBorder(index, icon_Offensive0, icon_Offensive1, icon_Offensive2);
     }
 
     public void MobilityButton(int index)
@@ -279,7 +272,7 @@ public class SkillPanel : MonoBehaviour
         player.MobilityIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_Mobility0, icon_Mobility1, icon_Mobility2);
+        BlueBorder(index, icon_Mobility0, icon_Mobility1, icon_Mobility2);
     }
 
     public void DefensiveButton(int index)
@@ -288,7 +281,7 @@ public class SkillPanel : MonoBehaviour
         player.DefensiveIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_Defensive0, icon_Defensive1, icon_Defensive2);
+        BlueBorder(index, icon_Defensive0, icon_Defensive1, icon_Defensive2);
     }
 
     public void UtilityButton(int index)
@@ -297,7 +290,7 @@ public class SkillPanel : MonoBehaviour
         player.UtilityIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_Utility0, icon_Utility1, icon_Utility2);
+        BlueBorder(index, icon_Utility0, icon_Utility1, icon_Utility2);
     }
 
     public void UltimateButton(int index)
@@ -306,6 +299,6 @@ public class SkillPanel : MonoBehaviour
         player.UltimateIndex = index;
         OnSkillSelected?.Invoke();
 
-        SetBlueBorders(index, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
+        BlueBorder(index, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
     }
 }
