@@ -4,12 +4,10 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField] PlayerInitialize initialize;
     [SerializeField] InventoryUI inventoryUI;
-
     public int inventorySlots = 30;
     public Item[] items;
-
-    public UnityEvent OnItemChanged;
 
     void Awake()
     {
@@ -40,7 +38,7 @@ public class Inventory : MonoBehaviour
                     items[existingItemIndex].Quantity++;
                     inventoryUI.UpdateUI();
 
-                    OnItemChanged?.Invoke();
+                    initialize.SaveInventory(newItem, emptySlotIndex);
 
                     return true;
                 }
@@ -49,6 +47,8 @@ public class Inventory : MonoBehaviour
             // If the item is not stackable or doesn't exist in the inventory, add it to an empty slot
             newItem.Quantity = 1;
             items[emptySlotIndex] = newItem;
+
+            initialize.SaveInventory(newItem, emptySlotIndex);
         }
         else
         {
@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour
             // Remove the item from the inventory by setting its slot to null
             items[itemIndex] = null;
 
-            OnItemChanged?.Invoke();
+            initialize.SaveInventory(removedItem, itemIndex);
         }
 
         inventoryUI.UpdateUI();

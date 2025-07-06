@@ -194,6 +194,18 @@ public class PlayerInitialize : NetworkBehaviour
         StartCoroutine(SaveText());
     }
 
+    public void SaveInventory(Item item, int slotIndex)
+    {
+        string prefix = CharacterNumber;
+        string key = $"{prefix}InventorySlot_{slotIndex}";
+        string value = item.name + "|" + item.Quantity;
+
+        PlayerPrefs.SetString(key, value);
+        PlayerPrefs.Save();
+
+        Debug.Log($"Saved {key}: {value}");
+    }
+
     IEnumerator SaveText()
     {
         saveText.text = "Save";
