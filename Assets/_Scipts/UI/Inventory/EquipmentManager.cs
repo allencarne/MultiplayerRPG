@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
+    [SerializeField] private ItemList itemDatabase;
+    [SerializeField] PlayerInitialize initialize;
+
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentUI equipmentUI;
     [SerializeField] PlayerEquipment equipment;
     public Equipment[] currentEquipment;
 
-    private void Start()
+    private void Awake()
     {
         // Get the number of equipment slots
         int numberOfSlots = System.Enum.GetNames(typeof(EquipmentType)).Length;
@@ -35,6 +38,9 @@ public class EquipmentManager : MonoBehaviour
 
         // Set new item
         currentEquipment[slotIndex] = newItem;
+
+        // Save the equipment to PlayerPrefs
+        initialize.SaveEquipment(newItem, slotIndex);
     }
 
     public void UnEquip(int slotIndex)
@@ -48,11 +54,64 @@ public class EquipmentManager : MonoBehaviour
 
             equipmentUI.UpdateUI(null, oldItem);
             equipment.OnEquipmentChanged(null, oldItem);
+
+            // Clear equipment slot in save
+            initialize.SaveEquipment(null, slotIndex);
         }
     }
 
     public void UnequipAll()
     {
 
+    }
+
+    public void LoadEquipment()
+    {
+        string prefix = initialize.CharacterNumber;
+
+        // Loop through all equipment slot indices (0–7)
+        int numberOfSlots = System.Enum.GetNames(typeof(EquipmentType)).Length;
+
+        for (int slotIndex = 0; slotIndex < numberOfSlots; slotIndex++)
+        {
+            string key = $"{prefix}EquipmentSlot_{slotIndex}";
+
+            if (PlayerPrefs.HasKey(key))
+            {
+                string saved = PlayerPrefs.GetString(key);
+                string[] parts = saved.Split('|');
+
+                if (parts.Length == 2)
+                {
+                    string itemName = parts[0];
+                    int quantity = int.Parse(parts[1]);
+
+                    Item baseItem = itemDatabase.GetItemByName(itemName);
+                    if (baseItem is Equipment equipmentTemplate)
+                    {
+                        Equipment newItem = Instantiate(equipmentTemplate);
+                        newItem.Quantity = quantity;
+
+                        Equipment oldItem = currentEquipment[slotIndex];
+
+                        currentEquipment[slotIndex] = newItem;
+                        equipmentUI.UpdateUI(newItem, oldItem);
+                        equipment.OnEquipmentChanged(newItem, oldItem);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Item '{itemName}' is not a valid Equipment.");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Malformed equipment string for key: {key}");
+                }
+            }
+            else
+            {
+                currentEquipment[slotIndex] = null;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] private ItemList itemDatabase;
     [SerializeField] PlayerInitialize initialize;
+
     [SerializeField] InventoryUI inventoryUI;
     public int inventorySlots = 30;
     public Item[] items;

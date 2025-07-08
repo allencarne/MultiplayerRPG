@@ -20,6 +20,7 @@ public class PlayerInitialize : NetworkBehaviour
     [SerializeField] Player player;
     [SerializeField] CharacterCustomizationData customizationData;
     [SerializeField] Inventory inventory;
+    [SerializeField] EquipmentManager equipment;
     public string CharacterNumber => $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
 
     public override void OnNetworkSpawn()
@@ -36,6 +37,7 @@ public class PlayerInitialize : NetworkBehaviour
             {
                 LoadPlayerStats();
                 inventory.LoadInventory();
+                equipment.LoadEquipment();
             }
 
             // Set Coin Text UI
@@ -202,6 +204,26 @@ public class PlayerInitialize : NetworkBehaviour
         string key = $"{prefix}InventorySlot_{slotIndex}";
         string value = item.name + "|" + item.Quantity;
 
+        PlayerPrefs.SetString(key, value);
+        PlayerPrefs.Save();
+
+        Debug.Log($"Saved {key}: {value}");
+    }
+
+    public void SaveEquipment(Item item, int slotIndex)
+    {
+        string prefix = CharacterNumber;
+        string key = $"{prefix}EquipmentSlot_{slotIndex}";
+
+        if (item == null)
+        {
+            PlayerPrefs.DeleteKey(key);
+            PlayerPrefs.Save();
+            Debug.Log($"Cleared {key}");
+            return;
+        }
+
+        string value = item.name + "|" + item.Quantity;
         PlayerPrefs.SetString(key, value);
         PlayerPrefs.Save();
 

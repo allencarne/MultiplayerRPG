@@ -7,7 +7,7 @@ public class EquipmentUI : MonoBehaviour
     public Transform equipmentItemsParent;
     private Dictionary<EquipmentType, EquipmentSlot> equipmentSlots;
 
-    private void Start()
+    private void Awake()
     {
         EquipmentSlot[] slots = equipmentItemsParent.GetComponentsInChildren<EquipmentSlot>();
         equipmentSlots = new Dictionary<EquipmentType, EquipmentSlot>();
