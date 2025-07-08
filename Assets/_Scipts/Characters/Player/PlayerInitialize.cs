@@ -211,7 +211,9 @@ public class PlayerInitialize : NetworkBehaviour
             return;
         }
 
-        string value = item.name + "|" + item.Quantity;
+        string baseName = item.name.Replace("(Clone)", "").Trim();
+        string value = baseName + "|" + item.Quantity;
+
         PlayerPrefs.SetString(key, value);
         PlayerPrefs.Save();
 
@@ -231,7 +233,9 @@ public class PlayerInitialize : NetworkBehaviour
             return;
         }
 
-        string value = item.name + "|" + item.Quantity;
+        string baseName = item.name.Replace("(Clone)", "").Trim();
+        string value = baseName + "|" + item.Quantity;
+
         PlayerPrefs.SetString(key, value);
         PlayerPrefs.Save();
 

@@ -77,6 +77,9 @@ public class PlayerStateMachine : NetworkBehaviour
         playerSpawnState.StartState(this);
 
         BodyAnimator.SetFloat("Vertical", -1);
+        HairAnimator.SetFloat("Vertical", -1);
+        EyesAnimator.SetFloat("Vertical", -1);
+        SwordAnimator.SetFloat("Vertical", -1);
 
         setSkills.SetSkills();
 
