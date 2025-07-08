@@ -202,8 +202,16 @@ public class PlayerInitialize : NetworkBehaviour
     {
         string prefix = CharacterNumber;
         string key = $"{prefix}InventorySlot_{slotIndex}";
-        string value = item.name + "|" + item.Quantity;
 
+        if (item == null)
+        {
+            PlayerPrefs.DeleteKey(key);
+            PlayerPrefs.Save();
+            Debug.Log($"Cleared {key}");
+            return;
+        }
+
+        string value = item.name + "|" + item.Quantity;
         PlayerPrefs.SetString(key, value);
         PlayerPrefs.Save();
 

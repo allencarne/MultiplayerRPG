@@ -21,25 +21,31 @@ public class EquipmentManager : MonoBehaviour
 
     public void Equip(Equipment newItem)
     {
-        // Gets the index that the new item is supposed to be slotted into
         int slotIndex = (int)newItem.equipmentType;
 
         Equipment oldItem = null;
+
+        // Remove the newItem from inventory
+        int itemIndex = System.Array.IndexOf(inventory.items, newItem);
+        if (itemIndex != -1)
+        {
+            inventory.items[itemIndex] = null;
+            initialize.SaveInventory(null, itemIndex);
+        }
 
         // If there is already a piece of equipment in the slot
         if (currentEquipment[slotIndex] != null)
         {
             oldItem = currentEquipment[slotIndex];
-            inventory.AddItem(oldItem);
+            inventory.AddItem(oldItem); // move old item back to inventory
         }
 
         equipmentUI.UpdateUI(newItem, oldItem);
         equipment.OnEquipmentChanged(newItem, oldItem);
 
-        // Set new item
         currentEquipment[slotIndex] = newItem;
 
-        // Save the equipment to PlayerPrefs
+        // Save new equipment
         initialize.SaveEquipment(newItem, slotIndex);
     }
 
