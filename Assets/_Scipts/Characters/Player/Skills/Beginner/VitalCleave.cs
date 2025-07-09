@@ -22,7 +22,7 @@ public class VitalCleave : PlayerAbility
 
     public override void StartAbility(PlayerStateMachine owner)
     {
-        owner.CanOffensive = false;
+        owner.CanMobility = false;
         owner.IsAttacking = true;
 
         // Set Variables
@@ -45,7 +45,7 @@ public class VitalCleave : PlayerAbility
 
         // Timers
         owner.StartCast(castTime, recoveryTime, this);
-        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, modifiedCooldown));
+        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Mobility, modifiedCooldown));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
