@@ -19,6 +19,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator EyesAnimator;
 
     [Header("Components")]
+    [SerializeField] SkillBarCoolDowns cooldown;
     [HideInInspector] public SkillPanel skills;
     [SerializeField] SetSkillPanel setSkills;
     public PlayerInputHandler Input;
@@ -497,6 +498,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
     {
+        cooldown.SkillCoolDown(type, skillCoolDown);
+
         yield return new WaitForSeconds(skillCoolDown);
 
         switch (type)
