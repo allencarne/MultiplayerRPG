@@ -498,36 +498,10 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public IEnumerator CoolDownTime(SkillType type, float baseCooldown)
     {
-        float startTime = Time.time;  // The time when the cooldown started
-        float totalCooldown = baseCooldown / player.CurrentCDR.Value;  // Initial cooldown based on current CDR
-        float lastCooldown = totalCooldown;  // Tracks the last cooldown to avoid increasing
+        float modifiedCoolDown = baseCooldown / player.CurrentCDR.Value;
+        cooldown.SkillCoolDown(type, modifiedCoolDown);
 
-        // Start UI update with duration and elapsed time
-        cooldown.SkillCoolDown(type, baseCooldown, () => lastCooldown, () => Time.time - startTime);
-
-        while (true)
-        {
-            float elapsedTime = Time.time - startTime;  // Calculate how much time has passed
-            float remainingTime = lastCooldown - elapsedTime;  // Remaining cooldown time
-
-            // If cooldown is finished, exit loop
-            if (remainingTime <= 0)
-            {
-                break;
-            }
-
-            // Calculate new cooldown based on current CDR
-            totalCooldown = baseCooldown / player.CurrentCDR.Value;
-
-            // Update lastCooldown only if it decreases
-            if (totalCooldown < lastCooldown)
-            {
-                lastCooldown = totalCooldown;
-            }
-
-            // Wait for the next frame
-            yield return null;
-        }
+        yield return new WaitForSeconds(modifiedCoolDown);
 
         switch (type)
         {

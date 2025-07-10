@@ -12,34 +12,30 @@ public class SkillBarCoolDowns : MonoBehaviour
     [SerializeField] TextMeshProUGUI utilityText;
     [SerializeField] TextMeshProUGUI ultimateText;
 
-    public void SkillCoolDown(PlayerStateMachine.SkillType type, float baseCooldown, Func<float> getAdjustedDuration, Func<float> getElapsedTime)
+    public void SkillCoolDown(PlayerStateMachine.SkillType type, float CoolDown)
     {
         switch (type)
         {
-            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(basicText, getAdjustedDuration, getElapsedTime)); break;
-            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(offensiveText, getAdjustedDuration, getElapsedTime)); break;
-            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(mobilityText, getAdjustedDuration, getElapsedTime)); break;
-            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(defensiveText, getAdjustedDuration, getElapsedTime)); break;
-            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(utilityText, getAdjustedDuration, getElapsedTime)); break;
-            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(ultimateText, getAdjustedDuration, getElapsedTime)); break;
+            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText)); break;
+            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText)); break;
+            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText)); break;
+            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText)); break;
+            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText)); break;
+            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText)); break;
         }
     }
 
-    IEnumerator TrackSkill(TextMeshProUGUI text, Func<float> getDuration, Func<float> getElapsedTime)
+    IEnumerator TrackSkill(float cooldown, TextMeshProUGUI text)
     {
-        while (true)
+        float timeRemaining = cooldown;
+
+        while (timeRemaining > 0f)
         {
-            float duration = getDuration();
-            float elapsed = getElapsedTime();
-            float remaining = Mathf.Clamp(duration - elapsed, 0f, duration);
-
-            if (remaining <= 0f)
-                break;
-
-            text.text = remaining.ToString("F1");
-            yield return null;
+            text.text = timeRemaining.ToString("F1"); // Format to 1 decimal place, like 99.9
+            yield return null; // Wait for next frame
+            timeRemaining -= Time.deltaTime;
         }
 
-        text.text = "";
+        text.text = ""; // Clear the text when cooldown is done
     }
 }
