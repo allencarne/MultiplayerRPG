@@ -12,30 +12,31 @@ public class SkillBarCoolDowns : MonoBehaviour
     [SerializeField] TextMeshProUGUI utilityText;
     [SerializeField] TextMeshProUGUI ultimateText;
 
-    public void SkillCoolDown(PlayerStateMachine.SkillType type, float CoolDown, Func<float> getCurrentCDR)
+    public void SkillCoolDown(PlayerStateMachine.SkillType type, float baseCooldown, Func<float> getAdjustedDuration, Func<float> getElapsedTime)
     {
         switch (type)
         {
-            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText, getCurrentCDR)); break;
-            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText, getCurrentCDR)); break;
-            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText, getCurrentCDR)); break;
-            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText, getCurrentCDR)); break;
-            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText, getCurrentCDR)); break;
-            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText, getCurrentCDR)); break;
+            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(basicText, getAdjustedDuration, getElapsedTime)); break;
+            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(offensiveText, getAdjustedDuration, getElapsedTime)); break;
+            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(mobilityText, getAdjustedDuration, getElapsedTime)); break;
+            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(defensiveText, getAdjustedDuration, getElapsedTime)); break;
+            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(utilityText, getAdjustedDuration, getElapsedTime)); break;
+            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(ultimateText, getAdjustedDuration, getElapsedTime)); break;
         }
     }
 
-    IEnumerator TrackSkill(float baseCooldown, TextMeshProUGUI text, Func<float> getCurrentCDR)
+    IEnumerator TrackSkill(TextMeshProUGUI text, Func<float> getDuration, Func<float> getElapsedTime)
     {
-        float elapsed = 0f;
-
-        while (elapsed < baseCooldown / getCurrentCDR())
+        while (true)
         {
-            float duration = baseCooldown / getCurrentCDR();
-            float timeRemaining = Mathf.Max(0f, duration - elapsed);
-            text.text = timeRemaining.ToString("F1");
+            float duration = getDuration();
+            float elapsed = getElapsedTime();
+            float remaining = Mathf.Clamp(duration - elapsed, 0f, duration);
 
-            elapsed += Time.deltaTime;
+            if (remaining <= 0f)
+                break;
+
+            text.text = remaining.ToString("F1");
             yield return null;
         }
 

@@ -498,14 +498,34 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public IEnumerator CoolDownTime(SkillType type, float baseCooldown)
     {
-        float elapsed = 0f;
+        float startTime = Time.time;  // The time when the cooldown started
+        float totalCooldown = baseCooldown / player.CurrentCDR.Value;  // Initial cooldown based on current CDR
+        float lastCooldown = totalCooldown;  // Tracks the last cooldown to avoid increasing
 
-        // Pass baseCooldown and live CDR callback to UI
-        cooldown.SkillCoolDown(type, baseCooldown, () => player.CurrentCDR.Value);
+        // Start UI update with duration and elapsed time
+        cooldown.SkillCoolDown(type, baseCooldown, () => lastCooldown, () => Time.time - startTime);
 
-        while (elapsed < baseCooldown / player.CurrentCDR.Value)
+        while (true)
         {
-            elapsed += Time.deltaTime;
+            float elapsedTime = Time.time - startTime;  // Calculate how much time has passed
+            float remainingTime = lastCooldown - elapsedTime;  // Remaining cooldown time
+
+            // If cooldown is finished, exit loop
+            if (remainingTime <= 0)
+            {
+                break;
+            }
+
+            // Calculate new cooldown based on current CDR
+            totalCooldown = baseCooldown / player.CurrentCDR.Value;
+
+            // Update lastCooldown only if it decreases
+            if (totalCooldown < lastCooldown)
+            {
+                lastCooldown = totalCooldown;
+            }
+
+            // Wait for the next frame
             yield return null;
         }
 
@@ -657,8 +677,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
         {
-            CrowdControl.immobilize.StartImmobilize(4);
-            //Buffs.alacrity.StartAlacrity(1, 10);
+            //CrowdControl.immobilize.StartImmobilize(4);
+            Buffs.alacrity.StartAlacrity(1, 10);
         }
 
         if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
