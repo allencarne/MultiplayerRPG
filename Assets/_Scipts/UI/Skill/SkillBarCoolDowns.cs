@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -11,30 +12,33 @@ public class SkillBarCoolDowns : MonoBehaviour
     [SerializeField] TextMeshProUGUI utilityText;
     [SerializeField] TextMeshProUGUI ultimateText;
 
-    public void SkillCoolDown(PlayerStateMachine.SkillType type, float CoolDown)
+    public void SkillCoolDown(PlayerStateMachine.SkillType type, float CoolDown, Func<float> getCurrentCDR)
     {
         switch (type)
         {
-            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText)); break;
-            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText)); break;
-            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText)); break;
-            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText)); break;
-            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText)); break;
-            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText)); break;
+            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText, getCurrentCDR)); break;
+            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText, getCurrentCDR)); break;
+            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText, getCurrentCDR)); break;
+            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText, getCurrentCDR)); break;
+            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText, getCurrentCDR)); break;
+            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText, getCurrentCDR)); break;
         }
     }
 
-    IEnumerator TrackSkill(float cooldown, TextMeshProUGUI text)
+    IEnumerator TrackSkill(float baseCooldown, TextMeshProUGUI text, Func<float> getCurrentCDR)
     {
-        float timeRemaining = cooldown;
+        float elapsed = 0f;
 
-        while (timeRemaining > 0f)
+        while (elapsed < baseCooldown / getCurrentCDR())
         {
-            text.text = timeRemaining.ToString("F1"); // Format to 1 decimal place, like 99.9
-            yield return null; // Wait for next frame
-            timeRemaining -= Time.deltaTime;
+            float duration = baseCooldown / getCurrentCDR();
+            float timeRemaining = Mathf.Max(0f, duration - elapsed);
+            text.text = timeRemaining.ToString("F1");
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
 
-        text.text = ""; // Clear the text when cooldown is done
+        text.text = "";
     }
 }

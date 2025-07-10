@@ -496,11 +496,18 @@ public class PlayerStateMachine : NetworkBehaviour
         return;
     }
 
-    public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
+    public IEnumerator CoolDownTime(SkillType type, float baseCooldown)
     {
-        cooldown.SkillCoolDown(type, skillCoolDown);
+        float elapsed = 0f;
 
-        yield return new WaitForSeconds(skillCoolDown);
+        // Pass baseCooldown and live CDR callback to UI
+        cooldown.SkillCoolDown(type, baseCooldown, () => player.CurrentCDR.Value);
+
+        while (elapsed < baseCooldown / player.CurrentCDR.Value)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
 
         switch (type)
         {

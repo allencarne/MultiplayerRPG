@@ -21832,7 +21832,7 @@ MonoBehaviour:
   IndicatorPrefab: {fileID: 884016442176713266, guid: f1e5b41113a75514db48d9b767019796, type: 3}
   Description: Throw an orb of energy in front of you. Dealing moderate damage and
     stunning all enemies it passes through.
-  CoolDown: 3
+  CoolDown: 10
   attackPrefab: {fileID: 1324840749770008434, guid: c4ad46a8b1638414d8296e99dccfd8c4, type: 3}
   abilityDamage: 2
   attackRange: 1
@@ -21840,7 +21840,6 @@ MonoBehaviour:
   attackForce: 15
   castTime: 0.3
   recoveryTime: 0.4
-  coolDown: 3
   stunDuration: 2
 --- !u!1 &3545801185872779538
 GameObject:
@@ -31717,13 +31716,12 @@ MonoBehaviour:
   IndicatorPrefab: {fileID: 5634513536252481035, guid: d9ca1ba647590f04791b11977ff2c2e7, type: 3}
   Description: Swing your sword around you multiple times. Dealing moderate damage
     and stunning all enemies hit.
-  CoolDown: 3
+  CoolDown: 10
   attackPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
   abilityDamage: 5
   attackRange: 0
   castTime: 0.3
   recoveryTime: 0.4
-  coolDown: 3
   stunDuration: 2
 --- !u!1 &5289496096554081371
 GameObject:

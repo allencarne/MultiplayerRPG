@@ -10,10 +10,8 @@ public class FlailingEdge : PlayerAbility
     [Header("Time")]
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
-    [SerializeField] float coolDown;
     [SerializeField] float stunDuration;
 
-    float modifiedCooldown;
     Vector2 aimDirection;
     Quaternion aimRotation;
 
@@ -26,7 +24,6 @@ public class FlailingEdge : PlayerAbility
         aimDirection = owner.Aimer.right;
         aimRotation = owner.Aimer.rotation;
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
-        modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
 
         // Stop
         owner.PlayerRB.linearVelocity = Vector2.zero;
@@ -39,7 +36,7 @@ public class FlailingEdge : PlayerAbility
 
         // Timers
         owner.StartCast(castTime, recoveryTime, this);
-        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, modifiedCooldown));
+        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, CoolDown));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
