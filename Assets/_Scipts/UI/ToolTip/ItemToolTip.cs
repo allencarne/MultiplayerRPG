@@ -1,116 +1,125 @@
 using UnityEngine;
 using TMPro;
 using System.Text;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class ItemToolTip : MonoBehaviour
+public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
-    [SerializeField] InventoryItem inventoryItem;
+    [SerializeField] GameObject tooltip;
+
+
+
+    [SerializeField] InventoryItem inventory;
+    [SerializeField] EquipmentSlot equipment;
 
     [SerializeField] ItemRarityInfo riarityInfo;
     [SerializeField] GameObject gemSlotsImage;
+
+    [SerializeField] Image itemIcon;
+    [SerializeField] Image textBox;
+
+    [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
-    private void Start()
-    {
-        if (inventoryItem.Item != null)
-        {
-            if (inventoryItem.Item is Currency)
-            {
-                UpdateCurrencyInfo();
-            }
-
-            if (inventoryItem.Item is Equipment equipment)
-            {
-                UpdateEquipmentInfo(equipment);
-            }
-
-            if (inventoryItem.Item is Weapon weapon)
-            {
-                UpdateWeaponInfo(weapon);
-            }
-        }
-    }
-
-    public void UpdateCurrencyInfo()
+    public void UpdateCurrencyInfo(Currency currency, Item item)
     {
         // Hide gem slots for currency
         gemSlotsImage.SetActive(false);
 
-        // Build text info
+        // Sprite
+        itemIcon.sprite = currency.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+
+        // Description
+        itemInfo_Text.text = inventory.Item.Description;
+    }
+
+    public void UpdateCollectableInfo(Collectable collectable, Item item)
+    {
+        // Hide gem slots for currency
+        gemSlotsImage.SetActive(false);
+
+        // Sprite
+        itemIcon.sprite = collectable.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+
+        // Description
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(inventoryItem.Item.Prefab.name, inventoryItem.Item.ItemRarity));
-        sb.AppendLine();
-        sb.AppendLine(inventoryItem.Item.Description); // Description
+        sb.AppendLine(item.Description);
+        sb.AppendLine($"{collectable.SellValue}<sprite index=0>");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
     }
 
-    public void UpdateEquipmentInfo(Equipment equipment)
+    public void UpdateEquipmentInfo(Equipment equipment, Item item)
     {
         // Show gem slots for equipment
         gemSlotsImage.SetActive(true);
 
+        // Sprite
+        itemIcon.sprite = equipment.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+
         // Build text info
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(equipment.Prefab.name, equipment.ItemRarity));
         sb.AppendLine();
 
-        /*
-        // Add modifiers (hide if 0)
-        if (equipment.healthModifier != 0)
+        // Loop through each stat modifier
+        foreach (var mod in equipment.modifiers)
         {
-            sb.AppendLine($"+{equipment.healthModifier} Health");
+            sb.AppendLine($"+{mod.value} {mod.statType}");
         }
-        if (equipment.damageModifier != 0)
-        {
-            sb.AppendLine($"+{equipment.damageModifier} Health");
-        }
+
         sb.AppendLine();
-        */
 
         // Add additional info
-        //sb.AppendLine($"{equipment.ItemRarity}");
-        sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(),equipment.ItemRarity));
+        sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(), equipment.ItemRarity));
         sb.AppendLine($"{equipment.equipmentType}");
-        sb.AppendLine($"Level Req: {equipment.LevelRequirement}");
-        sb.AppendLine($"Class Req: {equipment.ClassRequirement}");
-        sb.AppendLine($"Sell Value: {equipment.SellValue}");
+        sb.AppendLine($"Required Level: {equipment.LevelRequirement}");
+        sb.AppendLine($"Required Class: {equipment.ClassRequirement}");
+        sb.AppendLine($"{equipment.SellValue}<sprite index=0>");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
     }
 
-    public void UpdateWeaponInfo(Weapon weapon)
+    public void UpdateWeaponInfo(Weapon weapon, Item item)
     {
         // Show gem slots for weapons
         gemSlotsImage.SetActive(true);
 
+        // Sprite
+        itemIcon.sprite = weapon.Icon;
+
+        // Name
+        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+
         // Build text info
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine(FormatNameWithRarity(weapon.Prefab.name, weapon.ItemRarity));
         sb.AppendLine();
 
-        /*
-        // Add modifiers (hide if 0)
-        if (weapon.healthModifier != 0)
+        // Loop through each stat modifier
+        foreach (var mod in weapon.modifiers)
         {
-            sb.AppendLine($"+{weapon.healthModifier} Health");
+            sb.AppendLine($"+{mod.value} {mod.statType}");
         }
-        if (weapon.damageModifier != 0)
-        {
-            sb.AppendLine($"+{weapon.damageModifier} Health");
-        }
+
         sb.AppendLine();
-        */
 
         // Add additional info
-        //sb.AppendLine($"{weapon.ItemRarity}");
         sb.AppendLine(FormatNameWithRarity(weapon.ItemRarity.ToString(), weapon.ItemRarity));
         sb.AppendLine($"{weapon.weaponType}");
-        sb.AppendLine($"Level Req: {weapon.LevelRequirement}");
-        sb.AppendLine($"Class Req: {weapon.ClassRequirement}");
-        sb.AppendLine($"Sell Value: {weapon.SellValue}");
+        sb.AppendLine($"Required Level: {weapon.LevelRequirement}");
+        sb.AppendLine($"Required Class: {weapon.ClassRequirement}");
+        sb.AppendLine($"{weapon.SellValue}<sprite index=0>");
 
         // Update text
         itemInfo_Text.text = sb.ToString();
@@ -125,14 +134,68 @@ public class ItemToolTip : MonoBehaviour
             ItemRarity.Uncommon => riarityInfo.UnCommonColor,
             ItemRarity.Rare => riarityInfo.RareColor,
             ItemRarity.Epic => riarityInfo.EpicColor,
+            ItemRarity.Exotic => riarityInfo.ExoticColor,
+            ItemRarity.Mythic => riarityInfo.MythicColor,
             ItemRarity.Legendary => riarityInfo.LegendaryColor,
             _ => Color.white // Default to white
         };
 
+        // Assign Box Color
+        textBox.color = color;
+
+        var tempColor = textBox.color;
+        tempColor.a = .90f;
+        textBox.color = tempColor;
+
         // Convert the Color to a hex string
-        string colorHex = ColorUtility.ToHtmlStringRGB(color);
+        string colorHex = UnityEngine.ColorUtility.ToHtmlStringRGB(color);
 
         // Format the name with the appropriate color using rich text
         return $"<color=#{colorHex}><b>{name}</b></color>";
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        var item = GetCurrentItem();
+        if (item == null) return;
+
+        Debug.Log(item);
+
+        switch (item)
+        {
+            case Currency currency:
+                UpdateCurrencyInfo(currency, item);
+                break;
+
+            case Collectable collectable:
+                UpdateCollectableInfo(collectable, item);
+                break;
+
+            case Weapon weapon:
+                UpdateWeaponInfo(weapon, item);
+                break;
+
+            case Equipment equip:
+                UpdateEquipmentInfo(equip, item);
+                break;
+        }
+
+        tooltip.SetActive(true);
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        tooltip.SetActive(false);
+    }
+
+    private Item GetCurrentItem()
+    {
+        if (inventory != null && inventory.Item != null)
+            return inventory.Item;
+
+        if (equipment != null && equipment.Item != null)
+            return equipment.Item;
+
+        return null;
     }
 }
