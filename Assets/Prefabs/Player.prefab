@@ -36387,7 +36387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.9212, y: -148}
+  m_AnchoredPosition: {x: 90.921196, y: -148}
   m_SizeDelta: {x: 181.84239, y: 296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6383631817265720690
@@ -60690,6 +60690,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4014550440529622284}
     m_Modifications:
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 841304983140234989}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: skillType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: rogueSkills
+      value: 
+      objectReference: {fileID: 5417639910267092027}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: archerSkills
+      value: 
+      objectReference: {fileID: 5714505987614676887}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: warriorSkills
+      value: 
+      objectReference: {fileID: 2317716940561466545}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: beginnerSkills
+      value: 
+      objectReference: {fileID: 640528868884370920}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: magicianSkills
+      value: 
+      objectReference: {fileID: 5795398845700227845}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -61334,6 +61362,46 @@ PrefabInstance:
       propertyPath: magicianSkills
       value: 
       objectReference: {fileID: 5795398845700227845}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: icon
+      value: 
+      objectReference: {fileID: 4464205667107669781}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 841304983140234989}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: cooldown
+      value: 
+      objectReference: {fileID: 167513245780217725}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: skillName
+      value: 
+      objectReference: {fileID: 8447528913773302787}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: description
+      value: 
+      objectReference: {fileID: 6284736173096793527}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: rogueSkills
+      value: 
+      objectReference: {fileID: 5417639910267092027}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: archerSkills
+      value: 
+      objectReference: {fileID: 5714505987614676887}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: warriorSkills
+      value: 
+      objectReference: {fileID: 2317716940561466545}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: beginnerSkills
+      value: 
+      objectReference: {fileID: 640528868884370920}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: magicianSkills
+      value: 
+      objectReference: {fileID: 5795398845700227845}
     - target: {fileID: 4701992014795964727, guid: df9e51267bae66545af82a6c619e8019, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -61511,11 +61579,44 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+--- !u!114 &167513245780217725 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1442231156777470903, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+  m_PrefabInstance: {fileID: 1608055479494231242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4464205667107669781 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3144918363002815455, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+  m_PrefabInstance: {fileID: 1608055479494231242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5896635803581943904 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5153801282393593002, guid: df9e51267bae66545af82a6c619e8019, type: 3}
   m_PrefabInstance: {fileID: 1608055479494231242}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6284736173096793527 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4712783570822017405, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+  m_PrefabInstance: {fileID: 1608055479494231242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8339182723654206454 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7343769490374788924, guid: df9e51267bae66545af82a6c619e8019, type: 3}
@@ -61525,6 +61626,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8447528913773302787 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7163911141189701833, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+  m_PrefabInstance: {fileID: 1608055479494231242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1678788311349733566
@@ -61649,6 +61761,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2633768083819641494}
     m_Modifications:
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 841304983140234989}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: skillType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: rogueSkills
+      value: 
+      objectReference: {fileID: 5417639910267092027}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: archerSkills
+      value: 
+      objectReference: {fileID: 5714505987614676887}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: warriorSkills
+      value: 
+      objectReference: {fileID: 2317716940561466545}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: beginnerSkills
+      value: 
+      objectReference: {fileID: 640528868884370920}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: magicianSkills
+      value: 
+      objectReference: {fileID: 5795398845700227845}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -62866,6 +63006,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2633768083819641494}
     m_Modifications:
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 841304983140234989}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: skillType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: skillIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: rogueSkills
+      value: 
+      objectReference: {fileID: 5417639910267092027}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: archerSkills
+      value: 
+      objectReference: {fileID: 5714505987614676887}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: warriorSkills
+      value: 
+      objectReference: {fileID: 2317716940561466545}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: beginnerSkills
+      value: 
+      objectReference: {fileID: 640528868884370920}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: magicianSkills
+      value: 
+      objectReference: {fileID: 5795398845700227845}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -63687,6 +63859,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1510484495612936502}
     m_Modifications:
+    - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -66457,6 +66633,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5370841044030133990}
     m_Modifications:
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 841304983140234989}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: skillType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: rogueSkills
+      value: 
+      objectReference: {fileID: 5417639910267092027}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: archerSkills
+      value: 
+      objectReference: {fileID: 5714505987614676887}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: warriorSkills
+      value: 
+      objectReference: {fileID: 2317716940561466545}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: beginnerSkills
+      value: 
+      objectReference: {fileID: 640528868884370920}
+    - target: {fileID: -287438167102480947, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: magicianSkills
+      value: 
+      objectReference: {fileID: 5795398845700227845}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -69310,6 +69514,10 @@ PrefabInstance:
       value: Passive Slot
       objectReference: {fileID: 0}
     - target: {fileID: 993875620646206716, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 993875620646206716, guid: df9e51267bae66545af82a6c619e8019, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -69362,6 +69570,34 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 640528868884370920}
     - target: {fileID: 3906172798905174666, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: magicianSkills
+      value: 
+      objectReference: {fileID: 5795398845700227845}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 841304983140234989}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: skillType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: rogueSkills
+      value: 
+      objectReference: {fileID: 5417639910267092027}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: archerSkills
+      value: 
+      objectReference: {fileID: 5714505987614676887}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: warriorSkills
+      value: 
+      objectReference: {fileID: 2317716940561466545}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+      propertyPath: beginnerSkills
+      value: 
+      objectReference: {fileID: 640528868884370920}
+    - target: {fileID: 4672863514549065838, guid: df9e51267bae66545af82a6c619e8019, type: 3}
       propertyPath: magicianSkills
       value: 
       objectReference: {fileID: 5795398845700227845}
@@ -69781,6 +70017,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1510484495612936502}
     m_Modifications:
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -70122,6 +70362,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1510484495612936502}
     m_Modifications:
+    - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -71945,6 +72189,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1510484495612936502}
     m_Modifications:
+    - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3455763689054468869, guid: da91d99e5885237438ea0fc19cf9821d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1

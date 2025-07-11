@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 993875620646206716}
   - component: {fileID: 1587844583683922450}
   - component: {fileID: 3458429214079609283}
-  - component: {fileID: 3906172798905174666}
+  - component: {fileID: 4672863514549065838}
   m_Layer: 5
   m_Name: Passive Slot
   m_TagString: Untagged
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c84f7a00e6c48d499ed60b484551e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3906172798905174666
+--- !u!114 &4672863514549065838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,11 +159,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 172326571879323079}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cecdaab31e66274498ca2f5cefe6743, type: 3}
+  m_Script: {fileID: 11500000, guid: 2896720adc05452478030d8760f478f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skillType: 0
   player: {fileID: 0}
+  skillIndex: 0
   beginnerSkills: {fileID: 0}
   warriorSkills: {fileID: 0}
   magicianSkills: {fileID: 0}
