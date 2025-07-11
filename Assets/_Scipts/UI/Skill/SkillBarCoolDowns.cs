@@ -13,6 +13,13 @@ public class SkillBarCoolDowns : MonoBehaviour
     [SerializeField] TextMeshProUGUI utilityText;
     [SerializeField] TextMeshProUGUI ultimateText;
 
+    [SerializeField] TextMeshProUGUI basicText_m;
+    [SerializeField] TextMeshProUGUI offensiveText_m;
+    [SerializeField] TextMeshProUGUI mobilityText_m;
+    [SerializeField] TextMeshProUGUI defensiveText_m;
+    [SerializeField] TextMeshProUGUI utilityText_m;
+    [SerializeField] TextMeshProUGUI ultimateText_m;
+
     [SerializeField] Image basicImage;
     [SerializeField] Image offensiveImage;
     [SerializeField] Image mobilityImage;
@@ -20,40 +27,45 @@ public class SkillBarCoolDowns : MonoBehaviour
     [SerializeField] Image utilityImage;
     [SerializeField] Image ultimateImage;
 
+    [SerializeField] Image basicImage_m;
+    [SerializeField] Image offensiveImage_m;
+    [SerializeField] Image mobilityImage_m;
+    [SerializeField] Image defensiveImage_m;
+    [SerializeField] Image utilityImage_m;
+    [SerializeField] Image ultimateImage_m;
+
     public void SkillCoolDown(PlayerStateMachine.SkillType type, float CoolDown)
     {
         switch (type)
         {
-            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText, type)); basicImage.enabled = true; break;
-            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText, type)); offensiveImage.enabled = true; break;
-            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText, type)); mobilityImage.enabled = true; break;
-            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText, type)); defensiveImage.enabled = true; break;
-            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText, type)); utilityImage.enabled = true; break;
-            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText, type)); ultimateImage.enabled = true; break;
+            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText, basicText_m, basicImage , basicImage_m)); break;
+            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText, offensiveText_m, offensiveImage, offensiveImage_m));  break;
+            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText, mobilityText_m, mobilityImage, mobilityImage_m)); break;
+            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText, defensiveText_m, defensiveImage, defensiveImage_m)); break;
+            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText, utilityText_m, utilityImage, utilityImage_m)); break;
+            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText, ultimateText_m, ultimateImage, ultimateImage_m)); break;
         }
     }
 
-    IEnumerator TrackSkill(float cooldown, TextMeshProUGUI text, PlayerStateMachine.SkillType type)
+    IEnumerator TrackSkill(float cooldown, TextMeshProUGUI text, TextMeshProUGUI mText, Image image, Image mImage)
     {
+        image.enabled = true;
+        mImage.enabled = true;
+
         float timeRemaining = cooldown;
 
         while (timeRemaining > 0f)
         {
             text.text = timeRemaining.ToString("F1");
+            mText.text = timeRemaining.ToString("F1");
             yield return null;
             timeRemaining -= Time.deltaTime;
         }
 
         text.text = "";
+        mText.text = "";
 
-        switch (type)
-        {
-            case PlayerStateMachine.SkillType.Basic: basicImage.enabled = false; break;
-            case PlayerStateMachine.SkillType.Offensive: offensiveImage.enabled = false; break;
-            case PlayerStateMachine.SkillType.Mobility: mobilityImage.enabled = false; break;
-            case PlayerStateMachine.SkillType.Defensive: defensiveImage.enabled = false; break;
-            case PlayerStateMachine.SkillType.Utility: utilityImage.enabled = false; break;
-            case PlayerStateMachine.SkillType.Ultimate: ultimateImage.enabled = false; break;
-        }
+        image.enabled = false;
+        mImage.enabled = false;
     }
 }
