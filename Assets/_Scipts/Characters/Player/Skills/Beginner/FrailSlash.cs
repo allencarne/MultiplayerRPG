@@ -11,7 +11,6 @@ public class FrailSlash : PlayerAbility
     [Header("Time")]
     [SerializeField] float castTime;
     [SerializeField] float recoveryTime;
-    [SerializeField] float coolDown;
 
     [Header("Slide")]
     [SerializeField] float slideForce;
@@ -49,7 +48,7 @@ public class FrailSlash : PlayerAbility
 
         // Timers
         owner.StartCast(modifiedCastTime, modifiedRecoveryTime, this);
-        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Basic, coolDown));
+        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Basic, CoolDown));
     }
 
     public override void UpdateAbility(PlayerStateMachine owner)
