@@ -7,6 +7,9 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     public enum SkillType
     {
+        Passive1,
+        Passive2,
+        Passive3,
         Basic,
         Offensive,
         Mobility,
@@ -39,6 +42,62 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 switch (skillType)
                 {
+                    case SkillType.Passive1:
+
+                        if (player.FirstPassiveIndex == -1) return;
+
+                        switch (player.FirstPassiveIndex)
+                        {
+                            case 0:
+                                icon.sprite = beginnerSkills.firstPassive[0].SkillIcon;
+                                skillName.text = "[Passive] " + beginnerSkills.firstPassive[0].name;
+                                description.text = beginnerSkills.firstPassive[0].Description;
+                                cooldown.text = "Cooldown: " + beginnerSkills.firstPassive[0].CoolDown;
+                                break;
+                            case 1:
+                                icon.sprite = beginnerSkills.firstPassive[1].SkillIcon;
+                                skillName.text = "[Passive] " + beginnerSkills.firstPassive[1].name;
+                                description.text = beginnerSkills.firstPassive[1].Description;
+                                cooldown.text = "Cooldown: " + beginnerSkills.firstPassive[1].CoolDown;
+                                break;
+
+                            case 2:
+                                icon.sprite = beginnerSkills.firstPassive[2].SkillIcon;
+                                skillName.text = "[Passive] " + beginnerSkills.firstPassive[2].name;
+                                description.text = beginnerSkills.firstPassive[2].Description;
+                                cooldown.text = "Cooldown: " + beginnerSkills.firstPassive[1].CoolDown;
+                                break;
+                        }
+
+                        break;
+                    case SkillType.Passive2:
+
+                        if (player.SecondPassiveIndex == -1) return;
+
+                        switch (player.SecondPassiveIndex)
+                        {
+                            case 0:
+                                icon.sprite = beginnerSkills.secondPassive[0].SkillIcon;
+                                skillName.text = "[Passive] " + beginnerSkills.secondPassive[0].name;
+                                description.text = beginnerSkills.secondPassive[0].Description;
+                                cooldown.text = "Cooldown: " + beginnerSkills.secondPassive[0].CoolDown;
+                                break;
+                            case 1:
+                                icon.sprite = beginnerSkills.secondPassive[1].SkillIcon;
+                                skillName.text = "[Passive] " + beginnerSkills.secondPassive[1].name;
+                                description.text = beginnerSkills.secondPassive[1].Description;
+                                cooldown.text = "Cooldown: " + beginnerSkills.secondPassive[1].CoolDown;
+                                break;
+
+                            case 2:
+                                icon.sprite = beginnerSkills.secondPassive[2].SkillIcon;
+                                skillName.text = "[Passive] " + beginnerSkills.secondPassive[2].name;
+                                description.text = beginnerSkills.secondPassive[2].Description;
+                                cooldown.text = "Cooldown: " + beginnerSkills.secondPassive[1].CoolDown;
+                                break;
+                        }
+
+                        break;
                     case SkillType.Basic:
 
                         if (player.BasicIndex == -1) return;

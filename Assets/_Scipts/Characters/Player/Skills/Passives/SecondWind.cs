@@ -8,7 +8,6 @@ public class SecondWind : PlayerAbility
     int healAmount = 1;
     float healRate = 1f;
     float abilityDuration = 5f;
-    float cooldown = 30f;
 
     public override void StartAbility(PlayerStateMachine owner)
     {
@@ -37,7 +36,7 @@ public class SecondWind : PlayerAbility
 
     private IEnumerator CoolDownTime()
     {
-        yield return new WaitForSeconds(cooldown);
+        yield return new WaitForSeconds(CoolDown);
         isOnCooldown = false;
     }
 }
