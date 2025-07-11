@@ -8,8 +8,6 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     [SerializeField] GameObject tooltip;
 
-
-
     [SerializeField] InventoryItem inventory;
     [SerializeField] EquipmentSlot equipment;
 
