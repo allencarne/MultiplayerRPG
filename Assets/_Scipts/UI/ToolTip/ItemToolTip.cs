@@ -31,7 +31,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         itemIcon.sprite = currency.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
 
         // Description
         itemInfo_Text.text = inventory.Item.Description;
@@ -46,7 +46,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         itemIcon.sprite = collectable.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
 
         // Description
         StringBuilder sb = new StringBuilder();
@@ -66,7 +66,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         itemIcon.sprite = equipment.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
 
         // Build text info
         StringBuilder sb = new StringBuilder();
@@ -100,7 +100,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         itemIcon.sprite = weapon.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(item.Prefab.name, item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
 
         // Build text info
         StringBuilder sb = new StringBuilder();
@@ -158,8 +158,6 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         var item = GetCurrentItem();
         if (item == null) return;
-
-        Debug.Log(item);
 
         switch (item)
         {
