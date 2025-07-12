@@ -244,6 +244,17 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
+    public void Hurt()
+    {
+        if (player.IsDead) return;
+        SetState(State.Hurt);
+    }
+
+    public void Death()
+    {
+        SetState(State.Death);
+    }
+
     public void BasicAbility()
     {
         if (!CanBasic) return;
@@ -466,6 +477,15 @@ public class PlayerStateMachine : NetworkBehaviour
             if (Input.PickupInput)
             {
                 item.PickUp(player);
+            }
+        }
+
+        IInteractable interactable = collision.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            if (Input.InteractInput)
+            {
+                interactable.Interact();
             }
         }
     }
@@ -691,17 +711,6 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             DeBuffs.exhaust.StartExhaust(1, 10);
         }
-    }
-
-    public void Hurt()
-    {
-        if (player.IsDead) return;
-        SetState(State.Hurt);
-    }
-
-    public void Death()
-    {
-        SetState(State.Death);
     }
 
     [ServerRpc]
