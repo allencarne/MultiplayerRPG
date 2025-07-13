@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
+public class NPC : NetworkBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;
@@ -187,10 +187,5 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
     public void TriggerFlashEffectClientRpc(Color flashColor)
     {
         StartCoroutine(FlashEffect(flashColor));
-    }
-
-    public void Interact()
-    {
-        Debug.Log("Interacted with " + gameObject.name);
     }
 }
