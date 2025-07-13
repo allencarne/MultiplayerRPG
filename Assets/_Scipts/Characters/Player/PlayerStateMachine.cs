@@ -479,7 +479,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 item.PickUp(player);
             }
         }
-
+        /*
         IInteractable interactable = collision.GetComponent<IInteractable>();
         if (interactable != null)
         {
@@ -488,6 +488,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 interactable.Interact();
             }
         }
+        */
     }
 
     Coroutine CurrentAttack;
