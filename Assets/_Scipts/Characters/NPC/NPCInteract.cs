@@ -14,8 +14,6 @@ public class NPCInteract : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-
         if (collision.CompareTag("Player"))
         {
             player = collision.GetComponent<Player>();
@@ -25,8 +23,6 @@ public class NPCInteract : NetworkBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-
-
         PlayerInputHandler inputHandler = collision.GetComponent<PlayerInputHandler>();
         PlayerInput playerInput = collision.GetComponent<PlayerInput>();
 
@@ -35,8 +31,10 @@ public class NPCInteract : NetworkBehaviour
             if (inputHandler.InteractInput & !isInteracting)
             {
                 isInteracting = true;
+
                 interactUI.SetActive(true);
                 GuideUI.SetActive(false);
+
                 playerInput.SwitchCurrentActionMap("UI");
                 if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(firstSelected);
             }
@@ -45,41 +43,37 @@ public class NPCInteract : NetworkBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-
-
         PlayerInput playerInput = collision.GetComponent<PlayerInput>();
 
         if (collision.CompareTag("Player"))
         {
             if (playerInput != null)
             {
-                isInteracting = false;
-                GuideUI.SetActive(false);
-                interactUI.SetActive(false);
-
-
-                //playerInput.SwitchCurrentActionMap("Player");
-                //if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
                 player = null;
+                isInteracting = false;
+
+                interactUI.SetActive(false);
+                GuideUI.SetActive(false);
             }
         }
     }
 
     public void BackButton()
     {
-
         if (player == null) return;
 
         PlayerInput playerInput = player.GetComponent<PlayerInput>();
 
         if (playerInput != null)
         {
-            playerInput.SwitchCurrentActionMap("Player");
+            player = null;
+            isInteracting = false;
+
             interactUI.SetActive(false);
             GuideUI.SetActive(false);
-            isInteracting = false;
+
+            playerInput.SwitchCurrentActionMap("Player");
             if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
-            player = null;
         }
     }
 }

@@ -107,6 +107,10 @@ public class PlayerUI : NetworkBehaviour
             CloseMenu();
             return;
         }
+        else
+        {
+            Debug.Log("CloseInput");
+        }
 
         EnableUI();
         SettingsPanel.SetActive(true);
