@@ -4,7 +4,9 @@ public class NPCIdleState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
-
+        owner.BodyAnimator.Play("Idle");
+        owner.EyesAnimator.Play("Idle");
+        owner.HairAnimator.Play("Idle_" + owner.npc.hairIndex);
     }
 
     public override void UpdateState(NPCStateMachine owner)

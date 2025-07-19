@@ -27,7 +27,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Components")]
     [SerializeField] NPCStateMachine stateMachine;
-    [SerializeField] GameObject spawn_Effect;
+    public GameObject spawn_Effect;
     [SerializeField] GameObject death_Effect;
     [SerializeField] HealthBar healthBar;
     public SpriteRenderer bodySprite;
@@ -36,11 +36,11 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     [Header("Events")]
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
+    public bool isDead;
+    public int hairIndex;
 
     private void Start()
     {
-        Instantiate(spawn_Effect, transform.position, transform.rotation);
-
         // Set Speed
         CurrentSpeed = BaseSpeed;
 
