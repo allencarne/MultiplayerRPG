@@ -16,7 +16,7 @@ public class PlayerInteract : MonoBehaviour
     private void Start()
     {
         interactText.enabled = false;
-        UpdateInteractText();
+        UpdateInteractText(null);
     }
 
     private void OnDestroy()
@@ -26,10 +26,10 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnControlsChanged(PlayerInput input)
     {
-        UpdateInteractText();
+        UpdateInteractText(null);
     }
 
-    private void UpdateInteractText()
+    private void UpdateInteractText(string name)
     {
         if (interactAction == null) return;
 
@@ -37,7 +37,7 @@ public class PlayerInteract : MonoBehaviour
         int bindingIndex = GetBindingIndexForCurrentScheme(controlScheme);
 
         string bindName = interactAction.action.GetBindingDisplayString(bindingIndex);
-        interactText.text = $"Press <color=#00FF00>{bindName}</color> to Interact";
+        interactText.text = $"Press <color=#00FF00>{bindName}</color> to Interact with <color=#00FF00>{name}</color>";
     }
 
     private int GetBindingIndexForCurrentScheme(string scheme)
@@ -59,8 +59,7 @@ public class PlayerInteract : MonoBehaviour
         if (collision.CompareTag("NPC"))
         {
             interactText.enabled = true;
-            UpdateInteractText();
-
+            UpdateInteractText(collision.name);
         }
     }
 
