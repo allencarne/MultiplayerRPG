@@ -36,6 +36,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public bool IsDead = false;
     public bool InCombat = false;
     public float CombatTime = 0;
+    public bool IsInteracting = false;
 
     [Header("Ability Indexes")]
     public int FirstPassiveIndex = -1;

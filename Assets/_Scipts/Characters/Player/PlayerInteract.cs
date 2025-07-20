@@ -17,10 +17,10 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] Button shopButton;
     [SerializeField] Button backButton;
 
+    [SerializeField] Player player;
     [SerializeField] PlayerInputHandler input;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] InputActionReference interactAction;
-    bool isInteracting = false;
 
     private void Awake()
     {
@@ -85,8 +85,8 @@ public class PlayerInteract : MonoBehaviour
 
         if (input.InteractInput)
         {
-            if (isInteracting) return;
-            isInteracting = true;
+            if (player.IsInteracting) return;
+            player.IsInteracting = true;
 
             interactText.enabled = false;
             playerInput.SwitchCurrentActionMap("UI");
@@ -98,7 +98,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (!collision.CompareTag("NPC")) return;
         interactText.enabled = false;
-        isInteracting = false;
+        player.IsInteracting = false;
     }
 
     void SetupInteractUI(string name, NPC.Type type)
@@ -181,9 +181,12 @@ public class PlayerInteract : MonoBehaviour
 
     public void BackButton()
     {
+        if (!player.IsInteracting) return;
+
+        player.IsInteracting = false;
+        interactText.enabled = true;
         interactUI.SetActive(false);
         playerInput.SwitchCurrentActionMap("Player");
-        isInteracting = false;
-        interactText.enabled = true;
+        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
     }
 }

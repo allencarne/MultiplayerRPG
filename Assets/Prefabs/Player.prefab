@@ -21861,6 +21861,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 33158673332850559}
+        m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
+        m_MethodName: BackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &5442533909931575492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22010,6 +22022,7 @@ MonoBehaviour:
   IsDead: 0
   InCombat: 0
   CombatTime: 0
+  IsInteracting: 0
   FirstPassiveIndex: -1
   SecondPassiveIndex: -1
   ThirdPassiveIndex: -1
@@ -22341,6 +22354,7 @@ MonoBehaviour:
   questButton: {fileID: 1963765142169563080}
   shopButton: {fileID: 3196381332443338825}
   backButton: {fileID: 6548581295608079282}
+  player: {fileID: 841304983140234989}
   input: {fileID: 8050150357123000786}
   playerInput: {fileID: 2155053313424514762}
   interactAction: {fileID: 7675672570181225124, guid: f36af2b903c723a49acbb25b0649b21c, type: 3}
@@ -22523,6 +22537,7 @@ MonoBehaviour:
   settingsButton: {fileID: 1998042410855497919}
   closeButton: {fileID: 3498733017045736910}
   input: {fileID: 2155053313424514762}
+  player: {fileID: 841304983140234989}
 --- !u!114 &6762276146836678153
 MonoBehaviour:
   m_ObjectHideFlags: 0

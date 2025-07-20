@@ -26,6 +26,7 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] Button closeButton;
 
     [SerializeField] PlayerInput input;
+    [SerializeField] Player player;
 
     private void Start()
     {
@@ -101,15 +102,12 @@ public class PlayerUI : NetworkBehaviour
     public void OpenSettingsUI()
     {
         if (!IsOwner) return;
+        if (player.IsInteracting) return;
 
         if (HeroPanel.activeSelf && SettingsPanel.activeSelf)
         {
             CloseMenu();
             return;
-        }
-        else
-        {
-            Debug.Log("CloseInput");
         }
 
         EnableUI();
