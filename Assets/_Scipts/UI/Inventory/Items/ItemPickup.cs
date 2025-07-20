@@ -1,17 +1,19 @@
 using UnityEngine;
 using TMPro;
 using Unity.Netcode;
+using UnityEngine.InputSystem;
 
 public class ItemPickup : NetworkBehaviour
 {
     public Item Item;
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
+    [SerializeField] InputActionReference pickupAction;
     bool _hasBeenPickedUp = false;
+    PlayerInput playerInput;
 
     public void PickUp(Player player)
     {
-        // Prevent duplicate pickup
         if (_hasBeenPickedUp) return;
         _hasBeenPickedUp = true;
 
@@ -60,29 +62,57 @@ public class ItemPickup : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        if (!collision.CompareTag("Player")) return;
 
-        if (collision.CompareTag("Player"))
-        {
-            if (player.IsLocalPlayer)
-            {
-                toolTip.SetActive(true);
-                pickupText.text = "Press <color=red>Z</color> To Pickup";
-            }
-        }
+        Player player = collision.GetComponent<Player>();
+        if (!player || !player.IsLocalPlayer) return;
+
+        // Store reference to PlayerInput
+        playerInput = player.GetComponent<PlayerInput>();
+        if (playerInput == null) return;
+
+        // Show tooltip
+        toolTip.SetActive(true);
+        UpdatePickupText();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Player player = collision.gameObject.GetComponent<Player>();
+        if (!collision.CompareTag("Player")) return;
 
-        if (collision.CompareTag("Player"))
+        Player player = collision.GetComponent<Player>();
+        if (!player || !player.IsLocalPlayer) return;
+
+        toolTip.SetActive(false);
+        pickupText.text = "";
+    }
+
+    private void UpdatePickupText()
+    {
+        if (playerInput == null || pickupAction == null)
         {
-            if (player.IsLocalPlayer)
+            pickupText.text = "Press Interact";
+            return;
+        }
+
+        string controlScheme = playerInput.currentControlScheme;
+        int bindingIndex = GetBindingIndexForCurrentScheme(controlScheme);
+
+        string bindName = pickupAction.action.GetBindingDisplayString(bindingIndex);
+        pickupText.text = $"Press <color=#00FF00>{bindName}</color> to pick up";
+    }
+
+    private int GetBindingIndexForCurrentScheme(string scheme)
+    {
+        for (int i = 0; i < pickupAction.action.bindings.Count; i++)
+        {
+            var binding = pickupAction.action.bindings[i];
+            if (binding.groups.Contains(scheme))
             {
-                toolTip.SetActive(false);
-                pickupText.text = "";
+                return i;
             }
         }
+
+        return 0; // Fallback
     }
 }
