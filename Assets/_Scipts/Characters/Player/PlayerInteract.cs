@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.Services.Matchmaker.Models;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -73,6 +72,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
         interactText.enabled = true;
         UpdateInteractText(collision.name);
@@ -80,6 +80,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
         NPC npc = collision.GetComponent<NPC>();
 
@@ -96,6 +97,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
         interactText.enabled = false;
         player.IsInteracting = false;
