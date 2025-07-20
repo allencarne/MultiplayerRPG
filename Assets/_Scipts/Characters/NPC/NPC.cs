@@ -39,6 +39,18 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     public bool isDead;
     public int hairIndex;
 
+    public enum Type
+    {
+        Quest,
+        Vendor,
+        Villager,
+        Guard,
+        Patrol
+    }
+
+    public Type type;
+
+
     private void Start()
     {
         // Set Speed
