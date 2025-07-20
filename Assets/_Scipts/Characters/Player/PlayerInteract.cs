@@ -57,6 +57,8 @@ public class PlayerInteract : MonoBehaviour
 
     private int GetBindingIndexForCurrentScheme(string scheme)
     {
+        if (string.IsNullOrEmpty(scheme)) return 0;
+
         for (int i = 0; i < interactAction.action.bindings.Count; i++)
         {
             var binding = interactAction.action.bindings[i];
@@ -96,6 +98,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (!collision.CompareTag("NPC")) return;
         interactText.enabled = false;
+        isInteracting = false;
     }
 
     void SetupInteractUI(string name, NPC.Type type)
@@ -174,5 +177,13 @@ public class PlayerInteract : MonoBehaviour
         nav.selectOnUp = selectOnUp;
         nav.selectOnDown = selectOnDown;
         button.navigation = nav;
+    }
+
+    public void BackButton()
+    {
+        interactUI.SetActive(false);
+        playerInput.SwitchCurrentActionMap("Player");
+        isInteracting = false;
+        interactText.enabled = true;
     }
 }
