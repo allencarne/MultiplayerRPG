@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,19 +26,25 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     public float BaseArmor;
     public float CurrentArmor;
 
+    [Header("Customization")]
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] Color skinColor;
+    [SerializeField] Color hairColor;
+    public int hairIndex;
+
     [Header("Components")]
     [SerializeField] NPCStateMachine stateMachine;
     public GameObject spawn_Effect;
     [SerializeField] GameObject death_Effect;
     [SerializeField] HealthBar healthBar;
     public SpriteRenderer bodySprite;
+    public SpriteRenderer hairSprite;
     public SpriteRenderer shadowSprite;
 
     [Header("Events")]
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
     public bool isDead;
-    public int hairIndex;
 
     public enum Type
     {
@@ -53,6 +60,10 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
     private void Start()
     {
+        nameText.text = gameObject.name;
+        bodySprite.color = skinColor;
+        hairSprite.color = hairColor;
+
         // Set Speed
         CurrentSpeed = BaseSpeed;
 

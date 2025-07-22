@@ -21,6 +21,8 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] InputActionReference interactAction;
 
+    NPC npcReference;
+
     private void Awake()
     {
         playerInput.onControlsChanged += OnControlsChanged;
@@ -93,6 +95,11 @@ public class PlayerInteract : MonoBehaviour
             playerInput.SwitchCurrentActionMap("UI");
             SetupInteractUI(npc.name, npc.type);
         }
+
+        if (npcReference == null)
+        {
+            npcReference = npc;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -101,6 +108,7 @@ public class PlayerInteract : MonoBehaviour
         if (!collision.CompareTag("NPC")) return;
         interactText.enabled = false;
         player.IsInteracting = false;
+        npcReference = null;
     }
 
     void SetupInteractUI(string name, NPC.Type type)
@@ -190,5 +198,20 @@ public class PlayerInteract : MonoBehaviour
         interactUI.SetActive(false);
         playerInput.SwitchCurrentActionMap("Player");
         if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
+        npcReference = null;
+    }
+
+    public void DialogueButton()
+    {
+        if (npcReference == null) return;
+
+        NPCDialogue dialogue = npcReference.GetComponent<NPCDialogue>();
+        if (dialogue != null)
+        {
+            interactText.enabled = false;
+            interactUI.SetActive(false);
+
+            dialogue.StartDialogue(player);
+        }
     }
 }
