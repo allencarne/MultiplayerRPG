@@ -214,4 +214,9 @@ public class PlayerInteract : MonoBehaviour
             dialogue.StartDialogue(player);
         }
     }
+
+    public void QuestButton()
+    {
+
+    }
 }
