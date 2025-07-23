@@ -13,32 +13,13 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerLevel;
     [SerializeField] TextMeshProUGUI attributePoints;
 
-    [SerializeField] TextMeshProUGUI baseHealth;
-    [SerializeField] TextMeshProUGUI bonusHealth;
+
     [SerializeField] TextMeshProUGUI totalHealth;
-
-    [SerializeField] TextMeshProUGUI baseDamage;
-    [SerializeField] TextMeshProUGUI bonusDamage;
     [SerializeField] TextMeshProUGUI totalDamage;
-
-    [SerializeField] TextMeshProUGUI baseAttackSpeed;
-    [SerializeField] TextMeshProUGUI bonusAttackSpeed;
     [SerializeField] TextMeshProUGUI totalAttackSpeed;
-
-    [SerializeField] TextMeshProUGUI baseCDR;
-    [SerializeField] TextMeshProUGUI bonusCDR;
     [SerializeField] TextMeshProUGUI totalCDR;
-
-    [SerializeField] TextMeshProUGUI baseSpeed;
-    [SerializeField] TextMeshProUGUI bonusSpeed;
     [SerializeField] TextMeshProUGUI totalSpeed;
-
-    [SerializeField] TextMeshProUGUI baseEndurance;
-    [SerializeField] TextMeshProUGUI bonusEndurance;
     [SerializeField] TextMeshProUGUI totalEndurance;
-
-    [SerializeField] TextMeshProUGUI baseArmor;
-    [SerializeField] TextMeshProUGUI bonusArmor;
     [SerializeField] TextMeshProUGUI totalArmor;
 
     private void Start()
@@ -56,38 +37,24 @@ public class AttributeUI : MonoBehaviour
         attributePoints.text = "Attribute Points: " + player.AttributePoints.Value.ToString();
 
         // Health
-        baseHealth.text = player.Health.Value.ToString();
-        bonusHealth.text = (player.MaxHealth.Value - player.Health.Value).ToString();
         totalHealth.text = player.MaxHealth.Value.ToString();
 
         // Damage
-        baseDamage.text = player.BaseDamage.Value.ToString();
-        bonusDamage.text = (player.BaseDamage.Value - player.CurrentDamage.Value).ToString();
         totalDamage.text = player.CurrentDamage.Value.ToString();
 
         // Attack Speed
-        baseAttackSpeed.text = player.BaseAttackSpeed.Value.ToString("F2");
-        bonusAttackSpeed.text = (player.BaseAttackSpeed.Value - player.CurrentAttackSpeed.Value).ToString("F2");
         totalAttackSpeed.text = player.CurrentAttackSpeed.Value.ToString("F2");
 
         // Cooldown Reduction (CDR)
-        baseCDR.text = player.BaseCDR.Value.ToString("F2");
-        bonusCDR.text = (player.BaseCDR.Value - player.CurrentCDR.Value).ToString("F2");
         totalCDR.text = player.CurrentCDR.Value.ToString("F2");
 
         // Speed
-        baseSpeed.text = player.BaseSpeed.Value.ToString("F2");
-        bonusSpeed.text = (player.BaseSpeed.Value - player.CurrentSpeed.Value).ToString("F2");
         totalSpeed.text = player.CurrentSpeed.Value.ToString("F2");
 
         // Endurance
-        baseEndurance.text = player.Endurance.Value.ToString();
-        bonusEndurance.text = (player.MaxEndurance.Value - player.Endurance.Value).ToString();
         totalEndurance.text = player.MaxEndurance.Value.ToString();
 
         // Armor
-        baseArmor.text = player.BaseArmor.Value.ToString();
-        bonusArmor.text = (player.BaseArmor.Value - player.CurrentArmor.Value).ToString();
         totalArmor.text = player.CurrentArmor.Value.ToString();
     }
 
