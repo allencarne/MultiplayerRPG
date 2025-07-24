@@ -1,18 +1,33 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
 {
+    [Header("Rect")]
     RectTransform rectTransform;
     [SerializeField] RectTransform[] imageRectTransform;
     Vector3 originalScale;
     Vector3 selectedScale = new Vector3(1.2f, 1.2f, 1f);
 
+    [Header("Text Color")]
+    [SerializeField] TextMeshProUGUI[] textObjects;
+    [SerializeField] Color selectedTextColor = Color.green;
+    Color[] originalTextColors;
+
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         originalScale = rectTransform.localScale;
+
+        textObjects = GetComponentsInChildren<TextMeshProUGUI>();
+        originalTextColors = new Color[textObjects.Length];
+
+        for (int i = 0; i < textObjects.Length; i++)
+        {
+            originalTextColors[i] = textObjects[i].color;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -37,6 +52,12 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
                     rt.localScale = selectedScale;
             }
         }
+
+        foreach (var text in textObjects)
+        {
+            if (text != null)
+                text.color = selectedTextColor;
+        }
     }
 
     public void OnDeselect(BaseEventData eventData)
@@ -58,6 +79,12 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
                 if (rt != null)
                     rt.localScale = originalScale;
             }
+        }
+
+        for (int i = 0; i < textObjects.Length; i++)
+        {
+            if (textObjects[i] != null)
+                textObjects[i].color = originalTextColors[i];
         }
     }
 
