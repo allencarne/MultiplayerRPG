@@ -217,6 +217,15 @@ public class PlayerInteract : MonoBehaviour
 
     public void QuestButton()
     {
+        if (npcReference == null) return;
 
+        NPCQuest quests = npcReference.GetComponent<NPCQuest>();
+        if (quests != null)
+        {
+            interactText.enabled = false;
+            interactUI.SetActive(false);
+
+            quests.StartQuest(player);
+        }
     }
 }
