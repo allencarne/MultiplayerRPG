@@ -6,12 +6,19 @@ public class QuestUI : MonoBehaviour
 {
     [SerializeField] Quest[] allQuests;
 
+    [Header("Quest List")]
     [SerializeField] GameObject QuestListUI;
     [SerializeField] GameObject QuestUI_Button;
 
+    [Header("Reward")]
     [SerializeField] GameObject RewardListUI;
     [SerializeField] GameObject RewardUI_Item;
 
+    [Header("Objective")]
+    [SerializeField] GameObject ObjectiveListUI;
+    [SerializeField] GameObject ObjectiveUI_Text;
+
+    [Header("Text")]
     [SerializeField] TextMeshProUGUI questName;
     [SerializeField] TextMeshProUGUI questInfo;
     [SerializeField] TextMeshProUGUI goldReward;
@@ -51,6 +58,11 @@ public class QuestUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        foreach (Transform child in ObjectiveListUI.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         foreach (Item reward in quest.reward)
         {
             GameObject itmeUI = Instantiate(RewardUI_Item, RewardListUI.transform);
@@ -59,6 +71,17 @@ public class QuestUI : MonoBehaviour
             if (image != null)
             {
                 image.sprite = reward.Icon;
+            }
+        }
+
+        foreach (string objective in quest.objectives)
+        {
+            GameObject objectiveText = Instantiate(ObjectiveUI_Text, ObjectiveListUI.transform);
+
+            TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.text = objective;
             }
         }
     }
