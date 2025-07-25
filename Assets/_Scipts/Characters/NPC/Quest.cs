@@ -7,9 +7,21 @@ public class Quest : ScriptableObject
     [TextArea(3, 8)] public string instructions;
     [TextArea(3, 8)] public string deliver;
 
+    [Header("Objectives")]
+    public string[] objectives;
+
     [Header("Rewards")]
     public int expReward;
     public int goldReward;
 
     public Item[] reward;
+}
+
+public enum QuestState 
+{
+    Unavaliable,
+    Available,
+    InProgress,
+    ReadyToTurnIn,
+    Completed,
 }
