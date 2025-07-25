@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
   m_Name: Hit a Dummy
   m_EditorClassIdentifier: 
-  questName: 
-  instructions: 
-  deliver: 
-  objectives: []
-  expReward: 0
+  questName: Hit A Dummy
+  instructions: Let's see how well you fight. To your right you will see a few training
+    dummies. Try out your new skill on them.
+  deliver: Well done! That was some solid work!
+  objectives:
+  - Training Dummy Hit
+  expReward: 3
   goldReward: 0
   reward: []

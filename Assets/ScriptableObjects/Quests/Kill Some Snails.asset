@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
   m_Name: Kill Some Snails
   m_EditorClassIdentifier: 
-  questName: 
-  instructions: 
-  deliver: 
-  objectives: []
-  expReward: 0
+  questName: Kill Some Snails
+  instructions: Recently our town has been overrun by an invasive species of snail.
+    We need somone capable of clearing them out. Can you help? You can find the snails
+    just south of here.
+  deliver: Wait.. you acutally did it? Amazing work!
+  objectives:
+  - Kill Snails
+  expReward: 3
   goldReward: 0
-  reward: []
+  reward:
+  - {fileID: 11400000, guid: f71860372344a804db5c392f48f87e41, type: 2}
