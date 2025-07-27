@@ -19,7 +19,7 @@ public class Quest : ScriptableObject
 
 public enum QuestState 
 {
-    Unavaliable,
+    Unavailable,
     Available,
     InProgress,
     ReadyToTurnIn,
