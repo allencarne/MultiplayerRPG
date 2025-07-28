@@ -7,16 +7,16 @@ public class QuestUI : MonoBehaviour
     [SerializeField] Quest[] allQuests;
 
     [Header("Quest List")]
-    [SerializeField] GameObject QuestListUI;
-    [SerializeField] GameObject QuestUI_Button;
+    [SerializeField] GameObject questListUI;
+    [SerializeField] GameObject questUI_Button;
 
     [Header("Reward")]
-    [SerializeField] GameObject RewardListUI;
-    [SerializeField] GameObject RewardUI_Item;
+    [SerializeField] GameObject rewardListUI;
+    [SerializeField] GameObject rewardUI_Item;
 
     [Header("Objective")]
-    [SerializeField] GameObject ObjectiveListUI;
-    [SerializeField] GameObject ObjectiveUI_Text;
+    [SerializeField] GameObject objectiveListUI;
+    [SerializeField] GameObject objectiveUI_Text;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questName;
@@ -27,10 +27,26 @@ public class QuestUI : MonoBehaviour
     private void Start()
     {
         ShowQuestDetails(allQuests[0]);
+        PopulateQuestList();
+    }
 
+    public void ShowQuestDetails(Quest quest)
+    {
+        questName.text = quest.questName;
+        questInfo.text = quest.instructions;
+        goldReward.text = quest.goldReward.ToString();
+        expReward.text = quest.expReward.ToString();
+
+        ClearList();
+        GetRewards(quest);
+        GetObjectives(quest);
+    }
+
+    void PopulateQuestList()
+    {
         foreach (Quest quest in allQuests)
         {
-            GameObject listItem = Instantiate(QuestUI_Button, QuestListUI.transform);
+            GameObject listItem = Instantiate(questUI_Button, questListUI.transform);
 
             TextMeshProUGUI listText = listItem.GetComponentInChildren<TextMeshProUGUI>();
             if (listText != null)
@@ -46,26 +62,24 @@ public class QuestUI : MonoBehaviour
         }
     }
 
-    public void ShowQuestDetails(Quest quest)
+    void ClearList()
     {
-        questName.text = quest.questName;
-        questInfo.text = quest.instructions;
-        goldReward.text = quest.goldReward.ToString();
-        expReward.text = quest.expReward.ToString();
-
-        foreach (Transform child in RewardListUI.transform)
+        foreach (Transform child in rewardListUI.transform)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (Transform child in ObjectiveListUI.transform)
+        foreach (Transform child in objectiveListUI.transform)
         {
             Destroy(child.gameObject);
         }
+    }
 
+    void GetRewards(Quest quest)
+    {
         foreach (Item reward in quest.reward)
         {
-            GameObject itmeUI = Instantiate(RewardUI_Item, RewardListUI.transform);
+            GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
             Image image = itmeUI.GetComponent<Image>();
             if (image != null)
@@ -73,10 +87,13 @@ public class QuestUI : MonoBehaviour
                 image.sprite = reward.Icon;
             }
         }
+    }
 
+    void GetObjectives(Quest quest)
+    {
         foreach (string objective in quest.objectives)
         {
-            GameObject objectiveText = Instantiate(ObjectiveUI_Text, ObjectiveListUI.transform);
+            GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
 
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
             if (text != null)
