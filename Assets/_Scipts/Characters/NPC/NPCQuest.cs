@@ -14,12 +14,12 @@ public class NPCQuest : MonoBehaviour
     [SerializeField] TextMeshProUGUI questEXP;
 
     [Header("Reward")]
-    [SerializeField] GameObject RewardListUI;
-    [SerializeField] GameObject RewardUI_Item;
+    [SerializeField] GameObject rewardListUI;
+    [SerializeField] GameObject rewardUI_Item;
 
     [Header("Objective")]
-    [SerializeField] GameObject ObjectiveListUI;
-    [SerializeField] GameObject ObjectiveUI_Text;
+    [SerializeField] GameObject objectiveListUI;
+    [SerializeField] GameObject objectiveUI_Text;
 
     [Header("Buttons")]
     [SerializeField] Button acceptButton;
@@ -44,7 +44,16 @@ public class NPCQuest : MonoBehaviour
 
     public void DeclineButton()
     {
+        QuestUI.SetActive(false);
 
+        if (playerReference != null)
+        {
+            PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
+            if (playerInteract != null)
+            {
+                playerInteract.BackButton();
+            }
+        }
     }
 
     void UpdateQuestInfo(Quest quest)
@@ -54,19 +63,29 @@ public class NPCQuest : MonoBehaviour
         questGold.text = quest.goldReward.ToString();
         questEXP.text = quest.expReward.ToString();
 
-        foreach (Transform child in RewardListUI.transform)
+        ClearList();
+        GetRewards(quest);
+        GetObjectives(quest);
+    }
+
+    void ClearList()
+    {
+        foreach (Transform child in rewardListUI.transform)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (Transform child in ObjectiveListUI.transform)
+        foreach (Transform child in objectiveListUI.transform)
         {
             Destroy(child.gameObject);
         }
+    }
 
+    void GetRewards(Quest quest)
+    {
         foreach (Item reward in quest.reward)
         {
-            GameObject itmeUI = Instantiate(RewardUI_Item, RewardListUI.transform);
+            GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
             Image image = itmeUI.GetComponent<Image>();
             if (image != null)
@@ -74,10 +93,13 @@ public class NPCQuest : MonoBehaviour
                 image.sprite = reward.Icon;
             }
         }
+    }
 
+    void GetObjectives(Quest quest)
+    {
         foreach (string objective in quest.objectives)
         {
-            GameObject objectiveText = Instantiate(ObjectiveUI_Text, ObjectiveListUI.transform);
+            GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
 
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
             if (text != null)
@@ -86,5 +108,4 @@ public class NPCQuest : MonoBehaviour
             }
         }
     }
-
 }
