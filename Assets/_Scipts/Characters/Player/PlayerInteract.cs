@@ -225,7 +225,7 @@ public class PlayerInteract : MonoBehaviour
             interactText.enabled = false;
             interactUI.SetActive(false);
 
-            quests.StartQuest(player);
+            quests.ShowQuestUI(player);
         }
     }
 }

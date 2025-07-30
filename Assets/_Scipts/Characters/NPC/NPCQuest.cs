@@ -25,11 +25,12 @@ public class NPCQuest : MonoBehaviour
     [SerializeField] Button acceptButton;
     [SerializeField] Button declineButton;
 
+    [Header("References")]
     [SerializeField] GameObject QuestUI;
     Player playerReference;
     int questIndex;
 
-    public void StartQuest(Player player)
+    public void ShowQuestUI(Player player)
     {
         QuestUI.SetActive(true);
         UpdateQuestInfo(Quests[questIndex]);
