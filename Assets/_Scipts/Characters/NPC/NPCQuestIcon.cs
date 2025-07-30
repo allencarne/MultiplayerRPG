@@ -5,14 +5,43 @@ public class NPCQuestIcon : MonoBehaviour
 {
     [SerializeField] Image questIcon;
     [SerializeField] Sprite[] icons;
-    NPCQuest questGiver;
+    NPCQuestTracker tracker;
 
-    public void RefreshIcon(Player player)
+    void Awake()
     {
-        if (questGiver == null) questGiver = GetComponent<NPCQuest>();
-        if (questGiver == null) return;
+        tracker = GetComponent<NPCQuestTracker>();
+    }
 
-        //QuestState state = questGiver.GetQuestStateForPlayer(player);
-        //questIcon.sprite = icons[(int)state];
+    public void UpdateIcon(PlayerQuest playerQuest)
+    {
+        var quest = tracker.GetCurrentQuest();
+        if (quest == null)
+        {
+            questIcon.enabled = false;
+            return;
+        }
+
+        var progress = playerQuest.GetProgress(quest);
+        Sprite icon = icons[0];
+
+        if (progress == null)
+        {
+            icon = icons[2]; // Available (!)
+        }
+        else if (progress.currentState == QuestState.InProgress)
+        {
+            icon = icons[3]; // In progress
+        }
+        else if (progress.currentState == QuestState.ReadyToTurnIn)
+        {
+            icon = icons[4]; // Ready to turn in (?)
+        }
+        else if (progress.currentState == QuestState.Completed)
+        {
+            icon = icons[5]; // Completed (optional)
+        }
+
+        questIcon.sprite = icon;
+        questIcon.enabled = true;
     }
 }
