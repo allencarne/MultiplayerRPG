@@ -14,31 +14,22 @@ public class NPCQuestIcon : MonoBehaviour
 
     public void UpdateIcon(PlayerQuest playerQuest)
     {
-        var quest = tracker.GetCurrentQuest();
+        Quest quest = tracker.GetCurrentQuest();
         if (quest == null)
         {
             questIcon.enabled = false;
             return;
         }
 
-        var progress = playerQuest.GetProgress(quest);
+        QuestProgress progress = playerQuest.GetProgress(quest);
         Sprite icon = icons[0];
 
-        if (progress == null)
+        switch (progress.currentState)
         {
-            icon = icons[2]; // Available (!)
-        }
-        else if (progress.currentState == QuestState.InProgress)
-        {
-            icon = icons[3]; // In progress
-        }
-        else if (progress.currentState == QuestState.ReadyToTurnIn)
-        {
-            icon = icons[4]; // Ready to turn in (?)
-        }
-        else if (progress.currentState == QuestState.Completed)
-        {
-            icon = icons[5]; // Completed (optional)
+            case QuestState.Unavailable: icon = icons[0]; break;
+            case QuestState.Available: icon = icons[1]; break;
+            case QuestState.InProgress: icon = icons[2]; break;
+            case QuestState.ReadyToTurnIn: icon = icons[3]; break;
         }
 
         questIcon.sprite = icon;

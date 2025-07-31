@@ -27,11 +27,13 @@ public class NPCQuest : MonoBehaviour
     [Header("References")]
     [SerializeField] GameObject QuestUI;
     NPCQuestTracker tracker;
+    NPCQuestIcon icon;
     Player playerReference;
 
     void Awake()
     {
         tracker = GetComponent<NPCQuestTracker>();
+        icon = GetComponent<NPCQuestIcon>();
     }
 
     public void ShowQuestUI(Player player)
@@ -69,6 +71,16 @@ public class NPCQuest : MonoBehaviour
         PlayerQuest playerQuest = playerReference.GetComponent<PlayerQuest>();
         playerQuest.AddQuest(tracker.GetCurrentQuest());
         QuestUI.SetActive(false);
+        icon.UpdateIcon(playerQuest);
+
+        if (playerReference != null)
+        {
+            PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
+            if (playerInteract != null)
+            {
+                playerInteract.BackButton();
+            }
+        }
     }
 
     public void TurnInQuest()

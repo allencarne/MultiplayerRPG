@@ -11,7 +11,7 @@ public class QuestProgress
     public QuestProgress(Quest quest)
     {
         this.quest = quest;
-        currentState = QuestState.Available;
+        currentState = QuestState.InProgress;
 
         objectiveStates = new bool[quest.objectives.Length];
     }
