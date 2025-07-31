@@ -61,10 +61,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
 
                 break;
         }
-
-
         tooltip.SetActive(true);
-
     }
 
     public void OnDeselect(BaseEventData eventData)
@@ -103,7 +100,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             case SkillType.Basic:
 
                 icon.sprite = classPanel.basicAbilities[index].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.basicAbilities[index].name;
+                skillName.text = "[Basic] " + classPanel.basicAbilities[index].name;
                 description.text = classPanel.basicAbilities[index].Description;
                 cooldown.text = "Cooldown: " + classPanel.basicAbilities[index].CoolDown;
 
@@ -111,7 +108,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             case SkillType.Offensive:
 
                 icon.sprite = classPanel.offensiveAbilities[index].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.offensiveAbilities[index].name;
+                skillName.text = "[Offensive] " + classPanel.offensiveAbilities[index].name;
                 description.text = classPanel.offensiveAbilities[index].Description;
                 cooldown.text = "Cooldown: " + classPanel.offensiveAbilities[index].CoolDown;
 
@@ -119,7 +116,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             case SkillType.Mobility:
 
                 icon.sprite = classPanel.mobilityAbilities[index].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.mobilityAbilities[index].name;
+                skillName.text = "[Mobility] " + classPanel.mobilityAbilities[index].name;
                 description.text = classPanel.mobilityAbilities[index].Description;
                 cooldown.text = "Cooldown: " + classPanel.mobilityAbilities[index].CoolDown;
 
@@ -127,7 +124,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             case SkillType.Defensive:
 
                 icon.sprite = classPanel.defensiveAbilities[index].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.defensiveAbilities[index].name;
+                skillName.text = "[Defensive] " + classPanel.defensiveAbilities[index].name;
                 description.text = classPanel.defensiveAbilities[index].Description;
                 cooldown.text = "Cooldown: " + classPanel.defensiveAbilities[index].CoolDown;
 
@@ -135,7 +132,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             case SkillType.Utility:
 
                 icon.sprite = classPanel.utilityAbilities[index].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.utilityAbilities[index].name;
+                skillName.text = "[Utility] " + classPanel.utilityAbilities[index].name;
                 description.text = classPanel.utilityAbilities[index].Description;
                 cooldown.text = "Cooldown: " + classPanel.utilityAbilities[index].CoolDown;
 
@@ -143,7 +140,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             case SkillType.Ultimate:
 
                 icon.sprite = classPanel.ultimateAbilities[index].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.ultimateAbilities[index].name;
+                skillName.text = "[Ultimate] " + classPanel.ultimateAbilities[index].name;
                 description.text = classPanel.ultimateAbilities[index].Description;
                 cooldown.text = "Cooldown: " + classPanel.ultimateAbilities[index].CoolDown;
 
