@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -116,116 +117,74 @@ public class PlayerInteract : MonoBehaviour
     {
         npcNameText.text = name;
 
-        GetDialogue();
-        GetQuest();
-        GetShop();
+        bool hasDialogue = GetDialogue();
+        bool hasQuest = GetQuest();
+        bool hasShop = GetShop();
+        backButton.gameObject.SetActive(true);
 
+        // Build list of active buttons
+        List<Button> activeButtons = new List<Button>();
+        if (hasDialogue) activeButtons.Add(dialogueButton);
+        if (hasQuest) activeButtons.Add(questButton);
+        if (hasShop) activeButtons.Add(shopButton);
+        activeButtons.Add(backButton);
 
-        switch (type)
+        // Set navigation dynamically
+        for (int i = 0; i < activeButtons.Count; i++)
         {
-            case NPC.Type.Quest:
-                dialogueButton.gameObject.SetActive(true);
-                questButton.gameObject.SetActive(true);
-                shopButton.gameObject.SetActive(false);
-                backButton.gameObject.SetActive(true);
-
-                SetNavigation(dialogueButton, backButton, questButton);
-                SetNavigation(questButton, dialogueButton, backButton);
-                SetNavigation(backButton, questButton, dialogueButton);
-
-                break;
-            case NPC.Type.Vendor:
-                dialogueButton.gameObject.SetActive(true);
-                questButton.gameObject.SetActive(false);
-                shopButton.gameObject.SetActive(true);
-                backButton.gameObject.SetActive(true);
-
-                SetNavigation(dialogueButton, backButton, shopButton);
-                SetNavigation(shopButton, dialogueButton, backButton);
-                SetNavigation(backButton, shopButton, dialogueButton);
-
-                break;
-            case NPC.Type.Villager:
-                dialogueButton.gameObject.SetActive(true);
-                questButton.gameObject.SetActive(false);
-                shopButton.gameObject.SetActive(false);
-                backButton.gameObject.SetActive(true);
-
-                SetNavigation(dialogueButton, backButton, backButton);
-                SetNavigation(backButton, dialogueButton, dialogueButton);
-
-                break;
-            case NPC.Type.Guard:
-                dialogueButton.gameObject.SetActive(true);
-                questButton.gameObject.SetActive(false);
-                shopButton.gameObject.SetActive(false);
-                backButton.gameObject.SetActive(true);
-
-                SetNavigation(dialogueButton, backButton, backButton);
-                SetNavigation(backButton, dialogueButton, dialogueButton);
-
-                break;
-            case NPC.Type.Patrol:
-                dialogueButton.gameObject.SetActive(true);
-                questButton.gameObject.SetActive(false);
-                shopButton.gameObject.SetActive(false);
-                backButton.gameObject.SetActive(true);
-
-                SetNavigation(dialogueButton, backButton, backButton);
-                SetNavigation(backButton, dialogueButton, dialogueButton);
-
-                break;
+            Button current = activeButtons[i];
+            Button up = i > 0 ? activeButtons[i - 1] : activeButtons[^1];
+            Button down = i < activeButtons.Count - 1 ? activeButtons[i + 1] : activeButtons[0];
+            SetNavigation(current, up, down);
         }
 
-        // Set first selected
-        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(dialogueButton.gameObject);
+        // Set first selected button
+        if (EventSystem.current != null && activeButtons.Count > 0)
+        {
+            EventSystem.current.SetSelectedGameObject(activeButtons[0].gameObject);
+        }
 
         // Enable UI
         interactUI.SetActive(true);
     }
 
-    void GetDialogue()
+    bool GetDialogue()
     {
         if (npcReference != null)
         {
             NPCDialogue dialogue = npcReference.GetComponent<NPCDialogue>();
-            if (dialogue != null)
+            if (dialogue != null && dialogue.Dialogue != null && dialogue.Dialogue.Length > 0)
             {
-                if (dialogue.Dialogue == null || dialogue.Dialogue.Length == 0)
-                {
-                    dialogueButton.gameObject.SetActive(false);
-                }
-                else
-                {
-                    dialogueButton.gameObject.SetActive(true);
-                }
+                dialogueButton.gameObject.SetActive(true);
+                return true;
             }
         }
+
+        dialogueButton.gameObject.SetActive(false);
+        return false;
     }
 
-    void GetQuest()
+    bool GetQuest()
     {
         if (npcReference != null)
         {
             NPCQuestTracker tracker = npcReference.GetComponent<NPCQuestTracker>();
-            if (tracker != null)
+            if (tracker != null && tracker.quests != null && tracker.quests.Length > 0 && !tracker.IsQuestActive)
             {
-                if (tracker.quests == null || tracker.quests.Length == 0 || tracker.IsQuestActive)
-                {
-                    questButton.gameObject.SetActive(false);
-                }
-                else
-                {
-                    questButton.gameObject.SetActive(true);
-                }
+                questButton.gameObject.SetActive(true);
+                return true;
             }
         }
+
+        questButton.gameObject.SetActive(false);
+        return false;
     }
 
-    void GetShop()
+    bool GetShop()
     {
-        // Add Shop Logic later
+        // Add shop logic later
         shopButton.gameObject.SetActive(false);
+        return false;
     }
 
     private void SetNavigation(Button button, Button selectOnUp, Button selectOnDown)
