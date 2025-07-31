@@ -18,19 +18,21 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         Ultimate,
     }
 
-    [SerializeField] SkillType skillType;
-
+    [Header("Player")]
     [SerializeField] Player player;
     [SerializeField] int skillIndex;
+    [SerializeField] SkillType skillType;
 
+    [Header("Skills")]
     [SerializeField] SkillPanel beginnerSkills;
     [SerializeField] SkillPanel warriorSkills;
     [SerializeField] SkillPanel magicianSkills;
     [SerializeField] SkillPanel archerSkills;
     [SerializeField] SkillPanel rogueSkills;
 
-    [SerializeField] GameObject tooltip;
+    [Header("UI")]
     [SerializeField] Image icon;
+    [SerializeField] GameObject tooltip;
     [SerializeField] TextMeshProUGUI skillName;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextMeshProUGUI cooldown;

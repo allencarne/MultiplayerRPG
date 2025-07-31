@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -113,10 +114,13 @@ public class PlayerInteract : MonoBehaviour
 
     void SetupInteractUI(string name, NPC.Type type)
     {
-        // Name
         npcNameText.text = name;
 
-        // Enable Buttons based on NPC Type
+        GetDialogue();
+        GetQuest();
+        GetShop();
+
+
         switch (type)
         {
             case NPC.Type.Quest:
@@ -178,6 +182,50 @@ public class PlayerInteract : MonoBehaviour
 
         // Enable UI
         interactUI.SetActive(true);
+    }
+
+    void GetDialogue()
+    {
+        if (npcReference != null)
+        {
+            NPCDialogue dialogue = npcReference.GetComponent<NPCDialogue>();
+            if (dialogue != null)
+            {
+                if (dialogue.Dialogue == null || dialogue.Dialogue.Length == 0)
+                {
+                    dialogueButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    dialogueButton.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    void GetQuest()
+    {
+        if (npcReference != null)
+        {
+            NPCQuestTracker tracker = npcReference.GetComponent<NPCQuestTracker>();
+            if (tracker != null)
+            {
+                if (tracker.quests == null || tracker.quests.Length == 0 || tracker.IsQuestActive)
+                {
+                    questButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    questButton.gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    void GetShop()
+    {
+        // Add Shop Logic later
+        shopButton.gameObject.SetActive(false);
     }
 
     private void SetNavigation(Button button, Button selectOnUp, Button selectOnDown)

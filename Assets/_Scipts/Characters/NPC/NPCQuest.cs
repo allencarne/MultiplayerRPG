@@ -72,6 +72,7 @@ public class NPCQuest : MonoBehaviour
         playerQuest.AddQuest(tracker.GetCurrentQuest());
         QuestUI.SetActive(false);
         icon.UpdateIcon(playerQuest);
+        tracker.IsQuestActive = true;
 
         if (playerReference != null)
         {
