@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler
 {
     [SerializeField] GameObject tooltip;
 
@@ -193,5 +193,20 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
             return equipment.Item;
 
         return null;
+    }
+
+    private void OnDisable()
+    {
+        tooltip.SetActive(false);
+    }
+
+    public void OnSubmit(BaseEventData eventData)
+    {
+        tooltip.SetActive(false);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        tooltip.SetActive(false);
     }
 }
