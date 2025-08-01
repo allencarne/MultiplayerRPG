@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISelectHandler, IDeselectHandler
+public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler 
 {
     [Header("Rect")]
     RectTransform rectTransform;
@@ -39,6 +39,11 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
         }
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
     public void OnSelect(BaseEventData eventData)
     {
         if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
@@ -48,15 +53,13 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
         {
             foreach (RectTransform rt in imageRectTransform)
             {
-                if (rt != null)
-                    rt.localScale = selectedScale;
+                if (rt != null) rt.localScale = selectedScale;
             }
         }
 
-        foreach (var text in textObjects)
+        foreach (TextMeshProUGUI text in textObjects)
         {
-            if (text != null)
-                text.color = selectedTextColor;
+            if (text != null) text.color = selectedTextColor;
         }
     }
 
@@ -76,24 +79,22 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, ISele
         {
             foreach (RectTransform rt in imageRectTransform)
             {
-                if (rt != null)
-                    rt.localScale = originalScale;
+                if (rt != null) rt.localScale = originalScale;
             }
         }
 
         for (int i = 0; i < textObjects.Length; i++)
         {
-            if (textObjects[i] != null)
-                textObjects[i].color = originalTextColors[i];
+            if (textObjects[i] != null) textObjects[i].color = originalTextColors[i];
         }
     }
 
     void OnDisable()
     {
-        ResetScale();
         if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject == gameObject)
         {
             EventSystem.current.SetSelectedGameObject(null);
         }
+        ResetScale();
     }
 }

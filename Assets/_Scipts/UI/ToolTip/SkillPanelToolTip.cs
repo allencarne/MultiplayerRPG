@@ -39,30 +39,15 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
-
         switch (player.playerClass)
         {
-            case Player.PlayerClass.Beginner:
-                ToolTip(skillIndex, beginnerSkills, skillType);
-
-                break;
-            case Player.PlayerClass.Warrior:
-                ToolTip(skillIndex, warriorSkills, skillType);
-
-                break;
-            case Player.PlayerClass.Magician:
-                ToolTip(skillIndex, magicianSkills, skillType);
-
-                break;
-            case Player.PlayerClass.Archer:
-                ToolTip(skillIndex, archerSkills, skillType);
-
-                break;
-            case Player.PlayerClass.Rogue:
-                ToolTip(skillIndex, rogueSkills, skillType);
-
-                break;
+            case Player.PlayerClass.Beginner: ToolTip(skillIndex, beginnerSkills, skillType); break;
+            case Player.PlayerClass.Warrior: ToolTip(skillIndex, warriorSkills, skillType); break;
+            case Player.PlayerClass.Magician: ToolTip(skillIndex, magicianSkills, skillType); break;
+            case Player.PlayerClass.Archer: ToolTip(skillIndex, archerSkills, skillType); break;
+            case Player.PlayerClass.Rogue: ToolTip(skillIndex, rogueSkills, skillType); break;
         }
+
         tooltip.SetActive(true);
     }
 
