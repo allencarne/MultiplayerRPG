@@ -16,11 +16,14 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] Color selectedTextColor = Color.green;
     Color[] originalTextColors;
 
-    void Start()
+    void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         originalScale = rectTransform.localScale;
+    }
 
+    void Start()
+    {
         textObjects = GetComponentsInChildren<TextMeshProUGUI>();
         originalTextColors = new Color[textObjects.Length];
 

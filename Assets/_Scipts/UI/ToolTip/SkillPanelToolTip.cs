@@ -134,4 +134,9 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
                 break;
         }
     }
+
+    private void OnDisable()
+    {
+        tooltip.SetActive(false);
+    }
 }
