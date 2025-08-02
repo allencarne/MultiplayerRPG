@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class ItemPickup : NetworkBehaviour
 {
@@ -9,6 +10,8 @@ public class ItemPickup : NetworkBehaviour
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
     [SerializeField] InputActionReference pickupAction;
+    [SerializeField] GameObject itemSprite;
+    [SerializeField] AnimateItem animateItem;
     bool _hasBeenPickedUp = false;
     PlayerInput playerInput;
 
@@ -20,16 +23,7 @@ public class ItemPickup : NetworkBehaviour
         if (Item is Currency)
         {
             player.CoinCollected(Item.Quantity);
-
-            if (IsServer)
-            {
-                NetworkObject.Despawn(true);
-            }
-            else
-            {
-                DespawnServerRPC();
-            }
-
+            PlayPickupEffect();
             return;
         }
 
@@ -39,14 +33,7 @@ public class ItemPickup : NetworkBehaviour
         // Destroy item if it was collected
         if (wasPickedUp)
         {
-            if (IsServer)
-            {
-                NetworkObject.Despawn(true);
-            }
-            else
-            {
-                DespawnServerRPC();
-            }
+            PlayPickupEffect();
         }
         else
         {
@@ -114,5 +101,71 @@ public class ItemPickup : NetworkBehaviour
         }
 
         return 0; // Fallback
+    }
+
+    private void PlayPickupEffect()
+    {
+        toolTip.SetActive(false);
+        animateItem.canAnimate = false;
+
+        if (itemSprite == null)
+        {
+            DespawnImmediately();
+            return;
+        }
+
+        // Optional: disable collider so player can't re-trigger it
+        Collider2D col = GetComponent<Collider2D>();
+        if (col) col.enabled = false;
+
+        StartCoroutine(PickupAnimationCoroutine());
+    }
+
+    private IEnumerator PickupAnimationCoroutine()
+    {
+        float duration = 0.5f;
+        float time = 0f;
+
+        Vector3 startPos = itemSprite.transform.position;
+        Vector3 targetPos = startPos + new Vector3(Random.Range(-0.2f, 0.2f), 1.0f, 0f);
+        Vector3 startScale = itemSprite.transform.localScale;
+        Vector3 endScale = startScale * 1.3f;
+
+        SpriteRenderer sprite = itemSprite.GetComponent<SpriteRenderer>();
+        Color startColor = sprite != null ? sprite.color : Color.white;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+
+            // Smooth upward arc
+            itemSprite.transform.position = Vector3.Lerp(startPos, targetPos, t);
+            itemSprite.transform.localScale = Vector3.Lerp(startScale, endScale, t);
+
+            // Fade out
+            if (sprite != null)
+            {
+                Color c = startColor;
+                c.a = Mathf.Lerp(1f, 0f, t);
+                sprite.color = c;
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        DespawnImmediately();
+    }
+
+    private void DespawnImmediately()
+    {
+        if (IsServer)
+        {
+            NetworkObject.Despawn(true);
+        }
+        else
+        {
+            DespawnServerRPC();
+        }
     }
 }

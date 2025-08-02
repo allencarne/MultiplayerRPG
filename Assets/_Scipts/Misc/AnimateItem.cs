@@ -11,6 +11,7 @@ public class AnimateItem : MonoBehaviour
     // Initial position of the object
     private Vector3 startPosition;
     private float elapsedTime;
+    public bool canAnimate = true;
 
     void Start()
     {
@@ -23,6 +24,8 @@ public class AnimateItem : MonoBehaviour
 
     void UpdateBobbing()
     {
+        if (!canAnimate) return;
+
         // Increment elapsed time
         elapsedTime += 0.02f * bobSpeed;
 

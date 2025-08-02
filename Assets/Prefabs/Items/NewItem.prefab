@@ -159,6 +159,8 @@ MonoBehaviour:
   toolTip: {fileID: 3761093917037470039}
   pickupText: {fileID: 4063149634110822450}
   pickupAction: {fileID: 2230270691135496196, guid: f36af2b903c723a49acbb25b0649b21c, type: 3}
+  itemSprite: {fileID: 2544567047471856696}
+  animateItem: {fileID: 4448702737551799906}
 --- !u!114 &3106013714945513383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3038867217733136935}
   - component: {fileID: 610772248661285979}
-  - component: {fileID: 2750083772549819408}
+  - component: {fileID: 4448702737551799906}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -417,7 +419,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &2750083772549819408
+--- !u!114 &4448702737551799906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
