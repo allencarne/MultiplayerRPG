@@ -123,9 +123,15 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
                 exp.IncreaseEXP(expToGive);
             }
 
-            Instantiate(death_Effect, transform.position, transform.rotation);
+            SpawnDeathEffectClientRpc(transform.position, transform.rotation);
             stateMachine.Death();
         }
+    }
+
+    [ClientRpc]
+    private void SpawnDeathEffectClientRpc(Vector3 position, Quaternion rotation)
+    {
+        Instantiate(death_Effect, position, rotation);
     }
 
     void TargetAttacker(NetworkObject attackerID)
