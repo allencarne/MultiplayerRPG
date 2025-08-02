@@ -198,7 +198,7 @@ public class PlayerInitialize : NetworkBehaviour
         StartCoroutine(SaveText());
     }
 
-    public void SaveInventory(Item item, int slotIndex)
+    public void SaveInventory(Item item, int slotIndex, bool saveImmediately = true)
     {
         string prefix = CharacterNumber;
         string key = $"{prefix}InventorySlot_{slotIndex}";
@@ -206,7 +206,10 @@ public class PlayerInitialize : NetworkBehaviour
         if (item == null)
         {
             PlayerPrefs.DeleteKey(key);
-            PlayerPrefs.Save();
+
+            if (saveImmediately)
+                PlayerPrefs.Save();
+
             Debug.Log($"Cleared {key}");
             return;
         }
@@ -215,7 +218,9 @@ public class PlayerInitialize : NetworkBehaviour
         string value = baseName + "|" + item.Quantity;
 
         PlayerPrefs.SetString(key, value);
-        PlayerPrefs.Save();
+
+        if (saveImmediately)
+            PlayerPrefs.Save();
 
         Debug.Log($"Saved {key}: {value}");
     }

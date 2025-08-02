@@ -33,14 +33,23 @@ public class Inventory : MonoBehaviour
             if (newItem.IsStackable)
             {
                 // Check if the item already exists in the inventory
-                int existingItemIndex = Array.FindIndex(items, x => x == newItem);
+                int existingItemIndex = Array.FindIndex(items, x => x != null && x.name == newItem.name);
+
                 if (existingItemIndex != -1)
                 {
                     // If the item exists, increase its quantity
                     items[existingItemIndex].Quantity++;
                     inventoryUI.UpdateUI();
 
-                    initialize.SaveInventory(newItem, emptySlotIndex);
+                    if (existingItemIndex != -1)
+                    {
+                        items[existingItemIndex].Quantity++;
+                        inventoryUI.UpdateUI();
+
+                        initialize.SaveInventory(items[existingItemIndex], existingItemIndex);
+
+                        return true;
+                    }
 
                     return true;
                 }
