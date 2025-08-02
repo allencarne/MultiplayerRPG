@@ -10,8 +10,7 @@ public class ItemPickup : NetworkBehaviour
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
     [SerializeField] InputActionReference pickupAction;
-    [SerializeField] GameObject itemSprite;
-    [SerializeField] AnimateItem animateItem;
+    [SerializeField] Animator animator;
     bool _hasBeenPickedUp = false;
     PlayerInput playerInput;
 
@@ -39,12 +38,6 @@ public class ItemPickup : NetworkBehaviour
         {
             _hasBeenPickedUp = false;
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void DespawnServerRPC()
-    {
-        NetworkObject.Despawn(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -106,58 +99,29 @@ public class ItemPickup : NetworkBehaviour
     private void PlayPickupEffect()
     {
         toolTip.SetActive(false);
-        animateItem.canAnimate = false;
 
-        if (itemSprite == null)
+        if (IsServer)
         {
-            DespawnImmediately();
-            return;
+            animator.Play("Anim_Item_Pickup");
+        }
+        else
+        {
+            PlayPickupAnimationServerRpc();
         }
 
-        // Optional: disable collider so player can't re-trigger it
         Collider2D col = GetComponent<Collider2D>();
         if (col) col.enabled = false;
 
-        StartCoroutine(PickupAnimationCoroutine());
+        StartCoroutine(Delay());
     }
 
-    private IEnumerator PickupAnimationCoroutine()
+    IEnumerator Delay()
     {
-        float duration = 0.5f;
-        float time = 0f;
-
-        Vector3 startPos = itemSprite.transform.position;
-        Vector3 targetPos = startPos + new Vector3(Random.Range(-0.2f, 0.2f), 1.0f, 0f);
-        Vector3 startScale = itemSprite.transform.localScale;
-        Vector3 endScale = startScale * 1.3f;
-
-        SpriteRenderer sprite = itemSprite.GetComponent<SpriteRenderer>();
-        Color startColor = sprite != null ? sprite.color : Color.white;
-
-        while (time < duration)
-        {
-            float t = time / duration;
-
-            // Smooth upward arc
-            itemSprite.transform.position = Vector3.Lerp(startPos, targetPos, t);
-            itemSprite.transform.localScale = Vector3.Lerp(startScale, endScale, t);
-
-            // Fade out
-            if (sprite != null)
-            {
-                Color c = startColor;
-                c.a = Mathf.Lerp(1f, 0f, t);
-                sprite.color = c;
-            }
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        DespawnImmediately();
+        yield return new WaitForSeconds(.6f);
+        DespawnItem();
     }
 
-    private void DespawnImmediately()
+    private void DespawnItem()
     {
         if (IsServer)
         {
@@ -167,5 +131,17 @@ public class ItemPickup : NetworkBehaviour
         {
             DespawnServerRPC();
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void DespawnServerRPC()
+    {
+        NetworkObject.Despawn(true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void PlayPickupAnimationServerRpc()
+    {
+        animator.Play("Anim_Item_Pickup");
     }
 }
