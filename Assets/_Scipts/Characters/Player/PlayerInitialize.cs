@@ -198,31 +198,21 @@ public class PlayerInitialize : NetworkBehaviour
         StartCoroutine(SaveText());
     }
 
-    public void SaveInventory(Item item, int slotIndex, bool saveImmediately = true)
+    public void SaveInventory(Item item, int slotIndex, int quantity, bool saveImmediately = true)
     {
         string prefix = CharacterNumber;
         string key = $"{prefix}InventorySlot_{slotIndex}";
 
-        if (item == null)
+        if (item == null || quantity <= 0)
         {
             PlayerPrefs.DeleteKey(key);
-
-            if (saveImmediately)
-                PlayerPrefs.Save();
-
-            Debug.Log($"Cleared {key}");
+            if (saveImmediately) PlayerPrefs.Save();
             return;
         }
 
-        string baseName = item.name.Replace("(Clone)", "").Trim();
-        string value = baseName + "|" + item.Quantity;
-
+        string value = item.name.Replace("(Clone)", "").Trim() + "|" + quantity;
         PlayerPrefs.SetString(key, value);
-
-        if (saveImmediately)
-            PlayerPrefs.Save();
-
-        Debug.Log($"Saved {key}: {value}");
+        if (saveImmediately) PlayerPrefs.Save();
     }
 
     public void SaveEquipment(Item item, int slotIndex)
@@ -239,12 +229,10 @@ public class PlayerInitialize : NetworkBehaviour
         }
 
         string baseName = item.name.Replace("(Clone)", "").Trim();
-        string value = baseName + "|" + item.Quantity;
-
-        PlayerPrefs.SetString(key, value);
+        PlayerPrefs.SetString(key, baseName);
         PlayerPrefs.Save();
 
-        Debug.Log($"Saved {key}: {value}");
+        Debug.Log($"Saved {key}: {baseName}");
     }
 
     IEnumerator SaveText()

@@ -31,7 +31,7 @@ public class InventoryUI : MonoBehaviour
             if (i < inventory.items.Length && inventory.items[i] != null)
             {
                 // Add the item to the slot
-                iSlots[i].AddItem(inventory.items[i]);
+                iSlots[i].AddItem(inventory.items[i]?.item, inventory.items[i]?.quantity ?? 0);
             }
             else
             {

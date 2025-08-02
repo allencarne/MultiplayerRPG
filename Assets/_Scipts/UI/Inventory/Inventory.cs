@@ -9,65 +9,40 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] InventoryUI inventoryUI;
     public int inventorySlots = 30;
-    public Item[] items;
+    public InventorySlotData[] items;
 
     void Awake()
     {
-        items = new Item[inventorySlots];
+        items = new InventorySlotData[inventorySlots];
     }
 
     public bool AddItem(Item newItem)
     {
-        if (Array.FindIndex(items, x => x == null) == -1)
+        // Check if the item is stackable and already in inventory
+        if (newItem.IsStackable)
         {
-            Debug.Log("Not enough room.");
+            int existingIndex = Array.FindIndex(items, x => x != null && x.item.name == newItem.name);
+            if (existingIndex != -1)
+            {
+                items[existingIndex].quantity++;
+                inventoryUI.UpdateUI();
+                initialize.SaveInventory(newItem, existingIndex, items[existingIndex].quantity);
+                return true;
+            }
+        }
+
+        // Find empty slot
+        int emptySlotIndex = Array.FindIndex(items, x => x == null);
+        if (emptySlotIndex == -1)
+        {
+            Debug.Log("Inventory full");
             return false;
         }
 
-        // Find the first empty slot in the inventory
-        int emptySlotIndex = Array.FindIndex(items, x => x == null);
-
-        if (emptySlotIndex != -1)
-        {
-            // Check if the item is stackable
-            if (newItem.IsStackable)
-            {
-                // Check if the item already exists in the inventory
-                int existingItemIndex = Array.FindIndex(items, x => x != null && x.name == newItem.name);
-
-                if (existingItemIndex != -1)
-                {
-                    // If the item exists, increase its quantity
-                    items[existingItemIndex].Quantity++;
-                    inventoryUI.UpdateUI();
-
-                    if (existingItemIndex != -1)
-                    {
-                        items[existingItemIndex].Quantity++;
-                        inventoryUI.UpdateUI();
-
-                        initialize.SaveInventory(items[existingItemIndex], existingItemIndex);
-
-                        return true;
-                    }
-
-                    return true;
-                }
-            }
-
-            // If the item is not stackable or doesn't exist in the inventory, add it to an empty slot
-            newItem.Quantity = 1;
-            items[emptySlotIndex] = newItem;
-
-            initialize.SaveInventory(newItem, emptySlotIndex);
-        }
-        else
-        {
-            Debug.Log("Inventory is full.");
-            return false; // Return false if no empty slot is found
-        }
-
+        // Place item in empty slot
+        items[emptySlotIndex] = new InventorySlotData(newItem, 1);
         inventoryUI.UpdateUI();
+        initialize.SaveInventory(newItem, emptySlotIndex, 1);
         return true;
     }
 
@@ -80,7 +55,7 @@ public class Inventory : MonoBehaviour
             // Remove the item from the inventory by setting its slot to null
             items[itemIndex] = null;
 
-            initialize.SaveInventory(removedItem, itemIndex);
+            initialize.SaveInventory(removedItem, itemIndex, 1);
         }
 
         inventoryUI.UpdateUI();
@@ -104,12 +79,10 @@ public class Inventory : MonoBehaviour
                     string itemName = parts[0];
                     int quantity = int.Parse(parts[1]);
 
-                    Item itemTemplate = itemDatabase.GetItemByName(itemName);
-                    if (itemTemplate != null)
+                    Item template = itemDatabase.GetItemByName(itemName);
+                    if (template != null)
                     {
-                        Item newItem = Instantiate(itemTemplate);
-                        newItem.Quantity = quantity;
-                        items[i] = newItem;
+                        items[i] = new InventorySlotData(template, quantity);
                     }
                     else
                     {

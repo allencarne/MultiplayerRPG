@@ -11,23 +11,15 @@ public class InventorySlot : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI amountText;
 
-    public void AddItem(Item newItem)
+    public void AddItem(Item newItem, int quantity)
     {
         inventoryItem.Item = newItem;
 
-        inventory.items[slotIndex] = newItem;
+        inventory.items[slotIndex] = new InventorySlotData(newItem, quantity);
         icon.sprite = newItem.Icon;
         icon.color = Color.white;
 
-        // Stack Text
-        if (amountText != null && newItem.Quantity > 1)
-        {
-            amountText.text = newItem.Quantity.ToString();
-        }
-        else
-        {
-            amountText.text = "";
-        }
+        amountText.text = (quantity > 1) ? quantity.ToString() : "";
     }
 
     public void UseItem()
@@ -42,20 +34,24 @@ public class InventorySlot : MonoBehaviour
     {
         inventoryItem.Item = null;
 
-        inventory.items[slotIndex] = null; // Update the inventory array
+        inventory.items[slotIndex] = null;
         icon.sprite = null;
-        icon.enabled = true; // Ensure the Image component is always enabled
+        icon.enabled = true;
         icon.color = Color.black;
 
-        // Clear Stacks
-        if (amountText != null)
-        {
-            amountText.text = "";
-        }
+        ClearStacks();
     }
 
     public void RemoveItem()
     {
         inventory.RemoveItem(inventoryItem.Item);
+    }
+
+    void ClearStacks()
+    {
+        if (amountText != null)
+        {
+            amountText.text = "";
+        }
     }
 }

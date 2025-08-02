@@ -6,6 +6,8 @@ using System.Collections;
 
 public class ItemPickup : NetworkBehaviour
 {
+    public int Quantity = 1;
+
     public Item Item;
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
@@ -21,7 +23,7 @@ public class ItemPickup : NetworkBehaviour
 
         if (Item is Currency)
         {
-            player.CoinCollected(Item.Quantity);
+            player.CoinCollected(Quantity);
             PlayPickupEffect();
             return;
         }
