@@ -1,21 +1,23 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class InventorySlot : MonoBehaviour
 {
-    public Inventory inventory;
     public EquipmentManager equipmentManager;
-    public InventoryItem inventoryItem;
+    public Inventory inventory;
+    public InventorySlotData slotData;
     public int slotIndex;
+
     public Image icon;
     public TextMeshProUGUI amountText;
 
     public void AddItem(Item newItem, int quantity)
     {
-        inventoryItem.Item = newItem;
+        slotData = new InventorySlotData(newItem, quantity);
+        inventory.items[slotIndex] = slotData;
 
-        inventory.items[slotIndex] = new InventorySlotData(newItem, quantity);
         icon.sprite = newItem.Icon;
         icon.color = Color.white;
 
@@ -24,17 +26,18 @@ public class InventorySlot : MonoBehaviour
 
     public void UseItem()
     {
-        if (inventoryItem.Item != null)
+        if (slotData?.item != null)
         {
-            inventoryItem.Item.Use(inventory,equipmentManager);
+            slotData.item.Use(inventory, equipmentManager);
         }
     }
 
+
     public void ClearSlot()
     {
-        inventoryItem.Item = null;
-
+        slotData = null;
         inventory.items[slotIndex] = null;
+
         icon.sprite = null;
         icon.enabled = true;
         icon.color = Color.black;
@@ -44,7 +47,10 @@ public class InventorySlot : MonoBehaviour
 
     public void RemoveItem()
     {
-        inventory.RemoveItem(inventoryItem.Item);
+        if (slotData?.item != null)
+        {
+            inventory.RemoveItem(slotData.item);
+        }
     }
 
     void ClearStacks()

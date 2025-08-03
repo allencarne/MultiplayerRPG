@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 0}
   equipmentManager: {fileID: 0}
-  inventoryItem: {fileID: 1322068952089824433}
+  inventoryItem: {fileID: 0}
   slotIndex: 0
   icon: {fileID: 2338067836610958808}
   amountText: {fileID: 4093337119374197154}
@@ -770,7 +770,6 @@ GameObject:
   - component: {fileID: 4134460367755721328}
   - component: {fileID: 418501932379145986}
   - component: {fileID: 2338067836610958808}
-  - component: {fileID: 1322068952089824433}
   m_Layer: 5
   m_Name: Inventory Item
   m_TagString: Untagged
@@ -835,20 +834,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1322068952089824433
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3940144287128919246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82849c3b4a4f99946bcb0b5aad074825, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  toolTip: {fileID: 0}
-  Item: {fileID: 0}
 --- !u!1 &4808470202459662841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,6 +1381,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageRectTransform:
   - {fileID: 4134460367755721328}
+  textObjects: []
+  selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &844967025547451675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1409,7 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 2563085776065594935}
-  inventory: {fileID: 1322068952089824433}
+  inventory: {fileID: 0}
   equipment: {fileID: 0}
   riarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
   gemSlotsImage: {fileID: 3227389846605252973}

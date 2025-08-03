@@ -8,7 +8,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 {
     [SerializeField] GameObject tooltip;
 
-    [SerializeField] InventoryItem inventory;
+    [SerializeField] InventorySlot inventorySlot;
     [SerializeField] EquipmentSlot equipment;
 
     [SerializeField] ItemRarityInfo riarityInfo;
@@ -32,7 +32,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
 
         // Description
-        itemInfo_Text.text = inventory.Item.Description;
+        itemInfo_Text.text = item.Description;
     }
 
     public void UpdateCollectableInfo(Collectable collectable, Item item)
@@ -186,8 +186,8 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 
     private Item GetCurrentItem()
     {
-        if (inventory != null && inventory.Item != null)
-            return inventory.Item;
+        if (inventorySlot != null && inventorySlot.slotData != null)
+            return inventorySlot.slotData.item;
 
         if (equipment != null && equipment.Item != null)
             return equipment.Item;
