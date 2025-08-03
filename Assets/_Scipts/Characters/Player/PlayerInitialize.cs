@@ -41,7 +41,7 @@ public class PlayerInitialize : NetworkBehaviour
             }
 
             // Set Coin Text UI
-            player.CoinText.text = player.Coins.ToString();
+            player.CoinText.text = $"{player.Coins}<sprite index=0>";
             player.PlayerName = net_playerName.Value.ToString();
         }
         else

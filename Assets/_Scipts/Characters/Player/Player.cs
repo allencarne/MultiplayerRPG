@@ -199,7 +199,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public void CoinCollected(float amount)
     {
         Coins += amount;
-        CoinText.text = Coins.ToString();
+        CoinText.text = $"{Coins}<sprite index=0>";
 
         playerInitialize.SaveStats();
     }
