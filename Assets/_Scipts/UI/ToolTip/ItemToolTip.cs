@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler
 {
     [SerializeField] GameObject tooltip;
+    [SerializeField] GameObject contextMenu;
 
     [SerializeField] InventorySlot inventorySlot;
     [SerializeField] EquipmentSlot equipment;
@@ -19,6 +20,11 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 
     [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
+
+    [SerializeField] GameObject button_Use;
+    [SerializeField] GameObject button_Move;
+    [SerializeField] GameObject button_Split;
+    [SerializeField] GameObject button_Drop;
 
     public void UpdateCurrencyInfo(Currency currency, Item item)
     {
@@ -154,7 +160,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 
     public void OnSelect(BaseEventData eventData)
     {
-        var item = GetCurrentItem();
+        Item item = GetCurrentItem();
         if (item == null) return;
 
         switch (item)
@@ -176,7 +182,11 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
                 break;
         }
 
-        tooltip.SetActive(true);
+        if (contextMenu == null) return;
+        if (!contextMenu.activeSelf)
+        {
+            tooltip.SetActive(true);
+        }
     }
 
     public void OnDeselect(BaseEventData eventData)
@@ -207,6 +217,34 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        // Left and Right Click Disables Tooltip
         tooltip.SetActive(false);
+
+        // Equipment doesn't have an Inventory Slot
+        if (inventorySlot == null) return;
+
+        // Left Click
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (inventorySlot.slotData == null)
+            {
+                contextMenu.SetActive(false);
+            }
+        }
+
+        // Right Click
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (contextMenu == null) return;
+            if (inventorySlot.slotData == null) return;
+            if (contextMenu.activeSelf)
+            {
+                contextMenu.SetActive(false);
+            }
+            else
+            {
+                contextMenu.SetActive(true);
+            }
+        }
     }
 }
