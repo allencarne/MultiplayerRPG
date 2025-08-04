@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1325443753344869328}
+  - component: {fileID: 1307705085376581959}
   - component: {fileID: 4581371952722106984}
   m_Layer: 5
   m_Name: ContextMenu
@@ -40,6 +41,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 39.65863}
   m_SizeDelta: {x: 64, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1307705085376581959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93466868261763712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da3e14da1ca32c4db15675593d4bfd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contextMenu: {fileID: 93466868261763712}
+  inventorySlot: {fileID: 7621217806576216368}
+  tooltip: {fileID: 844967025547451675}
 --- !u!114 &4581371952722106984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +203,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6795708563397032802}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1307705085376581959}
+        m_TargetAssemblyTypeName: ContextMenu, Assembly-CSharp
+        m_MethodName: UseButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3537896871853631659
 MonoBehaviour:
   m_ObjectHideFlags: 0
