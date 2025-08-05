@@ -6,15 +6,22 @@ using System.Collections;
 
 public class ItemPickup : NetworkBehaviour
 {
-    public int Quantity = 1;
-
-    public Item Item;
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
+    [SerializeField] TextMeshProUGUI quantityText;
+
     [SerializeField] InputActionReference pickupAction;
     [SerializeField] Animator animator;
-    bool _hasBeenPickedUp = false;
     PlayerInput playerInput;
+
+    public Item Item;
+    public int Quantity = 1;
+    bool _hasBeenPickedUp = false;
+
+    private void Start()
+    {
+        if (Quantity > 1) quantityText.text = Quantity.ToString();
+    }
 
     public void PickUp(Player player)
     {
@@ -29,7 +36,7 @@ public class ItemPickup : NetworkBehaviour
         }
 
         // Add Item to Inventory if we have enough space
-        bool wasPickedUp = player.PlayerInventory.AddItem(Item);
+        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity);
 
         // Destroy item if it was collected
         if (wasPickedUp)

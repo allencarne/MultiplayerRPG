@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private ItemList itemDatabase;
-    [SerializeField] PlayerInitialize initialize;
+    public PlayerInitialize initialize;
 
     [SerializeField] InventoryUI inventoryUI;
     public int inventorySlots = 30;
@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour
         items = new InventorySlotData[inventorySlots];
     }
 
-    public bool AddItem(Item newItem)
+    public bool AddItem(Item newItem, int quantity = 1)
     {
         // Check if the item is stackable and already in inventory
         if (newItem.IsStackable)
@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
             int existingIndex = Array.FindIndex(items, x => x != null && x.item.name == newItem.name);
             if (existingIndex != -1)
             {
-                items[existingIndex].quantity++;
+                items[existingIndex].quantity += quantity;
                 inventoryUI.UpdateUI();
                 initialize.SaveInventory(newItem, existingIndex, items[existingIndex].quantity);
                 return true;
@@ -40,9 +40,9 @@ public class Inventory : MonoBehaviour
         }
 
         // Place item in empty slot
-        items[emptySlotIndex] = new InventorySlotData(newItem, 1);
+        items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
         inventoryUI.UpdateUI();
-        initialize.SaveInventory(newItem, emptySlotIndex, 1);
+        initialize.SaveInventory(newItem, emptySlotIndex, quantity);
         return true;
     }
 
