@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private ItemList itemDatabase;
     public PlayerInitialize initialize;
 
-    [SerializeField] InventoryUI inventoryUI;
+    public InventoryUI inventoryUI;
     public int inventorySlots = 30;
     public InventorySlotData[] items;
 
@@ -101,5 +101,17 @@ public class Inventory : MonoBehaviour
         }
 
         inventoryUI.UpdateUI();
+    }
+
+    public bool AddItemToSlot(Item item, int quantity, int targetSlot)
+    {
+        if (items[targetSlot] == null)
+        {
+            items[targetSlot] = new InventorySlotData(item, quantity);
+            initialize.SaveInventory(item, targetSlot, quantity);
+            return true;
+        }
+
+        return false;
     }
 }
