@@ -2187,6 +2187,8 @@ GameObject:
   - component: {fileID: 1534753468104812643}
   - component: {fileID: 3466041854357330621}
   - component: {fileID: 844967025547451675}
+  - component: {fileID: 6214933936417316334}
+  - component: {fileID: 7428834656943155767}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -2345,10 +2347,36 @@ MonoBehaviour:
   textBox: {fileID: 617508315581666993}
   itemName_Text: {fileID: 2110105745028541646}
   itemInfo_Text: {fileID: 7071796371214499446}
-  button_Use: {fileID: 0}
-  button_Move: {fileID: 0}
-  button_Split: {fileID: 0}
-  button_Drop: {fileID: 0}
+  button_Use: {fileID: 452426947616279940}
+  button_Move: {fileID: 6230348766578203418}
+  button_Split: {fileID: 2218351988158110422}
+  button_Drop: {fileID: 7532154609329340861}
+--- !u!114 &6214933936417316334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725886013758965313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4b5fca564a4fc48b64b3d0378dbe04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 2834632270499370050}
+  inventorySlot: {fileID: 0}
+--- !u!225 &7428834656943155767
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6725886013758965313}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6982018934496033817
 GameObject:
   m_ObjectHideFlags: 0
