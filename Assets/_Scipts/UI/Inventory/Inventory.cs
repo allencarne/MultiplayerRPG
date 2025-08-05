@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -113,5 +112,37 @@ public class Inventory : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void StackButton()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            InventorySlotData sourceSlot = items[i];
+            if (sourceSlot == null || !sourceSlot.item.IsStackable)
+                continue;
+
+            for (int j = i + 1; j < items.Length; j++)
+            {
+                InventorySlotData targetSlot = items[j];
+                if (targetSlot == null)
+                    continue;
+
+                if (targetSlot.item.name == sourceSlot.item.name)
+                {
+                    // Combine quantity into source
+                    sourceSlot.quantity += targetSlot.quantity;
+
+                    // Clear target slot
+                    items[j] = null;
+                    initialize.SaveInventory(null, j, 0); // Clear saved slot
+                }
+            }
+
+            // Save updated source slot
+            initialize.SaveInventory(sourceSlot.item, i, sourceSlot.quantity);
+        }
+
+        inventoryUI.UpdateUI();
     }
 }

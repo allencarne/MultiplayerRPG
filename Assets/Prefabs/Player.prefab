@@ -6075,7 +6075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9092884477884637465}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6762276146836678153}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: StackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3660520707592799274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8424,7 +8436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.921196, y: -55.333332}
+  m_AnchoredPosition: {x: 90.921196, y: -55.33333}
   m_SizeDelta: {x: 181.84, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9158250556533925090
@@ -42392,7 +42404,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90.921196, y: -148}
+  m_AnchoredPosition: {x: 90.9212, y: -148}
   m_SizeDelta: {x: 181.84239, y: 296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6383631817265720690
