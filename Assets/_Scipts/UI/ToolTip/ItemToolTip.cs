@@ -235,16 +235,34 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         // Right Click
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (contextMenu == null) return;
-            if (inventorySlot.slotData == null) return;
+            if (contextMenu == null || inventorySlot.slotData == null) return;
+
             if (contextMenu.activeSelf)
             {
                 contextMenu.SetActive(false);
             }
             else
             {
+                UpdateContextMenuButtons(inventorySlot.slotData.item);
                 contextMenu.SetActive(true);
             }
         }
+    }
+
+    private void UpdateContextMenuButtons(Item item)
+    {
+        if (item == null || contextMenu == null) return;
+
+        // Use is only available for Consumable, Equipment, Weapon
+        bool canUse = item is Consumable || item is Equipment || item is Weapon;
+        button_Use.SetActive(canUse);
+
+        // Split is available for stackable Collectables and Consumables
+        bool canSplit = item.IsStackable && !(item is Equipment);
+        button_Split.SetActive(canSplit);
+
+        // Move and Drop are always available
+        button_Move.SetActive(true);
+        button_Drop.SetActive(true);
     }
 }
