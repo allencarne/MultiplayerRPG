@@ -1426,7 +1426,7 @@ GameObject:
   - component: {fileID: 418501932379145986}
   - component: {fileID: 2338067836610958808}
   m_Layer: 5
-  m_Name: Inventory Item
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1658,7 +1658,7 @@ GameObject:
   - component: {fileID: 42131683869551765}
   - component: {fileID: 4093337119374197154}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_Stack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2188,7 +2188,6 @@ GameObject:
   - component: {fileID: 3466041854357330621}
   - component: {fileID: 844967025547451675}
   - component: {fileID: 6214933936417316334}
-  - component: {fileID: 7428834656943155767}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -2363,20 +2362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c4b5fca564a4fc48b64b3d0378dbe04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 2834632270499370050}
+  image: {fileID: 2338067836610958808}
   inventorySlot: {fileID: 0}
---- !u!225 &7428834656943155767
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6725886013758965313}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &6982018934496033817
 GameObject:
   m_ObjectHideFlags: 0
