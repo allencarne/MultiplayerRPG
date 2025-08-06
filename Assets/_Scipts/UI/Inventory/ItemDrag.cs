@@ -9,6 +9,7 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private Transform originalParent;
     private Canvas rootCanvas;
+    private bool canDrag = false;
 
     private void Awake()
     {
@@ -18,9 +19,15 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        image.raycastTarget = false;
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
 
-        // Store the original parent and move to top-level canvas to render above all
+        canDrag = inventorySlot.slotData != null && inventorySlot.slotData.item != null;
+
+        if (!canDrag)
+            return;
+
+        image.raycastTarget = false;
         originalParent = image.transform.parent;
         image.transform.SetParent(rootCanvas.transform, true);
 
@@ -30,6 +37,9 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!canDrag)
+            return;
+
         RectTransformUtility.ScreenPointToWorldPointInRectangle(
             (RectTransform)rootCanvas.transform, eventData.position, eventData.pressEventCamera, out Vector3 worldPoint);
 
@@ -38,14 +48,15 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!canDrag)
+            return;
+
         image.raycastTarget = true;
-
-        // Return to original parent
         image.transform.SetParent(originalParent, true);
-
-        // Reset position and put it on top of siblings (front of UI)
         image.transform.localScale = Vector3.one;
         image.transform.localPosition = Vector3.zero;
         image.transform.SetAsFirstSibling();
+
+        canDrag = false;
     }
 }
