@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler
+public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler, ICancelHandler
 {
     [SerializeField] GameObject tooltip;
     [SerializeField] GameObject contextMenu;
@@ -264,5 +264,21 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         // Move and Drop are always available
         button_Move.SetActive(true);
         button_Drop.SetActive(true);
+    }
+
+    public void OnCancel(BaseEventData eventData)
+    {
+        tooltip.SetActive(false);
+        if (inventorySlot == null) return;
+
+        if (contextMenu.activeSelf)
+        {
+            contextMenu.SetActive(false);
+        }
+        else
+        {
+            UpdateContextMenuButtons(inventorySlot.slotData.item);
+            contextMenu.SetActive(true);
+        }
     }
 }
