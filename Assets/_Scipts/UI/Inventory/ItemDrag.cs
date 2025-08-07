@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -10,6 +10,8 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private Transform originalParent;
     private Canvas rootCanvas;
     private bool canDrag = false;
+    bool isDragging = false;
+    private InventorySlot originSlot;
 
     private void Awake()
     {
@@ -58,5 +60,80 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         image.transform.SetAsFirstSibling();
 
         canDrag = false;
+    }
+
+    private void Update()
+    {
+        GameObject selected = EventSystem.current.currentSelectedGameObject;
+
+        if (isDragging)
+        {
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+            if (current != null)
+            {
+                image.transform.position = current.transform.position;
+            }
+        }
+
+        if (selected != gameObject) return;
+
+        // X button (PS: ☐ or Xbox: X)
+        if (Input.GetKeyDown(KeyCode.JoystickButton2))
+        {
+            if (!isDragging)
+            {
+                BeginControllerDrag();
+            }
+            else
+            {
+                EndControllerDrag();
+            }
+        }
+    }
+
+    void BeginControllerDrag()
+    {
+        if (inventorySlot.slotData == null) return;
+
+        isDragging = true;
+        originSlot = inventorySlot;
+
+        originalParent = image.transform.parent;
+        image.transform.SetParent(rootCanvas.transform, true);
+        image.raycastTarget = false;
+    }
+
+    void EndControllerDrag()
+    {
+        isDragging = false;
+        image.raycastTarget = true;
+
+        // Return image to slot
+        image.transform.SetParent(originalParent, true);
+        image.transform.localPosition = Vector3.zero;
+        image.transform.SetAsFirstSibling();
+
+        // Determine drop target
+        GameObject targetGO = EventSystem.current.currentSelectedGameObject;
+        if (targetGO == null) return;
+
+        InventorySlot targetSlot = targetGO.GetComponent<InventorySlot>();
+        if (targetSlot == null || targetSlot == originSlot) return;
+
+        // Swap
+        InventorySlotData fromData = originSlot.slotData;
+        InventorySlotData toData = targetSlot.slotData;
+
+        originSlot.slotData = toData;
+        targetSlot.slotData = fromData;
+
+        originSlot.inventory.items[originSlot.slotIndex] = toData;
+        targetSlot.inventory.items[targetSlot.slotIndex] = fromData;
+
+        originSlot.UpdateSlotVisuals();
+        targetSlot.UpdateSlotVisuals();
+
+        originSlot.inventory.initialize.SaveInventory(originSlot.slotData?.item, originSlot.slotIndex, originSlot.slotData?.quantity ?? 0);
+        targetSlot.inventory.initialize.SaveInventory(targetSlot.slotData?.item, targetSlot.slotIndex, targetSlot.slotData?.quantity ?? 0);
     }
 }
