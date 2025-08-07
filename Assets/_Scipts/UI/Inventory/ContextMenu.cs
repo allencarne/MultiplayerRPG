@@ -1,11 +1,25 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ContextMenu : MonoBehaviour
 {
     [SerializeField] GameObject contextMenu;
     [SerializeField] InventorySlot inventorySlot;
     [SerializeField] ItemToolTip tooltip;
+
+    [SerializeField] Button border_Button;
+    [SerializeField] Button use_Button;
+    [SerializeField] Button move_Button;
+    [SerializeField] Button split_Button;
+    [SerializeField] Button drop_Button;
+
+    private void OnEnable()
+    {
+        StartCoroutine(CheckSelection());
+    }
 
     public void UseButton()
     {
@@ -73,5 +87,28 @@ public class ContextMenu : MonoBehaviour
     private void OnDisable()
     {
         contextMenu.SetActive(false);
+    }
+
+    private IEnumerator CheckSelection()
+    {
+        while (contextMenu.activeSelf)
+        {
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+
+            bool isValid =
+                current == use_Button.gameObject ||
+                current == move_Button.gameObject ||
+                current == split_Button.gameObject ||
+                current == drop_Button.gameObject ||
+                current == border_Button.gameObject;
+
+            if (!isValid)
+            {
+                contextMenu.SetActive(false);
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 }
