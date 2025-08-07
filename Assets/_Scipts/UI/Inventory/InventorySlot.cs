@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    public EquipmentManager equipmentManager;
-    public Inventory inventory;
+    [HideInInspector] public EquipmentManager equipmentManager;
+    [HideInInspector] public Inventory inventory;
     public InventorySlotData slotData;
     public int slotIndex;
 
@@ -63,35 +63,42 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        // Get drag source
         ItemDrag draggedItem = eventData.pointerDrag?.GetComponent<ItemDrag>();
         if (draggedItem == null) return;
 
         InventorySlot fromSlot = draggedItem.inventorySlot;
+        HandleDropFrom(fromSlot);
+    }
+
+    public void HandleDropFrom(InventorySlot fromSlot)
+    {
+        if (fromSlot == null || fromSlot == this)
+            return;
+
         InventorySlot toSlot = this;
 
-        // Don't allow dropping onto self
-        if (fromSlot == toSlot) return;
-
-        // Get their slot data
         InventorySlotData fromData = fromSlot.slotData;
         InventorySlotData toData = toSlot.slotData;
 
-        // Swap logic
+        // Swap
         fromSlot.slotData = toData;
         toSlot.slotData = fromData;
 
-        // Update Inventory
         fromSlot.inventory.items[fromSlot.slotIndex] = fromSlot.slotData;
         toSlot.inventory.items[toSlot.slotIndex] = toSlot.slotData;
 
-        // Update visuals
         fromSlot.UpdateSlotVisuals();
         toSlot.UpdateSlotVisuals();
 
-        // Save
-        fromSlot.inventory.initialize.SaveInventory(fromSlot.slotData?.item, fromSlot.slotIndex, fromSlot.slotData?.quantity ?? 0);
-        toSlot.inventory.initialize.SaveInventory(toSlot.slotData?.item, toSlot.slotIndex, toSlot.slotData?.quantity ?? 0);
+        fromSlot.inventory.initialize.SaveInventory(
+            fromSlot.slotData?.item,
+            fromSlot.slotIndex,
+            fromSlot.slotData?.quantity ?? 0);
+
+        toSlot.inventory.initialize.SaveInventory(
+            toSlot.slotData?.item,
+            toSlot.slotIndex,
+            toSlot.slotData?.quantity ?? 0);
     }
 
     public void UpdateSlotVisuals()

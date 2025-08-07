@@ -8,17 +8,12 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        // Get all inventory slots from the itemsParent
         iSlots = itemsParent.GetComponentsInChildren<InventorySlot>();
-    }
 
-    private void Start()
-    {
-        // Assign slot indices to each slot
         for (int i = 0; i < iSlots.Length; i++)
         {
-            iSlots[i].slotIndex = i; // Assign slot index based on position in array
-            iSlots[i].inventory = inventory; // Assign inventory reference to each slot
+            iSlots[i].slotIndex = i;
+            iSlots[i].inventory = inventory;
         }
     }
 

@@ -73,10 +73,11 @@ public class Inventory : MonoBehaviour
                 string saved = PlayerPrefs.GetString(key);
                 string[] parts = saved.Split('|');
 
-                if (parts.Length == 2)
+                if (parts.Length == 2 &&
+                    !string.IsNullOrWhiteSpace(parts[0]) &&
+                    int.TryParse(parts[1], out int quantity))
                 {
                     string itemName = parts[0];
-                    int quantity = int.Parse(parts[1]);
 
                     Item template = itemDatabase.GetItemByName(itemName);
                     if (template != null)
@@ -86,11 +87,13 @@ public class Inventory : MonoBehaviour
                     else
                     {
                         Debug.LogWarning($"Item '{itemName}' not found in ItemDatabase.");
+                        items[i] = null; // force clear if invalid item
                     }
                 }
                 else
                 {
                     Debug.LogWarning($"Malformed inventory string for key: {key}");
+                    items[i] = null;
                 }
             }
             else

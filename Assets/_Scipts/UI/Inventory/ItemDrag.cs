@@ -120,20 +120,7 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         InventorySlot targetSlot = targetGO.GetComponent<InventorySlot>();
         if (targetSlot == null || targetSlot == originSlot) return;
 
-        // Swap
-        InventorySlotData fromData = originSlot.slotData;
-        InventorySlotData toData = targetSlot.slotData;
-
-        originSlot.slotData = toData;
-        targetSlot.slotData = fromData;
-
-        originSlot.inventory.items[originSlot.slotIndex] = toData;
-        targetSlot.inventory.items[targetSlot.slotIndex] = fromData;
-
-        originSlot.UpdateSlotVisuals();
-        targetSlot.UpdateSlotVisuals();
-
-        originSlot.inventory.initialize.SaveInventory(originSlot.slotData?.item, originSlot.slotIndex, originSlot.slotData?.quantity ?? 0);
-        targetSlot.inventory.initialize.SaveInventory(targetSlot.slotData?.item, targetSlot.slotIndex, targetSlot.slotData?.quantity ?? 0);
+        // Reuse the same drop logic
+        targetSlot.HandleDropFrom(originSlot);
     }
 }
