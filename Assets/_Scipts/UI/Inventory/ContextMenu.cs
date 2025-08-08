@@ -12,7 +12,6 @@ public class ContextMenu : MonoBehaviour
 
     [SerializeField] Button border_Button;
     [SerializeField] Button use_Button;
-    [SerializeField] Button move_Button;
     [SerializeField] Button split_Button;
     [SerializeField] Button drop_Button;
 
@@ -25,11 +24,6 @@ public class ContextMenu : MonoBehaviour
     {
         inventorySlot.UseItem();
         contextMenu.SetActive(false);
-    }
-
-    public void MoveButton()
-    {
-
     }
 
     public void SplitButton()
@@ -97,7 +91,6 @@ public class ContextMenu : MonoBehaviour
 
             bool isValid =
                 current == use_Button.gameObject ||
-                current == move_Button.gameObject ||
                 current == split_Button.gameObject ||
                 current == drop_Button.gameObject ||
                 current == border_Button.gameObject;

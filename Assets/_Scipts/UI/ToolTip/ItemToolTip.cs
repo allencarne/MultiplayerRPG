@@ -22,7 +22,6 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
     [SerializeField] GameObject button_Use;
-    [SerializeField] GameObject button_Move;
     [SerializeField] GameObject button_Split;
     [SerializeField] GameObject button_Drop;
 
@@ -261,8 +260,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         bool canSplit = item.IsStackable && !(item is Equipment);
         button_Split.SetActive(canSplit);
 
-        // Move and Drop are always available
-        button_Move.SetActive(true);
+        // Always available
         button_Drop.SetActive(true);
     }
 
