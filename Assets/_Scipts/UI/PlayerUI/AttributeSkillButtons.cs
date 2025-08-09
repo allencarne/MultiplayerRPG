@@ -9,19 +9,7 @@ public class AttributeSkillButtons : MonoBehaviour
     private void Start()
     {
         HandleAttributes();
-    }
-
-    private void Update()
-    {
-        HandleSkills(player.FirstPassiveIndex, 1);
-        HandleSkills(player.SecondPassiveIndex, 6);
-        HandleSkills(player.ThirdPassiveIndex, 14);
-        HandleSkills(player.BasicIndex, 1);
-        HandleSkills(player.OffensiveIndex, 4);
-        HandleSkills(player.MobilityIndex, 8);
-        HandleSkills(player.DefensiveIndex, 12);
-        HandleSkills(player.UtilityIndex, 16);
-        HandleSkills(player.UltimateIndex, 20);
+        HandleAllSkills();
     }
 
     public void HandleAttributes()
@@ -34,6 +22,19 @@ public class AttributeSkillButtons : MonoBehaviour
         {
             attribute_Button.SetActive(true);
         }
+    }
+
+    public void HandleAllSkills()
+    {
+        HandleSkills(player.FirstPassiveIndex, 1);
+        HandleSkills(player.BasicIndex, 1);
+        HandleSkills(player.OffensiveIndex, 4);
+        HandleSkills(player.SecondPassiveIndex, 6);
+        HandleSkills(player.MobilityIndex, 8);
+        HandleSkills(player.DefensiveIndex, 12);
+        HandleSkills(player.ThirdPassiveIndex, 14);
+        HandleSkills(player.UtilityIndex, 16);
+        HandleSkills(player.UltimateIndex, 20);
     }
 
     void HandleSkills(int abilityIndex, int level)
