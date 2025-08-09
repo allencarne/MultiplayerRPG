@@ -1589,7 +1589,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8281819894407244564}
-  - component: {fileID: 1835982403743873649}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -1625,21 +1624,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1835982403743873649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261347557861845757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20a0f6c126708164facf2a3accbd0f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attribute_Button: {fileID: 3808015105832604949}
-  skill_Button: {fileID: 5072514720132259785}
-  player: {fileID: 841304983140234989}
 --- !u!1 &282222381974592082
 GameObject:
   m_ObjectHideFlags: 0
@@ -22630,7 +22614,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1835982403743873649}
+      - m_Target: {fileID: 1055530045472428052}
         m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
         m_MethodName: HandleAttributes
         m_Mode: 1
@@ -22642,7 +22626,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1835982403743873649}
+      - m_Target: {fileID: 1055530045472428052}
         m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
         m_MethodName: HandleAllSkills
         m_Mode: 1
@@ -22749,6 +22733,7 @@ GameObject:
   - component: {fileID: 4657129753721047416}
   - component: {fileID: 2797538976731670928}
   - component: {fileID: 3006592319348859898}
+  - component: {fileID: 1055530045472428052}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -23055,6 +23040,23 @@ MonoBehaviour:
   questInfo: {fileID: 6834974416654366840}
   goldReward: {fileID: 8267589770704470608}
   expReward: {fileID: 7109412378154894603}
+--- !u!114 &1055530045472428052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932000853074254433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a0f6c126708164facf2a3accbd0f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 841304983140234989}
+  attribute_Button: {fileID: 3808015105832604949}
+  skill_Button: {fileID: 5072514720132259785}
+  m_attribute_Button: {fileID: 4077680132061236837}
+  m_skill_Button: {fileID: 6387538786019860374}
 --- !u!1 &2949870630155284046
 GameObject:
   m_ObjectHideFlags: 0
@@ -27236,7 +27238,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1835982403743873649}
+      - m_Target: {fileID: 1055530045472428052}
         m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
         m_MethodName: HandleAllSkills
         m_Mode: 1
@@ -48151,7 +48153,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1835982403743873649}
+      - m_Target: {fileID: 1055530045472428052}
         m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
         m_MethodName: HandleAttributes
         m_Mode: 1

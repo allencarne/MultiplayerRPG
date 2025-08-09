@@ -2,12 +2,26 @@ using UnityEngine;
 
 public class AttributeSkillButtons : MonoBehaviour
 {
+    [Header("Player")]
+    [SerializeField] Player player;
+
+    [Header("Regular")]
     [SerializeField] GameObject attribute_Button;
     [SerializeField] GameObject skill_Button;
-    [SerializeField] Player player;
+
+    [Header("Mobile")]
+    [SerializeField] GameObject m_attribute_Button;
+    [SerializeField] GameObject m_skill_Button;
+
+    bool isMobile;
 
     private void Start()
     {
+        if (Application.isMobilePlatform)
+        {
+            isMobile = true;
+        }
+
         HandleAttributes();
         HandleAllSkills();
     }
@@ -17,10 +31,18 @@ public class AttributeSkillButtons : MonoBehaviour
         if (player.AttributePoints.Value == 0)
         {
             attribute_Button.SetActive(false);
+            m_attribute_Button.SetActive(false);
         }
         else
         {
-            attribute_Button.SetActive(true);
+            if (isMobile)
+            {
+                m_attribute_Button.SetActive(true);
+            }
+            else
+            {
+                attribute_Button.SetActive(true);
+            }
         }
     }
 
@@ -43,12 +65,20 @@ public class AttributeSkillButtons : MonoBehaviour
         {
             if (player.PlayerLevel.Value >= level)
             {
-                skill_Button.SetActive(true);
+                if (isMobile)
+                {
+                    m_skill_Button.SetActive(true);
+                }
+                else
+                {
+                    skill_Button.SetActive(true);
+                }
             }
         }
         else
         {
             skill_Button.SetActive(false);
+            m_skill_Button.SetActive(false);
         }
     }
 }
