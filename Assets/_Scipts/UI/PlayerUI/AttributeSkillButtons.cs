@@ -6,9 +6,13 @@ public class AttributeSkillButtons : MonoBehaviour
     [SerializeField] GameObject skill_Button;
     [SerializeField] Player player;
 
-    private void Update()
+    private void Start()
     {
         HandleAttributes();
+    }
+
+    private void Update()
+    {
         HandleSkills(player.FirstPassiveIndex, 1);
         HandleSkills(player.SecondPassiveIndex, 6);
         HandleSkills(player.ThirdPassiveIndex, 14);
@@ -20,7 +24,7 @@ public class AttributeSkillButtons : MonoBehaviour
         HandleSkills(player.UltimateIndex, 20);
     }
 
-    void HandleAttributes()
+    public void HandleAttributes()
     {
         if (player.AttributePoints.Value == 0)
         {

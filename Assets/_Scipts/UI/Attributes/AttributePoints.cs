@@ -140,7 +140,6 @@ public class AttributePoints : MonoBehaviour
         cdrToAdd = 0;
         CDRText.text = cdrToAdd.ToString();
 
-        //apText.text = player.AttributePoints.Value.ToString();
         OnStatsApplied?.Invoke();
 
         EventSystem.current.SetSelectedGameObject(buttonToSelect);
