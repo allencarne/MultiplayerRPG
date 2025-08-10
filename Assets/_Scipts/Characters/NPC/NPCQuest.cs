@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -101,14 +102,14 @@ public class NPCQuest : MonoBehaviour
 
     void GetObjectives(Quest quest)
     {
-        foreach (string objective in quest.objectives)
+        foreach (QuestObjective objective in quest.Objectives)
         {
             GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
 
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = objective;
+                text.text = objective.Description;
             }
         }
     }

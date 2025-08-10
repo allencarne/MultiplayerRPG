@@ -10,7 +10,6 @@ public class Quest : ScriptableObject
     [TextArea(3, 8)] public string Deliver;
 
     [Header("Objectives")]
-    public string[] objectives; // Remove
     public List<QuestObjective> Objectives;
 
     [Header("Rewards")]
