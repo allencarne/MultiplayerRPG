@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -166,6 +165,7 @@ public class PlayerInteract : MonoBehaviour
 
     bool GetQuest()
     {
+        /*
         if (npcReference != null)
         {
             NPCQuestTracker tracker = npcReference.GetComponent<NPCQuestTracker>();
@@ -177,6 +177,8 @@ public class PlayerInteract : MonoBehaviour
         }
 
         questButton.gameObject.SetActive(false);
+        */
+
         return false;
     }
 

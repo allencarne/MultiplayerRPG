@@ -32,8 +32,8 @@ public class QuestUI : MonoBehaviour
 
     public void ShowQuestDetails(Quest quest)
     {
-        questName.text = quest.questName;
-        questInfo.text = quest.instructions;
+        questName.text = quest.QuestName;
+        questInfo.text = quest.Instructions;
         goldReward.text = quest.goldReward.ToString();
         expReward.text = quest.expReward.ToString();
 
@@ -51,7 +51,7 @@ public class QuestUI : MonoBehaviour
             TextMeshProUGUI listText = listItem.GetComponentInChildren<TextMeshProUGUI>();
             if (listText != null)
             {
-                listText.text = quest.questName;
+                listText.text = quest.QuestName;
             }
 
             QuestButtonHandler handler = listItem.GetComponent<QuestButtonHandler>();

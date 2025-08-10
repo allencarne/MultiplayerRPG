@@ -1,14 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Quest", menuName = "Scriptable Objects/Quest")]
 public class Quest : ScriptableObject
 {
-    public string questName;
-    [TextArea(3, 8)] public string instructions;
-    [TextArea(3, 8)] public string deliver;
+    public string QuestID;
+    public string QuestName;
+    [TextArea(3, 8)] public string Instructions;
+    [TextArea(3, 8)] public string Deliver;
 
     [Header("Objectives")]
-    public string[] objectives;
+    public string[] objectives; // Remove
+    public List<QuestObjective> Objectives;
 
     [Header("Rewards")]
     public int expReward;

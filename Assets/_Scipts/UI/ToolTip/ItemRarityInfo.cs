@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemRarityInfo", menuName = "ScriptableObjects/ItemRarityInfo")]
+[CreateAssetMenu(fileName = "ItemRarityInfo", menuName = "Scriptable Objects/ItemRarityInfo")]
 public class ItemRarityInfo : ScriptableObject
 {
     public Color CommonColor;
