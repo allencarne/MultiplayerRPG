@@ -6,6 +6,7 @@ public class QuestProgress
 {
     public Quest quest;
     public List<QuestObjective> objectives;
+    public QuestState state;
 
     public QuestProgress(Quest quest)
     {
@@ -23,8 +24,18 @@ public class QuestProgress
                 CurrentAmount = 0
             });
         }
+
+        state = QuestState.InProgress;
     }
 
     public bool IsCompleted => objectives.TrueForAll(x => x.IsCompleted);
     public string QuestID => quest.QuestID;
+
+    public void CheckCompletion()
+    {
+        if (IsCompleted && state == QuestState.InProgress)
+        {
+            state = QuestState.ReadyToTurnIn;
+        }
+    }
 }

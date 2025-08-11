@@ -98,7 +98,8 @@ public class QuestUI : MonoBehaviour
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
             if (text != null)
             {
-                text.text = objective.Description;
+                //text.text = objective.Description;
+                text.text = $"{objective.Description} ( {objective.CurrentAmount} / {objective.RequiredAmount} )";
             }
         }
     }

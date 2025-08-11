@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NPCQuest : MonoBehaviour
 {
+    [Header("Quest")]
+    public List<Quest> quests = new List<Quest>();
+    private int currentQuestIndex = 0;
+
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
     [SerializeField] TextMeshProUGUI questInfo;
@@ -30,18 +34,17 @@ public class NPCQuest : MonoBehaviour
 
     public void ShowQuestUI(Player player)
     {
-        /*
         if (playerReference == null) playerReference = player;
-        Quest currentQuest = tracker.GetCurrentQuest();
+        if (quests.Count == 0) return;
 
-        if (currentQuest == null) return;
+        Quest currentQuest = quests[currentQuestIndex];
         PlayerQuest playerQuest = playerReference.GetComponent<PlayerQuest>();
-        QuestProgress progress = playerQuest.GetProgress(currentQuest);
+
+        // See if player already has this quest
+        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
 
         UpdateQuestInfo(currentQuest, progress);
         QuestUI.SetActive(true);
-        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(acceptButton.gameObject);
-        */
     }
 
     void UpdateQuestInfo(Quest quest, QuestProgress progress)
@@ -55,8 +58,42 @@ public class NPCQuest : MonoBehaviour
         GetRewards(quest);
         GetObjectives(quest);
 
-        acceptButton.gameObject.SetActive(progress == null);
-        //turnInButton.gameObject.SetActive(progress?.currentState == QuestState.ReadyToTurnIn);
+        if (progress == null)
+        {
+            acceptButton.gameObject.SetActive(true);
+            turnInButton.gameObject.SetActive(false);
+        }
+        else if (progress.state == QuestState.ReadyToTurnIn)
+        {
+            acceptButton.gameObject.SetActive(false);
+            turnInButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            acceptButton.gameObject.SetActive(false);
+            turnInButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void AcceptButton()
+    {
+        Quest quest = quests[currentQuestIndex];
+        playerReference.GetComponent<PlayerQuest>().AcceptQuest(quest);
+        ShowQuestUI(playerReference);
+    }
+
+    public void TurnInButton()
+    {
+        Quest quest = quests[currentQuestIndex];
+        //playerReference.GetComponent<PlayerQuest>().TurnInQuest(quest);
+
+        // Move to next quest if available
+        if (currentQuestIndex < quests.Count - 1)
+        {
+            currentQuestIndex++;
+        }
+
+        ShowQuestUI(playerReference);
     }
 
     public void DeclineButton()
@@ -66,10 +103,7 @@ public class NPCQuest : MonoBehaviour
         if (playerReference != null)
         {
             PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
-            if (playerInteract != null)
-            {
-                playerInteract.BackButton();
-            }
+            if (playerInteract != null) playerInteract.BackButton();
         }
     }
 
@@ -91,12 +125,8 @@ public class NPCQuest : MonoBehaviour
         foreach (Item reward in quest.reward)
         {
             GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
-
             Image image = itmeUI.GetComponent<Image>();
-            if (image != null)
-            {
-                image.sprite = reward.Icon;
-            }
+            if (image != null) image.sprite = reward.Icon;
         }
     }
 
@@ -105,12 +135,8 @@ public class NPCQuest : MonoBehaviour
         foreach (QuestObjective objective in quest.Objectives)
         {
             GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
-
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
-            if (text != null)
-            {
-                text.text = objective.Description;
-            }
+            if (text != null) text.text = objective.Description;
         }
     }
 }
