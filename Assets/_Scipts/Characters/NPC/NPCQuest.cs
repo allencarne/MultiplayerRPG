@@ -80,6 +80,13 @@ public class NPCQuest : MonoBehaviour
         Quest quest = quests[currentQuestIndex];
         playerReference.GetComponent<PlayerQuest>().AcceptQuest(quest);
         ShowQuestUI(playerReference);
+
+        QuestUI.SetActive(false);
+        if (playerReference != null)
+        {
+            PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
+            if (playerInteract != null) playerInteract.BackButton();
+        }
     }
 
     public void TurnInButton()
