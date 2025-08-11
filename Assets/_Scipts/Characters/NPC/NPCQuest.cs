@@ -92,7 +92,7 @@ public class NPCQuest : MonoBehaviour
     public void TurnInButton()
     {
         Quest quest = quests[currentQuestIndex];
-        //playerReference.GetComponent<PlayerQuest>().TurnInQuest(quest);
+        playerReference.GetComponent<PlayerQuest>().TurnInQuest(quest);
 
         // Move to next quest if available
         if (currentQuestIndex < quests.Count - 1)

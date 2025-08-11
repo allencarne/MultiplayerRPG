@@ -42,4 +42,42 @@ public class PlayerQuest : MonoBehaviour
             progress.CheckCompletion();
         }
     }
+
+    public void TurnInQuest(Quest quest)
+    {
+        QuestProgress progress = activeQuests.Find(q => q.quest == quest);
+
+        if (progress == null)
+        {
+            Debug.LogWarning("You don't have this quest.");
+            return;
+        }
+
+        if (progress.state != QuestState.ReadyToTurnIn)
+        {
+            Debug.LogWarning("Quest is not ready to turn in yet.");
+            return;
+        }
+
+        // Give rewards
+        Player player = GetComponent<Player>();
+        Inventory inventory = GetComponent<Inventory>();
+        PlayerExperience experience = GetComponent<PlayerExperience>();
+
+        if (inventory != null)
+        {
+            foreach (Item item in quest.reward)
+            {
+                inventory.AddItem(item);
+            }
+        }
+
+        if (player != null) player.CoinCollected(quest.goldReward);
+        if (experience != null) experience.IncreaseEXP(quest.expReward);
+
+        // Mark as completed
+        progress.state = QuestState.Completed;
+
+        Debug.Log($"Quest '{quest.QuestName}' turned in and completed!");
+    }
 }

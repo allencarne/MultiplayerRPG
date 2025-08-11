@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
+    public string EnemyID;
+
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
@@ -118,10 +120,10 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             if (isDummy) return;
 
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
-            if (exp)
-            {
-                exp.IncreaseEXP(expToGive);
-            }
+            if (exp) exp.IncreaseEXP(expToGive);
+
+            PlayerQuest quest = attackerID.gameObject.GetComponent<PlayerQuest>();
+            if (quest) quest.UpdateObjective(ObjectiveType.Kill, EnemyID, 1);
 
             SpawnDeathEffectClientRpc(transform.position, transform.rotation);
             stateMachine.Death();
