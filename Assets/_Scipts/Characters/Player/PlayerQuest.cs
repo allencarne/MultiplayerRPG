@@ -18,9 +18,6 @@ public class PlayerQuest : MonoBehaviour
         QuestProgress progress = new QuestProgress(quest);
         activeQuests.Add(progress);
         Debug.Log($"Quest '{quest.name}' accepted!");
-
-        // Update QuestUI in Journal
-        // Update QuestUI in HUD
     }
 
     public void UpdateObjective(ObjectiveType type, string id, int amount = 1)
