@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerQuest : MonoBehaviour
 {
+    public UnityEvent OnProgress;
     public List<QuestProgress> activeQuests = new List<QuestProgress>();
 
     public void AcceptQuest(Quest quest)
@@ -38,6 +40,8 @@ public class PlayerQuest : MonoBehaviour
 
             progress.CheckCompletion();
         }
+
+        OnProgress?.Invoke();
     }
 
     public void TurnInQuest(Quest quest)

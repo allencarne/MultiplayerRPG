@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class QuestUI : MonoBehaviour
 {
     [SerializeField] Quest[] allQuests;
+    [SerializeField] PlayerQuest playerQuest;
 
     [Header("Quest List")]
     [SerializeField] GameObject questListUI;
@@ -51,7 +52,21 @@ public class QuestUI : MonoBehaviour
             TextMeshProUGUI listText = listItem.GetComponentInChildren<TextMeshProUGUI>();
             if (listText != null)
             {
-                listText.text = quest.QuestName;
+                string state = "Unavailable";
+
+                var progress = GetProgressForQuest(quest);
+                if (progress != null)
+                {
+                    if (progress.state == QuestState.InProgress) state = "In Progress";
+                    else if (progress.state == QuestState.Completed) state = "Completed";
+                }
+                else
+                {
+                    // Optional: check availability logic here
+                    state = "Available";
+                }
+
+                listText.text = $"{quest.QuestName} - {state}";
             }
 
             QuestButtonHandler handler = listItem.GetComponent<QuestButtonHandler>();
@@ -91,15 +106,60 @@ public class QuestUI : MonoBehaviour
 
     void GetObjectives(Quest quest)
     {
-        foreach (QuestObjective objective in quest.Objectives)
-        {
-            GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
+        QuestProgress progress = GetProgressForQuest(quest);
 
-            TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
-            if (text != null)
+        if (progress != null)
+        {
+            // Show live progress
+            foreach (QuestObjective obj in progress.objectives)
             {
-                text.text = $"{objective.Description} ( {objective.CurrentAmount} / {objective.RequiredAmount} )";
+                GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
+                TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+
+                if (text != null)
+                {
+                    text.text = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
+                }
             }
+        }
+        else
+        {
+            // Show default objectives (player hasn't started yet)
+            foreach (QuestObjective obj in quest.Objectives)
+            {
+                GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
+                TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+
+                if (text != null)
+                {
+                    text.text = $"{obj.Description} ( 0 / {obj.RequiredAmount} )";
+                }
+            }
+        }
+    }
+
+    QuestProgress GetProgressForQuest(Quest quest)
+    {
+        return playerQuest.activeQuests.Find(qp => qp.quest == quest);
+    }
+
+    public void RefreshQuestUI()
+    {
+        // Clear the quest list UI
+        foreach (Transform child in questListUI.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Re-populate with the latest quest states
+        PopulateQuestList();
+
+        // Optional: refresh details if a quest is already selected
+        // This ensures objectives update in the detail panel
+        if (allQuests.Length > 0)
+        {
+            ShowQuestDetails(allQuests[0]);
+            // You can store the "currently selected" quest instead of defaulting to index 0
         }
     }
 }
