@@ -54,7 +54,7 @@ public class QuestUI : MonoBehaviour
             {
                 string state = "Unavailable";
 
-                var progress = GetProgressForQuest(quest);
+                QuestProgress progress = GetProgressForQuest(quest);
                 if (progress != null)
                 {
                     if (progress.state == QuestState.InProgress) state = "In Progress";
@@ -145,6 +145,7 @@ public class QuestUI : MonoBehaviour
 
     public void RefreshQuestUI()
     {
+        // Connected to OnAccept and OnProgress - PlayerQuest Script
         foreach (Transform child in questListUI.transform)
         {
             Destroy(child.gameObject);
