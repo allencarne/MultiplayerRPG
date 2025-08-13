@@ -145,21 +145,14 @@ public class QuestUI : MonoBehaviour
 
     public void RefreshQuestUI()
     {
-        // Clear the quest list UI
         foreach (Transform child in questListUI.transform)
         {
             Destroy(child.gameObject);
         }
 
-        // Re-populate with the latest quest states
         PopulateQuestList();
 
-        // Optional: refresh details if a quest is already selected
-        // This ensures objectives update in the detail panel
-        if (allQuests.Length > 0)
-        {
-            ShowQuestDetails(allQuests[0]);
-            // You can store the "currently selected" quest instead of defaulting to index 0
-        }
+        // This allows the first quest in the list to be updated
+        if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
     }
 }

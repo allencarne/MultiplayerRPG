@@ -23475,6 +23475,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eda3897acd87bb4faf0eec745aed834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerQuest
+  OnAccept:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3006592319348859898}
+        m_TargetAssemblyTypeName: QuestUI, Assembly-CSharp
+        m_MethodName: RefreshQuestUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnProgress:
     m_PersistentCalls:
       m_Calls:
@@ -23846,6 +23861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allQuests:
   - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
+  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
   playerQuest: {fileID: 2815023884702440214}
   questListUI: {fileID: 5750095017788648469}
   questUI_Button: {fileID: 2759240771576674268, guid: 57923a8056fd9e64485b898d91171b2a, type: 3}

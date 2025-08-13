@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Test Quest
+  m_Name: Kill Hermits
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest0
-  QuestName: Test Quest
-  Instructions: Hello, Please kill 5 Snails
+  QuestID: Quest1
+  QuestName: Kill Hermits
+  Instructions: Hello, Please kill 5 Hermits
   Deliver: Thank you
   Objectives:
   - type: 0
-    ObjectiveID: Enemy1
-    Description: Kill 5 Snails
+    ObjectiveID: Enemy2
+    Description: Kill 5 Hermits
     RequiredAmount: 5
     CurrentAmount: 0
   expReward: 3
   goldReward: 3
-  reward: []
+  reward:
+  - {fileID: 11400000, guid: 6a261958f25afc04d9714c914c702962, type: 2}

@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class PlayerQuest : MonoBehaviour
 {
+    public UnityEvent OnAccept;
     public UnityEvent OnProgress;
     public List<QuestProgress> activeQuests = new List<QuestProgress>();
 
@@ -19,6 +20,7 @@ public class PlayerQuest : MonoBehaviour
         // Add a new QuestProgress for the accepted quest
         QuestProgress progress = new QuestProgress(quest);
         activeQuests.Add(progress);
+        OnAccept?.Invoke();
         Debug.Log($"Quest '{quest.name}' accepted!");
     }
 
