@@ -27,57 +27,93 @@ public class QuestUI : MonoBehaviour
 
     private void Start()
     {
-        ShowQuestDetails(allQuests[0]);
-        PopulateQuestList();
+        if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
+        GetQuestList();
     }
 
+    #region UI Methods
+
     public void ShowQuestDetails(Quest quest)
+    {
+        SetQuestText(quest);
+        ClearAllQuestLists();
+        GetRewards(quest);
+        GetObjectives(quest);
+    }
+
+    public void RefreshQuestUI()
+    {
+        //@@@ Connected to OnAccept and OnProgress - PlayerQuest Script @@@\\
+        ClearQuestList();
+        GetQuestList();
+        if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
+    }
+
+    #endregion
+
+    #region Quest List
+
+    private void GetQuestList()
+    {
+        foreach (Quest quest in allQuests)
+        {
+            GameObject listItem = Instantiate(questUI_Button, questListUI.transform);
+            SetQuestListItemText(listItem, quest);
+            SetupQuestButton(listItem, quest);
+        }
+    }
+
+    private void SetQuestListItemText(GameObject listItem, Quest quest)
+    {
+        TextMeshProUGUI listText = listItem.GetComponentInChildren<TextMeshProUGUI>();
+        if (listText == null) return;
+
+        string state = GetQuestState(quest);
+        listText.text = $"{quest.QuestName} - {state}";
+    }
+
+    private void SetupQuestButton(GameObject listItem, Quest quest)
+    {
+        QuestButtonHandler handler = listItem.GetComponent<QuestButtonHandler>();
+        if (handler != null)
+            handler.Setup(quest, this);
+    }
+
+    private string GetQuestState(Quest quest)
+    {
+        QuestProgress progress = GetProgress(quest);
+        if (progress != null)
+        {
+            if (progress.state == QuestState.Unavailable) return "Unavailable";
+            if (progress.state == QuestState.Available) return "Available";
+            if (progress.state == QuestState.InProgress) return "In Progress";
+            if (progress.state == QuestState.ReadyToTurnIn) return "Ready to Turn In";
+            if (progress.state == QuestState.Completed) return "Completed";
+        }
+        return "Available";
+    }
+
+    void ClearQuestList()
+    {
+        foreach (Transform child in questListUI.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    #endregion
+
+    #region Quest Details
+
+    private void SetQuestText(Quest quest)
     {
         questName.text = quest.QuestName;
         questInfo.text = quest.Instructions;
         goldReward.text = quest.goldReward.ToString();
         expReward.text = quest.expReward.ToString();
-
-        ClearList();
-        GetRewards(quest);
-        GetObjectives(quest);
     }
 
-    void PopulateQuestList()
-    {
-        foreach (Quest quest in allQuests)
-        {
-            GameObject listItem = Instantiate(questUI_Button, questListUI.transform);
-
-            TextMeshProUGUI listText = listItem.GetComponentInChildren<TextMeshProUGUI>();
-            if (listText != null)
-            {
-                string state = "Unavailable";
-
-                QuestProgress progress = GetProgressForQuest(quest);
-                if (progress != null)
-                {
-                    if (progress.state == QuestState.InProgress) state = "In Progress";
-                    else if (progress.state == QuestState.Completed) state = "Completed";
-                }
-                else
-                {
-                    // Optional: check availability logic here
-                    state = "Available";
-                }
-
-                listText.text = $"{quest.QuestName} - {state}";
-            }
-
-            QuestButtonHandler handler = listItem.GetComponent<QuestButtonHandler>();
-            if (handler != null)
-            {
-                handler.Setup(quest, this);
-            }
-        }
-    }
-
-    void ClearList()
+    void ClearAllQuestLists()
     {
         foreach (Transform child in rewardListUI.transform)
         {
@@ -106,54 +142,31 @@ public class QuestUI : MonoBehaviour
 
     void GetObjectives(Quest quest)
     {
-        QuestProgress progress = GetProgressForQuest(quest);
+        QuestProgress progress = GetProgress(quest);
 
         if (progress != null)
         {
-            // Show live progress
             foreach (QuestObjective obj in progress.objectives)
-            {
-                GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
-                TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
-
-                if (text != null)
-                {
-                    text.text = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
-                }
-            }
+                CreateObjectiveUI(obj.Description, obj.CurrentAmount, obj.RequiredAmount);
         }
         else
         {
-            // Show default objectives (player hasn't started yet)
             foreach (QuestObjective obj in quest.Objectives)
-            {
-                GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
-                TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
-
-                if (text != null)
-                {
-                    text.text = $"{obj.Description} ( 0 / {obj.RequiredAmount} )";
-                }
-            }
+                CreateObjectiveUI(obj.Description, 0, obj.RequiredAmount);
         }
     }
 
-    QuestProgress GetProgressForQuest(Quest quest)
+    private void CreateObjectiveUI(string description, int current, int required)
+    {
+        GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
+        TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+        if (text != null) text.text = $"{description} ( {current} / {required} )";
+    }
+
+    QuestProgress GetProgress(Quest quest)
     {
         return playerQuest.activeQuests.Find(qp => qp.quest == quest);
     }
 
-    public void RefreshQuestUI()
-    {
-        // Connected to OnAccept and OnProgress - PlayerQuest Script
-        foreach (Transform child in questListUI.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        PopulateQuestList();
-
-        // This allows the first quest in the list to be updated
-        if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
-    }
+    #endregion
 }
