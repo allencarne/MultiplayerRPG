@@ -82,12 +82,7 @@ public class NPCQuest : MonoBehaviour
         playerReference.GetComponent<PlayerQuest>().AcceptQuest(quest);
         ShowQuestUI(playerReference);
 
-        QuestUI.SetActive(false);
-        if (playerReference != null)
-        {
-            PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
-            if (playerInteract != null) playerInteract.BackButton();
-        }
+        DeclineButton();
     }
 
     public void TurnInButton()
@@ -102,12 +97,13 @@ public class NPCQuest : MonoBehaviour
         }
 
         ShowQuestUI(playerReference);
+
+        DeclineButton();
     }
 
     public void DeclineButton()
     {
         QuestUI.SetActive(false);
-
         if (playerReference != null)
         {
             PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
