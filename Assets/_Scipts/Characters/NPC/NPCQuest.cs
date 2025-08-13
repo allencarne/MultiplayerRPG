@@ -30,6 +30,7 @@ public class NPCQuest : MonoBehaviour
 
     [Header("References")]
     [SerializeField] GameObject QuestUI;
+    [SerializeField] NPCQuestIcon questIcon;
     Player playerReference;
 
     public void ShowQuestUI(Player player)
