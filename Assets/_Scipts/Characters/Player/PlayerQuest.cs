@@ -6,6 +6,7 @@ public class PlayerQuest : MonoBehaviour
 {
     public UnityEvent OnAccept;
     public UnityEvent OnProgress;
+    public UnityEvent OnCompleted;
     public List<QuestProgress> activeQuests = new List<QuestProgress>();
 
     public void AcceptQuest(Quest quest)
@@ -80,7 +81,7 @@ public class PlayerQuest : MonoBehaviour
 
         // Mark as completed
         progress.state = QuestState.Completed;
-
+        OnCompleted?.Invoke();
         Debug.Log($"Quest '{quest.QuestName}' turned in and completed!");
     }
 }

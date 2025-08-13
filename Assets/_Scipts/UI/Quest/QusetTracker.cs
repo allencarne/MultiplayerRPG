@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class QusetTracker : MonoBehaviour
 {
     [SerializeField] PlayerQuest playerQuest;
 
+    [Header("UI References")]
     [SerializeField] GameObject QuestTracker;
     [SerializeField] GameObject QuestUIPrefab;
     [SerializeField] GameObject ObjectiveUIPrefab;
@@ -16,31 +18,54 @@ public class QusetTracker : MonoBehaviour
 
     public void UpdateQuestUI()
     {
-        foreach (Transform child in QuestTracker.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        ClearQuestTracker();
 
         foreach (QuestProgress progress in playerQuest.activeQuests)
         {
-            GameObject questUI = Instantiate(QuestUIPrefab, QuestTracker.transform);
-
-            TextMeshProUGUI questTitle = questUI.GetComponentInChildren<TextMeshProUGUI>();
-            if (questTitle != null)
+            if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
             {
-                questTitle.text = progress.quest.QuestName;
+                CreateQuestEntry(progress);
             }
+        }
+    }
 
-            foreach (QuestObjective obj in progress.objectives)
-            {
-                GameObject objectiveText = Instantiate(ObjectiveUIPrefab, questUI.transform);
-                TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+    private void CreateQuestEntry(QuestProgress progress)
+    {
+        GameObject questUI = Instantiate(QuestUIPrefab, QuestTracker.transform);
 
-                if (text != null)
-                {
-                    text.text = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
-                }
-            }
+        SetQuestTitle(questUI, progress.quest.QuestName);
+
+        foreach (QuestObjective obj in progress.objectives)
+        {
+            CreateObjectiveEntry(questUI.transform, obj);
+        }
+    }
+
+    private void SetQuestTitle(GameObject questUI, string questName)
+    {
+        TextMeshProUGUI questTitle = questUI.GetComponentInChildren<TextMeshProUGUI>();
+        if (questTitle != null)
+        {
+            questTitle.text = questName;
+        }
+    }
+
+    private void CreateObjectiveEntry(Transform parent, QuestObjective obj)
+    {
+        GameObject objectiveText = Instantiate(ObjectiveUIPrefab, parent);
+        TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+
+        if (text != null)
+        {
+            text.text = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
+        }
+    }
+
+    void ClearQuestTracker()
+    {
+        foreach (Transform child in QuestTracker.transform)
+        {
+            Destroy(child.gameObject);
         }
     }
 }
