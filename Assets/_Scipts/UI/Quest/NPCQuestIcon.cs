@@ -4,50 +4,59 @@ using UnityEngine.UI;
 public class NPCQuestIcon : MonoBehaviour
 {
     [SerializeField] GetPlayerReference getPlayer;
+    [SerializeField] NPCQuest npcQuest;
     [SerializeField] Image questIcon;
     [SerializeField] Sprite[] icons;
 
     public void InitializeIcon()
     {
-        if (getPlayer == null || getPlayer.player == null)
+        if (getPlayer?.player == null || npcQuest == null || npcQuest.quests.Count == 0)
             return;
 
-        NPCQuest npcQuest = GetComponent<NPCQuest>();
-        if (npcQuest != null && npcQuest.quests.Count > 0)
-        {
-            UpdateSprite(npcQuest.quests[0]); // or current quest in NPC
-        }
+        UpdateSprite();
     }
 
-    public void UpdateSprite(Quest quest)
+    public void UpdateSprite()
     {
-        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
-        if (playerQuest == null || playerQuest.activeQuests == null)
+        if (getPlayer?.player == null || npcQuest == null || npcQuest.quests.Count == 0)
             return;
 
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == quest);
-        if (progress == null)
-        {
-            questIcon.enabled = true;
-            questIcon.sprite = icons[0];
-            return;
-        }
+        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+        Quest currentQuest = npcQuest.quests[npcQuest.QuestIndex];
+        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
 
         questIcon.enabled = true;
 
+        if (getPlayer.player.PlayerLevel.Value < currentQuest.LevelRequirment)
+        {
+            questIcon.sprite = icons[(int)QuestState.Unavailable];
+            return;
+        }
+
+        if (progress == null)
+        {
+            questIcon.sprite = icons[(int)QuestState.Available];
+            return;
+        }
+
+        GetState(progress);
+    }
+
+    void GetState(QuestProgress progress)
+    {
         switch (progress.state)
         {
             case QuestState.Unavailable:
-                questIcon.sprite = icons[0];
+                questIcon.sprite = icons[(int)QuestState.Unavailable];
                 break;
             case QuestState.Available:
-                questIcon.sprite = icons[1];
+                questIcon.sprite = icons[(int)QuestState.Available];
                 break;
             case QuestState.InProgress:
-                questIcon.sprite = icons[2];
+                questIcon.sprite = icons[(int)QuestState.InProgress];
                 break;
             case QuestState.ReadyToTurnIn:
-                questIcon.sprite = icons[3];
+                questIcon.sprite = icons[(int)QuestState.ReadyToTurnIn];
                 break;
             case QuestState.Completed:
                 questIcon.enabled = false;

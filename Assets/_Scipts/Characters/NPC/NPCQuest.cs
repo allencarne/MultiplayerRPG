@@ -7,7 +7,7 @@ public class NPCQuest : MonoBehaviour
 {
     [Header("Quest")]
     public List<Quest> quests = new List<Quest>();
-    private int currentQuestIndex = 0;
+    public int QuestIndex = 0;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
@@ -37,7 +37,7 @@ public class NPCQuest : MonoBehaviour
     {
         if (quests.Count == 0) return;
 
-        Quest currentQuest = quests[currentQuestIndex];
+        Quest currentQuest = quests[QuestIndex];
         PlayerQuest playerQuest = localPlayer.player.GetComponent<PlayerQuest>();
         QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
 
@@ -75,29 +75,29 @@ public class NPCQuest : MonoBehaviour
 
     public void AcceptButton()
     {
-        Quest quest = quests[currentQuestIndex];
+        Quest quest = quests[QuestIndex];
         localPlayer.player.GetComponent<PlayerQuest>().AcceptQuest(quest);
         ShowQuestUI();
 
         DeclineButton();
-        questIcon.UpdateSprite(quest);
+        questIcon.UpdateSprite();
     }
 
     public void TurnInButton()
     {
-        Quest quest = quests[currentQuestIndex];
+        Quest quest = quests[QuestIndex];
         localPlayer.player.GetComponent<PlayerQuest>().TurnInQuest(quest);
 
         // Move to next quest if available
-        if (currentQuestIndex < quests.Count - 1)
+        if (QuestIndex < quests.Count - 1)
         {
-            currentQuestIndex++;
+            QuestIndex++;
         }
 
         ShowQuestUI();
 
         DeclineButton();
-        questIcon.UpdateSprite(quest);
+        questIcon.UpdateSprite();
     }
 
     public void DeclineButton()
