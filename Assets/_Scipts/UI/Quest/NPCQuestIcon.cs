@@ -3,20 +3,39 @@ using UnityEngine.UI;
 
 public class NPCQuestIcon : MonoBehaviour
 {
+    [SerializeField] GetPlayerReference getPlayer;
     [SerializeField] Image questIcon;
     [SerializeField] Sprite[] icons;
 
-    public void UpdateIcon(QuestState? questState)
+    public void InitializeIcon()
     {
-        if (questState == null)
+        if (getPlayer == null || getPlayer.player == null)
+            return;
+
+        NPCQuest npcQuest = GetComponent<NPCQuest>();
+        if (npcQuest != null && npcQuest.quests.Count > 0)
         {
-            questIcon.enabled = false;
+            UpdateSprite(npcQuest.quests[0]); // or current quest in NPC
+        }
+    }
+
+    public void UpdateSprite(Quest quest)
+    {
+        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+        if (playerQuest == null || playerQuest.activeQuests == null)
+            return;
+
+        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == quest);
+        if (progress == null)
+        {
+            questIcon.enabled = true;
+            questIcon.sprite = icons[0];
             return;
         }
 
         questIcon.enabled = true;
 
-        switch (questState)
+        switch (progress.state)
         {
             case QuestState.Unavailable:
                 questIcon.sprite = icons[0];

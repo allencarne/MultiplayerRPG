@@ -6,6 +6,7 @@ public class Quest : ScriptableObject
 {
     public string QuestID;
     public string QuestName;
+    public int LevelRequirment;
     [TextArea(3, 8)] public string Instructions;
     [TextArea(3, 8)] public string Deliver;
 

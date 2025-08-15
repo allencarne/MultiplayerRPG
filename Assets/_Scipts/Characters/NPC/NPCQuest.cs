@@ -31,17 +31,14 @@ public class NPCQuest : MonoBehaviour
     [Header("References")]
     [SerializeField] GameObject QuestUI;
     [SerializeField] NPCQuestIcon questIcon;
-    Player playerReference;
+    [SerializeField] GetPlayerReference localPlayer;
 
-    public void ShowQuestUI(Player player)
+    public void ShowQuestUI()
     {
-        if (playerReference == null) playerReference = player;
         if (quests.Count == 0) return;
 
         Quest currentQuest = quests[currentQuestIndex];
-        PlayerQuest playerQuest = playerReference.GetComponent<PlayerQuest>();
-
-        // See if player already has this quest
+        PlayerQuest playerQuest = localPlayer.player.GetComponent<PlayerQuest>();
         QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
 
         UpdateQuestInfo(currentQuest, progress);
@@ -79,16 +76,17 @@ public class NPCQuest : MonoBehaviour
     public void AcceptButton()
     {
         Quest quest = quests[currentQuestIndex];
-        playerReference.GetComponent<PlayerQuest>().AcceptQuest(quest);
-        ShowQuestUI(playerReference);
+        localPlayer.player.GetComponent<PlayerQuest>().AcceptQuest(quest);
+        ShowQuestUI();
 
         DeclineButton();
+        questIcon.UpdateSprite(quest);
     }
 
     public void TurnInButton()
     {
         Quest quest = quests[currentQuestIndex];
-        playerReference.GetComponent<PlayerQuest>().TurnInQuest(quest);
+        localPlayer.player.GetComponent<PlayerQuest>().TurnInQuest(quest);
 
         // Move to next quest if available
         if (currentQuestIndex < quests.Count - 1)
@@ -96,19 +94,16 @@ public class NPCQuest : MonoBehaviour
             currentQuestIndex++;
         }
 
-        ShowQuestUI(playerReference);
+        ShowQuestUI();
 
         DeclineButton();
+        questIcon.UpdateSprite(quest);
     }
 
     public void DeclineButton()
     {
         QuestUI.SetActive(false);
-        if (playerReference != null)
-        {
-            PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
-            if (playerInteract != null) playerInteract.BackButton();
-        }
+        localPlayer.player.GetComponent<PlayerInteract>().BackButton();
     }
 
     void ClearList()
