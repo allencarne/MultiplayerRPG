@@ -18,6 +18,22 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(Item newItem, int quantity = 1)
     {
+        if (TryAutoEquip(newItem)) return true;
+        if (TryStackItem(newItem, quantity)) return true;
+
+        // Find empty slot
+        int emptySlotIndex = Array.FindIndex(items, x => x == null);
+        if (TryFindEmptySlot(emptySlotIndex)) return true;
+
+        // Place item in empty slot
+        items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
+        inventoryUI.UpdateUI();
+        initialize.SaveInventory(newItem, emptySlotIndex, quantity);
+        return true;
+    }
+
+    bool TryAutoEquip(Item newItem)
+    {
         if (newItem is Equipment equipmentItem)
         {
             int slotIndex = (int)equipmentItem.equipmentType;
@@ -25,12 +41,15 @@ public class Inventory : MonoBehaviour
             if (equipmentManager.currentEquipment[slotIndex] == null)
             {
                 equipmentManager.Equip(equipmentItem);
-                Debug.Log($"Auto-equipped {equipmentItem.name} to {equipmentItem.equipmentType} slot.");
                 return true;
             }
         }
 
-        // Check if the item is stackable and already in inventory
+        return false;
+    }
+
+    bool TryStackItem(Item newItem, int quantity)
+    {
         if (newItem.IsStackable)
         {
             int existingIndex = Array.FindIndex(items, x => x != null && x.item.name == newItem.name);
@@ -43,19 +62,18 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        // Find empty slot
-        int emptySlotIndex = Array.FindIndex(items, x => x == null);
+        return false;
+    }
+
+    bool TryFindEmptySlot(int emptySlotIndex)
+    {
         if (emptySlotIndex == -1)
         {
             Debug.Log("Inventory full");
             return false;
         }
 
-        // Place item in empty slot
-        items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
-        inventoryUI.UpdateUI();
-        initialize.SaveInventory(newItem, emptySlotIndex, quantity);
-        return true;
+        return false;
     }
 
     public void RemoveItem(Item removedItem)
