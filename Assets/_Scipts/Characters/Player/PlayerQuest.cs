@@ -4,6 +4,10 @@ using UnityEngine.Events;
 
 public class PlayerQuest : MonoBehaviour
 {
+    [SerializeField] Player player;
+    [SerializeField] Inventory inventory;
+    [SerializeField] PlayerExperience experience;
+
     public UnityEvent OnAccept;
     public UnityEvent OnProgress;
     public UnityEvent OnCompleted;
@@ -42,11 +46,6 @@ public class PlayerQuest : MonoBehaviour
     {
         QuestProgress progress = activeQuests.Find(q => q.quest == quest);
         if (progress == null || progress.state != QuestState.ReadyToTurnIn) return;
-
-        // Give rewards
-        Player player = GetComponent<Player>();
-        Inventory inventory = GetComponent<Inventory>();
-        PlayerExperience experience = GetComponent<PlayerExperience>();
 
         if (inventory != null)
         {
