@@ -11,18 +11,10 @@ public class PlayerQuest : MonoBehaviour
 
     public void AcceptQuest(Quest quest)
     {
-        // Check if the quest is already active
-        if (activeQuests.Exists(q => q.quest == quest))
-        {
-            Debug.LogWarning("Quest is already active!");
-            return;
-        }
-
-        // Add a new QuestProgress for the accepted quest
+        if (activeQuests.Exists(q => q.quest == quest)) return;
         QuestProgress progress = new QuestProgress(quest);
         activeQuests.Add(progress);
         OnAccept?.Invoke();
-        Debug.Log($"Quest '{quest.name}' accepted!");
     }
 
     public void UpdateObjective(ObjectiveType type, string id, int amount = 1)
@@ -42,26 +34,14 @@ public class PlayerQuest : MonoBehaviour
             }
 
             progress.CheckCompletion();
+            OnProgress?.Invoke();
         }
-
-        OnProgress?.Invoke();
     }
 
     public void TurnInQuest(Quest quest)
     {
         QuestProgress progress = activeQuests.Find(q => q.quest == quest);
-
-        if (progress == null)
-        {
-            Debug.LogWarning("You don't have this quest.");
-            return;
-        }
-
-        if (progress.state != QuestState.ReadyToTurnIn)
-        {
-            Debug.LogWarning("Quest is not ready to turn in yet.");
-            return;
-        }
+        if (progress == null || progress.state != QuestState.ReadyToTurnIn) return;
 
         // Give rewards
         Player player = GetComponent<Player>();
@@ -79,9 +59,7 @@ public class PlayerQuest : MonoBehaviour
         if (player != null) player.CoinCollected(quest.goldReward);
         if (experience != null) experience.IncreaseEXP(quest.expReward);
 
-        // Mark as completed
         progress.state = QuestState.Completed;
         OnCompleted?.Invoke();
-        Debug.Log($"Quest '{quest.QuestName}' turned in and completed!");
     }
 }

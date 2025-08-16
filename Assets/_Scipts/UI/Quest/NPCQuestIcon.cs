@@ -8,10 +8,41 @@ public class NPCQuestIcon : MonoBehaviour
     [SerializeField] Image questIcon;
     [SerializeField] Sprite[] icons;
 
-    public void InitializeIcon()
+    private void OnEnable()
     {
-        if (IsInvalidSetup()) return;
-        UpdateSprite();
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        if (getPlayer?.player == null) return;
+
+        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+        playerQuest.OnAccept.AddListener(OnQuestEvent);
+        playerQuest.OnProgress.AddListener(OnQuestEvent);
+        playerQuest.OnCompleted.AddListener(OnQuestEvent);
+    }
+
+    private void OnDisable()
+    {
+        if (getPlayer?.player == null) return;
+
+        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+        playerQuest.OnAccept.RemoveListener(OnQuestEvent);
+        playerQuest.OnProgress.RemoveListener(OnQuestEvent);
+        playerQuest.OnCompleted.RemoveListener(OnQuestEvent);
+    }
+
+    void OnQuestEvent()
+    {
+        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+        Quest currentQuest = npcQuest.quests[npcQuest.QuestIndex];
+        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
+
+        if (progress.quest == currentQuest)
+        {
+            UpdateSprite();
+        }
     }
 
     public void UpdateSprite()
@@ -69,5 +100,4 @@ public class NPCQuestIcon : MonoBehaviour
         }
         return false;
     }
-
 }

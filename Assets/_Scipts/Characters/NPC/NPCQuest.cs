@@ -73,39 +73,6 @@ public class NPCQuest : MonoBehaviour
         }
     }
 
-    public void AcceptButton()
-    {
-        Quest quest = quests[QuestIndex];
-        localPlayer.player.GetComponent<PlayerQuest>().AcceptQuest(quest);
-        ShowQuestUI();
-
-        DeclineButton();
-        questIcon.UpdateSprite();
-    }
-
-    public void TurnInButton()
-    {
-        Quest quest = quests[QuestIndex];
-        localPlayer.player.GetComponent<PlayerQuest>().TurnInQuest(quest);
-
-        // Move to next quest if available
-        if (QuestIndex < quests.Count - 1)
-        {
-            QuestIndex++;
-        }
-
-        ShowQuestUI();
-
-        DeclineButton();
-        questIcon.UpdateSprite();
-    }
-
-    public void DeclineButton()
-    {
-        QuestUI.SetActive(false);
-        localPlayer.player.GetComponent<PlayerInteract>().BackButton();
-    }
-
     void ClearList()
     {
         foreach (Transform child in rewardListUI.transform)
@@ -137,5 +104,38 @@ public class NPCQuest : MonoBehaviour
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
             if (text != null) text.text = objective.Description;
         }
+    }
+
+    public void AcceptButton()
+    {
+        Quest quest = quests[QuestIndex];
+        localPlayer.player.GetComponent<PlayerQuest>().AcceptQuest(quest);
+        ShowQuestUI();
+
+        DeclineButton();
+        questIcon.UpdateSprite();
+    }
+
+    public void TurnInButton()
+    {
+        Quest quest = quests[QuestIndex];
+        localPlayer.player.GetComponent<PlayerQuest>().TurnInQuest(quest);
+
+        // Move to next quest if available
+        if (QuestIndex < quests.Count - 1)
+        {
+            QuestIndex++;
+        }
+
+        ShowQuestUI();
+
+        DeclineButton();
+        questIcon.UpdateSprite();
+    }
+
+    public void DeclineButton()
+    {
+        QuestUI.SetActive(false);
+        localPlayer.player.GetComponent<PlayerInteract>().BackButton();
     }
 }

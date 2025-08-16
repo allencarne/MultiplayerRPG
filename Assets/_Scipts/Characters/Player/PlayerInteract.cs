@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -166,35 +166,45 @@ public class PlayerInteract : MonoBehaviour
 
     bool GetQuest()
     {
-        if (npcReference != null)
+        // No NPC Reference
+        if (npcReference == null)
         {
-            NPCQuest tracker = npcReference.GetComponent<NPCQuest>();
-            Quest currentQuest = tracker.quests[tracker.QuestIndex];
-            QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
+            questButton.gameObject.SetActive(false);
+            return false;
+        }
 
-            if (tracker.quests.Count == 0)
+        // If NPC Has No Quests
+        NPCQuest tracker = npcReference.GetComponent<NPCQuest>();
+        if (tracker == null || tracker.quests.Count == 0)
+        {
+            questButton.gameObject.SetActive(false);
+            return false;
+        }
+
+        Quest currentQuest = tracker.quests[tracker.QuestIndex];
+        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
+
+        // We have not started the quest
+        if (progress == null)
+        {
+            if (player.PlayerLevel.Value < currentQuest.LevelRequirment)
             {
                 questButton.gameObject.SetActive(false);
                 return false;
             }
-
-            switch (progress.state)
+            else
             {
-                case QuestState.Unavailable:
-                    questButton.gameObject.SetActive(false);
-                    return false;
-                case QuestState.Available:
-                    questButton.gameObject.SetActive(true);
-                    return true;
-                case QuestState.InProgress:
-                    questButton.gameObject.SetActive(false);
-                    return false;
-                case QuestState.ReadyToTurnIn:
-                    questButton.gameObject.SetActive(true);
-                    return true;
-                case QuestState.Completed:
-                    questButton.gameObject.SetActive(false);
-                    return false;
+                questButton.gameObject.SetActive(true);
+                return true;
+            }
+        }
+
+        if (progress != null)
+        {
+            if (progress.state == QuestState.Available || progress.state == QuestState.ReadyToTurnIn)
+            {
+                questButton.gameObject.SetActive(true);
+                return true;
             }
         }
 
