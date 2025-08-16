@@ -8,19 +8,17 @@ public class NPCQuestIcon : MonoBehaviour
     [SerializeField] Image questIcon;
     [SerializeField] Sprite[] icons;
 
-    private void OnEnable()
-    {
-        Initialize();
-    }
-
     public void Initialize()
     {
         if (getPlayer?.player == null) return;
 
         PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
-        playerQuest.OnAccept.AddListener(OnQuestEvent);
-        playerQuest.OnProgress.AddListener(OnQuestEvent);
-        playerQuest.OnCompleted.AddListener(OnQuestEvent);
+        PlayerExperience playerEXP = getPlayer.player.GetComponent<PlayerExperience>();
+
+        playerQuest.OnAccept.AddListener(UpdateSprite);
+        playerQuest.OnProgress.AddListener(UpdateSprite);
+        playerQuest.OnCompleted.AddListener(UpdateSprite);
+        playerEXP.OnLevelUp.AddListener(UpdateSprite);
     }
 
     private void OnDisable()
@@ -28,21 +26,12 @@ public class NPCQuestIcon : MonoBehaviour
         if (getPlayer?.player == null) return;
 
         PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
-        playerQuest.OnAccept.RemoveListener(OnQuestEvent);
-        playerQuest.OnProgress.RemoveListener(OnQuestEvent);
-        playerQuest.OnCompleted.RemoveListener(OnQuestEvent);
-    }
+        PlayerExperience playerEXP = getPlayer.player.GetComponent<PlayerExperience>();
 
-    void OnQuestEvent()
-    {
-        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
-        Quest currentQuest = npcQuest.quests[npcQuest.QuestIndex];
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
-
-        if (progress.quest == currentQuest)
-        {
-            UpdateSprite();
-        }
+        playerQuest.OnAccept.RemoveListener(UpdateSprite);
+        playerQuest.OnProgress.RemoveListener(UpdateSprite);
+        playerQuest.OnCompleted.RemoveListener(UpdateSprite);
+        playerEXP.OnLevelUp.RemoveListener(UpdateSprite);
     }
 
     public void UpdateSprite()
