@@ -10,16 +10,13 @@ public class NPCQuestIcon : MonoBehaviour
 
     public void InitializeIcon()
     {
-        if (getPlayer?.player == null || npcQuest == null || npcQuest.quests.Count == 0)
-            return;
-
+        if (IsInvalidSetup()) return;
         UpdateSprite();
     }
 
     public void UpdateSprite()
     {
-        if (getPlayer?.player == null || npcQuest == null || npcQuest.quests.Count == 0)
-            return;
+        if (IsInvalidSetup()) return;
 
         PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
         Quest currentQuest = npcQuest.quests[npcQuest.QuestIndex];
@@ -27,31 +24,15 @@ public class NPCQuestIcon : MonoBehaviour
 
         questIcon.enabled = true;
 
-        if (getPlayer.player.PlayerLevel.Value < currentQuest.LevelRequirment)
-        {
-            questIcon.sprite = icons[(int)QuestState.Unavailable];
-            return;
-        }
-
-        if (progress == null)
-        {
-            questIcon.sprite = icons[(int)QuestState.Available];
-            return;
-        }
-
-        GetState(progress);
+        if (IsQuestLocked(currentQuest)) return;
+        if (IsQuestUnlocked(progress)) return;
+        SetSpriteForState(progress.state);
     }
 
-    void GetState(QuestProgress progress)
+    void SetSpriteForState(QuestState state)
     {
-        switch (progress.state)
+        switch (state)
         {
-            case QuestState.Unavailable:
-                questIcon.sprite = icons[(int)QuestState.Unavailable];
-                break;
-            case QuestState.Available:
-                questIcon.sprite = icons[(int)QuestState.Available];
-                break;
             case QuestState.InProgress:
                 questIcon.sprite = icons[(int)QuestState.InProgress];
                 break;
@@ -63,4 +44,30 @@ public class NPCQuestIcon : MonoBehaviour
                 break;
         }
     }
+
+    bool IsInvalidSetup()
+    {
+        return getPlayer?.player == null || npcQuest == null || npcQuest.quests.Count == 0;
+    }
+
+    bool IsQuestLocked(Quest quest)
+    {
+        if (getPlayer.player.PlayerLevel.Value < quest.LevelRequirment)
+        {
+            questIcon.sprite = icons[(int)QuestState.Unavailable];
+            return true;
+        }
+        return false;
+    }
+
+    bool IsQuestUnlocked(QuestProgress progress)
+    {
+        if (progress == null)
+        {
+            questIcon.sprite = icons[(int)QuestState.Available];
+            return true;
+        }
+        return false;
+    }
+
 }

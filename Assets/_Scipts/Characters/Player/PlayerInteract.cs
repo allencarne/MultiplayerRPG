@@ -20,6 +20,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] PlayerInputHandler input;
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] PlayerQuest playerQuest;
     [SerializeField] InputActionReference interactAction;
 
     NPC npcReference;
@@ -165,20 +166,39 @@ public class PlayerInteract : MonoBehaviour
 
     bool GetQuest()
     {
-        /*
         if (npcReference != null)
         {
-            NPCQuestTracker tracker = npcReference.GetComponent<NPCQuestTracker>();
-            if (tracker != null && tracker.quests != null && tracker.quests.Length > 0 && !tracker.IsQuestActive)
+            NPCQuest tracker = npcReference.GetComponent<NPCQuest>();
+            Quest currentQuest = tracker.quests[tracker.QuestIndex];
+            QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
+
+            if (tracker.quests.Count == 0)
             {
-                questButton.gameObject.SetActive(true);
-                return true;
+                questButton.gameObject.SetActive(false);
+                return false;
+            }
+
+            switch (progress.state)
+            {
+                case QuestState.Unavailable:
+                    questButton.gameObject.SetActive(false);
+                    return false;
+                case QuestState.Available:
+                    questButton.gameObject.SetActive(true);
+                    return true;
+                case QuestState.InProgress:
+                    questButton.gameObject.SetActive(false);
+                    return false;
+                case QuestState.ReadyToTurnIn:
+                    questButton.gameObject.SetActive(true);
+                    return true;
+                case QuestState.Completed:
+                    questButton.gameObject.SetActive(false);
+                    return false;
             }
         }
 
         questButton.gameObject.SetActive(false);
-        */
-
         return false;
     }
 
@@ -228,13 +248,13 @@ public class PlayerInteract : MonoBehaviour
     {
         if (npcReference == null) return;
 
-        NPCQuest quests = npcReference.GetComponent<NPCQuest>();
-        if (quests != null)
+        NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
+        if (npcQuest != null)
         {
             interactText.enabled = false;
             interactUI.SetActive(false);
 
-            quests.ShowQuestUI();
+            npcQuest.ShowQuestUI();
         }
     }
 }
