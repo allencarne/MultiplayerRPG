@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private ItemList itemDatabase;
+    [SerializeField] EquipmentManager equipmentManager;
+    [SerializeField] ItemList itemDatabase;
     public PlayerInitialize initialize;
 
     public InventoryUI inventoryUI;
@@ -17,6 +18,18 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(Item newItem, int quantity = 1)
     {
+        if (newItem is Equipment equipmentItem)
+        {
+            int slotIndex = (int)equipmentItem.equipmentType;
+
+            if (equipmentManager.currentEquipment[slotIndex] == null)
+            {
+                equipmentManager.Equip(equipmentItem);
+                Debug.Log($"Auto-equipped {equipmentItem.name} to {equipmentItem.equipmentType} slot.");
+                return true;
+            }
+        }
+
         // Check if the item is stackable and already in inventory
         if (newItem.IsStackable)
         {
