@@ -48,7 +48,6 @@ public class NPCQuest : MonoBehaviour
     void UpdateQuestInfo(Quest quest, QuestProgress progress)
     {
         questTitle.text = quest.QuestName;
-        questInfo.text = quest.Instructions;
         questGold.text = quest.goldReward.ToString();
         questEXP.text = quest.expReward.ToString();
 
@@ -58,16 +57,22 @@ public class NPCQuest : MonoBehaviour
 
         if (progress == null)
         {
+            questInfo.text = quest.Instructions;
+
             acceptButton.gameObject.SetActive(true);
             turnInButton.gameObject.SetActive(false);
         }
         else if (progress.state == QuestState.ReadyToTurnIn)
         {
+            questInfo.text = quest.Deliver;
+
             acceptButton.gameObject.SetActive(false);
             turnInButton.gameObject.SetActive(true);
         }
         else
         {
+            questInfo.text = quest.Deliver;
+
             acceptButton.gameObject.SetActive(false);
             turnInButton.gameObject.SetActive(false);
         }
