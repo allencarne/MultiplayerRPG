@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
+using WebSocketSharp;
 
 public class NPCQuest : MonoBehaviour
 {
@@ -12,8 +14,7 @@ public class NPCQuest : MonoBehaviour
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
     [SerializeField] TextMeshProUGUI questInfo;
-    [SerializeField] TextMeshProUGUI questGold;
-    [SerializeField] TextMeshProUGUI questEXP;
+    [SerializeField] TextMeshProUGUI questRewardText;
 
     [Header("Reward")]
     [SerializeField] GameObject rewardListUI;
@@ -48,8 +49,7 @@ public class NPCQuest : MonoBehaviour
     void UpdateQuestInfo(Quest quest, QuestProgress progress)
     {
         questTitle.text = quest.QuestName;
-        questGold.text = quest.goldReward.ToString();
-        questEXP.text = quest.expReward.ToString();
+        questRewardText.text = quest.goldReward.ToString() + " <sprite=0>" + quest.expReward.ToString() + " <sprite name=\"EXP Icon\">";
 
         ClearList();
         GetRewards(quest);
