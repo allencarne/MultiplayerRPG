@@ -4,7 +4,11 @@ using UnityEngine.UI;
 
 public class QuestUI : MonoBehaviour
 {
+    [Header("Quests")]
     [SerializeField] Quest[] allQuests;
+
+    [Header("Player")]
+    [SerializeField] Player player;
     [SerializeField] PlayerQuest playerQuest;
 
     [Header("Quest List")]
@@ -41,7 +45,6 @@ public class QuestUI : MonoBehaviour
 
     public void RefreshQuestUI()
     {
-        //@@@ Connected to OnAccept and OnProgress - PlayerQuest Script @@@\\
         ClearQuestList();
         GetQuestList();
         if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
@@ -94,41 +97,30 @@ public class QuestUI : MonoBehaviour
             {
                 case QuestState.Unavailable:
                     iconImage.sprite = questIcons[0];
-                    iconImage.color = Color.white;
                     break;
                 case QuestState.Available:
                     iconImage.sprite = questIcons[1];
-                    iconImage.color = Color.white;
                     break;
                 case QuestState.InProgress:
                     iconImage.sprite = questIcons[2];
-                    iconImage.color = Color.white;
                     break;
                 case QuestState.ReadyToTurnIn:
                     iconImage.sprite = questIcons[3];
-                    iconImage.color = Color.white;
                     break;
                 case QuestState.Completed:
-                    iconImage.sprite = null; // no sprite
-                    iconImage.color = Color.green; // solid green
+                    iconImage.sprite = questIcons[4];
                     break;
             }
         }
         else
         {
-            Player player = GetComponentInParent<Player>();
-            if (player != null)
+            if (player.PlayerLevel.Value < quest.LevelRequirment)
             {
-                if (player.PlayerLevel.Value < quest.LevelRequirment)
-                {
-                    iconImage.sprite = questIcons[0];
-                    iconImage.color = Color.white;
-                }
-                else
-                {
-                    iconImage.sprite = questIcons[1];
-                    iconImage.color = Color.white;
-                }
+                iconImage.sprite = questIcons[0];
+            }
+            else
+            {
+                iconImage.sprite = questIcons[1];
             }
         }
     }
