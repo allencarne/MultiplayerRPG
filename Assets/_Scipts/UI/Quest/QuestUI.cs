@@ -10,6 +10,7 @@ public class QuestUI : MonoBehaviour
     [Header("Quest List")]
     [SerializeField] GameObject questListUI;
     [SerializeField] GameObject questUI_Button;
+    [SerializeField] Sprite[] questIcons;
 
     [Header("Reward")]
     [SerializeField] GameObject rewardListUI;
@@ -22,16 +23,13 @@ public class QuestUI : MonoBehaviour
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questName;
     [SerializeField] TextMeshProUGUI questInfo;
-    [SerializeField] TextMeshProUGUI goldReward;
-    [SerializeField] TextMeshProUGUI expReward;
+    [SerializeField] TextMeshProUGUI questRewardText;
 
     private void Start()
     {
         if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
         GetQuestList();
     }
-
-    #region UI Methods
 
     public void ShowQuestDetails(Quest quest)
     {
@@ -49,10 +47,6 @@ public class QuestUI : MonoBehaviour
         if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
     }
 
-    #endregion
-
-    #region Quest List
-
     private void GetQuestList()
     {
         foreach (Quest quest in allQuests)
@@ -66,10 +60,21 @@ public class QuestUI : MonoBehaviour
     private void SetQuestListItemText(GameObject listItem, Quest quest)
     {
         TextMeshProUGUI listText = listItem.GetComponentInChildren<TextMeshProUGUI>();
-        if (listText == null) return;
+        if (listText != null)
+            listText.text = quest.QuestName;
 
-        string state = GetQuestState(quest);
-        listText.text = $"{quest.QuestName} - {state}";
+        // Find the "Sprite" child (case-sensitive)
+        Transform spriteTransform = listItem.transform.Find("Border/Sprite");
+        if (spriteTransform != null)
+        {
+            Image iconImage = spriteTransform.GetComponent<Image>();
+            if (iconImage != null)
+                SetQuestIcon(iconImage, quest);
+        }
+        else
+        {
+            Debug.LogWarning($"QuestUI: Could not find 'Border/Sprite' under {listItem.name}");
+        }
     }
 
     private void SetupQuestButton(GameObject listItem, Quest quest)
@@ -79,18 +84,42 @@ public class QuestUI : MonoBehaviour
             handler.Setup(quest, this);
     }
 
-    private string GetQuestState(Quest quest)
+    private void SetQuestIcon(Image iconImage, Quest quest)
     {
         QuestProgress progress = GetProgress(quest);
+
         if (progress != null)
         {
-            if (progress.state == QuestState.Unavailable) return "Unavailable";
-            if (progress.state == QuestState.Available) return "Available";
-            if (progress.state == QuestState.InProgress) return "In Progress";
-            if (progress.state == QuestState.ReadyToTurnIn) return "Ready to Turn In";
-            if (progress.state == QuestState.Completed) return "Completed";
+            switch (progress.state)
+            {
+                case QuestState.Unavailable:
+                    iconImage.sprite = questIcons[0];
+                    iconImage.color = Color.white;
+                    break;
+                case QuestState.Available:
+                    iconImage.sprite = questIcons[1];
+                    iconImage.color = Color.white;
+                    break;
+                case QuestState.InProgress:
+                    iconImage.sprite = questIcons[2];
+                    iconImage.color = Color.white;
+                    break;
+                case QuestState.ReadyToTurnIn:
+                    iconImage.sprite = questIcons[3];
+                    iconImage.color = Color.white;
+                    break;
+                case QuestState.Completed:
+                    iconImage.sprite = null; // no sprite
+                    iconImage.color = Color.green; // solid green
+                    break;
+            }
         }
-        return "Available";
+        else
+        {
+            // Default to Available if no progress yet
+            iconImage.sprite = questIcons[1];
+            iconImage.color = Color.white;
+        }
     }
 
     void ClearQuestList()
@@ -101,16 +130,11 @@ public class QuestUI : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Quest Details
-
     private void SetQuestText(Quest quest)
     {
         questName.text = quest.QuestName;
         questInfo.text = quest.Instructions;
-        goldReward.text = quest.goldReward.ToString();
-        expReward.text = quest.expReward.ToString();
+        questRewardText.text = quest.goldReward.ToString() + " <sprite=0>" + quest.expReward.ToString() + " <sprite name=\"EXP Icon\">";
     }
 
     void ClearAllQuestLists()
@@ -167,6 +191,4 @@ public class QuestUI : MonoBehaviour
     {
         return playerQuest.activeQuests.Find(qp => qp.quest == quest);
     }
-
-    #endregion
 }
