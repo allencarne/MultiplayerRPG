@@ -28,13 +28,6 @@ public class ItemPickup : NetworkBehaviour
         if (_hasBeenPickedUp) return;
         _hasBeenPickedUp = true;
 
-        if (Item is Currency)
-        {
-            player.CoinCollected(Quantity);
-            PlayPickupEffect();
-            return;
-        }
-
         // Add Item to Inventory if we have enough space
         bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity);
 

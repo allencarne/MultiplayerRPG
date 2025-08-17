@@ -23,6 +23,12 @@ public class Inventory : MonoBehaviour
     {
         OnItemAdded?.Invoke(newItem, quantity);
 
+        if (newItem is Currency)
+        {
+            Player player = GetComponentInParent<Player>();
+            if (player != null) player.CoinCollected(quantity); return true;
+        }
+
         if (TryAutoEquip(newItem)) return true;
         if (TryStackItem(newItem, quantity)) return true;
 
