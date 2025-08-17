@@ -116,9 +116,20 @@ public class QuestUI : MonoBehaviour
         }
         else
         {
-            // Default to Available if no progress yet
-            iconImage.sprite = questIcons[1];
-            iconImage.color = Color.white;
+            Player player = GetComponentInParent<Player>();
+            if (player != null)
+            {
+                if (player.PlayerLevel.Value < quest.LevelRequirment)
+                {
+                    iconImage.sprite = questIcons[0];
+                    iconImage.color = Color.white;
+                }
+                else
+                {
+                    iconImage.sprite = questIcons[1];
+                    iconImage.color = Color.white;
+                }
+            }
         }
     }
 
