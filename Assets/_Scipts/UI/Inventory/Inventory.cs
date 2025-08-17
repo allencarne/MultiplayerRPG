@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Inventory : MonoBehaviour
     public int inventorySlots = 30;
     public InventorySlotData[] items;
 
+    public UnityEvent<Item, int> OnItemAdded;
+
     void Awake()
     {
         items = new InventorySlotData[inventorySlots];
@@ -18,6 +21,8 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(Item newItem, int quantity = 1)
     {
+        OnItemAdded?.Invoke(newItem, quantity);
+
         if (TryAutoEquip(newItem)) return true;
         if (TryStackItem(newItem, quantity)) return true;
 
