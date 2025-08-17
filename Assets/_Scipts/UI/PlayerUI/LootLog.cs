@@ -19,6 +19,8 @@ public class LootLog : MonoBehaviour
 
     void AddLoot(Item item, int quantity)
     {
+        Debug.Log(quantity);
+
         GameObject loot = Instantiate(prefab_Loot, transform);
 
         GetSprite(item, loot);
@@ -46,11 +48,11 @@ public class LootLog : MonoBehaviour
 
         if (quantity < 1)
         {
-            if (text != null) text.text = quantity.ToString();
+            if (text != null) text.text = "";
         }
         else
         {
-            if (text != null) text.text = "";
+            if (text != null) text.text = quantity.ToString();
         }
     }
 }

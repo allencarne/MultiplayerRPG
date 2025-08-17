@@ -21,6 +21,7 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(Item newItem, int quantity = 1)
     {
+        Debug.Log(quantity);
         OnItemAdded?.Invoke(newItem, quantity);
 
         if (newItem is Currency)

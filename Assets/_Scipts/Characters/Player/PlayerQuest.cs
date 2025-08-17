@@ -7,6 +7,7 @@ public class PlayerQuest : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] Inventory inventory;
     [SerializeField] PlayerExperience experience;
+    [SerializeField] Item coin;
 
     public UnityEvent OnAccept;
     public UnityEvent OnProgress;
@@ -53,9 +54,13 @@ public class PlayerQuest : MonoBehaviour
             {
                 inventory.AddItem(item);
             }
+
+            if (quest.goldReward > 0)
+            {
+                inventory.AddItem(coin, quest.goldReward);
+            }
         }
 
-        if (player != null) player.CoinCollected(quest.goldReward);
         if (experience != null) experience.IncreaseEXP(quest.expReward);
 
         progress.state = QuestState.Completed;
