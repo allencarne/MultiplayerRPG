@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NPCQuest : MonoBehaviour
@@ -59,6 +60,7 @@ public class NPCQuest : MonoBehaviour
 
             acceptButton.gameObject.SetActive(true);
             turnInButton.gameObject.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(acceptButton.gameObject);
         }
         else if (progress.state == QuestState.ReadyToTurnIn)
         {
@@ -66,13 +68,7 @@ public class NPCQuest : MonoBehaviour
 
             acceptButton.gameObject.SetActive(false);
             turnInButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            questInfo.text = quest.Deliver;
-
-            acceptButton.gameObject.SetActive(false);
-            turnInButton.gameObject.SetActive(false);
+            EventSystem.current.SetSelectedGameObject(turnInButton.gameObject);
         }
     }
 
