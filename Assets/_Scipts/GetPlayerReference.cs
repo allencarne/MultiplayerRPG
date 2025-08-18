@@ -1,4 +1,6 @@
+using System.Collections;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class GetPlayerReference : NetworkBehaviour
@@ -8,30 +10,17 @@ public class GetPlayerReference : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (NetworkManager.Singleton != null)
-        {
-            TryGetLocalPlayer();
-        }
+        StartCoroutine(WaitForPlayer());
     }
 
-    private void TryGetLocalPlayer()
+    private IEnumerator WaitForPlayer()
     {
-        ulong localClientId = NetworkManager.Singleton.LocalClientId;
-
-        foreach (var kvp in NetworkManager.Singleton.SpawnManager.SpawnedObjects)
+        while (NetworkManager.Singleton.LocalClient == null ||
+               NetworkManager.Singleton.LocalClient.PlayerObject == null)
         {
-            var networkObject = kvp.Value;
-
-            if (networkObject.OwnerClientId == localClientId)
-            {
-                Player p = networkObject.GetComponent<Player>();
-                if (p != null)
-                {
-                    player = p;
-                    OnSpawn?.Invoke();
-                    break;
-                }
-            }
+            yield return null; // wait until player is spawned
         }
+
+        player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>();
     }
 }
