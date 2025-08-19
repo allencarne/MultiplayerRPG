@@ -19,8 +19,6 @@ public class LootLog : MonoBehaviour
 
     void AddLoot(Item item, int quantity)
     {
-        Debug.Log(quantity);
-
         GameObject loot = Instantiate(prefab_Loot, transform);
 
         GetSprite(item, loot);
@@ -46,7 +44,7 @@ public class LootLog : MonoBehaviour
     {
         TextMeshProUGUI text = loot.transform.Find("Amount_Text").GetComponent<TextMeshProUGUI>();
 
-        if (quantity < 1)
+        if (quantity <= 1)
         {
             if (text != null) text.text = "";
         }

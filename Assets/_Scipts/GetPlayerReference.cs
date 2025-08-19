@@ -22,5 +22,6 @@ public class GetPlayerReference : NetworkBehaviour
         }
 
         player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Player>();
+        OnSpawn?.Invoke();
     }
 }

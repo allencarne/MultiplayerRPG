@@ -122,11 +122,24 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
             if (exp) exp.IncreaseEXP(expToGive);
 
-            PlayerQuest quest = attackerID.gameObject.GetComponent<PlayerQuest>();
-            if (quest) quest.UpdateObjective(ObjectiveType.Kill, EnemyID, 1);
+            UpdateObjectiveClientRpc(ObjectiveType.Kill, EnemyID, 1, attackerID.NetworkObjectId);
+            //if (quest) quest.UpdateObjective(ObjectiveType.Kill, EnemyID);
 
             SpawnDeathEffectClientRpc(transform.position, transform.rotation);
             stateMachine.Death();
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetId, out var netObj))
+        {
+            PlayerQuest quest = netObj.GetComponent<PlayerQuest>();
+            if (quest != null)
+            {
+                quest.UpdateObjective(type, id, amount);
+            }
         }
     }
 
