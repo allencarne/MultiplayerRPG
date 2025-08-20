@@ -174,20 +174,39 @@ public class QuestUI : MonoBehaviour
         if (progress != null)
         {
             foreach (QuestObjective obj in progress.objectives)
-                CreateObjectiveUI(obj.Description, obj.CurrentAmount, obj.RequiredAmount);
+                CreateObjectiveUI(obj);
         }
         else
         {
             foreach (QuestObjective obj in quest.Objectives)
-                CreateObjectiveUI(obj.Description, 0, obj.RequiredAmount);
+            {
+                QuestObjective temp = new QuestObjective
+                {
+                    Description = obj.Description,
+                    RequiredAmount = obj.RequiredAmount,
+                    CurrentAmount = 0
+                };
+                CreateObjectiveUI(temp);
+            }
         }
     }
 
-    private void CreateObjectiveUI(string description, int current, int required)
+    private void CreateObjectiveUI(QuestObjective obj)
     {
         GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
         TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
-        if (text != null) text.text = $"{description} ( {current} / {required} )";
+
+        if (text != null)
+        {
+            string displayText = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
+
+            if (obj.IsCompleted)
+            {
+                displayText = $"<s><color=#000000>{displayText}</color></s>";
+            }
+
+            text.text = displayText;
+        }
     }
 
     QuestProgress GetProgress(Quest quest)

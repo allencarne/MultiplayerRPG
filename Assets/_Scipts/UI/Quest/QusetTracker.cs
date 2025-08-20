@@ -57,7 +57,14 @@ public class QusetTracker : MonoBehaviour
 
         if (text != null)
         {
-            text.text = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
+            string displayText = $"{obj.Description} ( {obj.CurrentAmount} / {obj.RequiredAmount} )";
+
+            if (obj.IsCompleted)
+            {
+                if (obj.IsCompleted) displayText = $"<s><color=#000000>{displayText}</color></s>";
+            }
+
+            text.text = displayText;
         }
     }
 
