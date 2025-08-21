@@ -93,6 +93,12 @@ public class PlayerInteract : MonoBehaviour
             if (player.IsInteracting) return;
             player.IsInteracting = true;
 
+            PlayerQuest quest = GetComponent<PlayerQuest>();
+            if (quest != null)
+            {
+                quest.UpdateObjective(ObjectiveType.Talk,npc.NPCID);
+            }
+
             interactText.enabled = false;
             playerInput.SwitchCurrentActionMap("UI");
             SetupInteractUI(npc.name, npc.type);

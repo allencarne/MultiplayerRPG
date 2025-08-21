@@ -39,10 +39,10 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public bool IsInteracting = false;
 
     [Header("Ability Indexes")]
-    public int FirstPassiveIndex = -1;
+    public int FirstPassiveIndex = 0;
     public int SecondPassiveIndex = -1;
     public int ThirdPassiveIndex = -1;
-    public int BasicIndex = -1;
+    public int BasicIndex = 0;
     public int OffensiveIndex = -1;
     public int MobilityIndex = -1;
     public int DefensiveIndex = -1;

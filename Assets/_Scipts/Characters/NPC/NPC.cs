@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class NPC : NetworkBehaviour, IDamageable, IHealable
 {
+    public string NPCID;
+
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);

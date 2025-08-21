@@ -126,10 +126,10 @@ public class PlayerInitialize : NetworkBehaviour
         player.CurrentArmor.Value = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
 
         // Skills
-        player.FirstPassiveIndex = PlayerPrefs.GetInt($"{prefix}FirstPassive", -1);
+        player.FirstPassiveIndex = PlayerPrefs.GetInt($"{prefix}FirstPassive", 0);
         player.SecondPassiveIndex = PlayerPrefs.GetInt($"{prefix}SecondPassive", -1);
         player.ThirdPassiveIndex = PlayerPrefs.GetInt($"{prefix}ThirdPassive", -1);
-        player.BasicIndex = PlayerPrefs.GetInt($"{prefix}Basic", -1);
+        player.BasicIndex = PlayerPrefs.GetInt($"{prefix}Basic", 0);
         player.OffensiveIndex = PlayerPrefs.GetInt($"{prefix}Offensive", -1);
         player.MobilityIndex = PlayerPrefs.GetInt($"{prefix}Mobility", -1);
         player.DefensiveIndex = PlayerPrefs.GetInt($"{prefix}Defensive", -1);
