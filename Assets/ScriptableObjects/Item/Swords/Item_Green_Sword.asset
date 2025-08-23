@@ -10,25 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
-  m_Name: Purple Sword
+  m_Name: Item_Green_Sword
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 3887862565978086386, guid: 6aeae224199201a40ba23916e2b11e56, type: 3}
-  Icon: {fileID: 21300000, guid: 164967836992f6e448da98d7f6a798ba, type: 3}
-  LevelRequirement: 30
+  Prefab: {fileID: 110727388103589637, guid: 6acb599c8ba5b8949b83d6d4e201352f, type: 3}
+  Icon: {fileID: 21300000, guid: 10b08ec0e2e4cc44e8d59ac61609947e, type: 3}
+  LevelRequirement: 10
   PurchaseValue: 0
   SellValue: 0
   Description: 
-  ItemRarity: 3
+  ItemRarity: 1
   DropChance: 100
   IsStackable: 0
-  Quantity: 0
+  Quantity: 1
   itemIndex: 0
   equipmentType: 5
   ClassRequirement: 0
   modifiers:
   - statType: 0
-    value: 7
-  - statType: 1
-    value: 7
-  weaponSprite: {fileID: -1946264028, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+    value: 5
+  weaponSprite: {fileID: 2067492834, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
   weaponType: 0

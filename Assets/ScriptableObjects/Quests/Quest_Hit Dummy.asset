@@ -10,20 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Speak to Kaelen
+  m_Name: Quest_Hit Dummy
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest0
-  QuestName: Speak
+  QuestID: Quest000
+  QuestName: Hit Training Dummy
   LevelRequirment: 0
-  Instructions: Speak To Me
-  Deliver: 
+  Instructions: Welcome to the island! We are in need of strong individuals who aren't
+    afraid to fight! Take this weapon and show us what you've got! There are some
+    training dummies to the east.
+  Deliver: Nice work, That was very Impressive!
   Objectives:
-  - type: 2
-    ObjectiveID: NPC0
-    Description: Talk To NPC0
-    RequiredAmount: 1
+  - type: 4
+    ObjectiveID: Enemy0
+    Description: Training Dummy Hit
+    RequiredAmount: 5
     CurrentAmount: 0
-  expReward: 0
-  goldReward: 0
-  reward:
+  expReward: 3
+  goldReward: 3
+  Starter:
   - {fileID: 11400000, guid: f81bf8e6184666a43889306ca6ef1c9e, type: 2}
+  reward: []

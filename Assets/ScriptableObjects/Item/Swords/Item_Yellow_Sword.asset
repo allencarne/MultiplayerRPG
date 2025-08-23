@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
-  m_Name: Magenta Sword
+  m_Name: Item_Yellow_Sword
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 2407449040360443051, guid: 51761e75ca1b6e34db5f4d1dc1b30635, type: 3}
-  Icon: {fileID: 21300000, guid: 2bb9e5bfca3cded4aacd71e85c2fb162, type: 3}
-  LevelRequirement: 40
+  Prefab: {fileID: 8869796867617519862, guid: b19969cdb2532c34fb36bdccb80f7a0c, type: 3}
+  Icon: {fileID: 21300000, guid: 550bfbad75bfe104ea8882d046c91d3b, type: 3}
+  LevelRequirement: 60
   PurchaseValue: 0
   SellValue: 0
   Description: 
-  ItemRarity: 4
+  ItemRarity: 6
   DropChance: 100
   IsStackable: 0
   Quantity: 0
@@ -27,10 +27,12 @@ MonoBehaviour:
   ClassRequirement: 0
   modifiers:
   - statType: 0
-    value: 8
+    value: 12
   - statType: 1
-    value: 5
+    value: 12
   - statType: 2
-    value: 1
-  weaponSprite: {fileID: 225808212, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+    value: 3
+  - statType: 3
+    value: 3
+  weaponSprite: {fileID: -1666067372, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
   weaponType: 0
