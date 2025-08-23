@@ -17,6 +17,7 @@ public class Quest : ScriptableObject
     public int expReward;
     public int goldReward;
 
+    public Item[] Starter;
     public Item[] reward;
 }
 

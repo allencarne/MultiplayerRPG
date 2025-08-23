@@ -18,6 +18,9 @@ public class PlayerQuest : MonoBehaviour
     {
         if (activeQuests.Exists(q => q.quest == quest)) return;
         QuestProgress progress = new QuestProgress(quest);
+
+        foreach (Item item in quest.Starter) inventory.AddItem(item);
+
         activeQuests.Add(progress);
         OnAccept?.Invoke();
     }
@@ -48,19 +51,8 @@ public class PlayerQuest : MonoBehaviour
         QuestProgress progress = activeQuests.Find(q => q.quest == quest);
         if (progress == null || progress.state != QuestState.ReadyToTurnIn) return;
 
-        if (inventory != null)
-        {
-            foreach (Item item in quest.reward)
-            {
-                inventory.AddItem(item);
-            }
-
-            if (quest.goldReward > 0)
-            {
-                inventory.AddItem(coin, quest.goldReward);
-            }
-        }
-
+        foreach (Item item in quest.reward) inventory.AddItem(item);
+        if (quest.goldReward > 0) inventory.AddItem(coin, quest.goldReward);
         if (experience != null) experience.IncreaseEXP(quest.expReward);
 
         progress.state = QuestState.Completed;

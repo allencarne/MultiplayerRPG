@@ -115,6 +115,9 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         TriggerFlashEffectClientRpc(Color.red);
         OnDamaged?.Invoke(finalDamage);
 
+        // Quest
+        UpdateObjectiveClientRpc(ObjectiveType.Hit, EnemyID, 1, attackerID.NetworkObjectId);
+
         if (Health.Value <= 0)
         {
             if (isDummy) return;
