@@ -5,14 +5,22 @@ using UnityEngine;
 public class QusetTracker : MonoBehaviour
 {
     [SerializeField] PlayerQuest playerQuest;
+    bool isMobile;
+    private GameObject activeTracker;
 
-    [Header("UI References")]
+    [Header("UI")]
     [SerializeField] GameObject QuestTracker;
+    [SerializeField] GameObject QuestTrackerM;
+
+    [Header("Prefab")]
     [SerializeField] GameObject QuestUIPrefab;
     [SerializeField] GameObject ObjectiveUIPrefab;
 
     private void Start()
     {
+        isMobile = Application.isMobilePlatform;
+        activeTracker = isMobile ? QuestTrackerM : QuestTracker;
+
         UpdateQuestUI();
     }
 
@@ -31,7 +39,7 @@ public class QusetTracker : MonoBehaviour
 
     private void CreateQuestEntry(QuestProgress progress)
     {
-        GameObject questUI = Instantiate(QuestUIPrefab, QuestTracker.transform);
+        GameObject questUI = Instantiate(QuestUIPrefab, activeTracker.transform);
 
         SetQuestTitle(questUI, progress.quest.QuestName);
 
@@ -70,7 +78,7 @@ public class QusetTracker : MonoBehaviour
 
     void ClearQuestTracker()
     {
-        foreach (Transform child in QuestTracker.transform)
+        foreach (Transform child in activeTracker.transform)
         {
             Destroy(child.gameObject);
         }
