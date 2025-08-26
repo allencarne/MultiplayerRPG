@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     [HideInInspector] public Inventory inventory;
     public InventorySlotData slotData;
     public int slotIndex;
+    public Color defaultColor;
 
     public Image icon;
     public TextMeshProUGUI amountText;
@@ -40,7 +41,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         icon.sprite = null;
         icon.enabled = true;
-        icon.color = Color.white;
+        icon.color = defaultColor;
 
         ClearStacks();
     }
@@ -112,7 +113,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         else
         {
             icon.sprite = null;
-            icon.color = Color.white;
+            icon.color = defaultColor;
             amountText.text = "";
         }
     }
