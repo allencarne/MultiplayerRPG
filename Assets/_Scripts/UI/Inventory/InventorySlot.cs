@@ -40,7 +40,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         icon.sprite = null;
         icon.enabled = true;
-        icon.color = Color.black;
+        icon.color = Color.white;
 
         ClearStacks();
     }
@@ -112,7 +112,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         else
         {
             icon.sprite = null;
-            icon.color = Color.black;
+            icon.color = Color.white;
             amountText.text = "";
         }
     }
