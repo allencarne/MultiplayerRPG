@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerUI : NetworkBehaviour
 {
+    [SerializeField] GameObject inventoryPanel;
+    [SerializeField] GameObject skillPanel;
+
     [SerializeField] GameObject HUD;
     [SerializeField] GameObject MobileHUD;
 
@@ -33,6 +36,16 @@ public class PlayerUI : NetworkBehaviour
         if (!IsOwner) return;
 
         CloseMenu();
+    }
+
+    public void _InventoryUI()
+    {
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+    }
+
+    public void _SkillUI()
+    {
+        skillPanel.SetActive(!skillPanel.activeSelf);
     }
 
     public void OpenCharacterUI()

@@ -26,7 +26,7 @@ public class FlashUI : MonoBehaviour
         if (button == null || targetImage == null) return;
 
         // Check if the button's current color is yellow
-        if (IsColorApproximately(button.colors.normalColor, Color.yellow))
+        if (IsColorApproximately(button.colors.normalColor, Color.cyan))
         {
             // Flash alpha
             currentAlpha += flashSpeed * alphaDirection * Time.deltaTime;
