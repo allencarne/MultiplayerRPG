@@ -666,6 +666,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageRectTransform: []
+  textObjects: []
+  selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &9096940263890613955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -690,16 +692,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2896720adc05452478030d8760f478f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillType: 0
   player: {fileID: 0}
   skillIndex: 0
+  skillType: 0
   beginnerSkills: {fileID: 0}
   warriorSkills: {fileID: 0}
   magicianSkills: {fileID: 0}
   archerSkills: {fileID: 0}
   rogueSkills: {fileID: 0}
-  tooltip: {fileID: 3488708021719295737}
   icon: {fileID: 4233611866699935878}
+  tooltip: {fileID: 3488708021719295737}
   skillName: {fileID: 4789569720859169023}
   description: {fileID: 756432116411835499}
   cooldown: {fileID: 2135583110178937049}
