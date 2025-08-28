@@ -181,10 +181,11 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
                 break;
         }
 
-        if (contextMenu == null) return;
-        if (!contextMenu.activeSelf)
+
+        tooltip.SetActive(true);
+        if (contextMenu != null && contextMenu.activeSelf)
         {
-            tooltip.SetActive(true);
+            tooltip.SetActive(false);
         }
     }
 
