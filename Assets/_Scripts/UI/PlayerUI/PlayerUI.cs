@@ -8,6 +8,8 @@ public class PlayerUI : NetworkBehaviour
 {
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] GameObject skillPanel;
+    [SerializeField] GameObject attributePanel;
+    [SerializeField] GameObject questLogPanel;
 
     [SerializeField] GameObject HUD;
     [SerializeField] GameObject MobileHUD;
@@ -46,6 +48,15 @@ public class PlayerUI : NetworkBehaviour
     public void _SkillUI()
     {
         skillPanel.SetActive(!skillPanel.activeSelf);
+    }
+
+    public void _AttributeUI()
+    {
+        attributePanel.SetActive(!attributePanel.activeSelf);
+    }
+    public void _QuestLogUI()
+    {
+        questLogPanel.SetActive(!questLogPanel.activeSelf);
     }
 
     public void OpenCharacterUI()

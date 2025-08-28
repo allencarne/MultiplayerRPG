@@ -195,19 +195,19 @@ public class SkillPanel : MonoBehaviour
         switch (index)
         {
             case 0:
-                SetColor(zero, Color.blue);
+                SetColor(zero, Color.grey);
                 SetColor(one, new Color(1f, 1f, 1f, 0f));
                 SetColor(two, new Color(1f, 1f, 1f, 0f));
                 break;
             case 1:
                 SetColor(zero, new Color(1f, 1f, 1f, 0f));
-                SetColor(one, Color.blue);
+                SetColor(one, Color.grey);
                 SetColor(two, new Color(1f, 1f, 1f, 0f));
                 break;
             case 2:
                 SetColor(zero, new Color(1f, 1f, 1f, 0f));
                 SetColor(one, new Color(1f, 1f, 1f, 0f));
-                SetColor(two, Color.blue);
+                SetColor(two, Color.grey);
                 break;
         }
     }
