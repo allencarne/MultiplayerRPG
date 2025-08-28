@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class PlayerUI : NetworkBehaviour
 {
+    [Header("Panel")]
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] GameObject skillPanel;
     [SerializeField] GameObject attributePanel;
     [SerializeField] GameObject questLogPanel;
 
+    [Header("HUD")]
     [SerializeField] GameObject HUD;
     [SerializeField] GameObject MobileHUD;
 
@@ -54,6 +56,7 @@ public class PlayerUI : NetworkBehaviour
     {
         attributePanel.SetActive(!attributePanel.activeSelf);
     }
+
     public void _QuestLogUI()
     {
         questLogPanel.SetActive(!questLogPanel.activeSelf);

@@ -40,12 +40,15 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 ZoomInput { get; private set; }
 
     [HideInInspector] public Camera cameraInstance;
-    public UnityEvent OnCharacterUIInput;
-    public UnityEvent OnJournalUIInput;
+    public event UnityAction<Vector2> ZoomPerformed;
+
+    public UnityEvent OnInventoryInput;
+    public UnityEvent OnSkillInput;
+    public UnityEvent OnAttributeInput;
+    public UnityEvent OnQuestLogInput;
     public UnityEvent OnSocialUIInput;
     public UnityEvent OnMapUIInput;
     public UnityEvent OnSettingsUIInput;
-    public event UnityAction<Vector2> ZoomPerformed;
 
     private void Update()
     {
@@ -183,23 +186,39 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnCharacterInput(InputAction.CallbackContext context)
+    public void UI_InventoryInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            OnCharacterUIInput.Invoke();
+            OnInventoryInput.Invoke();
         }
     }
 
-    public void OnJournalInput(InputAction.CallbackContext context)
+    public void UI_AttrubuteInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            OnJournalUIInput.Invoke();
+            OnAttributeInput.Invoke();
         }
     }
 
-    public void OnSocialInput(InputAction.CallbackContext context)
+    public void UI_SkillInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnSkillInput.Invoke();
+        }
+    }
+
+    public void UI_QuestLogInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnQuestLogInput.Invoke();
+        }
+    }
+
+    public void UI_SocialInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
@@ -207,7 +226,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnMapInput(InputAction.CallbackContext context)
+    public void UI_MapInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
@@ -215,7 +234,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    public void OnSettingsInput(InputAction.CallbackContext context)
+    public void UI_SettingsInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
