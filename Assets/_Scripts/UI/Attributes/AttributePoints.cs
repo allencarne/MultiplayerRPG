@@ -54,7 +54,7 @@ public class AttributePoints : MonoBehaviour
         }
 
         ColorBlock colors = HealthPlus.colors; // Copy the struct
-        colors.normalColor = player.AttributePoints.Value != 0 ? Color.yellow : Color.white;
+        colors.normalColor = player.AttributePoints.Value != 0 ? Color.cyan : Color.white;
         HealthPlus.colors = colors;
         HealthMinus.colors = colors;
         DamagePlus.colors = colors;
