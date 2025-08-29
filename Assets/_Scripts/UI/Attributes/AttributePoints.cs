@@ -6,24 +6,29 @@ using UnityEngine.UI;
 
 public class AttributePoints : MonoBehaviour
 {
+    [Header("Button")]
     [SerializeField] GameObject buttonToSelect;
-
-    [SerializeField] Player player;
     [SerializeField] Button applyButton;
-    [SerializeField] TextMeshProUGUI apText;
 
+    [Header("Player")]
+    [SerializeField] Player player;
+
+    [Header("Health")]
     [SerializeField] Button HealthPlus;
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] Button HealthMinus;
 
+    [Header("Damage")]
     [SerializeField] Button DamagePlus;
     [SerializeField] TextMeshProUGUI DamageText;
     [SerializeField] Button DamageMinus;
 
+    [Header("Attack Speed")]
     [SerializeField] Button ASPlus;
     [SerializeField] TextMeshProUGUI ASText;
     [SerializeField] Button ASMinus;
 
+    [Header("Cool Down Reduction")]
     [SerializeField] Button CRDPlus;
     [SerializeField] TextMeshProUGUI CDRText;
     [SerializeField] Button CDRMinus;
@@ -35,22 +40,17 @@ public class AttributePoints : MonoBehaviour
 
     public UnityEvent OnStatsApplied;
 
-    private void Start()
-    {
-        applyButton.gameObject.SetActive(true);
-    }
-
     private void Update()
     {
         int TotalToAdd = healthToAdd + damageToAdd + asToAdd + cdrToAdd;
 
         if (TotalToAdd != 0)
         {
-            applyButton.gameObject.SetActive(true);
+            applyButton.interactable = true;
         }
         else
         {
-            applyButton.gameObject.SetActive(false);
+            applyButton.interactable = false;
         }
 
         ColorBlock colors = HealthPlus.colors; // Copy the struct
