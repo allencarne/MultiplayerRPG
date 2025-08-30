@@ -62,6 +62,7 @@ public class ContextMenu : MonoBehaviour
         // Refresh UI
         inventory.inventoryUI.UpdateUI();
 
+        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
     }
 
@@ -74,12 +75,13 @@ public class ContextMenu : MonoBehaviour
         item.GetComponent<ItemPickup>().Quantity = inventorySlot.slotData.quantity;
 
         inventorySlot.ClearSlot();
-
+        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
     }
 
     private void OnDisable()
     {
+        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
     }
 
