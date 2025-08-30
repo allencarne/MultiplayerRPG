@@ -188,7 +188,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void UI_InventoryInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             OnInventoryInput.Invoke();
         }
@@ -196,7 +196,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void UI_AttrubuteInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             OnAttributeInput.Invoke();
         }
@@ -204,7 +204,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void UI_SkillInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             OnSkillInput.Invoke();
         }
@@ -212,7 +212,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void UI_QuestLogInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             OnQuestLogInput.Invoke();
         }

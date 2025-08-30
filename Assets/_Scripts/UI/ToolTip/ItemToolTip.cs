@@ -269,6 +269,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
     {
         tooltip.SetActive(false);
         if (inventorySlot == null) return;
+        if (contextMenu == null) return;
 
         if (contextMenu.activeSelf)
         {

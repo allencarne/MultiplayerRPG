@@ -81,11 +81,12 @@ public class SkillPanel : MonoBehaviour
 
     private void AssignIcon(Image icon, PlayerAbility[] abilities, int index)
     {
-        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null)
-            return;
+        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
 
-        if (abilities[index].SkillIcon != null)
-            icon.sprite = abilities[index].SkillIcon;
+        if (abilities[index].SkillIcon != null) icon.sprite = abilities[index].SkillIcon;
+
+        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
+        if (tooltip != null) tooltip.SetAbility(abilities[index]);
     }
 
     void YellowBorder(int index, int reqLevel, Image icon)

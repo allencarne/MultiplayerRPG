@@ -1,8 +1,13 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class PlayerUI : NetworkBehaviour
 {
+    [SerializeField] PlayerInput playerInput;
+    [SerializeField] GameObject inventoryfirstselected;
+
     [Header("Panel")]
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] GameObject skillPanel;
@@ -31,6 +36,13 @@ public class PlayerUI : NetworkBehaviour
     public void _InventoryUI()
     {
         inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+
+        if (inventoryPanel.activeInHierarchy && UsingGamepad())
+        {
+            EventSystem.current.SetSelectedGameObject(inventoryfirstselected);
+        }
+
+        if (!inventoryPanel.activeInHierarchy) EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void _SkillUI()
@@ -51,5 +63,11 @@ public class PlayerUI : NetworkBehaviour
     public void _SettingsUI()
     {
         settingsPanel.SetActive(!settingsPanel.activeSelf);
+    }
+
+    private bool UsingGamepad()
+    {
+        // PlayerInput keeps track of control scheme
+        return playerInput != null && playerInput.currentControlScheme == "Gamepad";
     }
 }
