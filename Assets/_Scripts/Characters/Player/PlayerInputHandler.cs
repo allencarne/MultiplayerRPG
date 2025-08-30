@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
@@ -39,9 +41,6 @@ public class PlayerInputHandler : MonoBehaviour
     public bool RollInput { get; private set; }
     public Vector2 ZoomInput { get; private set; }
 
-    [HideInInspector] public Camera cameraInstance;
-    public event UnityAction<Vector2> ZoomPerformed;
-
     public UnityEvent OnInventoryInput;
     public UnityEvent OnSkillInput;
     public UnityEvent OnAttributeInput;
@@ -49,6 +48,10 @@ public class PlayerInputHandler : MonoBehaviour
     public UnityEvent OnSocialUIInput;
     public UnityEvent OnMapUIInput;
     public UnityEvent OnSettingsUIInput;
+
+    [HideInInspector] public Camera cameraInstance;
+    public event UnityAction<Vector2> ZoomPerformed;
+    private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
     private void Update()
     {
@@ -81,6 +84,12 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnBasicAbility(InputAction.CallbackContext context)
     {
+        if (IsPointerOverBlockingUI())
+        {
+            BasicAbilityInput = false;
+            return;
+        }
+
         BasicAbilityInput = context.ReadValueAsButton();
 
         if (context.canceled)
@@ -93,11 +102,25 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
+            if (IsPointerOverBlockingUI())
+            {
+                IsOffensiveHeld = false;
+                IsOffensiveReleased = false;
+                return;
+            }
+
             IsOffensiveHeld = true;
             IsOffensiveReleased = false;
         }
         else if (context.canceled)
         {
+            if (IsPointerOverBlockingUI())
+            {
+                IsOffensiveHeld = false;
+                IsOffensiveReleased = false;
+                return;
+            }
+
             IsOffensiveHeld = false;
             IsOffensiveReleased = true;
         }
@@ -369,5 +392,27 @@ public class PlayerInputHandler : MonoBehaviour
                 HasBufferedUltimateInput = false;
             }
         }
+    }
+
+    private bool IsPointerOverBlockingUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+
+        raycastResults.Clear();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+
+        foreach (RaycastResult result in raycastResults)
+        {
+            if (result.gameObject.CompareTag("BlockInputUI"))
+                return true;
+        }
+
+        return false;
     }
 }
