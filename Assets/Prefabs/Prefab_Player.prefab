@@ -8495,10 +8495,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2897232282352503098}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: _QuestLogUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9199,10 +9199,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4474952441136511288}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: _AttributeUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -13761,10 +13761,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7062124951171134383}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: _SettingsUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -19575,46 +19575,6 @@ MonoBehaviour:
     m_ActionId: 8932f4b0-3421-4b1a-82cb-c6c2acf9b7a1
     m_ActionName: 'Player/Interact[/Keyboard/f,/XInputControllerWindows/select]'
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e2240c3b-5acb-4907-a724-cdf82f6b178e
-    m_ActionName: 'UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c81f2a3d-71d4-40cb-96c4-6081eaaaf721
-    m_ActionName: 'UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: fd820452-3e08-44bc-a42d-d86c13ee1b13
-    m_ActionName: 'UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 495d086c-9eb6-42bf-87ce-03d9468f5940
-    m_ActionName: 'UI/Point[/Mouse/position]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 049db7d2-2643-457a-a0c7-0a958968f8da
-    m_ActionName: 'UI/Click[/Mouse/leftButton]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5faf0957-6b80-49fe-b749-fed030b94102
-    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d22b78f1-6190-4787-936e-04aed1133190
-    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 47cd9f9b-4bbc-4087-a699-b26fb0ca235d
-    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e2fdeb4c-8dc6-43c1-83ef-e149cc5d1ee3
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a18b5f90-3706-4eae-82ca-145ad7e21a9d
-    m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8050150357123000786}
         m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
@@ -19646,26 +19606,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 896c2998-7269-4e36-bd4a-b77751462677
     m_ActionName: 'Player/Zoom[/Mouse/scroll]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 45ca384b-48c3-474e-bc10-33f31e8a0902
-    m_ActionName: 'UI/Settings UI[/Keyboard/escape]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6520f343-de0b-4d26-af66-7a99f9c1a6af
-    m_ActionName: 'UI/Map UI[/Keyboard/m]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c9127e2f-ebe4-47f2-be82-b7a1e040068c
-    m_ActionName: 'UI/Social UI[/Keyboard/u]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5ca6925d-1200-465d-8494-fc4d65a70279
-    m_ActionName: 'UI/Journal UI[/Keyboard/k]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c7fd73af-3ace-435f-b19f-76a4305d0922
-    m_ActionName: 'UI/Character UI[/Keyboard/i]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8050150357123000786}
@@ -20643,6 +20583,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerInput: {fileID: 2155053313424514762}
   inventoryfirstselected: {fileID: 783484556943042679}
+  skillfirstselected: {fileID: 1456017187577106701}
+  attributefirstselected: {fileID: 270110710207853798}
+  questfirstselected: {fileID: 6693105367221064467}
+  settingsfirstselected: {fileID: 6526258910905113475}
   inventoryPanel: {fileID: 2710402741281439933}
   skillPanel: {fileID: 3759623618371899525}
   attributePanel: {fileID: 4474952441136511288}
@@ -53325,10 +53269,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2710402741281439933}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: _InventoryUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -55071,10 +55015,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3759623618371899525}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: _SkillUI
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -65485,6 +65429,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+--- !u!1 &1456017187577106701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 172326571879323079, guid: df9e51267bae66545af82a6c619e8019, type: 3}
+  m_PrefabInstance: {fileID: 1608055479494231242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5896635803581943904 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5153801282393593002, guid: df9e51267bae66545af82a6c619e8019, type: 3}
