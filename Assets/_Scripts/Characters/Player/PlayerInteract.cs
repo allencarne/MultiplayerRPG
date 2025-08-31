@@ -119,7 +119,9 @@ public class PlayerInteract : MonoBehaviour
 
         interactText.enabled = false;
         player.IsInteracting = false;
+
         npcReference = null;
+        activeQuest = null;
     }
 
     void OpenUI(NPC npc)

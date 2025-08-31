@@ -97,7 +97,7 @@ public class QuestInfoPanel : MonoBehaviour
     public void AcceptButton()
     {
         playerquests.AcceptQuest(currentQuest);
-        //questIcon.UpdateSprite();
+        currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
     }
 
     public void TurnInButton()
@@ -111,11 +111,6 @@ public class QuestInfoPanel : MonoBehaviour
             npcQuest.QuestIndex++;
         }
 
-        //questIcon.UpdateSprite();
-    }
-
-    public void DeclineButton()
-    {
-
+        currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
     }
 }
