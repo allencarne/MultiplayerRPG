@@ -1,28 +1,32 @@
-﻿using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerInteract : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI interactText;
-
-    // Interact
-    [SerializeField] GameObject interactUI;
-    [SerializeField] TextMeshProUGUI npcNameText;
-    [SerializeField] Button dialogueButton;
-    [SerializeField] Button questButton;
-    [SerializeField] Button shopButton;
-    [SerializeField] Button backButton;
-
+    [Header("Player")]
     [SerializeField] Player player;
+    [SerializeField] PlayerQuest playerQuest;
+    [SerializeField] GameObject interactUI;
+
+    [Header("Input")]
     [SerializeField] PlayerInputHandler input;
     [SerializeField] PlayerInput playerInput;
-    [SerializeField] PlayerQuest playerQuest;
     [SerializeField] InputActionReference interactAction;
 
+    [Header("Text")]
+    [SerializeField] TextMeshProUGUI npcNameText;
+    [SerializeField] TextMeshProUGUI npcDialogueText;
+    [SerializeField] TextMeshProUGUI interactText;
+
+    [Header("Button")]
+    [SerializeField] Button startButton;
+    [SerializeField] Button questButton;
+    [SerializeField] Button shopButton;
+
+    public UnityEvent OnInteract;
     NPC npcReference;
 
     private void Awake()
@@ -30,16 +34,16 @@ public class PlayerInteract : MonoBehaviour
         playerInput.onControlsChanged += OnControlsChanged;
     }
 
-    private void Start()
-    {
-        interactText.enabled = false;
-        interactUI.SetActive(false);
-        UpdateInteractText(null);
-    }
-
     private void OnDestroy()
     {
         playerInput.onControlsChanged -= OnControlsChanged;
+    }
+
+    private void Start()
+    {
+        interactUI.SetActive(false);
+        interactText.enabled = false;
+        UpdateInteractText(null);
     }
 
     private void OnControlsChanged(PlayerInput input)
@@ -49,11 +53,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void UpdateInteractText(string name)
     {
-        if (interactAction == null) return;
-
-        string controlScheme = playerInput.currentControlScheme;
-        int bindingIndex = GetBindingIndexForCurrentScheme(controlScheme);
-
+        int bindingIndex = GetBindingIndexForCurrentScheme(playerInput.currentControlScheme);
         string bindName = interactAction.action.GetBindingDisplayString(bindingIndex);
         interactText.text = $"Press <color=#00FF00>{bindName}</color> to Interact with <color=#00FF00>{name}</color>";
     }
@@ -64,49 +64,39 @@ public class PlayerInteract : MonoBehaviour
 
         for (int i = 0; i < interactAction.action.bindings.Count; i++)
         {
-            var binding = interactAction.action.bindings[i];
+            InputBinding binding = interactAction.action.bindings[i];
             if (binding.groups.Contains(scheme))
             {
                 return i;
             }
         }
 
-        return 0; // Fallback
+        return 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
+
+        npcReference = collision.GetComponent<NPC>();
         interactText.enabled = true;
-        UpdateInteractText(collision.name);
+        UpdateInteractText(npcReference.name);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
-        NPC npc = collision.GetComponent<NPC>();
 
-        if (input.InteractInput)
+        if (input.InteractInput && npcReference != null)
         {
             if (player.IsInteracting) return;
             player.IsInteracting = true;
-
-            PlayerQuest quest = GetComponent<PlayerQuest>();
-            if (quest != null)
-            {
-                quest.UpdateObjective(ObjectiveType.Talk,npc.NPCID);
-            }
-
             interactText.enabled = false;
-            playerInput.SwitchCurrentActionMap("UI");
-            SetupInteractUI(npc.name, npc.type);
-        }
 
-        if (npcReference == null)
-        {
-            npcReference = npc;
+            playerQuest.UpdateObjective(ObjectiveType.Talk, npcReference.NPCID);
+            OpenUI(npcReference);
         }
     }
 
@@ -114,60 +104,26 @@ public class PlayerInteract : MonoBehaviour
     {
         if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
+
+        CloseUI();
+    }
+
+    public void CloseUI()
+    {
+        interactUI.SetActive(false);
         interactText.enabled = false;
         player.IsInteracting = false;
         npcReference = null;
     }
 
-    void SetupInteractUI(string name, NPC.Type type)
+    void OpenUI(NPC npc)
     {
-        npcNameText.text = name;
+        npcNameText.text = npc.name;
 
-        bool hasDialogue = GetDialogue();
-        bool hasQuest = GetQuest();
-        bool hasShop = GetShop();
-        backButton.gameObject.SetActive(true);
+        // Get NPC Dialogue
+        npcDialogueText.text = npcReference.GetComponent<NPCDialogue>().GetDialogue();
 
-        // Build list of active buttons
-        List<Button> activeButtons = new List<Button>();
-        if (hasDialogue) activeButtons.Add(dialogueButton);
-        if (hasQuest) activeButtons.Add(questButton);
-        if (hasShop) activeButtons.Add(shopButton);
-        activeButtons.Add(backButton);
-
-        // Set navigation dynamically
-        for (int i = 0; i < activeButtons.Count; i++)
-        {
-            Button current = activeButtons[i];
-            Button up = i > 0 ? activeButtons[i - 1] : activeButtons[^1];
-            Button down = i < activeButtons.Count - 1 ? activeButtons[i + 1] : activeButtons[0];
-            SetNavigation(current, up, down);
-        }
-
-        // Set first selected button
-        if (EventSystem.current != null && activeButtons.Count > 0)
-        {
-            EventSystem.current.SetSelectedGameObject(activeButtons[0].gameObject);
-        }
-
-        // Enable UI
-        interactUI.SetActive(true);
-    }
-
-    bool GetDialogue()
-    {
-        if (npcReference != null)
-        {
-            NPCDialogue dialogue = npcReference.GetComponent<NPCDialogue>();
-            if (dialogue != null && dialogue.Dialogue != null && dialogue.Dialogue.Length > 0)
-            {
-                dialogueButton.gameObject.SetActive(true);
-                return true;
-            }
-        }
-
-        dialogueButton.gameObject.SetActive(false);
-        return false;
+        OnInteract?.Invoke();
     }
 
     bool GetQuest()
@@ -225,41 +181,6 @@ public class PlayerInteract : MonoBehaviour
         return false;
     }
 
-    private void SetNavigation(Button button, Button selectOnUp, Button selectOnDown)
-    {
-        var nav = button.navigation;
-        nav.mode = Navigation.Mode.Explicit;
-        nav.selectOnUp = selectOnUp;
-        nav.selectOnDown = selectOnDown;
-        button.navigation = nav;
-    }
-
-    public void BackButton()
-    {
-        if (!player.IsInteracting) return;
-
-        player.IsInteracting = false;
-        interactText.enabled = true;
-        interactUI.SetActive(false);
-        playerInput.SwitchCurrentActionMap("Player");
-        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
-        npcReference = null;
-    }
-
-    public void DialogueButton()
-    {
-        if (npcReference == null) return;
-
-        NPCDialogue dialogue = npcReference.GetComponent<NPCDialogue>();
-        if (dialogue != null)
-        {
-            interactText.enabled = false;
-            interactUI.SetActive(false);
-
-            dialogue.StartDialogue(player);
-        }
-    }
-
     public void QuestButton()
     {
         if (npcReference == null) return;
@@ -268,7 +189,7 @@ public class PlayerInteract : MonoBehaviour
         if (npcQuest != null)
         {
             interactText.enabled = false;
-            interactUI.SetActive(false);
+            //interactUI.SetActive(false);
 
             npcQuest.ShowQuestUI();
         }

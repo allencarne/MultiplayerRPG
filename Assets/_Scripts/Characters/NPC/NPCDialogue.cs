@@ -1,70 +1,30 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class NPCDialogue : MonoBehaviour
 {
-    [SerializeField] GameObject diaalogueUI;
-    [SerializeField] TextMeshProUGUI textBox;
-    [SerializeField] Button continueButton;
-    [SerializeField] Button backButton;
-
     [TextArea(3, 8)] public string[] Dialogue;
-
     int conversationIndex;
-    Player playerReference;
 
-    public void StartDialogue(Player player)
+    public string GetDialogue()
     {
-        diaalogueUI.SetActive(true);
-        UpdateDialogueText();
-        if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
-        if (playerReference == null) playerReference = player;
+        if (Dialogue == null || Dialogue.Length == 0) return "...";
+
+        // Clamp index so it never goes out of bounds
+        if (conversationIndex < 0 || conversationIndex >= Dialogue.Length) conversationIndex = 0;
+
+        return Dialogue[conversationIndex];
     }
 
-    public void ContinueButton()
+    public void AdvanceDialogue()
     {
-        if (conversationIndex < Dialogue.Length - 1)
-        {
-            conversationIndex++;
-            UpdateDialogueText();
-        }
-        else
-        {
-            CloseDialogue();
-        }
+        conversationIndex++;
+
+        // Optional: Loop back to start
+        if (conversationIndex >= Dialogue.Length) conversationIndex = Dialogue.Length - 1;
     }
 
-    public void BackButton()
+    public void ResetDialogue()
     {
-        if (conversationIndex > 0)
-        {
-            conversationIndex--;
-            UpdateDialogueText();
-        }
-        else
-        {
-            CloseDialogue();
-        }
-    }
-
-    void UpdateDialogueText()
-    {
-        textBox.text = Dialogue[conversationIndex];
-    }
-
-    void CloseDialogue()
-    {
-        if (playerReference != null)
-        {
-            PlayerInteract playerInteract = playerReference.GetComponent<PlayerInteract>();
-            if (playerInteract != null)
-            {
-                diaalogueUI.SetActive(false);
-                playerInteract.BackButton();
-            }
-        }
+        conversationIndex = 0;
     }
 }

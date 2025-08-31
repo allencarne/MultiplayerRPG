@@ -135,6 +135,5 @@ public class NPCQuest : MonoBehaviour
     public void DeclineButton()
     {
         QuestUI.SetActive(false);
-        localPlayer.player.GetComponent<PlayerInteract>().BackButton();
     }
 }
