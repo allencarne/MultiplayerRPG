@@ -1,14 +1,11 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class NPCQuest : MonoBehaviour
+public class QuestInfoPanel : MonoBehaviour
 {
-    [Header("Quest")]
-    public List<Quest> quests = new List<Quest>();
-    public int QuestIndex = 0;
+    [SerializeField] PlayerQuest playerquests;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
@@ -28,25 +25,17 @@ public class NPCQuest : MonoBehaviour
     [SerializeField] Button declineButton;
     [SerializeField] Button turnInButton;
 
-    [Header("References")]
-    [SerializeField] GameObject QuestUI;
-    [SerializeField] NPCQuestIcon questIcon;
-    [SerializeField] GetPlayerReference localPlayer;
+    Quest currentQuest;
+    NPC currentNPC;
 
-    public void ShowQuestUI()
+    public void UpdateQuestInfo(NPC npc, Quest quest)
     {
-        if (quests.Count == 0) return;
+        currentQuest = quest;
+        currentNPC = npc;
 
-        Quest currentQuest = quests[QuestIndex];
-        PlayerQuest playerQuest = localPlayer.player.GetComponent<PlayerQuest>();
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
+        // Get the progress from playerquests
+        QuestProgress progress = playerquests.activeQuests.Find(q => q.quest == quest);
 
-        UpdateQuestInfo(currentQuest, progress);
-        QuestUI.SetActive(true);
-    }
-
-    void UpdateQuestInfo(Quest quest, QuestProgress progress)
-    {
         questTitle.text = quest.QuestName;
         questRewardText.text = quest.goldReward.ToString() + " <sprite=0>" + quest.expReward.ToString() + " <sprite name=\"EXP Icon\">";
 
@@ -107,51 +96,26 @@ public class NPCQuest : MonoBehaviour
 
     public void AcceptButton()
     {
-        Quest quest = quests[QuestIndex];
-        localPlayer.player.GetComponent<PlayerQuest>().AcceptQuest(quest);
-        ShowQuestUI();
-
-        DeclineButton();
-        questIcon.UpdateSprite();
+        playerquests.AcceptQuest(currentQuest);
+        //questIcon.UpdateSprite();
     }
 
     public void TurnInButton()
     {
-        Quest quest = quests[QuestIndex];
-        localPlayer.player.GetComponent<PlayerQuest>().TurnInQuest(quest);
+        playerquests.TurnInQuest(currentQuest);
 
         // Move to next quest if available
-        if (QuestIndex < quests.Count - 1)
+        NPCQuest npcQuest = currentNPC.GetComponent<NPCQuest>();
+        if (npcQuest.QuestIndex < npcQuest.quests.Count - 1)
         {
-            QuestIndex++;
+            npcQuest.QuestIndex++;
         }
 
-        ShowQuestUI();
-
-        DeclineButton();
-        questIcon.UpdateSprite();
+        //questIcon.UpdateSprite();
     }
 
     public void DeclineButton()
     {
-        QuestUI.SetActive(false);
-    }
 
-    public Quest GetAvailableQuest(PlayerQuest playerQuest)
-    {
-        if (quests.Count == 0) return null;
-
-        Quest currentQuest = quests[QuestIndex];
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
-
-        // Player too low level
-        if (progress == null && playerQuest.GetComponent<Player>().PlayerLevel.Value < currentQuest.LevelRequirment)
-            return null;
-
-        // Player can accept or turn in
-        if (progress == null || progress.state == QuestState.Available || progress.state == QuestState.ReadyToTurnIn)
-            return currentQuest;
-
-        return null;
     }
 }

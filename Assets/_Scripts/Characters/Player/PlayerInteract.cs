@@ -9,7 +9,10 @@ public class PlayerInteract : MonoBehaviour
     [Header("Player")]
     [SerializeField] Player player;
     [SerializeField] PlayerQuest playerQuest;
-    [SerializeField] GameObject interactUI;
+
+    [Header("Panel")]
+    [SerializeField] GameObject interactPanel;
+    [SerializeField] GameObject questInfoPanel;
 
     [Header("Input")]
     [SerializeField] PlayerInputHandler input;
@@ -28,6 +31,7 @@ public class PlayerInteract : MonoBehaviour
 
     public UnityEvent OnInteract;
     NPC npcReference;
+    Quest activeQuest;
 
     private void Awake()
     {
@@ -41,7 +45,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Start()
     {
-        interactUI.SetActive(false);
+        interactPanel.SetActive(false);
         interactText.enabled = false;
         UpdateInteractText(null);
     }
@@ -110,7 +114,9 @@ public class PlayerInteract : MonoBehaviour
 
     public void CloseUI()
     {
-        interactUI.SetActive(false);
+        interactPanel.SetActive(false);
+        questInfoPanel.SetActive(false);
+
         interactText.enabled = false;
         player.IsInteracting = false;
         npcReference = null;
@@ -120,78 +126,28 @@ public class PlayerInteract : MonoBehaviour
     {
         npcNameText.text = npc.name;
 
-        // Get NPC Dialogue
+        // Dialogue
         npcDialogueText.text = npcReference.GetComponent<NPCDialogue>().GetDialogue();
 
+        // Quests
+        NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
+        activeQuest = npcQuest?.GetAvailableQuest(playerQuest);
+        questButton.gameObject.SetActive(activeQuest != null);
+
+        // Get Shop
+
+        // Get Start
+
+        // Handle UI
         OnInteract?.Invoke();
-    }
-
-    bool GetQuest()
-    {
-        // No NPC Reference
-        if (npcReference == null)
-        {
-            questButton.gameObject.SetActive(false);
-            return false;
-        }
-
-        // If NPC Has No Quests
-        NPCQuest tracker = npcReference.GetComponent<NPCQuest>();
-        if (tracker == null || tracker.quests.Count == 0)
-        {
-            questButton.gameObject.SetActive(false);
-            return false;
-        }
-
-        Quest currentQuest = tracker.quests[tracker.QuestIndex];
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
-
-        // We have not started the quest
-        if (progress == null)
-        {
-            if (player.PlayerLevel.Value < currentQuest.LevelRequirment)
-            {
-                questButton.gameObject.SetActive(false);
-                return false;
-            }
-            else
-            {
-                questButton.gameObject.SetActive(true);
-                return true;
-            }
-        }
-
-        if (progress != null)
-        {
-            if (progress.state == QuestState.Available || progress.state == QuestState.ReadyToTurnIn)
-            {
-                questButton.gameObject.SetActive(true);
-                return true;
-            }
-        }
-
-        questButton.gameObject.SetActive(false);
-        return false;
-    }
-
-    bool GetShop()
-    {
-        // Add shop logic later
-        shopButton.gameObject.SetActive(false);
-        return false;
     }
 
     public void QuestButton()
     {
-        if (npcReference == null) return;
+        if (activeQuest == null) return;
+        interactText.enabled = false;
+        interactPanel.SetActive(false);
 
-        NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
-        if (npcQuest != null)
-        {
-            interactText.enabled = false;
-            //interactUI.SetActive(false);
-
-            npcQuest.ShowQuestUI();
-        }
+        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, activeQuest);
     }
 }
