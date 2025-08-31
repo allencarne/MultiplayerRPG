@@ -14,12 +14,16 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] GameObject questfirstselected;
     [SerializeField] GameObject settingsfirstselected;
 
+    [SerializeField] GameObject interactfirstselected;
+
     [Header("Panel")]
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] GameObject skillPanel;
     [SerializeField] GameObject attributePanel;
     [SerializeField] GameObject questLogPanel;
     [SerializeField] GameObject settingsPanel;
+
+    [SerializeField] GameObject interactPanel;
 
     [Header("HUD")]
     [SerializeField] GameObject HUD;
@@ -109,6 +113,20 @@ public class PlayerUI : NetworkBehaviour
         }
     }
 
+    public void _InteractUI()
+    {
+        if (interactPanel.activeSelf)
+        {
+            interactPanel.SetActive(false);
+            UpdateSelectedUI();
+        }
+        else
+        {
+            interactPanel.SetActive(true);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(interactfirstselected);
+        }
+    }
+
     private bool UsingGamepad()
     {
         return playerInput != null && playerInput.currentControlScheme == "Gamepad";
@@ -129,6 +147,8 @@ public class PlayerUI : NetworkBehaviour
             EventSystem.current.SetSelectedGameObject(questfirstselected);
         else if (settingsPanel.activeSelf)
             EventSystem.current.SetSelectedGameObject(settingsfirstselected);
+        else if (interactPanel.activeSelf)
+            EventSystem.current.SetSelectedGameObject(interactfirstselected);
         else
             EventSystem.current.SetSelectedGameObject(null);
     }
