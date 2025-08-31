@@ -8,13 +8,14 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] PlayerInput playerInput;
 
     [Header("FirstSelected")]
-    [SerializeField] GameObject inventoryfirstselected;
-    [SerializeField] GameObject skillfirstselected;
-    [SerializeField] GameObject attributefirstselected;
-    [SerializeField] GameObject questfirstselected;
+    [SerializeField] GameObject inventoryFirstSelected;
+    [SerializeField] GameObject skillFirstSelected;
+    [SerializeField] GameObject attributeFirstSelected;
+    [SerializeField] GameObject questLogFirstSelected;
     [SerializeField] GameObject settingsfirstselected;
 
-    [SerializeField] GameObject interactfirstselected;
+    [SerializeField] GameObject interactfirstSelected;
+    [SerializeField] GameObject questInfoFirstSelected;
 
     [Header("Panel")]
     [SerializeField] GameObject inventoryPanel;
@@ -24,6 +25,7 @@ public class PlayerUI : NetworkBehaviour
     [SerializeField] GameObject settingsPanel;
 
     [SerializeField] GameObject interactPanel;
+    [SerializeField] GameObject questInfoPanel;
 
     [Header("HUD")]
     [SerializeField] GameObject HUD;
@@ -53,7 +55,7 @@ public class PlayerUI : NetworkBehaviour
         else
         {
             inventoryPanel.SetActive(true);
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(inventoryfirstselected);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(inventoryFirstSelected);
         }
     }
 
@@ -67,7 +69,7 @@ public class PlayerUI : NetworkBehaviour
         else
         {
             skillPanel.SetActive(true);
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(skillfirstselected);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(skillFirstSelected);
         }
     }
 
@@ -81,7 +83,7 @@ public class PlayerUI : NetworkBehaviour
         else
         {
             attributePanel.SetActive(true);
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(attributefirstselected);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(attributeFirstSelected);
         }
     }
 
@@ -95,7 +97,7 @@ public class PlayerUI : NetworkBehaviour
         else
         {
             questLogPanel.SetActive(true);
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questfirstselected);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questLogFirstSelected);
         }
     }
 
@@ -123,7 +125,21 @@ public class PlayerUI : NetworkBehaviour
         else
         {
             interactPanel.SetActive(true);
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(interactfirstselected);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(interactfirstSelected);
+        }
+    }
+
+    public void _QuestInfoUI()
+    {
+        if (questInfoPanel.activeSelf)
+        {
+            questInfoPanel.SetActive(false);
+            UpdateSelectedUI();
+        }
+        else
+        {
+            questInfoPanel.SetActive(true);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questInfoFirstSelected);
         }
     }
 
@@ -138,17 +154,19 @@ public class PlayerUI : NetworkBehaviour
             return;
 
         if (inventoryPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(inventoryfirstselected);
+            EventSystem.current.SetSelectedGameObject(inventoryFirstSelected);
         else if (skillPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(skillfirstselected);
+            EventSystem.current.SetSelectedGameObject(skillFirstSelected);
         else if (attributePanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(attributefirstselected);
+            EventSystem.current.SetSelectedGameObject(attributeFirstSelected);
         else if (questLogPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(questfirstselected);
+            EventSystem.current.SetSelectedGameObject(questLogFirstSelected);
         else if (settingsPanel.activeSelf)
             EventSystem.current.SetSelectedGameObject(settingsfirstselected);
         else if (interactPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(interactfirstselected);
+            EventSystem.current.SetSelectedGameObject(interactfirstSelected);
+        else if (questInfoPanel.activeSelf)
+            EventSystem.current.SetSelectedGameObject(questInfoFirstSelected);
         else
             EventSystem.current.SetSelectedGameObject(null);
     }
