@@ -147,7 +147,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         textBox.color = color;
 
         var tempColor = textBox.color;
-        tempColor.a = .90f;
+        tempColor.a = .50f;
         textBox.color = tempColor;
 
         // Convert the Color to a hex string

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class AttributePoints : MonoBehaviour
 {
+    [SerializeField] Color defaultColor;
     [Header("Button")]
     [SerializeField] GameObject buttonToSelect;
     [SerializeField] Button applyButton;
@@ -54,7 +55,7 @@ public class AttributePoints : MonoBehaviour
         }
 
         ColorBlock colors = HealthPlus.colors; // Copy the struct
-        colors.normalColor = player.AttributePoints.Value != 0 ? Color.cyan : Color.white;
+        colors.normalColor = player.AttributePoints.Value != 0 ? Color.cyan : defaultColor;
         HealthPlus.colors = colors;
         HealthMinus.colors = colors;
         DamagePlus.colors = colors;
