@@ -16,7 +16,7 @@ public class MiniMap : MonoBehaviour
         // Set slider ranges
         zoomSlider.minValue = 0f;
         zoomSlider.maxValue = 1f;
-        zoomSlider.value = .75f;
+        zoomSlider.value = .25f;
 
         alphaSlider.minValue = 0f;
         alphaSlider.maxValue = 1f;

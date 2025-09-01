@@ -8,6 +8,8 @@ public class ItemLight : MonoBehaviour
     [SerializeField] SpriteRenderer itemLight2;
     [SerializeField] ParticleSystem particles;
 
+    [SerializeField] SpriteRenderer mapIcon;
+
     private void Start()
     {
         switch (item.Item.ItemRarity)
@@ -15,6 +17,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Common:
                 itemLight.color = info.CommonColor;
                 itemLight2.color = info.CommonColor;
+                mapIcon.color = info.CommonColor;
 
                 Color common = itemLight.color;
                 common.a = .50f;
@@ -28,6 +31,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Uncommon:
                 itemLight.color = info.UnCommonColor;
                 itemLight2.color = info.UnCommonColor;
+                mapIcon.color = info.UnCommonColor;
 
                 ParticleSystem.MainModule ma2 = particles.main;
                 ma2.startColor = info.UnCommonColor;
@@ -36,6 +40,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Rare:
                 itemLight.color = info.RareColor;
                 itemLight2.color = info.RareColor;
+                mapIcon.color = info.RareColor;
 
                 ParticleSystem.MainModule ma3 = particles.main;
                 ma3.startColor = info.RareColor;
@@ -44,6 +49,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Epic:
                 itemLight.color = info.EpicColor;
                 itemLight2.color = info.EpicColor;
+                mapIcon.color = info.EpicColor;
 
                 ParticleSystem.MainModule ma4 = particles.main;
                 ma4.startColor = info.EpicColor;
@@ -52,6 +58,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Exotic:
                 itemLight.color = info.ExoticColor;
                 itemLight2.color = info.ExoticColor;
+                mapIcon.color = info.ExoticColor;
 
                 ParticleSystem.MainModule ma5 = particles.main;
                 ma5.startColor = info.ExoticColor;
@@ -60,6 +67,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Mythic:
                 itemLight.color = info.MythicColor;
                 itemLight2.color = info.MythicColor;
+                mapIcon.color = info.MythicColor;
 
                 ParticleSystem.MainModule ma6 = particles.main;
                 ma6.startColor = info.MythicColor;
@@ -68,6 +76,7 @@ public class ItemLight : MonoBehaviour
             case ItemRarity.Legendary:
                 itemLight.color = info.LegendaryColor;
                 itemLight2.color = info.LegendaryColor;
+                mapIcon.color = info.LegendaryColor;
 
                 ParticleSystem.MainModule ma7 = particles.main;
                 ma7.startColor = info.LegendaryColor;
