@@ -3,10 +3,11 @@ using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour
 {
-    [SerializeField] private Camera mapCamera;
-    [SerializeField] private RawImage map;
-    [SerializeField] private Slider zoomSlider;
-    [SerializeField] private Slider alphaSlider;
+    [SerializeField] Camera mapCamera;
+    [SerializeField] RawImage map;
+    [SerializeField] Image mapBorder;
+    [SerializeField] Slider zoomSlider;
+    [SerializeField] Slider alphaSlider;
     float minZoom = 11.25f;
     float maxZoom = 60f;
 
@@ -42,5 +43,6 @@ public class MiniMap : MonoBehaviour
         Color c = map.color;
         c.a = value;
         map.color = c;
+        mapBorder.color = c;
     }
 }
