@@ -10,38 +10,45 @@ public class MiniMap : MonoBehaviour
     [SerializeField] Slider alphaSlider;
     float minZoom = 11.25f;
     float maxZoom = 60f;
+    private int steps = 4;
 
     private void Start()
     {
-        // Set slider ranges
         zoomSlider.minValue = 0f;
         zoomSlider.maxValue = 1f;
-        zoomSlider.value = .25f;
+        zoomSlider.value = .75f;
 
         alphaSlider.minValue = 0f;
         alphaSlider.maxValue = 1f;
         alphaSlider.value = .75f;
 
-        // Hook up events
         zoomSlider.onValueChanged.AddListener(OnZoomChanged);
         alphaSlider.onValueChanged.AddListener(OnAlphaChanged);
 
-        // Initialize
         OnZoomChanged(zoomSlider.value);
         OnAlphaChanged(alphaSlider.value);
     }
 
     private void OnZoomChanged(float value)
     {
-        // Lerp between minZoom and maxZoom
-        float zoom = Mathf.Lerp(minZoom, maxZoom, value);
+        float stepSize = 1f / steps;
+        float snapped = Mathf.Round(value / stepSize) * stepSize;
+
+        zoomSlider.SetValueWithoutNotify(snapped);
+
+        float zoom = Mathf.Lerp(maxZoom, minZoom, snapped);
         mapCamera.orthographicSize = zoom;
     }
 
     private void OnAlphaChanged(float value)
     {
+        float stepSize = 1f / steps;
+        float snapped = Mathf.Round(value / stepSize) * stepSize;
+
+        alphaSlider.SetValueWithoutNotify(snapped);
+
         Color c = map.color;
-        c.a = value;
+        c.a = snapped;
         map.color = c;
         mapBorder.color = c;
     }

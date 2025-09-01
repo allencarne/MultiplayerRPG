@@ -18,7 +18,7 @@ public class UIZoom : MonoBehaviour
         // If we're on mobile and there's no saved scale yet, use 1.4 instead of 1.0
         if (isMobile && !PlayerPrefs.HasKey("UIPanelScale"))
         {
-            defaultScale = 1.4f;
+            defaultScale = 1.6f;
         }
 
         // Load the saved scale (or fallback to defaultScale)
