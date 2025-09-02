@@ -137,8 +137,10 @@ public class PlayerInteract : MonoBehaviour
         questButton.gameObject.SetActive(activeQuest != null);
 
         // Get Shop
+        shopButton.gameObject.SetActive(false);
 
         // Get Start
+        startButton.gameObject.SetActive(false);
 
         // Handle UI
         OnInteract?.Invoke();

@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class NPCStateMachine : MonoBehaviour
+public class NPCStateMachine : NetworkBehaviour
 {
     [Header("States")]
     [SerializeField] NPCState spawnState;
@@ -28,6 +29,9 @@ public class NPCStateMachine : MonoBehaviour
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
+    public LayerMask obstacleLayerMask;
+
+    public bool IsEnemyInRange { get; set; }
 
     public enum State
     {
@@ -115,5 +119,81 @@ public class NPCStateMachine : MonoBehaviour
     public void Death()
     {
         SetState(State.Death);
+    }
+
+    public void MoveTowardsTarget(Vector2 _targetPos)
+    {
+        if (CrowdControl.immobilize.IsImmobilized) return;
+        Vector2 direction = GetDirectionAroundObstacle(_targetPos);
+        rb.linearVelocity = direction * npc.BaseSpeed;
+    }
+
+    public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
+    {
+        Vector2 currentPos = transform.position;
+        Vector2 direction = (targetPos - currentPos).normalized;
+        Vector2 bestDirection = Vector2.zero;
+        float distance = 2f;
+        float thickness = 0.3f;
+        int rayCount = 13;
+        float coneSpread = 180f;
+
+        // straight Ray Cast
+        RaycastHit2D centerRay = Physics2D.CircleCast(transform.position, thickness, direction, distance, obstacleLayerMask);
+        Debug.DrawRay(transform.position, direction * distance, centerRay ? Color.red : Color.green);
+
+        // If straight path is clear
+        if (!centerRay)
+        {
+            return direction;
+        }
+
+        // Get Spread angle
+        float angleIncrement = coneSpread / (rayCount - 1);
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            // Get Offset
+            float angleOffset = -coneSpread / 2f + angleIncrement * i;
+            Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
+
+            // Ray in offset Direction
+            RaycastHit2D hit = Physics2D.CircleCast(transform.position, thickness, dir, distance, obstacleLayerMask);
+            Debug.DrawRay(transform.position, dir * distance, hit ? Color.red : Color.green);
+
+            // If path is clear
+            if (!hit && bestDirection == Vector2.zero)
+            {
+                bestDirection = dir;
+            }
+        }
+
+        // If we found a valid direction
+        return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Target = other.transform;
+            IsEnemyInRange = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Enemy")) return;
+        if (Buffs.phase.IsPhased) return;
+
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        CrowdControl cc = enemy.GetComponent<CrowdControl>();
+
+        if (enemy != null && cc != null)
+        {
+            enemy.TakeDamage(1, DamageType.Flat, NetworkObject);
+            Vector2 dir = enemy.transform.position - transform.position;
+            cc.knockBack.KnockBack(dir, 5, .3f);
+        }
     }
 }
