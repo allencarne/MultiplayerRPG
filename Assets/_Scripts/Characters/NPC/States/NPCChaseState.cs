@@ -56,9 +56,7 @@ public class NPCChaseState : NPCState
 
         if (distanceToStartingPosition > owner.DeAggroRadius)
         {
-            // If outside deAggroRadius, increase patience
             owner.npc.PatienceBar.Patience.Value += Time.deltaTime;
-
             if (owner.npc.PatienceBar.Patience.Value >= owner.npc.TotalPatience)
             {
                 TransitionToReset(owner);
@@ -66,7 +64,6 @@ public class NPCChaseState : NPCState
         }
         else
         {
-            // If back inside the radius, gradually decrease patience
             owner.npc.PatienceBar.Patience.Value = Mathf.Max(0, owner.npc.PatienceBar.Patience.Value - Time.deltaTime);
         }
     }

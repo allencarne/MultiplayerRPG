@@ -85,9 +85,7 @@ public class EnemyChaseState : EnemyState
 
         if (distanceToStartingPosition > owner.DeAggroRadius)
         {
-            // If outside deAggroRadius, increase patience
             owner.enemy.PatienceBar.Patience.Value += Time.deltaTime;
-
             if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.TotalPatience)
             {
                 TransitionToReset(owner);
@@ -95,7 +93,6 @@ public class EnemyChaseState : EnemyState
         }
         else
         {
-            // If back inside the radius, gradually decrease patience
             owner.enemy.PatienceBar.Patience.Value = Mathf.Max(0, owner.enemy.PatienceBar.Patience.Value - Time.deltaTime);
         }
     }
