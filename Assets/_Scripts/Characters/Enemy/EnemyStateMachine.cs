@@ -85,7 +85,6 @@ public class EnemyStateMachine : NetworkBehaviour
     private void Start()
     {
         enemySpawnState.StartState(this);
-
         StartingPosition = transform.position;
     }
 

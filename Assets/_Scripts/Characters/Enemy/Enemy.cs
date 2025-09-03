@@ -31,15 +31,17 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public float expToGive;
 
     [Header("Components")]
+    [HideInInspector] public EnemySpawner EnemySpawnerReference;
     EnemyStateMachine stateMachine;
     [SerializeField] GameObject spawn_Effect;
     [SerializeField] GameObject death_Effect;
     [SerializeField] HealthBar healthBar;
+    public PatienceBar PatienceBar;
     public CastBar CastBar;
-    [HideInInspector] public EnemySpawner EnemySpawnerReference;
     public SpriteRenderer bodySprite;
     public SpriteRenderer shadowSprite;
-    public PatienceBar PatienceBar;
+
+    [Header("Variables")]
     public float TotalPatience;
     public bool isDummy;
     public bool isDead;

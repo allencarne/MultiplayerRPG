@@ -18,7 +18,7 @@ public class NPCStateMachine : NetworkBehaviour
 
     [Header("Private Components")]
     public NPC npc;
-    [SerializeField] Rigidbody2D rb;
+    public Rigidbody2D NpcRB;
     [SerializeField] Collider2D Collider;
     public Animator BodyAnimator;
     public Animator EyesAnimator;
@@ -31,7 +31,9 @@ public class NPCStateMachine : NetworkBehaviour
     public DeBuffs DeBuffs;
     public LayerMask obstacleLayerMask;
 
+    public Vector2 StartingPosition { get; set; }
     public bool IsEnemyInRange { get; set; }
+    [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
     public enum State
     {
@@ -53,6 +55,7 @@ public class NPCStateMachine : NetworkBehaviour
     private void Start()
     {
         spawnState.StartState(this);
+        StartingPosition = transform.position;
     }
 
     private void Update()
@@ -125,7 +128,7 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        rb.linearVelocity = direction * npc.BaseSpeed;
+        NpcRB.linearVelocity = direction * npc.BaseSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
@@ -195,5 +198,11 @@ public class NPCStateMachine : NetworkBehaviour
             Vector2 dir = enemy.transform.position - transform.position;
             cc.knockBack.KnockBack(dir, 5, .3f);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
     }
 }

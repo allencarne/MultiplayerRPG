@@ -6,11 +6,6 @@ public class EnemyChaseState : EnemyState
     public override void StartState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Chase");
-
-        if (owner.IsServer)
-        {
-            //owner.enemy.PatienceBar.Patience.Value = 0;
-        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)

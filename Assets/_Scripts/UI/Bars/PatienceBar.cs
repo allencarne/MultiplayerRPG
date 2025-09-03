@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PatienceBar : NetworkBehaviour
 {
     [SerializeField] Enemy enemy;
+    [SerializeField] NPC npc;
     [SerializeField] Image patienceBarFill;
     public NetworkVariable<float> Patience = new(writePerm: NetworkVariableWritePermission.Server);
 
@@ -26,7 +27,16 @@ public class PatienceBar : NetworkBehaviour
 
     public void UpdatePatienceBar(float patience)
     {
-        float fillAmount = Mathf.Clamp01(patience / enemy.TotalPatience);
-        patienceBarFill.fillAmount = fillAmount;
+        if (enemy != null)
+        {
+            float fillAmount = Mathf.Clamp01(patience / enemy.TotalPatience);
+            patienceBarFill.fillAmount = fillAmount;
+        }
+
+        if (npc != null)
+        {
+            float fillAmount = Mathf.Clamp01(patience / npc.TotalPatience);
+            patienceBarFill.fillAmount = fillAmount;
+        }
     }
 }

@@ -34,19 +34,23 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] Color hairColor;
     public int hairIndex;
 
+    [Header("Variables")]
+    public float TotalPatience;
+    public bool isDead;
+
     [Header("Components")]
-    [SerializeField] NPCStateMachine stateMachine;
-    public GameObject spawn_Effect;
-    [SerializeField] GameObject death_Effect;
-    [SerializeField] HealthBar healthBar;
     public SpriteRenderer bodySprite;
     public SpriteRenderer hairSprite;
     public SpriteRenderer shadowSprite;
+    [SerializeField] HealthBar healthBar;
+    [SerializeField] NPCStateMachine stateMachine;
+    [SerializeField] GameObject death_Effect;
+    public PatienceBar PatienceBar;
+    public GameObject spawn_Effect;
 
     [Header("Events")]
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
-    public bool isDead;
 
     public enum Type
     {
@@ -140,8 +144,8 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     {
         if (stateMachine.Target == null)
         {
-            //stateMachine.Target = attackerID.transform;
-            //stateMachine.IsPlayerInRange = true;
+            stateMachine.Target = attackerID.transform;
+            stateMachine.IsEnemyInRange = true;
         }
     }
 

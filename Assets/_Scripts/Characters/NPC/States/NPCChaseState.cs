@@ -11,7 +11,17 @@ public class NPCChaseState : NPCState
 
     public override void UpdateState(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
 
+
+        if (owner.Target == null)
+        {
+            TransitionToReset(owner);
+            return;
+        }
+
+        //HandleAttack(owner);
+        HandleDeAggro(owner);
     }
 
     public override void FixedUpdateState(NPCStateMachine owner)
@@ -29,7 +39,35 @@ public class NPCChaseState : NPCState
             owner.EyesAnimator.SetFloat("Vertical", direction.y);
             owner.HairAnimator.SetFloat("Horizontal", direction.x);
             owner.HairAnimator.SetFloat("Vertical", direction.y);
+        }
+    }
 
+    public void TransitionToReset(NPCStateMachine owner)
+    {
+        owner.npc.PatienceBar.Patience.Value = 0;
+        owner.IsEnemyInRange = false;
+        owner.Target = null;
+        owner.SetState(NPCStateMachine.State.Reset);
+    }
+
+    public void HandleDeAggro(NPCStateMachine owner)
+    {
+        float distanceToStartingPosition = Vector2.Distance(owner.StartingPosition, owner.Target.position);
+
+        if (distanceToStartingPosition > owner.DeAggroRadius)
+        {
+            // If outside deAggroRadius, increase patience
+            owner.npc.PatienceBar.Patience.Value += Time.deltaTime;
+
+            if (owner.npc.PatienceBar.Patience.Value >= owner.npc.TotalPatience)
+            {
+                TransitionToReset(owner);
+            }
+        }
+        else
+        {
+            // If back inside the radius, gradually decrease patience
+            owner.npc.PatienceBar.Patience.Value = Mathf.Max(0, owner.npc.PatienceBar.Patience.Value - Time.deltaTime);
         }
     }
 }
