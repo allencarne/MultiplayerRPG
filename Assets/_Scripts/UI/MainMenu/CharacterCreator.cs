@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class CharacterCreator : MonoBehaviour
 {
-    string[] bannedWords = { "nigger", "nig", "niger", "bitch", "fuck", "ass", "nigga", "niga", "shit", "nazi, slut, cunt, whore"};
+    string[] bannedWords = { "nigger", "niger", "bitch", "fuck", "ass", "nigga", "niga", "shit", "nazi", "slut", "cunt", "whore"};
+    string[] randomNames = { "Tom", "Mark", "Travis", "Hank", "Frank", "Bob", "Jeff", "Jill", "Jack" };
 
     [SerializeField] CharacterSelect characterSelect;
     [SerializeField] CharacterCustomizationData customizationData;
@@ -73,7 +74,20 @@ public class CharacterCreator : MonoBehaviour
         currentSkinIndex = Random.Range(0, customizationData.skinColors.Length);
         currentHairStyleIndex = Random.Range(0, customizationData.hairStyles.Length);
         currentHairColorIndex = Random.Range(0, customizationData.hairColors.Length);
+        GetRandomName();
         UpdateUI();
+    }
+
+    void GetRandomName()
+    {
+        if (string.IsNullOrWhiteSpace(nameInput.text))
+        {
+            int randomNameIndex = Random.Range(0, randomNames.Length);
+            nameInput.text = randomNames[randomNameIndex];
+
+            // Run validation on the new name
+            ValidateName(nameInput.text);
+        }
     }
 
     private void UpdateUI()
@@ -108,9 +122,9 @@ public class CharacterCreator : MonoBehaviour
     void ValidateName(string name)
     {
         // Check for minimum length
-        if (name.Length < 3)
+        if (name.Length < 2)
         {
-            feedbackText.text = "Name must be at least 3 characters long.";
+            feedbackText.text = "Name must be at least 2 characters long.";
             feedbackText.color = Color.red;
             continueButton.gameObject.SetActive(false);
             return;
