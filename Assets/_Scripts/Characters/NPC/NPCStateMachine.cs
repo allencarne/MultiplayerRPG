@@ -211,22 +211,6 @@ public class NPCStateMachine : NetworkBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.gameObject.CompareTag("Enemy")) return;
-        if (Buffs.phase.IsPhased) return;
-
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        CrowdControl cc = enemy.GetComponent<CrowdControl>();
-
-        if (enemy != null && cc != null)
-        {
-            enemy.TakeDamage(1, DamageType.Flat, NetworkObject);
-            Vector2 dir = enemy.transform.position - transform.position;
-            cc.knockBack.KnockBack(dir, 5, .3f);
-        }
-    }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

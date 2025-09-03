@@ -50,6 +50,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public Buffs Buffs;
     public DeBuffs DeBuffs;
     public EnemyDrops Drops;
+    Coroutine CurrentAttack;
 
     public enum State
     {
@@ -217,7 +218,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
             Target = other.transform;
             IsPlayerInRange = true;
@@ -226,18 +227,28 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player")) return;
+        if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
         if (enemy.isDummy) return;
         if (Buffs.phase.IsPhased) return;
 
         Player player = collision.gameObject.GetComponent<Player>();
-        CrowdControl cc = player.GetComponent<CrowdControl>();
+        CrowdControl playerCC = player.GetComponent<CrowdControl>();
 
-        if (player != null && cc != null)
+        if (player != null && playerCC != null)
         {
             player.TakeDamage(1, DamageType.Flat, NetworkObject);
             Vector2 dir = player.transform.position - transform.position;
-            cc.knockBack.KnockBack(dir, 5, .3f);
+            playerCC.knockBack.KnockBack(dir, 5, .3f);
+        }
+
+        NPC npc = collision.gameObject.GetComponent<NPC>();
+        CrowdControl npcCC = npc.GetComponent<CrowdControl>();
+
+        if (npc != null && npcCC != null)
+        {
+            npc.TakeDamage(1, DamageType.Flat, NetworkObject);
+            Vector2 dir = npc.transform.position - transform.position;
+            npcCC.knockBack.KnockBack(dir, 5, .3f);
         }
     }
 
@@ -261,8 +272,6 @@ public class EnemyStateMachine : NetworkBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(WanderPosition, 0.2f);
     }
-
-    Coroutine CurrentAttack;
 
     public void HandlePotentialInterrupt()
     {
