@@ -44,8 +44,8 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanUtility = true;
     public bool CanUltimate = true;
 
-    GameObject indicator;
     string indicatorType = null;
+    GameObject indicator;
     Coroutine CurrentAttack;
 
     public enum State

@@ -7,12 +7,21 @@ public class PlayerDeathState : PlayerState
     {
         if (!owner.IsOwner) return;
 
-        owner.player.IsDead = true;
         owner.BodyAnimator.Play("Death");
+        owner.player.IsDead = true;
 
         owner.RequestDisableColliderServerRpc();
 
         StartCoroutine(Delay(owner));
+    }
+
+    public override void FixedUpdateState(PlayerStateMachine owner)
+    {
+
+    }
+    public override void UpdateState(PlayerStateMachine owner)
+    {
+
     }
 
     IEnumerator Delay(PlayerStateMachine owner)
@@ -28,14 +37,5 @@ public class PlayerDeathState : PlayerState
         owner.RequestEnableColliderServerRpc();
 
         owner.SetState(PlayerStateMachine.State.Spawn);
-    }
-
-    public override void FixedUpdateState(PlayerStateMachine owner)
-    {
-
-    }
-    public override void UpdateState(PlayerStateMachine owner)
-    {
-
     }
 }

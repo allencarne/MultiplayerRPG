@@ -99,7 +99,7 @@ public class NPCStateMachine : NetworkBehaviour
 
     public void SetState(State newState)
     {
-        if (npc.isDead) return;
+        if (npc.IsDead) return;
 
         switch (newState)
         {
@@ -206,6 +206,8 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            if (other.GetComponent<Enemy>().isDummy) return;
+
             Target = other.transform;
             IsEnemyInRange = true;
         }
@@ -215,5 +217,40 @@ public class NPCStateMachine : NetworkBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+    }
+
+    [ServerRpc]
+    public void RequestDisableColliderServerRpc()
+    {
+        Collider.enabled = false;
+        npc.SwordSprite.enabled = false;
+        npc.EyeSprite.enabled = false;
+        npc.HairSprite.enabled = false;
+        ApplyColliderStateClientRpc(false);
+    }
+
+    [ServerRpc]
+    public void RequestEnableColliderServerRpc()
+    {
+        Collider.enabled = true;
+        npc.SwordSprite.enabled = true;
+        npc.EyeSprite.enabled = true;
+        npc.HairSprite.enabled = true;
+        ApplyColliderStateClientRpc(true);
+    }
+
+    [ClientRpc]
+    void ApplyColliderStateClientRpc(bool isEnabled)
+    {
+        Collider.enabled = isEnabled;
+        npc.SwordSprite.enabled = isEnabled;
+        npc.EyeSprite.enabled = isEnabled;
+        npc.HairSprite.enabled = isEnabled;
+    }
+
+    [ServerRpc]
+    public void RequestRespawnServerRpc()
+    {
+        npc.GiveHeal(100, HealType.Percentage);
     }
 }

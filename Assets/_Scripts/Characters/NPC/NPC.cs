@@ -36,12 +36,17 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Variables")]
     public float TotalPatience;
-    public bool isDead;
+    public bool IsDead;
+
+    [Header("Sprites")]
+    public SpriteRenderer SwordSprite;
+    public SpriteRenderer BodySprite;
+    public SpriteRenderer HairSprite;
+    public SpriteRenderer EyeSprite;
+    public SpriteRenderer ShadowSprite;
 
     [Header("Components")]
-    public SpriteRenderer bodySprite;
-    public SpriteRenderer hairSprite;
-    public SpriteRenderer shadowSprite;
+
     public CastBar CastBar;
     [SerializeField] HealthBar healthBar;
     [SerializeField] NPCStateMachine stateMachine;
@@ -68,8 +73,8 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     private void Start()
     {
         nameText.text = gameObject.name;
-        bodySprite.color = skinColor;
-        hairSprite.color = hairColor;
+        BodySprite.color = skinColor;
+        HairSprite.color = hairColor;
 
         // Set Speed
         CurrentSpeed = BaseSpeed;
@@ -137,7 +142,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
             }
 
             Instantiate(death_Effect, transform.position, transform.rotation);
-            //stateMachine.Death();
+            stateMachine.Death();
         }
     }
 
@@ -202,17 +207,17 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     {
         float flashDuration = 0.1f;
 
-        bodySprite.color = color;
+        BodySprite.color = color;
         yield return new WaitForSeconds(flashDuration / 2);
 
-        bodySprite.color = Color.white;
+        BodySprite.color = Color.white;
         yield return new WaitForSeconds(flashDuration / 2);
 
-        bodySprite.color = color;
+        BodySprite.color = color;
         yield return new WaitForSeconds(flashDuration / 2);
 
         // Reset to original color
-        bodySprite.color = Color.white;
+        BodySprite.color = Color.white;
     }
 
     [ClientRpc]

@@ -58,6 +58,10 @@ public class Buff_Phase : NetworkBehaviour
         Physics2D.IgnoreLayerCollision(6, 6, isPhased); // Players ignore players
         Physics2D.IgnoreLayerCollision(7, 7, isPhased); // Enemies ignore enemies
 
+        Physics2D.IgnoreLayerCollision(10, 6, isPhased); // NPC ignore Player
+        Physics2D.IgnoreLayerCollision(10, 10, isPhased); // NPC ignore NPC
+        Physics2D.IgnoreLayerCollision(10, 7, isPhased); // NPC ignore enemies
+
         if (isPhased)
         {
             if (phaseInstance == null)
@@ -107,10 +111,7 @@ public class Buff_Phase : NetworkBehaviour
             if (phaseInstance != null)
             {
                 var ui = phaseInstance.GetComponent<StatusEffects>();
-                if (ui != null)
-                {
-                    ui.UpdateFill(fill);
-                }
+                if (ui != null) ui.UpdateFill(fill);
             }
         }
     }
