@@ -6,15 +6,22 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public int AbilityDamage;
     [HideInInspector] public int CharacterDamage;
     [HideInInspector] public NetworkObject attacker;
-    [HideInInspector] public bool IgnoreEnemy;
     [HideInInspector] public bool IsBasic;
     [HideInInspector] public bool IsBreakable;
     [SerializeField] GameObject hitSpark;
     [SerializeField] GameObject hitSpark_Special;
 
+    [HideInInspector] public bool IgnorePlayer;
+    [HideInInspector] public bool IgnoreEnemy;
+    [HideInInspector] public bool IgnoreNPC;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
+
+        if (collision.CompareTag("Player") && IgnorePlayer) return;
+        if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
+        if (collision.CompareTag("NPC") && IgnoreNPC) return;
 
         Vector2 hitPosition = collision.ClosestPoint(transform.position);
         Vector2 attackerPosition = attacker.transform.position;
@@ -31,31 +38,13 @@ public class DamageOnTrigger : NetworkBehaviour
             }
         }
 
-        if (collision.CompareTag("Enemy"))
-        {
-            if (IgnoreEnemy)
-            {
-                return;
-            }
-        }
-
+        // Prevent Attacking Self
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
-        if (objectThatWasHit != null)
-        {
-            if (objectThatWasHit == attacker)
-            {
-                return;
-            }
-        }
+        if (objectThatWasHit != null && objectThatWasHit == attacker) return;
 
+        // Immune
         Buffs buffs = collision.GetComponent<Buffs>();
-        if (buffs != null)
-        {
-            if (buffs.immune.IsImmune)
-            {
-                return;
-            }
-        }
+        if (buffs != null && buffs.immune.IsImmune) return;
 
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)

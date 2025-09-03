@@ -97,6 +97,7 @@ public class FrailSlash : PlayerAbility
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = player.CurrentDamage.Value;
+            damageOnTrigger.IgnoreNPC = true;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
@@ -107,6 +108,7 @@ public class FrailSlash : PlayerAbility
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.IgnoreNPC = true;
         }
     }
 

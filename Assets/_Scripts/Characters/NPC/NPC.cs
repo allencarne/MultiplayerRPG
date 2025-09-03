@@ -142,6 +142,8 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
     void TargetAttacker(NetworkObject attackerID)
     {
+        if (!attackerID.gameObject.CompareTag("Enemy")) return;
+
         if (stateMachine.Target == null)
         {
             stateMachine.Target = attackerID.transform;

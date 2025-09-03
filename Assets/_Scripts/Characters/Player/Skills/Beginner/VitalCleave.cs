@@ -88,6 +88,7 @@ public class VitalCleave : PlayerAbility
             damageOnTrigger.attacker = Attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = attackerDamage;
+            damageOnTrigger.IgnoreNPC = true;
         }
 
         // Heal on Trigger

@@ -86,6 +86,7 @@ public class FlickerShot : PlayerAbility
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = attackerDamage;
             damageOnTrigger.IsBreakable = true;
+            damageOnTrigger.IgnoreNPC = true;
         }
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();

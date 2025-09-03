@@ -7,42 +7,29 @@ public class PullOnTrigger : NetworkBehaviour
     [HideInInspector] public Vector2 Direction;
     [HideInInspector] public float Amount;
     [HideInInspector] public float Duration;
+
+    [HideInInspector] public bool IgnorePlayer;
     [HideInInspector] public bool IgnoreEnemy;
+    [HideInInspector] public bool IgnoreNPC;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
 
-        if (collision.CompareTag("Enemy"))
-        {
-            if (IgnoreEnemy)
-            {
-                return;
-            }
-        }
+        if (collision.CompareTag("Player") && IgnorePlayer) return;
+        if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
+        if (collision.CompareTag("NPC") && IgnoreNPC) return;
 
+        // Prevent Attacking Self
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
-        if (objectThatWasHit != null)
-        {
-            if (objectThatWasHit == attacker)
-            {
-                return;
-            }
-        }
+        if (objectThatWasHit != null && objectThatWasHit == attacker) return;
 
+        // Skip Immovable
         Buffs buffs = collision.GetComponent<Buffs>();
-        if (buffs != null)
-        {
-            if (buffs.immoveable.IsImmovable)
-            {
-                return;
-            }
-        }
+        if (buffs != null && buffs.immoveable.IsImmovable) return;
 
+        // Pull
         IPullable pullable = collision.GetComponentInChildren<IPullable>();
-        if (pullable != null)
-        {
-            pullable.Pull(Direction, Amount, Duration);
-        }
+        if (pullable != null) pullable.Pull(Direction, Amount, Duration);
     }
 }

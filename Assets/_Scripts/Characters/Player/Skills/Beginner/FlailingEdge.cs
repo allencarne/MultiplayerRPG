@@ -78,6 +78,7 @@ public class FlailingEdge : PlayerAbility
             damageOnTrigger.attacker = Attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = attackerDamage;
+            damageOnTrigger.IgnoreNPC = true;
         }
 
         StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();

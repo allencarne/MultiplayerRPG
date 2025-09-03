@@ -6,9 +6,11 @@ public class SlowOnTrigger : NetworkBehaviour
 {
     [HideInInspector] public int Stacks;
     [HideInInspector] public float Duration;
-
     [HideInInspector] public NetworkObject attacker;
+
+    [HideInInspector] public bool IgnorePlayer;
     [HideInInspector] public bool IgnoreEnemy;
+    [HideInInspector] public bool IgnoreNPC;
 
     private HashSet<NetworkObject> slowedObjects = new HashSet<NetworkObject>();
 
@@ -16,17 +18,18 @@ public class SlowOnTrigger : NetworkBehaviour
     {
         if (!IsServer) return;
 
+        if (collision.CompareTag("Player") && IgnorePlayer) return;
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
+        if (collision.CompareTag("NPC") && IgnoreNPC) return;
 
-        NetworkObject targetNetObj = collision.GetComponent<NetworkObject>();
-        if (targetNetObj == null || targetNetObj == attacker) return;
-        if (slowedObjects.Contains(targetNetObj)) return;
+        // Prevent Attacking Self
+        NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
+        if (objectThatWasHit != null && objectThatWasHit == attacker) return;
 
-        // Mark as slowed so we don't repeat it
-        slowedObjects.Add(targetNetObj);
-
-        // Tell all clients to apply the slow if they own the object
-        SlowClientRPC(targetNetObj, Stacks, Duration);
+        // Slow
+        if (slowedObjects.Contains(objectThatWasHit)) return;
+        slowedObjects.Add(objectThatWasHit);
+        SlowClientRPC(objectThatWasHit, Stacks, Duration);
     }
 
     [ClientRpc]
@@ -36,9 +39,6 @@ public class SlowOnTrigger : NetworkBehaviour
         if (!netObj.IsOwner) return;
 
         ISlowable slowable = netObj.GetComponentInChildren<ISlowable>();
-        if (slowable != null)
-        {
-            slowable.StartSlow(stacks, duration);
-        }
+        if (slowable != null) slowable.StartSlow(stacks, duration);
     }
 }
