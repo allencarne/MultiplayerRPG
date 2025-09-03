@@ -86,6 +86,7 @@ public class FlailingEdge : PlayerAbility
         {
             stunOnTrigger.attacker = Attacker;
             stunOnTrigger.Duration = stunDuration;
+            stunOnTrigger.IgnoreNPC = true;
         }
     }
 

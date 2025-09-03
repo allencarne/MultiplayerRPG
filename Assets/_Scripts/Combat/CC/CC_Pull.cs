@@ -15,6 +15,7 @@ public class CC_Pull : NetworkBehaviour, IPullable
 
     [SerializeField] PlayerStateMachine player;
     [SerializeField] EnemyStateMachine enemy;
+    [SerializeField] NPCStateMachine npc;
 
     [Header("Knockback")]
     [SerializeField] Rigidbody2D rb;
@@ -129,15 +130,9 @@ public class CC_Pull : NetworkBehaviour, IPullable
         direction = direction.normalized;
         pullVelocity = direction * amount;
 
-        if (player != null)
-        {
-            player.Hurt();
-        }
-
-        if (enemy != null)
-        {
-            enemy.Hurt();
-        }
+        if (player != null) player.Hurt();
+        if (enemy != null) enemy.Hurt();
+        if (npc != null) npc.Hurt();
 
         StartCoroutine(PullDuration(duration));
     }

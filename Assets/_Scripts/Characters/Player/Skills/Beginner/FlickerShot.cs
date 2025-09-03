@@ -100,6 +100,7 @@ public class FlickerShot : PlayerAbility
         {
             stunOnTrigger.attacker = Attacker;
             stunOnTrigger.Duration = stunDuration;
+            stunOnTrigger.IgnoreNPC = true;
         }
     }
 

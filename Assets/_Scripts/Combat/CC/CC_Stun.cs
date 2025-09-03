@@ -16,6 +16,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
     [SerializeField] PlayerStateMachine player;
     [SerializeField] EnemyStateMachine enemy;
+    [SerializeField] NPCStateMachine npc;
 
     //[SerializeField] Animator[] animators;
 
@@ -122,14 +123,8 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
     void ApplyStun()
     {
-        if (player != null)
-        {
-            player.Hurt();
-        }
-
-        if (enemy != null)
-        {
-            enemy.Hurt();
-        }
+        if (player != null) player.Hurt();
+        if (enemy != null) enemy.Hurt();
+        if (npc != null) npc.Hurt();
     }
 }

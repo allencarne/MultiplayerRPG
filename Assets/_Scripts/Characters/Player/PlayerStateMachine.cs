@@ -44,6 +44,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanUtility = true;
     public bool CanUltimate = true;
 
+    GameObject indicator;
+    string indicatorType = null;
+    Coroutine CurrentAttack;
 
     public enum State
     {
@@ -272,9 +275,6 @@ public class PlayerStateMachine : NetworkBehaviour
         }
     }
 
-    GameObject indicator;
-    string indicatorType = null;
-
     public void OffensiveAbility()
     {
         if (!CanOffensive) return;
@@ -479,19 +479,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 item.PickUp(player);
             }
         }
-        /*
-        IInteractable interactable = collision.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            if (Input.InteractInput)
-            {
-                interactable.Interact();
-            }
-        }
-        */
     }
-
-    Coroutine CurrentAttack;
 
     public void HandlePotentialInterrupt()
     {

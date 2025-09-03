@@ -20,6 +20,7 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
     [SerializeField] PlayerStateMachine player;
     [SerializeField] EnemyStateMachine enemy;
+    [SerializeField] NPCStateMachine npc;
 
     private void Update()
     {
@@ -129,15 +130,9 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
         direction = direction.normalized;
         knockBackVelocity = direction * amount;
 
-        if (player != null)
-        {
-            player.Hurt();
-        }
-
-        if (enemy != null)
-        {
-            enemy.Hurt();
-        }
+        if (player != null) player.Hurt();
+        if (enemy != null) enemy.Hurt();
+        if (npc != null) npc.Hurt();
 
         StartCoroutine(KnockBackDuration(duration));
     }

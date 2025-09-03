@@ -15,6 +15,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
     [SerializeField] PlayerStateMachine player;
     [SerializeField] EnemyStateMachine enemy;
+    [SerializeField] NPCStateMachine npc;
 
     [SerializeField] CrowdControl crowdControl;
     [SerializeField] Transform[] parts;
@@ -140,14 +141,8 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
     void ApplyKnockUp()
     {
-        if (player != null)
-        {
-            player.Hurt();
-        }
-
-        if (enemy != null)
-        {
-            enemy.Hurt();
-        }
+        if (player != null) player.Hurt();
+        if (enemy != null) enemy.Hurt();
+        if (npc != null) npc.Hurt();
     }
 }

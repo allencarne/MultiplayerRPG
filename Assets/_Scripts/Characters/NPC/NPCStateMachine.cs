@@ -31,6 +31,9 @@ public class NPCStateMachine : NetworkBehaviour
     public DeBuffs DeBuffs;
     public LayerMask obstacleLayerMask;
 
+    public bool IsAttacking = false;
+    Coroutine CurrentAttack;
+
     public Vector2 StartingPosition { get; set; }
     public bool IsEnemyInRange { get; set; }
     [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
@@ -122,6 +125,30 @@ public class NPCStateMachine : NetworkBehaviour
     public void Death()
     {
         SetState(State.Death);
+    }
+
+    public void HandlePotentialInterrupt()
+    {
+        if (!CrowdControl.IsInterrupted) return;
+        if (npc.CastBar.castBarFill.color != Color.black) return;
+
+        if (IsServer)
+        {
+            npc.CastBar.InterruptCastBar();
+        }
+        else
+        {
+            npc.CastBar.InterruptServerRpc();
+        }
+
+        if (CurrentAttack != null)
+        {
+            StopCoroutine(CurrentAttack);
+            CurrentAttack = null;
+        }
+
+        IsAttacking = false;
+        return;
     }
 
     public void MoveTowardsTarget(Vector2 _targetPos)

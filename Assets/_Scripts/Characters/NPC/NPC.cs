@@ -42,6 +42,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     public SpriteRenderer bodySprite;
     public SpriteRenderer hairSprite;
     public SpriteRenderer shadowSprite;
+    public CastBar CastBar;
     [SerializeField] HealthBar healthBar;
     [SerializeField] NPCStateMachine stateMachine;
     [SerializeField] GameObject death_Effect;
