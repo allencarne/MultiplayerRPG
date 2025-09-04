@@ -633,7 +633,7 @@ public class PlayerStateMachine : NetworkBehaviour
         HairAnimator.Play("Sword_Attack_C_" + player.hairIndex);
     }
 
-    public void StartCast(float castTime)
+    public void StartCastBar(float castTime)
     {
         if (IsServer)
         {

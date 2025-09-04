@@ -18,4 +18,9 @@ public abstract class NPCState : MonoBehaviour
     {
 
     }
+
+    public virtual void Impact(NPCStateMachine owner)
+    {
+
+    }
 }

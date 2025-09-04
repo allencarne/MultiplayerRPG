@@ -36,7 +36,7 @@ public class FlickerShot : PlayerAbility
         owner.AnimateCast(snappedDirection);
 
         // Cast Bar
-        owner.StartCast(castTime);
+        owner.StartCastBar(castTime);
 
         // Timers
         owner.StartCast(castTime, recoveryTime, this);

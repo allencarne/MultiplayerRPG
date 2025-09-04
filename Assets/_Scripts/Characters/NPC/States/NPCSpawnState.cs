@@ -6,6 +6,7 @@ public class NPCSpawnState : NPCState
     public override void StartState(NPCStateMachine owner)
     {
         Instantiate(owner.npc.spawn_Effect, transform.position, transform.rotation);
+        owner.SwordAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
         owner.EyesAnimator.Play("Spawn");
         owner.HairAnimator.Play("Spawn");

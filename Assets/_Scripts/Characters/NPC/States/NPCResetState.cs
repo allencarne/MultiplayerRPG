@@ -4,6 +4,7 @@ public class NPCResetState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.SwordAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);

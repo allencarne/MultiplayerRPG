@@ -35,7 +35,7 @@ public class VitalCleave : PlayerAbility
         owner.AnimateCast(snappedDirection);
 
         // Cast Bar
-        owner.StartCast(castTime);
+        owner.StartCastBar(castTime);
 
         // Slide
         owner.StartSlide(false);

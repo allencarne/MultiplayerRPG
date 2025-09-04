@@ -4,6 +4,7 @@ public class NPCChaseState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.SwordAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);
@@ -20,7 +21,7 @@ public class NPCChaseState : NPCState
             return;
         }
 
-        //HandleAttack(owner);
+        HandleAttack(owner);
         HandleDeAggro(owner);
     }
 
@@ -65,6 +66,22 @@ public class NPCChaseState : NPCState
         else
         {
             owner.npc.PatienceBar.Patience.Value = Mathf.Max(0, owner.npc.PatienceBar.Patience.Value - Time.deltaTime);
+        }
+    }
+
+    public void HandleAttack(NPCStateMachine owner)
+    {
+        if (owner.IsAttacking) return;
+
+        float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
+
+        if (distanceToTarget <= owner.BasicRadius)
+        {
+            if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
+            {
+                owner.SetState(NPCStateMachine.State.Basic);
+                return;
+            }
         }
     }
 }
