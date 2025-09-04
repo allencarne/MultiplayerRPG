@@ -34,6 +34,11 @@ public class NPCAttackState : NPCState
 
         modifiedCastTime = castTime / owner.npc.CurrentAttackSpeed;
         modifiedRecoveryTime = recoveryTime / owner.npc.CurrentAttackSpeed;
+
+        aimDirection = (owner.Target.transform.position - transform.position).normalized;
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        aimRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         Vector2 snappedDirection = owner.SnapDirection(aimDirection);
 
         // Animate
@@ -96,6 +101,7 @@ public class NPCAttackState : NPCState
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = abilityDamage;
             damageOnTrigger.CharacterDamage = npc.CurrentDamage;
+            damageOnTrigger.IgnorePlayer = true;
             damageOnTrigger.IgnoreNPC = true;
         }
 
@@ -107,6 +113,7 @@ public class NPCAttackState : NPCState
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
             knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.IgnorePlayer = true;
             knockbackOnTrigger.IgnoreNPC = true;
         }
     }

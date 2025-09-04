@@ -130,7 +130,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
         Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
 
         // Feedback
-        TriggerFlashEffectClientRpc(Color.red);
+        TriggerFlashEffectClientRpc();
         OnDamaged?.Invoke(finalDamage);
 
         if (Health.Value <= 0)
@@ -199,30 +199,22 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
 
-        TriggerFlashEffectClientRpc(Color.green);
+        TriggerFlashEffectClientRpc();
         OnHealed?.Invoke(healAmount);
     }
 
-    public IEnumerator FlashEffect(Color color)
+    public IEnumerator FlashEffect()
     {
-        float flashDuration = 0.1f;
-
-        BodySprite.color = color;
-        yield return new WaitForSeconds(flashDuration / 2);
-
         BodySprite.color = Color.white;
-        yield return new WaitForSeconds(flashDuration / 2);
-
-        BodySprite.color = color;
-        yield return new WaitForSeconds(flashDuration / 2);
+        yield return new WaitForSeconds(0.05f);
 
         // Reset to original color
-        BodySprite.color = Color.white;
+        BodySprite.color = skinColor;
     }
 
     [ClientRpc]
-    public void TriggerFlashEffectClientRpc(Color flashColor)
+    public void TriggerFlashEffectClientRpc()
     {
-        StartCoroutine(FlashEffect(flashColor));
+        StartCoroutine(FlashEffect());
     }
 }

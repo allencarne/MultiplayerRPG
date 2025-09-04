@@ -80,6 +80,11 @@ public class NPCStateMachine : NetworkBehaviour
     {
         spawnState.StartState(this);
         StartingPosition = transform.position;
+
+        BodyAnimator.SetFloat("Vertical", -1);
+        HairAnimator.SetFloat("Vertical", -1);
+        EyesAnimator.SetFloat("Vertical", -1);
+        SwordAnimator.SetFloat("Vertical", -1);
     }
 
     private void Update()

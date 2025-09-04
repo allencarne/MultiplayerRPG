@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 3072343299802715422}
   - component: {fileID: 373308165875797066}
   - component: {fileID: 1014256190280949199}
+  - component: {fileID: 8315832619646916411}
   m_Layer: 0
   m_Name: Prefab_Effect_Hermit_Basic
   m_TagString: Untagged
@@ -293,3 +294,23 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   enemy: {fileID: 0}
+--- !u!114 &8315832619646916411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689845277531116501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40bebadc795ffe845bb07b85c9bca50c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackOnTrigger
+  ShowTopMostFoldoutHeaderGroup: 1
+  attacker: {fileID: 0}
+  Direction: {x: 0, y: 0}
+  Amount: 0
+  Duration: 0
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0

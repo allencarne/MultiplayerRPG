@@ -62,10 +62,10 @@ public class DamageOnTrigger : NetworkBehaviour
             // Fury
             if (IsBasic)
             {
-                var stateMachine = attacker.GetComponent<PlayerStateMachine>();
+                PlayerStateMachine stateMachine = attacker.GetComponent<PlayerStateMachine>();
                 if (stateMachine != null)
                 {
-                    var fury = stateMachine.GetComponentInChildren<Fury>();
+                    Fury fury = stateMachine.GetComponentInChildren<Fury>();
                     if (fury != null)
                     {
                         fury.FuryClientRPC();

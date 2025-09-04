@@ -4,6 +4,7 @@ public class GuardIdleState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.SwordAnimator.Play("Idle");
         owner.BodyAnimator.Play("Idle");
         owner.EyesAnimator.Play("Idle");
         owner.HairAnimator.Play("Idle_" + owner.npc.hairIndex);
