@@ -107,15 +107,16 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         TargetAttacker(attackerID);
 
-        // Calculate how much damage should actually be applied after defenses.
+        // Calculate
         float finalDamage = CalculateFinalDamage(damage, damageType);
+        int roundedDamage = Mathf.RoundToInt(finalDamage);
 
-        // Subtract final damage from health, but don't let health go below 0.
-        Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
+        // Subtract
+        Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
 
         // Feedback
         TriggerFlashEffectClientRpc(Color.red);
-        OnDamaged?.Invoke(finalDamage);
+        OnDamaged?.Invoke(roundedDamage);
 
         // Quest
         UpdateObjectiveClientRpc(ObjectiveType.Hit, EnemyID, 1, attackerID.NetworkObjectId);
@@ -128,7 +129,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             if (exp) exp.IncreaseEXP(expToGive);
 
             UpdateObjectiveClientRpc(ObjectiveType.Kill, EnemyID, 1, attackerID.NetworkObjectId);
-            //if (quest) quest.UpdateObjective(ObjectiveType.Kill, EnemyID);
 
             SpawnDeathEffectClientRpc(transform.position, transform.rotation);
             stateMachine.Death();

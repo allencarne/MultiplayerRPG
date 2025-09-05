@@ -211,11 +211,11 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         CombatTime = 0;
         InCombat = true;
 
-        // Calculate how much damage should actually be applied after defenses.
+        // Calculate
         float finalDamage = CalculateFinalDamage(damage, damageType);
         int roundedDamage = Mathf.RoundToInt(finalDamage);
 
-        // Subtract final damage from health, but don't let health go below 0.
+        // Subtract
         Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
         
         // Feedback
@@ -225,6 +225,9 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         if (Health.Value <= 0)
         {
             HandleDeathClientRPC();
+
+            EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
+            if (enemy != null) enemy.Target = null;
         }
     }
 

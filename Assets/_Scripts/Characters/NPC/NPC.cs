@@ -123,23 +123,21 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
         TargetAttacker(attackerID);
 
-        // Calculate how much damage should actually be applied after defenses.
+        // Calculate
         float finalDamage = CalculateFinalDamage(damage, damageType);
+        int roundedDamage = Mathf.RoundToInt(finalDamage);
 
-        // Subtract final damage from health, but don't let health go below 0.
-        Health.Value = Mathf.Max(Health.Value - finalDamage, 0);
+        // Subtract
+        Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
 
         // Feedback
         TriggerFlashEffectClientRpc();
-        OnDamaged?.Invoke(finalDamage);
+        OnDamaged?.Invoke(roundedDamage);
 
         if (Health.Value <= 0)
         {
-            PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
-            if (exp)
-            {
-                //exp.IncreaseEXP(expToGive);
-            }
+            EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
+            if (enemy != null) enemy.Target = null;
 
             Instantiate(death_Effect, transform.position, transform.rotation);
             stateMachine.Death();
