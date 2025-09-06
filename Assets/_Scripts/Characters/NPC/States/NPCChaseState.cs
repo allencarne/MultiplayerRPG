@@ -34,6 +34,8 @@ public class NPCChaseState : NPCState
             owner.MoveTowardsTarget(owner.Target.position);
 
             Vector2 direction = (owner.Target.position - owner.transform.position).normalized;
+            owner.SwordAnimator.SetFloat("Horizontal", direction.x);
+            owner.SwordAnimator.SetFloat("Vertical", direction.y);
             owner.BodyAnimator.SetFloat("Horizontal", direction.x);
             owner.BodyAnimator.SetFloat("Vertical", direction.y);
             owner.EyesAnimator.SetFloat("Horizontal", direction.x);

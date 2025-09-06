@@ -138,6 +138,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
         {
             HandleDeathClientRPC();
 
+            stateMachine.Target = null;
             EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
             if (enemy != null) enemy.Target = null;
         }

@@ -34,6 +34,9 @@ public class NPCResetState : NPCState
         }
 
         Vector2 direction = (owner.StartingPosition - (Vector2)owner.transform.position).normalized;
+        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
+        owner.SwordAnimator.SetFloat("Vertical", direction.y);
+
         owner.BodyAnimator.SetFloat("Horizontal", direction.x);
         owner.BodyAnimator.SetFloat("Vertical", direction.y);
 
