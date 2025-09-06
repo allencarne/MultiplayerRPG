@@ -9,7 +9,9 @@ public class PlayerDeathState : PlayerState
 
         owner.BodyAnimator.Play("Death");
         owner.player.IsDead = true;
+        owner.IsAttacking = false;
 
+        owner.player.CastBar.ForceReset();
         owner.RequestDisableColliderServerRpc();
 
         StartCoroutine(Delay(owner));

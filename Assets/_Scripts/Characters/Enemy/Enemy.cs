@@ -125,6 +125,9 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         {
             if (isDummy) return;
 
+            NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
+            if (npc != null) npc.Target = null;
+
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
             if (exp) exp.IncreaseEXP(expToGive);
 

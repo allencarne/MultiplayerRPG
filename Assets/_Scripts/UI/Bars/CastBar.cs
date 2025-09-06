@@ -144,6 +144,20 @@ public class CastBar : NetworkBehaviour
         }
     }
 
+    public void ForceReset()
+    {
+        if (currentCastCoroutine != null)
+        {
+            StopCoroutine(currentCastCoroutine);
+        }
+
+        if (IsServer)
+        {
+            FillAmount.Value = 0f;
+            BarColor.Value = Color.clear;
+        }
+    }
+
     private void OnEnable()
     {
         FillAmount.OnValueChanged += OnFillChanged;

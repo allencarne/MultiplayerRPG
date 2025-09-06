@@ -9,7 +9,9 @@ public class NPCDeathState : NPCState
 
         owner.BodyAnimator.Play("Death");
         owner.npc.IsDead = true;
+        owner.IsAttacking = false;
 
+        owner.npc.CastBar.ForceReset();
         owner.RequestDisableColliderServerRpc();
 
         StartCoroutine(Delay(owner));

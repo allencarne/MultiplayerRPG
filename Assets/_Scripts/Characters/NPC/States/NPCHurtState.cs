@@ -4,8 +4,6 @@ public class NPCHurtState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
-        if (!owner.IsOwner) return;
-
         owner.CrowdControl.IsInterrupted = true;
         owner.BodyAnimator.Play("Hurt");
     }

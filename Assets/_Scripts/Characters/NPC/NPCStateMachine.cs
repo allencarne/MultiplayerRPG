@@ -45,7 +45,7 @@ public class NPCStateMachine : NetworkBehaviour
     public float DeAggroRadius;
 
     [Header("Components")]
-    [HideInInspector] public Transform Target;
+    public Transform Target;
     [SerializeField] Collider2D Collider;
     public NPC npc;
     public Rigidbody2D NpcRB;
