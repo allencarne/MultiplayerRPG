@@ -48,7 +48,7 @@ public class EnemyWanderState : EnemyState
         if (owner.IsServer)
         {
             Vector2 dir = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
-            owner.EnemyRB.linearVelocity = dir * owner.enemy.BaseSpeed;
+            owner.EnemyRB.linearVelocity = dir * owner.enemy.CurrentSpeed;
         }
 
         Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;

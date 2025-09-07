@@ -1,44 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolWanderState : NPCState
 {
-    [SerializeField] float wanderRadius;
-    Vector2 wanderPosition;
-    float wanderTime;
+    [SerializeField] float walkSpeed;
+    [SerializeField] List<Vector2> patrolPoints;
+    int currentIndex = 0;
+    bool goingForward = true;
 
     public override void StartState(NPCStateMachine owner)
     {
-        wanderTime = 0;
+        if (patrolPoints == null || patrolPoints.Count == 0)
+        {
+            Debug.LogWarning($"{owner.name} has no patrol points set!");
+            owner.SetState(NPCStateMachine.State.Idle);
+            return;
+        }
 
         owner.SwordAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);
-
-        wanderPosition = GetRandomClearPoint(owner.StartingPosition, wanderRadius, owner.obstacleLayerMask);
     }
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        wanderTime += Time.deltaTime;
-
-        if (wanderTime >= 15f)
-        {
-            wanderTime = 0;
-            owner.SetState(NPCStateMachine.State.Idle);
-        }
-
-        // Transition To Idle
-        if (Vector2.Distance(owner.transform.position, wanderPosition) <= 0.1f)
-        {
-            owner.NpcRB.linearVelocity = Vector2.zero;
-            owner.SetState(NPCStateMachine.State.Idle);
-        }
-
         // Transition To Chase
         if (owner.IsEnemyInRange)
         {
             owner.SetState(NPCStateMachine.State.Chase);
+            return;
+        }
+
+        // If reached patrol point
+        if (Vector2.Distance(owner.transform.position, patrolPoints[currentIndex]) <= 0.1f)
+        {
+            AdvancePatrolIndex();
         }
     }
 
@@ -46,10 +43,10 @@ public class PatrolWanderState : NPCState
     {
         if (owner.CrowdControl.immobilize.IsImmobilized) return;
 
-        Vector2 dir = (wanderPosition - (Vector2)owner.transform.position).normalized;
-        owner.NpcRB.linearVelocity = dir * owner.npc.BaseSpeed;
+        Vector2 target = patrolPoints[currentIndex];
+        Vector2 direction = (target - (Vector2)owner.transform.position).normalized;
+        owner.NpcRB.linearVelocity = direction * walkSpeed;
 
-        Vector2 direction = (wanderPosition - (Vector2)owner.transform.position).normalized;
         owner.SwordAnimator.SetFloat("Horizontal", direction.x);
         owner.SwordAnimator.SetFloat("Vertical", direction.y);
 
@@ -63,34 +60,25 @@ public class PatrolWanderState : NPCState
         owner.HairAnimator.SetFloat("Vertical", direction.y);
     }
 
-    Vector2 GetRandomClearPoint(Vector2 startingPosition, float maxRadius, LayerMask obstacleLayer, int maxAttempts = 10)
+    private void AdvancePatrolIndex()
     {
-        for (int i = 0; i < maxAttempts; i++)
+        if (goingForward)
         {
-            // Get Random Point within Wander Radius
-            Vector2 randomPos = startingPosition + Random.insideUnitCircle * maxRadius;
-
-            // Get Direction to Point
-            Vector2 randomDir = (randomPos - (Vector2)transform.position);
-
-            // Get Distance to Point
-            float distance = randomDir.magnitude;
-
-            // Raycast from Enemy Position
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir.normalized, distance, obstacleLayer);
-
-            // Draw Line
-            Color rayColor = hit.collider == null ? Color.green : Color.red;
-            Debug.DrawLine(transform.position, randomPos, rayColor, 1f);
-
-            // If Valid Path is Found
-            if (hit.collider == null && !Physics2D.OverlapCircle(randomPos, .5f, obstacleLayer))
+            currentIndex++;
+            if (currentIndex >= patrolPoints.Count)
             {
-                return randomPos;
+                currentIndex = patrolPoints.Count - 2; // step back
+                goingForward = false;
             }
         }
-
-        // If no valid position is found
-        return startingPosition;
+        else
+        {
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = 1; // step forward
+                goingForward = true;
+            }
+        }
     }
 }
