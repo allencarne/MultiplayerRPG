@@ -176,7 +176,7 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        NpcRB.linearVelocity = direction * npc.BaseSpeed;
+        NpcRB.linearVelocity = direction * npc.CurrentSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
@@ -299,6 +299,21 @@ public class NPCStateMachine : NetworkBehaviour
 
         // Return the modified direction vector, now snapped to either horizontal or vertical
         return direction;
+    }
+
+    public void SetAnimDir(Vector2 direction)
+    {
+        SwordAnimator.SetFloat("Horizontal", direction.x);
+        SwordAnimator.SetFloat("Vertical", direction.y);
+
+        BodyAnimator.SetFloat("Horizontal", direction.x);
+        BodyAnimator.SetFloat("Vertical", direction.y);
+
+        EyesAnimator.SetFloat("Horizontal", direction.x);
+        EyesAnimator.SetFloat("Vertical", direction.y);
+
+        HairAnimator.SetFloat("Horizontal", direction.x);
+        HairAnimator.SetFloat("Vertical", direction.y);
     }
 
     public void AnimateCast(Vector2 snappedDirection)

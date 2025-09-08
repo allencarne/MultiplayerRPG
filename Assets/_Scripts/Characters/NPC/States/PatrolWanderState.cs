@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class PatrolWanderState : NPCState
 {
-    [SerializeField] float walkSpeed;
-    [SerializeField] List<Vector2> patrolPoints;
+    [SerializeField] List<Transform> patrolPoints;
     int currentIndex = 0;
     bool goingForward = true;
 
@@ -33,7 +32,7 @@ public class PatrolWanderState : NPCState
         }
 
         // If reached patrol point
-        if (Vector2.Distance(owner.transform.position, patrolPoints[currentIndex]) <= 0.1f)
+        if (Vector2.Distance(owner.transform.position, patrolPoints[currentIndex].position) <= 0.1f)
         {
             AdvancePatrolIndex();
         }
@@ -43,21 +42,13 @@ public class PatrolWanderState : NPCState
     {
         if (owner.CrowdControl.immobilize.IsImmobilized) return;
 
-        Vector2 target = patrolPoints[currentIndex];
-        Vector2 direction = (target - (Vector2)owner.transform.position).normalized;
-        owner.NpcRB.linearVelocity = direction * walkSpeed;
+        Vector2 target = patrolPoints[currentIndex].position;
 
-        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
-        owner.SwordAnimator.SetFloat("Vertical", direction.y);
+        owner.MoveTowardsTarget(target);
 
-        owner.BodyAnimator.SetFloat("Horizontal", direction.x);
-        owner.BodyAnimator.SetFloat("Vertical", direction.y);
-
-        owner.EyesAnimator.SetFloat("Horizontal", direction.x);
-        owner.EyesAnimator.SetFloat("Vertical", direction.y);
-
-        owner.HairAnimator.SetFloat("Horizontal", direction.x);
-        owner.HairAnimator.SetFloat("Vertical", direction.y);
+        Vector2 rawDir = (target - (Vector2)owner.transform.position).normalized;
+        Vector2 snappedDir = owner.SnapDirection(rawDir);
+        owner.SetAnimDir(snappedDir);
     }
 
     private void AdvancePatrolIndex()

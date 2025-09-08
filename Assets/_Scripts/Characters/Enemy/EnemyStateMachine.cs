@@ -146,7 +146,7 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        EnemyRB.linearVelocity = direction * enemy.BaseSpeed;
+        EnemyRB.linearVelocity = direction * enemy.CurrentSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
