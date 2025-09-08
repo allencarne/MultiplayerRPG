@@ -1,53 +1,75 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolIdleState : NPCState
 {
-    float idleTime = 0;
-    int attempts = 0;
+    [SerializeField] List<Transform> patrolPoints;
+    int currentIndex = 0;
+    bool goingForward = true;
 
     public override void StartState(NPCStateMachine owner)
     {
-        owner.SwordAnimator.Play("Idle");
-        owner.BodyAnimator.Play("Idle");
-        owner.EyesAnimator.Play("Idle");
-        owner.HairAnimator.Play("Idle_" + owner.npc.hairIndex);
+        if (patrolPoints == null || patrolPoints.Count == 0)
+        {
+            Debug.LogWarning($"{owner.name} has no patrol points set!");
+            owner.SetState(NPCStateMachine.State.Idle);
+            return;
+        }
+
+        owner.SwordAnimator.Play("Run");
+        owner.BodyAnimator.Play("Run");
+        owner.EyesAnimator.Play("Run");
+        owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);
     }
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
-        idleTime += Time.deltaTime;
-
-        if (idleTime >= 5f)
-        {
-            int maxAttempts = 3;
-            int consecutiveFailures = Mathf.Min(attempts, maxAttempts);
-            float wanderProbability = Mathf.Min(0.5f + 0.25f * consecutiveFailures, 1.0f);
-
-            // Transition To Wander
-            if (Random.value < wanderProbability)
-            {
-                idleTime = 0;
-                owner.SetState(NPCStateMachine.State.Wander);
-            }
-
-            // Reset Idle
-            idleTime = 0f;
-            attempts++;
-        }
-
         // Transition To Chase
         if (owner.IsEnemyInRange)
         {
-            attempts = 0;
-            idleTime = 0f;
             owner.SetState(NPCStateMachine.State.Chase);
+            return;
+        }
+
+        // If reached patrol point
+        if (Vector2.Distance(owner.transform.position, patrolPoints[currentIndex].position) <= 0.1f)
+        {
+            AdvancePatrolIndex();
         }
     }
 
     public override void FixedUpdateState(NPCStateMachine owner)
     {
+        if (owner.CrowdControl.immobilize.IsImmobilized) return;
 
+        Vector2 target = patrolPoints[currentIndex].position;
+
+        owner.MoveTowardsTarget(target);
+
+        Vector2 rawDir = (target - (Vector2)owner.transform.position).normalized;
+        Vector2 snappedDir = owner.SnapDirection(rawDir);
+        owner.SetAnimDir(snappedDir);
+    }
+
+    private void AdvancePatrolIndex()
+    {
+        if (goingForward)
+        {
+            currentIndex++;
+            if (currentIndex >= patrolPoints.Count)
+            {
+                currentIndex = patrolPoints.Count - 2; // step back
+                goingForward = false;
+            }
+        }
+        else
+        {
+            currentIndex--;
+            if (currentIndex < 0)
+            {
+                currentIndex = 1; // step forward
+                goingForward = true;
+            }
+        }
     }
 }
