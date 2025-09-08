@@ -175,6 +175,18 @@ public class NPCStateMachine : NetworkBehaviour
     public void MoveTowardsTarget(Vector2 _targetPos)
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
+
+        float distanceToTarget = Vector2.Distance(transform.position, _targetPos);
+
+        if (Target != null)
+        {
+            if (distanceToTarget <= 1.2f)
+            {
+                NpcRB.linearVelocity = Vector2.zero;
+                return;
+            }
+        }
+
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
         NpcRB.linearVelocity = direction * npc.CurrentSpeed;
     }

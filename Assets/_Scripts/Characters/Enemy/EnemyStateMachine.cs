@@ -145,6 +145,18 @@ public class EnemyStateMachine : NetworkBehaviour
     public void MoveTowardsTarget(Vector2 _targetPos)
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
+
+        float distanceToTarget = Vector2.Distance(transform.position, _targetPos);
+
+        if (Target != null)
+        {
+            if (distanceToTarget <= 1.2f)
+            {
+                EnemyRB.linearVelocity = Vector2.zero;
+                return;
+            }
+        }
+
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
         EnemyRB.linearVelocity = direction * enemy.CurrentSpeed;
     }
