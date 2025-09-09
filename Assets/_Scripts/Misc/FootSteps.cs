@@ -14,28 +14,24 @@ public class FootSteps : MonoBehaviour
 
     public void LeftFoot_Vertical()
     {
-        Debug.Log(gameObject.name + "Left Vertical");
         GameObject step = Instantiate(footStep, transform.position + right, transform.rotation);
         Destroy(step, stepDuration);
     }
 
     public void RightFoot_Vertical()
     {
-        Debug.Log(gameObject.name + "Right Vertical");
         GameObject step = Instantiate(footStep, transform.position + left, transform.rotation);
         Destroy(step, stepDuration);
     }
 
     public void LeftFoot_Horizontal()
     {
-        Debug.Log(gameObject.name + "Left Horizontal");
         GameObject step = Instantiate(footStep, transform.position + up, Direction);
         Destroy(step, stepDuration);
     }
 
     public void RightFoot_Horizontal()
     {
-        Debug.Log(gameObject.name + "Right Horizontal");
         GameObject step = Instantiate(footStep, transform.position + down, Direction);
         Destroy(step, stepDuration);
     }
