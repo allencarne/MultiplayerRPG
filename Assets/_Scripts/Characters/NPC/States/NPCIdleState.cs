@@ -12,9 +12,6 @@ public class NPCIdleState : NPCState
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
-        // Transition To Chase
         if (owner.IsEnemyInRange)
         {
             owner.SetState(NPCStateMachine.State.Chase);

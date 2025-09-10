@@ -16,9 +16,6 @@ public class PatrolChaseState : NPCState
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
-
         if (owner.Target == null)
         {
             TransitionToIdle(owner);
@@ -31,21 +28,13 @@ public class PatrolChaseState : NPCState
 
     public override void FixedUpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         if (owner.Target)
         {
             owner.MoveTowardsTarget(owner.Target.position);
 
-            Vector2 direction = (owner.Target.position - owner.transform.position).normalized;
-            owner.SwordAnimator.SetFloat("Horizontal", direction.x);
-            owner.SwordAnimator.SetFloat("Vertical", direction.y);
-            owner.BodyAnimator.SetFloat("Horizontal", direction.x);
-            owner.BodyAnimator.SetFloat("Vertical", direction.y);
-            owner.EyesAnimator.SetFloat("Horizontal", direction.x);
-            owner.EyesAnimator.SetFloat("Vertical", direction.y);
-            owner.HairAnimator.SetFloat("Horizontal", direction.x);
-            owner.HairAnimator.SetFloat("Vertical", direction.y);
+            Vector2 rawDir = (owner.Target.position - owner.transform.position).normalized;
+            Vector2 snappedDir = owner.SnapDirection(rawDir);
+            owner.SetAnimDir(snappedDir);
         }
     }
 

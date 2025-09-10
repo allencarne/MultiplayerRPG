@@ -52,6 +52,10 @@ public class NPCStateMachine : NetworkBehaviour
     public LayerMask obstacleLayerMask;
     Coroutine CurrentAttack;
 
+    [Header("Patrol")]
+    public int PatrolIndex = 0;
+    public bool PatrolForward = true;
+
     public enum State
     {
         Spawn,

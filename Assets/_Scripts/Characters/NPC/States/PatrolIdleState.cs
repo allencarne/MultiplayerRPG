@@ -4,8 +4,6 @@ using UnityEngine;
 public class PatrolIdleState : NPCState
 {
     [SerializeField] List<Transform> patrolPoints;
-    int currentIndex = 0;
-    bool goingForward = true;
 
     public override void StartState(NPCStateMachine owner)
     {
@@ -32,9 +30,9 @@ public class PatrolIdleState : NPCState
         }
 
         // If reached patrol point
-        if (Vector2.Distance(owner.transform.position, patrolPoints[currentIndex].position) <= 0.1f)
+        if (Vector2.Distance(owner.transform.position, patrolPoints[owner.PatrolIndex].position) <= 0.1f)
         {
-            AdvancePatrolIndex();
+            AdvancePatrolIndex(owner);
         }
     }
 
@@ -42,7 +40,7 @@ public class PatrolIdleState : NPCState
     {
         if (owner.CrowdControl.immobilize.IsImmobilized) return;
 
-        Vector2 target = patrolPoints[currentIndex].position;
+        Vector2 target = patrolPoints[owner.PatrolIndex].position;
 
         owner.MoveTowardsTarget(target);
 
@@ -51,24 +49,24 @@ public class PatrolIdleState : NPCState
         owner.SetAnimDir(snappedDir);
     }
 
-    private void AdvancePatrolIndex()
+    private void AdvancePatrolIndex(NPCStateMachine owner)
     {
-        if (goingForward)
+        if (owner.PatrolForward)
         {
-            currentIndex++;
-            if (currentIndex >= patrolPoints.Count)
+            owner.PatrolIndex++;
+            if (owner.PatrolIndex >= patrolPoints.Count)
             {
-                currentIndex = patrolPoints.Count - 2; // step back
-                goingForward = false;
+                owner.PatrolIndex = patrolPoints.Count - 2; // step back
+                owner.PatrolForward = false;
             }
         }
         else
         {
-            currentIndex--;
-            if (currentIndex < 0)
+            owner.PatrolIndex--;
+            if (owner.PatrolIndex < 0)
             {
-                currentIndex = 1; // step forward
-                goingForward = true;
+                owner.PatrolIndex = 1; // step forward
+                owner.PatrolForward = true;
             }
         }
     }
