@@ -18,6 +18,10 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator HairAnimator;
     public Animator EyesAnimator;
 
+    public Animator HeadAnimator;
+    public Animator ChestAnimator;
+    public Animator LegsAnimator;
+
     [Header("Components")]
     [SerializeField] SkillBarCoolDowns cooldown;
     [HideInInspector] public SkillPanel skills;

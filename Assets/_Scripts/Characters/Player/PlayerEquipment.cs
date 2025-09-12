@@ -1,11 +1,23 @@
 using Unity.Netcode;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
+    [Header("Player")]
     Player player;
     PlayerInitialize init;
     [SerializeField] CharacterCustomizationData characterData;
+
+    [Header("Armor")]
+    [SerializeField] SpriteRenderer headSprite;
+    public int HeadIndex;
+    [SerializeField] SpriteRenderer chestSprite;
+    public int ChestIndex;
+    [SerializeField] SpriteRenderer legsSprite;
+    public int LegsIndex;
+
+    [Header("WeaponSprites")]
     [SerializeField] SpriteRenderer Sword;
     [SerializeField] SpriteRenderer Staff;
     [SerializeField] SpriteRenderer Bow;
@@ -85,11 +97,14 @@ public class PlayerEquipment : NetworkBehaviour
 			{
                 IsWeaponEquipt = true;
                 EquipWeapon(newWeapon);
-                //Debug.Log($"Equipped: {newWeapon.itemIndex}");
             }
 
-            // Handle armor equip
-            //EquipArmor(newItem);
+
+            Equipment newEquipment = newItem as Equipment;
+            if (newEquipment != null)
+            {
+                EquipEquipment(newItem);
+            }
         }
         else
         {
@@ -119,11 +134,13 @@ public class PlayerEquipment : NetworkBehaviour
             {
                 IsWeaponEquipt = false;
                 UnequipWeapon();
-                Debug.Log(oldItem.itemIndex);
             }
 
-            // Handle armor unequip
-            //UnequipArmor(oldItem);
+            Equipment oldEquipment = oldItem as Equipment;
+            if (oldEquipment != null)
+            {
+                UnEquipEquipment(oldEquipment);
+            }
         }
 	}
 
@@ -165,6 +182,86 @@ public class PlayerEquipment : NetworkBehaviour
         }
 
         UpdateWeaponVisuals(CurrentWeapon.None, null);
+    }
+
+    void EquipEquipment(Equipment newEquipment)
+    {
+        switch (newEquipment.equipmentType)
+        {
+            case EquipmentType.Head:
+
+                headSprite.enabled = true;
+
+                switch (newEquipment.itemIndex)
+                {
+                    case 1: HeadIndex = newEquipment.itemIndex; break;
+                    case 2: HeadIndex = newEquipment.itemIndex; break;
+                }
+                break;
+
+            case EquipmentType.Chest:
+
+                chestSprite.enabled = true;
+
+                switch (newEquipment.itemIndex)
+                {
+                    case 1: ChestIndex = newEquipment.itemIndex; break;
+                    case 2: ChestIndex = newEquipment.itemIndex; break;
+                }
+                break;
+
+            case EquipmentType.Legs:
+
+                legsSprite.enabled = true;
+
+                switch (newEquipment.itemIndex)
+                {
+                    case 1: LegsIndex = newEquipment.itemIndex; break;
+                    case 2: LegsIndex = newEquipment.itemIndex; break;
+                }
+                break;
+        }
+    }
+
+    void UnEquipEquipment(Equipment oldItem)
+    {
+        if (oldItem == null) return;
+
+        switch (oldItem.equipmentType)
+        {
+            case EquipmentType.Head:
+
+                headSprite.enabled = false;
+
+                switch (oldItem.itemIndex)
+                {
+                    case 1: HeadIndex = 0; break;
+                    case 2: HeadIndex = 0; break;
+                }
+                break;
+
+            case EquipmentType.Chest:
+
+                chestSprite.enabled = false;
+
+                switch (oldItem.itemIndex)
+                {
+                    case 1: ChestIndex = 0; break;
+                    case 2: ChestIndex = 0; break;
+                }
+                break;
+
+            case EquipmentType.Legs:
+
+                legsSprite.enabled = false;
+
+                switch (oldItem.itemIndex)
+                {
+                    case 1: LegsIndex = 0; break;
+                    case 2: LegsIndex = 0; break;
+                }
+                break;
+        }
     }
 
     void OnWeaponChanged(CurrentWeapon previousWeapon, CurrentWeapon newWeapon)
