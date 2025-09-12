@@ -52,15 +52,15 @@ public class PlayerRollState : PlayerState
 
         owner.HeadAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.HeadAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.HeadAnimator.Play("Roll_" + owner.player.hairIndex);
+        //owner.HeadAnimator.Play("Roll_" + owner.player.hairIndex);
 
         owner.ChestAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.ChestAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.ChestAnimator.Play("Roll_" + owner.player.hairIndex);
+        //owner.ChestAnimator.Play("Roll_" + owner.player.hairIndex);
 
         owner.LegsAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.LegsAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.LegsAnimator.Play("Roll_" + owner.player.hairIndex);
+        //owner.LegsAnimator.Play("Roll_" + owner.player.hairIndex);
     }
 
     public override void UpdateState(PlayerStateMachine owner)

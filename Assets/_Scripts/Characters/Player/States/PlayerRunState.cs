@@ -62,6 +62,15 @@ public class PlayerRunState : PlayerState
 
             owner.HairAnimator.SetFloat("Horizontal", snappedDirection.x);
             owner.HairAnimator.SetFloat("Vertical", snappedDirection.y);
+
+            owner.HeadAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.HeadAnimator.SetFloat("Vertical", snappedDirection.y);
+
+            owner.ChestAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.ChestAnimator.SetFloat("Vertical", snappedDirection.y);
+
+            owner.LegsAnimator.SetFloat("Horizontal", snappedDirection.x);
+            owner.LegsAnimator.SetFloat("Vertical", snappedDirection.y);
         }
     }
 }
