@@ -265,7 +265,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (!CanBasic) return;
         if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
+        if (!Equipment.IsWeaponEquipped) return;
         if (player.BasicIndex < 0) return;
         if (player.BasicIndex >= skills.basicAbilities.Length) return;
         if (CrowdControl.disarm.IsDisarmed) return;
@@ -282,7 +282,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (!CanOffensive) return;
         if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
+        if (!Equipment.IsWeaponEquipped) return;
         if (player.OffensiveIndex < 0) return;
         if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
@@ -308,7 +308,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (!CanMobility) return;
         if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
+        if (!Equipment.IsWeaponEquipped) return;
         if (player.MobilityIndex < 0) return;
         if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
@@ -334,7 +334,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (!CanDefensive) return;
         if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
+        if (!Equipment.IsWeaponEquipped) return;
         if (player.DefensiveIndex < 0) return;
         if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
@@ -360,7 +360,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (!CanUtility) return;
         if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
+        if (!Equipment.IsWeaponEquipped) return;
         if (player.UtilityIndex < 0) return;
         if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
@@ -386,7 +386,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (!CanUltimate) return;
         if (IsAttacking) return;
-        if (!Equipment.IsWeaponEquipt) return;
+        if (!Equipment.IsWeaponEquipped) return;
         if (player.UltimateIndex < 0) return;
         if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;

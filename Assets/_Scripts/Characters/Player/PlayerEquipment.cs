@@ -1,5 +1,5 @@
+using Unity.Collections;
 using Unity.Netcode;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
@@ -7,7 +7,7 @@ public class PlayerEquipment : NetworkBehaviour
     [Header("Player")]
     Player player;
     PlayerInitialize init;
-    [SerializeField] CharacterCustomizationData characterData;
+    [SerializeField] ItemList itemDatabase;
 
     [Header("Armor")]
     [SerializeField] SpriteRenderer headSprite;
@@ -23,10 +23,13 @@ public class PlayerEquipment : NetworkBehaviour
     [SerializeField] SpriteRenderer Bow;
     [SerializeField] SpriteRenderer Dagger;
 
-    public bool IsWeaponEquipt = false;
+    public bool IsWeaponEquipped = false;
 
-    private NetworkVariable<CurrentWeapon> net_currentWeapon = new NetworkVariable<CurrentWeapon>(writePerm: NetworkVariableWritePermission.Owner);
-    private NetworkVariable<int> net_itemIndex = new NetworkVariable<int>(-1, writePerm: NetworkVariableWritePermission.Owner);
+    private NetworkVariable<CurrentWeapon> net_currentWeapon =
+        new(writePerm: NetworkVariableWritePermission.Owner);
+
+    private NetworkVariable<FixedString64Bytes> net_itemName =
+        new("", writePerm: NetworkVariableWritePermission.Owner);
 
     public enum CurrentWeapon
 	{
@@ -42,23 +45,23 @@ public class PlayerEquipment : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         net_currentWeapon.OnValueChanged += OnWeaponChanged;
-        net_itemIndex.OnValueChanged += OnItemIndexChanged;
+        net_itemName.OnValueChanged += OnItemNameChanged;
 
         if (IsOwner)
         {
             net_currentWeapon.Value = currentWeapon;
-            net_itemIndex.Value = -1;
+            net_itemName.Value = "";
         }
         else
         {
-            UpdateWeaponVisuals(net_currentWeapon.Value, FetchSpriteFromItemIndex(net_currentWeapon.Value, net_itemIndex.Value));
+            UpdateWeaponVisuals(net_currentWeapon.Value, net_itemName.Value.ToString());
         }
     }
 
     public override void OnDestroy()
     {
         net_currentWeapon.OnValueChanged -= OnWeaponChanged;
-        net_itemIndex.OnValueChanged -= OnItemIndexChanged;
+        net_itemName.OnValueChanged -= OnItemNameChanged;
     }
 
     private void Awake()
@@ -68,123 +71,117 @@ public class PlayerEquipment : NetworkBehaviour
     }
 
     public void OnEquipmentChanged(Equipment newItem, Equipment oldItem)
-	{
-		if (newItem != null)
-		{
-            foreach (StatModifier mod in newItem.modifiers)
+    {
+        if (newItem != null)
+        {
+            // Apply stat modifiers
+            foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
+
+            init.SaveStats();
+
+            if (newItem is Weapon newWeapon)
             {
-                switch (mod.statType)
-                {
-                    case StatType.Health:
-                        player.IncreaseHealth(mod.value);
-                        break;
-                    case StatType.Damage:
-                        player.IncreaseDamage(mod.value);
-                        break;
-                    case StatType.CoolDown:
-                        player.IncreaseCoolDown(mod.value);
-                        break;
-                    case StatType.AttackSpeed:
-                        player.IncreaseAttackSpeed(mod.value);
-                        break;
-                }
-
-                init.SaveStats();
-            }
-
-			Weapon newWeapon = newItem as Weapon;
-            if (newWeapon != null)
-			{
-                IsWeaponEquipt = true;
                 EquipWeapon(newWeapon);
             }
-
-
-            Equipment newEquipment = newItem as Equipment;
-            if (newEquipment != null)
+            else
             {
-                EquipEquipment(newItem);
+                EquipArmor(newItem);
             }
         }
         else
         {
-            foreach (StatModifier mod in oldItem.modifiers)
-            {
-                switch (mod.statType)
-                {
-                    case StatType.Health:
-                        player.IncreaseHealth(-mod.value);
-                        break;
-                    case StatType.Damage:
-                        player.IncreaseDamage(-mod.value);
-                        break;
-                    case StatType.CoolDown:
-                        player.IncreaseCoolDown(-mod.value);
-                        break;
-                    case StatType.AttackSpeed:
-                        player.IncreaseAttackSpeed(-mod.value);
-                        break;
-                }
+            // Remove modifiers
+            foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
 
-                init.SaveStats();
-            }
+            init.SaveStats();
 
-            Weapon oldWeapon = oldItem as Weapon;
-            if (oldWeapon != null)
+            if (oldItem is Weapon oldWeapon)
             {
-                IsWeaponEquipt = false;
                 UnequipWeapon();
             }
-
-            Equipment oldEquipment = oldItem as Equipment;
-            if (oldEquipment != null)
+            else
             {
-                UnEquipEquipment(oldEquipment);
+                UnEquipArmor(oldItem);
             }
         }
-	}
+    }
 
     private void EquipWeapon(Weapon newWeapon)
     {
-        switch (newWeapon.weaponType)
-        {
-            case WeaponType.Sword:
-                currentWeapon = CurrentWeapon.Sword;
-                break;
-            case WeaponType.Staff:
-                currentWeapon = CurrentWeapon.Staff;
-                break;
-            case WeaponType.Bow:
-                currentWeapon = CurrentWeapon.Bow;
-                break;
-            case WeaponType.Dagger:
-                currentWeapon = CurrentWeapon.Dagger;
-                break;
-        }
+        currentWeapon = MapWeaponType(newWeapon.weaponType);
+        IsWeaponEquipped = true;
 
         if (IsOwner)
         {
             net_currentWeapon.Value = currentWeapon;
-            net_itemIndex.Value = newWeapon.itemIndex;
+            net_itemName.Value = newWeapon.name; // sync name not index
         }
 
-        UpdateWeaponVisuals(currentWeapon, newWeapon.weaponSprite);
+        UpdateWeaponVisuals(currentWeapon, newWeapon.name);
     }
 
     private void UnequipWeapon()
     {
         currentWeapon = CurrentWeapon.None;
+        IsWeaponEquipped = false;
 
         if (IsOwner)
         {
-            net_currentWeapon.Value = currentWeapon;
-            net_itemIndex.Value = -1;
+            net_currentWeapon.Value = CurrentWeapon.None;
+            net_itemName.Value = "";
         }
 
-        UpdateWeaponVisuals(CurrentWeapon.None, null);
+        UpdateWeaponVisuals(CurrentWeapon.None, "");
     }
 
-    void EquipEquipment(Equipment newEquipment)
+    private void OnWeaponChanged(CurrentWeapon previous, CurrentWeapon next)
+    {
+        UpdateWeaponVisuals(next, net_itemName.Value.ToString());
+    }
+
+    private void OnItemNameChanged(FixedString64Bytes previous, FixedString64Bytes next)
+    {
+        UpdateWeaponVisuals(net_currentWeapon.Value, next.ToString());
+    }
+
+    private void UpdateWeaponVisuals(CurrentWeapon weapon, string itemName)
+    {
+        // disable all first
+        Sword.enabled = Staff.enabled = Bow.enabled = Dagger.enabled = false;
+        Sprite sprite = FetchWeaponSprite(itemName);
+
+        switch (weapon)
+        {
+            case CurrentWeapon.Sword:
+                Sword.enabled = true;
+                Sword.sprite = sprite;
+                break;
+            case CurrentWeapon.Staff:
+                Staff.enabled = true;
+                Staff.sprite = sprite;
+                break;
+            case CurrentWeapon.Bow:
+                Bow.enabled = true;
+                Bow.sprite = sprite;
+                break;
+            case CurrentWeapon.Dagger:
+                Dagger.enabled = true;
+                Dagger.sprite = sprite;
+                break;
+        }
+    }
+
+    private Sprite FetchWeaponSprite(string itemName)
+    {
+        if (string.IsNullOrEmpty(itemName)) return null;
+
+        Item baseItem = itemDatabase.GetItemByName(itemName);
+        if (baseItem is Weapon weapon) return weapon.weaponSprite;
+
+        return null;
+    }
+
+    void EquipArmor(Equipment newEquipment)
     {
         switch (newEquipment.equipmentType)
         {
@@ -223,7 +220,19 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
-    void UnEquipEquipment(Equipment oldItem)
+    private CurrentWeapon MapWeaponType(WeaponType type)
+    {
+        switch (type)
+        {
+            case WeaponType.Sword: return CurrentWeapon.Sword;
+            case WeaponType.Staff: return CurrentWeapon.Staff;
+            case WeaponType.Bow: return CurrentWeapon.Bow;
+            case WeaponType.Dagger: return CurrentWeapon.Dagger;
+            default: return CurrentWeapon.None;
+        }
+    }
+
+    void UnEquipArmor(Equipment oldItem)
     {
         if (oldItem == null) return;
 
@@ -264,71 +273,24 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
-    void OnWeaponChanged(CurrentWeapon previousWeapon, CurrentWeapon newWeapon)
+    private void ApplyModifier(StatModifier mod, bool apply)
     {
-        UpdateWeaponVisuals(newWeapon, FetchSpriteFromItemIndex(newWeapon, net_itemIndex.Value));
-    }
+        int value = apply ? mod.value : -mod.value;
 
-    void OnItemIndexChanged(int previousIndex, int newIndex)
-    {
-        UpdateWeaponVisuals(net_currentWeapon.Value, FetchSpriteFromItemIndex(net_currentWeapon.Value, newIndex));
-    }
-
-    private void UpdateWeaponVisuals(CurrentWeapon weapon, Sprite newSprite)
-    {
-        // Disable all weapon visuals
-        Sword.enabled = false;
-        Staff.enabled = false;
-        Bow.enabled = false;
-        Dagger.enabled = false;
-
-        // Enable the appropriate weapon sprite based on the current weapon
-        switch (weapon)
+        switch (mod.statType)
         {
-            case CurrentWeapon.Sword:
-                Sword.enabled = true;
-                Sword.sprite = newSprite;
+            case StatType.Health:
+                player.IncreaseHealth(value);
                 break;
-            case CurrentWeapon.Staff:
-                Staff.enabled = true;
-                Staff.sprite = newSprite;
+            case StatType.Damage:
+                player.IncreaseDamage(value);
                 break;
-            case CurrentWeapon.Bow:
-                Bow.enabled = true;
-                Bow.sprite = newSprite;
+            case StatType.CoolDown:
+                player.IncreaseCoolDown(value);
                 break;
-            case CurrentWeapon.Dagger:
-                Dagger.enabled = true;
-                Dagger.sprite = newSprite;
+            case StatType.AttackSpeed:
+                player.IncreaseAttackSpeed(value);
                 break;
-        }
-    }
-
-    private Sprite FetchSpriteFromItemIndex(CurrentWeapon weapon, int itemIndex)
-    {
-        if (itemIndex < 0) return null; // No weapon equipped
-
-        switch (weapon)
-        {
-            case CurrentWeapon.Sword:
-
-                switch (itemIndex)
-                {
-                    case 1: return characterData.Swords[0].weaponSprite;
-                    case 5: return characterData.Swords[1].weaponSprite;
-                    case 6: return characterData.Swords[2].weaponSprite;
-                    case 10: return characterData.Swords[3].weaponSprite;
-                    default: return null;
-                }
-
-            case CurrentWeapon.Staff:
-                return characterData.Staffs[itemIndex].weaponSprite;
-            case CurrentWeapon.Bow:
-                return characterData.Bows[itemIndex].weaponSprite;
-            case CurrentWeapon.Dagger:
-                return characterData.Daggers[itemIndex].weaponSprite;
-            default:
-                return null;
         }
     }
 }
