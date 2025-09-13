@@ -8,6 +8,9 @@ public class NPCResetState : NPCState
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);
+        owner.HeadAnimator.Play("Run_" + owner.npc.HeadIndex);
+        owner.ChestAnimator.Play("Run_" + owner.npc.ChestIndex);
+        owner.LegsAnimator.Play("Run_" + owner.npc.LegsIndex);
 
         owner.npc.PatienceBar.Patience.Value = 0;
     }

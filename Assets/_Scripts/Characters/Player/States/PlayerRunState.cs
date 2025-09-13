@@ -8,9 +8,10 @@ public class PlayerRunState : PlayerState
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.player.hairIndex);
-        owner.HeadAnimator.Play(owner.Equipment.HeadIndex + "_Run");
-        owner.ChestAnimator.Play(owner.Equipment.ChestIndex + "_Run");
-        owner.LegsAnimator.Play(owner.Equipment.LegsIndex + "_Run");
+        owner.HeadAnimator.Play("Run_" + owner.Equipment.HeadIndex);
+        owner.ChestAnimator.Play("Run_" + owner.Equipment.ChestIndex);
+        owner.LegsAnimator.Play("Run_" + owner.Equipment.LegsIndex);
+
     }
 
     public override void UpdateState(PlayerStateMachine owner)

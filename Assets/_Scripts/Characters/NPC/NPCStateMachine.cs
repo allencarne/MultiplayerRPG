@@ -23,6 +23,9 @@ public class NPCStateMachine : NetworkBehaviour
     public Animator EyesAnimator;
     public Animator HairAnimator;
     public Animator SwordAnimator;
+    public Animator HeadAnimator;
+    public Animator ChestAnimator;
+    public Animator LegsAnimator;
 
     [Header("Status Effects")]
     public CrowdControl CrowdControl;
@@ -330,6 +333,15 @@ public class NPCStateMachine : NetworkBehaviour
 
         HairAnimator.SetFloat("Horizontal", direction.x);
         HairAnimator.SetFloat("Vertical", direction.y);
+
+        HeadAnimator.SetFloat("Horizontal", direction.x);
+        HeadAnimator.SetFloat("Vertical", direction.y);
+
+        ChestAnimator.SetFloat("Horizontal", direction.x);
+        ChestAnimator.SetFloat("Vertical", direction.y);
+
+        LegsAnimator.SetFloat("Horizontal", direction.x);
+        LegsAnimator.SetFloat("Vertical", direction.y);
     }
 
     public void AnimateCast(Vector2 snappedDirection)
@@ -349,6 +361,18 @@ public class NPCStateMachine : NetworkBehaviour
         HairAnimator.SetFloat("Horizontal", snappedDirection.x);
         HairAnimator.SetFloat("Vertical", snappedDirection.y);
         HairAnimator.Play("Sword_Attack_C_" + npc.hairIndex);
+
+        HeadAnimator.SetFloat("Horizontal", snappedDirection.x);
+        HeadAnimator.SetFloat("Vertical", snappedDirection.y);
+        HeadAnimator.Play("Sword_Attack_C_" + npc.HeadIndex);
+
+        ChestAnimator.SetFloat("Horizontal", snappedDirection.x);
+        ChestAnimator.SetFloat("Vertical", snappedDirection.y);
+        ChestAnimator.Play("Sword_Attack_C_" + npc.ChestIndex);
+
+        LegsAnimator.SetFloat("Horizontal", snappedDirection.x);
+        LegsAnimator.SetFloat("Vertical", snappedDirection.y);
+        LegsAnimator.Play("Sword_Attack_C_" + npc.LegsIndex);
     }
 
     public void StartCastBar(float castTime)
@@ -416,6 +440,9 @@ public class NPCStateMachine : NetworkBehaviour
         SwordAnimator.Play("Sword_Attack_I");
         EyesAnimator.Play("Sword_Attack_I");
         HairAnimator.Play("Sword_Attack_I_" + npc.hairIndex);
+        HeadAnimator.Play("Sword_Attack_I_" + npc.HeadIndex);
+        ChestAnimator.Play("Sword_Attack_I_" + npc.ChestIndex);
+        LegsAnimator.Play("Sword_Attack_I_" + npc.LegsIndex);
 
         StartCoroutine(ImpactTime(recoveryTime, ability));
     }
@@ -433,6 +460,9 @@ public class NPCStateMachine : NetworkBehaviour
         SwordAnimator.Play("Sword_Attack_R");
         EyesAnimator.Play("Sword_Attack_R");
         HairAnimator.Play("Sword_Attack_R_" + npc.hairIndex);
+        HeadAnimator.Play("Sword_Attack_R_" + npc.HeadIndex);
+        ChestAnimator.Play("Sword_Attack_R_" + npc.ChestIndex);
+        LegsAnimator.Play("Sword_Attack_R_" + npc.LegsIndex);
 
         // Start Recovery
         if (IsServer)

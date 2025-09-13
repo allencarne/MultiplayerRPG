@@ -12,9 +12,9 @@ public class PlayerSpawnState : PlayerState
         owner.BodyAnimator.Play("Spawn");
         owner.EyesAnimator.Play("Spawn");
         owner.HairAnimator.Play("Spawn");
-        owner.HeadAnimator.Play(owner.Equipment.HeadIndex + "_Spawn");
-        owner.ChestAnimator.Play(owner.Equipment.ChestIndex + "_Spawn");
-        owner.LegsAnimator.Play(owner.Equipment.LegsIndex + "_Spawn");
+        owner.HeadAnimator.Play("Spawn_" + owner.Equipment.HeadIndex);
+        owner.ChestAnimator.Play("Spawn_" + owner.Equipment.ChestIndex);
+        owner.LegsAnimator.Play( "Spawn_" + owner.Equipment.LegsIndex);
 
         owner.StartCoroutine(Duration(owner));
     }

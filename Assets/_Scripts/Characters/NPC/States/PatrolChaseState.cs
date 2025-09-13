@@ -12,6 +12,9 @@ public class PatrolChaseState : NPCState
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);
+        owner.HeadAnimator.Play("Run_" + owner.npc.HeadIndex);
+        owner.ChestAnimator.Play("Run_" + owner.npc.ChestIndex);
+        owner.LegsAnimator.Play("Run_" + owner.npc.LegsIndex);
     }
 
     public override void UpdateState(NPCStateMachine owner)

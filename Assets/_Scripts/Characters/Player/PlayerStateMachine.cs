@@ -17,7 +17,6 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator BodyAnimator;
     public Animator HairAnimator;
     public Animator EyesAnimator;
-
     public Animator HeadAnimator;
     public Animator ChestAnimator;
     public Animator LegsAnimator;

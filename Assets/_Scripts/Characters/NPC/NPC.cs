@@ -33,6 +33,9 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] Color skinColor;
     [SerializeField] Color hairColor;
     public int hairIndex;
+    public int HeadIndex;
+    public int ChestIndex;
+    public int LegsIndex;
 
     [Header("Variables")]
     public float TotalPatience;
