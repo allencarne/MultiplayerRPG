@@ -542,9 +542,9 @@ public class PlayerStateMachine : NetworkBehaviour
         SwordAnimator.Play("Sword_Attack_I");
         EyesAnimator.Play("Sword_Attack_I");
         HairAnimator.Play("Sword_Attack_I_" + player.hairIndex);
-        HeadAnimator.Play("Sword_Attack_I_" + Equipment.HeadIndex);
-        ChestAnimator.Play("Sword_Attack_I_" + Equipment.ChestIndex);
-        LegsAnimator.Play("Sword_Attack_I_" + Equipment.LegsIndex);
+        HeadAnimator.Play("Sword_Attack_I_" + Equipment.HeadAnimIndex);
+        ChestAnimator.Play("Sword_Attack_I_" + Equipment.ChestAnimIndex);
+        LegsAnimator.Play("Sword_Attack_I_" + Equipment.LegsAnimIndex);
 
         StartCoroutine(ImpactTime(recoveryTime, ability));
     }
@@ -562,9 +562,9 @@ public class PlayerStateMachine : NetworkBehaviour
         SwordAnimator.Play("Sword_Attack_R");
         EyesAnimator.Play("Sword_Attack_R");
         HairAnimator.Play("Sword_Attack_R_" + player.hairIndex);
-        HeadAnimator.Play("Sword_Attack_R_" + Equipment.HeadIndex);
-        ChestAnimator.Play("Sword_Attack_R_" + Equipment.ChestIndex);
-        LegsAnimator.Play("Sword_Attack_R_" + Equipment.LegsIndex);
+        HeadAnimator.Play("Sword_Attack_R_" + Equipment.HeadAnimIndex);
+        ChestAnimator.Play("Sword_Attack_R_" + Equipment.ChestAnimIndex);
+        LegsAnimator.Play("Sword_Attack_R_" + Equipment.LegsAnimIndex);
 
         // Start Recovery
         if (IsServer)
@@ -643,15 +643,15 @@ public class PlayerStateMachine : NetworkBehaviour
 
         HeadAnimator.SetFloat("Horizontal", snappedDirection.x);
         HeadAnimator.SetFloat("Vertical", snappedDirection.y);
-        HeadAnimator.Play("Sword_Attack_C_" + Equipment.HeadIndex);
+        HeadAnimator.Play("Sword_Attack_C_" + Equipment.HeadAnimIndex);
 
         ChestAnimator.SetFloat("Horizontal", snappedDirection.x);
         ChestAnimator.SetFloat("Vertical", snappedDirection.y);
-        ChestAnimator.Play("Sword_Attack_C_" + Equipment.ChestIndex);
+        ChestAnimator.Play("Sword_Attack_C_" + Equipment.ChestAnimIndex);
 
         LegsAnimator.SetFloat("Horizontal", snappedDirection.x);
         LegsAnimator.SetFloat("Vertical", snappedDirection.y);
-        LegsAnimator.Play("Sword_Attack_C_" + Equipment.LegsIndex);
+        LegsAnimator.Play("Sword_Attack_C_" + Equipment.LegsAnimIndex);
     }
 
     public void StartCastBar(float castTime)

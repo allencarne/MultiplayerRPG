@@ -8,9 +8,9 @@ public class PlayerRunState : PlayerState
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
         owner.HairAnimator.Play("Run_" + owner.player.hairIndex);
-        owner.HeadAnimator.Play("Run_" + owner.Equipment.HeadIndex);
-        owner.ChestAnimator.Play("Run_" + owner.Equipment.ChestIndex);
-        owner.LegsAnimator.Play("Run_" + owner.Equipment.LegsIndex);
+        owner.HeadAnimator.Play("Run_" + owner.Equipment.HeadAnimIndex);
+        owner.ChestAnimator.Play("Run_" + owner.Equipment.ChestAnimIndex);
+        owner.LegsAnimator.Play("Run_" + owner.Equipment.LegsAnimIndex);
 
     }
 

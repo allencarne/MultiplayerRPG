@@ -8,9 +8,9 @@ public class PlayerIdleState : PlayerState
         owner.BodyAnimator.Play("Idle");
         owner.EyesAnimator.Play("Idle");
         owner.HairAnimator.Play("Idle_" + owner.player.hairIndex);
-        owner.HeadAnimator.Play("Idle_" + owner.Equipment.HeadIndex);
-        owner.ChestAnimator.Play("Idle_" + owner.Equipment.ChestIndex);
-        owner.LegsAnimator.Play("Idle_" + owner.Equipment.LegsIndex);
+        owner.HeadAnimator.Play("Idle_" + owner.Equipment.HeadAnimIndex);
+        owner.ChestAnimator.Play("Idle_" + owner.Equipment.ChestAnimIndex);
+        owner.LegsAnimator.Play("Idle_" + owner.Equipment.LegsAnimIndex);
     }
 
     public override void UpdateState(PlayerStateMachine owner)

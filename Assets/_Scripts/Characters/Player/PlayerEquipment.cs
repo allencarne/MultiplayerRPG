@@ -11,11 +11,11 @@ public class PlayerEquipment : NetworkBehaviour
 
     [Header("Armor")]
     [SerializeField] SpriteRenderer headSprite;
-    public int HeadIndex;
+    public int HeadAnimIndex;
     [SerializeField] SpriteRenderer chestSprite;
-    public int ChestIndex;
+    public int ChestAnimIndex;
     [SerializeField] SpriteRenderer legsSprite;
-    public int LegsIndex;
+    public int LegsAnimIndex;
 
     [Header("WeaponSprites")]
     [SerializeField] SpriteRenderer Sword;
@@ -194,8 +194,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: HeadIndex = newEquipment.itemIndex; break;
-                    case 2: HeadIndex = newEquipment.itemIndex; break;
+                    case 1: HeadAnimIndex = newEquipment.itemIndex; break;
+                    case 2: HeadAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
 
@@ -205,8 +205,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: ChestIndex = newEquipment.itemIndex; break;
-                    case 2: ChestIndex = newEquipment.itemIndex; break;
+                    case 1: ChestAnimIndex = newEquipment.itemIndex; break;
+                    case 2: ChestAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
 
@@ -216,8 +216,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: LegsIndex = newEquipment.itemIndex; break;
-                    case 2: LegsIndex = newEquipment.itemIndex; break;
+                    case 1: LegsAnimIndex = newEquipment.itemIndex; break;
+                    case 2: LegsAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
         }
@@ -235,8 +235,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (oldItem.itemIndex)
                 {
-                    case 1: HeadIndex = 0; break;
-                    case 2: HeadIndex = 0; break;
+                    case 1: HeadAnimIndex = 0; break;
+                    case 2: HeadAnimIndex = 0; break;
                 }
                 break;
 
@@ -246,8 +246,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (oldItem.itemIndex)
                 {
-                    case 1: ChestIndex = 0; break;
-                    case 2: ChestIndex = 0; break;
+                    case 1: ChestAnimIndex = 0; break;
+                    case 2: ChestAnimIndex = 0; break;
                 }
                 break;
 
@@ -257,8 +257,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (oldItem.itemIndex)
                 {
-                    case 1: LegsIndex = 0; break;
-                    case 2: LegsIndex = 0; break;
+                    case 1: LegsAnimIndex = 0; break;
+                    case 2: LegsAnimIndex = 0; break;
                 }
                 break;
         }
@@ -311,7 +311,16 @@ public class PlayerEquipment : NetworkBehaviour
         switch (weapon)
         {
             case CurrentWeapon.Sword:
-                return characterData.Swords[itemIndex].weaponSprite;
+
+                switch (itemIndex)
+                {
+                    case 1: return characterData.Swords[0].weaponSprite;
+                    case 5: return characterData.Swords[1].weaponSprite;
+                    case 6: return characterData.Swords[2].weaponSprite;
+                    case 10: return characterData.Swords[3].weaponSprite;
+                    default: return null;
+                }
+
             case CurrentWeapon.Staff:
                 return characterData.Staffs[itemIndex].weaponSprite;
             case CurrentWeapon.Bow:
