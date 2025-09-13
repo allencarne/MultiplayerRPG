@@ -346,6 +346,7 @@ MonoBehaviour:
   IsPulled: 0
   player: {fileID: 0}
   enemy: {fileID: 8001761435941154268}
+  npc: {fileID: 0}
   rb: {fileID: 5523836673144577605}
   crowdControl: {fileID: 568576347084111489}
 --- !u!1 &1460692778231623802
@@ -448,6 +449,7 @@ MonoBehaviour:
   crowdControl: {fileID: 568576347084111489}
   player: {fileID: 0}
   enemy: {fileID: 8001761435941154268}
+  npc: {fileID: 0}
 --- !u!1 &1754617305072220180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,14 +1550,14 @@ MonoBehaviour:
   BaseArmor: 0
   CurrentArmor: 0
   expToGive: 0
+  EnemySpawnerReference: {fileID: 0}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
   healthBar: {fileID: 1827727574157614942}
+  PatienceBar: {fileID: 724171929062541461}
   CastBar: {fileID: 7538848170769235199}
-  EnemySpawnerReference: {fileID: 0}
   bodySprite: {fileID: 6097983339982761849}
   shadowSprite: {fileID: 4703369267009836052}
-  PatienceBar: {fileID: 724171929062541461}
   TotalPatience: 5
   isDummy: 0
   isDead: 0
@@ -2077,6 +2079,7 @@ MonoBehaviour:
   IsKnockedUp: 0
   player: {fileID: 0}
   enemy: {fileID: 8001761435941154268}
+  npc: {fileID: 0}
   crowdControl: {fileID: 568576347084111489}
   parts:
   - {fileID: 4079066563252610188}
@@ -2806,6 +2809,7 @@ MonoBehaviour:
   IsStunned: 0
   player: {fileID: 0}
   enemy: {fileID: 8001761435941154268}
+  npc: {fileID: 0}
 --- !u!1 &7718053580365454685
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,6 +3291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   enemy: {fileID: 5006461325889791442}
+  npc: {fileID: 0}
   patienceBarFill: {fileID: 1073209790744301300}
   Patience:
     m_InternalValue: 0
