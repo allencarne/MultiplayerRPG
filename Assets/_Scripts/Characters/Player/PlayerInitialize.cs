@@ -223,15 +223,12 @@ public class PlayerInitialize : NetworkBehaviour
         {
             PlayerPrefs.DeleteKey(key);
             PlayerPrefs.Save();
-            Debug.Log($"Cleared {key}");
             return;
         }
 
         string baseName = item.name.Replace("(Clone)", "").Trim();
         PlayerPrefs.SetString(key, baseName);
         PlayerPrefs.Save();
-
-        Debug.Log($"Saved {key}: {baseName}");
     }
 
     IEnumerator SaveText()
