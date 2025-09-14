@@ -44,6 +44,9 @@ public class PlayerEquipment : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        Debug.Log(net_currentWeapon.Value);
+        Debug.Log(net_itemName.Value);
+
         net_currentWeapon.OnValueChanged += OnWeaponChanged;
         net_itemName.OnValueChanged += OnItemNameChanged;
 
@@ -113,8 +116,9 @@ public class PlayerEquipment : NetworkBehaviour
 
         if (IsOwner)
         {
+            string cleanName = newWeapon.name.Replace("(Clone)", "").Trim();
             net_currentWeapon.Value = currentWeapon;
-            net_itemName.Value = newWeapon.name; // sync name not index
+            net_itemName.Value = cleanName;
         }
 
         UpdateWeaponVisuals(currentWeapon, newWeapon.name);
@@ -175,7 +179,8 @@ public class PlayerEquipment : NetworkBehaviour
     {
         if (string.IsNullOrEmpty(itemName)) return null;
 
-        Item baseItem = itemDatabase.GetItemByName(itemName);
+        string cleanName = itemName.Replace("(Clone)", "").Trim();
+        Item baseItem = itemDatabase.GetItemByName(cleanName);
         if (baseItem is Weapon weapon) return weapon.weaponSprite;
 
         return null;
