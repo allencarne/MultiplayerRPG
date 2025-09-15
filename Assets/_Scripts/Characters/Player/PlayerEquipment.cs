@@ -44,9 +44,6 @@ public class PlayerEquipment : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log(net_currentWeapon.Value);
-        Debug.Log(net_itemName.Value);
-
         net_currentWeapon.OnValueChanged += OnWeaponChanged;
         net_itemName.OnValueChanged += OnItemNameChanged;
 
