@@ -562,6 +562,55 @@ MonoBehaviour:
   debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
   impedePercent: 0.036
   ImpedeStacks: 0
+--- !u!1 &1903429837124387615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4088039321344813671}
+  - component: {fileID: 3498860030662666909}
+  m_Layer: 8
+  m_Name: CC_Interrupt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4088039321344813671
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903429837124387615}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000563406889795294}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 2.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3498860030662666909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903429837124387615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d47ed03e633e14ebd788006876073c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CC_Interrupt
+  IsInterrupted: 0
 --- !u!1 &2052251179753496521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,6 +1663,7 @@ MonoBehaviour:
   enemyBasicAbility: {fileID: 0}
   enemySpecialAbility: {fileID: 0}
   enemyUltimateAbility: {fileID: 0}
+  currentAbility: {fileID: 0}
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -1693,7 +1743,7 @@ MonoBehaviour:
   knockBack: {fileID: 3211822102543212139}
   knockUp: {fileID: 5435382533902370838}
   pull: {fileID: 7153349269270407564}
-  IsInterrupted: 0
+  interrupt: {fileID: 3498860030662666909}
 --- !u!114 &9147428821795703245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3192,6 +3242,7 @@ RectTransform:
   - {fileID: 6085738669012189899}
   - {fileID: 2076905003837703598}
   - {fileID: 132929917212654199}
+  - {fileID: 4088039321344813671}
   m_Father: {fileID: 67878199580936367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

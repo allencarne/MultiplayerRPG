@@ -43,6 +43,8 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanSpecial = true;
     public bool CanUltimate = true;
 
+    public bool isHurt = false;
+
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
     public Transform Target { get; set; }
@@ -287,7 +289,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void HandlePotentialInterrupt()
     {
-        if (!CrowdControl.IsInterrupted) return;
+        if (!CrowdControl.interrupt.IsInterrupted) return;
         if (enemy.CastBar.castBarFill.color != Color.black) return;
 
         if (IsServer)

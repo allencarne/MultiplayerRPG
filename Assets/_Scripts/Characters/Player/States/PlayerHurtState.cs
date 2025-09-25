@@ -6,7 +6,7 @@ public class PlayerHurtState : PlayerState
     {
         if (!owner.IsOwner) return;
 
-        owner.CrowdControl.IsInterrupted = true;
+        owner.CrowdControl.interrupt.IsInterrupted = true;
         owner.BodyAnimator.Play("Hurt");
     }
 
@@ -21,7 +21,7 @@ public class PlayerHurtState : PlayerState
             !owner.CrowdControl.knockUp.IsKnockedUp &&
             !owner.CrowdControl.pull.IsPulled)
         {
-            owner.CrowdControl.IsInterrupted = false;
+            owner.CrowdControl.interrupt.IsInterrupted = false;
             owner.SetState(PlayerStateMachine.State.Idle);
         }
     }

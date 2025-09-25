@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8894121348854786466}
   - component: {fileID: 7940408725805837076}
   - component: {fileID: 8573193392874070026}
-  - component: {fileID: 3874116190924247797}
+  - component: {fileID: 1748725671665721845}
   m_Layer: 0
   m_Name: Skill_FrailSlash
   m_TagString: Untagged
@@ -62,6 +62,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,6 +85,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
@@ -314,11 +317,14 @@ MonoBehaviour:
   AbilityDamage: 0
   CharacterDamage: 0
   attacker: {fileID: 0}
-  IgnoreEnemy: 0
   IsBasic: 0
+  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
---- !u!114 &3874116190924247797
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0
+--- !u!114 &1748725671665721845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,11 +333,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 120296350165298231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bebadc795ffe845bb07b85c9bca50c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ba52384d264a1a48979a710e04a84bf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::InterruptOnTrigger
+  ShowTopMostFoldoutHeaderGroup: 1
   attacker: {fileID: 0}
-  Direction: {x: 0, y: 0}
-  Amount: 0
-  Duration: 0
+  IgnorePlayer: 0
   IgnoreEnemy: 0
+  IgnoreNPC: 0

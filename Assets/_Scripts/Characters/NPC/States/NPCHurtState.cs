@@ -4,7 +4,7 @@ public class NPCHurtState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
-        owner.CrowdControl.IsInterrupted = true;
+        //owner.CrowdControl.IsInterrupted = true;
         owner.BodyAnimator.Play("Hurt");
     }
 
@@ -19,7 +19,7 @@ public class NPCHurtState : NPCState
             !owner.CrowdControl.knockUp.IsKnockedUp &&
             !owner.CrowdControl.pull.IsPulled)
         {
-            owner.CrowdControl.IsInterrupted = false;
+            //owner.CrowdControl.IsInterrupted = false;
             owner.SetState(NPCStateMachine.State.Idle);
         }
     }

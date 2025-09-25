@@ -12,5 +12,5 @@ public class CrowdControl : NetworkBehaviour
     public CC_KnockBack knockBack;
     public CC_KnockUp knockUp;
     public CC_Pull pull;
-    public bool IsInterrupted;
+    public CC_Interrupt interrupt;
 }

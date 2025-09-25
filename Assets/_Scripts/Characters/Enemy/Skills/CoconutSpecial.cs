@@ -24,10 +24,21 @@ public class CoconutSpecial : EnemyAbility
 
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
-        Debug.Log(currentState);
-
         if (currentState == State.Done) return;
-        if (!owner.IsAttacking) return;
+
+        if (currentState == State.Cast)
+        {
+            if (owner.isHurt)
+            {
+                Debug.Log("IsHurt");
+            }
+
+            if (owner.CrowdControl.interrupt.IsInterrupted)
+            {
+                owner.enemy.CastBar.InterruptCastBar();
+                DoneState(owner);
+            }
+        }
 
         stateTimer -= Time.deltaTime;
         if (stateTimer <= 0f)
@@ -68,6 +79,7 @@ public class CoconutSpecial : EnemyAbility
     void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Cast");
+        owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
     }
 
     void ImpactState(EnemyStateMachine owner)
@@ -80,13 +92,14 @@ public class CoconutSpecial : EnemyAbility
     {
         // Animate Recovery
         owner.EnemyAnimator.Play("Basic Recovery");
+        owner.enemy.CastBar.StartRecovery(recoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
     void DoneState(EnemyStateMachine owner)
     {
+        Debug.Log("No Interrupt");
         currentState = State.Done;
         owner.IsAttacking = false;
-
         StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, coolDown));
         owner.SetState(EnemyStateMachine.State.Idle);
     }

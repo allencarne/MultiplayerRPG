@@ -110,6 +110,12 @@ public class FrailSlash : PlayerAbility
             knockbackOnTrigger.Direction = aimDirection.normalized;
             knockbackOnTrigger.IgnoreNPC = true;
         }
+
+        InterruptOnTrigger interrupt = attackInstance.GetComponent<InterruptOnTrigger>();
+        if (interrupt != null)
+        {
+            interrupt.attacker = attacker;
+        }
     }
 
     [ServerRpc]

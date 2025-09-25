@@ -22,7 +22,7 @@ public class Telegraph : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        if (crowdControl != null && crowdControl.IsInterrupted)
+        if (crowdControl != null && crowdControl.interrupt.IsInterrupted)
         {
             Destroy(gameObject);
             return;
