@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
@@ -17,6 +18,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyAbility enemyBasicAbility;
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
+    public EnemyAbility currentAbility;
 
     public LayerMask obstacleLayerMask;
 
@@ -42,8 +44,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;
-
-    public bool isHurt = false;
 
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
@@ -207,14 +207,36 @@ public class EnemyStateMachine : NetworkBehaviour
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
-    public void Hurt()
+    public void InterruptAbility(bool isStaggered)
     {
-        SetState(State.Hurt);
+        enemy.CastBar.InterruptCastBar();
+        StartCoroutine(CoolDown(currentAbility.skillType, currentAbility.CoolDown));
+        currentAbility.currentState = EnemyAbility.State.Done;
+        IsAttacking = false;
+        currentAbility = null;
+
+        if (isStaggered)
+        {
+            SetState(State.Hurt);
+        }
+        else
+        {
+            SetState(State.Idle);
+        }
     }
 
-    public void Death()
+    public IEnumerator CoolDown(EnemyAbility.SkillType type, float coolDown)
     {
-        SetState(State.Death);
+        float modifiedCooldown = coolDown / enemy.CurrentCDR;
+
+        yield return new WaitForSeconds(modifiedCooldown);
+
+        switch (type)
+        {
+            case EnemyAbility.SkillType.Basic: CanBasic = true; break;
+            case EnemyAbility.SkillType.Special: CanSpecial = true; break;
+            case EnemyAbility.SkillType.Ultimate: CanUltimate = true; break;
+        }
     }
 
     [ClientRpc]
@@ -289,7 +311,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void HandlePotentialInterrupt()
     {
-        if (!CrowdControl.interrupt.IsInterrupted) return;
+        if (!CrowdControl.interrupt.CanInterrupt) return;
         if (enemy.CastBar.castBarFill.color != Color.black) return;
 
         if (IsServer)

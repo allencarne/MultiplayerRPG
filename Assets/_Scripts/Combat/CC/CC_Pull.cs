@@ -131,7 +131,7 @@ public class CC_Pull : NetworkBehaviour, IPullable
         pullVelocity = direction * amount;
 
         if (player != null) player.Hurt();
-        if (enemy != null) enemy.Hurt();
+        if (enemy != null && enemy.currentAbility != null) enemy.InterruptAbility(true);
         if (npc != null) npc.Hurt();
 
         StartCoroutine(PullDuration(duration));

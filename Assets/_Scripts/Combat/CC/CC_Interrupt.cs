@@ -3,17 +3,40 @@ using UnityEngine;
 
 public class CC_Interrupt : MonoBehaviour, IInterruptable
 {
-    public bool IsInterrupted;
+    public bool CanInterrupt;
+
+    [SerializeField] PlayerStateMachine player;
+    [SerializeField] EnemyStateMachine enemy;
+    [SerializeField] NPCStateMachine npc;
 
     public void Interrupt()
     {
-        StartCoroutine(duration()); ;
+        StartCoroutine(duration());
     }
 
     IEnumerator duration()
     {
-        IsInterrupted = true;
+        CanInterrupt = true;
+
+        if (player != null)
+        {
+
+        }
+
+        if (enemy != null && enemy.currentAbility != null)
+        {
+            if (enemy.currentAbility.currentState == EnemyAbility.State.Cast)
+            {
+                enemy.InterruptAbility(false);
+            }
+        }
+
+        if (npc != null)
+        {
+
+        }
+
         yield return new WaitForSeconds(.3f);
-        IsInterrupted = false;
+        CanInterrupt = false;
     }
 }

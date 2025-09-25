@@ -142,7 +142,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
     void ApplyKnockUp()
     {
         if (player != null) player.Hurt();
-        if (enemy != null) enemy.Hurt();
+        if (enemy != null && enemy.currentAbility != null) enemy.InterruptAbility(true);
         if (npc != null) npc.Hurt();
     }
 }

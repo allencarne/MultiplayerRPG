@@ -2127,7 +2127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d47ed03e633e14ebd788006876073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CC_Interrupt
-  IsInterrupted: 0
+  CanInterrupt: 0
+  player: {fileID: 0}
+  enemy: {fileID: 0}
+  npc: {fileID: 7580783204941348460}
 --- !u!1 &4867192131550035865
 GameObject:
   m_ObjectHideFlags: 0

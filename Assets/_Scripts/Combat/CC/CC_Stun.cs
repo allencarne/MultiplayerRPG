@@ -124,7 +124,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     void ApplyStun()
     {
         if (player != null) player.Hurt();
-        if (enemy != null) enemy.Hurt();
+        if (enemy != null && enemy.currentAbility != null) enemy.InterruptAbility(true);
         if (npc != null) npc.Hurt();
     }
 }

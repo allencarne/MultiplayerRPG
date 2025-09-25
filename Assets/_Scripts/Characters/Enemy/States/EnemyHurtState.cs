@@ -5,7 +5,7 @@ public class EnemyHurtState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        owner.isHurt = true;
+        owner.CrowdControl.interrupt.Interrupt();
         owner.EnemyAnimator.Play("Hurt");
     }
 
@@ -16,7 +16,6 @@ public class EnemyHurtState : EnemyState
             !owner.CrowdControl.knockUp.IsKnockedUp && 
             !owner.CrowdControl.pull.IsPulled)
         {
-            owner.isHurt = false;
             owner.SetState(EnemyStateMachine.State.Idle);
         }
     }

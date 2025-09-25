@@ -16,7 +16,7 @@ public class FillTelegraph : NetworkBehaviour
 
         if (crowdControl != null)
         {
-            if (crowdControl.interrupt.IsInterrupted)
+            if (crowdControl.interrupt.CanInterrupt)
             {
                 Destroy(gameObject);
             }

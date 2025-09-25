@@ -2,22 +2,15 @@ using UnityEngine;
 
 public class CoconutSpecial : EnemyAbility
 {
-    enum State { Cast, Impact, Recovery, Done }
-    State currentState;
-
-    [Header("Time")]
-    [SerializeField] float castTime;
-    [SerializeField] float impactTime;
-    [SerializeField] float recoveryTime;
-    [SerializeField] float coolDown;
-    float stateTimer;
-
     public override void AbilityStart(EnemyStateMachine owner)
     {
         owner.CanSpecial = false;
         owner.IsAttacking = true;
+        owner.currentAbility = this;
+        skillType = SkillType.Special;
 
-        float modifiedCastTime = castTime / owner.enemy.CurrentAttackSpeed;
+        float modifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
+
         ChangeState(State.Cast, modifiedCastTime);
         CastState(owner);
     }
@@ -25,20 +18,6 @@ public class CoconutSpecial : EnemyAbility
     public override void AbilityUpdate(EnemyStateMachine owner)
     {
         if (currentState == State.Done) return;
-
-        if (currentState == State.Cast)
-        {
-            if (owner.isHurt)
-            {
-                Debug.Log("IsHurt");
-            }
-
-            if (owner.CrowdControl.interrupt.IsInterrupted)
-            {
-                owner.enemy.CastBar.InterruptCastBar();
-                DoneState(owner);
-            }
-        }
 
         stateTimer -= Time.deltaTime;
         if (stateTimer <= 0f)
@@ -64,11 +43,11 @@ public class CoconutSpecial : EnemyAbility
         {
             case State.Cast:
                 ImpactState(owner);
-                ChangeState(State.Impact, impactTime);
+                ChangeState(State.Impact, ImpactTime);
                 break;
             case State.Impact:
                 RecoveryState(owner);
-                ChangeState(State.Recovery, recoveryTime);
+                ChangeState(State.Recovery, RecoveryTime);
                 break;
             case State.Recovery:
                 DoneState(owner);
@@ -79,7 +58,7 @@ public class CoconutSpecial : EnemyAbility
     void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Cast");
-        owner.enemy.CastBar.StartCast(castTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
     }
 
     void ImpactState(EnemyStateMachine owner)
@@ -92,15 +71,15 @@ public class CoconutSpecial : EnemyAbility
     {
         // Animate Recovery
         owner.EnemyAnimator.Play("Basic Recovery");
-        owner.enemy.CastBar.StartRecovery(recoveryTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
     void DoneState(EnemyStateMachine owner)
     {
-        Debug.Log("No Interrupt");
+        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, CoolDown));
         currentState = State.Done;
         owner.IsAttacking = false;
-        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, coolDown));
+        owner.currentAbility = null;
         owner.SetState(EnemyStateMachine.State.Idle);
     }
 }

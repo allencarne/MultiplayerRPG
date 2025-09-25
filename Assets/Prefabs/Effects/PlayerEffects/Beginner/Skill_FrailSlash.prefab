@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 8894121348854786466}
   - component: {fileID: 7940408725805837076}
   - component: {fileID: 8573193392874070026}
-  - component: {fileID: 1748725671665721845}
+  - component: {fileID: 1718116793721486072}
   m_Layer: 0
   m_Name: Skill_FrailSlash
   m_TagString: Untagged
@@ -324,7 +324,7 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
---- !u!114 &1748725671665721845
+--- !u!114 &1718116793721486072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -333,11 +333,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 120296350165298231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba52384d264a1a48979a710e04a84bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 40bebadc795ffe845bb07b85c9bca50c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InterruptOnTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackOnTrigger
   ShowTopMostFoldoutHeaderGroup: 1
   attacker: {fileID: 0}
+  Direction: {x: 0, y: 0}
+  Amount: 0
+  Duration: 0
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0

@@ -610,7 +610,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d47ed03e633e14ebd788006876073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CC_Interrupt
-  IsInterrupted: 0
+  CanInterrupt: 0
+  player: {fileID: 0}
+  enemy: {fileID: 8001761435941154268}
+  npc: {fileID: 0}
 --- !u!1 &2052251179753496521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,6 +1680,7 @@ MonoBehaviour:
   CanBasic: 1
   CanSpecial: 1
   CanUltimate: 1
+  isHurt: 0
   CrowdControl: {fileID: 568576347084111489}
   Buffs: {fileID: 6402268282429907237}
   DeBuffs: {fileID: 1913103621938294649}

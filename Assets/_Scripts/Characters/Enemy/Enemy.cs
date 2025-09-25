@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -134,7 +135,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             UpdateObjectiveClientRpc(ObjectiveType.Kill, EnemyID, 1, attackerID.NetworkObjectId);
 
             SpawnDeathEffectClientRpc(transform.position, transform.rotation);
-            stateMachine.Death();
+            stateMachine.SetState(EnemyStateMachine.State.Death);
         }
     }
 
