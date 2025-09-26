@@ -3,13 +3,18 @@ using UnityEngine;
 
 public abstract class EnemyAbility : NetworkBehaviour
 {
+    public GameObject AttackPrefab_;
+    public GameObject TelegraphPrefab_;
+    public int AbilityDamage_;
+    public float AttackRange_;
+
     public float CastTime;
     public float ImpactTime;
     public float RecoveryTime;
     public float CoolDown;
     protected float stateTimer;
 
-    public enum State { Cast, Impact, Recovery, Done }
+    public enum State { Cast, Action, Impact, Recovery, Done }
     public State currentState;
 
     public enum SkillType { Basic, Special, Ultimate }
