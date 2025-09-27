@@ -78,7 +78,7 @@ public abstract class EnemyAbility : NetworkBehaviour
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
-        FillTelegraph circle = attackInstance.GetComponent<FillTelegraph>();
+        CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
         if (circle != null)
         {
             circle.FillSpeed = ModifiedCastTime + ActionTime;
@@ -86,7 +86,7 @@ public abstract class EnemyAbility : NetworkBehaviour
             circle.enemy = gameObject.GetComponentInParent<Enemy>();
         }
 
-        Telegraph square = attackInstance.GetComponent<Telegraph>();
+        SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
             square.FillSpeed = ModifiedCastTime + ActionTime;

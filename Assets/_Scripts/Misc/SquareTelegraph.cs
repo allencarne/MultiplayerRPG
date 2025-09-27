@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Telegraph : NetworkBehaviour
+public class SquareTelegraph : NetworkBehaviour
 {
     [SerializeField] private SpriteRenderer frontSprite;
     public float FillSpeed = 1f;

@@ -78,7 +78,7 @@ public class EnemyBasic : EnemyAbility
 
         attackNetObj.Spawn();
 
-        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
+        CircleTelegraph _fillTelegraph = attackInstance.GetComponent<CircleTelegraph>();
         if (_fillTelegraph != null)
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;

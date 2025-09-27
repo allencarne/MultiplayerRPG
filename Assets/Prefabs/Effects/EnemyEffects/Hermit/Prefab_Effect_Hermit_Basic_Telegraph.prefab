@@ -52,6 +52,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: -6
@@ -140,6 +143,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -161,6 +166,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: -5
@@ -231,8 +237,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6896672682325052302}
   - component: {fileID: 2558052562633774128}
-  - component: {fileID: 6408395353374145910}
   - component: {fileID: 5312168890139369894}
+  - component: {fileID: 6056493490778820255}
   m_Layer: 0
   m_Name: Prefab_Effect_Hermit_Basic_Telegraph
   m_TagString: Untagged
@@ -269,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 53207620
+  GlobalObjectIdHash: 1334476713
   InScenePlacedSourceGlobalObjectIdHash: 2557648980
   DeferredDespawnTick: 0
   Ownership: 1
@@ -282,22 +288,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6408395353374145910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8082874607347805388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca392883c7f58942828cb54745d661f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  frontSprite: {fileID: 1734352687232561772}
-  FillSpeed: 0
-  crowdControl: {fileID: 0}
 --- !u!114 &5312168890139369894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,3 +334,20 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &6056493490778820255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8082874607347805388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2fa3b1f18e1c2849893e236d9c1aa9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CircleTelegraph
+  ShowTopMostFoldoutHeaderGroup: 1
+  frontSprite: {fileID: 1734352687232561772}
+  FillSpeed: 0
+  crowdControl: {fileID: 0}
+  enemy: {fileID: 0}

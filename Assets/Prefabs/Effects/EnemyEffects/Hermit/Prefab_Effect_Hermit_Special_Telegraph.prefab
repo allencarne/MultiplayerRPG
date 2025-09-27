@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7651237254691459202}
   - component: {fileID: 3918361521744478994}
-  - component: {fileID: 3616322739155230232}
   - component: {fileID: 3808847961787564432}
+  - component: {fileID: 7615098073490914493}
   m_Layer: 0
   m_Name: Prefab_Effect_Hermit_Special_Telegraph
   m_TagString: Untagged
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1519279643
+  GlobalObjectIdHash: 1814300488
   InScenePlacedSourceGlobalObjectIdHash: 1334476713
   DeferredDespawnTick: 0
   Ownership: 1
@@ -61,22 +61,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &3616322739155230232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4672092746175665225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca392883c7f58942828cb54745d661f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  frontSprite: {fileID: 9117561548478270029}
-  FillSpeed: 0
-  crowdControl: {fileID: 0}
 --- !u!114 &3808847961787564432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +107,23 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &7615098073490914493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4672092746175665225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2fa3b1f18e1c2849893e236d9c1aa9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CircleTelegraph
+  ShowTopMostFoldoutHeaderGroup: 1
+  frontSprite: {fileID: 9117561548478270029}
+  FillSpeed: 0
+  crowdControl: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!1 &5305405630642250365
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +177,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -197,6 +200,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: -5
@@ -309,6 +313,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -330,6 +336,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: -6

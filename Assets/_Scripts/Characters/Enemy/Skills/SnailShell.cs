@@ -120,7 +120,7 @@ public class SnailShell : EnemyAbility
 
         attackNetObj.Spawn();
 
-        Telegraph _fillTelegraph = attackInstance.GetComponent<Telegraph>();
+        SquareTelegraph _fillTelegraph = attackInstance.GetComponent<SquareTelegraph>();
         if (_fillTelegraph != null)
         {
             _fillTelegraph.FillSpeed = modifiedCastTime;

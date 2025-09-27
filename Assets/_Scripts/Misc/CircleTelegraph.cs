@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class FillTelegraph : NetworkBehaviour
+public class CircleTelegraph : NetworkBehaviour
 {
     [SerializeField] SpriteRenderer frontSprite;
     public float FillSpeed;
