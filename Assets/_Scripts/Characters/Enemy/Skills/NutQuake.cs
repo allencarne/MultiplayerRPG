@@ -63,7 +63,7 @@ public class NutQuake : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(castTime: CastTime, owner.enemy.CurrentAttackSpeed);
-        SpawnTelegraph(SpawnPosition, ModifiedCastTime + ActionTime);
+        Telegraph(false, false);
     }
 
     void ActionState(EnemyStateMachine owner)
@@ -74,7 +74,7 @@ public class NutQuake : EnemyAbility
     void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Ultimate Impact");
-        SpawnAttack(SpawnPosition, AimDirection, owner.NetworkObject);
+        SpawnAttack(owner.NetworkObject);
     }
 
     void RecoveryState(EnemyStateMachine owner)
@@ -83,27 +83,10 @@ public class NutQuake : EnemyAbility
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
-    void SpawnTelegraph(Vector2 spawnPosition, float modifiedCastTime)
+    void SpawnAttack(NetworkObject attacker)
     {
-        GameObject attackInstance = Instantiate(TelegraphPrefab_, spawnPosition, Quaternion.identity);
+        GameObject attackInstance = Instantiate(AttackPrefab_, SpawnPosition, Quaternion.identity);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
-        attackNetObj.Spawn();
-
-        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
-        if (_fillTelegraph != null)
-        {
-            _fillTelegraph.FillSpeed = modifiedCastTime;
-            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
-        }
-    }
-
-    void SpawnAttack(Vector2 spawnPosition, Vector2 aimDirection, NetworkObject attacker)
-    {
-        GameObject attackInstance = Instantiate(AttackPrefab_, spawnPosition, Quaternion.identity);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
         attackNetObj.Spawn();
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
@@ -120,7 +103,7 @@ public class NutQuake : EnemyAbility
             knockbackOnTrigger.attacker = attacker;
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
 

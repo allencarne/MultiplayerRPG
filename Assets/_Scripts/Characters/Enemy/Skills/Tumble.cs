@@ -72,7 +72,7 @@ public class Tumble : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
-        SpawnTelegraph(SpawnPosition, AimRotation, ModifiedCastTime + ActionTime);
+        Telegraph(true, true);
     }
 
     void ActionState(EnemyStateMachine owner)
@@ -92,29 +92,10 @@ public class Tumble : EnemyAbility
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
-    void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
-    {
-        Vector2 offset = AimDirection.normalized * AttackRange_;
-
-        GameObject attackInstance = Instantiate(TelegraphPrefab_, spawnPosition + offset, spawnRotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
-        attackNetObj.Spawn();
-
-        Telegraph _fillTelegraph = attackInstance.GetComponent<Telegraph>();
-        if (_fillTelegraph != null)
-        {
-            _fillTelegraph.FillSpeed = modifiedCastTime;
-            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
-        }
-    }
-
     void SpawnAttack(NetworkObject attacker)
     {
         GameObject attackInstance = Instantiate(AttackPrefab_, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
         attackNetObj.Spawn();
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();

@@ -63,7 +63,7 @@ public class SproutSlap : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
-        SpawnTelegraph();
+        Telegraph(true, true);
     }
 
     void ImpactState(EnemyStateMachine owner)
@@ -76,21 +76,6 @@ public class SproutSlap : EnemyAbility
     {
         owner.EnemyAnimator.Play("Basic Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
-    }
-
-    void SpawnTelegraph()
-    {
-        GameObject attackInstance = Instantiate(TelegraphPrefab_, SpawnPosition + AimOffset, AimRotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-        attackNetObj.Spawn();
-
-        FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
-        if (_fillTelegraph != null)
-        {
-            _fillTelegraph.FillSpeed = ModifiedCastTime;
-            _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
-        }
     }
 
     void SpawnAttack(NetworkObject attacker)

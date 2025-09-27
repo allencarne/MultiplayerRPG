@@ -3,16 +3,22 @@ using UnityEngine;
 
 public abstract class EnemyAbility : NetworkBehaviour
 {
+    [Header("Attack")]
     public GameObject AttackPrefab_;
     public GameObject TelegraphPrefab_;
     public int AbilityDamage_;
     public float AttackRange_;
 
+    [Header("Time")]
     public float CastTime;
-    public float ActionTime;
     public float ImpactTime;
     public float RecoveryTime;
+
+    [Header("CoolDown")]
     public float CoolDown;
+
+    [Header("Action")]
+    public float ActionTime;
 
     [HideInInspector] protected float stateTimer;
     [HideInInspector] protected float ModifiedCastTime;
@@ -61,5 +67,31 @@ public abstract class EnemyAbility : NetworkBehaviour
     public virtual void Impact(EnemyStateMachine owner)
     {
 
+    }
+
+    protected void Telegraph(bool useOffset, bool useRotation)
+    {
+        Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
+        Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
+
+        GameObject attackInstance = Instantiate(TelegraphPrefab_, position, rotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+        attackNetObj.Spawn();
+
+        FillTelegraph circle = attackInstance.GetComponent<FillTelegraph>();
+        if (circle != null)
+        {
+            circle.FillSpeed = ModifiedCastTime + ActionTime;
+            circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+            circle.enemy = gameObject.GetComponentInParent<Enemy>();
+        }
+
+        Telegraph square = attackInstance.GetComponent<Telegraph>();
+        if (square != null)
+        {
+            square.FillSpeed = ModifiedCastTime + ActionTime;
+            square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
+            square.enemy = gameObject.GetComponentInParent<Enemy>();
+        }
     }
 }
