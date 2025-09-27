@@ -20,6 +20,10 @@ public abstract class EnemyAbility : NetworkBehaviour
     [Header("Action")]
     public float ActionTime;
 
+    [Header("Knockback")]
+    [SerializeField] protected float KnockBackAmount_;
+    [SerializeField] protected float KnockBackDuration_;
+
     [HideInInspector] protected float stateTimer;
     [HideInInspector] protected float ModifiedCastTime;
 
@@ -66,7 +70,7 @@ public abstract class EnemyAbility : NetworkBehaviour
     public abstract void AbilityFixedUpdate(EnemyStateMachine owner);
     public virtual void Impact(EnemyStateMachine owner)
     {
-
+        // Remove
     }
 
     protected void Telegraph(bool useOffset, bool useRotation)
@@ -93,5 +97,39 @@ public abstract class EnemyAbility : NetworkBehaviour
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             square.enemy = gameObject.GetComponentInParent<Enemy>();
         }
+    }
+
+    protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
+    {
+        Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
+        Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
+
+        GameObject attackInstance = Instantiate(AttackPrefab_, position, rotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+        attackNetObj.Spawn();
+
+        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
+        if (damageOnTrigger != null)
+        {
+            damageOnTrigger.attacker = attacker;
+            damageOnTrigger.AbilityDamage = AbilityDamage_;
+            damageOnTrigger.IgnoreEnemy = true;
+        }
+
+        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
+        if (knockbackOnTrigger != null)
+        {
+            knockbackOnTrigger.attacker = attacker;
+            knockbackOnTrigger.Amount = KnockBackAmount_;
+            knockbackOnTrigger.Duration = KnockBackDuration_;
+            knockbackOnTrigger.Direction = AimDirection.normalized;
+            knockbackOnTrigger.IgnoreEnemy = true;
+        }
+
+        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
+        if (death != null) death.enemy = GetComponentInParent<Enemy>();
+
+        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
     }
 }

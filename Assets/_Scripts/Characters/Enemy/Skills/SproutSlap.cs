@@ -1,13 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SproutSlap : EnemyAbility
 {
-    [Header("Knockback")]
-    [SerializeField] float knockBackAmount;
-    [SerializeField] float knockBackDuration;
-
     public override void AbilityStart(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
@@ -38,7 +33,7 @@ public class SproutSlap : EnemyAbility
 
     }
 
-    private void HandleStateTransition(EnemyStateMachine owner)
+    void HandleStateTransition(EnemyStateMachine owner)
     {
         switch (currentState)
         {
@@ -69,40 +64,12 @@ public class SproutSlap : EnemyAbility
     void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Impact");
-        SpawnAttack(owner.NetworkObject);
+        Attack(owner.NetworkObject, true, true);
     }
 
     void RecoveryState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
-    }
-
-    void SpawnAttack(NetworkObject attacker)
-    {
-        GameObject attackInstance = Instantiate(AttackPrefab_, SpawnPosition + AimOffset, Quaternion.identity);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-        attackNetObj.Spawn();
-
-        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
-        if (damageOnTrigger != null)
-        {
-            damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = AbilityDamage_;
-            damageOnTrigger.IgnoreEnemy = true;
-        }
-
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
-        if (knockbackOnTrigger != null)
-        {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = knockBackAmount;
-            knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = AimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
-        }
-
-        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.enemy = GetComponentInParent<Enemy>();
     }
 }

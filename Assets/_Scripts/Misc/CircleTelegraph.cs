@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class CircleTelegraph : NetworkBehaviour
 {
     [SerializeField] SpriteRenderer frontSprite;
-    public float FillSpeed;
+
+    [HideInInspector] public float FillSpeed;
     [HideInInspector] public CrowdControl crowdControl;
     [HideInInspector] public Enemy enemy;
 

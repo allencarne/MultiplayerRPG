@@ -4,8 +4,8 @@ using UnityEngine;
 public class SquareTelegraph : NetworkBehaviour
 {
     [SerializeField] private SpriteRenderer frontSprite;
-    public float FillSpeed = 1f;
 
+    [HideInInspector] public float FillSpeed;
     [HideInInspector] public CrowdControl crowdControl;
     [HideInInspector] public Enemy enemy;
 

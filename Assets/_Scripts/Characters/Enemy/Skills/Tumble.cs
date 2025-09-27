@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class Tumble : EnemyAbility
 {
-    [Header("Knockback")]
-    [SerializeField] float knockBackAmount;
-    [SerializeField] float knockBackDuration;
-
     [Header("Slide")]
     [SerializeField] float slideForce;
 
@@ -43,7 +39,7 @@ public class Tumble : EnemyAbility
         }
     }
 
-    private void HandleStateTransition(EnemyStateMachine owner)
+    void HandleStateTransition(EnemyStateMachine owner)
     {
         switch (currentState)
         {
@@ -83,40 +79,12 @@ public class Tumble : EnemyAbility
     void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Special Impact");
-        SpawnAttack(owner.NetworkObject);
+        Attack(owner.NetworkObject, true, true);
     }
 
     void RecoveryState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Special Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
-    }
-
-    void SpawnAttack(NetworkObject attacker)
-    {
-        GameObject attackInstance = Instantiate(AttackPrefab_, SpawnPosition + AimOffset, AimRotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-        attackNetObj.Spawn();
-
-        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
-        if (damageOnTrigger != null)
-        {
-            damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = AbilityDamage_;
-            damageOnTrigger.IgnoreEnemy = true;
-        }
-
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
-        if (knockbackOnTrigger != null)
-        {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = knockBackAmount;
-            knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = AimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
-        }
-
-        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
     }
 }
