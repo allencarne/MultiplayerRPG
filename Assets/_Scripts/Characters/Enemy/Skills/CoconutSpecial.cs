@@ -31,12 +31,6 @@ public class CoconutSpecial : EnemyAbility
 
     }
 
-    private void ChangeState(State nextState, float duration)
-    {
-        currentState = nextState;
-        stateTimer = duration;
-    }
-
     private void HandleStateTransition(EnemyStateMachine owner)
     {
         switch (currentState)
@@ -72,14 +66,5 @@ public class CoconutSpecial : EnemyAbility
         // Animate Recovery
         owner.EnemyAnimator.Play("Basic Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
-    }
-
-    void DoneState(EnemyStateMachine owner)
-    {
-        StartCoroutine(owner.CoolDownTime(EnemyStateMachine.SkillType.Special, CoolDown));
-        currentState = State.Done;
-        owner.IsAttacking = false;
-        owner.currentAbility = null;
-        owner.SetState(EnemyStateMachine.State.Idle);
     }
 }

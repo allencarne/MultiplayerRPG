@@ -239,6 +239,18 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
+    public void InitializeAbility(EnemyAbility.SkillType skilltype, EnemyAbility ability)
+    {
+        switch (skilltype)
+        {
+            case EnemyAbility.SkillType.Basic: CanBasic = false; break;
+            case EnemyAbility.SkillType.Special: CanSpecial = false; break;
+            case EnemyAbility.SkillType.Ultimate: CanUltimate = false; break;
+        }
+        IsAttacking = true;
+        currentAbility = ability;
+    }
+
     [ClientRpc]
     public void HandleDeathClientRPC()
     {

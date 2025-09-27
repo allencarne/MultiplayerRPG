@@ -14,9 +14,7 @@ public class NutQuake : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.CanUltimate = false;
-        owner.IsAttacking = true;
-        owner.currentAbility = this;
+        owner.InitializeAbility(skillType, this);
 
         // Stop
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -41,12 +39,6 @@ public class NutQuake : EnemyAbility
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
     {
 
-    }
-
-    private void ChangeState(State nextState, float duration)
-    {
-        currentState = nextState;
-        stateTimer = duration;
     }
 
     private void HandleStateTransition(EnemyStateMachine owner)
@@ -97,15 +89,6 @@ public class NutQuake : EnemyAbility
         // Animate Recovery
         owner.EnemyAnimator.Play("Ultimate Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
-    }
-
-    void DoneState(EnemyStateMachine owner)
-    {
-        StartCoroutine(owner.CoolDown(skillType, CoolDown));
-        currentState = State.Done;
-        owner.IsAttacking = false;
-        owner.currentAbility = null;
-        owner.SetState(EnemyStateMachine.State.Idle);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, float modifiedCastTime)

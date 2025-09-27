@@ -18,9 +18,7 @@ public class Tumble : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.CanSpecial = false;
-        owner.IsAttacking = true;
-        owner.currentAbility = this;
+        owner.InitializeAbility(skillType, this);
 
         // Stop
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -52,12 +50,6 @@ public class Tumble : EnemyAbility
         {
             owner.EnemyRB.linearVelocity = aimDirection * slideForce;
         }
-    }
-
-    private void ChangeState(State nextState, float duration)
-    {
-        currentState = nextState;
-        stateTimer = duration;
     }
 
     private void HandleStateTransition(EnemyStateMachine owner)
@@ -109,15 +101,6 @@ public class Tumble : EnemyAbility
         // Animate Recovery
         owner.EnemyAnimator.Play("Special Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
-    }
-
-    void DoneState(EnemyStateMachine owner)
-    {
-        StartCoroutine(owner.CoolDown(skillType, CoolDown));
-        currentState = State.Done;
-        owner.IsAttacking = false;
-        owner.currentAbility = null;
-        owner.SetState(EnemyStateMachine.State.Idle);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
