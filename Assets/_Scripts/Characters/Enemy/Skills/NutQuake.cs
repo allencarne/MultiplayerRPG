@@ -9,15 +9,9 @@ public class NutQuake : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.InitializeAbility(skillType, this);
-
-        // Stop
+        InitializeAbility(skillType, owner);
         owner.EnemyRB.linearVelocity = Vector2.zero;
-
-        // Cast Time
         ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-
-        // Spawn Position
         SpawnPosition = owner.transform.position;
 
         // Aim
@@ -131,9 +125,6 @@ public class NutQuake : EnemyAbility
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null)
-        {
-            death.enemy = GetComponentInParent<Enemy>();
-        }
+        if (death != null) death.enemy = GetComponentInParent<Enemy>();
     }
 }

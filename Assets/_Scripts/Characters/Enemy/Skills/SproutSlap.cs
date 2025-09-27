@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SproutSlap : EnemyAbility
 {
@@ -9,21 +10,16 @@ public class SproutSlap : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.InitializeAbility(skillType,this);
-
-        // Stop
+        InitializeAbility(skillType, owner);
         owner.EnemyRB.linearVelocity = Vector2.zero;
-
-        // Cast Time
         ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-
-        // Spawn Position
         SpawnPosition = owner.transform.position;
 
-        // Direction
+        // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
+        AimOffset = AimDirection.normalized * AttackRange_;
 
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
@@ -67,13 +63,13 @@ public class SproutSlap : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
-        SpawnTelegraph(SpawnPosition, AimRotation, ModifiedCastTime);
+        SpawnTelegraph();
     }
 
     void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Impact");
-        SpawnAttack(SpawnPosition, AimDirection, owner.NetworkObject);
+        SpawnAttack(owner.NetworkObject);
     }
 
     void RecoveryState(EnemyStateMachine owner)
@@ -82,31 +78,25 @@ public class SproutSlap : EnemyAbility
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
-    void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
+    void SpawnTelegraph()
     {
-        Vector2 offset = AimDirection.normalized * AttackRange_;
-
-        GameObject attackInstance = Instantiate(TelegraphPrefab_, spawnPosition + offset, spawnRotation);
+        GameObject attackInstance = Instantiate(TelegraphPrefab_, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
         attackNetObj.Spawn();
 
         FillTelegraph _fillTelegraph = attackInstance.GetComponent<FillTelegraph>();
         if (_fillTelegraph != null)
         {
-            _fillTelegraph.FillSpeed = modifiedCastTime;
+            _fillTelegraph.FillSpeed = ModifiedCastTime;
             _fillTelegraph.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             _fillTelegraph.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Vector2 aimDirection, NetworkObject attacker)
+    void SpawnAttack(NetworkObject attacker)
     {
-        Vector2 offset = aimDirection.normalized * AttackRange_;
-
-        GameObject attackInstance = Instantiate(AttackPrefab_, spawnPosition + offset, Quaternion.identity);
+        GameObject attackInstance = Instantiate(AttackPrefab_, SpawnPosition + AimOffset, Quaternion.identity);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
         attackNetObj.Spawn();
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
@@ -123,14 +113,11 @@ public class SproutSlap : EnemyAbility
             knockbackOnTrigger.attacker = attacker;
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null)
-        {
-            death.enemy = GetComponentInParent<Enemy>();
-        }
+        if (death != null) death.enemy = GetComponentInParent<Enemy>();
     }
 }

@@ -20,12 +20,25 @@ public abstract class EnemyAbility : NetworkBehaviour
     [HideInInspector] protected Vector2 SpawnPosition;
     [HideInInspector] protected Vector2 AimDirection;
     [HideInInspector] protected Quaternion AimRotation;
+    [HideInInspector] protected Vector2 AimOffset;
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     public State currentState;
 
     public enum SkillType { Basic, Special, Ultimate }
     public SkillType skillType;
+
+    protected void InitializeAbility(SkillType skilltype, EnemyStateMachine owner)
+    {
+        switch (skilltype)
+        {
+            case SkillType.Basic: owner.CanBasic = false; break;
+            case SkillType.Special: owner.CanSpecial = false; break;
+            case SkillType.Ultimate: owner.CanUltimate = false; break;
+        }
+        owner.IsAttacking = true;
+        owner.currentAbility = this;
+    }
 
     protected void ChangeState(State next, float duration)
     {

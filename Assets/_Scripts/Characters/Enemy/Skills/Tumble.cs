@@ -12,21 +12,16 @@ public class Tumble : EnemyAbility
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
-        owner.InitializeAbility(skillType, this);
-
-        // Stop
+        InitializeAbility(skillType, owner);
         owner.EnemyRB.linearVelocity = Vector2.zero;
-
-        // Cast Time
         ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-
-        // Spawn Position
         SpawnPosition = owner.transform.position;
 
-        // Direction
+        // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
+        AimOffset = AimDirection.normalized * AttackRange_;
 
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
@@ -88,7 +83,7 @@ public class Tumble : EnemyAbility
     void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Special Impact");
-        SpawnAttack(SpawnPosition, AimRotation, owner.NetworkObject);
+        SpawnAttack(owner.NetworkObject);
     }
 
     void RecoveryState(EnemyStateMachine owner)
@@ -115,11 +110,9 @@ public class Tumble : EnemyAbility
         }
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, NetworkObject attacker)
+    void SpawnAttack(NetworkObject attacker)
     {
-        Vector2 offset = AimDirection.normalized * AttackRange_;
-
-        GameObject attackInstance = Instantiate(AttackPrefab_, spawnPosition + offset, spawnRotation);
+        GameObject attackInstance = Instantiate(AttackPrefab_, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
 
         attackNetObj.Spawn();
@@ -143,9 +136,6 @@ public class Tumble : EnemyAbility
         }
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null)
-        {
-            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
-        }
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
     }
 }
