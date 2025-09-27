@@ -38,10 +38,7 @@ public class SproutSlap : EnemyAbility
         if (currentState == State.Done) return;
 
         stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f)
-        {
-            HandleStateTransition(owner);
-        }
+        if (stateTimer <= 0f) HandleStateTransition(owner);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)

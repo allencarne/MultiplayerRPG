@@ -43,10 +43,7 @@ public class Tumble : EnemyAbility
         if (currentState == State.Done) return;
 
         stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f)
-        {
-            HandleStateTransition(owner);
-        }
+        if (stateTimer <= 0f) HandleStateTransition(owner);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
@@ -68,11 +65,11 @@ public class Tumble : EnemyAbility
         switch (currentState)
         {
             case State.Cast:
-                ImpactState(owner);
+                ActionState(owner);
                 ChangeState(State.Action, actionTime);
                 break;
             case State.Action:
-                ActionState(owner);
+                ImpactState(owner);
                 ChangeState(State.Impact, ImpactTime);
                 break;
             case State.Impact:
@@ -90,7 +87,7 @@ public class Tumble : EnemyAbility
         owner.EnemyAnimator.Play("Special Cast");
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
 
-        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
+        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime + actionTime);
     }
 
     void ActionState(EnemyStateMachine owner)
