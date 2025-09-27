@@ -9,10 +9,17 @@ public abstract class EnemyAbility : NetworkBehaviour
     public float AttackRange_;
 
     public float CastTime;
+    public float ActionTime;
     public float ImpactTime;
     public float RecoveryTime;
     public float CoolDown;
-    protected float stateTimer;
+
+    [HideInInspector] protected float stateTimer;
+    [HideInInspector] protected float ModifiedCastTime;
+
+    [HideInInspector] protected Vector2 SpawnPosition;
+    [HideInInspector] protected Vector2 AimDirection;
+    [HideInInspector] protected Quaternion AimRotation;
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     public State currentState;

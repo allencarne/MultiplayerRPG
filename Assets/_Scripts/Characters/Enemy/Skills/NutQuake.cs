@@ -3,14 +3,9 @@ using UnityEngine;
 
 public class NutQuake : EnemyAbility
 {
-    [SerializeField] float actionTime;
-
     [Header("Knockback")]
     [SerializeField] float knockBackAmount;
     [SerializeField] float knockBackDuration;
-    float modifiedCastTime;
-    Vector2 spawnPosition;
-    Vector2 aimDirection;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -18,13 +13,17 @@ public class NutQuake : EnemyAbility
 
         // Stop
         owner.EnemyRB.linearVelocity = Vector2.zero;
-        aimDirection = (owner.Target.position - transform.position).normalized;
 
-        // Variables
-        modifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        spawnPosition = owner.transform.position;
+        // Cast Time
+        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
 
-        ChangeState(State.Cast, modifiedCastTime);
+        // Spawn Position
+        SpawnPosition = owner.transform.position;
+
+        // Aim
+        AimDirection = (owner.Target.position - transform.position).normalized;
+
+        ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
     }
 
@@ -47,7 +46,7 @@ public class NutQuake : EnemyAbility
         {
             case State.Cast:
                 ActionState(owner);
-                ChangeState(State.Action, actionTime);
+                ChangeState(State.Action, ActionTime);
                 break;
             case State.Action:
                 ImpactState(owner);
@@ -66,9 +65,11 @@ public class NutQuake : EnemyAbility
     void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Ultimate Cast");
+        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(castTime: CastTime, owner.enemy.CurrentAttackSpeed);
-        SpawnTelegraph(spawnPosition, modifiedCastTime + actionTime);
+        SpawnTelegraph(SpawnPosition, ModifiedCastTime + ActionTime);
     }
 
     void ActionState(EnemyStateMachine owner)
@@ -78,15 +79,12 @@ public class NutQuake : EnemyAbility
 
     void ImpactState(EnemyStateMachine owner)
     {
-        // Animate Impact
         owner.EnemyAnimator.Play("Ultimate Impact");
-
-        SpawnAttack(spawnPosition, aimDirection, owner.NetworkObject);
+        SpawnAttack(SpawnPosition, AimDirection, owner.NetworkObject);
     }
 
     void RecoveryState(EnemyStateMachine owner)
     {
-        // Animate Recovery
         owner.EnemyAnimator.Play("Ultimate Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }

@@ -3,15 +3,9 @@ using UnityEngine;
 
 public class Tumble : EnemyAbility
 {
-    [SerializeField] float actionTime;
-
     [Header("Knockback")]
     [SerializeField] float knockBackAmount;
     [SerializeField] float knockBackDuration;
-    float modifiedCastTime;
-    Vector2 spawnPosition;
-    Vector2 aimDirection;
-    Quaternion aimRotation;
 
     [Header("Slide")]
     [SerializeField] float slideForce;
@@ -23,16 +17,18 @@ public class Tumble : EnemyAbility
         // Stop
         owner.EnemyRB.linearVelocity = Vector2.zero;
 
-        // Variables
-        modifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        spawnPosition = owner.transform.position;
+        // Cast Time
+        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
+
+        // Spawn Position
+        SpawnPosition = owner.transform.position;
 
         // Direction
-        aimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        aimRotation = Quaternion.Euler(0, 0, angle);
+        AimDirection = (owner.Target.position - transform.position).normalized;
+        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        AimRotation = Quaternion.Euler(0, 0, angle);
 
-        ChangeState(State.Cast, modifiedCastTime);
+        ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
     }
 
@@ -48,7 +44,7 @@ public class Tumble : EnemyAbility
     {
         if (currentState == State.Action)
         {
-            owner.EnemyRB.linearVelocity = aimDirection * slideForce;
+            owner.EnemyRB.linearVelocity = AimDirection * slideForce;
         }
     }
 
@@ -58,7 +54,7 @@ public class Tumble : EnemyAbility
         {
             case State.Cast:
                 ActionState(owner);
-                ChangeState(State.Action, actionTime);
+                ChangeState(State.Action, ActionTime);
                 break;
             case State.Action:
                 ImpactState(owner);
@@ -77,35 +73,33 @@ public class Tumble : EnemyAbility
     void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Special Cast");
-        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
+        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime + actionTime);
+        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
+        SpawnTelegraph(SpawnPosition, AimRotation, ModifiedCastTime + ActionTime);
     }
 
     void ActionState(EnemyStateMachine owner)
     {
-        // Animate Action
         owner.EnemyAnimator.Play("Special Impact");
     }
 
     void ImpactState(EnemyStateMachine owner)
     {
-        // Animate Impact
         owner.EnemyAnimator.Play("Special Impact");
-
-        SpawnAttack(spawnPosition, aimRotation, owner.NetworkObject);
+        SpawnAttack(SpawnPosition, AimRotation, owner.NetworkObject);
     }
 
     void RecoveryState(EnemyStateMachine owner)
     {
-        // Animate Recovery
         owner.EnemyAnimator.Play("Special Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
     {
-        Vector2 offset = aimDirection.normalized * AttackRange_;
+        Vector2 offset = AimDirection.normalized * AttackRange_;
 
         GameObject attackInstance = Instantiate(TelegraphPrefab_, spawnPosition + offset, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
@@ -123,7 +117,7 @@ public class Tumble : EnemyAbility
 
     void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, NetworkObject attacker)
     {
-        Vector2 offset = aimDirection.normalized * AttackRange_;
+        Vector2 offset = AimDirection.normalized * AttackRange_;
 
         GameObject attackInstance = Instantiate(AttackPrefab_, spawnPosition + offset, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
@@ -144,14 +138,14 @@ public class Tumble : EnemyAbility
             knockbackOnTrigger.attacker = attacker;
             knockbackOnTrigger.Amount = knockBackAmount;
             knockbackOnTrigger.Duration = knockBackDuration;
-            knockbackOnTrigger.Direction = aimDirection.normalized;
+            knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null)
         {
-            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(actionTime));
+            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
         }
     }
 }

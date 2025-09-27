@@ -6,10 +6,6 @@ public class SproutSlap : EnemyAbility
     [Header("Knockback")]
     [SerializeField] float knockBackAmount;
     [SerializeField] float knockBackDuration;
-    float modifiedCastTime;
-    Vector2 spawnPosition;
-    Vector2 aimDirection;
-    Quaternion aimRotation;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -18,16 +14,18 @@ public class SproutSlap : EnemyAbility
         // Stop
         owner.EnemyRB.linearVelocity = Vector2.zero;
 
-        // Variables
-        modifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        spawnPosition = owner.transform.position;
+        // Cast Time
+        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
+
+        // Spawn Position
+        SpawnPosition = owner.transform.position;
 
         // Direction
-        aimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        aimRotation = Quaternion.Euler(0, 0, angle);
+        AimDirection = (owner.Target.position - transform.position).normalized;
+        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        AimRotation = Quaternion.Euler(0, 0, angle);
 
-        ChangeState(State.Cast, modifiedCastTime);
+        ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
     }
 
@@ -65,29 +63,28 @@ public class SproutSlap : EnemyAbility
     void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Cast");
-        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
+        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        SpawnTelegraph(spawnPosition, aimRotation, modifiedCastTime);
+        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
+        SpawnTelegraph(SpawnPosition, AimRotation, ModifiedCastTime);
     }
 
     void ImpactState(EnemyStateMachine owner)
     {
-        // Animate Impact
         owner.EnemyAnimator.Play("Basic Impact");
-
-        SpawnAttack(spawnPosition, aimDirection, owner.NetworkObject);
+        SpawnAttack(SpawnPosition, AimDirection, owner.NetworkObject);
     }
 
     void RecoveryState(EnemyStateMachine owner)
     {
-        // Animate Recovery
         owner.EnemyAnimator.Play("Basic Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 
     void SpawnTelegraph(Vector2 spawnPosition, Quaternion spawnRotation, float modifiedCastTime)
     {
-        Vector2 offset = aimDirection.normalized * AttackRange_;
+        Vector2 offset = AimDirection.normalized * AttackRange_;
 
         GameObject attackInstance = Instantiate(TelegraphPrefab_, spawnPosition + offset, spawnRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
