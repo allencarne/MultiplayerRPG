@@ -28,7 +28,7 @@ public class Tumble : EnemyAbility
         if (currentState == State.Done) return;
 
         stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) HandleStateTransition(owner);
+        if (stateTimer <= 0f) StateTransition(owner);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
@@ -39,7 +39,7 @@ public class Tumble : EnemyAbility
         }
     }
 
-    void HandleStateTransition(EnemyStateMachine owner)
+    void StateTransition(EnemyStateMachine owner)
     {
         switch (currentState)
         {

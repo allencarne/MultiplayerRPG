@@ -6,8 +6,7 @@ public class DestoryAfterAnimationNet : NetworkBehaviour
     {
         if (IsServer)
         {
-            NetworkObject.Destroy(gameObject);
-            //GetComponent<NetworkObject>().Despawn();
+            Destroy(gameObject);
         }
     }
 }

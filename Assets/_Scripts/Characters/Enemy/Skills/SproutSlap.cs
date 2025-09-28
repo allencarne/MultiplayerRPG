@@ -25,7 +25,7 @@ public class SproutSlap : EnemyAbility
         if (currentState == State.Done) return;
 
         stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) HandleStateTransition(owner);
+        if (stateTimer <= 0f) StateTransition(owner);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
@@ -33,7 +33,7 @@ public class SproutSlap : EnemyAbility
 
     }
 
-    void HandleStateTransition(EnemyStateMachine owner)
+    void StateTransition(EnemyStateMachine owner)
     {
         switch (currentState)
         {
@@ -58,13 +58,13 @@ public class SproutSlap : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
-        Telegraph(true, true);
+        Telegraph(true, false);
     }
 
     void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Impact");
-        Attack(owner.NetworkObject, true, true);
+        Attack(owner.NetworkObject, true, false);
     }
 
     void RecoveryState(EnemyStateMachine owner)
