@@ -74,6 +74,9 @@ public class Tumble : EnemyAbility
     void ActionState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Special Impact");
+
+        owner.Buffs.phase.StartPhase(ActionTime + .2f);
+        owner.Buffs.immoveable.StartImmovable(ActionTime + .2f);
     }
 
     void ImpactState(EnemyStateMachine owner)
