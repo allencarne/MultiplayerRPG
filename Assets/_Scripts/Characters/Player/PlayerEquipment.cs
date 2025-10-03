@@ -70,12 +70,14 @@ public class PlayerEquipment : NetworkBehaviour
         init = GetComponent<PlayerInitialize>();
     }
 
-    public void OnEquipmentChanged(Equipment newItem, Equipment oldItem)
+    public void OnEquipmentChanged(Equipment newItem, Equipment oldItem, bool applyModifiers = true)
     {
         if (newItem != null)
         {
-            // Apply stat modifiers
-            foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
+            if (applyModifiers)
+            {
+                foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
+            }
 
             init.SaveStats();
 
@@ -90,8 +92,10 @@ public class PlayerEquipment : NetworkBehaviour
         }
         else
         {
-            // Remove modifiers
-            foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
+            if (applyModifiers)
+            {
+                foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
+            }
 
             init.SaveStats();
 
@@ -277,6 +281,8 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void ApplyModifier(StatModifier mod, bool apply)
     {
+        Debug.Log("ApplyModifier");
+
         int value = apply ? mod.value : -mod.value;
 
         switch (mod.statType)
