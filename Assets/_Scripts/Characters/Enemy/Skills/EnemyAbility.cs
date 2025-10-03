@@ -9,6 +9,7 @@ public abstract class EnemyAbility : NetworkBehaviour
     public GameObject TelegraphPrefab_;
     public int AbilityDamage_;
     public float AttackRange_;
+    public float AttackDuration_;
 
     [Header("Time")]
     public float CastTime;
@@ -198,7 +199,7 @@ public abstract class EnemyAbility : NetworkBehaviour
         if (death != null) death.enemy = GetComponentInParent<Enemy>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(AttackDuration_));
     }
 
 

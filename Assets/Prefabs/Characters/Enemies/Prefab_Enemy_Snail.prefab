@@ -147,11 +147,11 @@ PrefabInstance:
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
-      objectReference: {fileID: 4017548377933114702}
+      objectReference: {fileID: 6965701971324762834}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemySpecialAbility
       value: 
-      objectReference: {fileID: 7091144218376054601}
+      objectReference: {fileID: 814732724822723291}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyUltimateAbility
       value: 
@@ -174,10 +174,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4017548377933114702}
+      addedObject: {fileID: 6965701971324762834}
     - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7091144218376054601}
+      addedObject: {fileID: 814732724822723291}
     - targetCorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8314587649664734274}
@@ -200,6 +200,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  AttackPrefab_: {fileID: 0}
+  TelegraphPrefab_: {fileID: 0}
+  AbilityDamage_: 0
+  AttackRange_: 0
+  AttackDuration_: 0
+  CastTime: 0
+  ImpactTime: 0
+  RecoveryTime: 0
+  CoolDown: 0
+  ActionTime: 0
+  KnockBackAmount_: 0
+  KnockBackDuration_: 0
+  currentState: 0
+  skillType: 0
   attackPrefab: {fileID: 5882438536260200050, guid: 2668a0199fb8e01418be54475e7ad45b, type: 3}
   telegraphPrefab: {fileID: 9204542291995103585, guid: c0275caf056546e46a50c1bffb0d545b, type: 3}
   abilityDamage: 1
@@ -216,7 +230,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 9057004625187020436}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4017548377933114702
+--- !u!114 &6965701971324762834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,25 +239,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 2610729715392630421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ba8b762d077af4b8f8ed6f3a39ce4e, type: 3}
+  m_Script: {fileID: 11500000, guid: c6f5336560e77844e880d911718d5da5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Whack
   ShowTopMostFoldoutHeaderGroup: 1
-  attackPrefab: {fileID: 3769401315426178643, guid: d18fd1ca146dd004c897e483a4b22a15, type: 3}
-  telegraphPrefab: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
-  abilityDamage: 1
-  attackRange: 1
-  castTime: 1
-  recoveryTime: 0.4
-  coolDown: 1
-  knockBackAmount: 5
-  knockBackDuration: 0.3
+  AttackPrefab_: {fileID: 3769401315426178643, guid: d18fd1ca146dd004c897e483a4b22a15, type: 3}
+  TelegraphPrefab_: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
+  AbilityDamage_: 1
+  AttackRange_: 1
+  AttackDuration_: 0
+  CastTime: 1
+  ImpactTime: 0.1
+  RecoveryTime: 0.4
+  CoolDown: 0
+  ActionTime: 0
+  KnockBackAmount_: 5
+  KnockBackDuration_: 0.3
+  currentState: 0
+  skillType: 0
 --- !u!1 &3154958822785688475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 9057004625187020436}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7091144218376054601
+--- !u!114 &814732724822723291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,22 +271,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 3154958822785688475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d14adf4d03e0bf4db4bc12c05e77bb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 52a558cf62df6a947a8e61fd1b7a311a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::StickyTrail
   ShowTopMostFoldoutHeaderGroup: 1
-  attackPrefab: {fileID: 2405726608416270546, guid: 06293bb383d340a478b0e577a48dcbdc, type: 3}
-  telegraphPrefab: {fileID: 860067316465036387, guid: 80c4c2f443f350c47b4e9da03d4402c0, type: 3}
-  abilityDamage: 1
-  attackRange: 0
-  castTime: 1
-  recoveryTime: 0.4
-  coolDown: 7
-  abilityDuration: 5
-  slowStacks: 3
-  slowDuration: 3
-  slideForce: 20
-  slideDuration: 0.15
+  AttackPrefab_: {fileID: 2405726608416270546, guid: 06293bb383d340a478b0e577a48dcbdc, type: 3}
+  TelegraphPrefab_: {fileID: 860067316465036387, guid: 80c4c2f443f350c47b4e9da03d4402c0, type: 3}
+  AbilityDamage_: 1
+  AttackRange_: 0
+  AttackDuration_: 5
+  CastTime: 1
+  ImpactTime: 0.3
+  RecoveryTime: 0.4
+  CoolDown: 7
+  ActionTime: 0
+  KnockBackAmount_: 0
+  KnockBackDuration_: 0
+  currentState: 0
+  skillType: 1
+  slideForce: 10
 --- !u!114 &4092214828984433478 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}

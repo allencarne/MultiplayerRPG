@@ -1,7 +1,6 @@
-using Unity.Netcode;
 using UnityEngine;
 
-public class Tumble : EnemyAbility
+public class StickyTrail : EnemyAbility
 {
     [Header("Slide")]
     [SerializeField] float slideForce;
@@ -51,9 +50,6 @@ public class Tumble : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(ActionTime + .2f);
-        owner.Buffs.immoveable.StartImmovable(ActionTime + .2f);
-
         owner.EnemyAnimator.Play("Special Impact");
         Attack(owner.NetworkObject, true, true);
     }

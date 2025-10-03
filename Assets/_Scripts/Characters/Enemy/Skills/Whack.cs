@@ -1,11 +1,7 @@
-using Unity.Netcode;
 using UnityEngine;
 
-public class Tumble : EnemyAbility
+public class Whack : EnemyAbility
 {
-    [Header("Slide")]
-    [SerializeField] float slideForce;
-
     public override void AbilityStart(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
@@ -33,34 +29,28 @@ public class Tumble : EnemyAbility
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
     {
-        if (currentState == State.Impact)
-        {
-            owner.EnemyRB.linearVelocity = AimDirection * slideForce;
-        }
+
     }
 
     public override void CastState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Cast");
+        owner.EnemyAnimator.Play("Basic Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
-        Telegraph(true, true);
+        Telegraph(true, false);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(ActionTime + .2f);
-        owner.Buffs.immoveable.StartImmovable(ActionTime + .2f);
-
-        owner.EnemyAnimator.Play("Special Impact");
-        Attack(owner.NetworkObject, true, true);
+        owner.EnemyAnimator.Play("Basic Impact");
+        Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Recovery");
+        owner.EnemyAnimator.Play("Basic Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

@@ -200,9 +200,10 @@ MonoBehaviour:
   TelegraphPrefab_: {fileID: 6567221051315506247, guid: de323fab45461404aa3d5598b00feec0, type: 3}
   AbilityDamage_: 1
   AttackRange_: 1
+  AttackDuration_: 0
   CastTime: 1.3
   ImpactTime: 0.1
-  RecoveryTime: 0.3
+  RecoveryTime: 0.5
   CoolDown: 0
   ActionTime: 0
   KnockBackAmount_: 0
@@ -231,11 +232,12 @@ MonoBehaviour:
   TelegraphPrefab_: {fileID: 7858055610590440968, guid: 8dede0b158b20e84a9965305ac9afd40, type: 3}
   AbilityDamage_: 1
   AttackRange_: 0
+  AttackDuration_: 0.3
   CastTime: 1.3
-  ImpactTime: 0.5
+  ImpactTime: 0.3
   RecoveryTime: 0.5
   CoolDown: 6
-  ActionTime: 0.3
+  ActionTime: 0
   KnockBackAmount_: 0
   KnockBackDuration_: 0
   currentState: 0
@@ -263,9 +265,10 @@ MonoBehaviour:
   TelegraphPrefab_: {fileID: 5735069723720587369, guid: f94eb9f69b8eef341b68c186e36952d5, type: 3}
   AbilityDamage_: 1
   AttackRange_: 0
+  AttackDuration_: 0
   CastTime: 1.8
   ImpactTime: 0.5
-  RecoveryTime: 0.3
+  RecoveryTime: 0.5
   CoolDown: 12
   ActionTime: 0.3
   KnockBackAmount_: 0
