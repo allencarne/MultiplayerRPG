@@ -56,7 +56,7 @@ public class Tumble : EnemyAbility
                 ChangeState(State.Recovery, RecoveryTime);
                 break;
             case State.Recovery:
-                DoneState(owner);
+                DoneState(false, owner);
                 break;
         }
     }

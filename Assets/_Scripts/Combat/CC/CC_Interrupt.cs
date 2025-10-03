@@ -23,13 +23,7 @@ public class CC_Interrupt : MonoBehaviour, IInterruptable
 
         }
 
-        if (enemy != null && enemy.currentAbility != null)
-        {
-            if (enemy.currentAbility.currentState == EnemyAbility.State.Cast)
-            {
-                enemy.InterruptAbility(false);
-            }
-        }
+        if (enemy != null) enemy.Interrupt();
 
         if (npc != null)
         {

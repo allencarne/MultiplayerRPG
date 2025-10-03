@@ -207,35 +207,26 @@ public class EnemyStateMachine : NetworkBehaviour
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
-    public void InterruptAbility(bool isStaggered)
+    public void Interrupt()
+    {
+        if (currentAbility == null) return;
+        if (currentAbility.currentState != EnemyAbility.State.Cast) return;
+
+        enemy.CastBar.InterruptCastBar();
+        currentAbility.DoneState(false, this);
+    }
+
+    public void Stagger()
     {
         enemy.CastBar.InterruptCastBar();
-        StartCoroutine(CoolDown(currentAbility.skillType, currentAbility.CoolDown));
-        currentAbility.currentState = EnemyAbility.State.Done;
-        IsAttacking = false;
-        currentAbility = null;
 
-        if (isStaggered)
+        if (currentAbility != null)
         {
-            SetState(State.Hurt);
+            currentAbility.DoneState(true, this);
         }
         else
         {
-            SetState(State.Idle);
-        }
-    }
-
-    public IEnumerator CoolDown(EnemyAbility.SkillType type, float coolDown)
-    {
-        float modifiedCooldown = coolDown / enemy.CurrentCDR;
-
-        yield return new WaitForSeconds(modifiedCooldown);
-
-        switch (type)
-        {
-            case EnemyAbility.SkillType.Basic: CanBasic = true; break;
-            case EnemyAbility.SkillType.Special: CanSpecial = true; break;
-            case EnemyAbility.SkillType.Ultimate: CanUltimate = true; break;
+            SetState(State.Hurt);
         }
     }
 

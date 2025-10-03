@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -56,13 +57,36 @@ public abstract class EnemyAbility : NetworkBehaviour
         stateTimer = duration;
     }
 
-    protected void DoneState(EnemyStateMachine owner)
+    public void DoneState(bool isStaggered, EnemyStateMachine owner)
     {
-        StartCoroutine(owner.CoolDown(skillType, CoolDown));
+        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
         owner.currentAbility = null;
-        owner.SetState(EnemyStateMachine.State.Idle);
+
+        if (isStaggered)
+        {
+            owner.SetState(EnemyStateMachine.State.Hurt);
+        }
+        else
+        {
+            owner.SetState(EnemyStateMachine.State.Idle);
+        }
+        
+    }
+
+    public IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
+    {
+        float modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
+
+        yield return new WaitForSeconds(modifiedCooldown);
+
+        switch (type)
+        {
+            case SkillType.Basic: owner.CanBasic = true; break;
+            case SkillType.Special: owner.CanSpecial = true; break;
+            case SkillType.Ultimate: owner.CanUltimate = true; break;
+        }
     }
 
     public abstract void AbilityStart(EnemyStateMachine owner);
@@ -70,7 +94,7 @@ public abstract class EnemyAbility : NetworkBehaviour
     public abstract void AbilityFixedUpdate(EnemyStateMachine owner);
     public virtual void Impact(EnemyStateMachine owner)
     {
-        // Remove
+        // Remove Later
     }
 
     protected void Telegraph(bool useOffset, bool useRotation)
