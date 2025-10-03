@@ -22,7 +22,7 @@ public class NutQuake : EnemyAbility
         if (currentState == State.Done) return;
 
         stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner);
+        if (stateTimer <= 0f) StateTransition(owner, true);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
@@ -30,29 +30,7 @@ public class NutQuake : EnemyAbility
 
     }
 
-    void StateTransition(EnemyStateMachine owner)
-    {
-        switch (currentState)
-        {
-            case State.Cast:
-                ActionState(owner);
-                ChangeState(State.Action, ActionTime);
-                break;
-            case State.Action:
-                ImpactState(owner);
-                ChangeState(State.Impact, ImpactTime);
-                break;
-            case State.Impact:
-                RecoveryState(owner);
-                ChangeState(State.Recovery, RecoveryTime);
-                break;
-            case State.Recovery:
-                DoneState(false, owner);
-                break;
-        }
-    }
-
-    void CastState(EnemyStateMachine owner)
+    public override void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Ultimate Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
@@ -62,18 +40,18 @@ public class NutQuake : EnemyAbility
         Telegraph(false, false);
     }
 
-    void ActionState(EnemyStateMachine owner)
+    public override void ActionState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Ultimate Action");
     }
 
-    void ImpactState(EnemyStateMachine owner)
+    public override void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Ultimate Impact");
         Attack(owner.NetworkObject, false, false);
     }
 
-    void RecoveryState(EnemyStateMachine owner)
+    public override void RecoveryState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Ultimate Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);

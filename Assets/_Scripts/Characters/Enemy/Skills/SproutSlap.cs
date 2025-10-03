@@ -33,25 +33,7 @@ public class SproutSlap : EnemyAbility
 
     }
 
-    void StateTransition(EnemyStateMachine owner)
-    {
-        switch (currentState)
-        {
-            case State.Cast:
-                ImpactState(owner);
-                ChangeState(State.Impact, ImpactTime);
-                break;
-            case State.Impact:
-                RecoveryState(owner);
-                ChangeState(State.Recovery, RecoveryTime);
-                break;
-            case State.Recovery:
-                DoneState(false, owner);
-                break;
-        }
-    }
-
-    void CastState(EnemyStateMachine owner)
+    public override void CastState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Cast");
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
@@ -61,13 +43,13 @@ public class SproutSlap : EnemyAbility
         Telegraph(true, false);
     }
 
-    void ImpactState(EnemyStateMachine owner)
+    public override void ImpactState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Impact");
         Attack(owner.NetworkObject, true, false);
     }
 
-    void RecoveryState(EnemyStateMachine owner)
+    public override void RecoveryState(EnemyStateMachine owner)
     {
         owner.EnemyAnimator.Play("Basic Recovery");
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);

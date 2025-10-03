@@ -281,8 +281,6 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void ApplyModifier(StatModifier mod, bool apply)
     {
-        Debug.Log("ApplyModifier");
-
         int value = apply ? mod.value : -mod.value;
 
         switch (mod.statType)

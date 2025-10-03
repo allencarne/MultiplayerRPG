@@ -39,24 +39,27 @@ public abstract class EnemyAbility : NetworkBehaviour
     public enum SkillType { Basic, Special, Ultimate }
     public SkillType skillType;
 
-    protected void InitializeAbility(SkillType skilltype, EnemyStateMachine owner)
-    {
-        switch (skilltype)
-        {
-            case SkillType.Basic: owner.CanBasic = false; break;
-            case SkillType.Special: owner.CanSpecial = false; break;
-            case SkillType.Ultimate: owner.CanUltimate = false; break;
-        }
-        owner.IsAttacking = true;
-        owner.currentAbility = this;
-    }
+    public abstract void AbilityStart(EnemyStateMachine owner);
+    public abstract void AbilityUpdate(EnemyStateMachine owner);
+    public abstract void AbilityFixedUpdate(EnemyStateMachine owner);
 
-    protected void ChangeState(State next, float duration)
-    {
-        currentState = next;
-        stateTimer = duration;
-    }
 
+    public virtual void CastState(EnemyStateMachine owner)
+    {
+
+    }
+    public virtual void ActionState(EnemyStateMachine owner)
+    {
+
+    }
+    public virtual void ImpactState(EnemyStateMachine owner)
+    {
+
+    }
+    public virtual void RecoveryState(EnemyStateMachine owner)
+    {
+
+    }
     public void DoneState(bool isStaggered, EnemyStateMachine owner)
     {
         StartCoroutine(CoolDownn(skillType, CoolDown, owner));
@@ -72,10 +75,59 @@ public abstract class EnemyAbility : NetworkBehaviour
         {
             owner.SetState(EnemyStateMachine.State.Idle);
         }
-        
+
     }
 
-    public IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
+
+    protected void StateTransition(EnemyStateMachine owner, bool hasAction = false)
+    {
+        switch (currentState)
+        {
+            case State.Cast:
+                if (hasAction)
+                {
+                    ActionState(owner);
+                    ChangeState(State.Action, ActionTime);
+                }
+                else
+                {
+                    ImpactState(owner);
+                    ChangeState(State.Impact, ImpactTime);
+                }
+                break;
+
+            case State.Action:
+                ImpactState(owner);
+                ChangeState(State.Impact, ImpactTime);
+                break;
+
+            case State.Impact:
+                RecoveryState(owner);
+                ChangeState(State.Recovery, RecoveryTime);
+                break;
+
+            case State.Recovery:
+                DoneState(false, owner);
+                break;
+        }
+    }
+    protected void InitializeAbility(SkillType skilltype, EnemyStateMachine owner)
+    {
+        switch (skilltype)
+        {
+            case SkillType.Basic: owner.CanBasic = false; break;
+            case SkillType.Special: owner.CanSpecial = false; break;
+            case SkillType.Ultimate: owner.CanUltimate = false; break;
+        }
+        owner.IsAttacking = true;
+        owner.currentAbility = this;
+    }
+    protected void ChangeState(State next, float duration)
+    {
+        currentState = next;
+        stateTimer = duration;
+    }
+    IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
 
@@ -89,13 +141,6 @@ public abstract class EnemyAbility : NetworkBehaviour
         }
     }
 
-    public abstract void AbilityStart(EnemyStateMachine owner);
-    public abstract void AbilityUpdate(EnemyStateMachine owner);
-    public abstract void AbilityFixedUpdate(EnemyStateMachine owner);
-    public virtual void Impact(EnemyStateMachine owner)
-    {
-        // Remove Later
-    }
 
     protected void Telegraph(bool useOffset, bool useRotation)
     {
@@ -122,7 +167,6 @@ public abstract class EnemyAbility : NetworkBehaviour
             square.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
-
     protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
     {
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
@@ -155,5 +199,13 @@ public abstract class EnemyAbility : NetworkBehaviour
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ActionTime));
+    }
+
+
+
+
+    public virtual void Impact(EnemyStateMachine owner)
+    {
+        // Remove Later
     }
 }
