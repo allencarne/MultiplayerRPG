@@ -1,7 +1,5 @@
 using UnityEngine;
-using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
 
 public class EnemyStateMachine : NetworkBehaviour
 {
@@ -19,8 +17,6 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyAbility enemySpecialAbility;
     [SerializeField] EnemyAbility enemyUltimateAbility;
     public EnemyAbility currentAbility;
-
-    public LayerMask obstacleLayerMask;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }
@@ -45,6 +41,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanSpecial = true;
     public bool CanUltimate = true;
 
+    public LayerMask obstacleLayerMask;
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
     public Transform Target { get; set; }
@@ -52,7 +49,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public Buffs Buffs;
     public DeBuffs DeBuffs;
     public EnemyDrops Drops;
-    Coroutine CurrentAttack;
 
     public enum State
     {
@@ -298,99 +294,5 @@ public class EnemyStateMachine : NetworkBehaviour
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(WanderPosition, 0.2f);
-    }
-
-    public void HandlePotentialInterrupt()
-    {
-        if (!CrowdControl.interrupt.CanInterrupt) return;
-        if (enemy.CastBar.castBarFill.color != Color.black) return;
-
-        if (IsServer)
-        {
-            enemy.CastBar.InterruptCastBar();
-        }
-        else
-        {
-            enemy.CastBar.InterruptServerRpc();
-        }
-
-        if (CurrentAttack != null)
-        {
-            StopCoroutine(CurrentAttack);
-            CurrentAttack = null;
-        }
-
-        IsAttacking = false;
-        return;
-    }
-
-    public IEnumerator CoolDownTime(SkillType type, float skillCoolDown)
-    {
-        yield return new WaitForSeconds(skillCoolDown);
-
-        switch (type)
-        {
-            case SkillType.Basic: CanBasic = true; break;
-            case SkillType.Special: CanSpecial = true; break;
-            case SkillType.Ultimate: CanUltimate = true; break;
-        }
-    }
-
-    public void StartCast(SkillType type, float castTime, float impactTime, float recoveryTime, EnemyAbility ability)
-    {
-        CurrentAttack = StartCoroutine(CastTime(type, castTime, impactTime, recoveryTime, ability));
-    }
-
-    IEnumerator CastTime(SkillType type, float castTime, float impactTime, float recoveryTime, EnemyAbility ability)
-    {
-        yield return new WaitForSeconds(castTime);
-
-        if (!IsAttacking) yield break;
-        if (enemy.isDead) yield break;
-
-        switch (type)
-        {
-            case SkillType.Basic: EnemyAnimator.Play("Basic Impact"); break;
-            case SkillType.Special: EnemyAnimator.Play("Special Impact"); break;
-            case SkillType.Ultimate: EnemyAnimator.Play("Ultimate Impact"); break;
-        }
-
-        StartCoroutine(ImpactTime(type, impactTime, recoveryTime, ability));
-    }
-
-    IEnumerator ImpactTime(SkillType type, float impactTime, float recoveryTime, EnemyAbility ability)
-    {
-        ability.Impact(this);
-
-        yield return new WaitForSeconds(impactTime);
-
-        if (!IsAttacking) yield break;
-        if (enemy.isDead) yield break;
-
-        // Start Recovery
-        switch (type)
-        {
-            case SkillType.Basic: EnemyAnimator.Play("Basic Recovery"); break;
-            case SkillType.Special: EnemyAnimator.Play("Special Recovery"); break;
-            case SkillType.Ultimate: EnemyAnimator.Play("Ultimate Recovery"); break;
-        }
-
-        enemy.CastBar.StartRecovery(recoveryTime, enemy.CurrentAttackSpeed);
-
-        StartCoroutine(RecoveryTime(recoveryTime));
-    }
-
-    public IEnumerator RecoveryTime(float recoverTime)
-    {
-        yield return new WaitForSeconds(recoverTime);
-
-        if (!IsAttacking) yield break;
-        if (enemy.isDead) yield break;
-
-        IsAttacking = false;
-        if (state != State.Hurt)
-        {
-            SetState(State.Idle);
-        }
     }
 }

@@ -1,48 +1,48 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public abstract class EnemyAbility : NetworkBehaviour
 {
+    public enum State { Cast, Action, Impact, Recovery, Done }
+    [HideInInspector] public State currentState;
+    public enum SkillType { Basic, Special, Ultimate }
+    public SkillType skillType;
+
     [Header("Attack")]
-    public GameObject AttackPrefab_;
-    public GameObject TelegraphPrefab_;
-    public int AbilityDamage_;
-    public float AttackRange_;
+    [SerializeField] protected GameObject AttackPrefab_;
+    [SerializeField] protected GameObject TelegraphPrefab_;
+    [SerializeField] protected int AbilityDamage_;
+    [SerializeField] protected float AttackRange_;
 
     [Header("Projectile")]
-    public float ProjectileForce_;
-    public float ProjectileDuration_;
+    [SerializeField] protected float ProjectileForce_;
+    [SerializeField] protected float ProjectileDuration_;
 
     [Header("Time")]
-    public float CastTime;
-    public float ImpactTime;
-    public float RecoveryTime;
+    [SerializeField] protected float CastTime;
+    [SerializeField] protected float ImpactTime;
+    [SerializeField] protected float RecoveryTime;
 
     [Header("CoolDown")]
-    public float CoolDown;
+    [SerializeField] protected float CoolDown;
 
     [Header("Action")]
-    public float ActionTime;
+    [SerializeField] protected float ActionTime;
 
     [Header("Knockback")]
     [SerializeField] protected float KnockBackAmount_;
     [SerializeField] protected float KnockBackDuration_;
 
+    [Header("StateTimer")]
     [HideInInspector] protected float stateTimer;
     [HideInInspector] protected float ModifiedCastTime;
 
+    [Header("Aim")]
     [HideInInspector] protected Vector2 SpawnPosition;
     [HideInInspector] protected Vector2 AimDirection;
-    [HideInInspector] protected Quaternion AimRotation;
     [HideInInspector] protected Vector2 AimOffset;
-
-    public enum State { Cast, Action, Impact, Recovery, Done }
-    public State currentState;
-
-    public enum SkillType { Basic, Special, Ultimate }
-    public SkillType skillType;
+    [HideInInspector] protected Quaternion AimRotation;
 
     public abstract void AbilityStart(EnemyStateMachine owner);
     public abstract void AbilityUpdate(EnemyStateMachine owner);
@@ -233,13 +233,5 @@ public abstract class EnemyAbility : NetworkBehaviour
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ProjectileDuration_));
-    }
-
-
-
-
-    public virtual void Impact(EnemyStateMachine owner)
-    {
-        // Remove Later
     }
 }
