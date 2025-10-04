@@ -155,7 +155,7 @@ PrefabInstance:
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyUltimateAbility
       value: 
-      objectReference: {fileID: 8314587649664734274}
+      objectReference: {fileID: 7324585805873408428}
     - target: {fileID: 9147428821795703245, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: droppableItems.Array.size
       value: 2
@@ -180,14 +180,14 @@ PrefabInstance:
       addedObject: {fileID: 814732724822723291}
     - targetCorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8314587649664734274}
+      addedObject: {fileID: 7324585805873408428}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!1 &1974290794805348801 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 9057004625187020436}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8314587649664734274
+--- !u!114 &7324585805873408428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,35 +196,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1974290794805348801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4119b5382bcb5e40a6f3e038e4bd9ee, type: 3}
+  m_Script: {fileID: 11500000, guid: dae15b65dd6dcea4a93dbcf56ec1d4f8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShellToss
   ShowTopMostFoldoutHeaderGroup: 1
-  AttackPrefab_: {fileID: 0}
-  TelegraphPrefab_: {fileID: 0}
-  AbilityDamage_: 0
+  AttackPrefab_: {fileID: 5882438536260200050, guid: 2668a0199fb8e01418be54475e7ad45b, type: 3}
+  TelegraphPrefab_: {fileID: 9204542291995103585, guid: c0275caf056546e46a50c1bffb0d545b, type: 3}
+  AbilityDamage_: 1
   AttackRange_: 0
-  AttackDuration_: 0
-  CastTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  ProjectileForce_: 10
+  ProjectileDuration_: 0.75
+  CastTime: 1
+  ImpactTime: 0.1
+  RecoveryTime: 0.5
+  CoolDown: 10
   ActionTime: 0
-  KnockBackAmount_: 0
-  KnockBackDuration_: 0
+  KnockBackAmount_: 7
+  KnockBackDuration_: 0.2
   currentState: 0
-  skillType: 0
-  attackPrefab: {fileID: 5882438536260200050, guid: 2668a0199fb8e01418be54475e7ad45b, type: 3}
-  telegraphPrefab: {fileID: 9204542291995103585, guid: c0275caf056546e46a50c1bffb0d545b, type: 3}
-  abilityDamage: 1
-  attackRange: 0
-  attackDuration: 0.75
-  attackForce: 10
-  castTime: 1
-  recoveryTime: 0.5
-  coolDown: 10
-  knockBackAmount: 7
-  knockBackDuration: 0.2
+  skillType: 2
 --- !u!1 &2610729715392630421 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -247,7 +237,8 @@ MonoBehaviour:
   TelegraphPrefab_: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
   AbilityDamage_: 1
   AttackRange_: 1
-  AttackDuration_: 0
+  ProjectileForce_: 0
+  ProjectileDuration_: 0
   CastTime: 1
   ImpactTime: 0.1
   RecoveryTime: 0.4
@@ -279,7 +270,8 @@ MonoBehaviour:
   TelegraphPrefab_: {fileID: 860067316465036387, guid: 80c4c2f443f350c47b4e9da03d4402c0, type: 3}
   AbilityDamage_: 1
   AttackRange_: 0
-  AttackDuration_: 5
+  ProjectileForce_: 0
+  ProjectileDuration_: 0
   CastTime: 1
   ImpactTime: 0.3
   RecoveryTime: 0.4

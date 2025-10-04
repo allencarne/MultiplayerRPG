@@ -40,7 +40,7 @@ public class StickyTrail : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Cast");
+        AnimateEnemy(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -50,13 +50,13 @@ public class StickyTrail : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Impact");
+        AnimateEnemy(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Recovery");
+        AnimateEnemy(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

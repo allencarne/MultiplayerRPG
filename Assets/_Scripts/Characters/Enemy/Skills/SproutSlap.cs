@@ -35,7 +35,7 @@ public class SproutSlap : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Basic Cast");
+        AnimateEnemy(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -45,13 +45,13 @@ public class SproutSlap : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Basic Impact");
+        AnimateEnemy(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Basic Recovery");
+        AnimateEnemy(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

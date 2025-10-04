@@ -5,6 +5,7 @@ public class Tumble : EnemyAbility
 {
     [Header("Slide")]
     [SerializeField] float slideForce;
+    [SerializeField] float buffDuration;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -41,7 +42,7 @@ public class Tumble : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Cast");
+        AnimateEnemy(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -51,16 +52,16 @@ public class Tumble : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(ActionTime + .2f);
-        owner.Buffs.immoveable.StartImmovable(ActionTime + .2f);
+        owner.Buffs.phase.StartPhase(buffDuration);
+        owner.Buffs.immoveable.StartImmovable(buffDuration);
 
-        owner.EnemyAnimator.Play("Special Impact");
+        AnimateEnemy(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Special Recovery");
+        AnimateEnemy(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

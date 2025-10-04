@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class EnemyAbility : NetworkBehaviour
 {
@@ -9,7 +10,10 @@ public abstract class EnemyAbility : NetworkBehaviour
     public GameObject TelegraphPrefab_;
     public int AbilityDamage_;
     public float AttackRange_;
-    public float AttackDuration_;
+
+    [Header("Projectile")]
+    public float ProjectileForce_;
+    public float ProjectileDuration_;
 
     [Header("Time")]
     public float CastTime;
@@ -141,6 +145,29 @@ public abstract class EnemyAbility : NetworkBehaviour
             case SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
+    protected void AnimateEnemy(EnemyStateMachine owner, SkillType type, State state)
+    {
+        string animationType = "";
+        string animationState = "";
+
+        switch (type)
+        {
+            case SkillType.Basic: animationType = "Basic"; break;
+            case SkillType.Special: animationType = "Special"; break;
+            case SkillType.Ultimate: animationType = "Ultimate"; break;
+        }
+
+        switch (state)
+        {
+            case State.Cast: animationState = "Cast"; break;
+            case State.Action: animationState = "Action"; break;
+            case State.Impact: animationState = "Impact"; break;
+            case State.Recovery: animationState = "Recovery"; break;
+            case State.Done: animationState = "Done"; break;
+        }
+
+        owner.EnemyAnimator.Play(animationType + " " + animationState);
+    }
 
 
     protected void Telegraph(bool useOffset, bool useRotation)
@@ -177,6 +204,12 @@ public abstract class EnemyAbility : NetworkBehaviour
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
+        Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
+        if (attackRB != null)
+        {
+            attackRB.AddForce(AimDirection * ProjectileForce_, ForceMode2D.Impulse);
+        }
+
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
@@ -199,7 +232,7 @@ public abstract class EnemyAbility : NetworkBehaviour
         if (death != null) death.enemy = GetComponentInParent<Enemy>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(AttackDuration_));
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ProjectileDuration_));
     }
 
 

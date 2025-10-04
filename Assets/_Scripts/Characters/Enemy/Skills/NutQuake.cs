@@ -32,7 +32,7 @@ public class NutQuake : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Ultimate Cast");
+        AnimateEnemy(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -42,18 +42,18 @@ public class NutQuake : EnemyAbility
 
     public override void ActionState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Ultimate Action");
+        AnimateEnemy(owner, skillType, State.Action);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Ultimate Impact");
+        AnimateEnemy(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, false, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        owner.EnemyAnimator.Play("Ultimate Recovery");
+        AnimateEnemy(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }
