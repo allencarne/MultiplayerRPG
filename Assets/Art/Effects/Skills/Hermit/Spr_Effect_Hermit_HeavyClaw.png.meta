@@ -1,10 +1,34 @@
 fileFormatVersion: 2
-guid: 637658f70a16a4443a3bf062068b1553
+guid: a3aa3584bff163d4c987f7b6e2a1f0f7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5355478847197774821
-    second: Hermit_Basic_Telegraph_0
+      213: -1326323801743262573
+    second: Spr_Effect_Hermit_HeavyClaw_0
+  - first:
+      213: 8853956852949413313
+    second: Spr_Effect_Hermit_HeavyClaw_1
+  - first:
+      213: 5516001054679736743
+    second: Spr_Effect_Hermit_HeavyClaw_2
+  - first:
+      213: 9049257287420793136
+    second: Spr_Effect_Hermit_HeavyClaw_3
+  - first:
+      213: -7336243265103870603
+    second: Spr_Effect_Hermit_HeavyClaw_4
+  - first:
+      213: -2081608707263769165
+    second: Spr_Effect_Hermit_HeavyClaw_5
+  - first:
+      213: -2321153769382429489
+    second: Spr_Effect_Hermit_HeavyClaw_6
+  - first:
+      213: 6419309738087073284
+    second: Spr_Effect_Hermit_HeavyClaw_7
+  - first:
+      213: 9173553484576388061
+    second: Spr_Effect_Hermit_HeavyClaw_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +70,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,23 +137,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hermit_Basic_Telegraph_0
+      name: Spr_Effect_Hermit_HeavyClaw_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b1c78aeec548da5b0800000000000000
-      internalID: -5355478847197774821
+      spriteID: 39c72fb8783f79de0800000000000000
+      internalID: -1326323801743262573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Effect_Hermit_HeavyClaw_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cd6fa4f8d29fda70800000000000000
+      internalID: 8853956852949413313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Effect_Hermit_HeavyClaw_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a1add4fbb5cc8c40800000000000000
+      internalID: 5516001054679736743
       vertices: []
       indices: 
       edges: []
@@ -138,7 +206,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 13d5b86a132677648abe3ca6c2b6014e
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +214,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Hermit_Basic_Telegraph_0: -5355478847197774821
+      Spr_Effect_Hermit_HeavyClaw_0: -1326323801743262573
+      Spr_Effect_Hermit_HeavyClaw_1: 8853956852949413313
+      Spr_Effect_Hermit_HeavyClaw_2: 5516001054679736743
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

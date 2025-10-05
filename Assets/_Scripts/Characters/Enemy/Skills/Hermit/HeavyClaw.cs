@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ClawSlam : EnemyAbility
+public class HeavyClaw : EnemyAbility
 {
     public override void AbilityStart(EnemyStateMachine owner)
     {
