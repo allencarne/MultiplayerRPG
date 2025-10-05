@@ -29,12 +29,12 @@ public class Tumble : EnemyAbility
         if (currentState == State.Done) return;
 
         stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner);
+        if (stateTimer <= 0f) StateTransition(owner, true);
     }
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
     {
-        if (currentState == State.Impact)
+        if (currentState == State.Action)
         {
             owner.EnemyRB.linearVelocity = AimDirection * slideForce;
         }
@@ -50,11 +50,16 @@ public class Tumble : EnemyAbility
         Telegraph(true, true);
     }
 
-    public override void ImpactState(EnemyStateMachine owner)
+    public override void ActionState(EnemyStateMachine owner)
     {
         owner.Buffs.phase.StartPhase(buffDuration);
         owner.Buffs.immoveable.StartImmovable(buffDuration);
 
+        AnimateEnemy(owner, skillType, State.Impact);
+    }
+
+    public override void ImpactState(EnemyStateMachine owner)
+    {
         AnimateEnemy(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }
