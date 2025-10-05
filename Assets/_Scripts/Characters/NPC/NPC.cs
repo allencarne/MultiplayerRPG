@@ -6,7 +6,10 @@ using UnityEngine.Events;
 
 public class NPC : NetworkBehaviour, IDamageable, IHealable
 {
-    public string NPCID;
+    public string NPC_ID;
+    public string NPC_Name;
+    public int NPC_Level;
+
 
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;
@@ -29,7 +32,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     public float CurrentArmor;
 
     [Header("Customization")]
-    [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] Color skinColor;
     [SerializeField] Color hairColor;
     public int hairIndex;
@@ -75,7 +77,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
     private void Start()
     {
-        nameText.text = gameObject.name;
         BodySprite.color = skinColor;
         HairSprite.color = hairColor;
 

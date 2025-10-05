@@ -41,6 +41,10 @@ PrefabInstance:
       value: Enemy2
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: Enemy_ID
+      value: Enemy_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseSpeed
       value: 2
       objectReference: {fileID: 0}
@@ -59,6 +63,14 @@ PrefabInstance:
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentCDR
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: Enemy_Name
+      value: Hermit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: Enemy_Level
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentSpeed
@@ -227,6 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClawSlam
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 0
   AttackPrefab_: {fileID: 1689845277531116501, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
   TelegraphPrefab_: {fileID: 8082874607347805388, guid: cc1b0cfecec1b07458f3a1ac53a26ab7, type: 3}
   AbilityDamage_: 5
@@ -240,8 +254,6 @@ MonoBehaviour:
   ActionTime: 0
   KnockBackAmount_: 5
   KnockBackDuration_: 0.3
-  currentState: 0
-  skillType: 0
 --- !u!1 &1925866148617332210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -260,6 +272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrabSmash
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 1
   AttackPrefab_: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
   TelegraphPrefab_: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
   AbilityDamage_: 5
@@ -273,8 +287,6 @@ MonoBehaviour:
   ActionTime: 0.4
   KnockBackAmount_: 7
   KnockBackDuration_: 0.3
-  currentState: 0
-  skillType: 1
   slideForce: 0
   buffDuration: 0
 --- !u!1 &3032242371528708008 stripped
@@ -295,6 +307,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClawBarrage
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 2
   AttackPrefab_: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
   TelegraphPrefab_: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
   AbilityDamage_: 5
@@ -308,5 +322,3 @@ MonoBehaviour:
   ActionTime: 0
   KnockBackAmount_: 0
   KnockBackDuration_: 0
-  currentState: 0
-  skillType: 2

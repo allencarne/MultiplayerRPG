@@ -1,12 +1,13 @@
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
-    public string EnemyID;
+    public string Enemy_ID;
+    public string Enemy_Name;
+    public int Enemy_Level;
 
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;
@@ -120,7 +121,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         OnDamaged?.Invoke(roundedDamage);
 
         // Quest
-        UpdateObjectiveClientRpc(ObjectiveType.Hit, EnemyID, 1, attackerID.NetworkObjectId);
+        UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
 
         if (Health.Value <= 0)
         {
@@ -132,7 +133,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
             if (exp) exp.IncreaseEXP(expToGive);
 
-            UpdateObjectiveClientRpc(ObjectiveType.Kill, EnemyID, 1, attackerID.NetworkObjectId);
+            UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId);
 
             SpawnDeathEffectClientRpc(transform.position, transform.rotation);
             stateMachine.SetState(EnemyStateMachine.State.Death);
