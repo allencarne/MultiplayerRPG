@@ -39,7 +39,7 @@ public class CastBar : NetworkBehaviour
         if (IsServer)
         {
             FillAmount.Value = 0f;
-            BarColor.Value = Color.black;
+            BarColor.Value = Color.blue;
         }
 
         while (elapsed < duration)
@@ -82,7 +82,7 @@ public class CastBar : NetworkBehaviour
         if (IsServer)
         {
             FillAmount.Value = 0f;
-            BarColor.Value = Color.magenta;
+            BarColor.Value = Color.yellowNice;
         }
 
         while (elapsed < duration)

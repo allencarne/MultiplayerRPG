@@ -158,7 +158,7 @@ public class NPCStateMachine : NetworkBehaviour
     public void HandlePotentialInterrupt()
     {
         if (!CrowdControl.interrupt.CanInterrupt) return;
-        if (npc.CastBar.castBarFill.color != Color.black) return;
+        if (npc.CastBar.castBarFill.color != Color.blue) return;
 
         if (IsServer)
         {

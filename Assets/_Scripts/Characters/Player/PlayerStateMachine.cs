@@ -487,7 +487,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void HandlePotentialInterrupt()
     {
         if (!CrowdControl.interrupt.CanInterrupt) return;
-        if (player.CastBar.castBarFill.color != Color.black) return;
+        if (player.CastBar.castBarFill.color != Color.blue) return;
 
         if (IsServer)
         {
