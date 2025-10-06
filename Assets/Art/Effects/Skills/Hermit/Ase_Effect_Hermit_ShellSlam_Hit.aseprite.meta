@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6978a752fa4054c4d82e17898aa36dc5
+guid: 67fe40b91e2cfcb468692f8179d8c4dd
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Hermit_Ultimate_Telegraph
+  - name: Frame_0
     originalName: 
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 1, y: -0.16666667}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 48
-      height: 48
-    spriteID: e90678772d8b1c541b21350f7cb9668f
+      width: 8
+      height: 12
+    spriteID: 49ad13d7f68c44c499fafa5b6c7debe0
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -148,50 +148,98 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
+  - name: Frame_1
+    originalName: 
+    pivot: {x: 0.5, y: -0.071428575}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 24
+      width: 6
+      height: 14
+    spriteID: 5bc7dac7b3d30e84faccf6e5dea6a4b3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 24}
+  - name: Frame_2
+    originalName: 
+    pivot: {x: -0.4, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 20
+      y: 4
+      width: 5
+      height: 16
+    spriteID: 4f071c19813b8e245b78b927256c76c6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 20, y: 4}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 1330290250
+      value0: 2180963551
       value1: 0
       value2: 0
       value3: 0
-    guid: 1330290250
-    name: Hermit_Ultimate_Telegraph
+    guid: 0
+    name: Ase_Effect_Hermit_ShellSlam_Hit
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Hermit_Ultimate_Telegraph
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
+        y: 2
+        width: 8
+        height: 12
+      spriteId: 49ad13d7f68c44c499fafa5b6c7debe0
+    - name: Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 5
+        y: 1
+        width: 6
+        height: 14
+      spriteId: 5bc7dac7b3d30e84faccf6e5dea6a4b3
+    - name: Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 10
         y: 0
-        width: 48
-        height: 48
-      spriteId: e90678772d8b1c541b21350f7cb9668f
+        width: 5
+        height: 16
+      spriteId: 4f071c19813b8e245b78b927256c76c6
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: Default
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 48, y: 48}
-  previousTextureSize: {x: 64, y: 64}
+  canvasSize: {x: 16, y: 16}
+  previousTextureSize: {x: 32, y: 64}

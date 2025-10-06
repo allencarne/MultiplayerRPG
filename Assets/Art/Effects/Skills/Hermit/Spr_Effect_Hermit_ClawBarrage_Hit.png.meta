@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 66221b48aa21f07478dbab6b9ffdf04f
+guid: 153c37294a05c1f4cb23e8ce890fd4bd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8773556587463114168
-    second: Hermit_Ultimate_Telegraph_0
+      213: -8021603478127153691
+    second: Spr_Effect_Hermit_ClawBarrage_Hit_0
+  - first:
+      213: 7708330485429316746
+    second: Spr_Effect_Hermit_ClawBarrage_Hit_1
+  - first:
+      213: 6809487287528543896
+    second: Spr_Effect_Hermit_ClawBarrage_Hit_2
+  - first:
+      213: 3117489411260512468
+    second: Spr_Effect_Hermit_ClawBarrage_Hit_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,23 +122,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hermit_Ultimate_Telegraph_0
+      name: Spr_Effect_Hermit_ClawBarrage_Hit_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 16
+        height: 16
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bdf6846b3fe1c970800000000000000
-      internalID: 8773556587463114168
+      spriteID: 5ed613d032a8da090800000000000000
+      internalID: -8021603478127153691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Effect_Hermit_ClawBarrage_Hit_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8c245b6cbd79fa60800000000000000
+      internalID: 7708330485429316746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Effect_Hermit_ClawBarrage_Hit_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8965dab1c98208e50800000000000000
+      internalID: 6809487287528543896
       vertices: []
       indices: 
       edges: []
@@ -138,7 +191,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: bb42f852e1e867e45929f7e4297c48c5
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +199,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":4,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Hermit_Ultimate_Telegraph_0: 8773556587463114168
+      Spr_Effect_Hermit_ClawBarrage_Hit_0: -8021603478127153691
+      Spr_Effect_Hermit_ClawBarrage_Hit_1: 7708330485429316746
+      Spr_Effect_Hermit_ClawBarrage_Hit_2: 6809487287528543896
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

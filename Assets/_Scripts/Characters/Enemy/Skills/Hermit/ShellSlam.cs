@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CrabSmash : EnemyAbility
+public class ShellSlam : EnemyAbility
 {
     [Header("Slide")]
     [SerializeField] float slideForce;
