@@ -15,6 +15,9 @@ public class ShellSlam : EnemyAbility
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
+        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        AimRotation = Quaternion.Euler(0, 0, angle);
+        AimOffset = AimDirection.normalized * AttackRange_;
 
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
@@ -43,7 +46,7 @@ public class ShellSlam : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(castTime: CastTime, owner.enemy.CurrentAttackSpeed);
-        Telegraph(false, false);
+        Telegraph(true, false);
     }
 
     public override void ActionState(EnemyStateMachine owner)
@@ -57,7 +60,7 @@ public class ShellSlam : EnemyAbility
     public override void ImpactState(EnemyStateMachine owner)
     {
         AnimateEnemy(owner, skillType, State.Impact);
-        Attack(owner.NetworkObject, false, false);
+        Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
