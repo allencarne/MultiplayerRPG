@@ -1,10 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShellSlam : EnemyAbility
 {
-    [Header("Slide")]
-    [SerializeField] float slideForce;
-    [SerializeField] float buffDuration;
+    float dashTimer;
+    Vector2 targetLandingPos;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -14,10 +13,15 @@ public class ShellSlam : EnemyAbility
         SpawnPosition = owner.transform.position;
 
         // Aim
-        AimDirection = (owner.Target.position - transform.position).normalized;
+        Vector2 targetPos = owner.Target.position;
+        Vector2 direction = (targetPos - SpawnPosition).normalized;
+        float distance = Vector2.Distance(targetPos, SpawnPosition);
+        float clampedDistance = Mathf.Min(distance, AttackRange_);
+        targetLandingPos = SpawnPosition + direction * clampedDistance;
+        AimDirection = direction;
+        AimOffset = targetLandingPos - SpawnPosition;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * AttackRange_;
 
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
@@ -33,9 +37,18 @@ public class ShellSlam : EnemyAbility
 
     public override void AbilityFixedUpdate(EnemyStateMachine owner)
     {
-        if (currentState == State.Impact)
+        if (currentState == State.Action)
         {
-            owner.EnemyRB.linearVelocity = AimDirection * slideForce;
+            dashTimer += Time.fixedDeltaTime;
+            float t = Mathf.Clamp01(dashTimer / ActionTime);
+
+            Vector2 newPos = Vector2.Lerp(SpawnPosition, targetLandingPos, t);
+            owner.EnemyRB.MovePosition(newPos);
+
+            if (t >= 1f)
+            {
+                owner.EnemyRB.linearVelocity = Vector2.zero;
+            }
         }
     }
 
@@ -45,14 +58,15 @@ public class ShellSlam : EnemyAbility
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(castTime: CastTime, owner.enemy.CurrentAttackSpeed);
-        Telegraph(true, false);
+        owner.enemy.CastBar.StartCast(ModifiedCastTime, owner.enemy.CurrentAttackSpeed);
+        Telegraph(true, true);
     }
 
     public override void ActionState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(buffDuration);
-        owner.Buffs.immoveable.StartImmovable(buffDuration);
+        dashTimer = 0f;
+        owner.Buffs.phase.StartPhase(2);
+        owner.Buffs.immoveable.StartImmovable(2);
 
         //AnimateEnemy(owner, skillType, State.Action);
     }
