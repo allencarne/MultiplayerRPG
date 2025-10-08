@@ -103,7 +103,7 @@ PrefabInstance:
     - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1302990394, guid: fa5f33c1c3135644ba9fca08b5cb68d6, type: 3}
+      objectReference: {fileID: -7034548358415917022, guid: c45c12d2c3538924cb917e9d3d632547, type: 3}
     - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -154,11 +154,11 @@ PrefabInstance:
       objectReference: {fileID: 700539467145608495}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanBasic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanUltimate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: basicRadius
@@ -291,7 +291,7 @@ MonoBehaviour:
   CastTime: 1
   ImpactTime: 0.1
   RecoveryTime: 0.4
-  CoolDown: 3
+  CoolDown: 6
   ActionTime: 0.5
   KnockBackAmount_: 0
   KnockBackDuration_: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
   CastTime: 1
   ImpactTime: 2
   RecoveryTime: 0.4
-  CoolDown: 10
+  CoolDown: 12
   ActionTime: 0
   KnockBackAmount_: 0
   KnockBackDuration_: 0

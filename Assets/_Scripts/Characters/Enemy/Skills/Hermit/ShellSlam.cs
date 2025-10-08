@@ -65,10 +65,10 @@ public class ShellSlam : EnemyAbility
     public override void ActionState(EnemyStateMachine owner)
     {
         dashTimer = 0f;
-        owner.Buffs.phase.StartPhase(2);
-        owner.Buffs.immoveable.StartImmovable(2);
+        owner.Buffs.phase.StartPhase(ActionTime);
+        owner.Buffs.immoveable.StartImmovable(ActionTime);
 
-        //AnimateEnemy(owner, skillType, State.Action);
+        AnimateEnemy(owner, skillType, State.Action);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
