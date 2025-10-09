@@ -5,7 +5,6 @@ public class Tumble : EnemyAbility
 {
     [Header("Slide")]
     [SerializeField] float slideForce;
-    [SerializeField] float buffDuration;
 
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -52,8 +51,8 @@ public class Tumble : EnemyAbility
 
     public override void ActionState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(buffDuration);
-        owner.Buffs.immoveable.StartImmovable(buffDuration);
+        owner.Buffs.phase.StartPhase(ActionTime);
+        owner.Buffs.immoveable.StartImmovable(ActionTime);
 
         AnimateEnemy(owner, skillType, State.Impact);
     }
