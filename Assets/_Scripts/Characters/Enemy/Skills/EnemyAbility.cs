@@ -204,6 +204,8 @@ public abstract class EnemyAbility : NetworkBehaviour
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
+        Enemy enemy = attacker.GetComponent<Enemy>();
+
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
@@ -214,7 +216,7 @@ public abstract class EnemyAbility : NetworkBehaviour
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = AbilityDamage_;
+            damageOnTrigger.AbilityDamage = enemy.CurrentDamage + AbilityDamage_;
             damageOnTrigger.IgnoreEnemy = true;
         }
 
