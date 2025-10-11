@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseDamage
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentCDR
@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: Enemy_Level
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentSpeed
@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentDamage
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseAttackSpeed
@@ -82,16 +82,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: StartingMaxHealth
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentAttackSpeed
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: m_Size.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -176397717, guid: f18b7aa5a334b094498ccb33f932a44b, type: 3}
+      objectReference: {fileID: -8646280908981578599, guid: 2e219060f9caf914d98751fba8bc8592, type: 3}
+    - target: {fileID: 6097983339982761849, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6306620828023998174, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -216,7 +228,7 @@ MonoBehaviour:
   skillType: 2
   AttackPrefab_: {fileID: 5882438536260200050, guid: 2668a0199fb8e01418be54475e7ad45b, type: 3}
   TelegraphPrefab_: {fileID: 9204542291995103585, guid: c0275caf056546e46a50c1bffb0d545b, type: 3}
-  AbilityDamage_: 1
+  AbilityDamage_: 3
   AttackRange_: 0
   ProjectileForce_: 10
   ProjectileDuration_: 0.75
@@ -249,7 +261,7 @@ MonoBehaviour:
   skillType: 0
   AttackPrefab_: {fileID: 3769401315426178643, guid: d18fd1ca146dd004c897e483a4b22a15, type: 3}
   TelegraphPrefab_: {fileID: 1634040492617471479, guid: 0b4ce86b0a22e2a4b90946b89ba70039, type: 3}
-  AbilityDamage_: 1
+  AbilityDamage_: 0
   AttackRange_: 1
   ProjectileForce_: 0
   ProjectileDuration_: 0
