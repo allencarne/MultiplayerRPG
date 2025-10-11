@@ -44,7 +44,7 @@ public class ClawBarrage : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(5);
+        owner.Buffs.phase.StartPhase(ActionTime);
         owner.Buffs.protection.StartProtection(2, 5);
 
         AnimateEnemy(owner, skillType, State.Impact);

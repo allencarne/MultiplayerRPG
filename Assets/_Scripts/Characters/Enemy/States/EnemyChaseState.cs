@@ -47,9 +47,13 @@ public class EnemyChaseState : EnemyState
 
     public void HandleAttack(EnemyStateMachine owner)
     {
-        if (owner.IsAttacking) return;
+        if (owner.IsAttacking)
+        {
+            Debug.Log("Is Attacking");
+            return;
+        }
 
-        float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
+        float distanceToTarget = Vector2.Distance(owner.transform.position, owner.Target.position);
 
         if (distanceToTarget <= owner.UltimateRadius)
         {
