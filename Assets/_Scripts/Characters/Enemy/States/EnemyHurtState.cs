@@ -6,7 +6,7 @@ public class EnemyHurtState : EnemyState
     public override void StartState(EnemyStateMachine owner)
     {
         owner.CrowdControl.interrupt.Interrupt();
-        owner.EnemyAnimator.Play("Hurt");
+        owner.EnemyAnimator.Play("Stagger");
     }
 
     public override void UpdateState(EnemyStateMachine owner)
