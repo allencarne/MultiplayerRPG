@@ -50,6 +50,9 @@ public class StickyTrail : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
+        owner.Buffs.phase.StartPhase(ImpactTime);
+        owner.Buffs.immoveable.StartImmovable(ImpactTime);
+
         AnimateEnemy(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }

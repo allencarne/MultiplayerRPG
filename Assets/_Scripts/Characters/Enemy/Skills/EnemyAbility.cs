@@ -34,6 +34,10 @@ public abstract class EnemyAbility : NetworkBehaviour
     [SerializeField] protected float KnockBackAmount_;
     [SerializeField] protected float KnockBackDuration_;
 
+    [Header("Slow")]
+    [SerializeField] protected int SlowStacks_;
+    [SerializeField] protected float SlowDuration_;
+
     [Header("StateTimer")]
     [HideInInspector] protected float stateTimer;
     [HideInInspector] protected float ModifiedCastTime;
@@ -228,6 +232,15 @@ public abstract class EnemyAbility : NetworkBehaviour
             knockbackOnTrigger.Duration = KnockBackDuration_;
             knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
+        }
+
+        SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
+        if (slow != null)
+        {
+            slow.attacker = attacker;
+            slow.Duration = SlowDuration_;
+            slow.Stacks = SlowStacks_;
+            slow.IgnoreEnemy = true;
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();

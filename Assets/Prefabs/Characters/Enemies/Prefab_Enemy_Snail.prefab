@@ -239,6 +239,8 @@ MonoBehaviour:
   ActionTime: 0
   KnockBackAmount_: 7
   KnockBackDuration_: 0.2
+  SlowStacks_: 0
+  SlowDuration_: 0
 --- !u!1 &2610729715392630421 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -272,6 +274,8 @@ MonoBehaviour:
   ActionTime: 0
   KnockBackAmount_: 5
   KnockBackDuration_: 0.3
+  SlowStacks_: 0
+  SlowDuration_: 0
 --- !u!1 &3154958822785688475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -297,7 +301,7 @@ MonoBehaviour:
   AbilityDamage_: 1
   AttackRange_: 0
   ProjectileForce_: 0
-  ProjectileDuration_: 0
+  ProjectileDuration_: 5
   CastTime: 1
   ImpactTime: 0.3
   RecoveryTime: 0.4
@@ -305,6 +309,8 @@ MonoBehaviour:
   ActionTime: 0
   KnockBackAmount_: 0
   KnockBackDuration_: 0
+  SlowStacks_: 2
+  SlowDuration_: 5
   slideForce: 10
 --- !u!114 &4092214828984433478 stripped
 MonoBehaviour:

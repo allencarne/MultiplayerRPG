@@ -39,13 +39,13 @@ public class ShellToss : EnemyAbility
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
-        Telegraph(true, false);
+        Telegraph(true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         AnimateEnemy(owner, skillType, State.Impact);
-        Attack(owner.NetworkObject, true, false);
+        Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
