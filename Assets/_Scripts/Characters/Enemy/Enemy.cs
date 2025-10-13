@@ -37,6 +37,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     EnemyStateMachine stateMachine;
     [SerializeField] GameObject spawn_Effect;
     [SerializeField] GameObject death_Effect;
+    [SerializeField] GameObject death_EffectParticle;
     [SerializeField] HealthBar healthBar;
     public PatienceBar PatienceBar;
     public CastBar CastBar;
@@ -157,6 +158,9 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     private void SpawnDeathEffectClientRpc(Vector3 position, Quaternion rotation)
     {
         Instantiate(death_Effect, position, rotation);
+
+        Quaternion particleRotation = Quaternion.Euler(-90f, 0f, 0f);
+        Instantiate(death_EffectParticle, position, particleRotation);
     }
 
     void TargetAttacker(NetworkObject attackerID)

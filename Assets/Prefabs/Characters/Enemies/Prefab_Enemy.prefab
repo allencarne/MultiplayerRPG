@@ -1607,6 +1607,7 @@ MonoBehaviour:
   EnemySpawnerReference: {fileID: 0}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
+  death_EffectParticle: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
   healthBar: {fileID: 1827727574157614942}
   PatienceBar: {fileID: 724171929062541461}
   CastBar: {fileID: 7538848170769235199}
@@ -3640,7 +3641,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatusBar
   nameText: {fileID: 1313810655033178823}
   levelText: {fileID: 9009746519836718268}
-  player: {fileID: 0}
   npc: {fileID: 0}
   enemy: {fileID: 5006461325889791442}
 --- !u!1 &9221189397568511958
