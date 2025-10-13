@@ -33,7 +33,7 @@ public class DamageOnTrigger : NetworkBehaviour
         {
             if (IsBreakable)
             {
-                HitSparkClientRPC(hitPosition, rotation);
+                HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
                 NetworkObject.Despawn(true);
             }
         }
@@ -73,15 +73,15 @@ public class DamageOnTrigger : NetworkBehaviour
                 }
             }
 
-            HitSparkClientRPC(hitPosition, rotation);
+            HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
         }
     }
 
     [ClientRpc]
-    void HitSparkClientRPC(Vector2 position, Quaternion rotation)
+    void HitSparkClientRPC(Vector2 hitPosition, Quaternion rotation, Vector2 collisionPosition)
     {
-        Instantiate(hitSpark, position, rotation);
+        Instantiate(hitSpark, hitPosition, rotation);
 
-        if (hitSpark_Special) Instantiate(hitSpark_Special, position, rotation);
+        if (hitSpark_Special) Instantiate(hitSpark_Special, collisionPosition, rotation);
     }
 }
