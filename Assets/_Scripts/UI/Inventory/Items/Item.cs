@@ -14,7 +14,6 @@ public class Item : ScriptableObject
     public string Description;
     [Range(0, 100)] public int DropChance;
     public bool IsStackable;
-    //public int Quantity;
 
     public virtual void Use(Inventory _inventory, EquipmentManager _equipmentManager)
     {
@@ -31,9 +30,11 @@ public enum ItemRarity
 {
     Common,
     Uncommon,
+    Fine,
     Rare,
     Epic,
     Exotic,
     Mythic,
+    Ascended,
     Legendary
 }
