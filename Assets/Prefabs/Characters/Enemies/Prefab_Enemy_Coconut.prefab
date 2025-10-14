@@ -176,6 +176,18 @@ PrefabInstance:
       propertyPath: enemyUltimateAbility
       value: 
       objectReference: {fileID: 2267550065575331195}
+    - target: {fileID: 9147428821795703245, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: droppableItems.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9147428821795703245, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: 'droppableItems.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+    - target: {fileID: 9147428821795703245, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: 'droppableItems.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0209853a18859294c8b920bcb91c6f40, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -223,6 +235,8 @@ MonoBehaviour:
   ActionTime: 0
   KnockBackAmount_: 0
   KnockBackDuration_: 0
+  SlowStacks_: 0
+  SlowDuration_: 0
 --- !u!1 &772405787704959938 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -256,6 +270,8 @@ MonoBehaviour:
   ActionTime: 0.3
   KnockBackAmount_: 0
   KnockBackDuration_: 0
+  SlowStacks_: 0
+  SlowDuration_: 0
   slideForce: 10
 --- !u!1 &4185708453430184344 stripped
 GameObject:
@@ -290,6 +306,8 @@ MonoBehaviour:
   ActionTime: 0.3
   KnockBackAmount_: 0
   KnockBackDuration_: 0
+  SlowStacks_: 0
+  SlowDuration_: 0
 --- !u!95 &8516234817900528234 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3093910716406422695, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
