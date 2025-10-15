@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Speak to Kaelen
+  m_Name: Quest_Speak to NPC
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest0
+  QuestID: Quest2
   QuestName: Speak
   LevelRequirment: 0
-  Instructions: Speak To Me
+  Instructions: Speak To Hank
   Deliver: 
   Objectives:
   - type: 2
-    ObjectiveID: NPC1
+    ObjectiveID: NPC_1
     Description: Talk To NPC1
     RequiredAmount: 1
     CurrentAmount: 0

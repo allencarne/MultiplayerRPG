@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
   m_Name: Quest_Kill Coconuts
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest0
+  QuestID: Quest1
   QuestName: Kill Coconuts
   LevelRequirment: 1
   Instructions: Hello, Please kill 5 Coconuts
@@ -21,7 +21,7 @@ MonoBehaviour:
   - type: 0
     ObjectiveID: Enemy_1
     Description: Kill 5 Coconuts
-    RequiredAmount: 1
+    RequiredAmount: 5
     CurrentAmount: 0
   expReward: 3
   goldReward: 3

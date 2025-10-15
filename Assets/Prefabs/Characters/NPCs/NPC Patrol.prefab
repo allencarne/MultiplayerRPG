@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 91.98
       objectReference: {fileID: 0}
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 8.91
       objectReference: {fileID: 0}
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4046972822653324019, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -50,11 +50,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4388476150063590076, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2025863595
+      value: 3862407250
       objectReference: {fileID: 0}
     - target: {fileID: 4388476150063590076, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 252941149
+      value: 2025863595
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856348772391820444, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
+      propertyPath: NPC_ID
+      value: NPC_7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856348772391820444, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
+      propertyPath: NPC_Name
+      value: Patrol
       objectReference: {fileID: 0}
     - target: {fileID: 4856348772391820444, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: HeadIndex
@@ -65,6 +73,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4856348772391820444, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
+      propertyPath: NPC_Level
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856348772391820444, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: ChestIndex
       value: 2
       objectReference: {fileID: 0}
@@ -72,9 +84,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Patrol Chase
       objectReference: {fileID: 0}
+    - target: {fileID: 6725349109888877609, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+    - target: {fileID: 6725349109888877609, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7152011778197999100, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: m_Name
-      value: NPC Patrol Variant
+      value: NPC Patrol
       objectReference: {fileID: 0}
     - target: {fileID: 7580783204941348460, guid: 3d3daf8228a53e3469ad78d836071de7, type: 3}
       propertyPath: idleState
