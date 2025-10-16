@@ -52,6 +52,17 @@ public class NPCQuestIcon : MonoBehaviour
             return;
         }
 
+        QuestProgress talkQuest = playerQuest.activeQuests.Find(q =>
+        q.state == QuestState.InProgress &&
+        q.quest.QuestReceiverID == npc.NPC_ID &&
+        q.quest.Objectives.Exists(o => o.type == ObjectiveType.Talk && o.ObjectiveID == npc.NPC_ID));
+
+        if (talkQuest != null)
+        {
+            questIcon.sprite = icons[(int)QuestState.ReadyToTurnIn];
+            return;
+        }
+
         if (npcQuest == null || npcQuest.quests.Count == 0)
         {
             questIcon.enabled = false;

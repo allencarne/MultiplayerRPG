@@ -9,23 +9,37 @@ public class NPCQuest : MonoBehaviour
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
-        // 1) Check player's active quests for any that should be turned in to this NPC.
-        var turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(GetComponent<NPC>().NPC_ID);
-        if (turnIn != null) return turnIn;
+        NPC npc = GetComponent<NPC>();
 
-        // 2) Otherwise check this NPC's own list for a quest the player can accept from this NPC.
-        if (quests == null || quests.Count == 0) return null;
+        Quest turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(npc.NPC_ID);
+        if (turnIn != null)
+            return turnIn;
 
-        // We can return the quest at QuestIndex (or iterate to find first acceptable).
+        foreach (QuestProgress progress in playerQuest.activeQuests)
+        {
+            if (progress.state == QuestState.InProgress)
+            {
+                foreach (QuestObjective obj in progress.objectives)
+                {
+                    if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == npc.NPC_ID && !obj.IsCompleted)
+                    {
+                        // This NPC is the one we need to talk to
+                        return progress.quest;
+                    }
+                }
+            }
+        }
+
+        if (quests == null || quests.Count == 0)
+            return null;
+
         Quest candidate = quests[QuestIndex];
+        Player player = playerQuest.GetComponent<Player>();
+        if (player.PlayerLevel.Value < candidate.LevelRequirment)
+            return null;
 
-        // If player is too low level, cannot accept.
-        var player = playerQuest.GetComponent<Player>();
-        if (player.PlayerLevel.Value < candidate.LevelRequirment) return null;
-
-        // If player does not already have it (or they can re-accept), return it.
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == candidate);
-        if (progress == null || progress.state == QuestState.Available)
+        QuestProgress existing = playerQuest.activeQuests.Find(q => q.quest == candidate);
+        if (existing == null || existing.state == QuestState.Available)
             return candidate;
 
         return null;

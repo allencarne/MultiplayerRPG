@@ -33,7 +33,6 @@ public class QuestInfoPanel : MonoBehaviour
         currentQuest = quest;
         currentNPC = npc;
 
-        // Get the progress from playerquests
         QuestProgress progress = playerquests.activeQuests.Find(q => q.quest == quest);
 
         questTitle.text = quest.QuestName;
@@ -43,21 +42,34 @@ public class QuestInfoPanel : MonoBehaviour
         GetRewards(quest);
         GetObjectives(quest);
 
+        acceptButton.gameObject.SetActive(false);
+        turnInButton.gameObject.SetActive(false);
+
         if (progress == null)
         {
             questInfo.text = quest.Instructions;
-
             acceptButton.gameObject.SetActive(true);
-            turnInButton.gameObject.SetActive(false);
             EventSystem.current.SetSelectedGameObject(acceptButton.gameObject);
         }
         else if (progress.state == QuestState.ReadyToTurnIn)
         {
             questInfo.text = quest.Deliver;
-
-            acceptButton.gameObject.SetActive(false);
             turnInButton.gameObject.SetActive(true);
             EventSystem.current.SetSelectedGameObject(turnInButton.gameObject);
+        }
+        else if (progress.state == QuestState.InProgress)
+        {
+            bool hasTalkObjectiveForThisNPC = progress.objectives.Exists(obj =>
+                obj.type == ObjectiveType.Talk &&
+                obj.ObjectiveID == npc.NPC_ID &&
+                !obj.IsCompleted);
+
+            if (hasTalkObjectiveForThisNPC)
+            {
+                questInfo.text = quest.Deliver;
+                turnInButton.gameObject.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(turnInButton.gameObject);
+            }
         }
     }
 
@@ -102,9 +114,10 @@ public class QuestInfoPanel : MonoBehaviour
 
     public void TurnInButton()
     {
+        playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
+
         playerquests.TurnInQuest(currentQuest);
 
-        // Move to next quest if available
         NPCQuest npcQuest = currentNPC.GetComponent<NPCQuest>();
         if (npcQuest.QuestIndex < npcQuest.quests.Count - 1)
         {

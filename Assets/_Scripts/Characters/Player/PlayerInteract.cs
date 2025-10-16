@@ -99,7 +99,6 @@ public class PlayerInteract : MonoBehaviour
             player.IsInteracting = true;
             interactText.enabled = false;
 
-            playerQuest.UpdateObjective(ObjectiveType.Talk, npcReference.NPC_ID);
             OpenUI(npcReference);
         }
     }
