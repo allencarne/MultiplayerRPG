@@ -11,7 +11,6 @@ public class Quest : ScriptableObject
     [TextArea(3, 8)] public string Deliver;
 
     [Header("Quest Flow")]
-    public string QuestGiverID;
     public string QuestReceiverID;
 
     [Header("Objectives")]
