@@ -36,13 +36,30 @@ public class NPCQuestIcon : MonoBehaviour
 
     public void UpdateSprite()
     {
-        if (IsInvalidSetup()) return;
+        if (getPlayer?.player == null) return;
 
         PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+        NPC npc = GetComponent<NPC>();
+        questIcon.enabled = true;
+
+        QuestProgress turnInQuest = playerQuest.activeQuests.Find(q =>
+        q.state == QuestState.ReadyToTurnIn &&
+        q.quest.QuestReceiverID == npc.NPC_ID);
+
+        if (turnInQuest != null)
+        {
+            questIcon.sprite = icons[(int)QuestState.ReadyToTurnIn];
+            return;
+        }
+
+        if (npcQuest == null || npcQuest.quests.Count == 0)
+        {
+            questIcon.enabled = false;
+            return;
+        }
+
         Quest currentQuest = npcQuest.quests[npcQuest.QuestIndex];
         QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
-
-        questIcon.enabled = true;
 
         if (IsQuestLocked(currentQuest)) return;
         if (IsQuestUnlocked(progress)) return;
@@ -63,11 +80,6 @@ public class NPCQuestIcon : MonoBehaviour
                 questIcon.enabled = false;
                 break;
         }
-    }
-
-    bool IsInvalidSetup()
-    {
-        return getPlayer?.player == null || npcQuest == null || npcQuest.quests.Count == 0;
     }
 
     bool IsQuestLocked(Quest quest)

@@ -58,4 +58,16 @@ public class PlayerQuest : MonoBehaviour
         progress.state = QuestState.Completed;
         OnCompleted?.Invoke();
     }
+
+    public Quest GetQuestReadyToTurnInForReceiver(string npcID)
+    {
+        foreach (QuestProgress progress in activeQuests)
+        {
+            if (progress.state == QuestState.ReadyToTurnIn && progress.quest.QuestReceiverID == npcID)
+            {
+                return progress.quest;
+            }
+        }
+        return null;
+    }
 }

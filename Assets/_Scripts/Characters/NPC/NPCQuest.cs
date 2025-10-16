@@ -9,18 +9,24 @@ public class NPCQuest : MonoBehaviour
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
-        if (quests.Count == 0) return null;
+        // 1) Check player's active quests for any that should be turned in to this NPC.
+        var turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(GetComponent<NPC>().NPC_ID);
+        if (turnIn != null) return turnIn;
 
-        Quest currentQuest = quests[QuestIndex];
-        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == currentQuest);
+        // 2) Otherwise check this NPC's own list for a quest the player can accept from this NPC.
+        if (quests == null || quests.Count == 0) return null;
 
-        // Player too low level
-        if (progress == null && playerQuest.GetComponent<Player>().PlayerLevel.Value < currentQuest.LevelRequirment)
-            return null;
+        // We can return the quest at QuestIndex (or iterate to find first acceptable).
+        Quest candidate = quests[QuestIndex];
 
-        // Player can accept or turn in
-        if (progress == null || progress.state == QuestState.Available || progress.state == QuestState.ReadyToTurnIn)
-            return currentQuest;
+        // If player is too low level, cannot accept.
+        var player = playerQuest.GetComponent<Player>();
+        if (player.PlayerLevel.Value < candidate.LevelRequirment) return null;
+
+        // If player does not already have it (or they can re-accept), return it.
+        QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == candidate);
+        if (progress == null || progress.state == QuestState.Available)
+            return candidate;
 
         return null;
     }
