@@ -95,11 +95,24 @@ public class NPCQuestIcon : MonoBehaviour
 
     bool IsQuestLocked(Quest quest)
     {
+        PlayerQuest playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
+
+        // Level requirement
         if (getPlayer.player.PlayerLevel.Value < quest.LevelRequirment)
         {
             questIcon.sprite = icons[(int)QuestState.Unavailable];
             return true;
         }
+
+        // Quest prerequisite check
+        NPCQuest npcQuest = GetComponent<NPCQuest>();
+        bool hasRequirements = npcQuest != null && npcQuest.HasMetQuestRequirements(playerQuest, quest);
+        if (!hasRequirements)
+        {
+            questIcon.sprite = icons[(int)QuestState.Unavailable];
+            return true;
+        }
+
         return false;
     }
 

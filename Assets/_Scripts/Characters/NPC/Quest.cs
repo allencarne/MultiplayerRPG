@@ -13,6 +13,9 @@ public class Quest : ScriptableObject
     [Header("Quest Flow")]
     public string QuestReceiverID;
 
+    [Header("Requirements")]
+    public List<Quest> RequiredQuests;
+
     [Header("Objectives")]
     public List<QuestObjective> Objectives;
 
