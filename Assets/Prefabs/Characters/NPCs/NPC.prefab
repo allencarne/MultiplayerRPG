@@ -213,7 +213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatusBar
   nameText: {fileID: 2600927246846603366}
   levelText: {fileID: 8866822082436301912}
-  player: {fileID: 0}
   npc: {fileID: 4856348772391820444}
   enemy: {fileID: 0}
 --- !u!1 &181895706818366610
@@ -3608,7 +3607,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.75
+  m_Radius: 1
 --- !u!50 &4568072980406800238
 Rigidbody2D:
   serializedVersion: 5
