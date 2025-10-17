@@ -44,7 +44,7 @@ public class NPCQuestIcon : MonoBehaviour
 
         QuestProgress turnInQuest = playerQuest.activeQuests.Find(q =>
         q.state == QuestState.ReadyToTurnIn &&
-        q.quest.QuestReceiverID == npc.NPC_ID);
+        q.quest.GetReceiverID() == npc.NPC_ID);
 
         if (turnInQuest != null)
         {
@@ -54,8 +54,7 @@ public class NPCQuestIcon : MonoBehaviour
 
         QuestProgress talkQuest = playerQuest.activeQuests.Find(q =>
         q.state == QuestState.InProgress &&
-        q.quest.QuestReceiverID == npc.NPC_ID &&
-        q.quest.Objectives.Exists(o => o.type == ObjectiveType.Talk && o.ObjectiveID == npc.NPC_ID));
+        q.quest.GetReceiverID() == npc.NPC_ID);
 
         if (talkQuest != null)
         {

@@ -10,9 +10,6 @@ public class Quest : ScriptableObject
     [TextArea(3, 8)] public string Instructions;
     [TextArea(3, 8)] public string Deliver;
 
-    [Header("Quest Flow")]
-    public string QuestReceiverID;
-
     [Header("Requirements")]
     public List<Quest> RequiredQuests;
 
@@ -25,6 +22,17 @@ public class Quest : ScriptableObject
 
     public Item[] Starter;
     public Item[] reward;
+
+    public string GetReceiverID()
+    {
+        QuestObjective talkObjective = Objectives.Find(o => o.type == ObjectiveType.Talk);
+        return talkObjective != null ? talkObjective.ObjectiveID : null;
+    }
+
+    public bool HasTalkObjective()
+    {
+        return Objectives.Exists(o => o.type == ObjectiveType.Talk);
+    }
 }
 
 public enum QuestState 
