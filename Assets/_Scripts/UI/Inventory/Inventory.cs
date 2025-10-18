@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -189,5 +190,16 @@ public class Inventory : MonoBehaviour
         }
 
         inventoryUI.UpdateUI();
+    }
+
+    public int GetFreeSlotCount()
+    {
+        int free = 0;
+        foreach (var slot in items)
+        {
+            if (slot == null)
+                free++;
+        }
+        return free;
     }
 }

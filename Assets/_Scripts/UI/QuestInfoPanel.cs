@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 public class QuestInfoPanel : MonoBehaviour
 {
     [SerializeField] PlayerQuest playerquests;
+    [SerializeField] Player player;
+    [SerializeField] Inventory inventory;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
@@ -108,22 +111,35 @@ public class QuestInfoPanel : MonoBehaviour
 
     public void AcceptButton()
     {
+        int avaliableSlots = inventory.GetFreeSlotCount();
+        int starterSlots = currentQuest.Starter.Count();
+
+        if (avaliableSlots < starterSlots)
+        {
+            Debug.Log("Not enough inventory space to accept this quest!");
+            return;
+        }
+
         playerquests.AcceptQuest(currentQuest);
         currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
     }
 
     public void TurnInButton()
     {
-        playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
+        int avaliableSlots = inventory.GetFreeSlotCount();
+        int rewardSlots = currentQuest.reward.Count();
 
+        if (avaliableSlots < rewardSlots)
+        {
+            Debug.Log("Not enough inventory space to turn in quest!");
+            return;
+        }
+
+        playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
         playerquests.TurnInQuest(currentQuest);
 
         NPCQuest npcQuest = currentNPC.GetComponent<NPCQuest>();
-        if (npcQuest.QuestIndex < npcQuest.quests.Count - 1)
-        {
-            npcQuest.QuestIndex++;
-        }
-
+        if (npcQuest.QuestIndex < npcQuest.quests.Count - 1) npcQuest.QuestIndex++;
         currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
     }
 }
