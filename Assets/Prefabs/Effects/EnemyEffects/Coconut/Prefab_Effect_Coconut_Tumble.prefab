@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 7349107462248626875}
   - component: {fileID: 272844013731732037}
   - component: {fileID: 6544497294332614110}
-  - component: {fileID: 2810824621736409294}
   - component: {fileID: 2606323817273083996}
+  - component: {fileID: 1335228010550721825}
+  - component: {fileID: 1260579208264887123}
   m_Layer: 0
   m_Name: Prefab_Effect_Coconut_Tumble
   m_TagString: Untagged
@@ -204,18 +205,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2810824621736409294
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8745372961959413610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615fc6c0fdb711c4f8d457455c9348c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestroyAfterAnimation
 --- !u!114 &2606323817273083996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,3 +228,30 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
+--- !u!114 &1335228010550721825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745372961959413610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615fc6c0fdb711c4f8d457455c9348c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyAfterAnimation
+--- !u!114 &1260579208264887123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8745372961959413610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 0}
+  enemy: {fileID: 0}
