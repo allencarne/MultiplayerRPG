@@ -6,6 +6,6 @@ public class GameManager : MonoBehaviour
 {
     void Start()
     {
-        SceneManager.LoadScene("Garden", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("Garden", LoadSceneMode.Additive);
     }
 }
