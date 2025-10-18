@@ -13,10 +13,7 @@ public class EquipmentManager : MonoBehaviour
 
     private void Awake()
     {
-        // Get the number of equipment slots
         int numberOfSlots = System.Enum.GetNames(typeof(EquipmentType)).Length;
-
-        // Define Array Length
         currentEquipment = new Equipment[numberOfSlots];
     }
 
@@ -56,14 +53,17 @@ public class EquipmentManager : MonoBehaviour
         if (currentEquipment[slotIndex] != null)
         {
             Equipment oldItem = currentEquipment[slotIndex];
-            inventory.AddItem(oldItem);
+            bool added = inventory.AddItem(oldItem);
+
+            if (!added)
+            {
+                Debug.Log($"Inventory full — could not unequip {oldItem.name}.");
+                return;
+            }
 
             currentEquipment[slotIndex] = null;
-
             equipmentUI.UpdateUI(null, oldItem);
             equipment.OnEquipmentChanged(null, oldItem);
-
-            // Clear equipment slot in save
             initialize.SaveEquipment(null, slotIndex);
         }
     }

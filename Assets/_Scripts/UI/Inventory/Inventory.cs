@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField] EquipmentManager equipmentManager;
+    [SerializeField] Player player;
     [SerializeField] ItemList itemDatabase;
     public PlayerInitialize initialize;
 
@@ -22,29 +22,38 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(Item newItem, int quantity = 1)
     {
-        OnItemAdded?.Invoke(newItem, quantity);
-
-        if (newItem is Currency)
-        {
-            Player player = GetComponentInParent<Player>();
-            if (player != null) player.CoinCollected(quantity); return true;
-        }
-
-        if (TryAutoEquip(newItem)) return true;
+        if (TryCollectCurrency(newItem, quantity)) return true;
+        if (TryAutoEquip(newItem, quantity)) return true;
         if (TryStackItem(newItem, quantity)) return true;
 
         // Find empty slot
         int emptySlotIndex = Array.FindIndex(items, x => x == null);
-        if (TryFindEmptySlot(emptySlotIndex)) return true;
+        if (emptySlotIndex == -1)
+        {
+            Debug.Log("Inventory full");
+            return false;
+        }
 
         // Place item in empty slot
         items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
         inventoryUI.UpdateUI();
+        OnItemAdded?.Invoke(newItem, quantity);
         initialize.SaveInventory(newItem, emptySlotIndex, quantity);
         return true;
     }
 
-    bool TryAutoEquip(Item newItem)
+    bool TryCollectCurrency(Item newItem, int quantity)
+    {
+        if (newItem is Currency)
+        {
+            OnItemAdded?.Invoke(newItem, quantity);
+            player.CoinCollected(quantity); return true;
+        }
+
+        return false;
+    }
+
+    bool TryAutoEquip(Item newItem, int quantity)
     {
         if (newItem is Equipment equipmentItem)
         {
@@ -53,6 +62,7 @@ public class Inventory : MonoBehaviour
             if (equipmentManager.currentEquipment[slotIndex] == null)
             {
                 equipmentManager.Equip(equipmentItem);
+                OnItemAdded?.Invoke(newItem, quantity);
                 return true;
             }
         }
@@ -69,20 +79,10 @@ public class Inventory : MonoBehaviour
             {
                 items[existingIndex].quantity += quantity;
                 inventoryUI.UpdateUI();
+                OnItemAdded?.Invoke(newItem, quantity);
                 initialize.SaveInventory(newItem, existingIndex, items[existingIndex].quantity);
                 return true;
             }
-        }
-
-        return false;
-    }
-
-    bool TryFindEmptySlot(int emptySlotIndex)
-    {
-        if (emptySlotIndex == -1)
-        {
-            Debug.Log("Inventory full");
-            return false;
         }
 
         return false;
