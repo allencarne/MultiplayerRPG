@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
         items = new InventorySlotData[inventorySlots];
     }
 
-    public bool AddItem(Item newItem, int quantity = 1)
+    public bool AddItem(Item newItem, int quantity = 1, bool isUnEquip = false)
     {
         if (TryCollectCurrency(newItem, quantity)) return true;
         if (TryAutoEquip(newItem, quantity)) return true;
@@ -37,7 +37,7 @@ public class Inventory : MonoBehaviour
         // Place item in empty slot
         items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
         inventoryUI.UpdateUI();
-        OnItemAdded?.Invoke(newItem, quantity);
+        if (!isUnEquip) OnItemAdded?.Invoke(newItem, quantity);
         initialize.SaveInventory(newItem, emptySlotIndex, quantity);
         return true;
     }
