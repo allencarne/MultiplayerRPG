@@ -88,7 +88,7 @@ public class ItemPickup : NetworkBehaviour
     {
         for (int i = 0; i < pickupAction.action.bindings.Count; i++)
         {
-            var binding = pickupAction.action.bindings[i];
+            InputBinding binding = pickupAction.action.bindings[i];
             if (binding.groups.Contains(scheme))
             {
                 return i;
@@ -101,30 +101,28 @@ public class ItemPickup : NetworkBehaviour
     private void PlayPickupEffect()
     {
         toolTip.SetActive(false);
+        animator.Play("Anim_Item_Pickup");
 
-        if (IsServer)
-        {
-            animator.Play("Anim_Item_Pickup");
-        }
-        else
-        {
-            PlayPickupAnimationServerRpc();
-        }
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider) collider.enabled = false;
 
-        Collider2D col = GetComponent<Collider2D>();
-        if (col) col.enabled = false;
+        if (!IsServer) PlayPickupAnimationServerRpc();
 
         StartCoroutine(Delay());
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void PlayPickupAnimationServerRpc()
+    {
+        animator.Play("Anim_Item_Pickup");
     }
 
     IEnumerator Delay()
     {
         yield return new WaitForSeconds(.6f);
-        DespawnItem();
-    }
 
-    private void DespawnItem()
-    {
+        gameObject.SetActive(false);
+
         if (IsServer)
         {
             NetworkObject.Despawn(true);
@@ -139,11 +137,5 @@ public class ItemPickup : NetworkBehaviour
     void DespawnServerRPC()
     {
         NetworkObject.Despawn(true);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void PlayPickupAnimationServerRpc()
-    {
-        animator.Play("Anim_Item_Pickup");
     }
 }
