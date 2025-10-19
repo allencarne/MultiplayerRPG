@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 8635167117624876835}
   - component: {fileID: 9039605056759261451}
   - component: {fileID: 8670462538655096979}
-  - component: {fileID: 4777783430301686852}
-  - component: {fileID: 6566710117590582958}
   - component: {fileID: 3857996800929922940}
   - component: {fileID: 5961737223499377988}
   - component: {fileID: 372010164289580214}
+  - component: {fileID: 4777783430301686852}
+  - component: {fileID: 6566710117590582958}
   m_Layer: 0
   m_Name: Prefab_Effect_Snail_Whack
   m_TagString: Untagged
@@ -197,34 +197,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 8635167117624876835}
---- !u!114 &4777783430301686852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769401315426178643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &6566710117590582958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3769401315426178643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
-  enemy: {fileID: 0}
 --- !u!114 &3857996800929922940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,3 +286,31 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
+--- !u!114 &4777783430301686852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769401315426178643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &6566710117590582958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769401315426178643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 0}
+  enemy: {fileID: 0}

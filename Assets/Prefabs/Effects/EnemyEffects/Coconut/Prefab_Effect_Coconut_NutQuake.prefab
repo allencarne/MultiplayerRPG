@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 376350459038254972}
   - component: {fileID: 5406038621449923705}
   - component: {fileID: 1504733462945200859}
-  - component: {fileID: 5754460046796028938}
+  - component: {fileID: 6099592606823119452}
   - component: {fileID: 618845258358590608}
   m_Layer: 0
   m_Name: Prefab_Effect_Coconut_NutQuake
@@ -218,7 +218,7 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
---- !u!114 &5754460046796028938
+--- !u!114 &6099592606823119452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,9 +227,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8434245056991338228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615fc6c0fdb711c4f8d457455c9348c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestroyAfterAnimation
+  m_EditorClassIdentifier: Assembly-CSharp::DestoryAfterAnimationNet
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &618845258358590608
 MonoBehaviour:
   m_ObjectHideFlags: 0
