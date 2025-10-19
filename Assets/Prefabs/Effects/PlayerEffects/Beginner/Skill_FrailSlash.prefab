@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 4072987997560191949}
   - component: {fileID: 6409134839561476840}
   - component: {fileID: 8894121348854786466}
-  - component: {fileID: 7940408725805837076}
   - component: {fileID: 8573193392874070026}
-  - component: {fileID: 1718116793721486072}
+  - component: {fileID: 7864766756875094977}
+  - component: {fileID: 7940408725805837076}
   m_Layer: 0
   m_Name: Skill_FrailSlash
   m_TagString: Untagged
@@ -288,19 +288,6 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
---- !u!114 &7940408725805837076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120296350165298231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &8573193392874070026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +311,7 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
---- !u!114 &1718116793721486072
+--- !u!114 &7864766756875094977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,3 +331,16 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
+--- !u!114 &7940408725805837076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120296350165298231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1

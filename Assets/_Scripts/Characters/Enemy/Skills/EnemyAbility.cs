@@ -79,6 +79,7 @@ public abstract class EnemyAbility : NetworkBehaviour
         if (isStaggered)
         {
             owner.SetState(EnemyStateMachine.State.Hurt);
+
         }
         else
         {

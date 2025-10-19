@@ -11,6 +11,8 @@ public class EnemyHurtState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
+        if (owner.enemy.Health.Value <= 0) return;
+
         if (!owner.CrowdControl.knockBack.IsKnockedBack && 
             !owner.CrowdControl.stun.IsStunned && 
             !owner.CrowdControl.knockUp.IsKnockedUp && 

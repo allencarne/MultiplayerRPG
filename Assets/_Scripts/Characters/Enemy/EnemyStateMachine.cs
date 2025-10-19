@@ -226,14 +226,6 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void HandleDeathClientRPC()
-    {
-        Collider.enabled = false;
-        enemy.CastBar.gameObject.SetActive(false);
-        enemy.shadowSprite.enabled = false;
-    }
-
     public void DespawnEnemy()
     {
         GetComponent<NetworkObject>().Despawn();

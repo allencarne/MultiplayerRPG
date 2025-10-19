@@ -136,7 +136,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
             UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId);
 
-            SpawnDeathEffectClientRpc(transform.position, transform.rotation);
+            DeathClientRpc(transform.position, transform.rotation);
             stateMachine.SetState(EnemyStateMachine.State.Death);
         }
     }
@@ -155,12 +155,16 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ClientRpc]
-    private void SpawnDeathEffectClientRpc(Vector3 position, Quaternion rotation)
+    private void DeathClientRpc(Vector3 position, Quaternion rotation)
     {
         Instantiate(death_Effect, position, rotation);
-
         Quaternion particleRotation = Quaternion.Euler(-90f, 0f, 0f);
         Instantiate(death_EffectParticle, position, particleRotation);
+
+        stateMachine.EnemyAnimator.Play("Death");
+        stateMachine.Collider.enabled = false;
+        shadowSprite.enabled = false;
+        CastBar.gameObject.SetActive(false);
     }
 
     void TargetAttacker(NetworkObject attackerID)
