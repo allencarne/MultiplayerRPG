@@ -47,6 +47,8 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanUtility = true;
     public bool CanUltimate = true;
 
+    bool canPickup = true;
+
     string indicatorType = null;
     GameObject indicator;
     Coroutine CurrentAttack;
@@ -477,11 +479,19 @@ public class PlayerStateMachine : NetworkBehaviour
         ItemPickup item = collision.GetComponent<ItemPickup>();
         if (item != null)
         {
-            if (Input.PickupInput)
+            if (Input.PickupInput && canPickup)
             {
+                canPickup = false;
                 item.PickUp(player);
+                StartCoroutine(PickupCoolDown());
             }
         }
+    }
+
+    IEnumerator PickupCoolDown()
+    {
+        yield return new WaitForSeconds(.2f);
+        canPickup = true;
     }
 
     public void HandlePotentialInterrupt()
