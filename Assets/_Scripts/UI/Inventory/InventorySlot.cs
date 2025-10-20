@@ -49,7 +49,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (slotData?.item != null)
         {
-            inventory.RemoveItem(slotData.item);
+            inventory.RemoveItemBySlot(slotIndex);
         }
     }
 

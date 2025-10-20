@@ -152,4 +152,25 @@ public class PlayerQuest : MonoBehaviour
         }
         return true;
     }
+
+    public void OnItemRemoved(string itemID, int quantity)
+    {
+        foreach (QuestProgress progress in activeQuests)
+        {
+            if (progress.state != QuestState.InProgress && progress.state != QuestState.ReadyToTurnIn) continue;
+
+            foreach (QuestObjective objective in progress.objectives)
+            {
+                if (objective.type == ObjectiveType.Collect && objective.ObjectiveID == itemID)
+                {
+                    // Recalculate current amount based on actual inventory
+                    int currentCount = GetItemCountInInventory(itemID);
+                    objective.CurrentAmount = Mathf.Min(currentCount, objective.RequiredAmount);
+                }
+            }
+
+            progress.CheckCompletion();
+            OnProgress?.Invoke();
+        }
+    }
 }

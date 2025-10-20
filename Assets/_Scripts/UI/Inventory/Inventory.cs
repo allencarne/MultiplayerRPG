@@ -245,9 +245,12 @@ public class Inventory : MonoBehaviour
         {
             if (items[i] != null && items[i].item.ITEM_ID == itemID)
             {
+                int removedFromThisSlot = 0;
+
                 if (items[i].quantity <= remainingToRemove)
                 {
                     // Remove entire stack
+                    removedFromThisSlot = items[i].quantity;
                     remainingToRemove -= items[i].quantity;
                     items[i] = null;
                     initialize.SaveInventory(null, i, 0);
@@ -255,6 +258,7 @@ public class Inventory : MonoBehaviour
                 else
                 {
                     // Reduce quantity
+                    removedFromThisSlot = remainingToRemove;
                     items[i].quantity -= remainingToRemove;
                     initialize.SaveInventory(items[i].item, i, items[i].quantity);
                     remainingToRemove = 0;
@@ -263,5 +267,40 @@ public class Inventory : MonoBehaviour
         }
 
         inventoryUI.UpdateUI();
+        NotifyQuestSystemItemRemoved(itemID, quantityToRemove);
+    }
+
+    public void RemoveItemBySlot(int slotIndex, int quantityToRemove = -1)
+    {
+        if (slotIndex < 0 || slotIndex >= items.Length || items[slotIndex] == null) return;
+
+        string itemID = items[slotIndex].item.ITEM_ID;
+        int actualQuantityRemoved;
+
+        if (quantityToRemove == -1 || quantityToRemove >= items[slotIndex].quantity)
+        {
+            // Remove entire stack
+            actualQuantityRemoved = items[slotIndex].quantity;
+            items[slotIndex] = null;
+            initialize.SaveInventory(null, slotIndex, 0);
+        }
+        else
+        {
+            // Remove partial quantity
+            actualQuantityRemoved = quantityToRemove;
+            items[slotIndex].quantity -= quantityToRemove;
+            initialize.SaveInventory(items[slotIndex].item, slotIndex, items[slotIndex].quantity);
+        }
+
+        inventoryUI.UpdateUI();
+        NotifyQuestSystemItemRemoved(itemID, actualQuantityRemoved);
+    }
+
+    void NotifyQuestSystemItemRemoved(string itemID, int quantity)
+    {
+        if (playerquests != null)
+        {
+            playerquests.OnItemRemoved(itemID, quantity);
+        }
     }
 }

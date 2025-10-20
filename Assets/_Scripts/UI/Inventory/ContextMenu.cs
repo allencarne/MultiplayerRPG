@@ -68,13 +68,17 @@ public class ContextMenu : MonoBehaviour
 
     public void DropButton()
     {
-        GameObject item = Instantiate(inventorySlot.slotData.item.Prefab, inventorySlot.inventory.initialize.transform.position, Quaternion.identity);
-        NetworkObject netItem = item.GetComponent<NetworkObject>();
-        netItem.Spawn();
+        InventorySlotData data = inventorySlot.slotData;
+        Inventory inventory = inventorySlot.inventory;
 
-        item.GetComponent<ItemPickup>().Quantity = inventorySlot.slotData.quantity;
+        if (data == null) return;
 
-        inventorySlot.ClearSlot();
+        GameObject dropped = Instantiate(data.item.Prefab, inventory.initialize.transform.position, Quaternion.identity);
+        NetworkObject netObj = dropped.GetComponent<NetworkObject>();
+        netObj.Spawn();
+
+        dropped.GetComponent<ItemPickup>().Quantity = data.quantity;
+        inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);
         EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
     }
