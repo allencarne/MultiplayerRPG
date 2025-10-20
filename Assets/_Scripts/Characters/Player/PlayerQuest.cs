@@ -82,6 +82,18 @@ public class PlayerQuest : MonoBehaviour
         QuestProgress progress = activeQuests.Find(q => q.quest == quest);
         if (progress == null || progress.state != QuestState.ReadyToTurnIn) return;
 
+        // Verify player still has all required items
+        if (!HasRequiredItems(progress))
+        {
+            Debug.Log("You no longer have the required items!");
+            CheckInventoryForQuestItems(progress);
+            OnProgress?.Invoke();
+            return;
+        }
+
+        // Remove collected items from inventory
+        RemoveQuestItems(progress);
+
         foreach (Item item in quest.reward) inventory.AddItem(item);
         if (quest.goldReward > 0) inventory.AddItem(coin, quest.goldReward);
         if (experience != null) experience.IncreaseEXP(quest.expReward);
@@ -112,5 +124,32 @@ public class PlayerQuest : MonoBehaviour
         }
 
         return null;
+    }
+
+    void RemoveQuestItems(QuestProgress progress)
+    {
+        foreach (QuestObjective objective in progress.objectives)
+        {
+            if (objective.type == ObjectiveType.Collect && objective.IsCompleted)
+            {
+                inventory.RemoveItemByID(objective.ObjectiveID, objective.RequiredAmount);
+            }
+        }
+    }
+
+    bool HasRequiredItems(QuestProgress progress)
+    {
+        foreach (QuestObjective objective in progress.objectives)
+        {
+            if (objective.type == ObjectiveType.Collect)
+            {
+                int currentCount = GetItemCountInInventory(objective.ObjectiveID);
+                if (currentCount < objective.RequiredAmount)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

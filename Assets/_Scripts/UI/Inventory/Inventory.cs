@@ -236,4 +236,32 @@ public class Inventory : MonoBehaviour
         }
         return free;
     }
+
+    public void RemoveItemByID(string itemID, int quantityToRemove)
+    {
+        int remainingToRemove = quantityToRemove;
+
+        for (int i = 0; i < items.Length && remainingToRemove > 0; i++)
+        {
+            if (items[i] != null && items[i].item.ITEM_ID == itemID)
+            {
+                if (items[i].quantity <= remainingToRemove)
+                {
+                    // Remove entire stack
+                    remainingToRemove -= items[i].quantity;
+                    items[i] = null;
+                    initialize.SaveInventory(null, i, 0);
+                }
+                else
+                {
+                    // Reduce quantity
+                    items[i].quantity -= remainingToRemove;
+                    initialize.SaveInventory(items[i].item, i, items[i].quantity);
+                    remainingToRemove = 0;
+                }
+            }
+        }
+
+        inventoryUI.UpdateUI();
+    }
 }

@@ -33,7 +33,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         }
     }
 
-
     public void ClearSlot()
     {
         slotData = null;
