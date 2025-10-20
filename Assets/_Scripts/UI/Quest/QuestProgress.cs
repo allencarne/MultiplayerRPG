@@ -33,9 +33,16 @@ public class QuestProgress
 
     public void CheckCompletion()
     {
-        if (IsCompleted && state == QuestState.InProgress)
+        bool allCompleted = IsCompleted;
+
+        if (allCompleted && state == QuestState.InProgress)
         {
             state = QuestState.ReadyToTurnIn;
+        }
+        else if (!allCompleted && state == QuestState.ReadyToTurnIn)
+        {
+            // You lost progress (e.g. dropped items)
+            state = QuestState.InProgress;
         }
     }
 }

@@ -135,6 +135,19 @@ public class QuestInfoPanel : MonoBehaviour
             return;
         }
 
+        QuestProgress progress = playerquests.activeQuests.Find(q => q.quest == currentQuest);
+        if (progress == null)
+        {
+            Debug.LogWarning("No active quest progress found for this quest.");
+            return;
+        }
+
+        if (!playerquests.HasRequiredItemsForUI(progress))
+        {
+            Debug.Log("You no longer have the required quest items to turn in!");
+            return;
+        }
+
         playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
         playerquests.TurnInQuest(currentQuest);
 

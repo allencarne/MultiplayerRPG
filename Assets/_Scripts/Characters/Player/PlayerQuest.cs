@@ -173,4 +173,9 @@ public class PlayerQuest : MonoBehaviour
             OnProgress?.Invoke();
         }
     }
+
+    public bool HasRequiredItemsForUI(QuestProgress progress)
+    {
+        return HasRequiredItems(progress);
+    }
 }
