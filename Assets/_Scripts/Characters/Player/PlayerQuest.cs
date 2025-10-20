@@ -17,12 +17,43 @@ public class PlayerQuest : MonoBehaviour
     public void AcceptQuest(Quest quest)
     {
         if (activeQuests.Exists(q => q.quest == quest)) return;
+
         QuestProgress progress = new QuestProgress(quest);
-
         foreach (Item item in quest.Starter) inventory.AddItem(item);
-
         activeQuests.Add(progress);
+
+        CheckInventoryForQuestItems(progress);
+
         OnAccept?.Invoke();
+    }
+
+    void CheckInventoryForQuestItems(QuestProgress progress)
+    {
+        foreach (QuestObjective objective in progress.objectives)
+        {
+            if (objective.type != ObjectiveType.Collect) continue;
+
+            int itemCount = GetItemCountInInventory(objective.ObjectiveID);
+            if (itemCount > 0)
+            {
+                objective.CurrentAmount = Mathf.Min(itemCount, objective.RequiredAmount);
+            }
+        }
+
+        progress.CheckCompletion();
+    }
+
+    int GetItemCountInInventory(string itemID)
+    {
+        int total = 0;
+        foreach (InventorySlotData slot in inventory.items)
+        {
+            if (slot != null && slot.item.ITEM_ID == itemID)
+            {
+                total += slot.quantity;
+            }
+        }
+        return total;
     }
 
     public void UpdateObjective(ObjectiveType type, string id, int amount = 1)

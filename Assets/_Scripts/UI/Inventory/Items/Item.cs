@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "Scriptable Objects/Item")]
 public class Item : ScriptableObject
 {
+    public string ITEM_ID;
+
     [Header("Item")]
     public GameObject Prefab;
     public Sprite Icon;

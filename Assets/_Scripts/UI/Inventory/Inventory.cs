@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] EquipmentManager equipmentManager;
     [SerializeField] Player player;
     [SerializeField] ItemList itemDatabase;
+    [SerializeField] PlayerQuest playerquests;
     public PlayerInitialize initialize;
 
     public InventoryUI inventoryUI;
@@ -22,9 +23,23 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(Item newItem, int quantity = 1, bool isUnEquip = false)
     {
-        if (TryCollectCurrency(newItem, quantity)) return true;
-        if (TryAutoEquip(newItem, quantity)) return true;
-        if (TryStackItem(newItem, quantity)) return true;
+        if (TryCollectCurrency(newItem, quantity))
+        {
+            CheckIfItemIsForQuest(newItem, quantity);
+            return true;
+        }
+
+        if (TryAutoEquip(newItem, quantity))
+        {
+            CheckIfItemIsForQuest(newItem, quantity);
+            return true;
+        }
+
+        if (TryStackItem(newItem, quantity))
+        {
+            CheckIfItemIsForQuest(newItem, quantity);
+            return true;
+        }
 
         // Find empty slot
         int emptySlotIndex = Array.FindIndex(items, x => x == null);
@@ -39,7 +54,26 @@ public class Inventory : MonoBehaviour
         inventoryUI.UpdateUI();
         if (!isUnEquip) OnItemAdded?.Invoke(newItem, quantity);
         initialize.SaveInventory(newItem, emptySlotIndex, quantity);
+
+        CheckIfItemIsForQuest(newItem, quantity);
         return true;
+    }
+
+    void CheckIfItemIsForQuest(Item newItem, int quantity)
+    {
+        foreach (QuestProgress progress in playerquests.activeQuests)
+        {
+            if (progress.state != QuestState.InProgress) continue;
+
+            foreach (QuestObjective objective in progress.objectives)
+            {
+                if (objective.type == ObjectiveType.Collect && objective.ObjectiveID == newItem.ITEM_ID && !objective.IsCompleted)
+                {
+                    playerquests.UpdateObjective(ObjectiveType.Collect, newItem.ITEM_ID, quantity);
+                    break;
+                }
+            }
+        }
     }
 
     bool TryCollectCurrency(Item newItem, int quantity)
