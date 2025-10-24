@@ -43,6 +43,8 @@ public class PatrolChaseState : NPCState
 
     public void TransitionToIdle(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         owner.npc.PatienceBar.Patience.Value = 0;
         owner.IsEnemyInRange = false;
         owner.Target = null;
@@ -51,6 +53,8 @@ public class PatrolChaseState : NPCState
 
     public void HandleDeAggro(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         float distanceToStartingPosition = Vector2.Distance(startingPosition, owner.Target.position);
 
         if (distanceToStartingPosition > owner.DeAggroRadius)
