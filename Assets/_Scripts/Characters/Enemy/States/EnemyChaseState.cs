@@ -5,8 +5,6 @@ public class EnemyChaseState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         owner.EnemyAnimator.Play("Chase");
     }
 
@@ -41,6 +39,8 @@ public class EnemyChaseState : EnemyState
 
     public void TransitionToReset(EnemyStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         owner.enemy.PatienceBar.Patience.Value = 0;
         owner.IsPlayerInRange = false;
         owner.Target = null;
@@ -87,6 +87,8 @@ public class EnemyChaseState : EnemyState
 
     public void HandleDeAggro(EnemyStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         float distanceToStartingPosition = Vector2.Distance(owner.StartingPosition, owner.Target.position);
 
         if (distanceToStartingPosition > owner.DeAggroRadius)

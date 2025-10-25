@@ -4,8 +4,6 @@ public class PlayerIdleState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        Debug.Log(owner.Equipment.HeadAnimIndex);
-
         owner.SwordAnimator.Play("Idle");
         owner.BodyAnimator.Play("Idle");
         owner.EyesAnimator.Play("Idle");
@@ -17,6 +15,7 @@ public class PlayerIdleState : PlayerState
 
     public override void UpdateState(PlayerStateMachine owner)
     {
+        // Transitions
         owner.Roll();
         owner.BasicAbility();
         owner.OffensiveAbility();
@@ -28,6 +27,7 @@ public class PlayerIdleState : PlayerState
 
     public override void FixedUpdateState(PlayerStateMachine owner)
     {
+        // Transition to Move State
         if (owner.Input.MoveInput != Vector2.zero)
         {
             if (!owner.CrowdControl.immobilize.IsImmobilized)

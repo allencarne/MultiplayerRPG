@@ -4,8 +4,6 @@ public class NPCChaseState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         owner.SwordAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
@@ -17,8 +15,6 @@ public class NPCChaseState : NPCState
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         if (owner.Target == null)
         {
             TransitionToReset(owner);
@@ -31,8 +27,6 @@ public class NPCChaseState : NPCState
 
     public override void FixedUpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         if (owner.Target)
         {
             owner.MoveTowardsTarget(owner.Target.position);
@@ -45,6 +39,8 @@ public class NPCChaseState : NPCState
 
     public void TransitionToReset(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         owner.npc.PatienceBar.Patience.Value = 0;
         owner.IsEnemyInRange = false;
         owner.Target = null;
@@ -53,6 +49,8 @@ public class NPCChaseState : NPCState
 
     public void HandleDeAggro(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         float distanceToStartingPosition = Vector2.Distance(owner.StartingPosition, owner.Target.position);
 
         if (distanceToStartingPosition > owner.DeAggroRadius)

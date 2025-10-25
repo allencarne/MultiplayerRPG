@@ -6,8 +6,6 @@ public class PatrolChaseState : NPCState
 
     public override void StartState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         startingPosition = transform.position;
 
         owner.SwordAnimator.Play("Run");
@@ -21,8 +19,6 @@ public class PatrolChaseState : NPCState
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         if (owner.Target == null)
         {
             TransitionToIdle(owner);
@@ -35,8 +31,6 @@ public class PatrolChaseState : NPCState
 
     public override void FixedUpdateState(NPCStateMachine owner)
     {
-        if (!owner.IsServer) return;
-
         if (owner.Target)
         {
             owner.MoveTowardsTarget(owner.Target.position);
@@ -49,6 +43,8 @@ public class PatrolChaseState : NPCState
 
     public void TransitionToIdle(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         owner.npc.PatienceBar.Patience.Value = 0;
         owner.IsEnemyInRange = false;
         owner.Target = null;
@@ -57,6 +53,8 @@ public class PatrolChaseState : NPCState
 
     public void HandleDeAggro(NPCStateMachine owner)
     {
+        if (!owner.IsServer) return;
+
         float distanceToStartingPosition = Vector2.Distance(startingPosition, owner.Target.position);
 
         if (distanceToStartingPosition > owner.DeAggroRadius)
