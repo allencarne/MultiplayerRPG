@@ -11,7 +11,6 @@ public class PlayerRunState : PlayerState
         owner.HeadAnimator.Play("Run_" + owner.Equipment.HeadAnimIndex);
         owner.ChestAnimator.Play("Run_" + owner.Equipment.ChestAnimIndex);
         owner.LegsAnimator.Play("Run_" + owner.Equipment.LegsAnimIndex);
-
     }
 
     public override void UpdateState(PlayerStateMachine owner)
