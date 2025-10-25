@@ -45728,7 +45728,7 @@ GameObject:
   - component: {fileID: 2765155765204498895}
   - component: {fileID: 5215574884419571335}
   - component: {fileID: 3756110123265388196}
-  - component: {fileID: 7165771376278617596}
+  - component: {fileID: 8749533155269782665}
   m_Layer: 0
   m_Name: Legs
   m_TagString: Untagged
@@ -45808,7 +45808,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &3756110123265388196
 Animator:
   serializedVersion: 7
@@ -45831,7 +45831,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7165771376278617596
+--- !u!114 &8749533155269782665
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45840,9 +45840,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5891707794683501378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 802208acdb6fe2a4bb4fc71176188ea2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  m_EditorClassIdentifier: Assembly-CSharp::ClientNetworkAnimator
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 3756110123265388196}
@@ -57482,7 +57482,7 @@ GameObject:
   - component: {fileID: 8235475741482216265}
   - component: {fileID: 2701045428929882957}
   - component: {fileID: 1947832283679940003}
-  - component: {fileID: 485802036438848360}
+  - component: {fileID: 6360313878698769266}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -57562,7 +57562,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &1947832283679940003
 Animator:
   serializedVersion: 7
@@ -57585,7 +57585,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &485802036438848360
+--- !u!114 &6360313878698769266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57594,9 +57594,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7426758186112795065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 802208acdb6fe2a4bb4fc71176188ea2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  m_EditorClassIdentifier: Assembly-CSharp::ClientNetworkAnimator
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 1947832283679940003}
@@ -67394,7 +67394,7 @@ GameObject:
   - component: {fileID: 1768337626412483098}
   - component: {fileID: 3893340032900595063}
   - component: {fileID: 7854806111398192950}
-  - component: {fileID: 5413230175739736888}
+  - component: {fileID: 6314937689818228197}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -67474,7 +67474,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &7854806111398192950
 Animator:
   serializedVersion: 7
@@ -67497,7 +67497,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5413230175739736888
+--- !u!114 &6314937689818228197
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67506,9 +67506,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8929469739939501175}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Script: {fileID: 11500000, guid: 802208acdb6fe2a4bb4fc71176188ea2, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
+  m_EditorClassIdentifier: Assembly-CSharp::ClientNetworkAnimator
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 7854806111398192950}
