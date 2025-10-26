@@ -4,8 +4,6 @@ public class PlayerIdleState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        Debug.Log(owner.Equipment.HeadAnimIndex);
-
         owner.SwordAnimator.Play("Idle");
         owner.BodyAnimator.Play("Idle");
         owner.EyesAnimator.Play("Idle");
