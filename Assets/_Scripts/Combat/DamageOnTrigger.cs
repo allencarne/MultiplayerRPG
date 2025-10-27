@@ -15,6 +15,13 @@ public class DamageOnTrigger : NetworkBehaviour
     [HideInInspector] public bool IgnoreEnemy;
     [HideInInspector] public bool IgnoreNPC;
 
+    private int obstacleLayer;
+
+    private void Awake()
+    {
+        obstacleLayer = LayerMask.NameToLayer("Obstacle");
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
@@ -29,7 +36,7 @@ public class DamageOnTrigger : NetworkBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
-        if (collision.CompareTag("Obstacle"))
+        if (collision.gameObject.layer == obstacleLayer)
         {
             if (IsBreakable)
             {

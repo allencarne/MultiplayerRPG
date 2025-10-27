@@ -16,30 +16,23 @@ public class EnemySpawner : NetworkBehaviour
     [Header("Color")]
     [SerializeField] Color color;
 
+    [Header("Layers")]
+    [SerializeField] LayerMask obstacleLayerMask;
+
     int currentEnemyCount;
     bool canSpawn = true;
 
     private void Update()
     {
         if (!IsServer) return;
-
-        if (currentEnemyCount < maxEnemyCount)
-        {
-            if (canSpawn)
-            {
-                StartCoroutine(Delay());
-            }
-        }
+        if (currentEnemyCount < maxEnemyCount && canSpawn) StartCoroutine(Delay());
     }
 
     IEnumerator Delay()
     {
         canSpawn = false;
-
         int spawnDelay = Random.Range(1, 6);
-
         yield return new WaitForSeconds(spawnDelay);
-
         canSpawn = true;
         SpawnEnemy();
     }
@@ -67,18 +60,13 @@ public class EnemySpawner : NetworkBehaviour
         networkInstance.Spawn();
 
         enemyInstance.GetComponent<Enemy>().EnemySpawnerReference = this;
-
         currentEnemyCount++;
     }
 
     bool CheckForObstacles(Vector3 spawnPosition)
     {
-        Collider2D hit = Physics2D.OverlapCircle(spawnPosition, 1f);
-        if (hit != null && hit.CompareTag("Obstacle"))
-        {
-            return true;
-        }
-        return false;
+        Collider2D hit = Physics2D.OverlapCircle(spawnPosition, 1f, obstacleLayerMask);
+        return hit != null;
     }
 
     public void DecreaseEnemyCount()
@@ -89,11 +77,8 @@ public class EnemySpawner : NetworkBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-
-        // Apply rotation to the box using a matrix
         Matrix4x4 rotationMatrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
         Gizmos.matrix = rotationMatrix;
-
-        Gizmos.DrawWireCube(Vector3.zero, size); // Vector3.zero because position is already applied via matrix
+        Gizmos.DrawWireCube(Vector3.zero, size);
     }
 }
