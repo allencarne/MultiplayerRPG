@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPCStateMachine : NetworkBehaviour
@@ -213,10 +212,7 @@ public class NPCStateMachine : NetworkBehaviour
         Debug.DrawRay(transform.position, direction * distance, centerRay ? Color.red : Color.green);
 
         // If straight path is clear
-        if (!centerRay)
-        {
-            return direction;
-        }
+        if (!centerRay) return direction;
 
         // Get Spread angle
         float angleIncrement = coneSpread / (rayCount - 1);
@@ -232,10 +228,7 @@ public class NPCStateMachine : NetworkBehaviour
             Debug.DrawRay(transform.position, dir * distance, hit ? Color.red : Color.green);
 
             // If path is clear
-            if (!hit && bestDirection == Vector2.zero)
-            {
-                bestDirection = dir;
-            }
+            if (!hit && bestDirection == Vector2.zero) bestDirection = dir;
         }
 
         // If we found a valid direction

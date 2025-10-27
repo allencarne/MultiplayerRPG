@@ -25,14 +25,12 @@ public class PatrolIdleState : NPCState
 
     public override void UpdateState(NPCStateMachine owner)
     {
-        // Transition To Chase
         if (owner.IsEnemyInRange)
         {
             owner.SetState(NPCStateMachine.State.Chase);
             return;
         }
 
-        // If reached patrol point
         if (Vector2.Distance(owner.transform.position, patrolPoints[owner.PatrolIndex].position) <= 0.1f)
         {
             AdvancePatrolIndex(owner);
@@ -59,7 +57,7 @@ public class PatrolIdleState : NPCState
             owner.PatrolIndex++;
             if (owner.PatrolIndex >= patrolPoints.Count)
             {
-                owner.PatrolIndex = patrolPoints.Count - 2; // step back
+                owner.PatrolIndex = patrolPoints.Count - 2;
                 owner.PatrolForward = false;
             }
         }
@@ -68,7 +66,7 @@ public class PatrolIdleState : NPCState
             owner.PatrolIndex--;
             if (owner.PatrolIndex < 0)
             {
-                owner.PatrolIndex = 1; // step forward
+                owner.PatrolIndex = 1;
                 owner.PatrolForward = true;
             }
         }

@@ -11,6 +11,14 @@ public class NPCIdleState : NPCState
         owner.HeadAnimator.Play("Idle_" + owner.npc.HeadIndex);
         owner.ChestAnimator.Play("Idle_" + owner.npc.ChestIndex);
         owner.LegsAnimator.Play("Idle_" + owner.npc.LegsIndex);
+
+        owner.SwordAnimator.SetFloat("Vertical", -1);
+        owner.BodyAnimator.SetFloat("Vertical", -1);
+        owner.EyesAnimator.SetFloat("Vertical", -1);
+        owner.HairAnimator.SetFloat("Vertical", -1);
+        owner.HeadAnimator.SetFloat("Vertical", -1);
+        owner.ChestAnimator.SetFloat("Vertical", -1);
+        owner.LegsAnimator.SetFloat("Vertical", -1);
     }
 
     public override void UpdateState(NPCStateMachine owner)
