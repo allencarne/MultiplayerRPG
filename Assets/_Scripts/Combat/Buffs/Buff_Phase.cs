@@ -55,12 +55,12 @@ public class Buff_Phase : NetworkBehaviour
     {
         IsPhased = isPhased;
 
-        Physics2D.IgnoreLayerCollision(6, 6, isPhased); // Player vs Player
+        //Physics2D.IgnoreLayerCollision(6, 6, isPhased); // Player vs Player
+        //Physics2D.IgnoreLayerCollision(7, 7, isPhased); // Enemy vs Enemy
+        //Physics2D.IgnoreLayerCollision(10, 10, isPhased); // NPC vs NPC
         Physics2D.IgnoreLayerCollision(6, 7, isPhased); // Player vs Enemy
         Physics2D.IgnoreLayerCollision(6, 10, isPhased); // Player vs NPC
-        Physics2D.IgnoreLayerCollision(7, 7, isPhased); // Enemy vs Enemy
         Physics2D.IgnoreLayerCollision(7, 10, isPhased); // Enemy vs NPC
-        Physics2D.IgnoreLayerCollision(10, 10, isPhased); // NPC vs NPC
 
         if (isPhased)
         {
