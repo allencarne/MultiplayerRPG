@@ -164,42 +164,46 @@ public class EnemyStateMachine : NetworkBehaviour
         Vector2 currentPos = transform.position;
         Vector2 direction = (targetPos - currentPos).normalized;
         Vector2 bestDirection = Vector2.zero;
-        float distance = 2f;
-        float thickness = 0.3f;
-        int rayCount = 13;
-        float coneSpread = 180f;
 
-        // straight Ray Cast
-        RaycastHit2D centerRay = Physics2D.CircleCast(transform.position, thickness, direction, distance, obstacleLayerMask);
-        Debug.DrawRay(transform.position, direction * distance, centerRay ? Color.red : Color.green);
+        // Tunable parameters
+        float distance = 3f;        // how far ahead to check
+        float thickness = 0.25f;    // character radius
+        int rayCount = 17;          // number of rays in cone
+        float coneSpread = 120f;    // angle span in degrees
+
+        // Straight ray
+        RaycastHit2D centerRay = Physics2D.CircleCast(currentPos, thickness, direction, distance, obstacleLayerMask);
+        Debug.DrawRay(currentPos, direction * distance, centerRay ? Color.red : Color.green);
 
         // If straight path is clear
         if (!centerRay)
-        {
             return direction;
-        }
 
-        // Get Spread angle
+        // Spread calculation
         float angleIncrement = coneSpread / (rayCount - 1);
+        float bestScore = -Mathf.Infinity;
 
         for (int i = 0; i < rayCount; i++)
         {
-            // Get Offset
             float angleOffset = -coneSpread / 2f + angleIncrement * i;
             Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
 
-            // Ray in offset Direction
-            RaycastHit2D hit = Physics2D.CircleCast(transform.position, thickness, dir, distance, obstacleLayerMask);
-            Debug.DrawRay(transform.position, dir * distance, hit ? Color.red : Color.green);
+            RaycastHit2D hit = Physics2D.CircleCast(currentPos, thickness, dir, distance, obstacleLayerMask);
+            Debug.DrawRay(currentPos, dir * distance, hit ? Color.red : Color.green);
 
-            // If path is clear
-            if (!hit && bestDirection == Vector2.zero)
+            if (!hit)
             {
-                bestDirection = dir;
+                // Score based on alignment with target direction
+                float score = Vector2.Dot(dir, direction);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestDirection = dir;
+                }
             }
         }
 
-        // If we found a valid direction
+        // Return best valid direction
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
