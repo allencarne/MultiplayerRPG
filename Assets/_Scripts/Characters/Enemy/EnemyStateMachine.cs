@@ -218,6 +218,8 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void Stagger()
     {
+        if (Buffs.immoveable.IsImmovable) return;
+
         enemy.CastBar.InterruptCastBar();
 
         if (currentAbility != null)
