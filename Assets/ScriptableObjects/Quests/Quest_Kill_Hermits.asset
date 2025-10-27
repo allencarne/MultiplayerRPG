@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest3
   QuestName: Kill Hermits
-  LevelRequirment: 0
+  LevelRequirment: 1
   Instructions: Hello, Please kill 5 Hermits
   Deliver: Thank you
-  RequiredQuests:
-  - {fileID: 11400000, guid: 9fccd38173ed7eb4cbfd6dc8ddc85bfe, type: 2}
+  RequiredQuests: []
   Objectives:
   - type: 0
     ObjectiveID: Enemy_2

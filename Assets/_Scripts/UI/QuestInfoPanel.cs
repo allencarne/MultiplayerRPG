@@ -148,11 +148,17 @@ public class QuestInfoPanel : MonoBehaviour
             return;
         }
 
-        playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
+        bool isTalkQuest = currentQuest.HasTalkObjective();
+        if (isTalkQuest) playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
+
         playerquests.TurnInQuest(currentQuest);
 
         NPCQuest npcQuest = currentNPC.GetComponent<NPCQuest>();
-        if (npcQuest.QuestIndex < npcQuest.quests.Count - 1) npcQuest.QuestIndex++;
+        if (!isTalkQuest && npcQuest.QuestIndex < npcQuest.quests.Count - 1)
+        {
+            npcQuest.QuestIndex++;
+        }
+
         currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
     }
 }
