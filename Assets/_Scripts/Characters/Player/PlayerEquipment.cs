@@ -9,12 +9,9 @@ public class PlayerEquipment : NetworkBehaviour
     PlayerInitialize init;
     [SerializeField] ItemList itemDatabase;
 
-    [Header("Armor")]
-    [SerializeField] SpriteRenderer headSprite;
+    [Header("Index")]
     public int HeadAnimIndex;
-    [SerializeField] SpriteRenderer chestSprite;
     public int ChestAnimIndex;
-    [SerializeField] SpriteRenderer legsSprite;
     public int LegsAnimIndex;
 
     [Header("WeaponSprites")]
@@ -193,8 +190,6 @@ public class PlayerEquipment : NetworkBehaviour
         {
             case EquipmentType.Head:
 
-                headSprite.enabled = true;
-
                 switch (newEquipment.itemIndex)
                 {
                     case 1: HeadAnimIndex = newEquipment.itemIndex; break;
@@ -204,8 +199,6 @@ public class PlayerEquipment : NetworkBehaviour
 
             case EquipmentType.Chest:
 
-                chestSprite.enabled = true;
-
                 switch (newEquipment.itemIndex)
                 {
                     case 1: ChestAnimIndex = newEquipment.itemIndex; break;
@@ -214,8 +207,6 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
 
             case EquipmentType.Legs:
-
-                legsSprite.enabled = true;
 
                 switch (newEquipment.itemIndex)
                 {
@@ -246,8 +237,6 @@ public class PlayerEquipment : NetworkBehaviour
         {
             case EquipmentType.Head:
 
-                headSprite.enabled = false;
-
                 switch (oldItem.itemIndex)
                 {
                     case 1: HeadAnimIndex = 0; break;
@@ -257,8 +246,6 @@ public class PlayerEquipment : NetworkBehaviour
 
             case EquipmentType.Chest:
 
-                chestSprite.enabled = false;
-
                 switch (oldItem.itemIndex)
                 {
                     case 1: ChestAnimIndex = 0; break;
@@ -267,8 +254,6 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
 
             case EquipmentType.Legs:
-
-                legsSprite.enabled = false;
 
                 switch (oldItem.itemIndex)
                 {
