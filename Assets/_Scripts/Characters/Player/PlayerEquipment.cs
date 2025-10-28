@@ -215,6 +215,9 @@ public class PlayerEquipment : NetworkBehaviour
                 }
                 break;
         }
+
+        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
+        stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 
     private CurrentWeapon MapWeaponType(WeaponType type)
@@ -262,6 +265,9 @@ public class PlayerEquipment : NetworkBehaviour
                 }
                 break;
         }
+
+        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
+        stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 
     private void ApplyModifier(StatModifier mod, bool apply)

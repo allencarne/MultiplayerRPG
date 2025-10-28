@@ -4,13 +4,13 @@ public class PlayerIdleState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        owner.SwordAnimator.Play("Idle");
-        owner.BodyAnimator.Play("Idle");
-        owner.EyesAnimator.Play("Idle");
-        owner.HairAnimator.Play("Idle_" + owner.player.hairIndex);
-        owner.HeadAnimator.Play("Idle_" + owner.Equipment.HeadAnimIndex);
-        owner.ChestAnimator.Play("Idle_" + owner.Equipment.ChestAnimIndex);
-        owner.LegsAnimator.Play("Idle_" + owner.Equipment.LegsAnimIndex);
+        owner.SwordAnimator.Play("Idle", -1, 0);
+        owner.BodyAnimator.Play("Idle", -1, 0);
+        owner.EyesAnimator.Play("Idle", -1, 0);
+        owner.HairAnimator.Play("Idle_" + owner.player.hairIndex, -1, 0);
+        owner.HeadAnimator.Play("Idle_" + owner.Equipment.HeadAnimIndex, -1, 0);
+        owner.ChestAnimator.Play("Idle_" + owner.Equipment.ChestAnimIndex, -1, 0);
+        owner.LegsAnimator.Play("Idle_" + owner.Equipment.LegsAnimIndex, -1, 0);
     }
 
     public override void UpdateState(PlayerStateMachine owner)

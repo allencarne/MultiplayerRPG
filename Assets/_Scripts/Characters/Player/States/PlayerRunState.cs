@@ -4,13 +4,13 @@ public class PlayerRunState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        owner.SwordAnimator.Play("Run");
-        owner.BodyAnimator.Play("Run");
-        owner.EyesAnimator.Play("Run");
-        owner.HairAnimator.Play("Run_" + owner.player.hairIndex);
-        owner.HeadAnimator.Play("Run_" + owner.Equipment.HeadAnimIndex);
-        owner.ChestAnimator.Play("Run_" + owner.Equipment.ChestAnimIndex);
-        owner.LegsAnimator.Play("Run_" + owner.Equipment.LegsAnimIndex);
+        owner.SwordAnimator.Play("Run", -1, 0);
+        owner.BodyAnimator.Play("Run", -1, 0);
+        owner.EyesAnimator.Play("Run", -1, 0);
+        owner.HairAnimator.Play("Run_" + owner.player.hairIndex, -1, 0);
+        owner.HeadAnimator.Play("Run_" + owner.Equipment.HeadAnimIndex, -1, 0);
+        owner.ChestAnimator.Play("Run_" + owner.Equipment.ChestAnimIndex, -1, 0);
+        owner.LegsAnimator.Play("Run_" + owner.Equipment.LegsAnimIndex, -1, 0);
 
     }
 
