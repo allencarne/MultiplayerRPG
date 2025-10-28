@@ -15,7 +15,6 @@ public class PlayerIdleState : PlayerState
 
     public override void UpdateState(PlayerStateMachine owner)
     {
-        // Transitions
         owner.Roll();
         owner.BasicAbility();
         owner.OffensiveAbility();
