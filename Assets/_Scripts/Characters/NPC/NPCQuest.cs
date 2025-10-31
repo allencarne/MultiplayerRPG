@@ -10,7 +10,7 @@ public class NPCQuest : MonoBehaviour
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
         Quest turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(npc.NPC_ID);
-        if (turnIn != null) return turnIn;
+        if (turnIn != null && quests.Contains(turnIn)) return turnIn;
 
         if (quests == null || quests.Count == 0) return null;
 
