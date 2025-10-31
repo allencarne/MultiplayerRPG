@@ -9,35 +9,45 @@ public class NPCQuest : MonoBehaviour
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
-        Quest turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(npc.NPC_ID);
-        if (turnIn != null && quests.Contains(turnIn)) return turnIn;
-
         if (quests == null || quests.Count == 0) return null;
 
         Quest candidate = quests[QuestIndex];
         Player player = playerQuest.GetComponent<Player>();
 
-        if (player.PlayerLevel.Value < candidate.LevelRequirment) return null;
-        if (!HasMetQuestRequirements(playerQuest, candidate)) return null;
-
         foreach (QuestProgress progress in playerQuest.activeQuests)
         {
+            Quest quest = progress.quest;
+
+            // Turn In Talk Quest 
+            if (progress.state == QuestState.InProgress && quest.HasTalkObjective() && quest.GetReceiverID() == npc.NPC_ID) return quest;
+
+            // Skip if this quest doesn't belong to this NPC
+            if (!quests.Contains(quest)) continue;
+
+            // Ready To TurnIn
+            if (progress.state == QuestState.ReadyToTurnIn) return quest;
+
+            // In-progress Talk Quests
             if (progress.state == QuestState.InProgress)
             {
                 foreach (QuestObjective obj in progress.objectives)
                 {
                     if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == npc.NPC_ID && !obj.IsCompleted)
                     {
-                        return progress.quest;
+                        return quest;
                     }
                 }
             }
+
+            // Available
+            if (quest == candidate && progress.state != QuestState.Available) return null;
         }
 
-        QuestProgress existing = playerQuest.activeQuests.Find(q => q.quest == candidate);
-        if (existing == null || existing.state == QuestState.Available) return candidate;
+        // Offer the candidate quest if requirements are met
+        if (player.PlayerLevel.Value < candidate.LevelRequirment) return null;
+        if (!HasMetQuestRequirements(playerQuest, candidate)) return null;
 
-        return null;
+        return candidate;
     }
 
     public bool HasMetQuestRequirements(PlayerQuest playerQuest, Quest quest)

@@ -153,27 +153,6 @@ public class PlayerQuest : MonoBehaviour
         OnQuestTurnedIn?.Invoke(quest);
     }
 
-    public Quest GetQuestReadyToTurnInForReceiver(string npcID)
-    {
-        foreach (QuestProgress progress in activeQuests)
-        {
-            Quest quest = progress.quest;
-
-            if (quest.HasTalkObjective())
-            {
-                string receiverID = quest.GetReceiverID();
-                if (progress.state != QuestState.InProgress) continue;
-                if (receiverID == npcID) return quest;
-            }
-            else
-            {
-                if (progress.state == QuestState.ReadyToTurnIn) return quest;
-            }
-        }
-
-        return null;
-    }
-
     void RemoveQuestItems(QuestProgress progress)
     {
         foreach (QuestObjective objective in progress.objectives)
