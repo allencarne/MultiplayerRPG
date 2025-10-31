@@ -17,48 +17,32 @@ public class PlayerQuest : MonoBehaviour
     {
         foreach (QuestProgress progress in activeQuests)
         {
-            bool npcOfferedThisQuest = npcQuest.quests.Contains(progress.quest);
-
-            // Talk Quests
-            if (progress.quest.HasTalkObjective())
+            // Talk Quests - ReadyToTurnIn
+            if (progress.quest.HasTalkObjective() && progress.quest.GetReceiverID() == npc.NPC_ID)
             {
-                if (progress.quest.GetReceiverID() == npc.NPC_ID)
+                if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
                 {
-                    if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
-                    {
-                        return QuestState.ReadyToTurnIn;
-                    }
+                    return QuestState.ReadyToTurnIn;
                 }
             }
 
-            // Ready To Turn In
-            if (progress.state == QuestState.ReadyToTurnIn)
-            {
-                if (npcOfferedThisQuest) return QuestState.ReadyToTurnIn;
-            }
-
-            // In Progress
-            if (progress.state == QuestState.InProgress)
-            {
-                if (npcOfferedThisQuest) return QuestState.InProgress;
-            }
+            if (!npcQuest.quests.Contains(progress.quest)) continue;
+            if (progress.state == QuestState.ReadyToTurnIn) return QuestState.ReadyToTurnIn;
+            if (progress.state == QuestState.InProgress) return QuestState.InProgress;
         }
 
-        bool npcHasQuest = npcQuest.quests != null && npcQuest.quests.Count > 0;
-        if (npcHasQuest)
+        // No active quests, check if NPC has any quests to offer
+        if (npcQuest.quests == null || npcQuest.quests.Count == 0) return QuestState.None;
+        Quest candidateQuest = npcQuest.quests[npcQuest.QuestIndex];
+
+        // Check if candidate quest meets requirements
+        if (player.PlayerLevel.Value < candidateQuest.LevelRequirment) return QuestState.Unavailable;
+        if (!npcQuest.HasMetQuestRequirements(this, candidateQuest)) return QuestState.Unavailable;
+
+        foreach (Quest quest in npcQuest.quests)
         {
-            Quest quest = npcQuest.quests[npcQuest.QuestIndex];
-
-            // Unavailable
-            if (player.PlayerLevel.Value < quest.LevelRequirment) return QuestState.Unavailable;
-            if (!npcQuest.HasMetQuestRequirements(this, quest)) return QuestState.Unavailable;
-
-            //Available
-            foreach (Quest questFromNPC in npcQuest.quests)
-            {
-                bool alreadyAccepted = activeQuests.Exists(q => q.quest == questFromNPC);
-                if (!alreadyAccepted) return QuestState.Available;
-            }
+            bool alreadyAccepted = activeQuests.Exists(q => q.quest == quest);
+            if (!alreadyAccepted) return QuestState.Available;
         }
 
         return QuestState.None;
