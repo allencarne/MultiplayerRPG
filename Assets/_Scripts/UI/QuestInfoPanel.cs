@@ -151,8 +151,5 @@ public class QuestInfoPanel : MonoBehaviour
         if (isTalkQuest) playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
 
         playerquests.TurnInQuest(currentQuest);
-
-        NPCQuest npcQuest = currentNPC.GetComponent<NPCQuest>();
-        if (!isTalkQuest && npcQuest.QuestIndex < npcQuest.quests.Count - 1) npcQuest.QuestIndex++;
     }
 }

@@ -15,11 +15,16 @@ public class NPCQuestIcon : MonoBehaviour
         if (getPlayer?.player == null) return;
         playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
         playerQuest.OnQuestStateChanged.AddListener(UpdateSprite);
+        playerQuest.OnQuestTurnedIn.AddListener(npcQuest.IncreaseQuestIndex);
     }
 
     private void OnDisable()
     {
-        if (playerQuest != null) playerQuest.OnQuestStateChanged.RemoveListener(UpdateSprite);
+        if (playerQuest != null)
+        {
+            playerQuest.OnQuestStateChanged.RemoveListener(UpdateSprite);
+            playerQuest.OnQuestTurnedIn.RemoveListener(npcQuest.IncreaseQuestIndex);
+        }
     }
 
     public void UpdateSprite()
@@ -38,7 +43,5 @@ public class NPCQuestIcon : MonoBehaviour
             case QuestState.Completed: questIcon.enabled = false; break;
             case QuestState.None: questIcon.enabled = false; break;
         }
-
-        Debug.Log(state + " " + npc.NPC_Name);
     }
 }

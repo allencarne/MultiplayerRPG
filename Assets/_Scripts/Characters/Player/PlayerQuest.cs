@@ -10,6 +10,7 @@ public class PlayerQuest : MonoBehaviour
     [SerializeField] Item coin;
 
     public UnityEvent OnQuestStateChanged;
+    public UnityEvent<Quest> OnQuestTurnedIn;
     public List<QuestProgress> activeQuests = new List<QuestProgress>();
 
     public QuestState GetQuestStateForNpc(NPC npc, NPCQuest npcQuest)
@@ -149,6 +150,7 @@ public class PlayerQuest : MonoBehaviour
 
         progress.state = QuestState.Completed;
         OnQuestStateChanged?.Invoke();
+        OnQuestTurnedIn?.Invoke(quest);
     }
 
     public Quest GetQuestReadyToTurnInForReceiver(string npcID)

@@ -55,4 +55,12 @@ public class NPCQuest : MonoBehaviour
         }
         return true;
     }
+
+    public void IncreaseQuestIndex(Quest quest)
+    {
+        if (quests.Contains(quest) && QuestIndex < quests.Count - 1)
+        {
+            QuestIndex++;
+        }
+    }
 }
