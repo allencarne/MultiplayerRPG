@@ -42,4 +42,5 @@ public enum QuestState
     InProgress,
     ReadyToTurnIn,
     Completed,
+    None
 }

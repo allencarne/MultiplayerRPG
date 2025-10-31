@@ -41,7 +41,6 @@ public class QuestProgress
         }
         else if (!allCompleted && state == QuestState.ReadyToTurnIn)
         {
-            // You lost progress (e.g. dropped items)
             state = QuestState.InProgress;
         }
     }

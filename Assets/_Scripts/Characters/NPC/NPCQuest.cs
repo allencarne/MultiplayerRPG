@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class NPCQuest : MonoBehaviour
 {
-    [Header("Quest")]
+    [SerializeField] NPC npc;
     public List<Quest> quests = new List<Quest>();
     public int QuestIndex = 0;
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
         // Check player's active quests for any that should be turned in to this NPC
-        Quest turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(GetComponent<NPC>().NPC_ID);
+        Quest turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(npc.NPC_ID);
         if (turnIn != null) return turnIn;
 
         // check this NPC's own list for a quest the player can accept.
@@ -28,7 +28,7 @@ public class NPCQuest : MonoBehaviour
             {
                 foreach (QuestObjective obj in progress.objectives)
                 {
-                    if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == GetComponent<NPC>().NPC_ID && !obj.IsCompleted)
+                    if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == npc.NPC_ID && !obj.IsCompleted)
                     {
                         // This NPC is the one we need to talk to
                         return progress.quest;
@@ -46,17 +46,13 @@ public class NPCQuest : MonoBehaviour
 
     public bool HasMetQuestRequirements(PlayerQuest playerQuest, Quest quest)
     {
-        if (quest.RequiredQuests == null || quest.RequiredQuests.Count == 0)
-            return true;
+        if (quest.RequiredQuests == null || quest.RequiredQuests.Count == 0) return true;
 
         foreach (Quest requiredQuest in quest.RequiredQuests)
         {
             QuestProgress requiredProgress = playerQuest.activeQuests.Find(q => q.quest == requiredQuest);
-
-            if (requiredProgress == null || requiredProgress.state != QuestState.Completed)
-                return false;
+            if (requiredProgress == null || requiredProgress.state != QuestState.Completed) return false;
         }
-
         return true;
     }
 }

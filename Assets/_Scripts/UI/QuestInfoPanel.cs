@@ -121,7 +121,6 @@ public class QuestInfoPanel : MonoBehaviour
         }
 
         playerquests.AcceptQuest(currentQuest);
-        currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
     }
 
     public void TurnInButton()
@@ -154,11 +153,6 @@ public class QuestInfoPanel : MonoBehaviour
         playerquests.TurnInQuest(currentQuest);
 
         NPCQuest npcQuest = currentNPC.GetComponent<NPCQuest>();
-        if (!isTalkQuest && npcQuest.QuestIndex < npcQuest.quests.Count - 1)
-        {
-            npcQuest.QuestIndex++;
-        }
-
-        currentNPC.GetComponent<NPCQuestIcon>().UpdateSprite();
+        if (!isTalkQuest && npcQuest.QuestIndex < npcQuest.quests.Count - 1) npcQuest.QuestIndex++;
     }
 }

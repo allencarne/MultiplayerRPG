@@ -9,10 +9,59 @@ public class PlayerQuest : MonoBehaviour
     [SerializeField] PlayerExperience experience;
     [SerializeField] Item coin;
 
-    public UnityEvent OnAccept;
-    public UnityEvent OnProgress;
-    public UnityEvent OnCompleted;
+    public UnityEvent OnQuestStateChanged;
     public List<QuestProgress> activeQuests = new List<QuestProgress>();
+
+    public QuestState GetQuestStateForNpc(NPC npc, NPCQuest npcQuest)
+    {
+        foreach (QuestProgress progress in activeQuests)
+        {
+            bool npcOfferedThisQuest = npcQuest.quests.Contains(progress.quest);
+
+            // Talk Quests
+            if (progress.quest.HasTalkObjective())
+            {
+                if (progress.quest.GetReceiverID() == npc.NPC_ID)
+                {
+                    if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
+                    {
+                        return QuestState.ReadyToTurnIn;
+                    }
+                }
+            }
+
+            // Ready To Turn In
+            if (progress.state == QuestState.ReadyToTurnIn)
+            {
+                if (npcOfferedThisQuest) return QuestState.ReadyToTurnIn;
+            }
+
+            // In Progress
+            if (progress.state == QuestState.InProgress)
+            {
+                if (npcOfferedThisQuest) return QuestState.InProgress;
+            }
+        }
+
+        bool npcHasQuest = npcQuest.quests != null && npcQuest.quests.Count > 0;
+        if (npcHasQuest)
+        {
+            Quest quest = npcQuest.quests[npcQuest.QuestIndex];
+
+            // Unavailable
+            if (player.PlayerLevel.Value < quest.LevelRequirment) return QuestState.Unavailable;
+            if (!npcQuest.HasMetQuestRequirements(this, quest)) return QuestState.Unavailable;
+
+            //Available
+            foreach (Quest questFromNPC in npcQuest.quests)
+            {
+                bool alreadyAccepted = activeQuests.Exists(q => q.quest == questFromNPC);
+                if (!alreadyAccepted) return QuestState.Available;
+            }
+        }
+
+        return QuestState.None;
+    }
 
     public void AcceptQuest(Quest quest)
     {
@@ -24,7 +73,7 @@ public class PlayerQuest : MonoBehaviour
 
         CheckInventoryForQuestItems(progress);
 
-        OnAccept?.Invoke();
+        OnQuestStateChanged?.Invoke();
     }
 
     void CheckInventoryForQuestItems(QuestProgress progress)
@@ -73,7 +122,7 @@ public class PlayerQuest : MonoBehaviour
             }
 
             progress.CheckCompletion();
-            OnProgress?.Invoke();
+            OnQuestStateChanged?.Invoke();
         }
     }
 
@@ -87,7 +136,7 @@ public class PlayerQuest : MonoBehaviour
         {
             Debug.Log("You no longer have the required items!");
             CheckInventoryForQuestItems(progress);
-            OnProgress?.Invoke();
+            OnQuestStateChanged?.Invoke();
             return;
         }
 
@@ -99,23 +148,20 @@ public class PlayerQuest : MonoBehaviour
         if (experience != null) experience.IncreaseEXP(quest.expReward);
 
         progress.state = QuestState.Completed;
-        OnCompleted?.Invoke();
+        OnQuestStateChanged?.Invoke();
     }
 
     public Quest GetQuestReadyToTurnInForReceiver(string npcID)
     {
         foreach (QuestProgress progress in activeQuests)
         {
-            if (progress.state != QuestState.ReadyToTurnIn)
-                continue;
-
             Quest quest = progress.quest;
 
             if (quest.HasTalkObjective())
             {
                 string receiverID = quest.GetReceiverID();
-                if (receiverID == npcID)
-                    return quest;
+                if (progress.state != QuestState.InProgress) continue;
+                if (receiverID == npcID) return quest;
             }
             else
             {
@@ -170,7 +216,7 @@ public class PlayerQuest : MonoBehaviour
             }
 
             progress.CheckCompletion();
-            OnProgress?.Invoke();
+            OnQuestStateChanged?.Invoke();
         }
     }
 
