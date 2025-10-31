@@ -167,7 +167,7 @@ public class PlayerQuest : MonoBehaviour
             }
             else
             {
-                return quest;
+                if (progress.state == QuestState.ReadyToTurnIn) return quest;
             }
         }
 

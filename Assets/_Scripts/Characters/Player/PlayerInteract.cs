@@ -31,7 +31,6 @@ public class PlayerInteract : MonoBehaviour
 
     public UnityEvent OnInteract;
     NPC npcReference;
-    Quest activeQuest;
 
     private void Awake()
     {
@@ -120,7 +119,6 @@ public class PlayerInteract : MonoBehaviour
         player.IsInteracting = false;
 
         npcReference = null;
-        activeQuest = null;
     }
 
     void OpenUI(NPC npc)
@@ -132,8 +130,8 @@ public class PlayerInteract : MonoBehaviour
 
         // Quests
         NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
-        activeQuest = npcQuest?.GetAvailableQuest(playerQuest);
-        questButton.gameObject.SetActive(activeQuest != null);
+        Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
+        questButton.gameObject.SetActive(currentQuest != null);
 
         // Get Shop
         shopButton.gameObject.SetActive(false);
@@ -147,10 +145,16 @@ public class PlayerInteract : MonoBehaviour
 
     public void QuestButton()
     {
-        if (activeQuest == null) return;
+        if (npcReference == null) return;
+
+        NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
+        Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
+        if (currentQuest == null) return;
+
         interactText.enabled = false;
         interactPanel.SetActive(false);
 
-        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, activeQuest);
+        QuestInfoPanel panel = questInfoPanel.GetComponent<QuestInfoPanel>();
+        panel.UpdateQuestInfo(npcReference, currentQuest);
     }
 }

@@ -9,11 +9,9 @@ public class NPCQuest : MonoBehaviour
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
-        // Check player's active quests for any that should be turned in to this NPC
         Quest turnIn = playerQuest.GetQuestReadyToTurnInForReceiver(npc.NPC_ID);
         if (turnIn != null) return turnIn;
 
-        // check this NPC's own list for a quest the player can accept.
         if (quests == null || quests.Count == 0) return null;
 
         Quest candidate = quests[QuestIndex];
@@ -30,7 +28,6 @@ public class NPCQuest : MonoBehaviour
                 {
                     if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == npc.NPC_ID && !obj.IsCompleted)
                     {
-                        // This NPC is the one we need to talk to
                         return progress.quest;
                     }
                 }
@@ -38,8 +35,7 @@ public class NPCQuest : MonoBehaviour
         }
 
         QuestProgress existing = playerQuest.activeQuests.Find(q => q.quest == candidate);
-        if (existing == null || existing.state == QuestState.Available)
-            return candidate;
+        if (existing == null || existing.state == QuestState.Available) return candidate;
 
         return null;
     }
