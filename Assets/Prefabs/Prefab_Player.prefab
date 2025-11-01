@@ -9329,7 +9329,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 33158673332850559}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
         m_MethodName: CloseUI
         m_Mode: 1
@@ -22006,7 +22006,6 @@ GameObject:
   - component: {fileID: 1521853271822668813}
   - component: {fileID: 263776561653739863}
   - component: {fileID: 6940644233207828720}
-  - component: {fileID: 33158673332850559}
   - component: {fileID: 2815023884702440214}
   m_Layer: 6
   m_Name: Prefab_Player
@@ -23113,46 +23112,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &33158673332850559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910263212190248897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d8a23c2eb0bf3e4f83ccd72ece9a523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 841304983140234989}
-  playerQuest: {fileID: 2815023884702440214}
-  interactPanel: {fileID: 7354151868377779039}
-  questInfoPanel: {fileID: 5173483628460252864}
-  input: {fileID: 8050150357123000786}
-  playerInput: {fileID: 2155053313424514762}
-  interactAction: {fileID: 7675672570181225124, guid: f36af2b903c723a49acbb25b0649b21c, type: 3}
-  npcNameText: {fileID: 4811244226879982876}
-  npcDialogueText: {fileID: 6938504091023252418}
-  interactText: {fileID: 440353804221270766}
-  startButton: {fileID: 8187126316508906918}
-  questButton: {fileID: 8540066786703062732}
-  shopButton: {fileID: 7203437432597925824}
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2846862907457918475}
-        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
-        m_MethodName: _InteractUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &2815023884702440214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23196,6 +23155,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnQuestTurnedIn:
+    m_PersistentCalls:
+      m_Calls: []
   activeQuests: []
 --- !u!1 &2913849871181157441
 GameObject:
@@ -42867,7 +42829,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 33158673332850559}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
         m_MethodName: CloseUI
         m_Mode: 1
@@ -46751,7 +46713,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 33158673332850559}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
         m_MethodName: CloseUI
         m_Mode: 1
@@ -49033,7 +48995,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 33158673332850559}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
         m_MethodName: CloseUI
         m_Mode: 1
@@ -53736,7 +53698,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 33158673332850559}
+      - m_Target: {fileID: 7692280098248216016}
         m_TargetAssemblyTypeName: PlayerInteract, Assembly-CSharp
         m_MethodName: QuestButton
         m_Mode: 1
@@ -58995,6 +58957,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1802347358793303433}
   - component: {fileID: 7987199576899813099}
+  - component: {fileID: 7994913272089993089}
+  - component: {fileID: 7692280098248216016}
   m_Layer: 0
   m_Name: Sprites
   m_TagString: Untagged
@@ -59042,6 +59006,82 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 1
+--- !u!58 &7994913272089993089
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712448548237800742}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
+--- !u!114 &7692280098248216016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712448548237800742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d8a23c2eb0bf3e4f83ccd72ece9a523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 841304983140234989}
+  playerQuest: {fileID: 2815023884702440214}
+  interactPanel: {fileID: 7354151868377779039}
+  questInfoPanel: {fileID: 5173483628460252864}
+  input: {fileID: 8050150357123000786}
+  playerInput: {fileID: 2155053313424514762}
+  interactAction: {fileID: 7675672570181225124, guid: f36af2b903c723a49acbb25b0649b21c, type: 3}
+  npcNameText: {fileID: 4811244226879982876}
+  npcDialogueText: {fileID: 6938504091023252418}
+  interactText: {fileID: 440353804221270766}
+  startButton: {fileID: 8187126316508906918}
+  questButton: {fileID: 8540066786703062732}
+  shopButton: {fileID: 7203437432597925824}
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2846862907457918475}
+        m_TargetAssemblyTypeName: PlayerUI, Assembly-CSharp
+        m_MethodName: _InteractUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7727896407979873591
 GameObject:
   m_ObjectHideFlags: 0

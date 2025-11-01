@@ -114,18 +114,15 @@ public class PlayerInteract : MonoBehaviour
     {
         interactPanel.SetActive(false);
         questInfoPanel.SetActive(false);
-
         interactText.enabled = false;
         player.IsInteracting = false;
-
         npcReference = null;
     }
 
     void OpenUI(NPC npc)
     {
-        npcNameText.text = npc.name;
-
         // Dialogue
+        npcNameText.text = npc.name;
         npcDialogueText.text = npcReference.GetComponent<NPCDialogue>().GetDialogue();
 
         // Quests
@@ -133,13 +130,9 @@ public class PlayerInteract : MonoBehaviour
         Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
         questButton.gameObject.SetActive(currentQuest != null);
 
-        // Get Shop
+        // Buttons
         shopButton.gameObject.SetActive(false);
-
-        // Get Start
         startButton.gameObject.SetActive(false);
-
-        // Handle UI
         OnInteract?.Invoke();
     }
 
@@ -147,14 +140,18 @@ public class PlayerInteract : MonoBehaviour
     {
         if (npcReference == null) return;
 
+        // Get Quest
         NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
         Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
         if (currentQuest == null) return;
 
+        // UI
         interactText.enabled = false;
         interactPanel.SetActive(false);
 
-        QuestInfoPanel panel = questInfoPanel.GetComponent<QuestInfoPanel>();
-        panel.UpdateQuestInfo(npcReference, currentQuest);
+        Debug.Log(currentQuest);
+
+        // Update Panel
+        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, currentQuest);
     }
 }
