@@ -82,8 +82,8 @@ public class PlayerInteract : MonoBehaviour
         if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
 
-        npcReference = collision.GetComponent<NPC>();
         interactText.enabled = true;
+        npcReference = collision.GetComponent<NPC>();
         UpdateInteractText(npcReference.name);
     }
 
@@ -98,7 +98,14 @@ public class PlayerInteract : MonoBehaviour
             player.IsInteracting = true;
             interactText.enabled = false;
 
-            OpenUI(npcReference);
+            OpenInteractUI(npcReference);
+        }
+
+        if (npcReference == null && interactText.enabled == false)
+        {
+            interactText.enabled = true;
+            npcReference = collision.GetComponent<NPC>();
+            UpdateInteractText(npcReference.name);
         }
     }
 
@@ -107,10 +114,10 @@ public class PlayerInteract : MonoBehaviour
         if (!player.IsLocalPlayer) return;
         if (!collision.CompareTag("NPC")) return;
 
-        CloseUI();
+        CloseInteractUI();
     }
 
-    public void CloseUI()
+    public void CloseInteractUI()
     {
         interactPanel.SetActive(false);
         questInfoPanel.SetActive(false);
@@ -119,7 +126,7 @@ public class PlayerInteract : MonoBehaviour
         npcReference = null;
     }
 
-    void OpenUI(NPC npc)
+    void OpenInteractUI(NPC npc)
     {
         // Dialogue
         npcNameText.text = npc.name;
@@ -148,8 +155,6 @@ public class PlayerInteract : MonoBehaviour
         // UI
         interactText.enabled = false;
         interactPanel.SetActive(false);
-
-        Debug.Log(currentQuest);
 
         // Update Panel
         questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, currentQuest);
