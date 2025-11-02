@@ -17,7 +17,6 @@ public class PlayerQuest : MonoBehaviour
     {
         foreach (QuestProgress progress in activeQuests)
         {
-            // Talk Quests - ReadyToTurnIn
             if (progress.quest.HasTalkObjective() && progress.quest.GetReceiverID() == npc.NPC_ID)
             {
                 if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
@@ -31,11 +30,9 @@ public class PlayerQuest : MonoBehaviour
             if (progress.state == QuestState.InProgress) return QuestState.InProgress;
         }
 
-        // No active quests, check if NPC has any quests to offer
         if (npcQuest.quests == null || npcQuest.quests.Count == 0) return QuestState.None;
         Quest candidateQuest = npcQuest.quests[npcQuest.QuestIndex];
 
-        // Check if candidate quest meets requirements
         if (player.PlayerLevel.Value < candidateQuest.LevelRequirment) return QuestState.Unavailable;
         if (!npcQuest.HasMetQuestRequirements(this, candidateQuest)) return QuestState.Unavailable;
 
