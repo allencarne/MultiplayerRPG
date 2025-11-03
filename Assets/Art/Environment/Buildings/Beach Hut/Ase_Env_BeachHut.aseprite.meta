@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7aa1dea62ca54564e9c95ad0302e4da2
+guid: 2f2dd10cbb40a3b4ea8a97eedf936bc4
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -84,6 +84,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
@@ -97,6 +99,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   importFileNodeState: 1
   platformSettingsDirtyTick: 0
   textureAssetName: 
@@ -123,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: HugeBeachHut
+  - name: Ase_Env_BeachHut
     originalName: 
-    pivot: {x: 0.5, y: -0.11111112}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -133,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 192
-      height: 144
-    spriteID: 2360777d899d8c94c891853e7b6d614e
+      width: 80
+      height: 97
+    spriteID: 576a2b759a5482b4c92680b27b98f5cd
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -145,33 +149,37 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData: []
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 2959379615
+      value0: 4102566102
       value1: 0
       value2: 0
       value3: 0
-    guid: -1335587681
-    name: HugeBeachHut
+    guid: 0
+    name: Ase_Env_BeachHut
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: HugeBeachHut
+    - name: Ase_Env_BeachHut
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 16
-        y: 16
-        width: 192
-        height: 144
-      spriteId: 2360777d899d8c94c891853e7b6d614e
+        x: 8
+        y: 0
+        width: 80
+        height: 97
+      spriteId: 576a2b759a5482b4c92680b27b98f5cd
     linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
     parentIndex: -1
+  tileSets: []
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 224, y: 192}
-  previousTextureSize: {x: 256, y: 256}
+  canvasSize: {x: 96, y: 128}
+  previousTextureSize: {x: 128, y: 128}
