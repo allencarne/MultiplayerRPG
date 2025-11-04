@@ -1,7 +1,25 @@
 fileFormatVersion: 2
-guid: 2aa1412b67b5f1e4dba25b472bf4f47b
+guid: c855c8d6a579d1a4f8306e78b491826a
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -4006055367084998547
+    second: Spr_Env_Prop_Campfire_0
+  - first:
+      213: 7645294005939269253
+    second: Spr_Env_Prop_Campfire_1
+  - first:
+      213: 1835309745111231695
+    second: Spr_Env_Prop_Campfire_2
+  - first:
+      213: -5513040785779535353
+    second: Spr_Env_Prop_Campfire_3
+  - first:
+      213: 1190133455265081531
+    second: Spr_Env_Prop_Campfire_4
+  - first:
+      213: -8079443922704994659
+    second: Spr_Env_Prop_Campfire_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -81,19 +99,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -107,7 +112,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Server
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -123,133 +128,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Torch_Fire_0
+      name: Spr_Env_Prop_Campfire_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 42
-        height: 42
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 36
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15625}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d54b53b2a8fe7dd48a234d7e494f0296
-      internalID: -1646634201
+      spriteID: d600a5e5ed1a768c0800000000000000
+      internalID: -4006055367084998547
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Torch_Fire_1
+      name: Spr_Env_Prop_Campfire_1
       rect:
         serializedVersion: 2
-        x: 42
+        x: 36
         y: 0
-        width: 42
-        height: 42
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 36
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15625}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e6ba941d8a9c74749ac6b40e511cce0d
-      internalID: -211007274
+      spriteID: 58eee63546a891a60800000000000000
+      internalID: 7645294005939269253
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Torch_Fire_2
+      name: Spr_Env_Prop_Campfire_2
       rect:
         serializedVersion: 2
-        x: 84
+        x: 72
         y: 0
-        width: 42
-        height: 42
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 36
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15625}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 366def88893c43a40b80d8b3db72fbbe
-      internalID: 1206423418
+      spriteID: fccea224d74587910800000000000000
+      internalID: 1835309745111231695
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Torch_Fire_3
+      name: Spr_Env_Prop_Campfire_3
       rect:
         serializedVersion: 2
-        x: 126
+        x: 108
         y: 0
-        width: 42
-        height: 42
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 36
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15625}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: d0dbe2092946127449fcd1739df5a034
-      internalID: 750302518
+      spriteID: 702de5b5d9ebd73b0800000000000000
+      internalID: -5513040785779535353
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Torch_Fire_4
+      name: Spr_Env_Prop_Campfire_4
       rect:
         serializedVersion: 2
-        x: 168
+        x: 144
         y: 0
-        width: 42
-        height: 42
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 36
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15625}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 52dc4b0aaee8ae04cacc71ff04404bb4
-      internalID: 764644615
+      spriteID: bb8226c6214348010800000000000000
+      internalID: 1190133455265081531
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Torch_Fire_5
+      name: Spr_Env_Prop_Campfire_5
       rect:
         serializedVersion: 2
-        x: 210
+        x: 180
         y: 0
-        width: 42
-        height: 42
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 36
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15625}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7c61e39655ddca04cb717b64a4d93117
-      internalID: 1677678344
+      spriteID: d9eea7c1f8c00ef80800000000000000
+      internalID: -8079443922704994659
       vertices: []
       indices: 
       edges: []
@@ -258,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 3fed604fec02f2845acd5c9b517199e2
     internalID: 0
     vertices: []
     indices: 
@@ -266,14 +271,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":36.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.15625},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Torch_Fire_0: -1646634201
-      Torch_Fire_1: -211007274
-      Torch_Fire_2: 1206423418
-      Torch_Fire_3: 750302518
-      Torch_Fire_4: 764644615
-      Torch_Fire_5: 1677678344
+      Spr_Env_Prop_Campfire_0: -4006055367084998547
+      Spr_Env_Prop_Campfire_1: 7645294005939269253
+      Spr_Env_Prop_Campfire_2: 1835309745111231695
+      Spr_Env_Prop_Campfire_3: -5513040785779535353
+      Spr_Env_Prop_Campfire_4: 1190133455265081531
+      Spr_Env_Prop_Campfire_5: -8079443922704994659
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
