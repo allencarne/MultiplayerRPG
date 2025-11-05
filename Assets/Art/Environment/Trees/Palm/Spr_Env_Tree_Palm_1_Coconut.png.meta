@@ -1,7 +1,13 @@
 fileFormatVersion: 2
-guid: e3d7a0eced60b35458b1be52a22c9ddf
+guid: d8b50088c37388a4d86497d06592b419
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 2008740337449455562
+    second: Spr_Env_Tree_Palm_1_Coconut_0
+  - first:
+      213: -8341269632785081308
+    second: Spr_Env_Tree_Palm_1_Coconut_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -81,19 +87,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -107,7 +100,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Server
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -121,7 +114,51 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Spr_Env_Tree_Palm_1_Coconut_0
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 58
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acf4ca3b1ba70eb10800000000000000
+      internalID: 2008740337449455562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Env_Tree_Palm_1_Coconut_1
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 56
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42c9712867bdd3c80800000000000000
+      internalID: -8341269632785081308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -135,7 +172,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Spr_Env_Tree_Palm_1_Coconut_0: 2008740337449455562
+      Spr_Env_Tree_Palm_1_Coconut_1: -8341269632785081308
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

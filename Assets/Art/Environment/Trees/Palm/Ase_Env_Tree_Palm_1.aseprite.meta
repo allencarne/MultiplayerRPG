@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a55dec0fd208293419b91a7bc90abf8f
+guid: 485c0e0cdb023be4685e245ff3768b4f
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -84,6 +84,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
@@ -97,6 +99,8 @@ ScriptedImporter:
     generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
+    generateIndividualEvents: 1
+    generateSpriteAtlas: 1
   importFileNodeState: 1
   platformSettingsDirtyTick: 0
   textureAssetName: 
@@ -123,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Beach_Tree_Palm_1
+  - name: Ase_Env_Tree_Palm_1
     originalName: 
     pivot: {x: 0.32075474, y: -1.25}
     alignment: 9
@@ -135,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 53
       height: 36
-    spriteID: ad124045db6ed5245a9bb8136287828d
+    spriteID: 82860dc58b3c8e64ba9f6e5b647cbfec
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -145,20 +149,21 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData: []
+  tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 2038863045
+      value0: 1819920861
       value1: 0
       value2: 0
       value3: 0
-    guid: 2038863045
-    name: Beach_Tree_Palm_1
+    guid: 0
+    name: Ase_Env_Tree_Palm_1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Beach_Tree_Palm_1
+    - name: Ase_Env_Tree_Palm_1
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -166,9 +171,12 @@ ScriptedImporter:
         y: 45
         width: 53
         height: 36
-      spriteId: ad124045db6ed5245a9bb8136287828d
+      spriteId: 82860dc58b3c8e64ba9f6e5b647cbfec
     linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
     parentIndex: -1
+  tileSets: []
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
