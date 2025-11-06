@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1206535566976655835}
   - component: {fileID: 2508197991670211287}
+  - component: {fileID: 2469137075041583314}
   m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
@@ -90,6 +91,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &2469137075041583314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58709319786132514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1894ef138fc6a46a211b27cc12f9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minValue: -3
+  maxValue: 3
+  speed: 1
+  phaseOffset: 0
 --- !u!1 &460468190028637615
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7710051794521184665}
   - component: {fileID: 2044876801081779112}
+  - component: {fileID: 3619411094613519851}
   m_Layer: 0
   m_Name: Coconut
   m_TagString: Untagged
@@ -299,6 +317,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &3619411094613519851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2358211415711675290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1894ef138fc6a46a211b27cc12f9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minValue: -3
+  maxValue: 3
+  speed: 1
+  phaseOffset: 0
 --- !u!1 &3191171153523681130
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,6 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8799350748372666412}
   - component: {fileID: 2051281254126850685}
+  - component: {fileID: 966829003362695002}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Untagged
@@ -389,6 +424,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &966829003362695002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3191171153523681130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1894ef138fc6a46a211b27cc12f9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minValue: -3
+  maxValue: 3
+  speed: 1
+  phaseOffset: 0
 --- !u!1 &3753773366483359132
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +540,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5661627286809270818}
   - component: {fileID: 2109778737305036334}
+  - component: {fileID: 935475945842841428}
   m_Layer: 0
   m_Name: Trunk
   m_TagString: Untagged
@@ -569,3 +621,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &935475945842841428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6941637384963558766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1894ef138fc6a46a211b27cc12f9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minValue: -3
+  maxValue: 3
+  speed: 1
+  phaseOffset: 0
