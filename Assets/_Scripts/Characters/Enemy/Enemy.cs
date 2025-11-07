@@ -169,6 +169,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     void TargetAttacker(NetworkObject attackerID)
     {
+        if (stateMachine.state == EnemyStateMachine.State.Reset) return;
+
         if (stateMachine.Target == null)
         {
             stateMachine.Target = attackerID.transform;

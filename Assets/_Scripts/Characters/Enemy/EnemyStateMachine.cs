@@ -140,7 +140,7 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
-    public void MoveTowardsTarget(Vector2 _targetPos)
+    public void MoveTowardsTarget(Vector2 _targetPos, bool isReset = false)
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
 
@@ -148,10 +148,21 @@ public class EnemyStateMachine : NetworkBehaviour
 
         if (Target != null)
         {
-            if (distanceToTarget <= 1.2f)
+            if (isReset)
             {
-                EnemyRB.linearVelocity = Vector2.zero;
-                return;
+                if (distanceToTarget <= 0.5f)
+                {
+                    EnemyRB.linearVelocity = Vector2.zero;
+                    return;
+                }
+            }
+            else
+            {
+                if (distanceToTarget <= 1.2f)
+                {
+                    EnemyRB.linearVelocity = Vector2.zero;
+                    return;
+                }
             }
         }
 
@@ -165,21 +176,19 @@ public class EnemyStateMachine : NetworkBehaviour
         Vector2 direction = (targetPos - currentPos).normalized;
         Vector2 bestDirection = Vector2.zero;
 
-        // Tunable parameters
-        float distance = 3f;        // how far ahead to check
-        float thickness = 0.25f;    // character radius
-        int rayCount = 17;          // number of rays in cone
-        float coneSpread = 120f;    // angle span in degrees
+        float distance = 3f;
+        float thickness = 0.25f;
+        int rayCount = 17;
+        float coneSpread = 120f;
 
         // Straight ray
         RaycastHit2D centerRay = Physics2D.CircleCast(currentPos, thickness, direction, distance, obstacleLayerMask);
         Debug.DrawRay(currentPos, direction * distance, centerRay ? Color.red : Color.green);
 
-        // If straight path is clear
-        if (!centerRay)
-            return direction;
+        // I straight path is clear
+        if (!centerRay) return direction;
 
-        // Spread calculation
+        // Spread
         float angleIncrement = coneSpread / (rayCount - 1);
         float bestScore = -Mathf.Infinity;
 
@@ -241,6 +250,8 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
+            if (state == State.Reset) return;
+
             Target = other.transform;
             IsPlayerInRange = true;
         }
