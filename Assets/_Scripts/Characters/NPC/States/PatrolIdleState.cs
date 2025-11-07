@@ -55,20 +55,12 @@ public class PatrolIdleState : NPCState
         if (owner.PatrolForward)
         {
             owner.PatrolIndex++;
-            if (owner.PatrolIndex >= patrolPoints.Count)
-            {
-                owner.PatrolIndex = patrolPoints.Count - 2;
-                owner.PatrolForward = false;
-            }
+            if (owner.PatrolIndex >= patrolPoints.Count) owner.PatrolIndex = 0;
         }
         else
         {
             owner.PatrolIndex--;
-            if (owner.PatrolIndex < 0)
-            {
-                owner.PatrolIndex = 1;
-                owner.PatrolForward = true;
-            }
+            if (owner.PatrolIndex < 0) owner.PatrolIndex = patrolPoints.Count - 1;
         }
     }
 }
