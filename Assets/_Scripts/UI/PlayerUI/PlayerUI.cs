@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerUI : NetworkBehaviour
 {
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] AttributeSkillButtons skillButtons;
 
     [Header("FirstSelected")]
     [SerializeField] GameObject inventoryFirstSelected;
@@ -67,6 +68,8 @@ public class PlayerUI : NetworkBehaviour
         {
             skillPanel.SetActive(false);
             UpdateSelectedUI();
+
+            skillButtons.HandleAllSkills();
         }
         else
         {
@@ -81,6 +84,8 @@ public class PlayerUI : NetworkBehaviour
         {
             attributePanel.SetActive(false);
             UpdateSelectedUI();
+
+            skillButtons.HandleAttributes();
         }
         else
         {

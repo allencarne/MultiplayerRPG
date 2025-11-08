@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AttributeSkillButtons : MonoBehaviour
 {
     [Header("Player")]
+    [SerializeField] PlayerUI playerUI;
     [SerializeField] Player player;
 
     [Header("Regular")]
@@ -79,6 +82,62 @@ public class AttributeSkillButtons : MonoBehaviour
         {
             skill_Button.SetActive(false);
             m_skill_Button.SetActive(false);
+        }
+    }
+
+    public void _AttributeButton()
+    {
+        playerUI._AttributeUI();
+
+        if (attribute_Button.activeSelf)
+        {
+            attribute_Button.SetActive(false);
+        }
+        else
+        {
+            attribute_Button.SetActive(true);
+        }
+    }
+
+    public void _SkillButton()
+    {
+        playerUI._SkillUI();
+
+        if (skill_Button.activeSelf)
+        {
+            skill_Button.SetActive(false);
+        }
+        else
+        {
+            skill_Button.SetActive(true);
+        }
+    }
+
+    public void _AttributeButton_M()
+    {
+        playerUI._AttributeUI();
+
+        if (m_attribute_Button.activeSelf)
+        {
+            m_attribute_Button.SetActive(false);
+        }
+        else
+        {
+            m_attribute_Button.SetActive(true);
+        }
+    }
+
+    public void _SkillButton_M()
+    {
+        playerUI._SkillUI();
+
+        if (m_skill_Button.activeSelf)
+        {
+            m_skill_Button.SetActive(false);
+        }
+        else
+        {
+            m_skill_Button.SetActive(true);
         }
     }
 }
