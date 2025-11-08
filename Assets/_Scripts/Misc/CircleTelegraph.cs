@@ -23,7 +23,7 @@ public class CircleTelegraph : NetworkBehaviour
             }
         }
 
-        if (enemy != null && enemy.isDead)
+        if (enemy != null && enemy.IsDead)
         {
             Destroy(gameObject);
             return;

@@ -11,7 +11,7 @@ public class NPCStateMachine : NetworkBehaviour
     [SerializeField] NPCState wanderState;
     [SerializeField] NPCState chaseState;
     [SerializeField] NPCState resetState;
-    [SerializeField] NPCState hurtState;
+    [SerializeField] NPCState StaggerState;
     [SerializeField] NPCState deathState;
 
     [Header("Skills")]
@@ -69,7 +69,7 @@ public class NPCStateMachine : NetworkBehaviour
         Wander,
         Chase,
         Reset,
-        Hurt,
+        Stagger,
         Death,
         Basic,
         Special,
@@ -101,7 +101,7 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Wander: wanderState.UpdateState(this); break;
             case State.Chase: chaseState.UpdateState(this); break;
             case State.Reset: resetState.UpdateState(this); break;
-            case State.Hurt: hurtState.UpdateState(this); break;
+            case State.Stagger: StaggerState.UpdateState(this); break;
             case State.Death: deathState.UpdateState(this); break;
             case State.Basic: basicSkill.UpdateSkill(this); break;
             case State.Special: specialSkill.UpdateSkill(this); break;
@@ -119,7 +119,7 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Wander: wanderState.FixedUpdateState(this); break;
             case State.Chase: chaseState.FixedUpdateState(this); break;
             case State.Reset: resetState.FixedUpdateState(this); break;
-            case State.Hurt: hurtState.FixedUpdateState(this); break;
+            case State.Stagger: StaggerState.FixedUpdateState(this); break;
             case State.Death: deathState.FixedUpdateState(this); break;
             case State.Basic: basicSkill.FixedUpdateSkill(this); break;
             case State.Special: specialSkill.FixedUpdateSkill(this); break;
@@ -139,46 +139,12 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Wander: state = State.Wander; wanderState.StartState(this); break;
             case State.Chase: state = State.Chase; chaseState.StartState(this); break;
             case State.Reset: state = State.Reset; resetState.StartState(this); break;
-            case State.Hurt: state = State.Hurt; hurtState.StartState(this); break;
+            case State.Stagger: state = State.Stagger; StaggerState.StartState(this); break;
             case State.Death: state = State.Death; deathState.StartState(this); break;
             case State.Basic: state = State.Basic; basicSkill.StartSkill(this); break;
             case State.Special: state = State.Special; specialSkill.StartSkill(this); break;
             case State.Ultimate: state = State.Ultimate; ultimateSkill.StartSkill(this); break;
         }
-    }
-
-    public void Hurt()
-    {
-        SetState(State.Hurt);
-    }
-
-    public void Death()
-    {
-        SetState(State.Death);
-    }
-
-    public void HandlePotentialInterrupt()
-    {
-        if (!CrowdControl.interrupt.CanInterrupt) return;
-        if (npc.CastBar.castBarFill.color != Color.blue) return;
-
-        if (IsServer)
-        {
-            npc.CastBar.InterruptCastBar();
-        }
-        else
-        {
-            npc.CastBar.InterruptServerRpc();
-        }
-
-        if (CurrentAttack != null)
-        {
-            StopCoroutine(CurrentAttack);
-            CurrentAttack = null;
-        }
-
-        IsAttacking = false;
-        return;
     }
 
     public void MoveTowardsTarget(Vector2 _targetPos)
@@ -248,12 +214,37 @@ public class NPCStateMachine : NetworkBehaviour
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
+    public void Interrupt()
+    {
+        if (CurrentSkill == null) return;
+        if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
+
+        npc.CastBar.InterruptCastBar();
+        CurrentSkill.DoneState(false, this);
+    }
+
+    public void Stagger()
+    {
+        if (Buffs.immoveable.IsImmovable) return;
+
+        npc.CastBar.InterruptCastBar();
+
+        if (CurrentSkill != null)
+        {
+            CurrentSkill.DoneState(true, this);
+        }
+        else
+        {
+            SetState(State.Stagger);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
             if (state == State.Reset) return;
-            if (other.GetComponent<Enemy>().isDummy) return;
+            if (other.GetComponent<Enemy>().IsDummy) return;
 
             Target = other.transform;
             IsEnemyInRange = true;
@@ -267,23 +258,13 @@ public class NPCStateMachine : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void RequestDisableColliderServerRpc()
+    public void RequestDisableColliderServerRpc(bool isEnabled)
     {
-        Collider.enabled = false;
-        npc.SwordSprite.enabled = false;
-        npc.EyeSprite.enabled = false;
-        npc.HairSprite.enabled = false;
-        ApplyColliderStateClientRpc(false);
-    }
-
-    [ServerRpc]
-    public void RequestEnableColliderServerRpc()
-    {
-        Collider.enabled = true;
-        npc.SwordSprite.enabled = true;
-        npc.EyeSprite.enabled = true;
-        npc.HairSprite.enabled = true;
-        ApplyColliderStateClientRpc(true);
+        Collider.enabled = isEnabled;
+        npc.SwordSprite.enabled = isEnabled;
+        npc.EyeSprite.enabled = isEnabled;
+        npc.HairSprite.enabled = isEnabled;
+        ApplyColliderStateClientRpc(isEnabled);
     }
 
     [ClientRpc]
@@ -351,49 +332,6 @@ public class NPCStateMachine : NetworkBehaviour
         LegsAnimator.SetFloat("Vertical", direction.y);
     }
 
-    public void AnimateCast(Vector2 snappedDirection)
-    {
-        BodyAnimator.SetFloat("Horizontal", snappedDirection.x);
-        BodyAnimator.SetFloat("Vertical", snappedDirection.y);
-        BodyAnimator.Play("Sword_Attack_C");
-
-        SwordAnimator.SetFloat("Horizontal", snappedDirection.x);
-        SwordAnimator.SetFloat("Vertical", snappedDirection.y);
-        SwordAnimator.Play("Sword_Attack_C");
-
-        EyesAnimator.SetFloat("Horizontal", snappedDirection.x);
-        EyesAnimator.SetFloat("Vertical", snappedDirection.y);
-        EyesAnimator.Play("Sword_Attack_C");
-
-        HairAnimator.SetFloat("Horizontal", snappedDirection.x);
-        HairAnimator.SetFloat("Vertical", snappedDirection.y);
-        HairAnimator.Play("Sword_Attack_C_" + npc.hairIndex);
-
-        HeadAnimator.SetFloat("Horizontal", snappedDirection.x);
-        HeadAnimator.SetFloat("Vertical", snappedDirection.y);
-        HeadAnimator.Play("Sword_Attack_C_" + npc.HeadIndex);
-
-        ChestAnimator.SetFloat("Horizontal", snappedDirection.x);
-        ChestAnimator.SetFloat("Vertical", snappedDirection.y);
-        ChestAnimator.Play("Sword_Attack_C_" + npc.ChestIndex);
-
-        LegsAnimator.SetFloat("Horizontal", snappedDirection.x);
-        LegsAnimator.SetFloat("Vertical", snappedDirection.y);
-        LegsAnimator.Play("Sword_Attack_C_" + npc.LegsIndex);
-    }
-
-    public void StartCastBar(float castTime)
-    {
-        if (IsServer)
-        {
-            npc.CastBar.StartCast(castTime, npc.CurrentAttackSpeed);
-        }
-        else
-        {
-            npc.CastBar.StartCastServerRpc(castTime, npc.CurrentAttackSpeed);
-        }
-    }
-
     public void StartSlide()
     {
         IsSliding = true;
@@ -415,86 +353,5 @@ public class NPCStateMachine : NetworkBehaviour
 
         NpcRB.linearVelocity = Vector2.zero;
         IsSliding = false;
-    }
-
-    public IEnumerator CoolDownTime(SkillType type, float baseCooldown)
-    {
-        float modifiedCoolDown = baseCooldown / npc.CurrentCDR;
-
-        yield return new WaitForSeconds(modifiedCoolDown);
-
-        switch (type)
-        {
-            case SkillType.Basic: CanBasic = true; break;
-            case SkillType.Special: CanSpecial = true; break;
-            case SkillType.Ultimate: CanUltimate = true; break;
-        }
-    }
-
-    public void StartCast(float modifiedCastTime, float recoveryTime, NPCState ability)
-    {
-        CurrentAttack = StartCoroutine(CastTime(modifiedCastTime, recoveryTime, ability));
-    }
-
-    IEnumerator CastTime(float modifiedCastTime, float recoveryTime, NPCState ability)
-    {
-        yield return new WaitForSeconds(modifiedCastTime);
-
-        if (!IsAttacking) yield break;
-        if (npc.IsDead) yield break;
-
-        BodyAnimator.Play("Sword_Attack_I");
-        SwordAnimator.Play("Sword_Attack_I");
-        EyesAnimator.Play("Sword_Attack_I");
-        HairAnimator.Play("Sword_Attack_I_" + npc.hairIndex);
-        HeadAnimator.Play("Sword_Attack_I_" + npc.HeadIndex);
-        ChestAnimator.Play("Sword_Attack_I_" + npc.ChestIndex);
-        LegsAnimator.Play("Sword_Attack_I_" + npc.LegsIndex);
-
-        StartCoroutine(ImpactTime(recoveryTime, ability));
-    }
-
-    IEnumerator ImpactTime(float recoveryTime, NPCState ability)
-    {
-        yield return new WaitForSeconds(.1f);
-
-        if (!IsAttacking) yield break;
-        if (npc.IsDead) yield break;
-
-        ability.Impact(this);
-
-        BodyAnimator.Play("Sword_Attack_R");
-        SwordAnimator.Play("Sword_Attack_R");
-        EyesAnimator.Play("Sword_Attack_R");
-        HairAnimator.Play("Sword_Attack_R_" + npc.hairIndex);
-        HeadAnimator.Play("Sword_Attack_R_" + npc.HeadIndex);
-        ChestAnimator.Play("Sword_Attack_R_" + npc.ChestIndex);
-        LegsAnimator.Play("Sword_Attack_R_" + npc.LegsIndex);
-
-        // Start Recovery
-        if (IsServer)
-        {
-            npc.CastBar.StartRecovery(recoveryTime, npc.CurrentAttackSpeed);
-        }
-        else
-        {
-            npc.CastBar.StartRecoveryServerRpc(recoveryTime, npc.CurrentAttackSpeed);
-        }
-
-        StartCoroutine(RecoveryTime(recoveryTime));
-    }
-
-    IEnumerator RecoveryTime(float modifiedRecoveryTime)
-    {
-        yield return new WaitForSeconds(modifiedRecoveryTime);
-
-        if (!IsAttacking) yield break;
-        if (npc.IsDead) yield break;
-
-        IsAttacking = false;
-        if (state != State.Hurt)
-        {
-            SetState(State.Idle);
-        }
     }
 }

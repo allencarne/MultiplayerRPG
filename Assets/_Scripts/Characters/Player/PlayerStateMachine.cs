@@ -9,7 +9,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerIdleState playerIdleState;
     [SerializeField] PlayerRunState playerRunState;
     [SerializeField] PlayerRollState playerRollState;
-    [SerializeField] PlayerStaggerState playerHurtState;
+    [SerializeField] PlayerStaggerState PlayerStaggerState;
     [SerializeField] PlayerDeathState playerDeathState;
     [HideInInspector] public PlayerSkill CurrentSkill;
 
@@ -60,7 +60,7 @@ public class PlayerStateMachine : NetworkBehaviour
         Idle,
         Run,
         Roll,
-        Hurt,
+        Stagger,
         Death,
         Basic,
         Offensive,
@@ -181,7 +181,7 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Idle: playerIdleState.UpdateState(this); break;
             case State.Run: playerRunState.UpdateState(this); break;
             case State.Roll: playerRollState.UpdateState(this); break;
-            case State.Hurt: playerHurtState.UpdateState(this); break;
+            case State.Stagger: PlayerStaggerState.UpdateState(this); break;
             case State.Death: playerDeathState.UpdateState(this); break;
             case State.Basic: skills.basicAbilities[player.BasicIndex].UpdateAbility(this); break;
             case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].UpdateAbility(this); break;
@@ -215,7 +215,7 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Idle: playerIdleState.FixedUpdateState(this); break;
             case State.Run: playerRunState.FixedUpdateState(this); break;
             case State.Roll: playerRollState.FixedUpdateState(this); break;
-            case State.Hurt: playerHurtState.FixedUpdateState(this); break;
+            case State.Stagger: PlayerStaggerState.FixedUpdateState(this); break;
             case State.Death: playerDeathState.FixedUpdateState(this); break;
             case State.Basic: skills.basicAbilities[player.BasicIndex].FixedUpdateAbility(this); break;
             case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].FixedUpdateAbility(this); break;
@@ -234,8 +234,33 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Idle: state = State.Idle; playerIdleState.StartState(this); break;
             case State.Run: state = State.Run; playerRunState.StartState(this); break;
             case State.Roll: state = State.Roll; playerRollState.StartState(this); break;
-            case State.Hurt: state = State.Hurt; playerHurtState.StartState(this); break;
+            case State.Stagger: state = State.Stagger; PlayerStaggerState.StartState(this); break;
             case State.Death: state = State.Death; playerDeathState.StartState(this); break;
+        }
+    }
+
+    public void Interrupt()
+    {
+        if (CurrentSkill == null) return;
+        if (CurrentSkill.currentState != PlayerSkill.State.Cast) return;
+
+        player.CastBar.InterruptCastBar();
+        CurrentSkill.DoneState(false, this);
+    }
+
+    public void Stagger()
+    {
+        if (Buffs.immoveable.IsImmovable) return;
+
+        player.CastBar.InterruptCastBar();
+
+        if (CurrentSkill != null)
+        {
+            CurrentSkill.DoneState(true, this);
+        }
+        else
+        {
+            SetState(State.Stagger);
         }
     }
 
@@ -251,17 +276,6 @@ public class PlayerStateMachine : NetworkBehaviour
                 SetState(State.Roll);
             }
         }
-    }
-
-    public void Hurt()
-    {
-        if (player.IsDead) return;
-        SetState(State.Hurt);
-    }
-
-    public void Death()
-    {
-        SetState(State.Death);
     }
 
     public void BasicAbility()
@@ -598,7 +612,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.IsDead) yield break;
 
         IsAttacking = false;
-        if (state != State.Hurt)
+        if (state != State.Stagger)
         {
             SetState(State.Idle);
         }

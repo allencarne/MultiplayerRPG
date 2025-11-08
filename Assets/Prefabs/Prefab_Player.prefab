@@ -22632,7 +22632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -22870,8 +22870,9 @@ MonoBehaviour:
   playerIdleState: {fileID: 4175066047058421697}
   playerRunState: {fileID: 6250160744336573081}
   playerRollState: {fileID: 8861671175455474516}
-  playerHurtState: {fileID: 1009346017491287177}
+  PlayerStaggerState: {fileID: 1009346017491287177}
   playerDeathState: {fileID: 3774031646297609908}
+  CurrentSkill: {fileID: 0}
   SwordAnimator: {fileID: 1012001254419383665}
   BodyAnimator: {fileID: 8282777624565145663}
   HairAnimator: {fileID: 1886573199325115856}
@@ -63175,7 +63176,7 @@ GameObject:
   - component: {fileID: 6543247806048100469}
   - component: {fileID: 1009346017491287177}
   m_Layer: 0
-  m_Name: Hurt
+  m_Name: Stagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

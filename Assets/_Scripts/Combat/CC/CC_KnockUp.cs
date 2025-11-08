@@ -141,8 +141,8 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
     void ApplyKnockUp()
     {
-        if (player != null) player.Hurt();
+        if (player != null) player.Stagger();
         if (enemy != null) enemy.Stagger();
-        if (npc != null) npc.Hurt();
+        if (npc != null) npc.Stagger();
     }
 }

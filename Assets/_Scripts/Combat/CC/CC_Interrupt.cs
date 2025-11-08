@@ -18,17 +18,9 @@ public class CC_Interrupt : MonoBehaviour, IInterruptable
     {
         CanInterrupt = true;
 
-        if (player != null)
-        {
-
-        }
-
+        if (player != null) player.Interrupt();
         if (enemy != null) enemy.Interrupt();
-
-        if (npc != null)
-        {
-
-        }
+        if (npc != null) npc.Interrupt();
 
         yield return new WaitForSeconds(.3f);
         CanInterrupt = false;

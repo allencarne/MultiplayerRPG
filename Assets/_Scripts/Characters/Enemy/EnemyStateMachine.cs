@@ -9,7 +9,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyState enemyWanderState;
     [SerializeField] EnemyState enemyChaseState;
     [SerializeField] EnemyState enemyResetState;
-    [SerializeField] EnemyState enemyHurtState;
+    [SerializeField] EnemyState enemyStaggerState;
     [SerializeField] EnemyState enemyDeathState;
 
     [Header("Skills")]
@@ -96,7 +96,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: enemyWanderState.UpdateState(this); break;
             case State.Chase: enemyChaseState.UpdateState(this); break;
             case State.Reset: enemyResetState.UpdateState(this); break;
-            case State.Hurt: enemyHurtState.UpdateState(this); break;
+            case State.Hurt: enemyStaggerState.UpdateState(this); break;
             case State.Death: enemyDeathState.UpdateState(this); break;
             case State.Basic: enemyBasicAbility.UpdateSkill(this); break;
             case State.Special: enemySpecialAbility.UpdateSkill(this); break;
@@ -113,7 +113,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: enemyWanderState.FixedUpdateState(this); break;
             case State.Chase: enemyChaseState.FixedUpdateState(this); break;
             case State.Reset: enemyResetState.FixedUpdateState(this); break;
-            case State.Hurt: enemyHurtState.FixedUpdateState(this); break;
+            case State.Hurt: enemyStaggerState.FixedUpdateState(this); break;
             case State.Death: enemyDeathState.FixedUpdateState(this); break;
             case State.Basic: enemyBasicAbility.FixedUpdateSkill(this); break;
             case State.Special: enemySpecialAbility.FixedUpdateSkill(this); break;
@@ -123,7 +123,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void SetState(State newState)
     {
-        if (enemy.isDead) return;
+        if (enemy.IsDead) return;
 
         switch (newState)
         {
@@ -132,7 +132,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: state = State.Wander; enemyWanderState.StartState(this); break;
             case State.Chase: state = State.Chase; enemyChaseState.StartState(this); break;
             case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
-            case State.Hurt: state = State.Hurt; enemyHurtState.StartState(this); break;
+            case State.Hurt: state = State.Hurt; enemyStaggerState.StartState(this); break;
             case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
             case State.Basic: state = State.Basic; enemyBasicAbility.StartSkill(this); break;
             case State.Special: state = State.Special; enemySpecialAbility.StartSkill(this); break;
@@ -260,7 +260,7 @@ public class EnemyStateMachine : NetworkBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
-        if (enemy.isDummy) return;
+        if (enemy.IsDummy) return;
         if (Buffs.phase.IsPhased) return;
 
         Player player = collision.gameObject.GetComponent<Player>();

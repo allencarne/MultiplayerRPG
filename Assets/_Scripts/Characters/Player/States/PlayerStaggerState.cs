@@ -6,22 +6,20 @@ public class PlayerStaggerState : PlayerState
     {
         if (!owner.IsOwner) return;
 
-        owner.CrowdControl.interrupt.CanInterrupt = true;
-        owner.BodyAnimator.Play("Hurt");
+        owner.CrowdControl.interrupt.Interrupt();
+        owner.BodyAnimator.Play("Stagger");
     }
 
     public override void UpdateState(PlayerStateMachine owner)
     {
         if (!owner.IsOwner) return;
-
-        owner.HandlePotentialInterrupt();
+        if (owner.player.Health.Value <= 0) return;
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack &&
             !owner.CrowdControl.stun.IsStunned &&
             !owner.CrowdControl.knockUp.IsKnockedUp &&
             !owner.CrowdControl.pull.IsPulled)
         {
-            owner.CrowdControl.interrupt.CanInterrupt = false;
             owner.SetState(PlayerStateMachine.State.Idle);
         }
     }

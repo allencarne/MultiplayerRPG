@@ -29,7 +29,7 @@ public class DestroyOnDeath : NetworkBehaviour
 
         if (enemy != null)
         {
-            if (enemy.isDead)
+            if (enemy.IsDead)
             {
                 NetworkObject net = GetComponent<NetworkObject>();
                 if (net != null)

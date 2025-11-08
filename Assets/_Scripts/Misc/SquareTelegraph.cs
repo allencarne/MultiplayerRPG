@@ -30,7 +30,7 @@ public class SquareTelegraph : NetworkBehaviour
             return;
         }
 
-        if (enemy != null && enemy.isDead)
+        if (enemy != null && enemy.IsDead)
         {
             Destroy(gameObject);
             return;

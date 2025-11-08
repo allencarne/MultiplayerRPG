@@ -125,7 +125,7 @@ public abstract class PlayerSkill : NetworkBehaviour
 
         if (isStaggered)
         {
-            owner.SetState(PlayerStateMachine.State.Hurt);
+            owner.SetState(PlayerStateMachine.State.Stagger);
 
         }
         else

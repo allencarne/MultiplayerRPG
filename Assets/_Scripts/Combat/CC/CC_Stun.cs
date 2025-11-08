@@ -123,8 +123,8 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
     void ApplyStun()
     {
-        if (player != null) player.Hurt();
+        if (player != null) player.Stagger();
         if (enemy != null) enemy.Stagger();
-        if (npc != null) npc.Hurt();
+        if (npc != null) npc.Stagger();
     }
 }

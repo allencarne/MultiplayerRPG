@@ -49,7 +49,17 @@ public class BasicAttack : NPCSkill
     public override void ImpactState(NPCStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Impact);
-        Attack(owner.NetworkObject, true, false);
+
+        if (owner.IsServer)
+        {
+            Debug.Log("Server");
+            Attack(true, false);
+        }
+        else
+        {
+            Debug.Log("Not Server");
+            AttackServerRpc(AimDirection,AimRotation, true,false);
+        }
     }
 
     public override void RecoveryState(NPCStateMachine owner)

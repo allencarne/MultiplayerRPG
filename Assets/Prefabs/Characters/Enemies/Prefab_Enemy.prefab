@@ -1496,7 +1496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1539269538
+  GlobalObjectIdHash: 1366768421
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1614,8 +1614,8 @@ MonoBehaviour:
   bodySprite: {fileID: 6097983339982761849}
   shadowSprite: {fileID: 4703369267009836052}
   TotalPatience: 5
-  isDummy: 0
-  isDead: 0
+  IsDummy: 0
+  IsDead: 0
   OnDamaged:
     m_PersistentCalls:
       m_Calls:
@@ -1664,12 +1664,12 @@ MonoBehaviour:
   enemyWanderState: {fileID: 1768548039441914077}
   enemyChaseState: {fileID: 2627202019172152347}
   enemyResetState: {fileID: 8334618386139856485}
-  enemyHurtState: {fileID: 7530114180149214401}
+  enemyStaggerState: {fileID: 7530114180149214401}
   enemyDeathState: {fileID: 4602807415585494227}
   enemyBasicAbility: {fileID: 0}
   enemySpecialAbility: {fileID: 0}
   enemyUltimateAbility: {fileID: 0}
-  currentAbility: {fileID: 0}
+  CurrentSkill: {fileID: 0}
   wanderRadius: 0
   basicRadius: 0
   specialRadius: 0
@@ -1818,7 +1818,7 @@ GameObject:
   - component: {fileID: 1543243092464366415}
   - component: {fileID: 7530114180149214401}
   m_Layer: 0
-  m_Name: Hurt
+  m_Name: Stagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

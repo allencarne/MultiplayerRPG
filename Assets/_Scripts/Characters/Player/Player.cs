@@ -224,7 +224,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
-            HandleDeathClientRPC();
+            DeathClientRPC();
 
             EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
             if (enemy != null) enemy.Target = null;
@@ -232,10 +232,10 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ClientRpc]
-    void HandleDeathClientRPC()
+    void DeathClientRPC()
     {
         if (!IsOwner) return;
-        stateMachine.Death();
+        stateMachine.SetState(PlayerStateMachine.State.Death);
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)

@@ -8,13 +8,15 @@ public class NPCDeathState : NPCState
         owner.BodyAnimator.Play("Death");
         owner.npc.IsDead = true;
         owner.IsAttacking = false;
+        owner.Target = null;
+        owner.IsEnemyInRange = false;
 
         // Patrol
         owner.PatrolIndex = 0;
         owner.PatrolForward = true;
 
         owner.npc.CastBar.ForceReset();
-        owner.RequestDisableColliderServerRpc();
+        owner.RequestDisableColliderServerRpc(false);
 
         StartCoroutine(Delay(owner));
     }
@@ -39,7 +41,7 @@ public class NPCDeathState : NPCState
         yield return new WaitForSeconds(1);
 
         owner.RequestRespawnServerRpc();
-        owner.RequestEnableColliderServerRpc();
+        owner.RequestDisableColliderServerRpc(true);
 
         owner.SetState(NPCStateMachine.State.Spawn);
     }

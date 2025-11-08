@@ -46,8 +46,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Variables")]
     public float TotalPatience;
-    public bool isDummy;
-    public bool isDead;
+    public bool IsDummy;
+    public bool IsDead;
 
     [Header("Events")]
     public UnityEvent<float> OnDamaged;
@@ -106,7 +106,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
-        if (isDummy) PatienceBar.Patience.Value = 0;
+        if (IsDummy) PatienceBar.Patience.Value = 0;
 
         TargetAttacker(attackerID);
 
@@ -126,7 +126,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
-            if (isDummy) return;
+            if (IsDummy) return;
 
             NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
             if (npc != null) npc.Target = null;

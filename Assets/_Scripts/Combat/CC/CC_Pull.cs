@@ -130,9 +130,9 @@ public class CC_Pull : NetworkBehaviour, IPullable
         direction = direction.normalized;
         pullVelocity = direction * amount;
 
-        if (player != null) player.Hurt();
+        if (player != null) player.Stagger();
         if (enemy != null) enemy.Stagger();
-        if (npc != null) npc.Hurt();
+        if (npc != null) npc.Stagger();
 
         StartCoroutine(PullDuration(duration));
     }

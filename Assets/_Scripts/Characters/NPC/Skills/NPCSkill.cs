@@ -125,7 +125,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
         if (isStaggered)
         {
-            owner.SetState(NPCStateMachine.State.Hurt);
+            owner.SetState(NPCStateMachine.State.Stagger);
 
         }
         else
@@ -226,8 +226,9 @@ public abstract class NPCSkill : NetworkBehaviour
             square.npc = gameObject.GetComponentInParent<NPC>();
         }
     }
-    protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
+    protected void Attack(bool useOffset, bool useRotation)
     {
+        NetworkObject attacker = GetComponentInParent<NetworkObject>();
         NPC npc = attacker.GetComponent<NPC>();
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
@@ -278,5 +279,13 @@ public abstract class NPCSkill : NetworkBehaviour
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));
+    }
+
+    [ServerRpc]
+    public void AttackServerRpc(Vector2 sentAimDirection, Quaternion sentAimRotation, bool useOffset, bool useRotation)
+    {
+        AimDirection = sentAimDirection;
+        AimRotation = sentAimRotation;
+        Attack(useOffset, useRotation);
     }
 }

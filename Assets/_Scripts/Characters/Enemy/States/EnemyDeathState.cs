@@ -5,7 +5,7 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        owner.enemy.isDead = true;
+        owner.enemy.IsDead = true;
         owner.Drops.DropItem();
 
         if (owner.enemy.EnemySpawnerReference != null)

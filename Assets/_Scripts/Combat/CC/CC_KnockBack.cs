@@ -130,9 +130,9 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
         direction = direction.normalized;
         knockBackVelocity = direction * amount;
 
-        if (player != null) player.Hurt();
+        if (player != null) player.Stagger();
         if (enemy != null) enemy.Stagger();
-        if (npc != null) npc.Hurt();
+        if (npc != null) npc.Stagger();
 
         StartCoroutine(KnockBackDuration(duration));
     }
