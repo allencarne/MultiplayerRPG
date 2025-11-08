@@ -249,6 +249,7 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
+            if (state == State.Reset) return;
             if (other.GetComponent<Enemy>().isDummy) return;
 
             Target = other.transform;
