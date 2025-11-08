@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ClawBarrage : EnemyAbility
+public class ClawBarrage : EnemySkill
 {
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -34,7 +34,7 @@ public class ClawBarrage : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Cast);
+        Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -48,13 +48,13 @@ public class ClawBarrage : EnemyAbility
         owner.Buffs.phase.StartPhase(ImpactTime);
         owner.Buffs.protection.StartProtection(2, 5);
 
-        AnimateEnemy(owner, skillType, State.Impact);
+        Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Recovery);
+        Animate(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

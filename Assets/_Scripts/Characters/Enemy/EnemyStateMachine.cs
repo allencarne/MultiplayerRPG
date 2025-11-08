@@ -13,10 +13,10 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyState enemyDeathState;
 
     [Header("Ability")]
-    [SerializeField] EnemyAbility enemyBasicAbility;
-    [SerializeField] EnemyAbility enemySpecialAbility;
-    [SerializeField] EnemyAbility enemyUltimateAbility;
-    public EnemyAbility currentAbility;
+    [SerializeField] EnemySkill enemyBasicAbility;
+    [SerializeField] EnemySkill enemySpecialAbility;
+    [SerializeField] EnemySkill enemyUltimateAbility;
+    public EnemySkill currentSkill;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }
@@ -218,11 +218,11 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void Interrupt()
     {
-        if (currentAbility == null) return;
-        if (currentAbility.currentState != EnemyAbility.State.Cast) return;
+        if (currentSkill == null) return;
+        if (currentSkill.currentState != EnemySkill.State.Cast) return;
 
         enemy.CastBar.InterruptCastBar();
-        currentAbility.DoneState(false, this);
+        currentSkill.DoneState(false, this);
     }
 
     public void Stagger()
@@ -231,9 +231,9 @@ public class EnemyStateMachine : NetworkBehaviour
 
         enemy.CastBar.InterruptCastBar();
 
-        if (currentAbility != null)
+        if (currentSkill != null)
         {
-            currentAbility.DoneState(true, this);
+            currentSkill.DoneState(true, this);
         }
         else
         {

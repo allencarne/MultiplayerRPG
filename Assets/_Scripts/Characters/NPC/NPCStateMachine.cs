@@ -17,6 +17,8 @@ public class NPCStateMachine : NetworkBehaviour
     [SerializeField] NPCState specialState;
     [SerializeField] NPCState ultimateState;
 
+    public NPCSkill currentSkill;
+
     [Header("Animators")]
     public Animator BodyAnimator;
     public Animator EyesAnimator;

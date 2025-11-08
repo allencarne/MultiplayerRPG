@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Tumble : EnemyAbility
+public class Tumble : EnemySkill
 {
     [Header("Slide")]
     [SerializeField] float slideForce;
@@ -41,7 +41,7 @@ public class Tumble : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Cast);
+        Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -54,18 +54,18 @@ public class Tumble : EnemyAbility
         owner.Buffs.phase.StartPhase(ActionTime);
         owner.Buffs.immoveable.StartImmovable(ActionTime);
 
-        AnimateEnemy(owner, skillType, State.Impact);
+        Animate(owner, skillType, State.Impact);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Impact);
+        Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Recovery);
+        Animate(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class SproutSlap : EnemyAbility
+public class SproutSlap : EnemySkill
 {
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -35,7 +35,7 @@ public class SproutSlap : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Cast);
+        Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -45,13 +45,13 @@ public class SproutSlap : EnemyAbility
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Impact);
+        Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Recovery);
+        Animate(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class NutQuake : EnemyAbility
+public class NutQuake : EnemySkill
 {
     public override void AbilityStart(EnemyStateMachine owner)
     {
@@ -32,7 +32,7 @@ public class NutQuake : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Cast);
+        Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -42,18 +42,18 @@ public class NutQuake : EnemyAbility
 
     public override void ActionState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Action);
+        Animate(owner, skillType, State.Action);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Impact);
+        Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, false, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Recovery);
+        Animate(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }

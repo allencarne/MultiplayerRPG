@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StickyTrail : EnemyAbility
+public class StickyTrail : EnemySkill
 {
     [Header("Slide")]
     [SerializeField] float slideForce;
@@ -40,7 +40,7 @@ public class StickyTrail : EnemyAbility
 
     public override void CastState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Cast);
+        Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -53,13 +53,13 @@ public class StickyTrail : EnemyAbility
         owner.Buffs.phase.StartPhase(ImpactTime);
         owner.Buffs.immoveable.StartImmovable(ImpactTime);
 
-        AnimateEnemy(owner, skillType, State.Impact);
+        Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        AnimateEnemy(owner, skillType, State.Recovery);
+        Animate(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
     }
 }
