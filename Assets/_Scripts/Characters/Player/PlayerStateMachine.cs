@@ -9,7 +9,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerIdleState playerIdleState;
     [SerializeField] PlayerRunState playerRunState;
     [SerializeField] PlayerRollState playerRollState;
-    [SerializeField] PlayerHurtState playerHurtState;
+    [SerializeField] PlayerStaggerState playerHurtState;
     [SerializeField] PlayerDeathState playerDeathState;
 
     [Header("Animators")]

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHurtState : PlayerState
+public class PlayerStaggerState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCHurtState : NPCState
+public class NPCStaggerState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {

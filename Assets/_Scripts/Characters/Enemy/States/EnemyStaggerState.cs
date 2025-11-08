@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyHurtState : EnemyState
+public class EnemyStaggerState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
