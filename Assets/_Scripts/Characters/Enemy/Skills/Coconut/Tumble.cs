@@ -6,7 +6,7 @@ public class Tumble : EnemySkill
     [Header("Slide")]
     [SerializeField] float slideForce;
 
-    public override void AbilityStart(EnemyStateMachine owner)
+    public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -23,7 +23,7 @@ public class Tumble : EnemySkill
         CastState(owner);
     }
 
-    public override void AbilityUpdate(EnemyStateMachine owner)
+    public override void UpdateSkill(EnemyStateMachine owner)
     {
         if (currentState == State.Done) return;
 
@@ -31,7 +31,7 @@ public class Tumble : EnemySkill
         if (stateTimer <= 0f) StateTransition(owner, true);
     }
 
-    public override void AbilityFixedUpdate(EnemyStateMachine owner)
+    public override void FixedUpdateSkill(EnemyStateMachine owner)
     {
         if (currentState == State.Action)
         {

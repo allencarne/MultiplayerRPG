@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HeavyClaw : EnemySkill
 {
-    public override void AbilityStart(EnemyStateMachine owner)
+    public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
         owner.EnemyRB.linearVelocity = Vector2.zero;
@@ -19,7 +19,7 @@ public class HeavyClaw : EnemySkill
         CastState(owner);
     }
 
-    public override void AbilityUpdate(EnemyStateMachine owner)
+    public override void UpdateSkill(EnemyStateMachine owner)
     {
         if (currentState == State.Done) return;
 
@@ -27,7 +27,7 @@ public class HeavyClaw : EnemySkill
         if (stateTimer <= 0f) StateTransition(owner);
     }
 
-    public override void AbilityFixedUpdate(EnemyStateMachine owner)
+    public override void FixedUpdateSkill(EnemyStateMachine owner)
     {
 
     }

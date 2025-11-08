@@ -13,11 +13,12 @@ public class NPCStateMachine : NetworkBehaviour
     [SerializeField] NPCState resetState;
     [SerializeField] NPCState hurtState;
     [SerializeField] NPCState deathState;
-    [SerializeField] NPCState basicState;
-    [SerializeField] NPCState specialState;
-    [SerializeField] NPCState ultimateState;
 
-    public NPCSkill currentSkill;
+    [Header("Skills")]
+    [SerializeField] NPCSkill basicSkill;
+    [SerializeField] NPCSkill specialSkill;
+    [SerializeField] NPCSkill ultimateSkill;
+    [HideInInspector] public NPCSkill CurrentSkill;
 
     [Header("Animators")]
     public Animator BodyAnimator;
@@ -102,9 +103,9 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Reset: resetState.UpdateState(this); break;
             case State.Hurt: hurtState.UpdateState(this); break;
             case State.Death: deathState.UpdateState(this); break;
-            case State.Basic: basicState.UpdateState(this); break;
-            case State.Special: specialState.UpdateState(this); break;
-            case State.Ultimate: ultimateState.UpdateState(this); break;
+            case State.Basic: basicSkill.UpdateSkill(this); break;
+            case State.Special: specialSkill.UpdateSkill(this); break;
+            case State.Ultimate: ultimateSkill.UpdateSkill(this); break;
         }
     }
 
@@ -120,9 +121,9 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Reset: resetState.FixedUpdateState(this); break;
             case State.Hurt: hurtState.FixedUpdateState(this); break;
             case State.Death: deathState.FixedUpdateState(this); break;
-            case State.Basic: basicState.FixedUpdateState(this); break;
-            case State.Special: specialState.FixedUpdateState(this); break;
-            case State.Ultimate: ultimateState.FixedUpdateState(this); break;
+            case State.Basic: basicSkill.FixedUpdateSkill(this); break;
+            case State.Special: specialSkill.FixedUpdateSkill(this); break;
+            case State.Ultimate: ultimateSkill.FixedUpdateSkill(this); break;
         }
     }
 
@@ -140,9 +141,9 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Reset: state = State.Reset; resetState.StartState(this); break;
             case State.Hurt: state = State.Hurt; hurtState.StartState(this); break;
             case State.Death: state = State.Death; deathState.StartState(this); break;
-            case State.Basic: state = State.Basic; basicState.StartState(this); break;
-            case State.Special: state = State.Special; specialState.StartState(this); break;
-            case State.Ultimate: state = State.Ultimate; ultimateState.StartState(this); break;
+            case State.Basic: state = State.Basic; basicSkill.StartSkill(this); break;
+            case State.Special: state = State.Special; specialSkill.StartSkill(this); break;
+            case State.Ultimate: state = State.Ultimate; ultimateSkill.StartSkill(this); break;
         }
     }
 

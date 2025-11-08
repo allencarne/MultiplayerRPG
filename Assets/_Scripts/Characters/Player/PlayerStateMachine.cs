@@ -11,8 +11,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerRollState playerRollState;
     [SerializeField] PlayerStaggerState playerHurtState;
     [SerializeField] PlayerDeathState playerDeathState;
-
-    public PlayerSkill currentSkill;
+    [HideInInspector] public PlayerSkill CurrentSkill;
 
     [Header("Animators")]
     public Animator SwordAnimator;

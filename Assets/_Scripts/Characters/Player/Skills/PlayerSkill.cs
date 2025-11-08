@@ -9,6 +9,9 @@ public abstract class PlayerSkill : NetworkBehaviour
     public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }
     public SkillType skillType;
 
+    public enum WeaponType { Sword, Staff, Bow, Dagger }
+    public SkillType weaponType;
+
     [Header("Prefab")]
     [SerializeField] protected GameObject SkillPrefab;
     [SerializeField] protected GameObject TelegraphPrefab;
@@ -46,15 +49,15 @@ public abstract class PlayerSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
 
-    public virtual void AbilityStart(PlayerStateMachine owner)
+    public virtual void StartSkill(PlayerStateMachine owner)
     {
 
     }
-    public virtual void AbilityUpdate(PlayerStateMachine owner)
+    public virtual void UpdateSkill(PlayerStateMachine owner)
     {
 
     }
-    public virtual void AbilityFixedUpdate(PlayerStateMachine owner)
+    public virtual void FixedUpdateSkill(PlayerStateMachine owner)
     {
 
     }
@@ -118,7 +121,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
-        owner.currentSkill = null;
+        owner.CurrentSkill = null;
 
         if (isStaggered)
         {
@@ -144,7 +147,7 @@ public abstract class PlayerSkill : NetworkBehaviour
             case SkillType.Ultimate: owner.CanUltimate = false; break;
         }
         owner.IsAttacking = true;
-        owner.currentSkill = this;
+        owner.CurrentSkill = this;
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
     {
@@ -187,10 +190,15 @@ public abstract class PlayerSkill : NetworkBehaviour
         }
 
         owner.BodyAnimator.Play(animationType + " " + animationState);
+        owner.HairAnimator.Play(animationType + " " + animationState);
+        owner.EyesAnimator.Play(animationType + " " + animationState);
+        owner.SwordAnimator.Play(animationType + " " + animationState);
     }
 
     protected void Telegraph(bool useOffset, bool useRotation)
     {
+        if (TelegraphPrefab == null) return;
+
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
@@ -203,7 +211,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         {
             circle.FillSpeed = ModifiedCastTime + ActionTime;
             circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            circle.enemy = gameObject.GetComponentInParent<Enemy>();
+            circle.player = gameObject.GetComponentInParent<Player>();
         }
 
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
@@ -211,19 +219,19 @@ public abstract class PlayerSkill : NetworkBehaviour
         {
             square.FillSpeed = ModifiedCastTime + ActionTime;
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            square.enemy = gameObject.GetComponentInParent<Enemy>();
+            square.player = gameObject.GetComponentInParent<Player>();
         }
     }
     protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
     {
+        Player player = attacker.GetComponent<Player>();
+
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
         GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
-
-        Enemy enemy = attacker.GetComponent<Enemy>();
 
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
@@ -235,7 +243,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = enemy.CurrentDamage + SkillDamage;
+            damageOnTrigger.AbilityDamage = player.CurrentDamage.Value + SkillDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
 
@@ -259,7 +267,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.enemy = GetComponentInParent<Enemy>();
+        if (death != null) death.player = GetComponentInParent<Player>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));

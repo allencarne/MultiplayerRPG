@@ -10,7 +10,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     public string NPC_Name;
     public int NPC_Level;
 
-
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);

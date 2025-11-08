@@ -5,6 +5,7 @@ public class DestroyOnDeath : NetworkBehaviour
 {
     [HideInInspector] public Player player;
     [HideInInspector] public Enemy enemy;
+    [HideInInspector] public NPC npc;
 
     void Update()
     {
@@ -29,6 +30,22 @@ public class DestroyOnDeath : NetworkBehaviour
         if (enemy != null)
         {
             if (enemy.isDead)
+            {
+                NetworkObject net = GetComponent<NetworkObject>();
+                if (net != null)
+                {
+                    net.Despawn(true);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+
+        if (npc != null)
+        {
+            if (npc.IsDead)
             {
                 NetworkObject net = GetComponent<NetworkObject>();
                 if (net != null)

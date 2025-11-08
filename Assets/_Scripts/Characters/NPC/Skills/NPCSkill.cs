@@ -9,6 +9,9 @@ public abstract class NPCSkill : NetworkBehaviour
     public enum SkillType { Basic, Special, Ultimate }
     public SkillType skillType;
 
+    public enum WeaponType { Sword, Staff, Bow, Dagger }
+    public WeaponType weaponType;
+
     [Header("Prefab")]
     [SerializeField] protected GameObject SkillPrefab;
     [SerializeField] protected GameObject TelegraphPrefab;
@@ -46,15 +49,15 @@ public abstract class NPCSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
 
-    public virtual void AbilityStart(NPCStateMachine owner)
+    public virtual void StartSkill(NPCStateMachine owner)
     {
 
     }
-    public virtual void AbilityUpdate(NPCStateMachine owner)
+    public virtual void UpdateSkill(NPCStateMachine owner)
     {
 
     }
-    public virtual void AbilityFixedUpdate(NPCStateMachine owner)
+    public virtual void FixedUpdateSkill(NPCStateMachine owner)
     {
 
     }
@@ -118,7 +121,7 @@ public abstract class NPCSkill : NetworkBehaviour
         StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
-        owner.currentSkill = null;
+        owner.CurrentSkill = null;
 
         if (isStaggered)
         {
@@ -141,7 +144,7 @@ public abstract class NPCSkill : NetworkBehaviour
             case SkillType.Ultimate: owner.CanUltimate = false; break;
         }
         owner.IsAttacking = true;
-        owner.currentSkill = this;
+        owner.CurrentSkill = this;
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, NPCStateMachine owner)
     {
@@ -156,32 +159,50 @@ public abstract class NPCSkill : NetworkBehaviour
             case SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(EnemyStateMachine owner, SkillType type, State state)
+    protected void Animate(NPCStateMachine owner, WeaponType weapon, SkillType skill, State state)
     {
-        string animationType = "";
-        string animationState = "";
+        string _weapon = "";
+        string _skill = "";
+        string _state = "";
 
-        switch (type)
+        switch (weapon)
         {
-            case SkillType.Basic: animationType = "Basic"; break;
-            case SkillType.Special: animationType = "Special"; break;
-            case SkillType.Ultimate: animationType = "Ultimate"; break;
+            case WeaponType.Sword: _weapon = weapon.ToString(); break;
+            case WeaponType.Staff: _weapon = weapon.ToString(); break;
+            case WeaponType.Bow: _weapon = weapon.ToString(); break;
+            case WeaponType.Dagger: _weapon = weapon.ToString(); break;
+        }
+
+        switch (skill)
+        {
+            case SkillType.Basic: _skill = "Basic"; break;
+            case SkillType.Special: _skill = "Special"; break;
+            case SkillType.Ultimate: _skill = "Ultimate"; break;
         }
 
         switch (state)
         {
-            case State.Cast: animationState = "Cast"; break;
-            case State.Action: animationState = "Action"; break;
-            case State.Impact: animationState = "Impact"; break;
-            case State.Recovery: animationState = "Recovery"; break;
-            case State.Done: animationState = "Done"; break;
+            case State.Cast: _state = "Cast"; break;
+            case State.Action: _state = "Action"; break;
+            case State.Impact: _state = "Impact"; break;
+            case State.Recovery: _state = "Recovery"; break;
+            case State.Done: _state = "Done"; break;
         }
 
-        owner.EnemyAnimator.Play(animationType + " " + animationState);
+        owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
+        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.hairIndex);
+        owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
+        owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
+
+        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.HeadIndex);
+        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.ChestIndex);
+        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.LegsIndex);
     }
 
     protected void Telegraph(bool useOffset, bool useRotation)
     {
+        if (TelegraphPrefab == null) return; 
+
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
@@ -194,7 +215,7 @@ public abstract class NPCSkill : NetworkBehaviour
         {
             circle.FillSpeed = ModifiedCastTime + ActionTime;
             circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            circle.enemy = gameObject.GetComponentInParent<Enemy>();
+            circle.npc = gameObject.GetComponentInParent<NPC>();
         }
 
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
@@ -202,19 +223,19 @@ public abstract class NPCSkill : NetworkBehaviour
         {
             square.FillSpeed = ModifiedCastTime + ActionTime;
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            square.enemy = gameObject.GetComponentInParent<Enemy>();
+            square.npc = gameObject.GetComponentInParent<NPC>();
         }
     }
     protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
     {
+        NPC npc = attacker.GetComponent<NPC>();
+
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
         GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
-
-        Enemy enemy = attacker.GetComponent<Enemy>();
 
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
@@ -226,8 +247,9 @@ public abstract class NPCSkill : NetworkBehaviour
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = enemy.CurrentDamage + SkillDamage;
-            damageOnTrigger.IgnoreEnemy = true;
+            damageOnTrigger.AbilityDamage = npc.CurrentDamage + SkillDamage;
+            damageOnTrigger.IgnoreNPC = true;
+            damageOnTrigger.IgnorePlayer = true;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
@@ -237,7 +259,8 @@ public abstract class NPCSkill : NetworkBehaviour
             knockbackOnTrigger.Amount = KnockBackForce;
             knockbackOnTrigger.Duration = KnockBackDuration;
             knockbackOnTrigger.Direction = AimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
+            knockbackOnTrigger.IgnoreNPC = true;
+            knockbackOnTrigger.IgnorePlayer = true;
         }
 
         SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
@@ -246,11 +269,12 @@ public abstract class NPCSkill : NetworkBehaviour
             slow.attacker = attacker;
             slow.Duration = SlowDuration;
             slow.Stacks = SlowStacks;
-            slow.IgnoreEnemy = true;
+            slow.IgnoreNPC = true;
+            slow.IgnorePlayer = true;
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.enemy = GetComponentInParent<Enemy>();
+        if (death != null) death.npc = GetComponentInParent<NPC>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));

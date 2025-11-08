@@ -46,9 +46,9 @@ public abstract class EnemySkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
 
-    public abstract void AbilityStart(EnemyStateMachine owner);
-    public abstract void AbilityUpdate(EnemyStateMachine owner);
-    public abstract void AbilityFixedUpdate(EnemyStateMachine owner);
+    public abstract void StartSkill(EnemyStateMachine owner);
+    public abstract void UpdateSkill(EnemyStateMachine owner);
+    public abstract void FixedUpdateSkill(EnemyStateMachine owner);
 
     public virtual void CastState(EnemyStateMachine owner)
     {
@@ -109,7 +109,7 @@ public abstract class EnemySkill : NetworkBehaviour
         StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
-        owner.currentSkill = null;
+        owner.CurrentSkill = null;
 
         if (isStaggered)
         {
@@ -132,7 +132,7 @@ public abstract class EnemySkill : NetworkBehaviour
             case SkillType.Ultimate: owner.CanUltimate = false; break;
         }
         owner.IsAttacking = true;
-        owner.currentSkill = this;
+        owner.CurrentSkill = this;
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
     {
@@ -173,6 +173,8 @@ public abstract class EnemySkill : NetworkBehaviour
 
     protected void Telegraph(bool useOffset, bool useRotation)
     {
+        if (TelegraphPrefab_ == null) return;
+
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 

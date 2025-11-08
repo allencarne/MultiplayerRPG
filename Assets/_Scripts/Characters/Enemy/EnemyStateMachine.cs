@@ -12,11 +12,11 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemyState enemyHurtState;
     [SerializeField] EnemyState enemyDeathState;
 
-    [Header("Ability")]
+    [Header("Skills")]
     [SerializeField] EnemySkill enemyBasicAbility;
     [SerializeField] EnemySkill enemySpecialAbility;
     [SerializeField] EnemySkill enemyUltimateAbility;
-    public EnemySkill currentSkill;
+    [HideInInspector] public EnemySkill CurrentSkill;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }
@@ -98,9 +98,9 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Reset: enemyResetState.UpdateState(this); break;
             case State.Hurt: enemyHurtState.UpdateState(this); break;
             case State.Death: enemyDeathState.UpdateState(this); break;
-            case State.Basic: enemyBasicAbility.AbilityUpdate(this); break;
-            case State.Special: enemySpecialAbility.AbilityUpdate(this); break;
-            case State.Ultimate: enemyUltimateAbility.AbilityUpdate(this); break;
+            case State.Basic: enemyBasicAbility.UpdateSkill(this); break;
+            case State.Special: enemySpecialAbility.UpdateSkill(this); break;
+            case State.Ultimate: enemyUltimateAbility.UpdateSkill(this); break;
         }
     }
 
@@ -115,9 +115,9 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Reset: enemyResetState.FixedUpdateState(this); break;
             case State.Hurt: enemyHurtState.FixedUpdateState(this); break;
             case State.Death: enemyDeathState.FixedUpdateState(this); break;
-            case State.Basic: enemyBasicAbility.AbilityFixedUpdate(this); break;
-            case State.Special: enemySpecialAbility.AbilityFixedUpdate(this); break;
-            case State.Ultimate: enemyUltimateAbility.AbilityFixedUpdate(this); break;
+            case State.Basic: enemyBasicAbility.FixedUpdateSkill(this); break;
+            case State.Special: enemySpecialAbility.FixedUpdateSkill(this); break;
+            case State.Ultimate: enemyUltimateAbility.FixedUpdateSkill(this); break;
         }
     }
 
@@ -134,9 +134,9 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
             case State.Hurt: state = State.Hurt; enemyHurtState.StartState(this); break;
             case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
-            case State.Basic: state = State.Basic; enemyBasicAbility.AbilityStart(this); break;
-            case State.Special: state = State.Special; enemySpecialAbility.AbilityStart(this); break;
-            case State.Ultimate: state = State.Ultimate; enemyUltimateAbility.AbilityStart(this); break;
+            case State.Basic: state = State.Basic; enemyBasicAbility.StartSkill(this); break;
+            case State.Special: state = State.Special; enemySpecialAbility.StartSkill(this); break;
+            case State.Ultimate: state = State.Ultimate; enemyUltimateAbility.StartSkill(this); break;
         }
     }
 
@@ -218,11 +218,11 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void Interrupt()
     {
-        if (currentSkill == null) return;
-        if (currentSkill.currentState != EnemySkill.State.Cast) return;
+        if (CurrentSkill == null) return;
+        if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
 
         enemy.CastBar.InterruptCastBar();
-        currentSkill.DoneState(false, this);
+        CurrentSkill.DoneState(false, this);
     }
 
     public void Stagger()
@@ -231,9 +231,9 @@ public class EnemyStateMachine : NetworkBehaviour
 
         enemy.CastBar.InterruptCastBar();
 
-        if (currentSkill != null)
+        if (CurrentSkill != null)
         {
-            currentSkill.DoneState(true, this);
+            CurrentSkill.DoneState(true, this);
         }
         else
         {
