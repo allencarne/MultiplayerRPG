@@ -71,7 +71,14 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (currentState == State.Done) return;
 
         StateTimer -= Time.deltaTime;
-        if (StateTimer <= 0f) StateTransition(owner);
+        if (ActionTime > 0)
+        {
+            if (StateTimer <= 0f) StateTransition(owner, true);
+        }
+        else
+        {
+            if (StateTimer <= 0f) StateTransition(owner);
+        }
     }
     public virtual void FixedUpdateSkill(PlayerStateMachine owner)
     {

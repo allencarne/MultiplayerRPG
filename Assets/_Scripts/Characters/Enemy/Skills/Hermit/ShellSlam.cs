@@ -24,14 +24,6 @@ public class ShellSlam : EnemySkill
         CastState(owner);
     }
 
-    public override void UpdateSkill(EnemyStateMachine owner)
-    {
-        if (currentState == State.Done) return;
-
-        StateTimer -= Time.deltaTime;
-        if (StateTimer <= 0f) StateTransition(owner, true);
-    }
-
     public override void FixedUpdateSkill(EnemyStateMachine owner)
     {
         if (currentState == State.Action)

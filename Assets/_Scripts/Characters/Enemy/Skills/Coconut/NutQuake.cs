@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 
 public class NutQuake : EnemySkill
@@ -12,14 +11,6 @@ public class NutQuake : EnemySkill
 
         ChangeState(State.Cast, CastTime);
         CastState(owner);
-    }
-
-    public override void UpdateSkill(EnemyStateMachine owner)
-    {
-        if (currentState == State.Done) return;
-
-        StateTimer -= Time.deltaTime;
-        if (StateTimer <= 0f) StateTransition(owner, true);
     }
 
     public override void CastState(EnemyStateMachine owner)
