@@ -118,7 +118,6 @@ public abstract class EnemySkill : NetworkBehaviour
     }
     public void DoneState(bool isStaggered, EnemyStateMachine owner)
     {
-        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
         owner.CurrentSkill = null;
@@ -148,6 +147,8 @@ public abstract class EnemySkill : NetworkBehaviour
 
         owner.EnemyRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
+
+        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
     {

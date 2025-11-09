@@ -24,7 +24,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator LegsAnimator;
 
     [Header("Components")]
-    [SerializeField] SkillBarCoolDowns cooldown;
+    public SkillBarCoolDowns coolDownTracker;
     [HideInInspector] public SkillPanel skills;
     [SerializeField] SetSkillPanel setSkills;
     public PlayerInputHandler Input;
@@ -53,7 +53,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     string indicatorType = null;
     GameObject indicator;
-    Coroutine CurrentAttack;
 
     public enum State
     {

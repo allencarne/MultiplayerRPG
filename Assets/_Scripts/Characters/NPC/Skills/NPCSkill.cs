@@ -121,7 +121,6 @@ public abstract class NPCSkill : NetworkBehaviour
     }
     public void DoneState(bool isStaggered, NPCStateMachine owner)
     {
-        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
         owner.CurrentSkill = null;
@@ -153,6 +152,8 @@ public abstract class NPCSkill : NetworkBehaviour
 
         owner.NpcRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
+
+        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, NPCStateMachine owner)
     {
@@ -207,7 +208,7 @@ public abstract class NPCSkill : NetworkBehaviour
         owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.LegsIndex);
     }
 
-    protected void Telegraph(bool useOffset, bool useRotation)
+    protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
         if (TelegraphPrefab == null) return; 
 
@@ -221,7 +222,7 @@ public abstract class NPCSkill : NetworkBehaviour
         CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
         if (circle != null)
         {
-            circle.FillSpeed = ModifiedCastTime + ActionTime;
+            circle.FillSpeed = time;
             circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             circle.npc = gameObject.GetComponentInParent<NPC>();
         }
@@ -229,7 +230,7 @@ public abstract class NPCSkill : NetworkBehaviour
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
-            square.FillSpeed = ModifiedCastTime + ActionTime;
+            square.FillSpeed = time;
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             square.npc = gameObject.GetComponentInParent<NPC>();
         }

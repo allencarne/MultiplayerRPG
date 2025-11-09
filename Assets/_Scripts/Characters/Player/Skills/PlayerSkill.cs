@@ -134,7 +134,6 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
     public void DoneState(bool isStaggered, PlayerStateMachine owner)
     {
-        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
         currentState = State.Done;
         owner.IsAttacking = false;
         owner.CurrentSkill = null;
@@ -169,10 +168,13 @@ public abstract class PlayerSkill : NetworkBehaviour
 
         owner.PlayerRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
+
+        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
+        owner.coolDownTracker.SkillCoolDown(skillType, modifiedCooldown);
 
         yield return new WaitForSeconds(modifiedCooldown);
 
@@ -229,7 +231,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.Equipment.LegsAnimIndex);
     }
 
-    protected void Telegraph(bool useOffset, bool useRotation)
+    protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
         if (TelegraphPrefab == null) return;
 
@@ -243,7 +245,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
         if (circle != null)
         {
-            circle.FillSpeed = ModifiedCastTime + ActionTime;
+            circle.FillSpeed = time;
             circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             circle.player = gameObject.GetComponentInParent<Player>();
         }
@@ -251,7 +253,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
-            square.FillSpeed = ModifiedCastTime + ActionTime;
+            square.FillSpeed = time;
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             square.player = gameObject.GetComponentInParent<Player>();
         }

@@ -34,16 +34,16 @@ public class SkillBarCoolDowns : MonoBehaviour
     [SerializeField] Image utilityImage_m;
     [SerializeField] Image ultimateImage_m;
 
-    public void SkillCoolDown(PlayerStateMachine.SkillType type, float CoolDown)
+    public void SkillCoolDown(PlayerSkill.SkillType type, float CoolDown)
     {
         switch (type)
         {
-            case PlayerStateMachine.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText, basicText_m, basicImage , basicImage_m)); break;
-            case PlayerStateMachine.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText, offensiveText_m, offensiveImage, offensiveImage_m));  break;
-            case PlayerStateMachine.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText, mobilityText_m, mobilityImage, mobilityImage_m)); break;
-            case PlayerStateMachine.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText, defensiveText_m, defensiveImage, defensiveImage_m)); break;
-            case PlayerStateMachine.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText, utilityText_m, utilityImage, utilityImage_m)); break;
-            case PlayerStateMachine.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText, ultimateText_m, ultimateImage, ultimateImage_m)); break;
+            case PlayerSkill.SkillType.Basic: StartCoroutine(TrackSkill(CoolDown, basicText, basicText_m, basicImage , basicImage_m)); break;
+            case PlayerSkill.SkillType.Offensive: StartCoroutine(TrackSkill(CoolDown, offensiveText, offensiveText_m, offensiveImage, offensiveImage_m));  break;
+            case PlayerSkill.SkillType.Mobility: StartCoroutine(TrackSkill(CoolDown, mobilityText, mobilityText_m, mobilityImage, mobilityImage_m)); break;
+            case PlayerSkill.SkillType.Defensive: StartCoroutine(TrackSkill(CoolDown, defensiveText, defensiveText_m, defensiveImage, defensiveImage_m)); break;
+            case PlayerSkill.SkillType.Utility: StartCoroutine(TrackSkill(CoolDown, utilityText, utilityText_m, utilityImage, utilityImage_m)); break;
+            case PlayerSkill.SkillType.Ultimate: StartCoroutine(TrackSkill(CoolDown, ultimateText, ultimateText_m, ultimateImage, ultimateImage_m)); break;
         }
     }
 
