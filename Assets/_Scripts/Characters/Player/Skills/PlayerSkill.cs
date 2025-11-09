@@ -35,20 +35,20 @@ public abstract class PlayerSkill : NetworkBehaviour
     [Header("CoolDown")]
     public float CoolDown;
 
+    [Header("Slide")]
+    [SerializeField] protected int SlideForce;
+    [SerializeField] protected float SlideDuration;
+
+    [Header("Slow")]
+    [SerializeField] protected int SlowStacks;
+    [SerializeField] protected float SlowDuration;
+
     [Header("Knockback")]
     [SerializeField] protected float KnockBackForce;
     [SerializeField] protected float KnockBackDuration;
 
     [Header("Stun")]
     [SerializeField] protected float stunDuration;
-
-    [Header("Slow")]
-    [SerializeField] protected int SlowStacks;
-    [SerializeField] protected float SlowDuration;
-
-    [Header("Slow")]
-    [SerializeField] protected int SlideForce;
-    [SerializeField] protected float SlideDuration;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;

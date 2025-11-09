@@ -10,7 +10,7 @@ public class ShellToss : EnemySkill
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * AttackRange_;
+        AimOffset = AimDirection.normalized * SkillRange;
 
         ChangeState(State.Cast, CastTime);
         CastState(owner);

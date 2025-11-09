@@ -13,7 +13,7 @@ public class ShellSlam : EnemySkill
         Vector2 targetPos = owner.Target.position;
         Vector2 direction = (targetPos - SpawnPosition).normalized;
         float distance = Vector2.Distance(targetPos, SpawnPosition);
-        float clampedDistance = Mathf.Min(distance, AttackRange_);
+        float clampedDistance = Mathf.Min(distance, SkillRange);
         targetLandingPos = SpawnPosition + direction * clampedDistance;
         AimDirection = direction;
         AimOffset = targetLandingPos - SpawnPosition;
@@ -28,8 +28,8 @@ public class ShellSlam : EnemySkill
     {
         if (currentState == State.Done) return;
 
-        stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner, true);
+        StateTimer -= Time.deltaTime;
+        if (StateTimer <= 0f) StateTransition(owner, true);
     }
 
     public override void FixedUpdateSkill(EnemyStateMachine owner)

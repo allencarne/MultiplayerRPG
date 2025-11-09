@@ -13,7 +13,7 @@ public class Tumble : EnemySkill
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * AttackRange_;
+        AimOffset = AimDirection.normalized * SkillRange;
 
         ChangeState(State.Cast, CastTime);
         CastState(owner);
@@ -23,8 +23,8 @@ public class Tumble : EnemySkill
     {
         if (currentState == State.Done) return;
 
-        stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner, true);
+        StateTimer -= Time.deltaTime;
+        if (StateTimer <= 0f) StateTransition(owner, true);
     }
 
     public override void FixedUpdateSkill(EnemyStateMachine owner)

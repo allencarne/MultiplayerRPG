@@ -10,14 +10,14 @@ public abstract class EnemySkill : NetworkBehaviour
     public SkillType skillType;
 
     [Header("Prefab")]
-    [SerializeField] protected GameObject AttackPrefab_;
-    [SerializeField] protected GameObject TelegraphPrefab_;
+    [SerializeField] protected GameObject SkillPrefab;
+    [SerializeField] protected GameObject TelegraphPrefab;
 
     [Header("Stats")]
-    [SerializeField] protected int AbilityDamage_;
-    [SerializeField] protected float AttackRange_;
-    [SerializeField] protected float ProjectileForce_;
-    [SerializeField] protected float ProjectileDuration_;
+    [SerializeField] protected int SkillDamage;
+    [SerializeField] protected float SkillRange;
+    [SerializeField] protected float SkillForce;
+    [SerializeField] protected float SkillDuration;
 
     [Header("Time")]
     [SerializeField] protected float CastTime;
@@ -28,16 +28,23 @@ public abstract class EnemySkill : NetworkBehaviour
     [Header("CoolDown")]
     [SerializeField] protected float CoolDown;
 
-    [Header("Knockback")]
-    [SerializeField] protected float KnockBackAmount_;
-    [SerializeField] protected float KnockBackDuration_;
+    [Header("Slide")]
+    [SerializeField] protected int SlideForce;
+    [SerializeField] protected float SlideDuration;
 
     [Header("Slow")]
-    [SerializeField] protected int SlowStacks_;
-    [SerializeField] protected float SlowDuration_;
+    [SerializeField] protected int SlowStacks;
+    [SerializeField] protected float SlowDuration;
+
+    [Header("Knockback")]
+    [SerializeField] protected float KnockBackForce;
+    [SerializeField] protected float KnockBackDuration;
+
+    [Header("Stun")]
+    [SerializeField] protected float StunDuration;
 
     [Header("StateTimer")]
-    [HideInInspector] protected float stateTimer;
+    [HideInInspector] protected float StateTimer;
     [HideInInspector] protected float ModifiedCastTime;
 
     [Header("Aim")]
@@ -54,8 +61,8 @@ public abstract class EnemySkill : NetworkBehaviour
     {
         if (currentState == State.Done) return;
 
-        stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner);
+        StateTimer -= Time.deltaTime;
+        if (StateTimer <= 0f) StateTransition(owner);
     }
     public virtual void FixedUpdateSkill(EnemyStateMachine owner)
     {
@@ -114,7 +121,7 @@ public abstract class EnemySkill : NetworkBehaviour
     protected void ChangeState(State next, float duration)
     {
         currentState = next;
-        stateTimer = duration;
+        StateTimer = duration;
     }
     public void DoneState(bool isStaggered, EnemyStateMachine owner)
     {
@@ -189,12 +196,12 @@ public abstract class EnemySkill : NetworkBehaviour
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
-        if (TelegraphPrefab_ == null) return;
+        if (TelegraphPrefab == null) return;
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
-        GameObject attackInstance = Instantiate(TelegraphPrefab_, position, rotation);
+        GameObject attackInstance = Instantiate(TelegraphPrefab, position, rotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -219,7 +226,7 @@ public abstract class EnemySkill : NetworkBehaviour
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
-        GameObject attackInstance = Instantiate(AttackPrefab_, position, rotation);
+        GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -228,14 +235,14 @@ public abstract class EnemySkill : NetworkBehaviour
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
-            attackRB.AddForce(AimDirection * ProjectileForce_, ForceMode2D.Impulse);
+            attackRB.AddForce(AimDirection * SkillForce, ForceMode2D.Impulse);
         }
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = enemy.CurrentDamage + AbilityDamage_;
+            damageOnTrigger.AbilityDamage = enemy.CurrentDamage + SkillDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
 
@@ -243,8 +250,8 @@ public abstract class EnemySkill : NetworkBehaviour
         if (knockbackOnTrigger != null)
         {
             knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = KnockBackAmount_;
-            knockbackOnTrigger.Duration = KnockBackDuration_;
+            knockbackOnTrigger.Amount = KnockBackForce;
+            knockbackOnTrigger.Duration = KnockBackDuration;
             knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
@@ -253,8 +260,8 @@ public abstract class EnemySkill : NetworkBehaviour
         if (slow != null)
         {
             slow.attacker = attacker;
-            slow.Duration = SlowDuration_;
-            slow.Stacks = SlowStacks_;
+            slow.Duration = SlowDuration;
+            slow.Stacks = SlowStacks;
             slow.IgnoreEnemy = true;
         }
 
@@ -262,6 +269,6 @@ public abstract class EnemySkill : NetworkBehaviour
         if (death != null) death.enemy = GetComponentInParent<Enemy>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(ProjectileDuration_));
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));
     }
 }

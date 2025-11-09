@@ -18,8 +18,8 @@ public class NutQuake : EnemySkill
     {
         if (currentState == State.Done) return;
 
-        stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner, true);
+        StateTimer -= Time.deltaTime;
+        if (StateTimer <= 0f) StateTransition(owner, true);
     }
 
     public override void CastState(EnemyStateMachine owner)

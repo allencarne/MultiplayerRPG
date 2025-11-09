@@ -249,19 +249,24 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   currentState: 0
   skillType: 0
-  AttackPrefab_: {fileID: 1689845277531116501, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
-  TelegraphPrefab_: {fileID: 8082874607347805388, guid: cc1b0cfecec1b07458f3a1ac53a26ab7, type: 3}
-  AbilityDamage_: 0
-  AttackRange_: 1
-  ProjectileForce_: 0
-  ProjectileDuration_: 0
+  SkillPrefab: {fileID: 1689845277531116501, guid: 563d1c54380d08a47acbb708e5352d33, type: 3}
+  TelegraphPrefab: {fileID: 8082874607347805388, guid: cc1b0cfecec1b07458f3a1ac53a26ab7, type: 3}
+  SkillDamage: 0
+  SkillRange: 1
+  SkillForce: 0
+  SkillDuration: 0
   CastTime: 1
+  ActionTime: 0
   ImpactTime: 0.1
   RecoveryTime: 0.4
   CoolDown: 0
-  ActionTime: 0
-  KnockBackAmount_: 5
-  KnockBackDuration_: 0.3
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 5
+  KnockBackDuration: 0.3
+  StunDuration: 0
 --- !u!1 &1925866148617332210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -282,19 +287,24 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   currentState: 0
   skillType: 1
-  AttackPrefab_: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
-  TelegraphPrefab_: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
-  AbilityDamage_: 2
-  AttackRange_: 5
-  ProjectileForce_: 0
-  ProjectileDuration_: 0
+  SkillPrefab: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
+  TelegraphPrefab: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
+  SkillDamage: 2
+  SkillRange: 5
+  SkillForce: 0
+  SkillDuration: 0
   CastTime: 1
+  ActionTime: 0.5
   ImpactTime: 0.1
   RecoveryTime: 0.4
   CoolDown: 6
-  ActionTime: 0.5
-  KnockBackAmount_: 0
-  KnockBackDuration_: 0
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  StunDuration: 0
 --- !u!1 &3032242371528708008 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
@@ -315,16 +325,21 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   currentState: 0
   skillType: 2
-  AttackPrefab_: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
-  TelegraphPrefab_: {fileID: 5728596397132900320, guid: cdd4378d8bd589245a2761fb81d7a9df, type: 3}
-  AbilityDamage_: 0
-  AttackRange_: 0
-  ProjectileForce_: 0
-  ProjectileDuration_: 0
+  SkillPrefab: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
+  TelegraphPrefab: {fileID: 8082874607347805388, guid: cc1b0cfecec1b07458f3a1ac53a26ab7, type: 3}
+  SkillDamage: 0
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
   CastTime: 1
+  ActionTime: 0
   ImpactTime: 2
   RecoveryTime: 0.4
   CoolDown: 12
-  ActionTime: 0
-  KnockBackAmount_: 0
-  KnockBackDuration_: 0
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  StunDuration: 0
