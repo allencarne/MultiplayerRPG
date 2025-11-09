@@ -149,6 +149,8 @@ public abstract class NPCSkill : NetworkBehaviour
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
 
+        AttackerDamage = owner.npc.CurrentDamage;
+
         owner.NpcRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
     }
@@ -239,6 +241,9 @@ public abstract class NPCSkill : NetworkBehaviour
         GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
+
+        Debug.Log("NPC Damage " + AttackerDamage);
+        Debug.Log("Skill Damage " + SkillDamage);
 
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
