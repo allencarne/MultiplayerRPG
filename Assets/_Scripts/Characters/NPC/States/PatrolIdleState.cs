@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PatrolIdleState : NPCState
 {
-    [SerializeField] List<Transform> patrolPoints;
+    public List<Transform> patrolPoints;
 
     public override void StartState(NPCStateMachine owner)
     {

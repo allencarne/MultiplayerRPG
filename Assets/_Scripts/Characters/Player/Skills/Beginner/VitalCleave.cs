@@ -41,11 +41,11 @@ public class VitalCleave : PlayerSkill
 
         if (owner.IsServer)
         {
-            Attack();
+            Attack(OwnerClientId);
         }
         else
         {
-            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage);
+            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
         }
     }
 

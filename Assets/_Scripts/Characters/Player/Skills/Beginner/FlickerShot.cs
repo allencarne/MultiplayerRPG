@@ -29,22 +29,22 @@ public class FlickerShot : PlayerSkill
 
     public override void CastState(PlayerStateMachine owner)
     {
+        owner.StartSlide(true);
         Animate(owner, weaponType, SkillType.Basic, State.Cast);
         owner.player.CastBar.StartCast(CastTime);
     }
 
     public override void ImpactState(PlayerStateMachine owner)
     {
-        owner.StartSlide(true);
         Animate(owner, weaponType, SkillType.Basic, State.Impact);
 
         if (owner.IsServer)
         {
-            Attack();
+            Attack(OwnerClientId);
         }
         else
         {
-            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage);
+            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
         }
     }
 

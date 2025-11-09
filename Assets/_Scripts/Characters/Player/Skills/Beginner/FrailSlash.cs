@@ -32,22 +32,22 @@ public class FrailSlash : PlayerSkill
 
     public override void CastState(PlayerStateMachine owner)
     {
+        owner.StartSlide(true);
         Animate(owner, weaponType, skillType, State.Cast);
         owner.player.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(PlayerStateMachine owner)
     {
-        owner.StartSlide(true);
         Animate(owner, weaponType, skillType, State.Impact);
 
         if (owner.IsServer)
         {
-            Attack();
+            Attack(OwnerClientId);
         }
         else
         {
-            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage);
+            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
         }
     }
 

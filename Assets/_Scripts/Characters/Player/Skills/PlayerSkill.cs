@@ -255,10 +255,10 @@ public abstract class PlayerSkill : NetworkBehaviour
             square.player = gameObject.GetComponentInParent<Player>();
         }
     }
-    protected void Attack()
+    protected void Attack(ulong attackerID)
     {
-        // NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
-        NetworkObject attacker = GetComponentInParent<NetworkObject>();
+        NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
+        //NetworkObject attacker = GetComponentInParent<NetworkObject>();
 
         GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
@@ -317,13 +317,13 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, int damage)
+    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, int damage, ulong attackerID)
     {
         SpawnPosition = spawnPosition;
         AimOffset = aimOffset;
         AimDirection = aimDirection;
         AimRotation = aimRotation;
         AttackerDamage = damage;
-        Attack();
+        Attack(attackerID);
     }
 }
