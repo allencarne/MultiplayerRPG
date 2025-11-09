@@ -6,14 +6,11 @@ public class NutQuake : EnemySkill
     public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        SpawnPosition = owner.transform.position;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
 
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(State.Cast, CastTime);
         CastState(owner);
     }
 
@@ -25,18 +22,13 @@ public class NutQuake : EnemySkill
         if (stateTimer <= 0f) StateTransition(owner, true);
     }
 
-    public override void FixedUpdateSkill(EnemyStateMachine owner)
-    {
-
-    }
-
     public override void CastState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(castTime: CastTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartCast(CastTime);
         Telegraph(false, false);
     }
 
@@ -54,6 +46,6 @@ public class NutQuake : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartRecovery(RecoveryTime);
     }
 }

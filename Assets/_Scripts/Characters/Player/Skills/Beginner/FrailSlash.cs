@@ -6,10 +6,6 @@ public class FrailSlash : PlayerSkill
     {
         InitializeAbility(skillType, owner);
 
-        // Stop
-        owner.PlayerRB.linearVelocity = Vector2.zero;
-        SpawnPosition = owner.transform.position;
-
         // Cast Time - Basic Attack Only
         ModifiedCastTime = CastTime / owner.player.CurrentAttackSpeed.Value;
 
@@ -37,7 +33,7 @@ public class FrailSlash : PlayerSkill
     public override void CastState(PlayerStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Cast);
-        owner.player.CastBar.StartCast(CastTime, owner.player.CurrentAttackSpeed.Value);
+        owner.player.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(PlayerStateMachine owner)
@@ -47,17 +43,17 @@ public class FrailSlash : PlayerSkill
 
         if (owner.IsServer)
         {
-            Attack(true, true);
+            Attack();
         }
         else
         {
-            AttackServerRpc(SpawnPosition, AimDirection, AimRotation, true, true);
+            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage);
         }
     }
 
     public override void RecoveryState(PlayerStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Recovery);
-        owner.player.CastBar.StartRecovery(RecoveryTime, owner.player.CurrentAttackSpeed.Value);
+        owner.player.CastBar.StartRecovery(RecoveryTime);
     }
 }

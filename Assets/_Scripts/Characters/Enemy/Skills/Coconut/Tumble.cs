@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 
 public class Tumble : EnemySkill
@@ -9,9 +8,6 @@ public class Tumble : EnemySkill
     public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        SpawnPosition = owner.transform.position;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
@@ -19,7 +15,7 @@ public class Tumble : EnemySkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * AttackRange_;
 
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(State.Cast, CastTime);
         CastState(owner);
     }
 
@@ -45,7 +41,7 @@ public class Tumble : EnemySkill
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartCast(CastTime);
         Telegraph(true, true);
     }
 
@@ -66,6 +62,6 @@ public class Tumble : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartRecovery(RecoveryTime);
     }
 }

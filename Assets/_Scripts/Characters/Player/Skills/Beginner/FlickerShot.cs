@@ -1,112 +1,56 @@
-using Unity.Netcode;
 using UnityEngine;
 
-public class FlickerShot : PlayerAbility
+public class FlickerShot : PlayerSkill
 {
-    [SerializeField] GameObject attackPrefab;
-    [SerializeField] int abilityDamage;
-    [SerializeField] float attackRange;
-
-    [Header("Projectile")]
-    [SerializeField] float attackDuration;
-    [SerializeField] float attackForce;
-
-    [Header("Time")]
-    [SerializeField] float castTime;
-    [SerializeField] float recoveryTime;
-    [SerializeField] float stunDuration;
-
-    Vector2 aimDirection;
-    Quaternion aimRotation;
-
-    public override void StartAbility(PlayerStateMachine owner)
+    public override void StartSkill(PlayerStateMachine owner)
     {
-        owner.CanOffensive = false;
-        owner.IsAttacking = true;
+        InitializeAbility(skillType, owner);
 
-        // Set Variables
-        aimDirection = owner.Aimer.right;
-        aimRotation = owner.Aimer.rotation;
-        Vector2 snappedDirection = owner.SnapDirection(aimDirection);
+        // Aim
+        AimDirection = owner.Aimer.right;
+        AimRotation = owner.Aimer.rotation;
+        AimOffset = AimDirection.normalized * SkillRange;
 
-        // Stop
-        owner.PlayerRB.linearVelocity = Vector2.zero;
+        // Animation Direction
+        Vector2 snappedDirection = owner.SnapDirection(AimDirection);
+        owner.SetAnimDir(snappedDirection);
 
-        // Animate
-        owner.AnimateCast(snappedDirection);
-
-        // Cast Bar
-        owner.StartCastBar(castTime);
-
-        // Timers
-        owner.StartCast(castTime, recoveryTime, this);
-        StartCoroutine(owner.CoolDownTime(PlayerStateMachine.SkillType.Offensive, CoolDown));
+        ChangeState(State.Cast, CastTime);
+        CastState(owner);
     }
 
-    public override void UpdateAbility(PlayerStateMachine owner)
+    public override void FixedUpdateSkill(PlayerStateMachine owner)
     {
+        if (!owner.IsSliding) return;
 
+        owner.PlayerRB.linearVelocity = AimDirection * SlideForce;
+        StartCoroutine(owner.SlideDuration(AimDirection, SlideForce, SlideDuration));
     }
 
-    public override void FixedUpdateAbility(PlayerStateMachine owner)
+    public override void CastState(PlayerStateMachine owner)
     {
-
+        Animate(owner, weaponType, SkillType.Basic, State.Cast);
+        owner.player.CastBar.StartCast(CastTime);
     }
 
-    public override void Impact(PlayerStateMachine owner)
+    public override void ImpactState(PlayerStateMachine owner)
     {
-        if (IsServer)
+        owner.StartSlide(true);
+        Animate(owner, weaponType, SkillType.Basic, State.Impact);
+
+        if (owner.IsServer)
         {
-            SpawnAttack(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
+            Attack();
         }
         else
         {
-            AttackServerRpc(transform.position, aimRotation, aimDirection, OwnerClientId, owner.player.CurrentDamage.Value);
+            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage);
         }
     }
 
-    void SpawnAttack(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
+    public override void RecoveryState(PlayerStateMachine owner)
     {
-        NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
-
-        Vector2 offset = aimDirection.normalized * attackRange;
-
-        GameObject attackInstance = Instantiate(attackPrefab, spawnPosition + offset, spawnRotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-
-        attackNetObj.Spawn();
-
-        Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
-        attackRB.AddForce(aimDirection * attackForce, ForceMode2D.Impulse);
-
-        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
-        if (damageOnTrigger != null)
-        {
-            damageOnTrigger.attacker = Attacker;
-            damageOnTrigger.AbilityDamage = abilityDamage;
-            damageOnTrigger.CharacterDamage = attackerDamage;
-            damageOnTrigger.IsBreakable = true;
-            damageOnTrigger.IgnoreNPC = true;
-        }
-
-        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null)
-        {
-            despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(attackDuration));
-        }
-
-        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
-        if (stunOnTrigger != null)
-        {
-            stunOnTrigger.attacker = Attacker;
-            stunOnTrigger.Duration = stunDuration;
-            stunOnTrigger.IgnoreNPC = true;
-        }
-    }
-
-    [ServerRpc]
-    void AttackServerRpc(Vector2 spawnPosition, Quaternion spawnRotation, Vector2 aimDirection, ulong attackerID, int attackerDamage)
-    {
-        SpawnAttack(spawnPosition, spawnRotation, aimDirection, attackerID, attackerDamage);
+        Animate(owner, weaponType, SkillType.Basic, State.Recovery);
+        owner.player.CastBar.StartRecovery(RecoveryTime);
     }
 }

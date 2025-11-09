@@ -46,9 +46,21 @@ public abstract class EnemySkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
 
-    public abstract void StartSkill(EnemyStateMachine owner);
-    public abstract void UpdateSkill(EnemyStateMachine owner);
-    public abstract void FixedUpdateSkill(EnemyStateMachine owner);
+    public virtual void StartSkill(EnemyStateMachine owner)
+    {
+
+    }
+    public virtual void UpdateSkill(EnemyStateMachine owner)
+    {
+        if (currentState == State.Done) return;
+
+        stateTimer -= Time.deltaTime;
+        if (stateTimer <= 0f) StateTransition(owner);
+    }
+    public virtual void FixedUpdateSkill(EnemyStateMachine owner)
+    {
+
+    }
 
     public virtual void CastState(EnemyStateMachine owner)
     {
@@ -133,6 +145,9 @@ public abstract class EnemySkill : NetworkBehaviour
         }
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
+
+        owner.EnemyRB.linearVelocity = Vector2.zero;
+        SpawnPosition = owner.transform.position;
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
     {

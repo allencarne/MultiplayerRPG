@@ -47,6 +47,7 @@ public abstract class NPCSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimDirection;
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
+    [HideInInspector] protected int AttackerDamage;
 
     public virtual void StartSkill(NPCStateMachine owner)
     {
@@ -147,6 +148,9 @@ public abstract class NPCSkill : NetworkBehaviour
         }
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
+
+        owner.NpcRB.linearVelocity = Vector2.zero;
+        SpawnPosition = owner.transform.position;
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, NPCStateMachine owner)
     {
@@ -228,15 +232,11 @@ public abstract class NPCSkill : NetworkBehaviour
             square.npc = gameObject.GetComponentInParent<NPC>();
         }
     }
-    protected void Attack(bool useOffset, bool useRotation)
+    protected void Attack()
     {
         NetworkObject attacker = GetComponentInParent<NetworkObject>();
-        NPC npc = attacker.GetComponent<NPC>();
 
-        Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
-        Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
-
-        GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
+        GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -250,7 +250,7 @@ public abstract class NPCSkill : NetworkBehaviour
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = npc.CurrentDamage + SkillDamage;
+            damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
             damageOnTrigger.IgnoreNPC = true;
             damageOnTrigger.IgnorePlayer = true;
         }
@@ -284,10 +284,13 @@ public abstract class NPCSkill : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRpc(Vector2 sentAimDirection, Quaternion sentAimRotation, bool useOffset, bool useRotation)
+    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, int damage)
     {
-        AimDirection = sentAimDirection;
-        AimRotation = sentAimRotation;
-        Attack(useOffset, useRotation);
+        SpawnPosition = spawnPosition;
+        AimOffset = aimOffset;
+        AimDirection = aimDirection;
+        AimRotation = aimRotation;
+        AttackerDamage = damage;
+        Attack();
     }
 }

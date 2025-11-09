@@ -8,9 +8,6 @@ public class StickyTrail : EnemySkill
     public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        SpawnPosition = owner.transform.position;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
@@ -18,16 +15,8 @@ public class StickyTrail : EnemySkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * AttackRange_;
 
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(State.Cast, CastTime);
         CastState(owner);
-    }
-
-    public override void UpdateSkill(EnemyStateMachine owner)
-    {
-        if (currentState == State.Done) return;
-
-        stateTimer -= Time.deltaTime;
-        if (stateTimer <= 0f) StateTransition(owner);
     }
 
     public override void FixedUpdateSkill(EnemyStateMachine owner)
@@ -44,7 +33,7 @@ public class StickyTrail : EnemySkill
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(CastTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartCast(CastTime);
         Telegraph(true, true);
     }
 
@@ -60,6 +49,6 @@ public class StickyTrail : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartRecovery(RecoveryTime);
     }
 }

@@ -6,11 +6,7 @@ public class BasicAttack : NPCSkill
     {
         InitializeAbility(skillType, owner);
 
-        // Stop
-        owner.NpcRB.linearVelocity = Vector2.zero;
-        SpawnPosition = owner.transform.position;
-
-        // Cast Time - Basic Attack Only
+        // Basic
         ModifiedCastTime = CastTime / owner.npc.CurrentAttackSpeed;
 
         // Aim
@@ -30,7 +26,7 @@ public class BasicAttack : NPCSkill
     public override void CastState(NPCStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Cast);
-        owner.npc.CastBar.StartCast(CastTime, owner.npc.CurrentAttackSpeed);
+        owner.npc.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(NPCStateMachine owner)
@@ -39,19 +35,17 @@ public class BasicAttack : NPCSkill
 
         if (owner.IsServer)
         {
-            Debug.Log("Server");
-            Attack(true, true);
+            Attack();
         }
         else
         {
-            Debug.Log("Not Server");
-            AttackServerRpc(AimDirection,AimRotation, true,true);
+            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage);
         }
     }
 
     public override void RecoveryState(NPCStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Recovery);
-        owner.npc.CastBar.StartRecovery(RecoveryTime, owner.npc.CurrentAttackSpeed);
+        owner.npc.CastBar.StartRecovery(RecoveryTime);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.Netcode;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public abstract class PlayerSkill : NetworkBehaviour
@@ -60,6 +59,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimDirection;
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
+    [HideInInspector] protected int AttackerDamage;
 
     public virtual void StartSkill(PlayerStateMachine owner)
     {
@@ -163,6 +163,11 @@ public abstract class PlayerSkill : NetworkBehaviour
         }
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
+
+        AttackerDamage = owner.player.CurrentDamage.Value;
+
+        owner.PlayerRB.linearVelocity = Vector2.zero;
+        SpawnPosition = owner.transform.position;
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
     {
@@ -250,15 +255,12 @@ public abstract class PlayerSkill : NetworkBehaviour
             square.player = gameObject.GetComponentInParent<Player>();
         }
     }
-    protected void Attack(bool useOffset, bool useRotation)
+    protected void Attack()
     {
+        // NetworkObject Attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
         NetworkObject attacker = GetComponentInParent<NetworkObject>();
-        Player player = attacker.GetComponent<Player>();
 
-        Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
-        Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
-
-        GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
+        GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -272,7 +274,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = player.CurrentDamage.Value + SkillDamage;
+            damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
             damageOnTrigger.IgnorePlayer = true;
             damageOnTrigger.IgnoreNPC = true;
         }
@@ -315,11 +317,13 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRpc(Vector2 sentSpawnPosition, Vector2 sentAimDirection, Quaternion sentAimRotation, bool useOffset, bool useRotation)
+    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, int damage)
     {
-        SpawnPosition = sentSpawnPosition;
-        AimDirection = sentAimDirection;
-        AimRotation = sentAimRotation;
-        Attack(useOffset, useRotation);
+        SpawnPosition = spawnPosition;
+        AimOffset = aimOffset;
+        AimDirection = aimDirection;
+        AimRotation = aimRotation;
+        AttackerDamage = damage;
+        Attack();
     }
 }

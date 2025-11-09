@@ -8,9 +8,6 @@ public class ShellSlam : EnemySkill
     public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
-        SpawnPosition = owner.transform.position;
 
         // Aim
         Vector2 targetPos = owner.Target.position;
@@ -23,7 +20,7 @@ public class ShellSlam : EnemySkill
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
 
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(State.Cast, CastTime);
         CastState(owner);
     }
 
@@ -58,7 +55,7 @@ public class ShellSlam : EnemySkill
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(ModifiedCastTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartCast(CastTime);
         Telegraph(true, true);
     }
 
@@ -80,6 +77,6 @@ public class ShellSlam : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime, owner.enemy.CurrentAttackSpeed);
+        owner.enemy.CastBar.StartRecovery(RecoveryTime);
     }
 }

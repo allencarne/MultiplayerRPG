@@ -23032,7 +23032,7 @@ MonoBehaviour:
   player: {fileID: 841304983140234989}
   frontXpBar: {fileID: 6438291673167540992}
   backXpBar: {fileID: 2824420699212628155}
-  additionMultiplier: 25
+  additionMultiplier: 1
   powerMultiplier: 2
   divisionMultiplier: 7
   OnEXPGained:
@@ -26903,6 +26903,7 @@ MonoBehaviour:
   CoolDown: 30
   KnockBackForce: 0
   KnockBackDuration: 0
+  stunDuration: 0
   SlowStacks: 0
   SlowDuration: 0
   SlideForce: 0
@@ -28037,19 +28038,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 1
+  weaponType: 0
   SkillIcon: {fileID: 21300000, guid: 401ce0747c7ad4a46b44b6c3875ce42f, type: 3}
   IndicatorPrefab: {fileID: 884016442176713266, guid: f1e5b41113a75514db48d9b767019796, type: 3}
   Description: Throw an <color=#FFFFFF>orb of energy</color>, dealing <color=#FF0000>moderate
     damage</color> and <color=#FFFF00>stunning</color> all enemies it passes through.
+  SkillPrefab: {fileID: 1324840749770008434, guid: c4ad46a8b1638414d8296e99dccfd8c4, type: 3}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 3
+  SkillRange: 0
+  SkillForce: 15
+  SkillDuration: 0.75
+  CastTime: 0.1
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.4
   CoolDown: 10
-  attackPrefab: {fileID: 1324840749770008434, guid: c4ad46a8b1638414d8296e99dccfd8c4, type: 3}
-  abilityDamage: 2
-  attackRange: 1
-  attackDuration: 0.75
-  attackForce: 15
-  castTime: 0.3
-  recoveryTime: 0.4
+  KnockBackForce: 0
+  KnockBackDuration: 0
   stunDuration: 2
+  SlowStacks: 0
+  SlowDuration: 0
+  SlideForce: 3
+  SlideDuration: 0.15
 --- !u!1 &3546575589674978377
 GameObject:
   m_ObjectHideFlags: 0
@@ -29698,10 +29711,10 @@ MonoBehaviour:
   basicAbilities:
   - {fileID: 3452262834436433122}
   offensiveAbilities:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8334984662146335593}
+  - {fileID: 1843352191152424704}
   mobilityAbilities:
-  - {fileID: 0}
+  - {fileID: 3661384663506111182}
   defensiveAbilities: []
   utilityAbilities: []
   ultimateAbilities: []
@@ -38399,19 +38412,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 2
+  weaponType: 0
   SkillIcon: {fileID: 21300000, guid: f5ed0d9d0a2d8554d9c4215ae38d743e, type: 3}
   IndicatorPrefab: {fileID: 7783375558335291162, guid: d48fa1ddaf28e6544b2c7a2372498d0f, type: 3}
   Description: "<color=#FFFFFF>Dash</color> a short distance forward and <color=#FFFFFF>swing</color>
     your sword, dealing <color=#FF0000>high damage</color> to all enemies in front
     of you.  \r\n<color=#00FF00>Heal</color> for a small portion of the damage dealt."
-  CoolDown: 3
-  attackPrefab: {fileID: 7132417452424499324, guid: 7e1e71396f530874dbecad4bf3c6b6e3, type: 3}
-  abilityDamage: 5
-  attackRange: 1
-  castTime: 0.1
-  recoveryTime: 0.4
-  slideForce: 25
-  slideDuration: 0.1
+  SkillPrefab: {fileID: 7132417452424499324, guid: 7e1e71396f530874dbecad4bf3c6b6e3, type: 3}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 5
+  SkillRange: 1
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0.1
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.4
+  CoolDown: 15
+  KnockBackForce: 5
+  KnockBackDuration: 0.3
+  stunDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  SlideForce: 25
+  SlideDuration: 0.1
 --- !u!1 &5121641778720288117
 GameObject:
   m_ObjectHideFlags: 0
@@ -40146,17 +40172,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 1
+  weaponType: 0
   SkillIcon: {fileID: 21300000, guid: 7b6ee69dbb6536e4abddcc3b907ec5b0, type: 3}
   IndicatorPrefab: {fileID: 5634513536252481035, guid: d9ca1ba647590f04791b11977ff2c2e7, type: 3}
   Description: Swing your sword <color=#FFFFFF>around you</color>, dealing <color=#FF0000>moderate
     damage</color> and <color=#FFFF00>stunning</color> all enemies hit.
+  SkillPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 3
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0.1
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.4
   CoolDown: 10
-  attackPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
-  abilityDamage: 5
-  attackRange: 0
-  castTime: 0.3
-  recoveryTime: 0.4
+  KnockBackForce: 0
+  KnockBackDuration: 0
   stunDuration: 2
+  SlowStacks: 0
+  SlowDuration: 0
+  SlideForce: 3
+  SlideDuration: 0.15
 --- !u!1 &5281159861049052430
 GameObject:
   m_ObjectHideFlags: 0
@@ -47346,6 +47386,7 @@ MonoBehaviour:
   CoolDown: 0
   KnockBackForce: 0
   KnockBackDuration: 0
+  stunDuration: 0
   SlowStacks: 0
   SlowDuration: 0
   SlideForce: 0
@@ -57435,6 +57476,7 @@ MonoBehaviour:
   CoolDown: 0.1
   KnockBackForce: 5
   KnockBackDuration: 0.3
+  stunDuration: 0
   SlowStacks: 0
   SlowDuration: 0
   SlideForce: 3

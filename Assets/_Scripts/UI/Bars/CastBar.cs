@@ -14,23 +14,20 @@ public class CastBar : NetworkBehaviour
     public Image castBarFill;
     private Coroutine currentCastCoroutine;
 
-    public void StartCast(float castTime, float attackSpeed)
+    public void StartCast(float castTime)
     {
-        float modifiedCastTime = castTime / attackSpeed;
-
-        // Stop any previous cast in progress
         if (currentCastCoroutine != null)
         {
             StopCoroutine(currentCastCoroutine);
         }
 
-        currentCastCoroutine = StartCoroutine(HandleCast(modifiedCastTime));
+        currentCastCoroutine = StartCoroutine(HandleCast(castTime));
     }
 
     [ServerRpc]
-    public void StartCastServerRpc(float castTime, float attackSpeed)
+    public void StartCastServerRpc(float castTime)
     {
-        StartCast(castTime, attackSpeed);
+        StartCast(castTime);
     }
 
     private IEnumerator HandleCast(float duration)
@@ -62,18 +59,16 @@ public class CastBar : NetworkBehaviour
         }
     }
 
-    public void StartRecovery(float recoveryTime, float attackSpeed)
+    public void StartRecovery(float recoveryTime)
     {
         if (!gameObject.activeInHierarchy) return;
-
-        float modifiedRecoveryTime = recoveryTime / attackSpeed;
 
         if (currentCastCoroutine != null)
         {
             StopCoroutine(currentCastCoroutine);
         }
 
-        currentCastCoroutine = StartCoroutine(HandleRecovery(modifiedRecoveryTime));
+        currentCastCoroutine = StartCoroutine(HandleRecovery(recoveryTime));
     }
 
     IEnumerator HandleRecovery(float duration)
@@ -105,9 +100,9 @@ public class CastBar : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void StartRecoveryServerRpc(float recoveryTime, float attackSpeed)
+    public void StartRecoveryServerRpc(float recoveryTime)
     {
-        StartRecovery(recoveryTime, attackSpeed);
+        StartRecovery(recoveryTime);
     }
 
     public void InterruptCastBar()
