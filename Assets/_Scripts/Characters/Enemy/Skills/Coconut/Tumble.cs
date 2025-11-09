@@ -42,7 +42,7 @@ public class Tumble : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(true, true);
+        Telegraph(CastTime + ActionTime, true, true);
     }
 
     public override void ActionState(EnemyStateMachine owner)

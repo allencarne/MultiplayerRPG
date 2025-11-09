@@ -23,7 +23,7 @@ public class ShellToss : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(true, true);
+        Telegraph(CastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)

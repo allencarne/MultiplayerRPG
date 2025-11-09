@@ -29,7 +29,7 @@ public class NutQuake : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(false, false);
+        Telegraph(CastTime + ActionTime, false, false);
     }
 
     public override void ActionState(EnemyStateMachine owner)

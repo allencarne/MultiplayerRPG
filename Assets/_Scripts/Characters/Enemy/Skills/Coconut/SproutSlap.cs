@@ -27,7 +27,7 @@ public class SproutSlap : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(ModifiedCastTime);
-        Telegraph(true, false);
+        Telegraph(ModifiedCastTime, true, false);
     }
 
     public override void ImpactState(EnemyStateMachine owner)

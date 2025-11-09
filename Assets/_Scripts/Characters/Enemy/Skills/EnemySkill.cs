@@ -186,7 +186,7 @@ public abstract class EnemySkill : NetworkBehaviour
         owner.EnemyAnimator.Play(animationType + " " + animationState);
     }
 
-    protected void Telegraph(bool useOffset, bool useRotation)
+    protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
         if (TelegraphPrefab_ == null) return;
 
@@ -200,7 +200,7 @@ public abstract class EnemySkill : NetworkBehaviour
         CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
         if (circle != null)
         {
-            circle.FillSpeed = ModifiedCastTime + ActionTime;
+            circle.FillSpeed = time;
             circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             circle.enemy = gameObject.GetComponentInParent<Enemy>();
         }
@@ -208,7 +208,7 @@ public abstract class EnemySkill : NetworkBehaviour
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
-            square.FillSpeed = ModifiedCastTime + ActionTime;
+            square.FillSpeed = time;
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
             square.enemy = gameObject.GetComponentInParent<Enemy>();
         }

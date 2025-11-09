@@ -43,10 +43,12 @@ public class FrailSlash : PlayerSkill
 
         if (owner.IsServer)
         {
+            Debug.Log("Server");
             Attack(OwnerClientId);
         }
         else
         {
+            Debug.Log("Not Server");
             AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
         }
     }

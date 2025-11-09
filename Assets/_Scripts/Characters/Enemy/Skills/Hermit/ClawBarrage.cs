@@ -23,7 +23,7 @@ public class ClawBarrage : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(true, false);
+        Telegraph(CastTime, true, false);
     }
 
     public override void ImpactState(EnemyStateMachine owner)

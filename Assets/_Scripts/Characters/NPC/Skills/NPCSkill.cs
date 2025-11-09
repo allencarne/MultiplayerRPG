@@ -242,9 +242,6 @@ public abstract class NPCSkill : NetworkBehaviour
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
-        Debug.Log("NPC Damage " + AttackerDamage);
-        Debug.Log("Skill Damage " + SkillDamage);
-
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {

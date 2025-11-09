@@ -60,6 +60,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
     [HideInInspector] protected int AttackerDamage;
+    bool isBasic = false;
 
     public virtual void StartSkill(PlayerStateMachine owner)
     {
@@ -154,7 +155,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     {
         switch (skilltype)
         {
-            case SkillType.Basic: owner.CanBasic = false; break;
+            case SkillType.Basic: owner.CanBasic = false; isBasic = true; break;
             case SkillType.Offensive: owner.CanOffensive = false; break;
             case SkillType.Mobility: owner.CanMobility = false; break;
             case SkillType.Defensive: owner.CanDefensive = false; break;
@@ -273,6 +274,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
+            damageOnTrigger.IsBasic = isBasic;
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
             damageOnTrigger.IgnorePlayer = true;
