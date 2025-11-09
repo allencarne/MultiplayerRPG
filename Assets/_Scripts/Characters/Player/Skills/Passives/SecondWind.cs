@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SecondWind : PlayerAbility
+public class SecondWind : PlayerSkill
 {
     bool isOnCooldown = false;
 
@@ -9,12 +9,7 @@ public class SecondWind : PlayerAbility
     float healRate = 1f;
     float abilityDuration = 5f;
 
-    public override void StartAbility(PlayerStateMachine owner)
-    {
-
-    }
-
-    public override void UpdateAbility(PlayerStateMachine owner)
+    public override void UpdateSkill(PlayerStateMachine owner)
     {
         if (!owner.IsOwner) return;
 
@@ -27,11 +22,6 @@ public class SecondWind : PlayerAbility
             owner.Buffs.regeneration.Regeneration(HealType.Flat, healAmount, healRate, abilityDuration);
             owner.StartCoroutine(CoolDownTime());
         }
-    }
-
-    public override void FixedUpdateAbility(PlayerStateMachine owner)
-    {
-
     }
 
     private IEnumerator CoolDownTime()

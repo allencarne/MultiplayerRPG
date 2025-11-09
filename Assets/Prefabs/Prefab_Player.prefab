@@ -26882,12 +26882,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 0
+  weaponType: 0
   SkillIcon: {fileID: 21300000, guid: 269b7b83cfba7064da39ab90dac148c7, type: 3}
   IndicatorPrefab: {fileID: 0}
   Description: "Activates when <color=#00FF00>health</color> <color=#FFFFFF>drops
     below 40%</color>.  \r\nGain <color=#00FF00>+1 Health</color> <color=#FFFFFF>per
     second</color> for <color=#FFFFFF>5 seconds</color>."
+  SkillPrefab: {fileID: 0}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 0
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0
+  ActionTime: 0
+  ImpactTime: 0
+  RecoveryTime: 0
   CoolDown: 30
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  SlideForce: 0
+  SlideDuration: 0
 --- !u!1 &3354470003366913832
 GameObject:
   m_ObjectHideFlags: 0
@@ -29679,10 +29698,10 @@ MonoBehaviour:
   basicAbilities:
   - {fileID: 3452262834436433122}
   offensiveAbilities:
-  - {fileID: 8334984662146335593}
-  - {fileID: 1843352191152424704}
+  - {fileID: 0}
+  - {fileID: 0}
   mobilityAbilities:
-  - {fileID: 3661384663506111182}
+  - {fileID: 0}
   defensiveAbilities: []
   utilityAbilities: []
   ultimateAbilities: []
@@ -47304,6 +47323,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 0
+  weaponType: 0
   SkillIcon: {fileID: 21300000, guid: e6d9b95ecafca5849a0e333453e95028, type: 3}
   IndicatorPrefab: {fileID: 0}
   Description: "Landing a <color=#FFFFFF>basic attack</color> generates <color=#00FF00>+5
@@ -47311,7 +47333,23 @@ MonoBehaviour:
     increasing your <color=#00FF00>attack speed</color> based on your current Fury
     (<color=#FFFFFF>maximum 5 stacks</color>).  \r\nFury begins to <color=#B000F0>decay
     after 8 seconds</color> without landing a <color=#FFFFFF>basic attack</color>."
+  SkillPrefab: {fileID: 0}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 0
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0
+  ActionTime: 0
+  ImpactTime: 0
+  RecoveryTime: 0
   CoolDown: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  SlideForce: 0
+  SlideDuration: 0
   glow: {fileID: 2100000, guid: 07b895e871b57be4185802002daa728e, type: 2}
   border: {fileID: 3915695176270634388}
 --- !u!1 &6241119305863317839
@@ -57375,22 +57413,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 0
+  weaponType: 0
   SkillIcon: {fileID: 21300000, guid: 8753af9cf5ebdf945be31052a1c614f1, type: 3}
   IndicatorPrefab: {fileID: 0}
-  Description: "Swing your sword, dealing <color=#FF0000>low physical damage</color>
-    to <color=#FFFFFF>enemies in front of you</color>.  \r\nGenerates <color=#00FF00>+5
-    Fury</color> on hit.\r\n\r\n<color=#AAAAAA><i>Tip: Holding a movement direction
+  Description: "Swing your sword, dealing <color=#FF0000>low physical damage</color>\r\n   
+    to <color=#FFFFFF>enemies in front of you</color>.  \\r\\nGenerates <color=#00FF00>+5\r\n   
+    Fury</color> on hit.\\r\\n\\r\\n<color=#AAAAAA><i>Tip: Holding a movement direction\r\n   
     while attacking causes you to</i> <color=#FFFFFF>slide</color> <i>with the swing.</i></color>"
+  SkillPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 1
+  SkillRange: 1
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0.3
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.4
   CoolDown: 0.1
-  attackPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  abilityDamage: 1
-  attackRange: 1
-  castTime: 0.3
-  recoveryTime: 0.4
-  slideForce: 3
-  slideDuration: 0.15
-  knockBackAmount: 5
-  knockBackDuration: 0.3
+  KnockBackForce: 5
+  KnockBackDuration: 0.3
+  SlowStacks: 0
+  SlowDuration: 0
+  SlideForce: 3
+  SlideDuration: 0.15
 --- !u!1 &7426758186112795065
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,15 +9,15 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] Player player;
 
     [Header("Skills")]
-    public PlayerAbility[] firstPassive;
-    public PlayerAbility[] secondPassive;
-    public PlayerAbility[] thirdPassive;
-    public PlayerAbility[] basicAbilities;
-    public PlayerAbility[] offensiveAbilities;
-    public PlayerAbility[] mobilityAbilities;
-    public PlayerAbility[] defensiveAbilities;
-    public PlayerAbility[] utilityAbilities;
-    public PlayerAbility[] ultimateAbilities;
+    public PlayerSkill[] firstPassive;
+    public PlayerSkill[] secondPassive;
+    public PlayerSkill[] thirdPassive;
+    public PlayerSkill[] basicAbilities;
+    public PlayerSkill[] offensiveAbilities;
+    public PlayerSkill[] mobilityAbilities;
+    public PlayerSkill[] defensiveAbilities;
+    public PlayerSkill[] utilityAbilities;
+    public PlayerSkill[] ultimateAbilities;
 
     int passive1Req = 1;
     int basicReq = 1;
@@ -79,7 +79,7 @@ public class SkillPanel : MonoBehaviour
         SetBlueBorders();
     }
 
-    private void AssignIcon(Image icon, PlayerAbility[] abilities, int index)
+    private void AssignIcon(Image icon, PlayerSkill[] abilities, int index)
     {
         if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
 
@@ -222,7 +222,7 @@ public class SkillPanel : MonoBehaviour
         BlueBorder(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
-        firstPassive[index].StartAbility(stateMachine);
+        firstPassive[index].StartSkill(stateMachine);
     }
 
     public void SecondPassiveButton(int index)
@@ -234,7 +234,7 @@ public class SkillPanel : MonoBehaviour
         BlueBorder(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
-        secondPassive[index].StartAbility(stateMachine);
+        secondPassive[index].StartSkill(stateMachine);
     }
 
     public void ThirdPassiveButton(int index)
@@ -246,7 +246,7 @@ public class SkillPanel : MonoBehaviour
         BlueBorder(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
 
         PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
-        thirdPassive[index].StartAbility(stateMachine);
+        thirdPassive[index].StartSkill(stateMachine);
     }
 
     public void BasicButton(int index)

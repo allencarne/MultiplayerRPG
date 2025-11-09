@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Fury : PlayerAbility
+public class Fury : PlayerSkill
 {
     int furyHasteStacks = 0;
     int furyPerHit = 5;
@@ -16,19 +16,9 @@ public class Fury : PlayerAbility
     [SerializeField] Material glow;
     [SerializeField] Image border;
 
-    public override void StartAbility(PlayerStateMachine owner)
+    public override void StartSkill(PlayerStateMachine owner)
     {
         _owner = owner;
-    }
-
-    public override void UpdateAbility(PlayerStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateAbility(PlayerStateMachine owner)
-    {
-
     }
 
     [ClientRpc]
@@ -120,18 +110,5 @@ public class Fury : PlayerAbility
         }
 
         furyHasteStacks = newStacks;
-    }
-
-    void HandleGlow()
-    {
-        Player player = GetComponentInParent<Player>();
-        if (player.Fury.Value >= player.MaxFury.Value)
-        {
-            border.material = glow;
-        }
-        else
-        {
-            border.material = null;
-        }
     }
 }

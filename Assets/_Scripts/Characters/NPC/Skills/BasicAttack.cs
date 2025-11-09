@@ -5,9 +5,13 @@ public class BasicAttack : NPCSkill
     public override void StartSkill(NPCStateMachine owner)
     {
         InitializeAbility(skillType, owner);
+
+        // Stop
         owner.NpcRB.linearVelocity = Vector2.zero;
-        ModifiedCastTime = CastTime / owner.npc.CurrentAttackSpeed;
         SpawnPosition = owner.transform.position;
+
+        // Cast Time - Basic Attack Only
+        ModifiedCastTime = CastTime / owner.npc.CurrentAttackSpeed;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
@@ -15,35 +19,18 @@ public class BasicAttack : NPCSkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * SkillRange;
 
+        // Animation Direction
+        Vector2 snappedDirection = owner.SnapDirection(AimDirection);
+        owner.SetAnimDir(snappedDirection);
+
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
-    }
-
-    public override void UpdateSkill(NPCStateMachine owner)
-    {
-        if (currentState == State.Done) return;
-
-        StateTimer -= Time.deltaTime;
-        if (StateTimer <= 0f) StateTransition(owner);
     }
 
     public override void CastState(NPCStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Cast);
-        owner.BodyAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.BodyAnimator.SetFloat("Vertical", AimDirection.y);
-
-        owner.HairAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.HairAnimator.SetFloat("Vertical", AimDirection.y);
-
-        owner.EyesAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.EyesAnimator.SetFloat("Vertical", AimDirection.y);
-
-        owner.SwordAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.SwordAnimator.SetFloat("Vertical", AimDirection.y);
-
         owner.npc.CastBar.StartCast(CastTime, owner.npc.CurrentAttackSpeed);
-        Telegraph(true, false);
     }
 
     public override void ImpactState(NPCStateMachine owner)
@@ -53,12 +40,12 @@ public class BasicAttack : NPCSkill
         if (owner.IsServer)
         {
             Debug.Log("Server");
-            Attack(true, false);
+            Attack(true, true);
         }
         else
         {
             Debug.Log("Not Server");
-            AttackServerRpc(AimDirection,AimRotation, true,false);
+            AttackServerRpc(AimDirection,AimRotation, true,true);
         }
     }
 

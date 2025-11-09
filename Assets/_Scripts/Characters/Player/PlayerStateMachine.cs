@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -162,17 +163,17 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
-            skills.firstPassive[player.FirstPassiveIndex].UpdateAbility(this);
+            skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
         }
 
         if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
         {
-            skills.secondPassive[player.SecondPassiveIndex].UpdateAbility(this);
+            skills.secondPassive[player.SecondPassiveIndex].UpdateSkill(this);
         }
 
         if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
         {
-            skills.thirdPassive[player.ThirdPassiveIndex].UpdateAbility(this);
+            skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
         }
 
         switch (state)
@@ -183,12 +184,12 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Roll: playerRollState.UpdateState(this); break;
             case State.Stagger: PlayerStaggerState.UpdateState(this); break;
             case State.Death: playerDeathState.UpdateState(this); break;
-            case State.Basic: skills.basicAbilities[player.BasicIndex].UpdateAbility(this); break;
-            case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].UpdateAbility(this); break;
-            case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].UpdateAbility(this); break;
-            case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].UpdateAbility(this); break;
-            case State.Ultility: skills.utilityAbilities[player.UtilityIndex].UpdateAbility(this); break;
-            case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].UpdateAbility(this); break;
+            case State.Basic: skills.basicAbilities[player.BasicIndex].UpdateSkill(this); break;
+            case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].UpdateSkill(this); break;
+            case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].UpdateSkill(this); break;
+            case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].UpdateSkill(this); break;
+            case State.Ultility: skills.utilityAbilities[player.UtilityIndex].UpdateSkill(this); break;
+            case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].UpdateSkill(this); break;
         }
     }
 
@@ -196,17 +197,17 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
-            skills.firstPassive[player.FirstPassiveIndex].FixedUpdateAbility(this);
+            skills.firstPassive[player.FirstPassiveIndex].FixedUpdateSkill(this);
         }
 
         if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
         {
-            skills.secondPassive[player.SecondPassiveIndex].FixedUpdateAbility(this);
+            skills.secondPassive[player.SecondPassiveIndex].FixedUpdateSkill(this);
         }
 
         if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
         {
-            skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateAbility(this);
+            skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
         }
 
         switch (state)
@@ -217,12 +218,12 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Roll: playerRollState.FixedUpdateState(this); break;
             case State.Stagger: PlayerStaggerState.FixedUpdateState(this); break;
             case State.Death: playerDeathState.FixedUpdateState(this); break;
-            case State.Basic: skills.basicAbilities[player.BasicIndex].FixedUpdateAbility(this); break;
-            case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].FixedUpdateAbility(this); break;
-            case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].FixedUpdateAbility(this); break;
-            case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].FixedUpdateAbility(this); break;
-            case State.Ultility: skills.utilityAbilities[player.UtilityIndex].FixedUpdateAbility(this); break;
-            case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].FixedUpdateAbility(this); break;
+            case State.Basic: skills.basicAbilities[player.BasicIndex].FixedUpdateSkill(this); break;
+            case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].FixedUpdateSkill(this); break;
+            case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].FixedUpdateSkill(this); break;
+            case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].FixedUpdateSkill(this); break;
+            case State.Ultility: skills.utilityAbilities[player.UtilityIndex].FixedUpdateSkill(this); break;
+            case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].FixedUpdateSkill(this); break;
         }
     }
 
@@ -291,7 +292,7 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             DestroyAllIndicators();
             state = State.Basic;
-            skills.basicAbilities[player.BasicIndex].StartAbility(this);
+            skills.basicAbilities[player.BasicIndex].StartSkill(this);
         }
     }
 
@@ -318,7 +319,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
         state = State.Offensive;
-        skills.offensiveAbilities[player.OffensiveIndex].StartAbility(this);
+        skills.offensiveAbilities[player.OffensiveIndex].StartSkill(this);
     }
 
     public void MobilityAbility()
@@ -344,7 +345,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
         state = State.Mobility;
-        skills.mobilityAbilities[player.MobilityIndex].StartAbility(this);
+        skills.mobilityAbilities[player.MobilityIndex].StartSkill(this);
     }
 
     public void DefensiveAbility()
@@ -370,7 +371,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
         state = State.Defensive;
-        skills.defensiveAbilities[player.DefensiveIndex].StartAbility(this);
+        skills.defensiveAbilities[player.DefensiveIndex].StartSkill(this);
     }
 
     public void UtilityAbility()
@@ -396,7 +397,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
         state = State.Ultility;
-        skills.utilityAbilities[player.UtilityIndex].StartAbility(this);
+        skills.utilityAbilities[player.UtilityIndex].StartSkill(this);
     }
 
     public void UltimateAbility()
@@ -422,7 +423,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
         state = State.Ultimate;
-        skills.ultimateAbilities[player.UltimateIndex].StartAbility(this);
+        skills.ultimateAbilities[player.UltimateIndex].StartSkill(this);
     }
 
     void InstantiateIndicator(GameObject prefab, string type)
@@ -487,6 +488,30 @@ public class PlayerStateMachine : NetworkBehaviour
 
         // Return the modified direction vector, now snapped to either horizontal or vertical
         return direction;
+    }
+
+    public void SetAnimDir(Vector2 direction)
+    {
+        SwordAnimator.SetFloat("Horizontal", direction.x);
+        SwordAnimator.SetFloat("Vertical", direction.y);
+
+        BodyAnimator.SetFloat("Horizontal", direction.x);
+        BodyAnimator.SetFloat("Vertical", direction.y);
+
+        EyesAnimator.SetFloat("Horizontal", direction.x);
+        EyesAnimator.SetFloat("Vertical", direction.y);
+
+        HairAnimator.SetFloat("Horizontal", direction.x);
+        HairAnimator.SetFloat("Vertical", direction.y);
+
+        HeadAnimator.SetFloat("Horizontal", direction.x);
+        HeadAnimator.SetFloat("Vertical", direction.y);
+
+        ChestAnimator.SetFloat("Horizontal", direction.x);
+        ChestAnimator.SetFloat("Vertical", direction.y);
+
+        LegsAnimator.SetFloat("Horizontal", direction.x);
+        LegsAnimator.SetFloat("Vertical", direction.y);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

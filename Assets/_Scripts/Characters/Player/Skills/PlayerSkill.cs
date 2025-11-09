@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public abstract class PlayerSkill : NetworkBehaviour
@@ -8,9 +9,13 @@ public abstract class PlayerSkill : NetworkBehaviour
     [HideInInspector] public State currentState;
     public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }
     public SkillType skillType;
-
     public enum WeaponType { Sword, Staff, Bow, Dagger }
-    public SkillType weaponType;
+    public WeaponType weaponType;
+
+    [Header("UI")]
+    public Sprite SkillIcon;
+    public GameObject IndicatorPrefab;
+    [TextArea] public string Description;
 
     [Header("Prefab")]
     [SerializeField] protected GameObject SkillPrefab;
@@ -29,15 +34,22 @@ public abstract class PlayerSkill : NetworkBehaviour
     [SerializeField] protected float RecoveryTime;
 
     [Header("CoolDown")]
-    [SerializeField] protected float CoolDown;
+    public float CoolDown;
 
     [Header("Knockback")]
     [SerializeField] protected float KnockBackForce;
     [SerializeField] protected float KnockBackDuration;
 
+    [Header("Stun")]
+    [SerializeField] protected float stunDuration;
+
     [Header("Slow")]
     [SerializeField] protected int SlowStacks;
     [SerializeField] protected float SlowDuration;
+
+    [Header("Slow")]
+    [SerializeField] protected int SlideForce;
+    [SerializeField] protected float SlideDuration;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -55,7 +67,10 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
     public virtual void UpdateSkill(PlayerStateMachine owner)
     {
+        if (currentState == State.Done) return;
 
+        StateTimer -= Time.deltaTime;
+        if (StateTimer <= 0f) StateTransition(owner);
     }
     public virtual void FixedUpdateSkill(PlayerStateMachine owner)
     {
@@ -165,34 +180,47 @@ public abstract class PlayerSkill : NetworkBehaviour
             case SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(PlayerStateMachine owner, SkillType type, State state)
+    protected void Animate(PlayerStateMachine owner, WeaponType weapon, SkillType type, State state)
     {
-        string animationType = "";
-        string animationState = "";
+        string _weapon = "";
+        string _skill = "";
+        string _state = "";
+
+        switch (weapon)
+        {
+            case WeaponType.Sword: _weapon = weapon.ToString(); break;
+            case WeaponType.Staff: _weapon = weapon.ToString(); break;
+            case WeaponType.Bow: _weapon = weapon.ToString(); break;
+            case WeaponType.Dagger: _weapon = weapon.ToString(); break;
+        }
 
         switch (type)
         {
-            case SkillType.Basic: animationType = "Basic"; break;
-            case SkillType.Offensive: animationType = "Offensive"; break;
-            case SkillType.Mobility: animationType = "Mobility"; break;
-            case SkillType.Defensive: animationType = "Defensive"; break;
-            case SkillType.Utility: animationType = "Utility"; break;
-            case SkillType.Ultimate: animationType = "Ultimate"; break;
+            case SkillType.Basic: _skill = "Basic"; break;
+            case SkillType.Offensive: _skill = "Offensive"; break;
+            case SkillType.Mobility: _skill = "Mobility"; break;
+            case SkillType.Defensive: _skill = "Defensive"; break;
+            case SkillType.Utility: _skill = "Utility"; break;
+            case SkillType.Ultimate: _skill = "Ultimate"; break;
         }
 
         switch (state)
         {
-            case State.Cast: animationState = "Cast"; break;
-            case State.Action: animationState = "Action"; break;
-            case State.Impact: animationState = "Impact"; break;
-            case State.Recovery: animationState = "Recovery"; break;
-            case State.Done: animationState = "Done"; break;
+            case State.Cast: _state = "Cast"; break;
+            case State.Action: _state = "Action"; break;
+            case State.Impact: _state = "Impact"; break;
+            case State.Recovery: _state = "Recovery"; break;
+            case State.Done: _state = "Done"; break;
         }
 
-        owner.BodyAnimator.Play(animationType + " " + animationState);
-        owner.HairAnimator.Play(animationType + " " + animationState);
-        owner.EyesAnimator.Play(animationType + " " + animationState);
-        owner.SwordAnimator.Play(animationType + " " + animationState);
+        owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
+        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.player.hairIndex);
+        owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
+        owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
+
+        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.Equipment.HeadAnimIndex);
+        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.Equipment.ChestAnimIndex);
+        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.Equipment.LegsAnimIndex);
     }
 
     protected void Telegraph(bool useOffset, bool useRotation)
@@ -222,8 +250,9 @@ public abstract class PlayerSkill : NetworkBehaviour
             square.player = gameObject.GetComponentInParent<Player>();
         }
     }
-    protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
+    protected void Attack(bool useOffset, bool useRotation)
     {
+        NetworkObject attacker = GetComponentInParent<NetworkObject>();
         Player player = attacker.GetComponent<Player>();
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
@@ -244,7 +273,8 @@ public abstract class PlayerSkill : NetworkBehaviour
         {
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = player.CurrentDamage.Value + SkillDamage;
-            damageOnTrigger.IgnoreEnemy = true;
+            damageOnTrigger.IgnorePlayer = true;
+            damageOnTrigger.IgnoreNPC = true;
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
@@ -254,7 +284,17 @@ public abstract class PlayerSkill : NetworkBehaviour
             knockbackOnTrigger.Amount = KnockBackForce;
             knockbackOnTrigger.Duration = KnockBackDuration;
             knockbackOnTrigger.Direction = AimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
+            knockbackOnTrigger.IgnorePlayer = true;
+            knockbackOnTrigger.IgnoreNPC = true;
+        }
+
+        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
+        if (stunOnTrigger != null)
+        {
+            stunOnTrigger.attacker = attacker;
+            stunOnTrigger.Duration = stunDuration;
+            stunOnTrigger.IgnorePlayer = true;
+            stunOnTrigger.IgnoreNPC = true;
         }
 
         SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
@@ -263,7 +303,8 @@ public abstract class PlayerSkill : NetworkBehaviour
             slow.attacker = attacker;
             slow.Duration = SlowDuration;
             slow.Stacks = SlowStacks;
-            slow.IgnoreEnemy = true;
+            slow.IgnorePlayer = true;
+            slow.IgnoreNPC = true;
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
@@ -271,5 +312,14 @@ public abstract class PlayerSkill : NetworkBehaviour
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));
+    }
+
+    [ServerRpc]
+    public void AttackServerRpc(Vector2 sentSpawnPosition, Vector2 sentAimDirection, Quaternion sentAimRotation, bool useOffset, bool useRotation)
+    {
+        SpawnPosition = sentSpawnPosition;
+        AimDirection = sentAimDirection;
+        AimRotation = sentAimRotation;
+        Attack(useOffset, useRotation);
     }
 }

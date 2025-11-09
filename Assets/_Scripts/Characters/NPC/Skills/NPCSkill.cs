@@ -8,7 +8,6 @@ public abstract class NPCSkill : NetworkBehaviour
     [HideInInspector] public State currentState;
     public enum SkillType { Basic, Special, Ultimate }
     public SkillType skillType;
-
     public enum WeaponType { Sword, Staff, Bow, Dagger }
     public WeaponType weaponType;
 
@@ -55,7 +54,10 @@ public abstract class NPCSkill : NetworkBehaviour
     }
     public virtual void UpdateSkill(NPCStateMachine owner)
     {
+        if (currentState == State.Done) return;
 
+        StateTimer -= Time.deltaTime;
+        if (StateTimer <= 0f) StateTransition(owner);
     }
     public virtual void FixedUpdateSkill(NPCStateMachine owner)
     {

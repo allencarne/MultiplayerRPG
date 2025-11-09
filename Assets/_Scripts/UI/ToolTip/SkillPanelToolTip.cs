@@ -11,9 +11,9 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
     [SerializeField] TextMeshProUGUI skillDescription;
     [SerializeField] TextMeshProUGUI skillCoolDown;
 
-    private PlayerAbility ability;
+    private PlayerSkill ability;
 
-    public void SetAbility(PlayerAbility ability)
+    public void SetAbility(PlayerSkill ability)
     {
         this.ability = ability;
     }
