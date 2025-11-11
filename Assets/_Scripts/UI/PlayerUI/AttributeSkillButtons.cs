@@ -1,12 +1,14 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AttributeSkillButtons : MonoBehaviour
 {
     [Header("Player")]
     [SerializeField] PlayerUI playerUI;
     [SerializeField] Player player;
+
+    [Header("UI")]
+    [SerializeField] GameObject attributeUI;
+    [SerializeField] GameObject skillUI;
 
     [Header("Regular")]
     [SerializeField] GameObject attribute_Button;
@@ -40,11 +42,11 @@ public class AttributeSkillButtons : MonoBehaviour
         {
             if (isMobile)
             {
-                m_attribute_Button.SetActive(true);
+                if (!attributeUI.activeInHierarchy) m_attribute_Button.SetActive(true);
             }
             else
             {
-                attribute_Button.SetActive(true);
+                if (!attributeUI.activeInHierarchy) attribute_Button.SetActive(true);
             }
         }
     }
@@ -70,11 +72,11 @@ public class AttributeSkillButtons : MonoBehaviour
             {
                 if (isMobile)
                 {
-                    m_skill_Button.SetActive(true);
+                    if (!skillUI.activeInHierarchy) m_skill_Button.SetActive(true);
                 }
                 else
                 {
-                    skill_Button.SetActive(true);
+                    if (!skillUI.activeInHierarchy) skill_Button.SetActive(true);
                 }
             }
         }

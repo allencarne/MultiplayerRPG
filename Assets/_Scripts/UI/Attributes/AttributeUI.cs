@@ -22,15 +22,18 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI totalEndurance;
     [SerializeField] TextMeshProUGUI totalArmor;
 
-    private void Start()
+    private void OnEnable()
     {
         InvokeRepeating("UpdateUI", 0, 1);
     }
 
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     void UpdateUI()
     {
-        Debug.Log("Update UI");
-
         // Character Stats
         playerName.text = player.PlayerName;
         playerClass.text = "Class: " + player.playerClass.ToString();

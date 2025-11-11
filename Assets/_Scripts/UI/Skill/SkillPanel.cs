@@ -1,5 +1,3 @@
-using System;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -75,8 +73,13 @@ public class SkillPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        SetYellowBorders();
-        SetBlueBorders();
+        InvokeRepeating("SetYellowBorders", 0, 1);
+        InvokeRepeating("SetBlueBorders", 0, 1);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
     }
 
     private void AssignIcon(Image icon, PlayerSkill[] abilities, int index)
