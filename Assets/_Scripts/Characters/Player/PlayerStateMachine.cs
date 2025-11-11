@@ -425,94 +425,6 @@ public class PlayerStateMachine : NetworkBehaviour
         skills.ultimateAbilities[player.UltimateIndex].StartSkill(this);
     }
 
-    void InstantiateIndicator(GameObject prefab, string type)
-    {
-        if (indicator != null && indicatorType != type)
-        {
-            Destroy(indicator);
-            indicator = null;
-        }
-
-        if (indicator == null)
-        {
-            indicator = Instantiate(prefab, transform.position, Aimer.rotation, transform);
-            indicatorType = type;
-        }
-        else
-        {
-            indicator.transform.rotation = Aimer.rotation;
-        }
-    }
-
-    void DestroyIndicator(string type)
-    {
-        if (indicator != null && indicatorType == type)
-        {
-            Destroy(indicator);
-            indicator = null;
-            indicatorType = null;
-        }
-    }
-
-    void DestroyAllIndicators()
-    {
-        DestroyIndicator("Offensive");
-        DestroyIndicator("Mobility");
-        DestroyIndicator("Defensive");
-        DestroyIndicator("Utility");
-        DestroyIndicator("Ultimate");
-    }
-
-    public Vector2 SnapDirection(Vector2 direction)
-    {
-        // This Code allows the Last Input direction to be animated
-        
-        // Check if the x component of the direction is greater in magnitude than the y component
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            // Snap to the horizontal axis by setting the y component to 0
-            direction.y = 0;
-
-            // Normalize the x component to either 1 or -1 depending on its original sign
-            direction.x = Mathf.Sign(direction.x);
-        }
-        else
-        {
-            // Snap to the vertical axis by setting the x component to 0
-            direction.x = 0;
-
-            // Normalize the y component to either 1 or -1 depending on its original sign
-            direction.y = Mathf.Sign(direction.y);
-        }
-
-        // Return the modified direction vector, now snapped to either horizontal or vertical
-        return direction;
-    }
-
-    public void SetAnimDir(Vector2 direction)
-    {
-        SwordAnimator.SetFloat("Horizontal", direction.x);
-        SwordAnimator.SetFloat("Vertical", direction.y);
-
-        BodyAnimator.SetFloat("Horizontal", direction.x);
-        BodyAnimator.SetFloat("Vertical", direction.y);
-
-        EyesAnimator.SetFloat("Horizontal", direction.x);
-        EyesAnimator.SetFloat("Vertical", direction.y);
-
-        HairAnimator.SetFloat("Horizontal", direction.x);
-        HairAnimator.SetFloat("Vertical", direction.y);
-
-        HeadAnimator.SetFloat("Horizontal", direction.x);
-        HeadAnimator.SetFloat("Vertical", direction.y);
-
-        ChestAnimator.SetFloat("Horizontal", direction.x);
-        ChestAnimator.SetFloat("Vertical", direction.y);
-
-        LegsAnimator.SetFloat("Horizontal", direction.x);
-        LegsAnimator.SetFloat("Vertical", direction.y);
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         ItemPickup item = collision.GetComponent<ItemPickup>();
@@ -531,36 +443,6 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         yield return new WaitForSeconds(.2f);
         canPickup = true;
-    }
-
-    public void StartSlide(bool requireMoveInput)
-    {
-        if (!requireMoveInput || Input.MoveInput != Vector2.zero)
-        {
-            IsSliding = true;
-        }
-        else
-        {
-            PlayerRB.linearVelocity = Vector2.zero;
-        }
-    }
-
-    public IEnumerator SlideDuration(Vector2 aimDirection, float slideForce, float slideDuration)
-    {
-        float elapsed = 0f;
-        Vector2 startVelocity = aimDirection * slideForce;
-
-        while (elapsed < slideDuration)
-        {
-            float t = elapsed / slideDuration;
-            PlayerRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
-
-            elapsed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        PlayerRB.linearVelocity = Vector2.zero;
-        IsSliding = false;
     }
 
     void TestMethods()
@@ -621,25 +503,14 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void RequestDisableColliderServerRpc()
+    public void RequestDisableColliderServerRpc(bool isEnabled)
     {
-        Collider.enabled = false;
-        player.SwordSprite.enabled = false;
-        player.EyeSprite.enabled = false;
-        player.HairSprite.enabled = false;
-        player.AimerSprite.enabled = false;
-        ApplyColliderStateClientRpc(false);
-    }
-
-    [ServerRpc]
-    public void RequestEnableColliderServerRpc()
-    {
-        Collider.enabled = true;
-        player.SwordSprite.enabled = true;
-        player.EyeSprite.enabled = true;
-        player.HairSprite.enabled = true;
-        player.AimerSprite.enabled = true;
-        ApplyColliderStateClientRpc(true);
+        Collider.enabled = isEnabled;
+        player.SwordSprite.enabled = isEnabled;
+        player.EyeSprite.enabled = isEnabled;
+        player.HairSprite.enabled = isEnabled;
+        player.AimerSprite.enabled = isEnabled;
+        ApplyColliderStateClientRpc(isEnabled);
     }
 
     [ClientRpc]
@@ -657,4 +528,134 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         player.GiveHeal(100, HealType.Percentage);
     }
+
+    #region Animation
+
+    public Vector2 SnapDirection(Vector2 direction)
+    {
+        // This Code allows the Last Input direction to be animated
+
+        // Check if the x component of the direction is greater in magnitude than the y component
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            // Snap to the horizontal axis by setting the y component to 0
+            direction.y = 0;
+
+            // Normalize the x component to either 1 or -1 depending on its original sign
+            direction.x = Mathf.Sign(direction.x);
+        }
+        else
+        {
+            // Snap to the vertical axis by setting the x component to 0
+            direction.x = 0;
+
+            // Normalize the y component to either 1 or -1 depending on its original sign
+            direction.y = Mathf.Sign(direction.y);
+        }
+
+        // Return the modified direction vector, now snapped to either horizontal or vertical
+        return direction;
+    }
+
+    public void SetAnimDir(Vector2 direction)
+    {
+        SwordAnimator.SetFloat("Horizontal", direction.x);
+        SwordAnimator.SetFloat("Vertical", direction.y);
+
+        BodyAnimator.SetFloat("Horizontal", direction.x);
+        BodyAnimator.SetFloat("Vertical", direction.y);
+
+        EyesAnimator.SetFloat("Horizontal", direction.x);
+        EyesAnimator.SetFloat("Vertical", direction.y);
+
+        HairAnimator.SetFloat("Horizontal", direction.x);
+        HairAnimator.SetFloat("Vertical", direction.y);
+
+        HeadAnimator.SetFloat("Horizontal", direction.x);
+        HeadAnimator.SetFloat("Vertical", direction.y);
+
+        ChestAnimator.SetFloat("Horizontal", direction.x);
+        ChestAnimator.SetFloat("Vertical", direction.y);
+
+        LegsAnimator.SetFloat("Horizontal", direction.x);
+        LegsAnimator.SetFloat("Vertical", direction.y);
+    }
+
+    #endregion
+
+    #region Indicators
+
+    void InstantiateIndicator(GameObject prefab, string type)
+    {
+        if (indicator != null && indicatorType != type)
+        {
+            Destroy(indicator);
+            indicator = null;
+        }
+
+        if (indicator == null)
+        {
+            indicator = Instantiate(prefab, transform.position, Aimer.rotation, transform);
+            indicatorType = type;
+        }
+        else
+        {
+            indicator.transform.rotation = Aimer.rotation;
+        }
+    }
+
+    void DestroyIndicator(string type)
+    {
+        if (indicator != null && indicatorType == type)
+        {
+            Destroy(indicator);
+            indicator = null;
+            indicatorType = null;
+        }
+    }
+
+    void DestroyAllIndicators()
+    {
+        DestroyIndicator("Offensive");
+        DestroyIndicator("Mobility");
+        DestroyIndicator("Defensive");
+        DestroyIndicator("Utility");
+        DestroyIndicator("Ultimate");
+    }
+
+    #endregion
+
+    #region Slide
+
+    public void StartSlide(bool requireMoveInput)
+    {
+        if (!requireMoveInput || Input.MoveInput != Vector2.zero)
+        {
+            IsSliding = true;
+        }
+        else
+        {
+            PlayerRB.linearVelocity = Vector2.zero;
+        }
+    }
+
+    public IEnumerator SlideDuration(Vector2 aimDirection, float slideForce, float slideDuration)
+    {
+        float elapsed = 0f;
+        Vector2 startVelocity = aimDirection * slideForce;
+
+        while (elapsed < slideDuration)
+        {
+            float t = elapsed / slideDuration;
+            PlayerRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
+
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        PlayerRB.linearVelocity = Vector2.zero;
+        IsSliding = false;
+    }
+
+    #endregion
 }

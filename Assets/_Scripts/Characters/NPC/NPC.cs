@@ -120,6 +120,8 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
         healthBar.UpdateHealthBar(newValue, Health.Value);
     }
 
+    #region Damage
+
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
@@ -144,26 +146,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
             stateMachine.Target = null;
             EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
             if (enemy != null) enemy.Target = null;
-        }
-    }
-
-    [ClientRpc]
-    void DeathClientRPC()
-    {
-        if (!IsOwner) return;
-        stateMachine.SetState(NPCStateMachine.State.Death);
-        Instantiate(death_Effect, transform.position, transform.rotation);
-    }
-
-    void TargetAttacker(NetworkObject attackerID)
-    {
-        if (stateMachine.state == NPCStateMachine.State.Reset) return;
-        if (!attackerID.gameObject.CompareTag("Enemy")) return;
-
-        if (stateMachine.Target == null)
-        {
-            stateMachine.Target = attackerID.transform;
-            stateMachine.IsEnemyInRange = true;
         }
     }
 
@@ -213,6 +195,38 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
         OnHealed?.Invoke(healAmount);
     }
 
+    #endregion
+
+    #region Death
+
+    [ClientRpc]
+    void DeathClientRPC()
+    {
+        if (!IsOwner) return;
+        stateMachine.SetState(NPCStateMachine.State.Death);
+        Instantiate(death_Effect, transform.position, transform.rotation);
+    }
+
+    #endregion
+
+    #region Target
+
+    void TargetAttacker(NetworkObject attackerID)
+    {
+        if (stateMachine.state == NPCStateMachine.State.Reset) return;
+        if (!attackerID.gameObject.CompareTag("Enemy")) return;
+
+        if (stateMachine.Target == null)
+        {
+            stateMachine.Target = attackerID.transform;
+            stateMachine.IsEnemyInRange = true;
+        }
+    }
+
+    #endregion
+
+    #region Flash
+
     public IEnumerator FlashEffect()
     {
         BodySprite.color = Color.white;
@@ -227,4 +241,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     {
         StartCoroutine(FlashEffect());
     }
+
+    #endregion
 }

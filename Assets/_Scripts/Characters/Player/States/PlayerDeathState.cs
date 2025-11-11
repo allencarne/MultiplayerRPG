@@ -12,7 +12,7 @@ public class PlayerDeathState : PlayerState
         owner.IsAttacking = false;
 
         owner.player.CastBar.ForceReset();
-        owner.RequestDisableColliderServerRpc();
+        owner.RequestDisableColliderServerRpc(false);
 
         StartCoroutine(Delay(owner));
     }
@@ -36,7 +36,7 @@ public class PlayerDeathState : PlayerState
         yield return new WaitForSeconds(1);
 
         owner.RequestRespawnServerRpc();
-        owner.RequestEnableColliderServerRpc();
+        owner.RequestDisableColliderServerRpc(true);
 
         owner.SetState(PlayerStateMachine.State.Spawn);
     }

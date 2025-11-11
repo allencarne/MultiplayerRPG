@@ -103,6 +103,8 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         healthBar.UpdateHealthBar(newValue, Health.Value);
     }
 
+    #region Damage/Heal
+
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
@@ -138,43 +140,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
             DeathClientRpc(transform.position, transform.rotation);
             stateMachine.SetState(EnemyStateMachine.State.Death);
-        }
-    }
-
-    [ClientRpc]
-    private void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetId)
-    {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetId, out var netObj))
-        {
-            PlayerQuest quest = netObj.GetComponent<PlayerQuest>();
-            if (quest != null)
-            {
-                quest.UpdateObjective(type, id, amount);
-            }
-        }
-    }
-
-    [ClientRpc]
-    private void DeathClientRpc(Vector3 position, Quaternion rotation)
-    {
-        Instantiate(death_Effect, position, rotation);
-        Quaternion particleRotation = Quaternion.Euler(-90f, 0f, 0f);
-        Instantiate(death_EffectParticle, position, particleRotation);
-
-        stateMachine.EnemyAnimator.Play("Death");
-        stateMachine.Collider.enabled = false;
-        shadowSprite.enabled = false;
-        CastBar.gameObject.SetActive(false);
-    }
-
-    void TargetAttacker(NetworkObject attackerID)
-    {
-        if (stateMachine.state == EnemyStateMachine.State.Reset) return;
-
-        if (stateMachine.Target == null)
-        {
-            stateMachine.Target = attackerID.transform;
-            stateMachine.IsPlayerInRange = true;
         }
     }
 
@@ -224,6 +189,25 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         OnHealed?.Invoke(healAmount);
     }
 
+    #endregion
+
+    #region Target
+
+    void TargetAttacker(NetworkObject attackerID)
+    {
+        if (stateMachine.state == EnemyStateMachine.State.Reset) return;
+
+        if (stateMachine.Target == null)
+        {
+            stateMachine.Target = attackerID.transform;
+            stateMachine.IsPlayerInRange = true;
+        }
+    }
+
+    #endregion
+
+    #region Flash
+
     public IEnumerator FlashEffect(Color color)
     {
         float flashDuration = 0.1f;
@@ -246,4 +230,36 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     {
         StartCoroutine(FlashEffect(flashColor));
     }
+
+    #endregion
+
+    #region RPC
+
+    [ClientRpc]
+    private void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetId, out var netObj))
+        {
+            PlayerQuest quest = netObj.GetComponent<PlayerQuest>();
+            if (quest != null)
+            {
+                quest.UpdateObjective(type, id, amount);
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void DeathClientRpc(Vector3 position, Quaternion rotation)
+    {
+        Instantiate(death_Effect, position, rotation);
+        Quaternion particleRotation = Quaternion.Euler(-90f, 0f, 0f);
+        Instantiate(death_EffectParticle, position, particleRotation);
+
+        stateMachine.EnemyAnimator.Play("Death");
+        stateMachine.Collider.enabled = false;
+        shadowSprite.enabled = false;
+        CastBar.gameObject.SetActive(false);
+    }
+
+    #endregion
 }

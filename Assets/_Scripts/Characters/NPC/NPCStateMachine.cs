@@ -7,7 +7,6 @@ public class NPCStateMachine : NetworkBehaviour
     [Header("States")]
     [SerializeField] NPCState spawnState;
     [SerializeField] NPCState idleState;
-    [SerializeField] NPCState interactState;
     [SerializeField] NPCState wanderState;
     [SerializeField] NPCState chaseState;
     [SerializeField] NPCState resetState;
@@ -55,7 +54,6 @@ public class NPCStateMachine : NetworkBehaviour
     public NPC npc;
     public Rigidbody2D NpcRB;
     public LayerMask obstacleLayerMask;
-    Coroutine CurrentAttack;
 
     [Header("Patrol")]
     public int PatrolIndex = 0;
@@ -65,7 +63,6 @@ public class NPCStateMachine : NetworkBehaviour
     {
         Spawn,
         Idle,
-        Interact,
         Wander,
         Chase,
         Reset,
@@ -97,7 +94,6 @@ public class NPCStateMachine : NetworkBehaviour
         {
             case State.Spawn: spawnState.UpdateState(this); break;
             case State.Idle: idleState.UpdateState(this); break;
-            case State.Interact: interactState.UpdateState(this); break;
             case State.Wander: wanderState.UpdateState(this); break;
             case State.Chase: chaseState.UpdateState(this); break;
             case State.Reset: resetState.UpdateState(this); break;
@@ -115,7 +111,6 @@ public class NPCStateMachine : NetworkBehaviour
         {
             case State.Spawn: spawnState.FixedUpdateState(this); break;
             case State.Idle: idleState.FixedUpdateState(this); break;
-            case State.Interact: interactState.FixedUpdateState(this); break;
             case State.Wander: wanderState.FixedUpdateState(this); break;
             case State.Chase: chaseState.FixedUpdateState(this); break;
             case State.Reset: resetState.FixedUpdateState(this); break;
@@ -135,7 +130,6 @@ public class NPCStateMachine : NetworkBehaviour
         {
             case State.Spawn: state = State.Spawn; spawnState.StartState(this); break;
             case State.Idle: state = State.Idle; idleState.StartState(this); break;
-            case State.Interact: state = State.Interact; interactState.StartState(this); break;
             case State.Wander: state = State.Wander; wanderState.StartState(this); break;
             case State.Chase: state = State.Chase; chaseState.StartState(this); break;
             case State.Reset: state = State.Reset; resetState.StartState(this); break;
@@ -146,6 +140,51 @@ public class NPCStateMachine : NetworkBehaviour
             case State.Ultimate: state = State.Ultimate; ultimateSkill.StartSkill(this); break;
         }
     }
+
+    public void Interrupt()
+    {
+        if (CurrentSkill == null) return;
+        if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
+
+        npc.CastBar.InterruptCastBar();
+        CurrentSkill.DoneState(false, this);
+    }
+
+    public void Stagger()
+    {
+        if (Buffs.immoveable.IsImmovable) return;
+
+        npc.CastBar.InterruptCastBar();
+
+        if (CurrentSkill != null)
+        {
+            CurrentSkill.DoneState(true, this);
+        }
+        else
+        {
+            SetState(State.Stagger);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            if (state == State.Reset) return;
+            if (other.GetComponent<Enemy>().IsDummy) return;
+
+            Target = other.transform;
+            IsEnemyInRange = true;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+    }
+
+    #region Pathing
 
     public void MoveTowardsTarget(Vector2 _targetPos)
     {
@@ -214,48 +253,9 @@ public class NPCStateMachine : NetworkBehaviour
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
-    public void Interrupt()
-    {
-        if (CurrentSkill == null) return;
-        if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
+    #endregion
 
-        npc.CastBar.InterruptCastBar();
-        CurrentSkill.DoneState(false, this);
-    }
-
-    public void Stagger()
-    {
-        if (Buffs.immoveable.IsImmovable) return;
-
-        npc.CastBar.InterruptCastBar();
-
-        if (CurrentSkill != null)
-        {
-            CurrentSkill.DoneState(true, this);
-        }
-        else
-        {
-            SetState(State.Stagger);
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            if (state == State.Reset) return;
-            if (other.GetComponent<Enemy>().IsDummy) return;
-
-            Target = other.transform;
-            IsEnemyInRange = true;
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
-    }
+    #region RPC
 
     [ServerRpc]
     public void RequestDisableColliderServerRpc(bool isEnabled)
@@ -281,6 +281,10 @@ public class NPCStateMachine : NetworkBehaviour
     {
         npc.GiveHeal(100, HealType.Percentage);
     }
+
+    #endregion
+
+    #region Animation
 
     public Vector2 SnapDirection(Vector2 direction)
     {
@@ -332,6 +336,10 @@ public class NPCStateMachine : NetworkBehaviour
         LegsAnimator.SetFloat("Vertical", direction.y);
     }
 
+    #endregion
+
+    #region Slide
+
     public void StartSlide()
     {
         IsSliding = true;
@@ -354,4 +362,6 @@ public class NPCStateMachine : NetworkBehaviour
         NpcRB.linearVelocity = Vector2.zero;
         IsSliding = false;
     }
+
+    #endregion
 }

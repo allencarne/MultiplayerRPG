@@ -204,6 +204,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         playerInitialize.SaveStats();
     }
 
+    #region Damage/Heal
+
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
@@ -229,13 +231,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
             EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
             if (enemy != null) enemy.Target = null;
         }
-    }
-
-    [ClientRpc]
-    void DeathClientRPC()
-    {
-        if (!IsOwner) return;
-        stateMachine.SetState(PlayerStateMachine.State.Death);
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
@@ -290,20 +285,20 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         OnHealed?.Invoke(roundedHeal);
     }
 
-    public IEnumerator FlashEffect()
-    {
-        BodySprite.color = Color.white;
-        yield return new WaitForSeconds(0.05f);
+    #endregion
 
-        // Reset to original color
-        BodySprite.color = playerInitialize.net_bodyColor.Value;
-    }
+    #region Death
 
     [ClientRpc]
-    public void TriggerFlashEffectClientRpc()
+    void DeathClientRPC()
     {
-        StartCoroutine(FlashEffect());
+        if (!IsOwner) return;
+        stateMachine.SetState(PlayerStateMachine.State.Death);
     }
+
+    #endregion
+
+    #region Attribute Points
 
     public void ConsumeAttributePoints(int amount)
     {
@@ -322,6 +317,10 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         AttributePoints.Value -= amount;
     }
+
+    #endregion
+
+    #region Increase Stats
 
     public void IncreaseHealth(float amount)
     {
@@ -402,4 +401,25 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         BaseCDR.Value += amount;
         CurrentCDR.Value += amount;
     }
+
+    #endregion
+
+    #region Flash
+
+    public IEnumerator FlashEffect()
+    {
+        BodySprite.color = Color.white;
+        yield return new WaitForSeconds(0.05f);
+
+        // Reset to original color
+        BodySprite.color = playerInitialize.net_bodyColor.Value;
+    }
+
+    [ClientRpc]
+    public void TriggerFlashEffectClientRpc()
+    {
+        StartCoroutine(FlashEffect());
+    }
+
+    #endregion
 }

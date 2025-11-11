@@ -24,11 +24,13 @@ public class AttributeUI : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("UpdateUI", 0,1);
+        InvokeRepeating("UpdateUI", 0, 1);
     }
 
     void UpdateUI()
     {
+        Debug.Log("Update UI");
+
         // Character Stats
         playerName.text = player.PlayerName;
         playerClass.text = "Class: " + player.playerClass.ToString();

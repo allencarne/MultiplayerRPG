@@ -140,6 +140,97 @@ public class EnemyStateMachine : NetworkBehaviour
         }
     }
 
+    public void Interrupt()
+    {
+        if (CurrentSkill == null) return;
+        if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
+
+        enemy.CastBar.InterruptCastBar();
+        CurrentSkill.DoneState(false, this);
+    }
+
+    public void Stagger()
+    {
+        if (Buffs.immoveable.IsImmovable) return;
+
+        enemy.CastBar.InterruptCastBar();
+
+        if (CurrentSkill != null)
+        {
+            CurrentSkill.DoneState(true, this);
+        }
+        else
+        {
+            SetState(State.Hurt);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") || other.CompareTag("NPC"))
+        {
+            if (state == State.Reset) return;
+
+            Target = other.transform;
+            IsPlayerInRange = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
+        if (enemy.IsDummy) return;
+        if (Buffs.phase.IsPhased) return;
+
+        Player player = collision.gameObject.GetComponent<Player>();
+        CrowdControl playerCC = player.GetComponent<CrowdControl>();
+
+        if (player != null && playerCC != null)
+        {
+            player.TakeDamage(1, DamageType.Flat, NetworkObject);
+            Vector2 dir = player.transform.position - transform.position;
+            playerCC.knockBack.KnockBack(dir, 5, .3f);
+        }
+
+        NPC npc = collision.gameObject.GetComponent<NPC>();
+        CrowdControl npcCC = npc.GetComponent<CrowdControl>();
+
+        if (npc != null && npcCC != null)
+        {
+            npc.TakeDamage(1, DamageType.Flat, NetworkObject);
+            Vector2 dir = npc.transform.position - transform.position;
+            npcCC.knockBack.KnockBack(dir, 5, .3f);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(StartingPosition, WanderRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, BasicRadius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, SpecialRadius);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, UltimateRadius);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(WanderPosition, 0.2f);
+    }
+
+    public void DespawnEnemy()
+    {
+        GetComponent<NetworkObject>().Despawn();
+    }
+
+    #region Pathing
+
     public void MoveTowardsTarget(Vector2 _targetPos, bool isReset = false)
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
@@ -216,92 +307,5 @@ public class EnemyStateMachine : NetworkBehaviour
         return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
     }
 
-    public void Interrupt()
-    {
-        if (CurrentSkill == null) return;
-        if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
-
-        enemy.CastBar.InterruptCastBar();
-        CurrentSkill.DoneState(false, this);
-    }
-
-    public void Stagger()
-    {
-        if (Buffs.immoveable.IsImmovable) return;
-
-        enemy.CastBar.InterruptCastBar();
-
-        if (CurrentSkill != null)
-        {
-            CurrentSkill.DoneState(true, this);
-        }
-        else
-        {
-            SetState(State.Hurt);
-        }
-    }
-
-    public void DespawnEnemy()
-    {
-        GetComponent<NetworkObject>().Despawn();
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player") || other.CompareTag("NPC"))
-        {
-            if (state == State.Reset) return;
-
-            Target = other.transform;
-            IsPlayerInRange = true;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
-        if (enemy.IsDummy) return;
-        if (Buffs.phase.IsPhased) return;
-
-        Player player = collision.gameObject.GetComponent<Player>();
-        CrowdControl playerCC = player.GetComponent<CrowdControl>();
-
-        if (player != null && playerCC != null)
-        {
-            player.TakeDamage(1, DamageType.Flat, NetworkObject);
-            Vector2 dir = player.transform.position - transform.position;
-            playerCC.knockBack.KnockBack(dir, 5, .3f);
-        }
-
-        NPC npc = collision.gameObject.GetComponent<NPC>();
-        CrowdControl npcCC = npc.GetComponent<CrowdControl>();
-
-        if (npc != null && npcCC != null)
-        {
-            npc.TakeDamage(1, DamageType.Flat, NetworkObject);
-            Vector2 dir = npc.transform.position - transform.position;
-            npcCC.knockBack.KnockBack(dir, 5, .3f);
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(StartingPosition, WanderRadius);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, BasicRadius);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, SpecialRadius);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, UltimateRadius);
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(WanderPosition, 0.2f);
-    }
+    #endregion
 }
