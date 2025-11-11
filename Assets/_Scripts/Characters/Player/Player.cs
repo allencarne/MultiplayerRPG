@@ -122,7 +122,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
                 if (Health.Value < MaxHealth.Value)
                 {
-                    stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+                    //stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
                 }
             }
         }

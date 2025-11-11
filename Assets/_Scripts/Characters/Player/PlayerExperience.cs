@@ -128,6 +128,8 @@ public class PlayerExperience : NetworkBehaviour
         //player.BaseDamage.Value++;
         //player.CurrentDamage.Value++;
 
+        player.GiveHeal(100, HealType.Percentage);
+
         // Update Bar
         frontXpBar.fillAmount = 0f;
         backXpBar.fillAmount = 0f;

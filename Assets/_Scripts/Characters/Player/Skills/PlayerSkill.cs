@@ -35,6 +35,9 @@ public abstract class PlayerSkill : NetworkBehaviour
     [Header("CoolDown")]
     public float CoolDown;
 
+    [Header("Heal")]
+    [SerializeField] protected int HealAmount;
+
     [Header("Slide")]
     [SerializeField] protected int SlideForce;
     [SerializeField] protected float SlideDuration;
@@ -283,11 +286,17 @@ public abstract class PlayerSkill : NetworkBehaviour
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
-            damageOnTrigger.IsBasic = isBasic;
+            damageOnTrigger.CanGenerateFury = isBasic;
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
             damageOnTrigger.IgnorePlayer = true;
             damageOnTrigger.IgnoreNPC = true;
+
+            if (HealAmount > 0)
+            {
+                damageOnTrigger.HealAmount = HealAmount;
+                damageOnTrigger.CanHeal = true; 
+            }
         }
 
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();

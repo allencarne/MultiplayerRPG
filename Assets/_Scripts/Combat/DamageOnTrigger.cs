@@ -3,14 +3,23 @@ using UnityEngine;
 
 public class DamageOnTrigger : NetworkBehaviour
 {
-    [HideInInspector] public int AbilityDamage;
-    [HideInInspector] public int CharacterDamage;
-    [HideInInspector] public NetworkObject attacker;
-    [HideInInspector] public bool IsBasic;
-    [HideInInspector] public bool IsBreakable;
+    [Header("Sparks")]
     [SerializeField] GameObject hitSpark;
     [SerializeField] GameObject hitSpark_Special;
 
+    [HideInInspector] public NetworkObject attacker;
+
+    [HideInInspector] public int AbilityDamage;
+    [HideInInspector] public int CharacterDamage;
+
+    [HideInInspector] public bool CanGenerateFury;
+    [HideInInspector] public bool IsBreakable;
+
+    // Heal
+    [HideInInspector] public int HealAmount;
+    [HideInInspector] public bool CanHeal;
+
+    [Header("Ignore")]
     [HideInInspector] public bool IgnorePlayer;
     [HideInInspector] public bool IgnoreEnemy;
     [HideInInspector] public bool IgnoreNPC;
@@ -66,8 +75,14 @@ public class DamageOnTrigger : NetworkBehaviour
                 player.InCombat = true;
             }
 
+            // Heal
+            if (CanHeal)
+            {
+                player.GiveHeal(HealAmount, HealType.Flat);
+            }
+
             // Fury
-            if (IsBasic)
+            if (CanGenerateFury)
             {
                 PlayerStateMachine stateMachine = attacker.GetComponent<PlayerStateMachine>();
                 if (stateMachine != null)
