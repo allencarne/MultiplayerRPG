@@ -34,6 +34,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Components")]
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
+    [SerializeField] GameObject expPrefab;
     EnemyStateMachine stateMachine;
     [SerializeField] GameObject spawn_Effect;
     [SerializeField] GameObject death_Effect;
@@ -133,6 +134,12 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
             if (npc != null) npc.Target = null;
 
+            Transform attackerPosition = attackerID.GetComponent<Transform>();
+            if (attackerPosition != null)
+            {
+                StartCoroutine(delay(attackerPosition));
+            }
+
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
             if (exp) exp.IncreaseEXP(expToGive);
 
@@ -140,6 +147,16 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
             DeathClientRpc(transform.position, transform.rotation);
             stateMachine.SetState(EnemyStateMachine.State.Death);
+        }
+    }
+
+    IEnumerator delay(Transform attackerPosition)
+    {
+        for (int i = 0; i < expToGive; i++)
+        {
+            GameObject expObj = Instantiate(expPrefab, transform.position, transform.rotation);
+            expObj.GetComponent<TravelToTarget>().target = attackerPosition;
+            yield return new WaitForSeconds(.1f);
         }
     }
 
