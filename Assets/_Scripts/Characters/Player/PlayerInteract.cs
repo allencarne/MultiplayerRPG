@@ -80,11 +80,19 @@ public class PlayerInteract : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!player.IsLocalPlayer) return;
-        if (!collision.CompareTag("NPC")) return;
 
+        IInteractable interactable = collision.GetComponent<IInteractable>();
+        if (interactable != null)
+        {
+            // Enable Text
+            interactText.enabled = true;
+            UpdateInteractText(collision.name);
+        }
+
+        if (!collision.CompareTag("NPC")) return;
         interactText.enabled = true;
         npcReference = collision.GetComponent<NPC>();
-        UpdateInteractText(npcReference.name);
+        UpdateInteractText(npcReference.NPC_Name);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -105,7 +113,7 @@ public class PlayerInteract : MonoBehaviour
         {
             interactText.enabled = true;
             npcReference = collision.GetComponent<NPC>();
-            UpdateInteractText(npcReference.name);
+            UpdateInteractText(npcReference.NPC_Name);
         }
     }
 

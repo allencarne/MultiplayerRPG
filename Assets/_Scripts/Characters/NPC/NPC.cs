@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : NetworkBehaviour, IDamageable, IHealable
+public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
 {
     public string NPC_ID;
     public string NPC_Name;
@@ -73,7 +73,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
 
     public Type type;
 
-
     private void Start()
     {
         BodySprite.color = skinColor;
@@ -120,8 +119,12 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
         healthBar.UpdateHealthBar(newValue, Health.Value);
     }
 
-    #region Damage
+    public void Interact()
+    {
+        Debug.Log("Interact With NPC");
+    }
 
+    #region Damage
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
@@ -198,7 +201,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     #endregion
 
     #region Death
-
     [ClientRpc]
     void DeathClientRPC()
     {
@@ -210,7 +212,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     #endregion
 
     #region Target
-
     void TargetAttacker(NetworkObject attackerID)
     {
         if (stateMachine.state == NPCStateMachine.State.Reset) return;
@@ -226,7 +227,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable
     #endregion
 
     #region Flash
-
     public IEnumerator FlashEffect()
     {
         BodySprite.color = Color.white;
