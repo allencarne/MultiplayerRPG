@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -9,6 +8,7 @@ public class PlayerInteract : MonoBehaviour
     [Header("Player")]
     [SerializeField] Player player;
     [SerializeField] PlayerQuest playerQuest;
+    [SerializeField] PlayerUI playerUI;
 
     [Header("Panel")]
     [SerializeField] GameObject interactPanel;
@@ -29,7 +29,6 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] Button questButton;
     [SerializeField] Button shopButton;
 
-    public UnityEvent OnInteract;
     NPC npcReference;
     IInteractable currentInteractable;
 
@@ -111,6 +110,7 @@ public class PlayerInteract : MonoBehaviour
 
     public void CloseInteractUI()
     {
+        // Called From Closing QuestPanel, Dialogue Panel
         interactPanel.SetActive(false);
         questInfoPanel.SetActive(false);
         interactText.enabled = false;
@@ -123,21 +123,18 @@ public class PlayerInteract : MonoBehaviour
         // Dialogue
         npcNameText.text = npcReference.name;
         npcDialogueText.text = npcReference.GetComponent<NPCDialogue>().GetDialogue();
-
-        // Quests
-        NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
-        Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
-        questButton.gameObject.SetActive(currentQuest != null);
-
-        // Buttons
-        shopButton.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(false);
-        OnInteract?.Invoke();
+        playerUI._InteractUI();
     }
 
-    public void OpenQuestUI()
+    public void OpenQuestUI(Quest quest)
     {
-        // Open Quest Panel
+        Debug.Log(npcReference);
+        Debug.Log(quest);
+
+        // UI
+        interactText.enabled = false;
+        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, quest);
+        playerUI._QuestInfoUI();
     }
 
     public void OpenShopUI()
@@ -148,23 +145,6 @@ public class PlayerInteract : MonoBehaviour
     public void Activate()
     {
         // Activate Totem, Chests, Ect.
-    }
-
-    public void QuestButton()
-    {
-        if (npcReference == null) return;
-
-        // Get Quest
-        NPCQuest npcQuest = npcReference.GetComponent<NPCQuest>();
-        Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
-        if (currentQuest == null) return;
-
-        // UI
-        interactText.enabled = false;
-        interactPanel.SetActive(false);
-
-        // Update Panel
-        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, currentQuest);
     }
 
     private void OnControlsChanged(PlayerInput input)
