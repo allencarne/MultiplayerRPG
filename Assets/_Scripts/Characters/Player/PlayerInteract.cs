@@ -31,6 +31,7 @@ public class PlayerInteract : MonoBehaviour
 
     NPC npcReference;
     IInteractable currentInteractable;
+    bool hasInteracted = false;
 
     private void Awake()
     {
@@ -74,18 +75,20 @@ public class PlayerInteract : MonoBehaviour
         // Interact
         if (input.InteractInput)
         {
-            if (player.IsInteracting) return;
+            if (player.IsInteracting || hasInteracted) return;
             player.IsInteracting = true;
             interactText.enabled = false;
+            hasInteracted = true;
             currentInteractable.Interact(this);
         }
 
         // Re-Interact
-        if (interactText.enabled == false && currentInteractable != null)
+        if (!player.IsInteracting && hasInteracted)
         {
             interactText.enabled = true;
             npcReference = interactable as NPC;
             UpdateInteractText(collision.name);
+            hasInteracted = false;
         }
     }
 
@@ -115,6 +118,7 @@ public class PlayerInteract : MonoBehaviour
         questInfoPanel.SetActive(false);
         interactText.enabled = false;
         player.IsInteracting = false;
+        hasInteracted = true;
         npcReference = null;
     }
 
