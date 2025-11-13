@@ -134,7 +134,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
         else
         {
             // Dialogue
-            player.OpenInteractUI(this, npcDialogue);
+            player.OpenDialogueUI(NPC_Name, npcDialogue);
         }
         // If we have a shop
 

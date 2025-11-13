@@ -1,7 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -10,24 +9,18 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] PlayerQuest playerQuest;
     [SerializeField] PlayerUI playerUI;
 
-    [Header("Panel")]
-    [SerializeField] GameObject interactPanel;
-    [SerializeField] GameObject questInfoPanel;
-
     [Header("Input")]
     [SerializeField] PlayerInputHandler input;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] InputActionReference interactAction;
 
     [Header("Text")]
-    [SerializeField] TextMeshProUGUI npcNameText;
+    [SerializeField] TextMeshProUGUI npcDialogueNameText;
     [SerializeField] TextMeshProUGUI npcDialogueText;
     [SerializeField] TextMeshProUGUI interactText;
 
-    [Header("Button")]
-    [SerializeField] Button startButton;
-    [SerializeField] Button questButton;
-    [SerializeField] Button shopButton;
+    [Header("Panel")]
+    [SerializeField] QuestInfoPanel questInfoPanel;
 
     IInteractable currentInteractable;
     bool hasInteracted = false;
@@ -44,7 +37,6 @@ public class PlayerInteract : MonoBehaviour
 
     private void Start()
     {
-        interactPanel.SetActive(false);
         interactText.enabled = false;
         UpdateInteractText(null);
     }
@@ -97,31 +89,14 @@ public class PlayerInteract : MonoBehaviour
         if (interactable == null) return; 
         if (interactable == currentInteractable)
         {
-            CloseInteractUI();
+            CloseUI();
         }
     }
 
-    private void UpdateInteractText(string name)
-    {
-        int bindingIndex = GetBindingIndexForCurrentScheme(playerInput.currentControlScheme);
-        string bindName = interactAction.action.GetBindingDisplayString(bindingIndex);
-        interactText.text = $"Press <color=#00FF00>{bindName}</color> to Interact with <color=#00FF00>{name}</color>";
-    }
-
-    public void CloseInteractUI()
-    {
-        // Called From Closing QuestPanel, Dialogue Panel
-        interactPanel.SetActive(false);
-        questInfoPanel.SetActive(false);
-        interactText.enabled = false;
-        player.IsInteracting = false;
-        hasInteracted = true;
-    }
-
-    public void OpenInteractUI(NPC npc, NPCDialogue dialogue)
+    public void OpenDialogueUI(string _name, NPCDialogue dialogue)
     {
         // Dialogue
-        npcNameText.text = npc.NPC_Name;
+        npcDialogueNameText.text = _name;
         npcDialogueText.text = dialogue.GetDialogue();
         playerUI._InteractUI();
     }
@@ -129,7 +104,7 @@ public class PlayerInteract : MonoBehaviour
     public void OpenQuestUI(Quest quest, NPC npc)
     {
         interactText.enabled = false;
-        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npc, quest);
+        questInfoPanel.UpdateQuestInfo(npc, quest);
         playerUI._QuestInfoUI();
     }
 
@@ -141,6 +116,21 @@ public class PlayerInteract : MonoBehaviour
     public void Activate()
     {
         // Activate Totem, Chests, Ect.
+    }
+
+    public void CloseUI()
+    {
+        // Called From: QuestPanel, Decline Button, Turn-In Button, Dialogue Panel
+        interactText.enabled = false;
+        player.IsInteracting = false;
+        hasInteracted = true;
+    }
+
+    private void UpdateInteractText(string name)
+    {
+        int bindingIndex = GetBindingIndexForCurrentScheme(playerInput.currentControlScheme);
+        string bindName = interactAction.action.GetBindingDisplayString(bindingIndex);
+        interactText.text = $"Press <color=#00FF00>{bindName}</color> to Interact with <color=#00FF00>{name}</color>";
     }
 
     private void OnControlsChanged(PlayerInput input)
