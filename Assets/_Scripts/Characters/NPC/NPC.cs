@@ -119,9 +119,28 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
         healthBar.UpdateHealthBar(newValue, Health.Value);
     }
 
-    public void Interact()
+    public void Interact(PlayerInteract player)
     {
         Debug.Log("Interact With NPC");
+
+        PlayerQuest playerQuest = player.GetComponentInParent<PlayerQuest>();
+        NPCQuest npcQuest = GetComponent<NPCQuest>();
+
+        // If we have a quest
+        if (npcQuest != null)
+        {
+            Quest currentQuest = npcQuest?.GetAvailableQuest(playerQuest);
+            if (currentQuest != null)
+            {
+                Debug.Log("We Have a Quest");
+                player.OpenInteractUI();
+            }
+        }
+
+        // If we have a shop
+
+        // If we don't have a quest
+        //player.OpenInteractUI();
     }
 
     #region Damage

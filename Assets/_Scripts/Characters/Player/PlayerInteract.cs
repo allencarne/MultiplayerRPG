@@ -31,6 +31,7 @@ public class PlayerInteract : MonoBehaviour
 
     public UnityEvent OnInteract;
     NPC npcReference;
+    IInteractable currentInteractable;
 
     private void Awake()
     {
@@ -49,9 +50,56 @@ public class PlayerInteract : MonoBehaviour
         UpdateInteractText(null);
     }
 
-    private void OnControlsChanged(PlayerInput input)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        UpdateInteractText(null);
+        if (!player.IsLocalPlayer) return;
+
+        IInteractable interactable = collision.GetComponent<IInteractable>();
+        if (interactable == null) return;
+
+        currentInteractable = interactable;
+        interactText.enabled = true;
+
+        npcReference = interactable as NPC;
+        UpdateInteractText(collision.name);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!player.IsLocalPlayer) return;
+        if (currentInteractable == null) return;
+
+        IInteractable interactable = collision.GetComponent<IInteractable>();
+        if (interactable == null) return;
+
+        // Interact
+        if (input.InteractInput)
+        {
+            if (player.IsInteracting) return;
+            player.IsInteracting = true;
+            interactText.enabled = false;
+            currentInteractable.Interact(this);
+        }
+
+        // Re-Interact
+        if (interactText.enabled == false && currentInteractable != null)
+        {
+            interactText.enabled = true;
+            npcReference = interactable as NPC;
+            UpdateInteractText(collision.name);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!player.IsLocalPlayer) return; 
+
+        IInteractable interactable = collision.GetComponent<IInteractable>(); 
+        if (interactable == null) return; 
+        if (interactable == currentInteractable)
+        {
+            CloseInteractUI();
+        }
     }
 
     private void UpdateInteractText(string name)
@@ -59,70 +107,6 @@ public class PlayerInteract : MonoBehaviour
         int bindingIndex = GetBindingIndexForCurrentScheme(playerInput.currentControlScheme);
         string bindName = interactAction.action.GetBindingDisplayString(bindingIndex);
         interactText.text = $"Press <color=#00FF00>{bindName}</color> to Interact with <color=#00FF00>{name}</color>";
-    }
-
-    private int GetBindingIndexForCurrentScheme(string scheme)
-    {
-        if (string.IsNullOrEmpty(scheme)) return 0;
-
-        for (int i = 0; i < interactAction.action.bindings.Count; i++)
-        {
-            InputBinding binding = interactAction.action.bindings[i];
-            if (binding.groups.Contains(scheme))
-            {
-                return i;
-            }
-        }
-
-        return 0;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!player.IsLocalPlayer) return;
-
-        IInteractable interactable = collision.GetComponent<IInteractable>();
-        if (interactable != null)
-        {
-            // Enable Text
-            interactText.enabled = true;
-            UpdateInteractText(collision.name);
-        }
-
-        if (!collision.CompareTag("NPC")) return;
-        interactText.enabled = true;
-        npcReference = collision.GetComponent<NPC>();
-        UpdateInteractText(npcReference.NPC_Name);
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (!player.IsLocalPlayer) return;
-        if (!collision.CompareTag("NPC")) return;
-
-        if (input.InteractInput && npcReference != null)
-        {
-            if (player.IsInteracting) return;
-            player.IsInteracting = true;
-            interactText.enabled = false;
-
-            OpenInteractUI(npcReference);
-        }
-
-        if (npcReference == null && interactText.enabled == false)
-        {
-            interactText.enabled = true;
-            npcReference = collision.GetComponent<NPC>();
-            UpdateInteractText(npcReference.NPC_Name);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (!player.IsLocalPlayer) return;
-        if (!collision.CompareTag("NPC")) return;
-
-        CloseInteractUI();
     }
 
     public void CloseInteractUI()
@@ -134,10 +118,10 @@ public class PlayerInteract : MonoBehaviour
         npcReference = null;
     }
 
-    void OpenInteractUI(NPC npc)
+    public void OpenInteractUI()
     {
         // Dialogue
-        npcNameText.text = npc.name;
+        npcNameText.text = npcReference.name;
         npcDialogueText.text = npcReference.GetComponent<NPCDialogue>().GetDialogue();
 
         // Quests
@@ -149,6 +133,21 @@ public class PlayerInteract : MonoBehaviour
         shopButton.gameObject.SetActive(false);
         startButton.gameObject.SetActive(false);
         OnInteract?.Invoke();
+    }
+
+    public void OpenQuestUI()
+    {
+        // Open Quest Panel
+    }
+
+    public void OpenShopUI()
+    {
+        // Open Shop Panel
+    }
+
+    public void Activate()
+    {
+        // Activate Totem, Chests, Ect.
     }
 
     public void QuestButton()
@@ -166,5 +165,26 @@ public class PlayerInteract : MonoBehaviour
 
         // Update Panel
         questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, currentQuest);
+    }
+
+    private void OnControlsChanged(PlayerInput input)
+    {
+        UpdateInteractText(null);
+    }
+
+    private int GetBindingIndexForCurrentScheme(string scheme)
+    {
+        if (string.IsNullOrEmpty(scheme)) return 0;
+
+        for (int i = 0; i < interactAction.action.bindings.Count; i++)
+        {
+            InputBinding binding = interactAction.action.bindings[i];
+            if (binding.groups.Contains(scheme))
+            {
+                return i;
+            }
+        }
+
+        return 0;
     }
 }
