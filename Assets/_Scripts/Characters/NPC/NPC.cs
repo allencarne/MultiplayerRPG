@@ -49,8 +49,10 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
     public SpriteRenderer EyeSprite;
     public SpriteRenderer ShadowSprite;
 
-    [Header("Components")]
+    [SerializeField] NPCQuest npcQuest;
+    [SerializeField] NPCDialogue npcDialogue;
 
+    [Header("Components")]
     public CastBar CastBar;
     [SerializeField] HealthBar healthBar;
     [SerializeField] NPCStateMachine stateMachine;
@@ -122,23 +124,18 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
     public void Interact(PlayerInteract player)
     {
         PlayerQuest playerQuest = player.GetComponentInParent<PlayerQuest>();
-        NPCQuest npcQuest = GetComponent<NPCQuest>();
 
-        // If we have a quest
-        if (npcQuest != null)
+        Quest quest = npcQuest?.GetAvailableQuest(playerQuest);
+        if (quest != null)
         {
-            Quest quest = npcQuest?.GetAvailableQuest(playerQuest);
-            if (quest != null)
-            {
-                player.OpenQuestUI(quest);
-            }
+            // Quest
+            player.OpenQuestUI(quest, this);
         }
         else
         {
-            // If we don't have a quest
-            player.OpenInteractUI();
+            // Dialogue
+            player.OpenInteractUI(this, npcDialogue);
         }
-
         // If we have a shop
 
         // If we don't have a quest

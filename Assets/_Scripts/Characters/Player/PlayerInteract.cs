@@ -29,7 +29,6 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] Button questButton;
     [SerializeField] Button shopButton;
 
-    NPC npcReference;
     IInteractable currentInteractable;
     bool hasInteracted = false;
 
@@ -60,7 +59,6 @@ public class PlayerInteract : MonoBehaviour
         currentInteractable = interactable;
         interactText.enabled = true;
 
-        npcReference = interactable as NPC;
         UpdateInteractText(collision.name);
     }
 
@@ -86,7 +84,6 @@ public class PlayerInteract : MonoBehaviour
         if (!player.IsInteracting && hasInteracted)
         {
             interactText.enabled = true;
-            npcReference = interactable as NPC;
             UpdateInteractText(collision.name);
             hasInteracted = false;
         }
@@ -119,25 +116,20 @@ public class PlayerInteract : MonoBehaviour
         interactText.enabled = false;
         player.IsInteracting = false;
         hasInteracted = true;
-        npcReference = null;
     }
 
-    public void OpenInteractUI()
+    public void OpenInteractUI(NPC npc, NPCDialogue dialogue)
     {
         // Dialogue
-        npcNameText.text = npcReference.name;
-        npcDialogueText.text = npcReference.GetComponent<NPCDialogue>().GetDialogue();
+        npcNameText.text = npc.NPC_Name;
+        npcDialogueText.text = dialogue.GetDialogue();
         playerUI._InteractUI();
     }
 
-    public void OpenQuestUI(Quest quest)
+    public void OpenQuestUI(Quest quest, NPC npc)
     {
-        Debug.Log(npcReference);
-        Debug.Log(quest);
-
-        // UI
         interactText.enabled = false;
-        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npcReference, quest);
+        questInfoPanel.GetComponent<QuestInfoPanel>().UpdateQuestInfo(npc, quest);
         playerUI._QuestInfoUI();
     }
 
