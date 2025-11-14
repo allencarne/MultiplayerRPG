@@ -1,5 +1,4 @@
 using System.Collections;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +8,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
     public string NPC_ID;
     public string NPC_Name;
     public int NPC_Level;
+    public string DisplayName => NPC_Name;
 
     [Header("Health")]
     [SerializeField] float StartingMaxHealth;

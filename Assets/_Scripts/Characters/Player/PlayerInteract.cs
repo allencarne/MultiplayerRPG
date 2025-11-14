@@ -76,7 +76,7 @@ public class PlayerInteract : MonoBehaviour
         if (!player.IsInteracting && hasInteracted)
         {
             interactText.enabled = true;
-            UpdateInteractText(collision.name);
+            UpdateInteractText(interactable.DisplayName);
             hasInteracted = false;
         }
     }
