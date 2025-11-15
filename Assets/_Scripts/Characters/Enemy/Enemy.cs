@@ -34,6 +34,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Components")]
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
+    [HideInInspector] public Totem TotemReference;
     [SerializeField] GameObject expPrefab;
     EnemyStateMachine stateMachine;
     [SerializeField] GameObject spawn_Effect;

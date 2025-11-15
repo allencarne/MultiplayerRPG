@@ -113,11 +113,6 @@ public class PlayerInteract : MonoBehaviour
         // Open Shop Panel
     }
 
-    public void Activate()
-    {
-        // Activate Totem, Chests, Ect.
-    }
-
     public void CloseUI()
     {
         // Called From: QuestPanel, Decline Button, Turn-In Button, Dialogue Panel

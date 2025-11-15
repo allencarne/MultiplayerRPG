@@ -13,6 +13,11 @@ public class EnemyDeathState : EnemyState
             owner.enemy.EnemySpawnerReference.DecreaseEnemyCount();
         }
 
+        if (owner.enemy.TotemReference != null)
+        {
+            owner.enemy.TotemReference.EnemyDeath();
+        }
+
         StartCoroutine(Delay(owner));
     }
 
