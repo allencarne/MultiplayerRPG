@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -44,7 +45,10 @@ public class Totem : MonoBehaviour, IInteractable
 
     public void SpawnEnemy()
     {
-        GameObject enemyInstance = Instantiate(Manager.EnemyPrefab, transform.position, Quaternion.identity, transform);
+        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 3;
+
+
+        GameObject enemyInstance = Instantiate(Manager.EnemyPrefab, randomPos, Quaternion.identity, transform);
         NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
         networkInstance.Spawn();
 
@@ -53,6 +57,17 @@ public class Totem : MonoBehaviour, IInteractable
 
     public void EnemyDeath()
     {
-        Debug.Log("EnemyDeath");
+        SwarmEvent.EnemyCount--;
+    }
+
+    public void DespawnTotem()
+    {
+        StartCoroutine(DespawnDelay());
+    }
+
+    IEnumerator DespawnDelay()
+    {
+        yield return new WaitForSeconds(3);
+        GetComponent<NetworkObject>().Despawn();
     }
 }
