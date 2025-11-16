@@ -1,10 +1,13 @@
-using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class SwarmEvent : MonoBehaviour
 {
+    public List<Enemy> spawnedEnemies = new List<Enemy>();
+
     public enum EventState { None, InProgress, Failed, Success }
     public EventState state;
 
@@ -17,7 +20,6 @@ public class SwarmEvent : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent OnEventStart;
-    public UnityEvent OnEnemySpawn;
     public UnityEvent OnEventFailed;
     public UnityEvent OnEventSuccess;
 
@@ -31,7 +33,7 @@ public class SwarmEvent : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             EnemyCount++;
-            OnEnemySpawn?.Invoke();
+            SpawnEnemy();
         }
     }
 
@@ -69,6 +71,46 @@ public class SwarmEvent : MonoBehaviour
     {
         eventText.text = "Failed!";
         state = EventState.Failed;
+        DespawnAllEnemies();
         OnEventFailed?.Invoke();
+    }
+
+    public void EnemyDeath()
+    {
+        EnemyCount--;
+    }
+
+    public void SpawnEnemy()
+    {
+        Totem totem = GetComponent<Totem>();
+        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
+
+        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity, transform);
+        NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
+        networkInstance.Spawn();
+
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        enemy.TotemReference = totem;
+        spawnedEnemies.Add(enemy);
+    }
+
+    public void DespawnAllEnemies()
+    {
+        Totem totem = GetComponent<Totem>();
+        if (!totem.Manager.IsServer) return;
+
+        foreach (Enemy enemy in spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
+                if (networkObject != null)
+                {
+                    networkObject.Despawn();
+                }
+            }
+        }
+
+        spawnedEnemies.Clear();
     }
 }

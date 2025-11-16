@@ -15,7 +15,7 @@ public class EnemyDeathState : EnemyState
 
         if (owner.enemy.TotemReference != null)
         {
-            owner.enemy.TotemReference.EnemyDeath();
+            owner.enemy.TotemReference.SwarmEvent.EnemyDeath();
         }
 
         StartCoroutine(Delay(owner));
