@@ -22,7 +22,12 @@ public class EnemySpawner : NetworkBehaviour
     int currentEnemyCount;
     bool canSpawn = true;
 
-    private void Update()
+    public override void OnNetworkSpawn()
+    {
+        InvokeRepeating("CheckIfWeCanSpawn", 0, 10);
+    }
+
+    void CheckIfWeCanSpawn()
     {
         if (!IsServer) return;
         if (currentEnemyCount < maxEnemyCount && canSpawn) StartCoroutine(Delay());
@@ -55,7 +60,7 @@ public class EnemySpawner : NetworkBehaviour
             return;
         }
 
-        GameObject enemyInstance = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, transform);
+        GameObject enemyInstance = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
         networkInstance.Spawn();
 

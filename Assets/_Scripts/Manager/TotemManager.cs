@@ -16,7 +16,12 @@ public class TotemManager : NetworkBehaviour
     public int currentTotems;
     bool isSpawning = false;
 
-    private void Update()
+    public override void OnNetworkSpawn()
+    {
+        InvokeRepeating("CheckIfWeCanSpawn", 0, 10);
+    }
+
+    void CheckIfWeCanSpawn()
     {
         if (!IsServer) return;
         if (currentTotems < maxTotems && !isSpawning) StartCoroutine(Delay());
@@ -39,7 +44,7 @@ public class TotemManager : NetworkBehaviour
         Vector3 spawnPosition = SpawnPoints[Randomnumber].position;
 
         // Spawn
-        GameObject totem = Instantiate(totemPrefab, spawnPosition, Quaternion.identity, transform);
+        GameObject totem = Instantiate(totemPrefab, spawnPosition, Quaternion.identity);
         NetworkObject networkInstance = totem.GetComponent<NetworkObject>();
         networkInstance.Spawn();
 

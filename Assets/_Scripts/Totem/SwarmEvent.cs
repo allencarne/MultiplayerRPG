@@ -58,17 +58,17 @@ public class SwarmEvent : MonoBehaviour
         }
     }
 
-    void FailEvent()
-    {
-        eventText.text = "Failed!";
-        state = EventState.Failed;
-        OnEventFailed?.Invoke();
-    }
-
     void SuccessEvent()
     {
         eventText.text = "Success!";
         state = EventState.Success;
+        OnEventSuccess?.Invoke();
+    }
+
+    void FailEvent()
+    {
+        eventText.text = "Failed!";
+        state = EventState.Failed;
         OnEventFailed?.Invoke();
     }
 }
