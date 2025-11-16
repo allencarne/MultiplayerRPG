@@ -1,9 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Totem : MonoBehaviour, IInteractable
 {
+    public List<Enemy> spawnedEnemies = new List<Enemy>();
+
     public Collider2D Trigger;
     public Collider2D Collider2d;
     public SpriteRenderer Sprite;
@@ -48,12 +51,13 @@ public class Totem : MonoBehaviour, IInteractable
     {
         Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
 
-
         GameObject enemyInstance = Instantiate(Manager.EnemyPrefab, randomPos, Quaternion.identity, transform);
         NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
         networkInstance.Spawn();
 
-        enemyInstance.GetComponent<Enemy>().TotemReference = this;
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        enemy.TotemReference = this;
+        spawnedEnemies.Add(enemy);
     }
 
     public void EnemyDeath()
@@ -72,5 +76,24 @@ public class Totem : MonoBehaviour, IInteractable
         Manager.currentTotems--;
         Manager.TotemEventCompleted(SpawnPoint);
         GetComponent<NetworkObject>().Despawn();
+    }
+
+    public void DespawnAllEnemies()
+    {
+        if (!Manager.IsServer) return;
+
+        foreach (Enemy enemy in spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
+                if (networkObject != null)
+                {
+                    networkObject.Despawn();
+                }
+            }
+        }
+
+        spawnedEnemies.Clear();
     }
 }
