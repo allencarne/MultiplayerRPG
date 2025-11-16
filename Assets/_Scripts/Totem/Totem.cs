@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Multiplayer.Center.NetcodeForGameObjectsExample.DistributedAuthority;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class Totem : MonoBehaviour, IInteractable
     public SpriteRenderer Shadow;
 
     [HideInInspector] public TotemManager Manager;
+    [HideInInspector] public Transform SpawnPoint;
     public string DisplayName => "Totem";
     enum EventType { Swarm, Collect, Capture, Dodge }
 
@@ -45,7 +47,7 @@ public class Totem : MonoBehaviour, IInteractable
 
     public void SpawnEnemy()
     {
-        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 3;
+        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
 
 
         GameObject enemyInstance = Instantiate(Manager.EnemyPrefab, randomPos, Quaternion.identity, transform);
@@ -68,6 +70,8 @@ public class Totem : MonoBehaviour, IInteractable
     IEnumerator DespawnDelay()
     {
         yield return new WaitForSeconds(3);
+        Manager.currentTotems--;
+        Manager.TotemEventCompleted(SpawnPoint);
         GetComponent<NetworkObject>().Despawn();
     }
 }

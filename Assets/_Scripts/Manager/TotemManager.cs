@@ -13,7 +13,7 @@ public class TotemManager : NetworkBehaviour
 
     public List<Transform> SpawnPoints;
     int maxTotems = 3;
-    int currentTotems;
+    public int currentTotems;
     bool isSpawning = false;
 
     private void Update()
@@ -26,15 +26,17 @@ public class TotemManager : NetworkBehaviour
     {
         isSpawning = true;
         yield return new WaitForSeconds(5);
+
         currentTotems++;
         isSpawning = false;
+        SpawnTotem();
+    }
 
+    void SpawnTotem()
+    {
         // Get Random Spawn Position
         int Randomnumber = Random.Range(0, SpawnPoints.Count);
         Vector3 spawnPosition = SpawnPoints[Randomnumber].position;
-
-        // Remove from list
-        SpawnPoints.RemoveAt(Randomnumber);
 
         // Spawn
         GameObject totem = Instantiate(totemPrefab, spawnPosition, Quaternion.identity, transform);
@@ -43,10 +45,14 @@ public class TotemManager : NetworkBehaviour
 
         // Assign Manager
         totem.GetComponent<Totem>().Manager = this;
+        totem.GetComponent<Totem>().SpawnPoint = SpawnPoints[Randomnumber];
+
+        // Remove from list
+        SpawnPoints.RemoveAt(Randomnumber);
     }
 
-    public void TotemEventCompleted(int index)
+    public void TotemEventCompleted(Transform transform)
     {
-        SpawnPoints.Add(SpawnPoints[index]);
+        SpawnPoints.Add(transform);
     }
 }
