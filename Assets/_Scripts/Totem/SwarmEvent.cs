@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class SwarmEvent : MonoBehaviour
 
     [Header("Lists")]
     public List<Enemy> spawnedEnemies = new List<Enemy>();
+    [SerializeField] Item coin;
     [SerializeField] Item[] rewards;
 
     [Header("Time")]
@@ -68,22 +70,54 @@ public class SwarmEvent : MonoBehaviour
         state = EventState.Success;
         OnEventSuccess?.Invoke();
 
+        Coins();
         Reward();
+    }
+
+    void Coins()
+    {
+        int amountOfItems = Random.Range(1, 4);   // Spawn 1–3 items
+
+        for (int i = 0; i < amountOfItems; i++)
+        {
+            Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
+
+            GameObject instance = Instantiate(coin.Prefab, randomPos, Quaternion.identity);
+            NetworkObject netObj = instance.GetComponent<NetworkObject>();
+            netObj.Spawn();
+        }
     }
 
     void Reward()
     {
-        int amountofItems = Random.Range(1, 4);
+        int totalWeight = 0;
 
-        for (int i = 0; i < amountofItems; i++)
+        foreach (Item reward in rewards)
         {
-            Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1;
-            int randomItem = Random.Range(0, rewards.Length);
-
-            GameObject itemInstance = Instantiate(rewards[randomItem].Prefab, randomPos, Quaternion.identity);
-            NetworkObject networkInstance = itemInstance.GetComponent<NetworkObject>();
-            networkInstance.Spawn();
+            totalWeight += reward.DropChance;
         }
+
+        int roll = Random.Range(0, totalWeight);
+        Item selected = null;
+
+        foreach (Item r in rewards)
+        {
+            if (roll < r.DropChance)
+            {
+                selected = r;
+                break;
+            }
+
+            roll -= r.DropChance;
+        }
+
+        if (selected == null) return;
+
+        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
+
+        GameObject instance = Instantiate(selected.Prefab, randomPos, Quaternion.identity);
+        NetworkObject netObj = instance.GetComponent<NetworkObject>();
+        netObj.Spawn();
     }
 
     void FailEvent()

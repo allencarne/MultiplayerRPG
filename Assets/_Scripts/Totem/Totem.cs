@@ -8,6 +8,7 @@ public class Totem : MonoBehaviour, IInteractable
     public Collider2D Collider2d;
     public SpriteRenderer Sprite;
     public SpriteRenderer Shadow;
+    public GameObject ParticleSystem;
 
     [HideInInspector] public TotemManager Manager;
     [HideInInspector] public Transform SpawnPoint;
@@ -36,6 +37,7 @@ public class Totem : MonoBehaviour, IInteractable
         Collider2d.enabled = isEnabled;
         Sprite.enabled = isEnabled;
         Shadow.enabled = isEnabled;
+        ParticleSystem.SetActive(isEnabled);
     }
 
     public void DespawnTotem()
