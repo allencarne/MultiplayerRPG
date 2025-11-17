@@ -4,23 +4,18 @@ using UnityEngine;
 public class EnemyDrops : MonoBehaviour
 {
     [SerializeField] Item[] droppableItems;
-    Item selectedItem;
-    float dropRadius = 1;
 
     public void DropItem()
     {
         if (droppableItems.Length == 0) return;
 
-        for (int i = 0; i < droppableItems.Length; i++)
+        foreach (Item item in droppableItems)
         {
-            Item selectedItem = droppableItems[i];
-            int randomChance = Random.Range(0, 101);
-
-            if (randomChance <= selectedItem.DropChance)
+            if (Random.Range(0f, 100f) < item.DropChance)
             {
-                Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * dropRadius;
-                GameObject item = Instantiate(selectedItem.Prefab, randomPoint, Quaternion.identity);
-                NetworkObject netItem = item.GetComponent<NetworkObject>();
+                Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * 1;
+                GameObject drop = Instantiate(item.Prefab, randomPoint, Quaternion.identity);
+                NetworkObject netItem = drop.GetComponent<NetworkObject>();
                 netItem.Spawn();
             }
         }

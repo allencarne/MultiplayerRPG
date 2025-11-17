@@ -15,8 +15,12 @@ public class SwarmEvent : MonoBehaviour
     [SerializeField] Item coin;
     [SerializeField] Item[] rewards;
 
+    [Header("Coin")]
+    public int Coins;
+    public int MaxCoinReward;
+
     [Header("Time")]
-    public int EnemyCount;
+    int enemyCount;
     float eventTime = 30;
     float timer;
 
@@ -36,7 +40,7 @@ public class SwarmEvent : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            EnemyCount++;
+            enemyCount++;
             SpawnEnemy();
         }
     }
@@ -52,7 +56,7 @@ public class SwarmEvent : MonoBehaviour
         eventText.text = $"Event Ends in {Mathf.CeilToInt(timer)}s";
 
         // Success
-        if (EnemyCount == 0)
+        if (enemyCount == 0)
         {
             SuccessEvent();
         }
@@ -70,13 +74,13 @@ public class SwarmEvent : MonoBehaviour
         state = EventState.Success;
         OnEventSuccess?.Invoke();
 
-        Coins();
-        Reward();
+        CoinReward();
+        ItemReward();
     }
 
-    void Coins()
+    void CoinReward()
     {
-        int amountOfItems = Random.Range(1, 4);   // Spawn 1–3 items
+        int amountOfItems = Random.Range(1, Coins + 1);
 
         for (int i = 0; i < amountOfItems; i++)
         {
@@ -85,39 +89,27 @@ public class SwarmEvent : MonoBehaviour
             GameObject instance = Instantiate(coin.Prefab, randomPos, Quaternion.identity);
             NetworkObject netObj = instance.GetComponent<NetworkObject>();
             netObj.Spawn();
+
+            ItemPickup pickup = instance.GetComponent<ItemPickup>();
+            if (pickup != null)
+            {
+                pickup.Quantity = Random.Range(0, MaxCoinReward);
+            }
         }
     }
 
-    void Reward()
+    void ItemReward()
     {
-        int totalWeight = 0;
-
         foreach (Item reward in rewards)
         {
-            totalWeight += reward.DropChance;
-        }
-
-        int roll = Random.Range(0, totalWeight);
-        Item selected = null;
-
-        foreach (Item r in rewards)
-        {
-            if (roll < r.DropChance)
+            if (Random.Range(0f, 100f) < reward.DropChance)
             {
-                selected = r;
-                break;
+                Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
+                GameObject instance = Instantiate(reward.Prefab, randomPos, Quaternion.identity);
+                NetworkObject netObj = instance.GetComponent<NetworkObject>();
+                netObj.Spawn();
             }
-
-            roll -= r.DropChance;
         }
-
-        if (selected == null) return;
-
-        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
-
-        GameObject instance = Instantiate(selected.Prefab, randomPos, Quaternion.identity);
-        NetworkObject netObj = instance.GetComponent<NetworkObject>();
-        netObj.Spawn();
     }
 
     void FailEvent()
@@ -130,7 +122,7 @@ public class SwarmEvent : MonoBehaviour
 
     public void EnemyDeath()
     {
-        EnemyCount--;
+        enemyCount--;
     }
 
     public void SpawnEnemy()
