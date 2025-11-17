@@ -6,15 +6,17 @@ using UnityEngine.Events;
 
 public class SwarmEvent : MonoBehaviour
 {
-    public List<Enemy> spawnedEnemies = new List<Enemy>();
-
     public enum EventState { None, InProgress, Failed, Success }
     public EventState state;
 
+    [Header("Lists")]
+    public List<Enemy> spawnedEnemies = new List<Enemy>();
+    [SerializeField] Item[] rewards;
+
     [Header("Time")]
+    public int EnemyCount;
     float eventTime = 30;
     float timer;
-    public int EnemyCount;
 
     [SerializeField] TextMeshProUGUI eventText;
 
@@ -65,6 +67,23 @@ public class SwarmEvent : MonoBehaviour
         eventText.text = "Success!";
         state = EventState.Success;
         OnEventSuccess?.Invoke();
+
+        Reward();
+    }
+
+    void Reward()
+    {
+        int amountofItems = Random.Range(1, 4);
+
+        for (int i = 0; i < amountofItems; i++)
+        {
+            Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1;
+            int randomItem = Random.Range(0, rewards.Length);
+
+            GameObject itemInstance = Instantiate(rewards[randomItem].Prefab, randomPos, Quaternion.identity);
+            NetworkObject networkInstance = itemInstance.GetComponent<NetworkObject>();
+            networkInstance.Spawn();
+        }
     }
 
     void FailEvent()
@@ -85,7 +104,7 @@ public class SwarmEvent : MonoBehaviour
         Totem totem = GetComponent<Totem>();
         Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
 
-        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity, transform);
+        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity);
         NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
         networkInstance.Spawn();
 
