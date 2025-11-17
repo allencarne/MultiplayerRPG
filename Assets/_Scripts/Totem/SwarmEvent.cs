@@ -10,6 +10,8 @@ public class SwarmEvent : MonoBehaviour
     public enum EventState { None, InProgress, Failed, Success }
     public EventState state;
 
+    [SerializeField] GameObject despawnParticle;
+
     [Header("Lists")]
     public List<Enemy> spawnedEnemies = new List<Enemy>();
     [SerializeField] Item coin;
@@ -31,7 +33,7 @@ public class SwarmEvent : MonoBehaviour
     public UnityEvent OnEventFailed;
     public UnityEvent OnEventSuccess;
 
-    public void StartEvent()
+    public void StartEvent(PlayerInteract player)
     {
         timer = eventTime;
         OnEventStart?.Invoke();
@@ -41,7 +43,7 @@ public class SwarmEvent : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             enemyCount++;
-            SpawnEnemy();
+            SpawnEnemy(player);
         }
     }
 
@@ -56,16 +58,10 @@ public class SwarmEvent : MonoBehaviour
         eventText.text = $"Event Ends in {Mathf.CeilToInt(timer)}s";
 
         // Success
-        if (enemyCount == 0)
-        {
-            SuccessEvent();
-        }
+        if (enemyCount == 0) SuccessEvent();
 
         // Fail
-        if (timer <= 0f)
-        {
-            FailEvent();
-        }
+        if (timer <= 0f) FailEvent();
     }
 
     void SuccessEvent()
@@ -78,6 +74,62 @@ public class SwarmEvent : MonoBehaviour
         ItemReward();
     }
 
+    void FailEvent()
+    {
+        eventText.text = "Failed!";
+        state = EventState.Failed;
+        DespawnAllEnemies();
+        OnEventFailed?.Invoke();
+    }
+
+    public void SpawnEnemy(PlayerInteract player)
+    {
+        Totem totem = GetComponent<Totem>();
+        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
+
+        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity);
+        enemyInstance.GetComponent<NetworkObject>().Spawn();
+
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+        EnemyStateMachine stateMachine = enemyInstance.GetComponent<EnemyStateMachine>();
+
+        enemy.TotemReference = totem;
+        spawnedEnemies.Add(enemy);
+
+        // Assign Enemy Target
+        stateMachine.Target = player.transform;
+        stateMachine.IsPlayerInRange = true;
+    }
+
+    public void EnemyDeath()
+    {
+        enemyCount--;
+    }
+
+    public void DespawnAllEnemies()
+    {
+        Totem totem = GetComponent<Totem>();
+        if (!totem.Manager.IsServer) return;
+
+        foreach (Enemy enemy in spawnedEnemies)
+        {
+            if (enemy != null)
+            {
+                enemy.IsDead = true;
+
+                Instantiate(despawnParticle, enemy.transform.position, Quaternion.identity);
+
+                NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
+                if (networkObject != null)
+                {
+                    networkObject.Despawn();
+                }
+            }
+        }
+
+        spawnedEnemies.Clear();
+    }
+
     void CoinReward()
     {
         int amountOfItems = Random.Range(1, Coins + 1);
@@ -87,8 +139,7 @@ public class SwarmEvent : MonoBehaviour
             Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
 
             GameObject instance = Instantiate(coin.Prefab, randomPos, Quaternion.identity);
-            NetworkObject netObj = instance.GetComponent<NetworkObject>();
-            netObj.Spawn();
+            instance.GetComponent<NetworkObject>().Spawn();
 
             ItemPickup pickup = instance.GetComponent<ItemPickup>();
             if (pickup != null)
@@ -105,57 +156,10 @@ public class SwarmEvent : MonoBehaviour
             if (Random.Range(0f, 100f) < reward.DropChance)
             {
                 Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
+
                 GameObject instance = Instantiate(reward.Prefab, randomPos, Quaternion.identity);
-                NetworkObject netObj = instance.GetComponent<NetworkObject>();
-                netObj.Spawn();
+                instance.GetComponent<NetworkObject>().Spawn();
             }
         }
-    }
-
-    void FailEvent()
-    {
-        eventText.text = "Failed!";
-        state = EventState.Failed;
-        DespawnAllEnemies();
-        OnEventFailed?.Invoke();
-    }
-
-    public void EnemyDeath()
-    {
-        enemyCount--;
-    }
-
-    public void SpawnEnemy()
-    {
-        Totem totem = GetComponent<Totem>();
-        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
-
-        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity);
-        NetworkObject networkInstance = enemyInstance.GetComponent<NetworkObject>();
-        networkInstance.Spawn();
-
-        Enemy enemy = enemyInstance.GetComponent<Enemy>();
-        enemy.TotemReference = totem;
-        spawnedEnemies.Add(enemy);
-    }
-
-    public void DespawnAllEnemies()
-    {
-        Totem totem = GetComponent<Totem>();
-        if (!totem.Manager.IsServer) return;
-
-        foreach (Enemy enemy in spawnedEnemies)
-        {
-            if (enemy != null)
-            {
-                NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
-                if (networkObject != null)
-                {
-                    networkObject.Despawn();
-                }
-            }
-        }
-
-        spawnedEnemies.Clear();
     }
 }

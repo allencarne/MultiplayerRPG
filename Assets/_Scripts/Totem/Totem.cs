@@ -24,7 +24,7 @@ public class Totem : MonoBehaviour, IInteractable
         int random = Random.Range(0, 0);
         switch (random)
         {
-            case 0: SwarmEvent.StartEvent(); break;
+            case 0: SwarmEvent.StartEvent(player); break;
             //case 1: CollectEvent.StartEvent(); break;
             //case 2: Capture(); break;
             //case 3: Dodge(); break;

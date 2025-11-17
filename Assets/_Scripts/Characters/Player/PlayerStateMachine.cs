@@ -84,6 +84,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Start()
     {
+        IsAttacking = false; // Bug Fix?
         playerSpawnState.StartState(this);
 
         BodyAnimator.SetFloat("Vertical", -1);
