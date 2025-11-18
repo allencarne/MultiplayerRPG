@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SwarmEvent : MonoBehaviour
+public class SwarmEvent : NetworkBehaviour
 {
     public enum EventState { None, InProgress, Failed, Success }
     public EventState state;
@@ -33,12 +32,13 @@ public class SwarmEvent : MonoBehaviour
     public UnityEvent OnEventFailed;
     public UnityEvent OnEventSuccess;
 
-    public void StartEvent(PlayerInteract player)
+    public void StartEvent(Transform player)
     {
         timer = eventTime;
         OnEventStart?.Invoke();
         state = EventState.InProgress;
-        eventText.text = "Start!";
+        UpdateUIClientRPC("Start!");
+        InvokeRepeating("UpdateEvent", 0,1);
 
         for (int i = 0; i < 3; i++)
         {
@@ -47,15 +47,21 @@ public class SwarmEvent : MonoBehaviour
         }
     }
 
-    private void Update()
+    [ClientRpc]
+    void UpdateUIClientRPC(string text)
+    {
+        eventText.text = text;
+    }
+
+    void UpdateEvent()
     {
         if (state != EventState.InProgress) return;
 
-        // Decrease the timer every frame
-        timer -= Time.deltaTime;
+        // Decrease the timer
+        timer -= 1f;
 
         // Update the countdown text
-        eventText.text = $"Event Ends in {Mathf.CeilToInt(timer)}s";
+        UpdateUIClientRPC($"Event Ends in {Mathf.CeilToInt(timer)}s");
 
         // Success
         if (enemyCount == 0) SuccessEvent();
@@ -66,7 +72,8 @@ public class SwarmEvent : MonoBehaviour
 
     void SuccessEvent()
     {
-        eventText.text = "Success!";
+        CancelInvoke();
+        UpdateUIClientRPC("Success!");
         state = EventState.Success;
         OnEventSuccess?.Invoke();
 
@@ -76,13 +83,14 @@ public class SwarmEvent : MonoBehaviour
 
     void FailEvent()
     {
-        eventText.text = "Failed!";
+        CancelInvoke();
+        UpdateUIClientRPC("Failed!");
         state = EventState.Failed;
         DespawnAllEnemies();
         OnEventFailed?.Invoke();
     }
 
-    public void SpawnEnemy(PlayerInteract player)
+    public void SpawnEnemy(Transform player)
     {
         Totem totem = GetComponent<Totem>();
         Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
@@ -97,7 +105,7 @@ public class SwarmEvent : MonoBehaviour
         spawnedEnemies.Add(enemy);
 
         // Assign Enemy Target
-        stateMachine.Target = player.transform;
+        stateMachine.Target = player;
         stateMachine.IsPlayerInRange = true;
     }
 
@@ -117,7 +125,7 @@ public class SwarmEvent : MonoBehaviour
             {
                 enemy.IsDead = true;
 
-                Instantiate(despawnParticle, enemy.transform.position, Quaternion.identity);
+                DespawnParticleClientRPC(enemy.transform.position);
 
                 NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
                 if (networkObject != null)
@@ -128,6 +136,12 @@ public class SwarmEvent : MonoBehaviour
         }
 
         spawnedEnemies.Clear();
+    }
+
+    [ClientRpc]
+    void DespawnParticleClientRPC(Vector2 transform)
+    {
+        Instantiate(despawnParticle, transform, Quaternion.identity);
     }
 
     void CoinReward()

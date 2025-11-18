@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Totem : MonoBehaviour, IInteractable
+public class Totem : NetworkBehaviour, IInteractable
 {
     public Collider2D Trigger;
     public Collider2D Collider2d;
@@ -20,18 +20,29 @@ public class Totem : MonoBehaviour, IInteractable
 
     public void Interact(PlayerInteract player)
     {
-        //int random = Random.Range(0, 4);
-        int random = Random.Range(0, 0);
-        switch (random)
+        StartEventServerRpc(player.NetworkObject);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void StartEventServerRpc(NetworkObjectReference playerRef)
+    {
+        if (!playerRef.TryGet(out NetworkObject networkObject)) return;
+
+        Transform player = networkObject.GetComponent<Transform>();
+        if (player != null)
         {
-            case 0: SwarmEvent.StartEvent(player); break;
-            //case 1: CollectEvent.StartEvent(); break;
-            //case 2: Capture(); break;
-            //case 3: Dodge(); break;
+            int random = Random.Range(0, 0);
+
+            switch (random)
+            {
+                case 0: SwarmEvent.StartEvent(player); break;
+                    //case 1: CollectEvent.StartEvent(player); break;
+            }
         }
     }
 
-    public void ShowTotem(bool isEnabled)
+    [ClientRpc]
+    public void ShowTotemClientRPC(bool isEnabled)
     {
         Trigger.enabled = isEnabled;
         Collider2d.enabled = isEnabled;
@@ -39,6 +50,7 @@ public class Totem : MonoBehaviour, IInteractable
         Shadow.enabled = isEnabled;
         ParticleSystem.SetActive(isEnabled);
     }
+
 
     public void DespawnTotem()
     {
