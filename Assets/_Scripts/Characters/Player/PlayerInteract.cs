@@ -48,10 +48,10 @@ public class PlayerInteract : MonoBehaviour
         IInteractable interactable = collision.GetComponent<IInteractable>();
         if (interactable == null) return;
 
+        UpdateInteractText(interactable.DisplayName);
+
         currentInteractable = interactable;
         interactText.enabled = true;
-
-        UpdateInteractText(collision.name);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -75,8 +75,8 @@ public class PlayerInteract : MonoBehaviour
         // Re-Interact
         if (!player.IsInteracting && hasInteracted)
         {
+            Debug.Log("Re-Interact");
             interactText.enabled = true;
-            UpdateInteractText(interactable.DisplayName);
             hasInteracted = false;
         }
     }
