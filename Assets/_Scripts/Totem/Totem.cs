@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Totem : NetworkBehaviour, IInteractable
 {
-    public Collider2D Trigger;
-    public Collider2D Collider2d;
-    public SpriteRenderer Sprite;
-    public SpriteRenderer Shadow;
-    public GameObject ParticleSystem;
-
-    [HideInInspector] public TotemManager Manager;
-    [HideInInspector] public Transform SpawnPoint;
     public string DisplayName => "Totem";
     enum EventType { Swarm, Collect, Capture, Dodge }
 
+    [Header("Visuals")]
+    [SerializeField] Collider2D Trigger;
+    [SerializeField] Collider2D Collider2d;
+    [SerializeField] SpriteRenderer Sprite;
+    [SerializeField] SpriteRenderer Shadow;
+    [SerializeField] GameObject ParticleSystem;
+
+    [Header("References")]
+    [HideInInspector] public TotemManager Manager;
+    [HideInInspector] public Transform SpawnPoint;
+
+    [Header("Events")]
     public SwarmEvent SwarmEvent;
     public CollectEvent CollectEvent;
 
@@ -42,13 +46,13 @@ public class Totem : NetworkBehaviour, IInteractable
     }
 
     [ClientRpc]
-    public void ShowTotemClientRPC(bool isEnabled)
+    public void ShowTotemClientRPC()
     {
-        Trigger.enabled = isEnabled;
-        Collider2d.enabled = isEnabled;
-        Sprite.enabled = isEnabled;
-        Shadow.enabled = isEnabled;
-        ParticleSystem.SetActive(isEnabled);
+        Trigger.enabled = false;
+        Collider2d.enabled = false;
+        Sprite.enabled = false;
+        Shadow.enabled = false;
+        ParticleSystem.SetActive(false);
     }
 
 

@@ -9,7 +9,8 @@ public class SwarmEvent : NetworkBehaviour
     public enum EventState { None, InProgress, Failed, Success }
     public EventState state;
 
-    [SerializeField] GameObject despawnParticle;
+    [Header("References")]
+    [SerializeField] TotemParticles particles;
 
     [Header("Lists")]
     public List<Enemy> spawnedEnemies = new List<Enemy>();
@@ -116,8 +117,7 @@ public class SwarmEvent : NetworkBehaviour
 
     public void DespawnAllEnemies()
     {
-        Totem totem = GetComponent<Totem>();
-        if (!totem.Manager.IsServer) return;
+        if (!IsServer) return;
 
         foreach (Enemy enemy in spawnedEnemies)
         {
@@ -125,7 +125,7 @@ public class SwarmEvent : NetworkBehaviour
             {
                 enemy.IsDead = true;
 
-                DespawnParticleClientRPC(enemy.transform.position);
+                particles.DespawnClientRPC(enemy.transform.position);
 
                 NetworkObject networkObject = enemy.GetComponent<NetworkObject>();
                 if (networkObject != null)
@@ -136,12 +136,6 @@ public class SwarmEvent : NetworkBehaviour
         }
 
         spawnedEnemies.Clear();
-    }
-
-    [ClientRpc]
-    void DespawnParticleClientRPC(Vector2 transform)
-    {
-        Instantiate(despawnParticle, transform, Quaternion.identity);
     }
 
     void CoinReward()

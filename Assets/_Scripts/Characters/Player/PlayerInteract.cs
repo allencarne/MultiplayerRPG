@@ -31,7 +31,7 @@ public class PlayerInteract : NetworkBehaviour
         playerInput.onControlsChanged += OnControlsChanged;
     }
 
-    private void OnDestroy()
+    protected new void OnDestroy()
     {
         playerInput.onControlsChanged -= OnControlsChanged;
     }

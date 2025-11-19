@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5722410758769270395}
   - component: {fileID: 6256953657211280733}
   m_Layer: 0
-  m_Name: TotemSpawner
+  m_Name: Prefab_Spawner_Totem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,12 +73,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TotemManager
   ShowTopMostFoldoutHeaderGroup: 1
   totemPrefab: {fileID: 3234023876744883735, guid: 9041fd5fda86e9a448c3329be6e88c4d, type: 3}
+  spawnParticle: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   EnemyPrefab: {fileID: 0}
   SpawnPoints:
   - {fileID: 384332202408532663}
   - {fileID: 2532663140586503699}
   - {fileID: 980896802022669622}
   - {fileID: 756161955252827750}
+  currentTotems: 0
 --- !u!1 &2576204421746689490
 GameObject:
   m_ObjectHideFlags: 0
