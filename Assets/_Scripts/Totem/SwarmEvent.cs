@@ -1,97 +1,48 @@
 using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class SwarmEvent : NetworkBehaviour, ITotemEvent
 {
-    public enum EventState { None, InProgress, Failed, Success }
-    public EventState state;
-
     [Header("References")]
+    [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
 
     [Header("Lists")]
-    public List<Enemy> spawnedEnemies = new List<Enemy>();
-    [SerializeField] Item coin;
-    [SerializeField] Item[] rewards;
+    List<Enemy> spawnedEnemies = new();
 
-    [Header("Coin")]
-    public int Coins;
-    public int MaxCoinReward;
-
-    [Header("Time")]
     int enemyCount;
-    float eventTime = 30;
-    float timer;
+    int maxEnemies = 3;
 
-    [SerializeField] TextMeshProUGUI eventText;
-
-    [Header("Events")]
-    public UnityEvent OnEventStart;
-    public UnityEvent OnEventFailed;
-    public UnityEvent OnEventSuccess;
+    bool isActive = false;
 
     public string EventName => "Swarm Event";
-    public string EventObjective => $"0/{enemyCount} Enemies";
+    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
 
     public void StartEvent(Transform player)
     {
-        timer = eventTime;
-        OnEventStart?.Invoke();
-        state = EventState.InProgress;
-        UpdateUIClientRPC("Start!");
-        InvokeRepeating("UpdateEvent", 0,1);
+        enemyCount = maxEnemies;
 
-        for (int i = 0; i < 3; i++)
-        {
-            enemyCount++;
-            SpawnEnemy(player);
-        }
+        for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
     }
 
-    [ClientRpc]
-    void UpdateUIClientRPC(string text)
+    public void EventSuccess()
     {
-        eventText.text = text;
+        // Nothing
     }
 
-    void UpdateEvent()
+    public void EventFail()
     {
-        if (state != EventState.InProgress) return;
-
-        // Decrease the timer
-        timer -= 1f;
-
-        // Update the countdown text
-        UpdateUIClientRPC($"Event Ends in {Mathf.CeilToInt(timer)}s");
-
-        // Success
-        if (enemyCount == 0) SuccessEvent();
-
-        // Fail
-        if (timer <= 0f) FailEvent();
-    }
-
-    void SuccessEvent()
-    {
-        CancelInvoke();
-        UpdateUIClientRPC("Success!");
-        state = EventState.Success;
-        OnEventSuccess?.Invoke();
-
-        CoinReward();
-        ItemReward();
-    }
-
-    void FailEvent()
-    {
-        CancelInvoke();
-        UpdateUIClientRPC("Failed!");
-        state = EventState.Failed;
         DespawnAllEnemies();
-        OnEventFailed?.Invoke();
+    }
+
+    private void Update()
+    {
+        if (enemyCount == 0 && isActive)
+        {
+            isActive = false;
+            totem.EventSuccess();
+        }
     }
 
     public void SpawnEnemy(Transform player)
@@ -111,6 +62,8 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
         // Assign Enemy Target
         stateMachine.Target = player;
         stateMachine.IsPlayerInRange = true;
+
+        isActive = true;
     }
 
     public void EnemyDeath()
@@ -139,38 +92,5 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
         }
 
         spawnedEnemies.Clear();
-    }
-
-    void CoinReward()
-    {
-        int amountOfItems = Random.Range(1, Coins + 1);
-
-        for (int i = 0; i < amountOfItems; i++)
-        {
-            Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
-
-            GameObject instance = Instantiate(coin.Prefab, randomPos, Quaternion.identity);
-            instance.GetComponent<NetworkObject>().Spawn();
-
-            ItemPickup pickup = instance.GetComponent<ItemPickup>();
-            if (pickup != null)
-            {
-                pickup.Quantity = Random.Range(0, MaxCoinReward);
-            }
-        }
-    }
-
-    void ItemReward()
-    {
-        foreach (Item reward in rewards)
-        {
-            if (Random.Range(0f, 100f) < reward.DropChance)
-            {
-                Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 1f;
-
-                GameObject instance = Instantiate(reward.Prefab, randomPos, Quaternion.identity);
-                instance.GetComponent<NetworkObject>().Spawn();
-            }
-        }
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Totem : NetworkBehaviour, IInteractable
 {
@@ -8,21 +10,20 @@ public class Totem : NetworkBehaviour, IInteractable
     enum EventType { Swarm, Collect, Capture, Dodge }
     public ITotemEvent CurrentEvent { get; private set; }
 
-    [Header("Visuals")]
-    [SerializeField] Collider2D Trigger;
-    [SerializeField] Collider2D Collider2d;
-    [SerializeField] SpriteRenderer Sprite;
-    [SerializeField] SpriteRenderer Shadow;
-    [SerializeField] GameObject ParticleSystem;
-    [SerializeField] Collider2D eventTrigger;
-
     [Header("References")]
     [HideInInspector] public TotemManager Manager;
     [HideInInspector] public Transform SpawnPoint;
-
-    [Header("Events")]
+    [SerializeField] TextMeshProUGUI eventText;
     public SwarmEvent SwarmEvent;
     public CollectEvent CollectEvent;
+
+    [Header("Events")]
+    public UnityEvent OnEventStart;
+    public UnityEvent OnEventSuccess;
+    public UnityEvent OnEventFail;
+
+    float eventTime = 30;
+    float timer;
 
 
     public void Interact(PlayerInteract player)
@@ -42,24 +43,56 @@ public class Totem : NetworkBehaviour, IInteractable
 
             switch (random)
             {
-                case 0: SwarmEvent.StartEvent(player); CurrentEvent = SwarmEvent; break;
+                case 0: CurrentEvent = SwarmEvent; break;
                     //case 1: CollectEvent.StartEvent(player); break;
             }
         }
+
+        EventStart();
+        SwarmEvent.StartEvent(player);
+    }
+
+    public void EventStart()
+    {
+        timer = eventTime;
+        InvokeRepeating("UpdateEvent", 0, 1);
+        UpdateUIClientRPC("Start!");
+        OnEventStart?.Invoke();
+    }
+
+    void UpdateEvent()
+    {
+        // Decrease the timer
+        timer -= 1f;
+
+        // Update the countdown text
+        UpdateUIClientRPC($"Event Ends in {Mathf.CeilToInt(timer)}s");
+
+        // Fail
+        if (timer <= 0f) EventFail();
     }
 
     [ClientRpc]
-    public void ShowTotemClientRPC()
+    void UpdateUIClientRPC(string text)
     {
-        eventTrigger.enabled = true;
-
-        Trigger.enabled = false;
-        Collider2d.enabled = false;
-        Sprite.enabled = false;
-        Shadow.enabled = false;
-        ParticleSystem.SetActive(false);
+        eventText.text = text;
     }
 
+    public void EventSuccess()
+    {
+        CancelInvoke();
+        UpdateUIClientRPC("Success!");
+        OnEventSuccess?.Invoke();
+        CurrentEvent?.EventSuccess();
+    }
+
+    public void EventFail()
+    {
+        CancelInvoke();
+        UpdateUIClientRPC("Failed!");
+        OnEventFail?.Invoke();
+        CurrentEvent?.EventFail();
+    }
 
     public void DespawnTotem()
     {

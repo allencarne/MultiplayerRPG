@@ -5327,6 +5327,7 @@ GameObject:
   - component: {fileID: 208362771571337292}
   - component: {fileID: 8999390711074541075}
   - component: {fileID: 8186164635521792130}
+  - component: {fileID: 2276322260735253674}
   m_Layer: 0
   m_Name: Prefab_Env_Totem
   m_TagString: Untagged
@@ -5343,16 +5344,16 @@ Transform:
   m_GameObject: {fileID: 7571779483150174085}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.72, y: -3.79, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4800146780648474015}
   - {fileID: 7934084488655909064}
+  - {fileID: 4800146780648474015}
   - {fileID: 2687156073463099919}
-  - {fileID: 999763681682785857}
   - {fileID: 6302914156863865371}
   - {fileID: 4433273933647549622}
+  - {fileID: 999763681682785857}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7215034650890726695
@@ -5429,47 +5430,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Totem
   ShowTopMostFoldoutHeaderGroup: 1
-  Trigger: {fileID: 6966102139426161064}
-  Collider2d: {fileID: 6825400952339355656}
-  Sprite: {fileID: 7161672953504143183}
-  Shadow: {fileID: 3003064263345038864}
-  ParticleSystem: {fileID: 5117405793301180042}
-  eventTrigger: {fileID: 1372408768620299406}
   Manager: {fileID: 0}
   SpawnPoint: {fileID: 0}
+  eventText: {fileID: 1923724369527673835}
   SwarmEvent: {fileID: 208362771571337292}
   CollectEvent: {fileID: 8999390711074541075}
---- !u!114 &208362771571337292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7571779483150174085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be06be33b3d295144b27b54ed6906345, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwarmEvent
-  ShowTopMostFoldoutHeaderGroup: 1
-  state: 0
-  particles: {fileID: 8186164635521792130}
-  spawnedEnemies: []
-  coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
-  rewards:
-  - {fileID: 11400000, guid: 764f1db1e2ac0d041b607c12c3d7c3fd, type: 2}
-  - {fileID: 11400000, guid: 9215b5570257596428c6447efabc83b3, type: 2}
-  - {fileID: 11400000, guid: e46bcc7bbdf16c048a339f2efcd60205, type: 2}
-  - {fileID: 11400000, guid: a6f4d18265b74044884d9f95cf99bc54, type: 2}
-  - {fileID: 11400000, guid: eea40bff53ceddc428a33e2ce94b9dec, type: 2}
-  Coins: 3
-  MaxCoinReward: 1
-  eventText: {fileID: 1923724369527673835}
   OnEventStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 682373914716753779}
-        m_TargetAssemblyTypeName: Totem, Assembly-CSharp
+      - m_Target: {fileID: 8186164635521792130}
+        m_TargetAssemblyTypeName: TotemParticles, Assembly-CSharp
         m_MethodName: ShowTotemClientRPC
         m_Mode: 1
         m_Arguments:
@@ -5483,33 +5453,6 @@ MonoBehaviour:
       - m_Target: {fileID: 8186164635521792130}
         m_TargetAssemblyTypeName: TotemParticles, Assembly-CSharp
         m_MethodName: StartClientRPC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnEventFailed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 682373914716753779}
-        m_TargetAssemblyTypeName: Totem, Assembly-CSharp
-        m_MethodName: DespawnTotem
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8186164635521792130}
-        m_TargetAssemblyTypeName: TotemParticles, Assembly-CSharp
-        m_MethodName: FailClientRPC
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5546,6 +5489,72 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2276322260735253674}
+        m_TargetAssemblyTypeName: TotemRewards, Assembly-CSharp
+        m_MethodName: CoinReward
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2276322260735253674}
+        m_TargetAssemblyTypeName: TotemRewards, Assembly-CSharp
+        m_MethodName: ItemReward
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnEventFail:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8186164635521792130}
+        m_TargetAssemblyTypeName: TotemParticles, Assembly-CSharp
+        m_MethodName: FailClientRPC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 682373914716753779}
+        m_TargetAssemblyTypeName: Totem, Assembly-CSharp
+        m_MethodName: DespawnTotem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &208362771571337292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571779483150174085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be06be33b3d295144b27b54ed6906345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwarmEvent
+  ShowTopMostFoldoutHeaderGroup: 1
+  totem: {fileID: 682373914716753779}
+  particles: {fileID: 8186164635521792130}
 --- !u!114 &8999390711074541075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5576,6 +5585,34 @@ MonoBehaviour:
   SuccessParticle: {fileID: 4421407025180039909, guid: 8b0de5525ac674543ba0db0f572b5379, type: 3}
   failParticle: {fileID: 5878250340933737647, guid: 4c1b29a576a09c3479d89fe5e8d14550, type: 3}
   despawnParticle: {fileID: 5878250340933737647, guid: 4c1b29a576a09c3479d89fe5e8d14550, type: 3}
+  Trigger: {fileID: 6966102139426161064}
+  Collider2d: {fileID: 6825400952339355656}
+  Sprite: {fileID: 7161672953504143183}
+  Shadow: {fileID: 3003064263345038864}
+  ParticleSystem: {fileID: 5117405793301180042}
+  eventTrigger: {fileID: 1372408768620299406}
+--- !u!114 &2276322260735253674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571779483150174085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687fdbe19d7e5ce4188956fe49d3bf21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TotemRewards
+  ShowTopMostFoldoutHeaderGroup: 1
+  Coins: 3
+  MaxCoinReward: 1
+  coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+  rewards:
+  - {fileID: 11400000, guid: 764f1db1e2ac0d041b607c12c3d7c3fd, type: 2}
+  - {fileID: 11400000, guid: 9215b5570257596428c6447efabc83b3, type: 2}
+  - {fileID: 11400000, guid: e46bcc7bbdf16c048a339f2efcd60205, type: 2}
+  - {fileID: 11400000, guid: a6f4d18265b74044884d9f95cf99bc54, type: 2}
+  - {fileID: 11400000, guid: eea40bff53ceddc428a33e2ce94b9dec, type: 2}
 --- !u!1 &9214800039164809160
 GameObject:
   m_ObjectHideFlags: 0
