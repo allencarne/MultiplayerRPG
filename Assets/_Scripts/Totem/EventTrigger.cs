@@ -14,11 +14,8 @@ public class EventTrigger : MonoBehaviour
         ITotemEvent evt = totem.CurrentEvent;
         if (evt == null) return;
 
-        // If Player Enters active event
-        tracker.CreateEventEntry(evt.EventName, evt.EventObjective);
-
-        // Subscribe to live updates
-        evt.OnObjectiveChanged += tracker.UpdateObjectiveText;
+        tracker.AddEvent(evt);
+        evt.OnObjectiveChanged += (obj) => tracker.UpdateEventObjective(evt, obj);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -31,10 +28,7 @@ public class EventTrigger : MonoBehaviour
         ITotemEvent evt = totem.CurrentEvent;
         if (evt == null) return;
 
-        // Unsubscribe
-        evt.OnObjectiveChanged -= tracker.UpdateObjectiveText;
-
-        // Remove UI
-        tracker.RemoveEventEntry();
+        evt.OnObjectiveChanged -= (obj) => tracker.UpdateEventObjective(evt, obj);
+        tracker.RemoveEvent(evt);
     }
 }

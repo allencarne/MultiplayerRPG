@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,47 +7,60 @@ public class EventTracker : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject Tracker;
     [SerializeField] GameObject TrackerM;
-    private GameObject activeTracker;
 
     [Header("Prefab")]
     [SerializeField] GameObject Prefab_EventTitle;
     [SerializeField] GameObject Prefab_EventObjective;
 
-    GameObject uiRoot;
-    TextMeshProUGUI objectiveText;
+    [Header("Trackers")]
+    private GameObject activeTracker;
+    private Dictionary<ITotemEvent, EventUIEntry> activeEvents = new();
+
+    private struct EventUIEntry
+    {
+        public GameObject Root;
+        public TextMeshProUGUI ObjectiveText;
+    }
 
     private void Start()
     {
         activeTracker = Application.isMobilePlatform ? TrackerM : Tracker;
     }
 
-    public void CreateEventEntry(string eventName, string eventObjective)
+    public void AddEvent(ITotemEvent evt)
     {
-        // Root
-        uiRoot = Instantiate(Prefab_EventTitle, activeTracker.transform);
+        if (activeEvents.ContainsKey(evt)) return;
 
-        // Title
-        TextMeshProUGUI title = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
-        title.text = eventName;
+        GameObject root = Instantiate(Prefab_EventTitle, activeTracker.transform);
+        TextMeshProUGUI title = root.GetComponentInChildren<TextMeshProUGUI>();
+        title.text = evt.EventName;
+        title.color = Color.orange;
 
-        // Objective
-        GameObject objectiveObj = Instantiate(Prefab_EventObjective, uiRoot.transform);
-        objectiveText = objectiveObj.GetComponent<TextMeshProUGUI>();
-        objectiveText.text = eventObjective;
+        GameObject obj = Instantiate(Prefab_EventObjective, root.transform);
+        TextMeshProUGUI objectiveText = obj.GetComponent<TextMeshProUGUI>();
+        objectiveText.text = evt.EventObjective;
+
+        activeEvents[evt] = new EventUIEntry
+        {
+            Root = root,
+            ObjectiveText = objectiveText
+        };
     }
 
-    public void UpdateObjectiveText(string newObjective)
+    public void UpdateEventObjective(ITotemEvent evt, string newObjective)
     {
-        if (objectiveText != null)
-            objectiveText.text = newObjective;
+        if (!activeEvents.TryGetValue(evt, out EventUIEntry entry))
+            return;
+
+        entry.ObjectiveText.text = newObjective;
     }
 
-    public void RemoveEventEntry()
+    public void RemoveEvent(ITotemEvent evt)
     {
-        if (uiRoot != null)
-            Destroy(uiRoot);
+        if (!activeEvents.TryGetValue(evt, out EventUIEntry entry))
+            return;
 
-        uiRoot = null;
-        objectiveText = null;
+        Destroy(entry.Root);
+        activeEvents.Remove(evt);
     }
 }
