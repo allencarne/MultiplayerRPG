@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SwarmEvent : NetworkBehaviour
+public class SwarmEvent : NetworkBehaviour, ITotemEvent
 {
     public enum EventState { None, InProgress, Failed, Success }
     public EventState state;
@@ -32,6 +32,9 @@ public class SwarmEvent : NetworkBehaviour
     public UnityEvent OnEventStart;
     public UnityEvent OnEventFailed;
     public UnityEvent OnEventSuccess;
+
+    public string EventName => "Swarm Event";
+    public string EventObjective => $"0/{enemyCount} Enemies";
 
     public void StartEvent(Transform player)
     {

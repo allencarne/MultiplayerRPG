@@ -23108,8 +23108,9 @@ GameObject:
   - component: {fileID: 2797538976731670928}
   - component: {fileID: 3006592319348859898}
   - component: {fileID: 1055530045472428052}
-  - component: {fileID: 7463888921163288595}
   - component: {fileID: 5950257301322909682}
+  - component: {fileID: 7463888921163288595}
+  - component: {fileID: 5409901191504088508}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -23461,23 +23462,6 @@ MonoBehaviour:
   skill_Button: {fileID: 5072514720132259785}
   m_attribute_Button: {fileID: 4077680132061236837}
   m_skill_Button: {fileID: 6387538786019860374}
---- !u!114 &7463888921163288595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2932000853074254433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 793f7b00a1dc04246b9bb8fec5b9ce1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QusetTracker
-  playerQuest: {fileID: 2815023884702440214}
-  QuestTracker: {fileID: 1305042519716730382}
-  QuestTrackerM: {fileID: 7479849156891490541}
-  QuestUIPrefab: {fileID: 4372301667649530018, guid: a576b8f3f10be3743b240cbaacda291a, type: 3}
-  ObjectiveUIPrefab: {fileID: 2956787740647562861, guid: d37502eaab98df74fbf292cbd71ab2b9, type: 3}
 --- !u!114 &5950257301322909682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23545,6 +23529,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7463888921163288595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932000853074254433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 793f7b00a1dc04246b9bb8fec5b9ce1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QusetTracker
+  playerQuest: {fileID: 2815023884702440214}
+  QuestTracker: {fileID: 1305042519716730382}
+  QuestTrackerM: {fileID: 7479849156891490541}
+  QuestUIPrefab: {fileID: 4372301667649530018, guid: a576b8f3f10be3743b240cbaacda291a, type: 3}
+  ObjectiveUIPrefab: {fileID: 2956787740647562861, guid: d37502eaab98df74fbf292cbd71ab2b9, type: 3}
+--- !u!114 &5409901191504088508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932000853074254433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee03ce99dacab44cab7681249742e06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventTracker
+  Tracker: {fileID: 1305042519716730382}
+  TrackerM: {fileID: 7479849156891490541}
+  Prefab_EventTitle: {fileID: 4372301667649530018, guid: a576b8f3f10be3743b240cbaacda291a, type: 3}
+  Prefab_EventObjective: {fileID: 2956787740647562861, guid: d37502eaab98df74fbf292cbd71ab2b9, type: 3}
 --- !u!1 &2941644221440526073
 GameObject:
   m_ObjectHideFlags: 0
@@ -57246,7 +57263,7 @@ GameObject:
   - component: {fileID: 628658772323732724}
   - component: {fileID: 4999606226007866499}
   m_Layer: 5
-  m_Name: Quest Tracker
+  m_Name: Quest Tracker Mobile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,6 +6,7 @@ public class Totem : NetworkBehaviour, IInteractable
 {
     public string DisplayName => "Totem";
     enum EventType { Swarm, Collect, Capture, Dodge }
+    public ITotemEvent CurrentEvent { get; private set; }
 
     [Header("Visuals")]
     [SerializeField] Collider2D Trigger;
@@ -13,6 +14,7 @@ public class Totem : NetworkBehaviour, IInteractable
     [SerializeField] SpriteRenderer Sprite;
     [SerializeField] SpriteRenderer Shadow;
     [SerializeField] GameObject ParticleSystem;
+    [SerializeField] Collider2D eventTrigger;
 
     [Header("References")]
     [HideInInspector] public TotemManager Manager;
@@ -21,6 +23,7 @@ public class Totem : NetworkBehaviour, IInteractable
     [Header("Events")]
     public SwarmEvent SwarmEvent;
     public CollectEvent CollectEvent;
+
 
     public void Interact(PlayerInteract player)
     {
@@ -39,7 +42,7 @@ public class Totem : NetworkBehaviour, IInteractable
 
             switch (random)
             {
-                case 0: SwarmEvent.StartEvent(player); break;
+                case 0: SwarmEvent.StartEvent(player); CurrentEvent = SwarmEvent; break;
                     //case 1: CollectEvent.StartEvent(player); break;
             }
         }
@@ -48,6 +51,8 @@ public class Totem : NetworkBehaviour, IInteractable
     [ClientRpc]
     public void ShowTotemClientRPC()
     {
+        eventTrigger.enabled = true;
+
         Trigger.enabled = false;
         Collider2d.enabled = false;
         Sprite.enabled = false;

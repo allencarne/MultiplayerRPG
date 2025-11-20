@@ -76,7 +76,6 @@ public class PlayerInteract : NetworkBehaviour
         // Re-Interact
         if (!player.IsInteracting && hasInteracted)
         {
-            Debug.Log("Re-Interact");
             interactText.enabled = true;
             hasInteracted = false;
         }
