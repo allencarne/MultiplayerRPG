@@ -7,43 +7,46 @@ public class EventTracker : MonoBehaviour
     [SerializeField] GameObject Tracker;
     [SerializeField] GameObject TrackerM;
     private GameObject activeTracker;
-    bool isMobile;
 
     [Header("Prefab")]
     [SerializeField] GameObject Prefab_EventTitle;
     [SerializeField] GameObject Prefab_EventObjective;
 
+    GameObject uiRoot;
+    TextMeshProUGUI objectiveText;
+
     private void Start()
     {
-        isMobile = Application.isMobilePlatform;
-        activeTracker = isMobile ? TrackerM : Tracker;
+        activeTracker = Application.isMobilePlatform ? TrackerM : Tracker;
     }
 
     public void CreateEventEntry(string eventName, string eventObjective)
     {
-        GameObject eventUI = Instantiate(Prefab_EventTitle, activeTracker.transform);
+        // Root
+        uiRoot = Instantiate(Prefab_EventTitle, activeTracker.transform);
 
-        SetEventTitle(eventUI, eventName);
-        CreateObjectiveEntry(eventUI.transform, eventObjective);
+        // Title
+        TextMeshProUGUI title = uiRoot.GetComponentInChildren<TextMeshProUGUI>();
+        title.text = eventName;
+
+        // Objective
+        GameObject objectiveObj = Instantiate(Prefab_EventObjective, uiRoot.transform);
+        objectiveText = objectiveObj.GetComponent<TextMeshProUGUI>();
+        objectiveText.text = eventObjective;
     }
 
-    private void SetEventTitle(GameObject eventUI, string questName)
+    public void UpdateObjectiveText(string newObjective)
     {
-        TextMeshProUGUI questTitle = eventUI.GetComponentInChildren<TextMeshProUGUI>();
-        if (questTitle != null)
-        {
-            questTitle.text = questName;
-        }
+        if (objectiveText != null)
+            objectiveText.text = newObjective;
     }
 
-    private void CreateObjectiveEntry(Transform parent, string eventObjective)
+    public void RemoveEventEntry()
     {
-        GameObject objectiveText = Instantiate(Prefab_EventObjective, parent);
-        TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
+        if (uiRoot != null)
+            Destroy(uiRoot);
 
-        if (text != null)
-        {
-            text.text = eventObjective;
-        }
+        uiRoot = null;
+        objectiveText = null;
     }
 }

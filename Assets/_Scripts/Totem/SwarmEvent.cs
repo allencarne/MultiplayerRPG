@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -19,11 +20,13 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     public string EventName => "Swarm Event";
     public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
 
+    public event Action<string> OnObjectiveChanged;
+
     public void StartEvent(Transform player)
     {
         enemyCount = maxEnemies;
-
         for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
+        OnObjectiveChanged?.Invoke(EventObjective);
     }
 
     public void EventSuccess()
@@ -48,7 +51,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     public void SpawnEnemy(Transform player)
     {
         Totem totem = GetComponent<Totem>();
-        Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 6;
+        Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 6;
 
         GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
@@ -69,6 +72,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     public void EnemyDeath()
     {
         enemyCount--;
+        OnObjectiveChanged?.Invoke(EventObjective);
     }
 
     public void DespawnAllEnemies()
