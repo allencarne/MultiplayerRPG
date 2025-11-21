@@ -39,17 +39,16 @@ public class Totem : NetworkBehaviour, IInteractable
         Transform player = networkObject.GetComponent<Transform>();
         if (player != null)
         {
-            int random = Random.Range(0, 0);
+            int random = Random.Range(1, 1);
 
             switch (random)
             {
-                case 0: CurrentEvent = SwarmEvent; break;
-                    //case 1: CollectEvent.StartEvent(player); break;
+                case 0: CurrentEvent = SwarmEvent; SwarmEvent.StartEvent(player); break;
+                case 1: CurrentEvent = CollectEvent; CollectEvent.StartEvent(player); break;
             }
         }
 
         EventStart();
-        SwarmEvent.StartEvent(player);
     }
 
     public void EventStart()
