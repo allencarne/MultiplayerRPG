@@ -131,15 +131,19 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         if (Health.Value <= 0)
         {
             if (IsDummy) return;
+            IsDead = true;
+
+            Player player = attackerID.GetComponent<Player>();
+            if (player != null)
+            {
+                if (TotemReference != null) TotemReference.SwarmEvent.EnemyDeath(player);
+            }
 
             NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
             if (npc != null) npc.Target = null;
 
             Transform attackerPosition = attackerID.GetComponent<Transform>();
-            if (attackerPosition != null)
-            {
-                StartCoroutine(delay(attackerPosition));
-            }
+            if (attackerPosition != null) StartCoroutine(delay(attackerPosition));
 
             PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
             if (exp) exp.IncreaseEXP(expToGive);

@@ -39,7 +39,7 @@ public class Totem : NetworkBehaviour, IInteractable
         Transform player = networkObject.GetComponent<Transform>();
         if (player != null)
         {
-            int random = Random.Range(1, 1);
+            int random = Random.Range(0, 1);
 
             switch (random)
             {

@@ -5,17 +5,11 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        owner.enemy.IsDead = true;
         owner.Drops.DropItem();
 
         if (owner.enemy.EnemySpawnerReference != null)
         {
             owner.enemy.EnemySpawnerReference.DecreaseEnemyCount();
-        }
-
-        if (owner.enemy.TotemReference != null)
-        {
-            owner.enemy.TotemReference.SwarmEvent.EnemyDeath();
         }
 
         StartCoroutine(Delay(owner));

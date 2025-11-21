@@ -41,4 +41,13 @@ public class TotemRewards : NetworkBehaviour
             }
         }
     }
+
+    public void ExperienceRewards(Player player)
+    {
+        PlayerExperience playerEXP = player.GetComponent<PlayerExperience>();
+        if (playerEXP != null)
+        {
+            playerEXP.IncreaseEXP(3);
+        }
+    }
 }

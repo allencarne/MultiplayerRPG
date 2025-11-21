@@ -8,9 +8,11 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
+    [SerializeField] TotemRewards rewards;
 
     [Header("Lists")]
     List<Enemy> spawnedEnemies = new();
+    List<Player> participants = new();
 
     int enemyCount;
     int maxEnemies = 3;
@@ -34,6 +36,11 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     public void EventSuccess()
     {
         particles.DisableBorderParcileClientRPC();
+
+        foreach (Player player in participants)
+        {
+            rewards.ExperienceRewards(player);
+        }
     }
 
     public void EventFail()
@@ -71,10 +78,15 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
         isActive = true;
     }
 
-    public void EnemyDeath()
+    public void EnemyDeath(Player player)
     {
         enemyCount--;
         OnObjectiveChanged?.Invoke(EventObjective);
+
+        if (player != null && !participants.Contains(player))
+        {
+            participants.Add(player);
+        }
     }
 
     public void DespawnAllEnemies()

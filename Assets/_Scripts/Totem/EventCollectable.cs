@@ -9,8 +9,12 @@ public class EventCollectable : NetworkBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            TotemReference.CollectEvent.Collected(transform.position);
-            GetComponent<NetworkObject>().Despawn();
+            Player player = collision.GetComponent<Player>();
+            if (player != null)
+            {
+                TotemReference.CollectEvent.Collected(player);
+                GetComponent<NetworkObject>().Despawn();
+            }
         }
     }
 }

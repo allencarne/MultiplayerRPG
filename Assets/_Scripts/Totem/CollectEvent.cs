@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class CollectEvent : NetworkBehaviour, ITotemEvent
 {
+    [SerializeField] TotemRewards rewards;
     [SerializeField] GameObject collectablePrefab;
+
     List<GameObject> spawnedCollctables = new();
+    List<Player> participants = new();
+
     int collectableCount;
     int maxCollectable = 10;
 
@@ -31,6 +35,11 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
     public void EventSuccess()
     {
         particles.DisableBorderParcileClientRPC();
+
+        foreach (Player player in participants)
+        {
+            rewards.ExperienceRewards(player);
+        }
     }
 
     public void EventFail()
@@ -55,11 +64,16 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
         isActive = true;
     }
 
-    public void Collected(Vector2 position)
+    public void Collected(Player player)
     {
         collectableCount--;
-        particles.CollectClientRPC(position);
+        particles.CollectClientRPC(player.transform.position);
         OnObjectiveChanged?.Invoke(EventObjective);
+
+        if (player != null && !participants.Contains(player))
+        {
+            participants.Add(player);
+        }
     }
 
     private void Update()
