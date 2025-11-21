@@ -9,6 +9,8 @@ public class TotemParticles : NetworkBehaviour
     [SerializeField] GameObject SuccessParticle;
     [SerializeField] GameObject failParticle;
     [SerializeField] GameObject despawnParticle;
+    [SerializeField] GameObject borderParticle;
+    GameObject borderparticleInstance;
 
     [Header("Visuals")]
     [SerializeField] Collider2D Trigger;
@@ -63,5 +65,17 @@ public class TotemParticles : NetworkBehaviour
         Sprite.enabled = false;
         Shadow.enabled = false;
         ParticleSystem.SetActive(false);
+    }
+
+    [ClientRpc]
+    public void BorderClientRPC()
+    {
+        borderparticleInstance = Instantiate(borderParticle, transform.position, Quaternion.identity);
+    }
+
+    [ClientRpc]
+    public void DisableBorderParcileClientRPC()
+    {
+        if (borderparticleInstance != null) Destroy(borderparticleInstance);
     }
 }

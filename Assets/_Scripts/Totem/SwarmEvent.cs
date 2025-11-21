@@ -27,11 +27,13 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
         enemyCount = maxEnemies;
         for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
         OnObjectiveChanged?.Invoke(EventObjective);
+
+        particles.BorderClientRPC();
     }
 
     public void EventSuccess()
     {
-        // Nothing
+        particles.DisableBorderParcileClientRPC();
     }
 
     public void EventFail()
