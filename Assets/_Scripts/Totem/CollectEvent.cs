@@ -55,9 +55,10 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
         isActive = true;
     }
 
-    public void Collected()
+    public void Collected(Vector2 position)
     {
         collectableCount--;
+        particles.CollectClientRPC(position);
         OnObjectiveChanged?.Invoke(EventObjective);
     }
 

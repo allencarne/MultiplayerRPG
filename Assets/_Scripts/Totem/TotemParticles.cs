@@ -8,7 +8,10 @@ public class TotemParticles : NetworkBehaviour
     [SerializeField] GameObject startParticle;
     [SerializeField] GameObject SuccessParticle;
     [SerializeField] GameObject failParticle;
+
     [SerializeField] GameObject despawnParticle;
+    [SerializeField] GameObject collectParticle;
+
     [SerializeField] GameObject borderParticle;
     GameObject borderparticleInstance;
 
@@ -54,6 +57,13 @@ public class TotemParticles : NetworkBehaviour
     {
         Instantiate(despawnParticle, transform, Quaternion.identity);
     }
+
+    [ClientRpc]
+    public void CollectClientRPC(Vector2 transform)
+    {
+        Instantiate(collectParticle, transform, Quaternion.identity);
+    }
+
 
     [ClientRpc]
     public void ShowTotemClientRPC()
