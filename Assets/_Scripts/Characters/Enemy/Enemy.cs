@@ -131,7 +131,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         if (Health.Value <= 0)
         {
             if (IsDummy) return;
-            IsDead = true;
 
             Player player = attackerID.GetComponent<Player>();
             if (player != null)
