@@ -8,9 +8,6 @@ public class TotemManager : NetworkBehaviour
     [Header("Totem")]
     [SerializeField] GameObject totemPrefab;
 
-    [Header("Enemy")]
-    public GameObject EnemyPrefab;
-
     public List<Transform> SpawnPoints;
     int maxTotems = 3;
     public int currentTotems;

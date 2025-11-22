@@ -209,6 +209,7 @@ public abstract class EnemySkill : NetworkBehaviour
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
         GameObject attackInstance = Instantiate(TelegraphPrefab, position, rotation);
+        attackInstance.transform.localScale *= transform.lossyScale.x;
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -234,6 +235,7 @@ public abstract class EnemySkill : NetworkBehaviour
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
         GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
+        attackInstance.transform.localScale *= transform.lossyScale.x;
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 

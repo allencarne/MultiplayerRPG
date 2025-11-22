@@ -16,6 +16,7 @@ public class Totem : NetworkBehaviour, IInteractable
     [SerializeField] TextMeshProUGUI eventText;
     public SwarmEvent SwarmEvent;
     public CollectEvent CollectEvent;
+    public BossEvent BossEvent;
 
     [Header("Events")]
     public UnityEvent OnEventStart;
@@ -39,12 +40,13 @@ public class Totem : NetworkBehaviour, IInteractable
         Transform player = networkObject.GetComponent<Transform>();
         if (player != null)
         {
-            int random = Random.Range(0, 1);
+            int random = Random.Range(0, 3);
 
             switch (random)
             {
                 case 0: CurrentEvent = SwarmEvent; SwarmEvent.StartEvent(player); break;
                 case 1: CurrentEvent = CollectEvent; CollectEvent.StartEvent(player); break;
+                case 2: CurrentEvent = BossEvent; BossEvent.StartEvent(player); break;
             }
         }
 

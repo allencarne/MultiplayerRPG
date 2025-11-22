@@ -5326,6 +5326,7 @@ GameObject:
   - component: {fileID: 682373914716753779}
   - component: {fileID: 208362771571337292}
   - component: {fileID: 8999390711074541075}
+  - component: {fileID: 7810993573596721297}
   - component: {fileID: 8186164635521792130}
   - component: {fileID: 2276322260735253674}
   m_Layer: 0
@@ -5435,6 +5436,7 @@ MonoBehaviour:
   eventText: {fileID: 1923724369527673835}
   SwarmEvent: {fileID: 208362771571337292}
   CollectEvent: {fileID: 8999390711074541075}
+  BossEvent: {fileID: 7810993573596721297}
   OnEventStart:
     m_PersistentCalls:
       m_Calls:
@@ -5553,6 +5555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwarmEvent
   ShowTopMostFoldoutHeaderGroup: 1
+  EnemyPrefab: {fileID: 9184836934055241752, guid: 9a7e819b5ce179649a2e196bb214c3d6, type: 3}
   totem: {fileID: 682373914716753779}
   particles: {fileID: 8186164635521792130}
   rewards: {fileID: 2276322260735253674}
@@ -5573,6 +5576,23 @@ MonoBehaviour:
   collectablePrefab: {fileID: 4308313044201401500, guid: 5d9605becd36ea743bbd88a229a7a96c, type: 3}
   particles: {fileID: 8186164635521792130}
   totem: {fileID: 682373914716753779}
+--- !u!114 &7810993573596721297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571779483150174085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdac4df09b20344abe23b04fe2f3cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossEvent
+  ShowTopMostFoldoutHeaderGroup: 1
+  EnemyPrefab: {fileID: 3418841152167691189, guid: 76d425ae0536a4d46a2a4fe27b479c4f, type: 3}
+  totem: {fileID: 682373914716753779}
+  particles: {fileID: 8186164635521792130}
+  rewards: {fileID: 2276322260735253674}
 --- !u!114 &8186164635521792130
 MonoBehaviour:
   m_ObjectHideFlags: 0
