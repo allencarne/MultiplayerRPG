@@ -69,6 +69,14 @@ PrefabInstance:
       value: 0.85882354
       objectReference: {fileID: 0}
     - target: {fileID: 1041965830086014714, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: CastTime
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041965830086014714, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: slideForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041965830086014714, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: SkillDamage
       value: 2
       objectReference: {fileID: 0}
@@ -89,8 +97,28 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2267550065575331195, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: CastTime
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2267550065575331195, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: SkillDamage
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732233623514559249, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: basicRadius
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732233623514559249, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: specialRadius
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3732233623514559249, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: ultimateRadius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854352876834942373, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: m_Radius
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5668680860419263853, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -98,11 +126,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5668680860419263853, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 1333535077
+      value: 3614148832
       objectReference: {fileID: 0}
     - target: {fileID: 7106822311554138973, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: m_Name
       value: Prefab_Enemy_Coconut_Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935686421332968070, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: CastTime
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
