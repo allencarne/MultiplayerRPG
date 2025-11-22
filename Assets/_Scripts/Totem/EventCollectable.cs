@@ -12,8 +12,11 @@ public class EventCollectable : NetworkBehaviour
             Player player = collision.GetComponent<Player>();
             if (player != null)
             {
-                TotemReference.CollectEvent.Collected(player);
-                GetComponent<NetworkObject>().Despawn();
+                if (IsServer)
+                {
+                    TotemReference.CollectEvent.Collected(player);
+                    GetComponent<NetworkObject>().Despawn();
+                }
             }
         }
     }

@@ -99,8 +99,6 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
         {
             if (enemy != null)
             {
-                enemy.IsDead = true; // Should Stop Telegraphs when enemy dies, but currently does not work
-
                 particles.DespawnClientRPC(enemy.transform.position);
 
                 NetworkObject networkObject = enemy.GetComponent<NetworkObject>();

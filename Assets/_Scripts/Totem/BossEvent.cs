@@ -29,6 +29,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void StartEvent(Transform player)
     {
+        if (!IsServer) return;
+
         enemyCount = maxEnemies;
         for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
         OnObjectiveChanged?.Invoke(EventObjective);
@@ -38,6 +40,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void EventSuccess()
     {
+        if (!IsServer) return;
+
         particles.DisableBorderParcileClientRPC();
 
         foreach (Player player in participants)
@@ -48,6 +52,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void EventFail()
     {
+        if (!IsServer) return;
+
         DespawnAllEnemies();
     }
 
@@ -55,6 +61,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
     {
         if (enemyCount == 0 && isActive)
         {
+            if (!IsServer) return;
+
             isActive = false;
             totem.EventSuccess();
         }
@@ -62,6 +70,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void SpawnEnemy(Transform player)
     {
+        if (!IsServer) return;
+
         Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 6;
 
         GameObject enemyInstance = Instantiate(EnemyPrefab, randomPos, Quaternion.identity);
@@ -82,6 +92,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void EnemyDeath(Player player)
     {
+        if (!IsServer) return;
+
         enemyCount--;
         OnObjectiveChanged?.Invoke(EventObjective);
 
@@ -99,8 +111,6 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
         {
             if (enemy != null)
             {
-                enemy.IsDead = true; // Should Stop Telegraphs when enemy dies, but currently does not work
-
                 particles.DespawnClientRPC(enemy.transform.position);
 
                 NetworkObject networkObject = enemy.GetComponent<NetworkObject>();

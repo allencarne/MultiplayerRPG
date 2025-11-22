@@ -133,9 +133,13 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             if (IsDummy) return;
 
             Player player = attackerID.GetComponent<Player>();
-            if (player != null)
+            if (player != null && TotemReference != null)
             {
-                if (TotemReference != null) TotemReference.SwarmEvent.EnemyDeath(player);
+                switch (TotemReference.CurrentEvent)
+                {
+                    case SwarmEvent swarm: swarm.EnemyDeath(player); break;
+                    case BossEvent boss: boss.EnemyDeath(player); break;
+                }
             }
 
             NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
