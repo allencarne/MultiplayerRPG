@@ -153,6 +153,10 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
         furyBar.UpdateFuryBar(MaxFury.Value, Fury.Value);
         EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, Endurance.Value);
+
+        // Attacks
+        stateMachine.IsAttacking = false;
+        stateMachine.CurrentSkill = null;
     }
 
     void OnHealthChanged(float oldValue, float newValue)
