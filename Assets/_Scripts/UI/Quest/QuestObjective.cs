@@ -16,5 +16,6 @@ public enum ObjectiveType
     Collect,
     Talk,
     Equip,
-    Hit
+    Hit,
+    Complete
 }

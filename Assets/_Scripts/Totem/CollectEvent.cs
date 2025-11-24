@@ -39,6 +39,7 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
         foreach (Player player in participants)
         {
             rewards.ExperienceRewards(player);
+            rewards.QuestParticipation(player, "Collect");
         }
     }
 

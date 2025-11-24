@@ -1,7 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -84,7 +83,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Start()
     {
-        IsAttacking = false; // Bug Fix?
         playerSpawnState.StartState(this);
 
         BodyAnimator.SetFloat("Vertical", -1);

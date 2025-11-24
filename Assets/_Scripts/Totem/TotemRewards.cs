@@ -50,4 +50,14 @@ public class TotemRewards : NetworkBehaviour
             playerEXP.IncreaseEXP(3);
         }
     }
+
+    public void QuestParticipation(Player player, string id)
+    {
+        PlayerQuest quest = player.GetComponent<PlayerQuest>();
+        if (quest != null)
+        {
+            quest.UpdateObjective(ObjectiveType.Complete, "Totem");
+            quest.UpdateObjective(ObjectiveType.Complete, id);
+        }
+    }
 }

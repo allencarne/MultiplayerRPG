@@ -163,6 +163,20 @@ public class CastBar : NetworkBehaviour
     {
         FillAmount.OnValueChanged -= OnFillChanged;
         BarColor.OnValueChanged -= OnColorChanged;
+
+        // Stop any running coroutines when disabled
+        if (currentCastCoroutine != null)
+        {
+            StopCoroutine(currentCastCoroutine);
+            currentCastCoroutine = null;
+        }
+
+        // Reset state
+        if (IsServer)
+        {
+            FillAmount.Value = 0f;
+            BarColor.Value = Color.clear;
+        }
     }
 
     private void OnFillChanged(float previous, float current)

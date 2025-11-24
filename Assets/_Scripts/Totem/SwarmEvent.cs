@@ -43,6 +43,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
         foreach (Player player in participants)
         {
             rewards.ExperienceRewards(player);
+            rewards.QuestParticipation(player, "Swarm");
         }
     }
 

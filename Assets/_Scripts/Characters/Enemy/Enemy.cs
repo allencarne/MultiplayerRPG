@@ -263,7 +263,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [ClientRpc]
     private void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetId)
     {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetId, out var netObj))
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetId, out NetworkObject netObj))
         {
             PlayerQuest quest = netObj.GetComponent<PlayerQuest>();
             if (quest != null)
