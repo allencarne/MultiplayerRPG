@@ -16,6 +16,8 @@ public class CastBar : NetworkBehaviour
 
     public void StartCast(float castTime)
     {
+        Debug.Log("StartCast");
+
         if (currentCastCoroutine != null)
         {
             StopCoroutine(currentCastCoroutine);
