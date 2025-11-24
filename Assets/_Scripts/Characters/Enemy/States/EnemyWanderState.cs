@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EnemyWanderState : EnemyState
 {
@@ -7,12 +8,17 @@ public class EnemyWanderState : EnemyState
     public override void StartState(EnemyStateMachine owner)
     {
         wanderTime = 0;
-        owner.EnemyAnimator.Play("Wander");
 
         if (owner.IsServer)
         {
             owner.WanderPosition = GetRandomClearPoint(owner.StartingPosition, owner.WanderRadius, owner.obstacleLayerMask);
         }
+
+        Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
+
+        owner.EnemyAnimator.Play("Wander");
+        owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
+        owner.EnemyAnimator.SetFloat("Vertical", direction.y);
     }
 
     public override void UpdateState(EnemyStateMachine owner)
@@ -50,10 +56,6 @@ public class EnemyWanderState : EnemyState
             Vector2 dir = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
             owner.EnemyRB.linearVelocity = dir * owner.enemy.CurrentSpeed;
         }
-
-        Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
-        owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
-        owner.EnemyAnimator.SetFloat("Vertical", direction.y);
     }
 
     Vector2 GetRandomClearPoint(Vector2 startingPosition, float maxRadius, LayerMask obstacleLayer, int maxAttempts = 10)
