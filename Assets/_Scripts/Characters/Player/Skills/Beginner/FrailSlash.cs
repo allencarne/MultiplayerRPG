@@ -4,9 +4,6 @@ public class FrailSlash : PlayerSkill
 {
     public override void StartSkill(PlayerStateMachine owner)
     {
-        Debug.Log($"FrailSlash.StartSkill called. Frame: {Time.frameCount}, IsOwner: {IsOwner}");
-        Debug.LogError(System.Environment.StackTrace);
-
         InitializeAbility(skillType, owner);
 
         // Cast Time - Basic Attack Only

@@ -288,9 +288,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.BasicAbilityInput)
         {
-            Debug.Log($"BasicAbility triggered. Frame: {Time.frameCount}");
-            Debug.LogError(System.Environment.StackTrace);
-
             DestroyAllIndicators();
             state = State.Basic;
             skills.basicAbilities[player.BasicIndex].StartSkill(this);
