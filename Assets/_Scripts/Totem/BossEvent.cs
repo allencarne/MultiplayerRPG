@@ -5,13 +5,9 @@ using UnityEngine;
 
 public class BossEvent : NetworkBehaviour, ITotemEvent
 {
-    [Header("Enemy")]
-    public GameObject EnemyPrefab;
-
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
-    [SerializeField] TotemRewards rewards;
 
     [Header("Lists")]
     List<Enemy> spawnedEnemies = new();
@@ -46,8 +42,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
         foreach (Player player in participants)
         {
-            rewards.ExperienceRewards(player);
-            rewards.QuestParticipation(player, "Boss");
+            totem.Manager.Rewards.ExperienceRewards(player);
+            totem.Manager.Rewards.QuestParticipation(player, "Boss");
         }
     }
 
@@ -75,7 +71,7 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
         Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 6;
 
-        GameObject enemyInstance = Instantiate(EnemyPrefab, randomPos, Quaternion.identity);
+        GameObject enemyInstance = Instantiate(totem.Manager.BossPrefab, randomPos, Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
 
         Enemy enemy = enemyInstance.GetComponent<Enemy>();

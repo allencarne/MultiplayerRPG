@@ -3,11 +3,15 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
+    private const float ANIMATION_UPDATE_INTERVAL = 0.1f; // 10 times per second
+    private float nextAnimationUpdateTime;
+
     public override void StartState(EnemyStateMachine owner)
     {
         if (!owner.IsServer) return;
 
         owner.EnemyAnimator.Play("Chase");
+        nextAnimationUpdateTime = Time.time;
     }
 
     public override void UpdateState(EnemyStateMachine owner)
@@ -26,15 +30,17 @@ public class EnemyChaseState : EnemyState
 
     public override void FixedUpdateState(EnemyStateMachine owner)
     {
-        if (!owner.IsServer) return;
+        if (!owner.IsServer || !owner.Target) return;
 
-        if (owner.Target)
+        owner.MoveTowardsTarget(owner.Target.position);
+
+        if (Time.time >= nextAnimationUpdateTime)
         {
-            owner.MoveTowardsTarget(owner.Target.position);
-
             Vector2 direction = (owner.Target.position - owner.transform.position).normalized;
             owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
             owner.EnemyAnimator.SetFloat("Vertical", direction.y);
+
+            nextAnimationUpdateTime = Time.time + ANIMATION_UPDATE_INTERVAL;
         }
     }
 

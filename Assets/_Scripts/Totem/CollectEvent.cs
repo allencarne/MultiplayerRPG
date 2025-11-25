@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CollectEvent : NetworkBehaviour, ITotemEvent
 {
-    [SerializeField] TotemRewards rewards;
     [SerializeField] GameObject collectablePrefab;
 
     List<GameObject> spawnedCollctables = new();
@@ -38,8 +37,8 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
 
         foreach (Player player in participants)
         {
-            rewards.ExperienceRewards(player);
-            rewards.QuestParticipation(player, "Collect");
+            totem.Manager.Rewards.ExperienceRewards(player);
+            totem.Manager.Rewards.QuestParticipation(player, "Collect");
         }
     }
 

@@ -5,13 +5,9 @@ using UnityEngine;
 
 public class SwarmEvent : NetworkBehaviour, ITotemEvent
 {
-    [Header("Enemy")]
-    public GameObject EnemyPrefab;
-
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
-    [SerializeField] TotemRewards rewards;
 
     [Header("Lists")]
     List<Enemy> spawnedEnemies = new();
@@ -42,8 +38,8 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
 
         foreach (Player player in participants)
         {
-            rewards.ExperienceRewards(player);
-            rewards.QuestParticipation(player, "Swarm");
+            totem.Manager.Rewards.ExperienceRewards(player);
+            totem.Manager.Rewards.QuestParticipation(player, "Swarm");
         }
     }
 
@@ -65,7 +61,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     {
         Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 6;
 
-        GameObject enemyInstance = Instantiate(EnemyPrefab, randomPos, Quaternion.identity);
+        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
 
         Enemy enemy = enemyInstance.GetComponent<Enemy>();

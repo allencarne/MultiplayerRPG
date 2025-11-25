@@ -425,6 +425,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     private void OnDisable()
     {
-        Debug.Log("Disable Player");
+        stateMachine.IsAttacking = false;
+        stateMachine.CurrentSkill = null;
     }
 }

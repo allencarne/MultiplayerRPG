@@ -8,9 +8,16 @@ public class TotemManager : NetworkBehaviour
     [Header("Totem")]
     [SerializeField] GameObject totemPrefab;
 
+    [Header("Spawn")]
+    public GameObject EnemyPrefab;
+    public GameObject BossPrefab;
+
+    [Header("Rewards")]
+    public TotemRewards Rewards;
+
     public List<Transform> SpawnPoints;
-    int maxTotems = 3;
-    public int currentTotems;
+    [SerializeField] int maxTotems;
+    [HideInInspector] public int currentTotems;
     bool isSpawning = false;
 
     public override void OnNetworkSpawn()
