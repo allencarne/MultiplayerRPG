@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -23,9 +24,10 @@ public class Totem : NetworkBehaviour, IInteractable
     public UnityEvent OnEventSuccess;
     public UnityEvent OnEventFail;
 
+    public List<Player> participants = new();
+
     float eventTime = 30;
     float timer;
-
 
     public void Interact(PlayerInteract player)
     {

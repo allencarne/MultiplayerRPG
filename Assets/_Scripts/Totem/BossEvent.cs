@@ -11,7 +11,6 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     [Header("Lists")]
     List<Enemy> spawnedEnemies = new();
-    List<Player> participants = new();
 
     int enemyCount;
     int maxEnemies = 1;
@@ -40,10 +39,21 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
         particles.DisableBorderParcileClientRPC();
 
-        foreach (Player player in participants)
+        foreach (Player player in totem.participants)
         {
             totem.Manager.Rewards.ExperienceRewards(player);
-            totem.Manager.Rewards.QuestParticipation(player, "Boss");
+
+            ulong targetClientId = player.OwnerClientId;
+
+            ClientRpcParams rpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { targetClientId }
+                }
+            };
+
+            totem.Manager.Rewards.QuestParticipationClientRPC("Boss", rpcParams);
         }
     }
 
@@ -94,9 +104,9 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
         enemyCount--;
         OnObjectiveChanged?.Invoke(EventObjective);
 
-        if (player != null && !participants.Contains(player))
+        if (player != null && !totem.participants.Contains(player))
         {
-            participants.Add(player);
+            totem.participants.Add(player);
         }
     }
 

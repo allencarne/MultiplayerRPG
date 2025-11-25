@@ -51,9 +51,10 @@ public class TotemRewards : NetworkBehaviour
         }
     }
 
-    public void QuestParticipation(Player player, string id)
+    [ClientRpc]
+    public void QuestParticipationClientRPC(string id, ClientRpcParams rpcParams = default)
     {
-        PlayerQuest quest = player.GetComponent<PlayerQuest>();
+        PlayerQuest quest = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerQuest>();
         if (quest != null)
         {
             quest.UpdateObjective(ObjectiveType.Complete, "Totem");

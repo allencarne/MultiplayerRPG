@@ -8,7 +8,6 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
     [SerializeField] GameObject collectablePrefab;
 
     List<GameObject> spawnedCollctables = new();
-    List<Player> participants = new();
 
     int collectableCount;
     int maxCollectable = 10;
@@ -35,10 +34,21 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
     {
         particles.DisableBorderParcileClientRPC();
 
-        foreach (Player player in participants)
+        foreach (Player player in totem.participants)
         {
             totem.Manager.Rewards.ExperienceRewards(player);
-            totem.Manager.Rewards.QuestParticipation(player, "Collect");
+
+            ulong targetClientId = player.OwnerClientId;
+
+            ClientRpcParams rpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { targetClientId }
+                }
+            };
+
+            totem.Manager.Rewards.QuestParticipationClientRPC("Collect", rpcParams);
         }
     }
 
@@ -70,9 +80,9 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
         particles.CollectClientRPC(player.transform.position);
         OnObjectiveChanged?.Invoke(EventObjective);
 
-        if (player != null && !participants.Contains(player))
+        if (player != null && !totem.participants.Contains(player))
         {
-            participants.Add(player);
+            totem.participants.Add(player);
         }
     }
 
