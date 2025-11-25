@@ -66,8 +66,6 @@ public class PlayerRunState : PlayerState
 
     void UpdateAllAnimators(PlayerStateMachine owner, Vector2 direction)
     {
-        Debug.Log("AnimateRun");
-
         owner.SwordAnimator.SetFloat("Horizontal", direction.x);
         owner.SwordAnimator.SetFloat("Vertical", direction.y);
 

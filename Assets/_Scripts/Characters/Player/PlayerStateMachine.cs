@@ -157,8 +157,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        TestMethods();
-
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
@@ -442,63 +440,6 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         yield return new WaitForSeconds(.2f);
         canPickup = true;
-    }
-
-    void TestMethods()
-    {
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
-        {
-            Buffs.regeneration.Regeneration(HealType.Flat, 1,.5f,10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
-        {
-            CrowdControl.silence.StartSilence(4);
-            //Buffs.might.StartMight(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
-        {
-            //CrowdControl.immobilize.StartImmobilize(4);
-            Buffs.alacrity.StartAlacrity(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
-        {
-            CrowdControl.stun.StartStun(4);
-            //Buffs.protection.StartProtection(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
-        {
-            CrowdControl.knockUp.StartKnockUp(.5f);
-            //Buffs.swiftness.StartSwiftness(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F6))
-        {
-            DeBuffs.slow.StartSlow(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F7))
-        {
-            DeBuffs.weakness.StartWeakness(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F8))
-        {
-            DeBuffs.impede.StartImpede(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F9))
-        {
-            DeBuffs.vulnerability.StartVulnerability(1, 10);
-        }
-
-        if (UnityEngine.Input.GetKeyDown(KeyCode.F10))
-        {
-            DeBuffs.exhaust.StartExhaust(1, 10);
-        }
     }
 
     [ServerRpc]
