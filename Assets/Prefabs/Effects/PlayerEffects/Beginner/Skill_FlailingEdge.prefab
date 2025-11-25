@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 6887282886717393686}
   - component: {fileID: 888029243203934849}
   - component: {fileID: 1072328912357916123}
+  - component: {fileID: 2710294622042561463}
   - component: {fileID: 8901867340546446476}
   - component: {fileID: 2901530325171260782}
   - component: {fileID: 373291769583374015}
   - component: {fileID: 8153134217287385896}
-  - component: {fileID: 8048719268308897080}
   - component: {fileID: 800735646256446619}
-  - component: {fileID: 2710294622042561463}
   - component: {fileID: 3974917640860578531}
+  - component: {fileID: 8048719268308897080}
   m_Layer: 0
   m_Name: Skill_FlailingEdge
   m_TagString: Untagged
@@ -62,6 +62,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,6 +85,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
@@ -160,6 +163,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 3
+--- !u!95 &2710294622042561463
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7380043795572263007}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 28b0a2663b5a7db43bd9856cd674f248, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8901867340546446476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,19 +288,6 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
---- !u!114 &8048719268308897080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7380043795572263007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &800735646256446619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,36 +301,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  AbilityDamage: 0
-  CharacterDamage: 0
-  attacker: {fileID: 0}
-  IgnoreEnemy: 0
-  IsBasic: 0
-  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
---- !u!95 &2710294622042561463
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7380043795572263007}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 28b0a2663b5a7db43bd9856cd674f248, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  attacker: {fileID: 0}
+  AbilityDamage: 0
+  CharacterDamage: 0
+  CanGenerateFury: 0
+  IsBreakable: 0
+  HealAmount: 0
+  CanHeal: 0
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0
 --- !u!114 &3974917640860578531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,4 +328,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   attacker: {fileID: 0}
   Duration: 0
+  IgnorePlayer: 0
   IgnoreEnemy: 0
+  IgnoreNPC: 0
+--- !u!114 &8048719268308897080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7380043795572263007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
