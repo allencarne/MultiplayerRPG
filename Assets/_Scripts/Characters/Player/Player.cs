@@ -422,10 +422,4 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     }
 
     #endregion
-
-    private void OnEnable()
-    {
-        stateMachine.IsAttacking = false;
-        stateMachine.CurrentSkill = null;
-    }
 }

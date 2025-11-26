@@ -34,23 +34,6 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     public void EventSuccess()
     {
         particles.DisableBorderParcileClientRPC();
-
-        foreach (Player player in totem.participants)
-        {
-            totem.Manager.Rewards.ExperienceRewards(player);
-
-            ulong targetClientId = player.OwnerClientId;
-
-            ClientRpcParams rpcParams = new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new ulong[] { targetClientId }
-                }
-            };
-
-            totem.Manager.Rewards.QuestParticipationClientRPC("Swarm", rpcParams);
-        }
     }
 
     public void EventFail()

@@ -8,7 +8,6 @@ using UnityEngine.Events;
 public class Totem : NetworkBehaviour, IInteractable
 {
     public string DisplayName => "Totem";
-    enum EventType { Swarm, Collect, Capture, Dodge }
     public ITotemEvent CurrentEvent { get; private set; }
 
     [Header("References")]
@@ -87,6 +86,23 @@ public class Totem : NetworkBehaviour, IInteractable
         UpdateUIClientRPC("Success!");
         OnEventSuccess?.Invoke();
         CurrentEvent?.EventSuccess();
+
+        foreach (Player player in participants)
+        {
+            Manager.Rewards.ExperienceRewards(player);
+
+            ulong targetClientId = player.OwnerClientId;
+
+            ClientRpcParams rpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { targetClientId }
+                }
+            };
+
+            Manager.Rewards.QuestParticipationClientRPC(CurrentEvent.EventName, rpcParams);
+        }
     }
 
     public void EventFail()

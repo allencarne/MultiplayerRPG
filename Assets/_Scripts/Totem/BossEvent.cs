@@ -38,23 +38,6 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
         if (!IsServer) return;
 
         particles.DisableBorderParcileClientRPC();
-
-        foreach (Player player in totem.participants)
-        {
-            totem.Manager.Rewards.ExperienceRewards(player);
-
-            ulong targetClientId = player.OwnerClientId;
-
-            ClientRpcParams rpcParams = new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new ulong[] { targetClientId }
-                }
-            };
-
-            totem.Manager.Rewards.QuestParticipationClientRPC("Boss", rpcParams);
-        }
     }
 
     public void EventFail()

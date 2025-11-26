@@ -11,7 +11,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerRollState playerRollState;
     [SerializeField] PlayerStaggerState PlayerStaggerState;
     [SerializeField] PlayerDeathState playerDeathState;
-    public PlayerSkill CurrentSkill;
+    [HideInInspector] public PlayerSkill CurrentSkill;
 
     [Header("Animators")]
     public Animator SwordAnimator;
@@ -157,6 +157,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
+        Debug.Log($"PlayerStateMachine.Awake - IsAttacking: {IsAttacking}, CurrentSkill: {CurrentSkill?.GetType().Name ?? "null"}");
+
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
             skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
