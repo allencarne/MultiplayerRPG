@@ -42,9 +42,7 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
 
     public void SpawnCollectable()
     {
-        Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 9;
-
-        GameObject collectable = Instantiate(collectablePrefab, randomPos, Quaternion.identity);
+        GameObject collectable = Instantiate(collectablePrefab, totem.GetRandomPoint(9), Quaternion.identity);
         collectable.GetComponent<NetworkObject>().Spawn();
 
         EventCollectable coll = collectable.GetComponent<EventCollectable>();

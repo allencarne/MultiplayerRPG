@@ -5460,7 +5460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1300740164
+  GlobalObjectIdHash: 648643737
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -5522,9 +5522,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Totem
   ShowTopMostFoldoutHeaderGroup: 1
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
   Manager: {fileID: 0}
   SpawnPoint: {fileID: 0}
   eventText: {fileID: 1923724369527673835}
+  totemObstacleCollider: {fileID: 6825400952339355656}
   SwarmEvent: {fileID: 208362771571337292}
   CollectEvent: {fileID: 8999390711074541075}
   BossEvent: {fileID: 7810993573596721297}
@@ -5633,6 +5637,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  participants: []
 --- !u!114 &208362771571337292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5646,10 +5651,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwarmEvent
   ShowTopMostFoldoutHeaderGroup: 1
-  EnemyPrefab: {fileID: 9184836934055241752, guid: 9a7e819b5ce179649a2e196bb214c3d6, type: 3}
   totem: {fileID: 682373914716753779}
   particles: {fileID: 8186164635521792130}
-  rewards: {fileID: 2276322260735253674}
 --- !u!114 &8999390711074541075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5663,7 +5666,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectEvent
   ShowTopMostFoldoutHeaderGroup: 1
-  rewards: {fileID: 2276322260735253674}
   collectablePrefab: {fileID: 4308313044201401500, guid: 5d9605becd36ea743bbd88a229a7a96c, type: 3}
   particles: {fileID: 8186164635521792130}
   totem: {fileID: 682373914716753779}
@@ -5680,10 +5682,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossEvent
   ShowTopMostFoldoutHeaderGroup: 1
-  EnemyPrefab: {fileID: 3418841152167691189, guid: 76d425ae0536a4d46a2a4fe27b479c4f, type: 3}
   totem: {fileID: 682373914716753779}
   particles: {fileID: 8186164635521792130}
-  rewards: {fileID: 2276322260735253674}
 --- !u!114 &8186164635521792130
 MonoBehaviour:
   m_ObjectHideFlags: 0

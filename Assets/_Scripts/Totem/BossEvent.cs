@@ -62,9 +62,7 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
     {
         if (!IsServer) return;
 
-        Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 6;
-
-        GameObject enemyInstance = Instantiate(totem.Manager.BossPrefab, randomPos, Quaternion.identity);
+        GameObject enemyInstance = Instantiate(totem.Manager.BossPrefab, totem.GetRandomPoint(6), Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
 
         Enemy enemy = enemyInstance.GetComponent<Enemy>();

@@ -9,11 +9,13 @@ public class Totem : NetworkBehaviour, IInteractable
 {
     public string DisplayName => "Totem";
     public ITotemEvent CurrentEvent { get; private set; }
+    public LayerMask obstacleLayerMask;
 
     [Header("References")]
     [HideInInspector] public TotemManager Manager;
     [HideInInspector] public Transform SpawnPoint;
     [SerializeField] TextMeshProUGUI eventText;
+    [SerializeField] Collider2D totemObstacleCollider;
     public SwarmEvent SwarmEvent;
     public CollectEvent CollectEvent;
     public BossEvent BossEvent;
@@ -124,5 +126,45 @@ public class Totem : NetworkBehaviour, IInteractable
         Manager.currentTotems--;
         Manager.TotemEventCompleted(SpawnPoint);
         GetComponent<NetworkObject>().Despawn();
+    }
+
+    public Vector2 GetRandomPoint(float radius)
+    {
+        const int maxAttempts = 20;
+
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * radius;
+            Vector2 randomDir = randomPos - (Vector2)transform.position;
+            float distance = randomDir.magnitude;
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir.normalized, distance, obstacleLayerMask);
+
+            // Ignore the totem's own obstacle collider
+            if (hit.collider == totemObstacleCollider)
+            {
+                hit = new RaycastHit2D();
+            }
+
+            Collider2D overlap = Physics2D.OverlapCircle(randomPos, .7f, obstacleLayerMask);
+
+            // Ignore the totem's own collider for overlap too
+            if (overlap == totemObstacleCollider)
+            {
+                overlap = null;
+            }
+
+            // Debug line reflects BOTH checks
+            bool blocked = (hit.collider != null) || (overlap != null);
+
+            Debug.DrawLine(transform.position, randomPos, blocked ? Color.red : Color.green, 1f);
+
+            if (!blocked)
+            {
+                return randomPos;
+            }
+        }
+
+        return transform.position;
     }
 }

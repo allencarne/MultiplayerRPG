@@ -52,9 +52,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
 
     public void SpawnEnemy(Transform player)
     {
-        Vector2 randomPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * 6;
-
-        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, randomPos, Quaternion.identity);
+        GameObject enemyInstance = Instantiate(totem.Manager.EnemyPrefab, totem.GetRandomPoint(6), Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
 
         Enemy enemy = enemyInstance.GetComponent<Enemy>();
