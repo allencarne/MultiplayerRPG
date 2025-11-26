@@ -130,6 +130,7 @@ public class Totem : NetworkBehaviour, IInteractable
 
     public Vector2 GetRandomPoint(float radius)
     {
+        totemObstacleCollider.enabled = false;
         const int maxAttempts = 20;
 
         for (int i = 0; i < maxAttempts; i++)
@@ -140,29 +141,16 @@ public class Totem : NetworkBehaviour, IInteractable
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, randomDir.normalized, distance, obstacleLayerMask);
 
-            // Ignore the totem's own obstacle collider
-            if (hit.collider == totemObstacleCollider)
+            if (hit.collider != null)
             {
-                hit = new RaycastHit2D();
+                randomPos = hit.point;
             }
-
-            Collider2D overlap = Physics2D.OverlapCircle(randomPos, .7f, obstacleLayerMask);
-
-            // Ignore the totem's own collider for overlap too
-            if (overlap == totemObstacleCollider)
-            {
-                overlap = null;
-            }
-
-            // Debug line reflects BOTH checks
-            bool blocked = (hit.collider != null) || (overlap != null);
-
-            Debug.DrawLine(transform.position, randomPos, blocked ? Color.red : Color.green, 1f);
-
-            if (!blocked)
+            else
             {
                 return randomPos;
             }
+
+            Debug.DrawLine(transform.position, randomPos, Color.red, 1f);
         }
 
         return transform.position;

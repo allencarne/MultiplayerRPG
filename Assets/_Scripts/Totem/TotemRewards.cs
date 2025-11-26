@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class TotemRewards : NetworkBehaviour
 {
+    [SerializeField] Totem totem;
+
     [Header("Rewards")]
     public int Coins;
     public int MaxCoinReward;
@@ -15,9 +17,7 @@ public class TotemRewards : NetworkBehaviour
 
         for (int i = 0; i < amountOfItems; i++)
         {
-            Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 2f;
-
-            GameObject instance = Instantiate(coin.Prefab, randomPos, Quaternion.identity);
+            GameObject instance = Instantiate(coin.Prefab, totem.GetRandomPoint(2), Quaternion.identity);
             instance.GetComponent<NetworkObject>().Spawn();
 
             ItemPickup pickup = instance.GetComponent<ItemPickup>();
@@ -34,9 +34,7 @@ public class TotemRewards : NetworkBehaviour
         {
             if (Random.Range(0f, 100f) < reward.DropChance)
             {
-                Vector2 randomPos = (Vector2)transform.position + Random.insideUnitCircle * 2f;
-
-                GameObject instance = Instantiate(reward.Prefab, randomPos, Quaternion.identity);
+                GameObject instance = Instantiate(reward.Prefab, totem.GetRandomPoint(2), Quaternion.identity);
                 instance.GetComponent<NetworkObject>().Spawn();
             }
         }
