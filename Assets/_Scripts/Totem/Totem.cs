@@ -51,6 +51,8 @@ public class Totem : NetworkBehaviour, IInteractable
                 case 1: CurrentEvent = CollectEvent; CollectEvent.StartEvent(player); break;
                 case 2: CurrentEvent = BossEvent; BossEvent.StartEvent(player); break;
             }
+
+            SyncEventClientRpc(random);
         }
 
         EventStart();
@@ -154,5 +156,16 @@ public class Totem : NetworkBehaviour, IInteractable
         }
 
         return transform.position;
+    }
+
+    [ClientRpc]
+    private void SyncEventClientRpc(int eventType)
+    {
+        switch (eventType)
+        {
+            case 0: CurrentEvent = SwarmEvent; break;
+            case 1: CurrentEvent = CollectEvent; break;
+            case 2: CurrentEvent = BossEvent; break;
+        }
     }
 }
