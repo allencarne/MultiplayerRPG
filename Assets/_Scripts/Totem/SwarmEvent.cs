@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class SwarmEvent : NetworkBehaviour, ITotemEvent
 {
+    public string EventName => "Swarm Event";
+    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
+    public event Action<string> OnObjectiveChanged;
+
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
@@ -14,13 +18,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
 
     int enemyCount;
     int maxEnemies = 3;
-
     bool isActive = false;
-
-    public string EventName => "Swarm Event";
-    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
-
-    public event Action<string> OnObjectiveChanged;
 
     public void StartEvent(Transform player)
     {

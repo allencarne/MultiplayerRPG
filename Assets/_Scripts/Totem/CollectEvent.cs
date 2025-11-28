@@ -5,20 +5,20 @@ using UnityEngine;
 
 public class CollectEvent : NetworkBehaviour, ITotemEvent
 {
+    public string EventName => "Collect Event";
+    public string EventObjective => $"{(spawnedCollctables.Count - collectableCount)}/{maxCollectable} Collectables";
+    public event Action<string> OnObjectiveChanged;
+
+    [Header("References")]
+    [SerializeField] Totem totem;
+    [SerializeField] TotemParticles particles;
     [SerializeField] GameObject collectablePrefab;
 
+    [Header("Lists")]
     List<GameObject> spawnedCollctables = new();
 
     int collectableCount;
     int maxCollectable = 10;
-
-    public string EventName => "Collect Event";
-    public string EventObjective => $"{(spawnedCollctables.Count - collectableCount)}/{maxCollectable} Collectables";
-
-    public event Action<string> OnObjectiveChanged;
-
-    [SerializeField] TotemParticles particles;
-    [SerializeField] Totem totem;
     bool isActive = false;
 
     public void StartEvent(Transform player)

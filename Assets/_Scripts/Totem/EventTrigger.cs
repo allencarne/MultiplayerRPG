@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class EventTrigger : MonoBehaviour
+public class EventTrigger : NetworkBehaviour
 {
     [SerializeField] Totem totem;
 

@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class BossEvent : NetworkBehaviour, ITotemEvent
 {
+    public string EventName => "Boss Event";
+    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
+    public event Action<string> OnObjectiveChanged;
+
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
@@ -14,13 +18,7 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     int enemyCount;
     int maxEnemies = 1;
-
     bool isActive = false;
-
-    public string EventName => "Boss Event";
-    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
-
-    public event Action<string> OnObjectiveChanged;
 
     public void StartEvent(Transform player)
     {
