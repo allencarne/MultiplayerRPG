@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 
 public class EventTracker : MonoBehaviour
@@ -14,12 +15,14 @@ public class EventTracker : MonoBehaviour
 
     [Header("Trackers")]
     private GameObject activeTracker;
-    private Dictionary<ITotemEvent, EventUIEntry> activeEvents = new();
 
+    private Dictionary<Totem, EventUIEntry> activeEvents = new();
     private struct EventUIEntry
     {
         public GameObject Root;
+        public TextMeshProUGUI TitleText;
         public TextMeshProUGUI ObjectiveText;
+        public TextMeshProUGUI TimerText;
     }
 
     private void Start()
@@ -27,40 +30,75 @@ public class EventTracker : MonoBehaviour
         activeTracker = Application.isMobilePlatform ? TrackerM : Tracker;
     }
 
-    public void AddEvent(ITotemEvent evt)
+    public void AddEvent(Totem totem)
     {
-        if (activeEvents.ContainsKey(evt)) return;
+        if (activeEvents.ContainsKey(totem)) return;
 
         GameObject root = Instantiate(Prefab_EventTitle, activeTracker.transform);
-        TextMeshProUGUI title = root.GetComponentInChildren<TextMeshProUGUI>();
-        title.text = evt.EventName;
-        title.color = Color.orange;
 
-        GameObject obj = Instantiate(Prefab_EventObjective, root.transform);
-        TextMeshProUGUI objectiveText = obj.GetComponent<TextMeshProUGUI>();
-        objectiveText.text = evt.EventObjective;
+        TextMeshProUGUI[] texts = root.GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI titleText = texts[0];
+        TextMeshProUGUI objectiveText = texts[1];
+        TextMeshProUGUI timerText = texts[2];
 
-        activeEvents[evt] = new EventUIEntry
+        titleText.text = totem.NetEventName.Value.ToString();
+        objectiveText.text = totem.NetEventObjective.Value.ToString();
+        timerText.text = $"{Mathf.CeilToInt(totem.NetEventTime.Value)}s";
+
+        activeEvents[totem] = new EventUIEntry
         {
             Root = root,
-            ObjectiveText = objectiveText
+            TitleText = titleText,
+            ObjectiveText = objectiveText,
+            TimerText = timerText
         };
     }
 
-    public void UpdateEventObjective(ITotemEvent evt, string newObjective)
+    public void RemoveEvent(Totem totem)
     {
-        if (!activeEvents.TryGetValue(evt, out EventUIEntry entry))
-            return;
-
-        entry.ObjectiveText.text = newObjective;
-    }
-
-    public void RemoveEvent(ITotemEvent evt)
-    {
-        if (!activeEvents.TryGetValue(evt, out EventUIEntry entry))
+        if (!activeEvents.TryGetValue(totem, out EventUIEntry entry))
             return;
 
         Destroy(entry.Root);
-        activeEvents.Remove(evt);
+        activeEvents.Remove(totem);
+    }
+
+    public void NetworkObjectiveUpdated(FixedString64Bytes previous, FixedString64Bytes current)
+    {
+        foreach (var kvp in activeEvents)
+        {
+            Totem totem = kvp.Key;
+            if (totem.NetEventObjective.Value.Equals(current))
+            {
+                kvp.Value.ObjectiveText.text = current.ToString();
+                return;
+            }
+        }
+    }
+
+    public void NetworkTimeUpdated(float prev, float curr)
+    {
+        foreach (var kvp in activeEvents)
+        {
+            Totem totem = kvp.Key;
+            if (Mathf.Approximately(totem.NetEventTime.Value, curr))
+            {
+                kvp.Value.TimerText.text = $"{Mathf.CeilToInt(curr)}s";
+                return;
+            }
+        }
+    }
+
+    public void NetworkNameUpdated(FixedString64Bytes previous, FixedString64Bytes current)
+    {
+        foreach (var kvp in activeEvents)
+        {
+            Totem totem = kvp.Key;
+            if (totem.NetEventName.Value.Equals(current))
+            {
+                kvp.Value.TitleText.text = current.ToString();
+                return;
+            }
+        }
     }
 }

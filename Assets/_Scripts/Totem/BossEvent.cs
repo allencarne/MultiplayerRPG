@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class BossEvent : NetworkBehaviour, ITotemEvent
 {
-    public string EventName => "Boss Event";
-    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
-    public event Action<string> OnObjectiveChanged;
-
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
@@ -22,26 +18,22 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void StartEvent(Transform player)
     {
-        if (!IsServer) return;
-
+        totem.NetEventName.Value = "Boss Event";
         enemyCount = maxEnemies;
+
         for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
-        OnObjectiveChanged?.Invoke(EventObjective);
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
 
         particles.BorderClientRPC();
     }
 
     public void EventSuccess()
     {
-        if (!IsServer) return;
-
         particles.DisableBorderParcileClientRPC();
     }
 
     public void EventFail()
     {
-        if (!IsServer) return;
-
         DespawnAllEnemies();
     }
 
@@ -49,8 +41,6 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
     {
         if (enemyCount == 0 && isActive)
         {
-            if (!IsServer) return;
-
             isActive = false;
             totem.EventSuccess();
         }
@@ -58,8 +48,6 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void SpawnEnemy(Transform player)
     {
-        if (!IsServer) return;
-
         GameObject enemyInstance = Instantiate(totem.Manager.BossPrefab, totem.GetRandomPoint(6), Quaternion.identity);
         enemyInstance.GetComponent<NetworkObject>().Spawn();
 
@@ -78,10 +66,8 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
 
     public void EnemyDeath(Player player)
     {
-        if (!IsServer) return;
-
         enemyCount--;
-        OnObjectiveChanged?.Invoke(EventObjective);
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
 
         if (player != null && !totem.participants.Contains(player))
         {

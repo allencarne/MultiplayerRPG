@@ -1,21 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Totem : NetworkBehaviour, IInteractable
 {
+    public NetworkVariable<FixedString64Bytes> NetEventName =
+    new(writePerm: NetworkVariableWritePermission.Server);
+
+    public NetworkVariable<FixedString64Bytes> NetEventObjective =
+        new(writePerm: NetworkVariableWritePermission.Server);
+
+    public NetworkVariable<float> NetEventTime =
+        new(writePerm: NetworkVariableWritePermission.Server);
+
     public string DisplayName => "Totem";
     public ITotemEvent CurrentEvent { get; private set; }
     public LayerMask obstacleLayerMask;
 
+    [Header("Participants")]
+    public List<Player> participants = new();
+
     [Header("References")]
     [HideInInspector] public TotemManager Manager;
     [HideInInspector] public Transform SpawnPoint;
-    [SerializeField] TextMeshProUGUI eventText;
     [SerializeField] Collider2D totemObstacleCollider;
+
+    [Header("Types")]
     public SwarmEvent SwarmEvent;
     public CollectEvent CollectEvent;
     public BossEvent BossEvent;
@@ -25,8 +39,7 @@ public class Totem : NetworkBehaviour, IInteractable
     public UnityEvent OnEventSuccess;
     public UnityEvent OnEventFail;
 
-    public List<Player> participants = new();
-
+    [Header("Time")]
     float eventTime = 30;
     float timer;
 
@@ -47,14 +60,24 @@ public class Totem : NetworkBehaviour, IInteractable
 
             switch (random)
             {
-                case 0: CurrentEvent = SwarmEvent; SwarmEvent.StartEvent(player); break;
-                case 1: CurrentEvent = CollectEvent; CollectEvent.StartEvent(player); break;
-                case 2: CurrentEvent = BossEvent; BossEvent.StartEvent(player); break;
+                case 0: 
+                    CurrentEvent = SwarmEvent; 
+                    SwarmEvent.StartEvent(player);
+                    break;
+                case 1: 
+                    CurrentEvent = CollectEvent; 
+                    CollectEvent.StartEvent(player); 
+                    break;
+                case 2: 
+                    CurrentEvent = BossEvent; 
+                    BossEvent.StartEvent(player); 
+                    break;
             }
 
             SyncEventClientRpc(random);
         }
 
+        NetEventTime.Value = eventTime;
         EventStart();
     }
 
@@ -62,32 +85,20 @@ public class Totem : NetworkBehaviour, IInteractable
     {
         timer = eventTime;
         InvokeRepeating("UpdateEvent", 0, 1);
-        UpdateUIClientRPC("Start!");
         OnEventStart?.Invoke();
     }
 
     void UpdateEvent()
     {
-        // Decrease the timer
         timer -= 1f;
+        NetEventTime.Value = timer;
 
-        // Update the countdown text
-        UpdateUIClientRPC($"Event Ends in {Mathf.CeilToInt(timer)}s");
-
-        // Fail
         if (timer <= 0f) EventFail();
-    }
-
-    [ClientRpc]
-    void UpdateUIClientRPC(string text)
-    {
-        eventText.text = text;
     }
 
     public void EventSuccess()
     {
         CancelInvoke();
-        UpdateUIClientRPC("Success!");
         OnEventSuccess?.Invoke();
         CurrentEvent?.EventSuccess();
 
@@ -105,14 +116,13 @@ public class Totem : NetworkBehaviour, IInteractable
                 }
             };
 
-            Manager.Rewards.QuestParticipationClientRPC(CurrentEvent.EventName, rpcParams);
+            Manager.Rewards.QuestParticipationClientRPC(NetEventName.Value.ToString(), rpcParams);
         }
     }
 
     public void EventFail()
     {
         CancelInvoke();
-        UpdateUIClientRPC("Failed!");
         OnEventFail?.Invoke();
         CurrentEvent?.EventFail();
     }

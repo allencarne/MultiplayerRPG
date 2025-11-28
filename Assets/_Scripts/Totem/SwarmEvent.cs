@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class SwarmEvent : NetworkBehaviour, ITotemEvent
 {
-    public string EventName => "Swarm Event";
-    public string EventObjective => $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
-    public event Action<string> OnObjectiveChanged;
-
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
@@ -22,9 +18,11 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
 
     public void StartEvent(Transform player)
     {
+        totem.NetEventName.Value = "Swarm Event";
         enemyCount = maxEnemies;
+
         for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
-        OnObjectiveChanged?.Invoke(EventObjective);
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
 
         particles.BorderClientRPC();
     }
@@ -69,7 +67,7 @@ public class SwarmEvent : NetworkBehaviour, ITotemEvent
     public void EnemyDeath(Player player)
     {
         enemyCount--;
-        OnObjectiveChanged?.Invoke(EventObjective);
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
 
         if (player != null && !totem.participants.Contains(player))
         {

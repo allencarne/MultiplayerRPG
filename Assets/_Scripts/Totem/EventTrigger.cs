@@ -11,12 +11,12 @@ public class EventTrigger : NetworkBehaviour
 
         EventTracker tracker = collision.GetComponentInChildren<EventTracker>();
         if (!tracker) return;
+        if (totem.CurrentEvent == null) return;
 
-        ITotemEvent evt = totem.CurrentEvent;
-        if (evt == null) return;
-
-        tracker.AddEvent(evt);
-        evt.OnObjectiveChanged += (obj) => tracker.UpdateEventObjective(evt, obj);
+        tracker.AddEvent(totem);
+        totem.NetEventObjective.OnValueChanged += tracker.NetworkObjectiveUpdated;
+        totem.NetEventTime.OnValueChanged += tracker.NetworkTimeUpdated;
+        totem.NetEventName.OnValueChanged += tracker.NetworkNameUpdated;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -25,11 +25,13 @@ public class EventTrigger : NetworkBehaviour
 
         EventTracker tracker = collision.GetComponentInChildren<EventTracker>();
         if (!tracker) return;
+        if (totem.CurrentEvent == null) return;
 
-        ITotemEvent evt = totem.CurrentEvent;
-        if (evt == null) return;
+        // Unbind callbacks
+        totem.NetEventObjective.OnValueChanged -= tracker.NetworkObjectiveUpdated;
+        totem.NetEventTime.OnValueChanged -= tracker.NetworkTimeUpdated;
+        totem.NetEventName.OnValueChanged -= tracker.NetworkNameUpdated;
 
-        evt.OnObjectiveChanged -= (obj) => tracker.UpdateEventObjective(evt, obj);
-        tracker.RemoveEvent(evt);
+        tracker.RemoveEvent(totem);
     }
 }

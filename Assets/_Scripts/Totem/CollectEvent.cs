@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class CollectEvent : NetworkBehaviour, ITotemEvent
 {
-    public string EventName => "Collect Event";
-    public string EventObjective => $"{(spawnedCollctables.Count - collectableCount)}/{maxCollectable} Collectables";
-    public event Action<string> OnObjectiveChanged;
-
     [Header("References")]
     [SerializeField] Totem totem;
     [SerializeField] TotemParticles particles;
@@ -23,9 +19,11 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
 
     public void StartEvent(Transform player)
     {
+        totem.NetEventName.Value = "Collect Event";
         collectableCount = maxCollectable;
+
         for (int i = 0; i < maxCollectable; i++) SpawnCollectable();
-        OnObjectiveChanged?.Invoke(EventObjective);
+        totem.NetEventObjective.Value = $"{(spawnedCollctables.Count - collectableCount)}/{maxCollectable} Collectables";
 
         particles.BorderClientRPC();
     }
@@ -58,8 +56,9 @@ public class CollectEvent : NetworkBehaviour, ITotemEvent
     public void Collected(Player player)
     {
         collectableCount--;
+        totem.NetEventObjective.Value = $"{(spawnedCollctables.Count - collectableCount)}/{maxCollectable} Collectables";
+        
         particles.CollectClientRPC(player.transform.position);
-        OnObjectiveChanged?.Invoke(EventObjective);
 
         if (player != null && !totem.participants.Contains(player))
         {
