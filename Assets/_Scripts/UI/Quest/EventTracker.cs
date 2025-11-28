@@ -8,10 +8,8 @@ public class EventTracker : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject Tracker;
     [SerializeField] GameObject TrackerM;
+    [SerializeField] GameObject TrackerPrefab;
 
-    [Header("Prefab")]
-    [SerializeField] GameObject Prefab_EventTitle;
-    [SerializeField] GameObject Prefab_EventObjective;
 
     [Header("Trackers")]
     private GameObject activeTracker;
@@ -34,7 +32,7 @@ public class EventTracker : MonoBehaviour
     {
         if (activeEvents.ContainsKey(totem)) return;
 
-        GameObject root = Instantiate(Prefab_EventTitle, activeTracker.transform);
+        GameObject root = Instantiate(TrackerPrefab, activeTracker.transform);
 
         TextMeshProUGUI[] texts = root.GetComponentsInChildren<TextMeshProUGUI>();
         TextMeshProUGUI titleText = texts[0];
@@ -43,7 +41,7 @@ public class EventTracker : MonoBehaviour
 
         titleText.text = totem.NetEventName.Value.ToString();
         objectiveText.text = totem.NetEventObjective.Value.ToString();
-        timerText.text = $"{Mathf.CeilToInt(totem.NetEventTime.Value)}s";
+        timerText.text = $"Event Ends In: {Mathf.CeilToInt(totem.NetEventTime.Value)}s";
 
         activeEvents[totem] = new EventUIEntry
         {
@@ -83,7 +81,7 @@ public class EventTracker : MonoBehaviour
             Totem totem = kvp.Key;
             if (Mathf.Approximately(totem.NetEventTime.Value, curr))
             {
-                kvp.Value.TimerText.text = $"{Mathf.CeilToInt(curr)}s";
+                kvp.Value.TimerText.text = $"Event Ends In: {Mathf.CeilToInt(curr)}s";
                 return;
             }
         }
