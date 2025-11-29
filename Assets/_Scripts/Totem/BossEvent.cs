@@ -22,7 +22,7 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
         enemyCount = maxEnemies;
 
         for (int i = 0; i < maxEnemies; i++) SpawnEnemy(player);
-        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{maxEnemies} Enemies";
 
         particles.BorderClientRPC();
     }
@@ -67,7 +67,7 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
     public void EnemyDeath(Player player)
     {
         enemyCount--;
-        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{spawnedEnemies.Count} Enemies";
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{maxEnemies} Enemies";
 
         if (player != null && !totem.participants.Contains(player))
         {

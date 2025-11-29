@@ -10,7 +10,6 @@ public class EventTracker : MonoBehaviour
     [SerializeField] GameObject TrackerM;
     [SerializeField] GameObject TrackerPrefab;
 
-
     [Header("Trackers")]
     private GameObject activeTracker;
 
@@ -66,11 +65,7 @@ public class EventTracker : MonoBehaviour
         foreach (var kvp in activeEvents)
         {
             Totem totem = kvp.Key;
-            if (totem.NetEventObjective.Value.Equals(current))
-            {
-                kvp.Value.ObjectiveText.text = current.ToString();
-                return;
-            }
+            kvp.Value.ObjectiveText.text = totem.NetEventObjective.Value.ToString();
         }
     }
 
@@ -79,11 +74,7 @@ public class EventTracker : MonoBehaviour
         foreach (var kvp in activeEvents)
         {
             Totem totem = kvp.Key;
-            if (Mathf.Approximately(totem.NetEventTime.Value, curr))
-            {
-                kvp.Value.TimerText.text = $"Event Ends In: {Mathf.CeilToInt(curr)}s";
-                return;
-            }
+            kvp.Value.TimerText.text = $"Event Ends In: {Mathf.CeilToInt(totem.NetEventTime.Value)}s";
         }
     }
 
@@ -92,11 +83,7 @@ public class EventTracker : MonoBehaviour
         foreach (var kvp in activeEvents)
         {
             Totem totem = kvp.Key;
-            if (totem.NetEventName.Value.Equals(current))
-            {
-                kvp.Value.TitleText.text = current.ToString();
-                return;
-            }
+            kvp.Value.TitleText.text = totem.NetEventName.Value.ToString();
         }
     }
 }
