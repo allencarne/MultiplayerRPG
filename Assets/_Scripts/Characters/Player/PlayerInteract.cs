@@ -21,6 +21,8 @@ public class PlayerInteract : NetworkBehaviour
     [SerializeField] TextMeshProUGUI interactText;
 
     [Header("Panel")]
+    [SerializeField] GameObject questPanel;
+    [SerializeField] GameObject dialoguePanel;
     [SerializeField] QuestInfoPanel questInfoPanel;
 
     IInteractable currentInteractable;
@@ -90,6 +92,8 @@ public class PlayerInteract : NetworkBehaviour
         if (interactable == currentInteractable)
         {
             CloseUI();
+            questPanel.SetActive(false);
+            dialoguePanel.SetActive(false);
         }
     }
 
