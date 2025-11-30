@@ -19,6 +19,11 @@ public class NPCResetState : NPCState
     {
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
         {
+            owner.BodyAnimator.SetFloat("Vertical", -1);
+            owner.HairAnimator.SetFloat("Vertical", -1);
+            owner.EyesAnimator.SetFloat("Vertical", -1);
+            owner.SwordAnimator.SetFloat("Vertical", -1);
+
             owner.NpcRB.linearVelocity = Vector2.zero;
             owner.SetState(NPCStateMachine.State.Idle);
         }

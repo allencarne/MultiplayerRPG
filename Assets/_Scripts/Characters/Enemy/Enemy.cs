@@ -145,6 +145,15 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
             if (npc != null) npc.Target = null;
 
+            if (npc != null && TotemReference != null)
+            {
+                switch (TotemReference.CurrentEvent)
+                {
+                    case SwarmEvent swarm: swarm.DeathByNPC(); break;
+                    case BossEvent boss: boss.DeathByNPC(); break;
+                }
+            }
+
             Transform attackerPosition = attackerID.GetComponent<Transform>();
             if (attackerPosition != null) StartCoroutine(delay(attackerPosition));
 

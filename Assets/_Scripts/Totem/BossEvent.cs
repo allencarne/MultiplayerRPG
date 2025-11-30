@@ -75,6 +75,12 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
         }
     }
 
+    public void DeathByNPC()
+    {
+        enemyCount--;
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{maxEnemies} Enemies";
+    }
+
     public void DespawnAllEnemies()
     {
         if (!IsServer) return;
