@@ -41,6 +41,11 @@ public class AttributePoints : MonoBehaviour
 
     public UnityEvent OnStatsApplied;
 
+    private void Start()
+    {
+        HideText();
+    }
+
     private void Update()
     {
         int TotalToAdd = healthToAdd + damageToAdd + asToAdd + cdrToAdd;
@@ -54,7 +59,7 @@ public class AttributePoints : MonoBehaviour
             applyButton.interactable = false;
         }
 
-        ColorBlock colors = HealthPlus.colors; // Copy the struct
+        ColorBlock colors = HealthPlus.colors;
         colors.normalColor = player.AttributePoints.Value != 0 ? Color.cyan : defaultColor;
         HealthPlus.colors = colors;
         HealthMinus.colors = colors;
@@ -92,6 +97,8 @@ public class AttributePoints : MonoBehaviour
                 CDRText.text = cdrToAdd.ToString();
                 break;
         }
+
+        HideText();
     }
 
     public void MinusButton(int stat)
@@ -119,6 +126,8 @@ public class AttributePoints : MonoBehaviour
                 CDRText.text = cdrToAdd.ToString();
                 break;
         }
+
+        HideText();
     }
 
     public void ApplyButton()
@@ -144,5 +153,13 @@ public class AttributePoints : MonoBehaviour
         OnStatsApplied?.Invoke();
 
         EventSystem.current.SetSelectedGameObject(buttonToSelect);
+    }
+
+    void HideText()
+    {
+        if (damageToAdd < 1) DamageText.text = "";
+        if (healthToAdd < 1) healthText.text = "";
+        if (asToAdd < 1) ASText.text = "";
+        if (cdrToAdd < 1) CDRText.text = "";
     }
 }

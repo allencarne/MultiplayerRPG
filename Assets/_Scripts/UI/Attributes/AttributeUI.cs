@@ -13,7 +13,6 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI playerLevel;
     [SerializeField] TextMeshProUGUI attributePoints;
 
-
     [SerializeField] TextMeshProUGUI totalHealth;
     [SerializeField] TextMeshProUGUI totalDamage;
     [SerializeField] TextMeshProUGUI totalAttackSpeed;
