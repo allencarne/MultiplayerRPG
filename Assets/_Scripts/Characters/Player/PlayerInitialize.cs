@@ -12,6 +12,7 @@ public class PlayerInitialize : NetworkBehaviour
     [SerializeField] SpriteRenderer hairSprite;
 
     [Header("Network Variables")]
+    public NetworkVariable<int> net_CharacterSlot = new(writePerm: NetworkVariableWritePermission.Server);
     private NetworkVariable<FixedString32Bytes> net_playerName = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Owner);
     public NetworkVariable<Color> net_bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
     private NetworkVariable<Color> net_hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Owner);
@@ -30,14 +31,13 @@ public class PlayerInitialize : NetworkBehaviour
 
         if (IsOwner)
         {
-            LoadCustomization();
+            int slot = PlayerPrefs.GetInt("SelectedCharacter");
+            SetSelectedCharacterServerRpc(slot);
 
-            if (IsServer)
-            {
-                LoadPlayerStats();
-                inventory.LoadInventory();
-                equipment.LoadEquipment();
-            }
+            LoadCustomization();
+            LoadPlayerStats();
+            inventory.LoadInventory();
+            equipment.LoadEquipment();
 
             // Set Coin Text UI
             player.CoinText.text = $"{player.Coins}<sprite index=0>";
@@ -84,7 +84,6 @@ public class PlayerInitialize : NetworkBehaviour
                 break;
         }
 
-        // Update NetworkVariables
         net_playerName.Value = playerNameText.text;
         net_bodyColor.Value = bodySprite.color;
         net_hairColor.Value = hairSprite.color;
@@ -94,38 +93,25 @@ public class PlayerInitialize : NetworkBehaviour
     {
         string prefix = CharacterNumber;
 
-        player.PlayerLevel.Value = PlayerPrefs.GetInt($"{prefix}PlayerLevel", 1);
-        player.CurrentExperience.Value = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
-        player.RequiredExperience.Value = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
-        player.Coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
-        player.AttributePoints.Value = PlayerPrefs.GetInt($"{prefix}AP", 0);
+        // Load from PlayerPrefs
+        int level = PlayerPrefs.GetInt($"{prefix}PlayerLevel", 1);
+        float currentExp = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
+        float requiredExp = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
+        float coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
+        int ap = PlayerPrefs.GetInt($"{prefix}AP", 0);
 
-        // Stats
-        player.Health.Value = PlayerPrefs.GetFloat($"{prefix}Health", 10);
-        player.MaxHealth.Value = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
+        float maxHealth = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
+        float maxFury = PlayerPrefs.GetFloat($"{prefix}MaxFury", 100);
+        float maxEndurance = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
 
-        player.Fury.Value = PlayerPrefs.GetFloat($"{prefix}Fury", 0);
-        player.MaxFury.Value = PlayerPrefs.GetFloat($"{prefix}MaxFury", 100);
+        float baseSpeed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
+        int baseDamage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
+        float baseAttackSpeed = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
+        float baseCDR = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
+        float baseArmor = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
 
-        player.Endurance.Value = PlayerPrefs.GetFloat($"{prefix}Endurance", 100);
-        player.MaxEndurance.Value = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
-
-        player.BaseSpeed.Value = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
-        player.CurrentSpeed.Value = PlayerPrefs.GetFloat($"{prefix}CurrentSpeed", 5);
-
-        player.BaseDamage.Value = PlayerPrefs.GetInt($"{prefix}Damage", 1);
-        player.CurrentDamage.Value = PlayerPrefs.GetInt($"{prefix}CurrentDamage", 1);
-
-        player.BaseAttackSpeed.Value = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
-        player.CurrentAttackSpeed.Value = PlayerPrefs.GetFloat($"{prefix}CurrentAttackSpeed", 1);
-
-        player.BaseCDR.Value = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
-        player.CurrentCDR.Value = PlayerPrefs.GetFloat($"{prefix}CurrentCDR", 1);
-
-        player.BaseArmor.Value = PlayerPrefs.GetFloat($"{prefix}BaseArmor", 0);
-        player.CurrentArmor.Value = PlayerPrefs.GetFloat($"{prefix}CurrentArmor", 0);
-
-        // Skills
+        // Non-NetworkVariable stats (can set directly)
+        player.Coins = coins;
         player.FirstPassiveIndex = PlayerPrefs.GetInt($"{prefix}FirstPassive", 0);
         player.SecondPassiveIndex = PlayerPrefs.GetInt($"{prefix}SecondPassive", -1);
         player.ThirdPassiveIndex = PlayerPrefs.GetInt($"{prefix}ThirdPassive", -1);
@@ -136,15 +122,59 @@ public class PlayerInitialize : NetworkBehaviour
         player.UtilityIndex = PlayerPrefs.GetInt($"{prefix}Utility", -1);
         player.UltimateIndex = PlayerPrefs.GetInt($"{prefix}Ultimate", -1);
 
-        // Set Values Here
-        player.Health.Value = player.MaxHealth.Value;
+        // NetworkVariables (need server authority)
+        if (IsServer)
+        {
+            // Server can set directly
+            SetPlayerStats(level, currentExp, requiredExp, ap, maxHealth, maxFury, maxEndurance,
+                baseSpeed, baseDamage, baseAttackSpeed, baseCDR, baseArmor);
+        }
+        else
+        {
+            // Client asks server to set them
+            SetPlayerStatsServerRpc(level, currentExp, requiredExp, ap, maxHealth, maxFury, maxEndurance,
+                baseSpeed, baseDamage, baseAttackSpeed, baseCDR, baseArmor);
+        }
+    }
+
+    [ServerRpc]
+    void SetPlayerStatsServerRpc(int level, float currentExp, float requiredExp, int ap,
+    float maxHealth, float maxFury, float maxEndurance, float baseSpeed, int baseDamage,
+    float baseAttackSpeed, float baseCDR, float baseArmor)
+    {
+        SetPlayerStats(level, currentExp, requiredExp, ap, maxHealth, maxFury, maxEndurance,
+            baseSpeed, baseDamage, baseAttackSpeed, baseCDR, baseArmor);
+    }
+
+    void SetPlayerStats(int level, float currentExp, float requiredExp, int ap,
+        float maxHealth, float maxFury, float maxEndurance, float baseSpeed, int baseDamage,
+        float baseAttackSpeed, float baseCDR, float baseArmor)
+    {
+        // Set NetworkVariables
+        player.PlayerLevel.Value = level;
+        player.CurrentExperience.Value = currentExp;
+        player.RequiredExperience.Value = requiredExp;
+        player.AttributePoints.Value = ap;
+
+        player.MaxHealth.Value = maxHealth;
+        player.MaxFury.Value = maxFury;
+        player.MaxEndurance.Value = maxEndurance;
+
+        player.BaseSpeed.Value = baseSpeed;
+        player.BaseDamage.Value = baseDamage;
+        player.BaseAttackSpeed.Value = baseAttackSpeed;
+        player.BaseCDR.Value = baseCDR;
+        player.BaseArmor.Value = baseArmor;
+
+        // Set current values to full/base
+        player.Health.Value = maxHealth;
         player.Fury.Value = 0;
-        player.Endurance.Value = player.MaxEndurance.Value;
-        player.CurrentSpeed.Value = player.BaseSpeed.Value;
-        player.CurrentDamage.Value = player.BaseDamage.Value;
-        player.CurrentAttackSpeed.Value = player.BaseAttackSpeed.Value;
-        player.CurrentCDR.Value = player.BaseCDR.Value;
-        player.CurrentArmor.Value = player.BaseArmor.Value;
+        player.Endurance.Value = maxEndurance;
+        player.CurrentSpeed.Value = baseSpeed;
+        player.CurrentDamage.Value = baseDamage;
+        player.CurrentAttackSpeed.Value = baseAttackSpeed;
+        player.CurrentCDR.Value = baseCDR;
+        player.CurrentArmor.Value = baseArmor;
     }
 
     public void SaveStats()
@@ -251,5 +281,11 @@ public class PlayerInitialize : NetworkBehaviour
     void OnHairColorChanged(Color previousColor, Color newColor)
     {
         hairSprite.color = newColor;
+    }
+
+    [ServerRpc]
+    void SetSelectedCharacterServerRpc(int slot)
+    {
+        net_CharacterSlot.Value = slot;
     }
 }

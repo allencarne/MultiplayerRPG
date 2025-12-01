@@ -130,11 +130,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            playerInitialize.LoadPlayerStats();
-        }
-
         Health.OnValueChanged += OnHealthChanged;
         MaxHealth.OnValueChanged += OnMaxHealthChanged;
 

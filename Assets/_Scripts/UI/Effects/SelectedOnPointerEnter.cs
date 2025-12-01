@@ -44,7 +44,10 @@ public class SelectedOnPointerEnter : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        EventSystem.current.SetSelectedGameObject(null);
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
     }
 
     public void OnSelect(BaseEventData eventData)
