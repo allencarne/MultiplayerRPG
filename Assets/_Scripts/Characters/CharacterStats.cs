@@ -31,6 +31,17 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Damage.Value += 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Damage.Value -= 1;
+        }
+
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             AddModifier(tempMod);
@@ -121,14 +132,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         switch (modifier.statType)
         {
-            case StatType.Damage: IncreaseDamage(modifier.value);
-                break;
-            case StatType.Health:
-                break;
-            case StatType.AttackSpeed:
-                break;
-            case StatType.CoolDown:
-                break;
+            case StatType.Damage: IncreaseDamage(modifier.value); break;
+            case StatType.Health: IncreaseHealth(modifier.value); break;
+            case StatType.AttackSpeed: IncreaseAttackSpeed(modifier.value); break;
+            case StatType.CoolDown: IncreaseCoolDownReduction(modifier.value); break;
         }
     }
 
@@ -141,17 +148,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         switch (modifier.statType)
         {
-            case StatType.Damage: DecreaseDamage(modifier.value); 
-                break;
-            case StatType.Health:
-                break;
-            case StatType.AttackSpeed:
-                break;
-            case StatType.CoolDown:
-                break;
+            case StatType.Damage: DecreaseDamage(modifier.value); break;
+            case StatType.Health: DecreaseHealth(modifier.value); break;
+            case StatType.AttackSpeed: DecreaseAttackSpeed(modifier.value); break;
+            case StatType.CoolDown: DecreaseCoolDownReduction(modifier.value); break;
         }
     }
 
+    #region Damage
     public void IncreaseDamage(int amount)
     {
         if (IsServer)
@@ -187,4 +191,119 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         Damage.Value -= amount;
     }
+    #endregion
+
+    #region Health
+    public void IncreaseHealth(int amount)
+    {
+        if (IsServer)
+        {
+            Health.Value += amount;
+        }
+        else
+        {
+            IncreaseHealthServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseHealthServerRPC(int amount)
+    {
+        Health.Value += amount;
+    }
+
+    public void DecreaseHealth(int amount)
+    {
+        if (IsServer)
+        {
+            Health.Value -= amount;
+        }
+        else
+        {
+            DecreaseHealthServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void DecreaseHealthServerRPC(int amount)
+    {
+        Health.Value -= amount;
+    }
+    #endregion
+
+    #region AttackSpeed
+    public void IncreaseAttackSpeed(int amount)
+    {
+        if (IsServer)
+        {
+            AttackSpeed.Value += amount;
+        }
+        else
+        {
+            IncreaseAttackSpeedServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseAttackSpeedServerRPC(int amount)
+    {
+        AttackSpeed.Value += amount;
+    }
+
+    public void DecreaseAttackSpeed(int amount)
+    {
+        if (IsServer)
+        {
+            AttackSpeed.Value -= amount;
+        }
+        else
+        {
+            DecreaseAttackSpeedServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void DecreaseAttackSpeedServerRPC(int amount)
+    {
+        AttackSpeed.Value -= amount;
+    }
+    #endregion
+
+    #region CoolDownReduction
+    public void IncreaseCoolDownReduction(int amount)
+    {
+        if (IsServer)
+        {
+            CoolDownReduction.Value += amount;
+        }
+        else
+        {
+            IncreaseCoolDownReductionServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseCoolDownReductionServerRPC(int amount)
+    {
+        CoolDownReduction.Value += amount;
+    }
+
+    public void DecreaseCoolDownReduction(int amount)
+    {
+        if (IsServer)
+        {
+            CoolDownReduction.Value -= amount;
+        }
+        else
+        {
+            DecreaseCoolDownReductionServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void DecreaseCoolDownReductionServerRPC(int amount)
+    {
+        CoolDownReduction.Value -= amount;
+    }
+    #endregion
 }
