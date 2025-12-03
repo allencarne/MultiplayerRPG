@@ -61,28 +61,12 @@ public class PlayerInitialize : NetworkBehaviour
 
     void LoadCustomization()
     {
-        // Set initial values based on the selected character
-        switch (PlayerPrefs.GetInt("SelectedCharacter"))
-        {
-            case 1:
-                playerNameText.text = PlayerPrefs.GetString("Character1Name");
-                bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt("Character1SkinColor")];
-                hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt("Character1HairColor")];
-                player.hairIndex = PlayerPrefs.GetInt("Character1HairStyle");
-                break;
-            case 2:
-                playerNameText.text = PlayerPrefs.GetString("Character2Name");
-                bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt("Character2SkinColor")];
-                hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt("Character2HairColor")];
-                player.hairIndex = PlayerPrefs.GetInt("Character2HairStyle");
-                break;
-            case 3:
-                playerNameText.text = PlayerPrefs.GetString("Character3Name");
-                bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt("Character3SkinColor")];
-                hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt("Character3HairColor")];
-                player.hairIndex = PlayerPrefs.GetInt("Character3HairStyle");
-                break;
-        }
+        int prefix = PlayerPrefs.GetInt("SelectedCharacter");
+
+        playerNameText.text = PlayerPrefs.GetString($"Character{prefix}Name");
+        bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt($"Character{prefix}SkinColor")];
+        hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt($"Character{prefix}HairColor")];
+        player.hairIndex = PlayerPrefs.GetInt($"Character{prefix}HairStyle");
 
         net_playerName.Value = playerNameText.text;
         net_bodyColor.Value = bodySprite.color;
