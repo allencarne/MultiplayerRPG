@@ -9,11 +9,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
-    [Header("Endurance")]
-    public NetworkVariable<float> Endurance = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> EnduranceRechargeRate = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
-
     [Header("Stats")]
     public NetworkVariable<float> Speed = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> Damage = new(writePerm: NetworkVariableWritePermission.Server);
