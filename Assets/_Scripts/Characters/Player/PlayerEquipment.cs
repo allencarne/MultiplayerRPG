@@ -6,7 +6,9 @@ public class PlayerEquipment : NetworkBehaviour
 {
     [Header("Player")]
     [SerializeField] ItemList itemDatabase;
-    Player player;
+    PlayerStats stats;
+    PlayerStateMachine stateMachine;
+    //Player player;
     PlayerSave save;
 
     [Header("Index")]
@@ -63,7 +65,8 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void Awake()
     {
-        player = GetComponent<Player>();
+        stats = GetComponent<PlayerStats>();
+        stateMachine = GetComponent<PlayerStateMachine>();
         save = GetComponent<PlayerSave>();
     }
 
@@ -216,7 +219,6 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
         }
 
-        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 
@@ -266,7 +268,6 @@ public class PlayerEquipment : NetworkBehaviour
                 break;
         }
 
-        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 
@@ -277,16 +278,16 @@ public class PlayerEquipment : NetworkBehaviour
         switch (mod.statType)
         {
             case StatType.Health:
-                player.IncreaseHealth(value);
+                stats.IncreaseHealth(value);
                 break;
             case StatType.Damage:
-                player.IncreaseDamage(value);
+                stats.IncreaseDamage(value);
                 break;
             case StatType.CoolDown:
-                player.IncreaseCoolDown(value);
+                stats.IncreaseCoolDownReduction(value);
                 break;
             case StatType.AttackSpeed:
-                player.IncreaseAttackSpeed(value);
+                stats.IncreaseAttackSpeed(value);
                 break;
         }
     }

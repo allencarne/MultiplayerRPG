@@ -121,8 +121,8 @@ public class PlayerExperience : NetworkBehaviour
         }
 
         // Increase Player Health
-        player.MaxHealth.Value++;
-        player.Health.Value++;
+        //player.MaxHealth.Value++;
+        //player.Health.Value++;
 
         // Increase Player Damage
         //player.BaseDamage.Value++;

@@ -1,14 +1,30 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : NetworkBehaviour
 {
+    [SerializeField] PlayerStats stats;
     [SerializeField] Image healthBar;
     [SerializeField] Image healthBar_Back;
 
     private float lerpSpeed = 5f;
     private Coroutine lerpCoroutine;
+
+    public override void OnNetworkSpawn()
+    {
+        stats.Health.OnValueChanged += OnHealthChanged;
+        stats.MaxHealth.OnValueChanged += OnMaxHealthChanged;
+
+        UpdateHealthBar(stats.MaxHealth.Value, stats.Health.Value);
+    }
+
+    private void OnDisable()
+    {
+        stats.Health.OnValueChanged -= OnHealthChanged;
+        stats.MaxHealth.OnValueChanged -= OnMaxHealthChanged;
+    }
 
     public void UpdateHealthBar(float maxHealth, float currentHealth)
     {
@@ -36,5 +52,15 @@ public class HealthBar : MonoBehaviour
             healthBar_Back.fillAmount = currentFillAmount;
             yield return null;
         }
+    }
+
+    void OnHealthChanged(float oldValue, float newValue)
+    {
+        UpdateHealthBar(stats.MaxHealth.Value, newValue);
+    }
+
+    void OnMaxHealthChanged(float oldValue, float newValue)
+    {
+        UpdateHealthBar(newValue, stats.Health.Value);
     }
 }

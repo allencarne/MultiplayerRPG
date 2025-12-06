@@ -13,7 +13,7 @@ public class SecondWind : PlayerSkill
     {
         if (!owner.IsOwner) return;
 
-        float healthPercent = owner.player.Health.Value / owner.player.MaxHealth.Value;
+        float healthPercent = owner.Stats.Health.Value / owner.Stats.MaxHealth.Value;
 
         if (!isOnCooldown && healthPercent <= 0.4f)
         {

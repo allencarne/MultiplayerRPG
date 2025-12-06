@@ -1,10 +1,11 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AttributePoints : MonoBehaviour
+public class AttributePoints : NetworkBehaviour
 {
     [SerializeField] Color defaultColor;
     [Header("Button")]
@@ -12,7 +13,7 @@ public class AttributePoints : MonoBehaviour
     [SerializeField] Button applyButton;
 
     [Header("Player")]
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
 
     [Header("Health")]
     [SerializeField] Button HealthPlus;
@@ -60,7 +61,7 @@ public class AttributePoints : MonoBehaviour
         }
 
         ColorBlock colors = HealthPlus.colors;
-        colors.normalColor = player.AttributePoints.Value != 0 ? Color.cyan : defaultColor;
+        colors.normalColor = stats.AttributePoints.Value != 0 ? Color.cyan : defaultColor;
         HealthPlus.colors = colors;
         HealthMinus.colors = colors;
         DamagePlus.colors = colors;
@@ -75,8 +76,8 @@ public class AttributePoints : MonoBehaviour
     {
         int TotalToAdd = healthToAdd + damageToAdd + asToAdd + cdrToAdd;
 
-        if (player.AttributePoints.Value <= 0) return;
-        if (TotalToAdd >= player.AttributePoints.Value) return;
+        if (stats.AttributePoints.Value <= 0) return;
+        if (TotalToAdd >= stats.AttributePoints.Value) return;
 
         switch (stat)
         {
@@ -132,11 +133,11 @@ public class AttributePoints : MonoBehaviour
 
     public void ApplyButton()
     {
-        player.IncreaseHealth(healthToAdd);
-        player.IncreaseDamage(damageToAdd);
-        player.IncreaseAttackSpeed(asToAdd * 0.1f);
-        player.IncreaseCoolDown(cdrToAdd * 0.1f);
-        player.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
+        stats.IncreaseHealth(healthToAdd);
+        stats.IncreaseDamage(damageToAdd);
+        stats.IncreaseAttackSpeed(asToAdd);
+        stats.IncreaseCoolDownReduction(cdrToAdd);
+        ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;
         healthText.text = healthToAdd.ToString();
@@ -161,5 +162,23 @@ public class AttributePoints : MonoBehaviour
         if (healthToAdd < 1) healthText.text = "";
         if (asToAdd < 1) ASText.text = "";
         if (cdrToAdd < 1) CDRText.text = "";
+    }
+
+    public void ConsumeAttributePoints(int amount)
+    {
+        if (IsServer)
+        {
+            stats.AttributePoints.Value -= amount;
+        }
+        else
+        {
+            ConsumeAttributePointsServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void ConsumeAttributePointsServerRPC(int amount)
+    {
+        stats.AttributePoints.Value -= amount;
     }
 }

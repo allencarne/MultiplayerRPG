@@ -63,8 +63,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<int> AttributePoints = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Health")]
-    public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Fury")]
     public NetworkVariable<float> Fury = new(writePerm: NetworkVariableWritePermission.Server);
@@ -119,19 +119,18 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
                 CombatTime = 0;
                 InCombat = false;
 
+                /*
                 if (Health.Value < MaxHealth.Value)
                 {
-                    //stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+                    stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
                 }
+                */
             }
         }
     }
 
     public override void OnNetworkSpawn()
     {
-        Health.OnValueChanged += OnHealthChanged;
-        MaxHealth.OnValueChanged += OnMaxHealthChanged;
-
         Fury.OnValueChanged += OnFuryChanged;
         MaxFury.OnValueChanged += OnMaxFuryChanged;
 
@@ -141,18 +140,17 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         }
 
         // Initial UI update
-        healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
         furyBar.UpdateFuryBar(MaxFury.Value, Fury.Value);
     }
 
-    void OnHealthChanged(float oldValue, float newValue)
+    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
-        healthBar.UpdateHealthBar(MaxHealth.Value, newValue);
+
     }
 
-    void OnMaxHealthChanged(float oldValue, float newValue)
+    public void GiveHeal(float healAmount, HealType healType)
     {
-        healthBar.UpdateHealthBar(newValue, Health.Value);
+
     }
 
     void OnFuryChanged(float oldValue, float newValue)
@@ -184,89 +182,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         save.SaveStats();
     }
 
-    #region Damage/Heal
-
-    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
-    {
-        if (!IsServer) return;
-
-        CombatTime = 0;
-        InCombat = true;
-
-        // Calculate
-        float finalDamage = CalculateFinalDamage(damage, damageType);
-        int roundedDamage = Mathf.RoundToInt(finalDamage);
-
-        // Subtract
-        Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
-        
-        // Feedback
-        TriggerFlashEffectClientRpc();
-        OnDamaged?.Invoke(roundedDamage);
-
-        if (Health.Value <= 0)
-        {
-            DeathClientRPC();
-
-            EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
-            if (enemy != null) enemy.Target = null;
-        }
-    }
-
-    private float CalculateFinalDamage(float baseDamage, DamageType damageType)
-    {
-        float armor = CurrentArmor.Value; // Get the target's current armor
-
-        switch (damageType)
-        {
-            case DamageType.Flat:
-                {
-                    float armorMultiplier = 100f / (100f + armor); // How much of the damage is applied after armor
-                    return baseDamage * armorMultiplier; // Flat base damage reduced by armor
-                }
-
-            case DamageType.Percent:
-                {
-                    float percentDamage = MaxHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
-                    float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
-                    return percentDamage * armorMultiplier; // % Health damage reduced by armor
-                }
-
-            case DamageType.True:
-                {
-                    return baseDamage; // Ignore Armor
-                }
-
-            default:
-                {
-                    return baseDamage; // Fallback
-                }
-        }
-    }
-
-    public void GiveHeal(float healAmount, HealType healType)
-    {
-        if (!IsServer) return;
-
-        if (healType == HealType.Percentage)
-        {
-            healAmount = MaxHealth.Value * (healAmount / 100f);
-        }
-
-        // Heal
-        float missingHealth = MaxHealth.Value - Health.Value;
-        float actualHeal = Mathf.Min(healAmount, missingHealth);
-        int roundedHeal = Mathf.FloorToInt(actualHeal);
-
-        Health.Value += roundedHeal;
-
-        // Feedback
-        TriggerFlashEffectClientRpc();
-        OnHealed?.Invoke(roundedHeal);
-    }
-
-    #endregion
-
     #region Death
 
     [ClientRpc]
@@ -274,112 +189,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         if (!IsOwner) return;
         stateMachine.SetState(PlayerStateMachine.State.Death);
-    }
-
-    #endregion
-
-    #region Attribute Points
-
-    public void ConsumeAttributePoints(int amount)
-    {
-        if (IsServer)
-        {
-            AttributePoints.Value -= amount;
-        }
-        else
-        {
-            ConsumeAttributePointsServerRPC(amount);
-        }
-    }
-
-    [ServerRpc]
-    void ConsumeAttributePointsServerRPC(int amount)
-    {
-        AttributePoints.Value -= amount;
-    }
-
-    #endregion
-
-    #region Increase Stats
-
-    public void IncreaseHealth(float amount)
-    {
-        if (IsServer)
-        {
-            MaxHealth.Value += amount;
-            Health.Value += amount;
-        }
-        else
-        {
-            IncreaseHealthServerRPC(amount);
-        }
-    }
-
-    [ServerRpc]
-    void IncreaseHealthServerRPC(float amount)
-    {
-        MaxHealth.Value += amount;
-        Health.Value += amount;
-    }
-
-    public void IncreaseDamage(int amount)
-    {
-        if (IsServer)
-        {
-            BaseDamage.Value += amount;
-            CurrentDamage.Value += amount;
-        }
-        else
-        {
-            IncreaseDamageServerRPC(amount);
-        }
-    }
-
-    [ServerRpc]
-    void IncreaseDamageServerRPC(int amount)
-    {
-        BaseDamage.Value += amount;
-        CurrentDamage.Value += amount;
-    }
-
-    public void IncreaseAttackSpeed(float amount)
-    {
-        if (IsServer)
-        {
-            BaseAttackSpeed.Value += amount;
-            CurrentAttackSpeed.Value += amount;
-        }
-        else
-        {
-            IncreaseAttackSpeedServerRPC(amount);
-        }
-    }
-
-    [ServerRpc]
-    void IncreaseAttackSpeedServerRPC(float amount)
-    {
-        BaseAttackSpeed.Value += amount;
-        CurrentAttackSpeed.Value += amount;
-    }
-
-    public void IncreaseCoolDown(float amount)
-    {
-        if (IsServer)
-        {
-            BaseCDR.Value += amount;
-            CurrentCDR.Value += amount;
-        }
-        else
-        {
-            IncreaseCoolDownServerRPC(amount);
-        }
-    }
-
-    [ServerRpc]
-    void IncreaseCoolDownServerRPC(float amount)
-    {
-        BaseCDR.Value += amount;
-        CurrentCDR.Value += amount;
     }
 
     #endregion
