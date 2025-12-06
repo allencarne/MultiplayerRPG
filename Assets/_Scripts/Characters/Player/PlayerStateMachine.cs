@@ -11,7 +11,12 @@ public class PlayerStateMachine : NetworkBehaviour
     [SerializeField] PlayerRollState playerRollState;
     [SerializeField] PlayerStaggerState PlayerStaggerState;
     [SerializeField] PlayerDeathState playerDeathState;
+
+    [Header("Skills")]
     [HideInInspector] public PlayerSkill CurrentSkill;
+    [SerializeField] SetSkillPanel setSkills;
+    [HideInInspector] public SkillPanel skills;
+    public SkillBarCoolDowns coolDownTracker;
 
     [Header("Animators")]
     public Animator SwordAnimator;
@@ -22,19 +27,22 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator ChestAnimator;
     public Animator LegsAnimator;
 
-    [Header("Components")]
-    public SkillBarCoolDowns coolDownTracker;
-    [HideInInspector] public SkillPanel skills;
-    [SerializeField] SetSkillPanel setSkills;
+    [Header("Scrips")]
+    public Player player;
+    public PlayerStats Stats;
     public PlayerInputHandler Input;
+    public PlayerEquipment Equipment;
+    public EnduranceBar EnduranceBar;
+
+    [Header("Components")]
     public Collider2D Collider;
+    public Rigidbody2D PlayerRB;
+    public Transform Aimer;
+
+    [Header("Status Effects")]
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
-    public PlayerEquipment Equipment;
-    public Rigidbody2D PlayerRB;
-    public Transform Aimer;
-    public Player player;
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
@@ -47,9 +55,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanDefensive = true;
     public bool CanUtility = true;
     public bool CanUltimate = true;
-
     bool canPickup = true;
 
+    [Header("Indicator")]
     string indicatorType = null;
     GameObject indicator;
 
@@ -157,7 +165,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log($"PlayerStateMachine.Awake - IsAttacking: {IsAttacking}, CurrentSkill: {CurrentSkill?.GetType().Name ?? "null"}");
+        //Debug.Log($"PlayerStateMachine.Awake - IsAttacking: {IsAttacking}, CurrentSkill: {CurrentSkill?.GetType().Name ?? "null"}");
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
@@ -270,7 +278,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.RollInput)
         {
-            if (player.Endurance.Value >= 50)
+            if (Stats.Endurance.Value >= 50)
             {
                 SetState(State.Roll);
             }

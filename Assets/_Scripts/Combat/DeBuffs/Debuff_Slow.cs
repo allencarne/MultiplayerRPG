@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Debuff_Slow : NetworkBehaviour, ISlowable
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] Buffs buffs;
 
@@ -109,10 +109,10 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         float slowMultiplier = TotalSlowStacks * slowPercent;
         float multiplier = 1 + hasteMultiplier - slowMultiplier;
 
-        if (player != null)
+        if (stats != null)
         {
-            float speed = player.BaseSpeed.Value * multiplier;
-            player.CurrentSpeed.Value = Mathf.Max(speed, 0.1f);
+            float speed = stats.Speed.Value * multiplier;
+            stats.Speed.Value = Mathf.Max(speed, 0.1f);
         }
 
         if (enemy != null)

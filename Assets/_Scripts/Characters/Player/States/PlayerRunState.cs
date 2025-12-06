@@ -49,7 +49,7 @@ public class PlayerRunState : PlayerState
 
     void HandleMovement(PlayerStateMachine owner, Vector2 moveInput)
     {
-        Vector2 movement = moveInput.normalized * owner.player.CurrentSpeed.Value;
+        Vector2 movement = moveInput.normalized * owner.Stats.Speed.Value;
         owner.PlayerRB.linearVelocity = movement;
 
         if (movement != Vector2.zero)

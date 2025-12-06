@@ -41,7 +41,7 @@ public class PlayerSave : NetworkBehaviour
 
             // Set Coin Text UI
             coinText.text = $"{stats.Coins}<sprite index=0>";
-            customization.playerNameText.text = stats.net_playerName.Value.ToString();
+            
         }
         else
         {
@@ -51,13 +51,16 @@ public class PlayerSave : NetworkBehaviour
 
     void LoadCustomization()
     {
-        int prefix = PlayerPrefs.GetInt("SelectedCharacter");
+        int prefix = stats.net_CharacterSlot.Value;
 
-        //customization.playerNameText.text = PlayerPrefs.GetString($"Character{prefix}Name");
+        // Load Customization
+        customization.playerNameText.text = PlayerPrefs.GetString($"Character{prefix}Name");
         customization.bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt($"Character{prefix}SkinColor")];
         customization.hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt($"Character{prefix}HairColor")];
         customization.hairIndex = PlayerPrefs.GetInt($"Character{prefix}HairStyle");
 
+        // Set Customization
+        customization.playerNameText.text = stats.net_playerName.Value.ToString();
         stats.net_playerName.Value = customization.playerNameText.text;
         stats.net_bodyColor.Value = customization.bodySprite.color;
         stats.net_hairColor.Value = customization.hairSprite.color;

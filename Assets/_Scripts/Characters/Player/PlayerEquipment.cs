@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlayerEquipment : NetworkBehaviour
 {
     [Header("Player")]
-    Player player;
-    PlayerInitialize init;
     [SerializeField] ItemList itemDatabase;
+    Player player;
+    PlayerSave save;
 
     [Header("Index")]
     public int HeadAnimIndex;
@@ -64,7 +64,7 @@ public class PlayerEquipment : NetworkBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
-        init = GetComponent<PlayerInitialize>();
+        save = GetComponent<PlayerSave>();
     }
 
     public void OnEquipmentChanged(Equipment newItem, Equipment oldItem, bool applyModifiers = true)
@@ -76,7 +76,7 @@ public class PlayerEquipment : NetworkBehaviour
                 foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
             }
 
-            init.SaveStats();
+            save.SaveStats();
 
             if (newItem is Weapon newWeapon)
             {
@@ -94,7 +94,7 @@ public class PlayerEquipment : NetworkBehaviour
                 foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
             }
 
-            init.SaveStats();
+            save.SaveStats();
 
             if (oldItem is Weapon oldWeapon)
             {

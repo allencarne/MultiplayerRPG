@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class AttributeUI : MonoBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
 
     [SerializeField] TextMeshProUGUI playerName;
     [SerializeField] TextMeshProUGUI playerClass;
@@ -34,51 +34,51 @@ public class AttributeUI : MonoBehaviour
     void UpdateUI()
     {
         // Character Stats
-        playerName.text = player.PlayerName;
-        playerClass.text = "Class: " + player.playerClass.ToString();
+        playerName.text = stats.net_playerName.Value.ToString();
+        playerClass.text = "Class: " + stats.playerClass.ToString();
         GetClassIcon();
-        playerLevel.text = "LvL: " + player.PlayerLevel.Value.ToString();
-        attributePoints.text = "Attribute Points: " + player.AttributePoints.Value.ToString();
+        playerLevel.text = "LvL: " + stats.PlayerLevel.Value.ToString();
+        attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
         // Health
-        totalHealth.text = player.MaxHealth.Value.ToString();
+        totalHealth.text = stats.MaxHealth.Value.ToString();
 
         // Damage
-        totalDamage.text = player.CurrentDamage.Value.ToString();
+        totalDamage.text = stats.Damage.Value.ToString();
 
         // Attack Speed
-        totalAttackSpeed.text = player.CurrentAttackSpeed.Value.ToString("F2");
+        totalAttackSpeed.text = stats.AttackSpeed.Value.ToString("F2");
 
         // Cooldown Reduction (CDR)
-        totalCDR.text = player.CurrentCDR.Value.ToString("F2");
+        totalCDR.text = stats.CoolDownReduction.Value.ToString("F2");
 
         // Speed
-        totalSpeed.text = player.CurrentSpeed.Value.ToString("F2");
+        totalSpeed.text = stats.Speed.Value.ToString("F2");
 
         // Endurance
-        totalEndurance.text = player.MaxEndurance.Value.ToString();
+        totalEndurance.text = stats.MaxEndurance.Value.ToString();
 
         // Armor
-        totalArmor.text = player.CurrentArmor.Value.ToString();
+        totalArmor.text = stats.Armor.Value.ToString();
     }
 
     void GetClassIcon()
     {
-        switch (player.playerClass)
+        switch (stats.playerClass)
         {
-            case Player.PlayerClass.Beginner:
+            case PlayerStats.PlayerClass.Beginner:
                 classIcon.sprite = classIcons[0];
                 break;
-            case Player.PlayerClass.Warrior:
+            case PlayerStats.PlayerClass.Warrior:
                 classIcon.sprite = classIcons[1];
                 break;
-            case Player.PlayerClass.Magician:
+            case PlayerStats.PlayerClass.Magician:
                 classIcon.sprite = classIcons[2];
                 break;
-            case Player.PlayerClass.Archer:
+            case PlayerStats.PlayerClass.Archer:
                 classIcon.sprite = classIcons[3];
                 break;
-            case Player.PlayerClass.Rogue:
+            case PlayerStats.PlayerClass.Rogue:
                 classIcon.sprite = classIcons[4];
                 break;
         }

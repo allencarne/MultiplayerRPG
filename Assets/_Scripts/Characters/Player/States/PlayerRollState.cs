@@ -14,7 +14,7 @@ public class PlayerRollState : PlayerState
         owner.Buffs.immoveable.StartImmovable(rollDuration);
 
         // Endurance
-        owner.player.EnduranceBar.SpendEndurance(50);
+        owner.EnduranceBar.SpendEndurance(50);
 
         // Roll
         owner.StartCoroutine(Duration(owner));

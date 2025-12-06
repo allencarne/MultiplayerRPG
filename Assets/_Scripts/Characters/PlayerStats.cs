@@ -28,4 +28,15 @@ public class PlayerStats : CharacterStats
 
     [Header("Currency")]
     public float Coins;
+
+    public enum PlayerClass
+    {
+        Beginner,
+        Warrior,
+        Magician,
+        Archer,
+        Rogue
+    }
+
+    public PlayerClass playerClass;
 }

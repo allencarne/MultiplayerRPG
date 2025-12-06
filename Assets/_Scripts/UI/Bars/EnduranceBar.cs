@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnduranceBar : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
     [SerializeField] Image enduranceBar;
     [SerializeField] Image enduranceBar_Back;
     bool isRecharging = false;
@@ -13,13 +13,27 @@ public class EnduranceBar : NetworkBehaviour
     private float lerpSpeed = 5f;
     private Coroutine lerpCoroutine;
 
+    public override void OnNetworkSpawn()
+    {
+        stats.Endurance.OnValueChanged += OnEnduranceChanged;
+        stats.MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
+
+        UpdateEnduranceBar(stats.MaxEndurance.Value, stats.Endurance.Value);
+    }
+
+    private void OnDisable()
+    {
+        stats.Endurance.OnValueChanged -= OnEnduranceChanged;
+        stats.MaxEndurance.OnValueChanged -= OnMaxEnduranceChanged;
+    }
+
     public void SpendEndurance(float amount)
     {
         if (IsServer)
         {
-            if (player.Endurance.Value >= amount)
+            if (stats.Endurance.Value >= amount)
             {
-                player.Endurance.Value -= amount;
+                stats.Endurance.Value -= amount;
 
                 if (!isRecharging)
                 {
@@ -36,9 +50,9 @@ public class EnduranceBar : NetworkBehaviour
     [ServerRpc]
     public void RequestDodgeServerRpc(float amount)
     {
-        if (player.Endurance.Value >= amount)
+        if (stats.Endurance.Value >= amount)
         {
-            player.Endurance.Value -= amount;
+            stats.Endurance.Value -= amount;
 
             if (!isRecharging)
             {
@@ -66,12 +80,12 @@ public class EnduranceBar : NetworkBehaviour
 
         yield return new WaitForSeconds(1f); // Optional delay before recharge starts
 
-        while (player.Endurance.Value < player.MaxEndurance.Value)
+        while (stats.Endurance.Value < stats.MaxEndurance.Value)
         {
             yield return new WaitForSeconds(0.2f); // How fast it recharges
 
-            player.Endurance.Value += 5f;
-            player.Endurance.Value = Mathf.Min(player.Endurance.Value, player.MaxEndurance.Value);
+            stats.Endurance.Value += 5f;
+            stats.Endurance.Value = Mathf.Min(stats.Endurance.Value, stats.MaxEndurance.Value);
         }
 
         isRecharging = false;
@@ -87,5 +101,15 @@ public class EnduranceBar : NetworkBehaviour
             enduranceBar_Back.fillAmount = currentFillAmount;
             yield return null;
         }
+    }
+
+    void OnEnduranceChanged(float oldValue, float newValue)
+    {
+        UpdateEnduranceBar(stats.MaxEndurance.Value, newValue);
+    }
+
+    void OnMaxEnduranceChanged(float oldValue, float newValue)
+    {
+        UpdateEnduranceBar(newValue, stats.Endurance.Value);
     }
 }

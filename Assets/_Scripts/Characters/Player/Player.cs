@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public Inventory PlayerInventory;
     public GameObject spawn_Effect;
     public CastBar CastBar;
-    [SerializeField] PlayerInitialize playerInitialize;
+    [SerializeField] PlayerSave save;
     [SerializeField] PlayerInputHandler input;
 
     [Header("Sprites")]
@@ -27,7 +27,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] HealthBar healthBar;
     [SerializeField] FuryBar furyBar;
-    public EnduranceBar EnduranceBar;
     public TextMeshProUGUI CoinText;
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
@@ -72,12 +71,12 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> MaxFury = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Endurance")]
-    public NetworkVariable<float> Endurance = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> Endurance = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Movement Speed")]
-    public NetworkVariable<float> BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CurrentSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> CurrentSpeed = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Attack Damage")]
     public NetworkVariable<int> BaseDamage = new(writePerm: NetworkVariableWritePermission.Server);
@@ -136,9 +135,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         Fury.OnValueChanged += OnFuryChanged;
         MaxFury.OnValueChanged += OnMaxFuryChanged;
 
-        Endurance.OnValueChanged += OnEnduranceChanged;
-        MaxEndurance.OnValueChanged += OnMaxEnduranceChanged;
-
         if (IsOwner)
         {
             PlayerCamera();
@@ -147,7 +143,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         // Initial UI update
         healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
         furyBar.UpdateFuryBar(MaxFury.Value, Fury.Value);
-        EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, Endurance.Value);
     }
 
     void OnHealthChanged(float oldValue, float newValue)
@@ -170,16 +165,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         furyBar.UpdateFuryBar(newValue, Fury.Value);
     }
 
-    void OnEnduranceChanged(float oldValue, float newValue)
-    {
-        EnduranceBar.UpdateEnduranceBar(MaxEndurance.Value, newValue);
-    }
-
-    void OnMaxEnduranceChanged(float oldValue, float newValue)
-    {
-        EnduranceBar.UpdateEnduranceBar(newValue, Endurance.Value);
-    }
-
     void PlayerCamera()
     {
         GameObject cameraInstance = Instantiate(cameraPrefab);
@@ -196,7 +181,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         Coins += amount;
         CoinText.text = $"{Coins}<sprite index=0>";
 
-        playerInitialize.SaveStats();
+        save.SaveStats();
     }
 
     #region Damage/Heal

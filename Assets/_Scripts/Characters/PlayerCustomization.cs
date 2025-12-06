@@ -20,10 +20,11 @@ public class PlayerCustomization : NetworkBehaviour
 
         if (IsOwner)
         {
-            
+            // Load Me
         }
         else
         {
+            // Load Others
             playerNameText.text = stats.net_playerName.Value.ToString();
             bodySprite.color = stats.net_bodyColor.Value;
             hairSprite.color = stats.net_hairColor.Value;
