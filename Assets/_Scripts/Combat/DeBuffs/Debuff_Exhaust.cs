@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Globalization;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Debuff_Exhaust : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] Buffs buffs;
 
@@ -110,10 +109,10 @@ public class Debuff_Exhaust : NetworkBehaviour
         float exhaustMultiplier = TotalExhaustStacks * exhaustPercent;
         float multiplier = 1 + swiftnessMultiplier - exhaustMultiplier;
 
-        if (player != null)
+        if (stats != null)
         {
-            float attackspeed = player.BaseAttackSpeed.Value * multiplier;
-            player.CurrentAttackSpeed.Value = Mathf.Max(attackspeed, 0.1f);
+            float attackspeed = stats.AttackSpeed.Value * multiplier;
+            stats.AttackSpeed.Value = Mathf.Max(attackspeed, 0.1f);
         }
 
         if (enemy != null)

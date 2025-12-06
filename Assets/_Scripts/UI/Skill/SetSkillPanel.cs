@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class SetSkillPanel : MonoBehaviour
 {
+    [SerializeField] PlayerStats stats;
     [SerializeField] Player player;
     [SerializeField] PlayerStateMachine stateMachine;
 
@@ -48,29 +49,29 @@ public class SetSkillPanel : MonoBehaviour
 
     public void SetSkills()
     {
-        switch (player.playerClass)
+        switch (stats.playerClass)
         {
-            case Player.PlayerClass.Beginner:
+            case PlayerStats.PlayerClass.Beginner:
                 BeginnerPanel.SetActive(true);
                 stateMachine.skills = begginerSkills;
                 AssignIcons(begginerSkills);
                 break;
-            case Player.PlayerClass.Warrior:
+            case PlayerStats.PlayerClass.Warrior:
                 WarriorPanel.SetActive(true);
                 stateMachine.skills = warriorSkills;
                 AssignIcons(warriorSkills);
                 break;
-            case Player.PlayerClass.Magician:
+            case PlayerStats.PlayerClass.Magician:
                 MagicianPanel.SetActive(true);
                 stateMachine.skills = magicianSkills;
                 AssignIcons(magicianSkills);
                 break;
-            case Player.PlayerClass.Archer:
+            case PlayerStats.PlayerClass.Archer:
                 ArcherPanel.SetActive(true);
                 stateMachine.skills = archerSkills;
                 AssignIcons(archerSkills);
                 break;
-            case Player.PlayerClass.Rogue:
+            case PlayerStats.PlayerClass.Rogue:
                 RoguePanel.SetActive(true);
                 stateMachine.skills = rogueSkills;
                 AssignIcons(rogueSkills);
@@ -137,7 +138,7 @@ public class SetSkillPanel : MonoBehaviour
 
     public void OnLevelUp()
     {
-        if (player.PlayerLevel.Value >= 1)
+        if (stats.PlayerLevel.Value >= 1)
         {
             for (int i = 0; i < skillBar_Basic_Lock.Length; i++)
             {
@@ -145,7 +146,7 @@ public class SetSkillPanel : MonoBehaviour
             }
         }
 
-        if (player.PlayerLevel.Value >= 4)
+        if (stats.PlayerLevel.Value >= 4)
         {
             for (int i = 0; i < skillBar_Offensive_Lock.Length; i++)
             {
@@ -153,7 +154,7 @@ public class SetSkillPanel : MonoBehaviour
             }
         }
 
-        if (player.PlayerLevel.Value >= 8)
+        if (stats.PlayerLevel.Value >= 8)
         {
             for (int i = 0; i < skillBar_Mobility_Lock.Length; i++)
             {
@@ -161,7 +162,7 @@ public class SetSkillPanel : MonoBehaviour
             }
         }
 
-        if (player.PlayerLevel.Value >= 12)
+        if (stats.PlayerLevel.Value >= 12)
         {
             for (int i = 0; i < skillBar_Defensive_Lock.Length; i++)
             {
@@ -169,7 +170,7 @@ public class SetSkillPanel : MonoBehaviour
             }
         }
 
-        if (player.PlayerLevel.Value >= 16)
+        if (stats.PlayerLevel.Value >= 16)
         {
             for (int i = 0; i < skillBar_Utility_Lock.Length; i++)
             {
@@ -177,7 +178,7 @@ public class SetSkillPanel : MonoBehaviour
             }
         }
 
-        if (player.PlayerLevel.Value >= 20)
+        if (stats.PlayerLevel.Value >= 20)
         {
             for (int i = 0; i < skillBar_Ultimate_Lock.Length; i++)
             {

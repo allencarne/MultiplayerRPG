@@ -1,14 +1,24 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FuryBar : MonoBehaviour
+public class FuryBar : NetworkBehaviour
 {
+    [SerializeField] PlayerStats stats;
     [SerializeField] Image furyBar;
     [SerializeField] Image furyBar_Back;
 
     private float lerpSpeed = 5f;
     private Coroutine lerpCoroutine;
+
+    public override void OnNetworkSpawn()
+    {
+        stats.Fury.OnValueChanged += OnFuryChanged;
+        stats.MaxFury.OnValueChanged += OnMaxFuryChanged;
+
+        UpdateFuryBar(stats.MaxFury.Value, stats.Fury.Value);
+    }
 
     public void UpdateFuryBar(float maxFury, float currentFury)
     {
@@ -33,5 +43,15 @@ public class FuryBar : MonoBehaviour
             furyBar.fillAmount = currentFillAmount;
             yield return null;
         }
+    }
+
+    void OnFuryChanged(float oldValue, float newValue)
+    {
+        UpdateFuryBar(stats.MaxFury.Value, newValue);
+    }
+
+    void OnMaxFuryChanged(float oldValue, float newValue)
+    {
+        UpdateFuryBar(newValue, stats.Fury.Value);
     }
 }

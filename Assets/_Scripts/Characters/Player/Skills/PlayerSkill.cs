@@ -174,7 +174,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
 
-        AttackerDamage = owner.player.CurrentDamage.Value;
+        AttackerDamage = owner.Stats.Damage.Value;
 
         owner.PlayerRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
@@ -183,7 +183,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.player.CurrentCDR.Value;
+        float modifiedCooldown = coolDown / owner.Stats.CoolDownReduction.Value;
         owner.coolDownTracker.SkillCoolDown(skillType, modifiedCooldown);
 
         yield return new WaitForSeconds(modifiedCooldown);

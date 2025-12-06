@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Debuff_Impede : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] Buffs buffs;
 
@@ -109,10 +109,10 @@ public class Debuff_Impede : NetworkBehaviour
         float impedeMultiplier = TotalImpedeStacks * impedePercent;
         float multiplier = 1 + alacrityMultiplier - impedeMultiplier;
 
-        if (player != null)
+        if (stats != null)
         {
-            float cdr = player.BaseCDR.Value * multiplier;
-            player.CurrentCDR.Value = Mathf.Max(cdr, 0.1f);
+            float cdr = stats.CoolDownReduction.Value * multiplier;
+            stats.CoolDownReduction.Value = Mathf.Max(cdr, 0.1f);
         }
 
         if (enemy != null)

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class SkillPanel : MonoBehaviour
 {
     [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
+    [SerializeField] PlayerStateMachine stateMachine;
 
     [Header("Skills")]
     public PlayerSkill[] firstPassive;
@@ -96,7 +98,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (icon == null) return;
         if (index > -1) return;
-        if (player.PlayerLevel.Value < reqLevel) return;
+        if (stats.PlayerLevel.Value < reqLevel) return;
 
         SetColor(icon, Color.cyan);
     }
@@ -218,43 +220,40 @@ public class SkillPanel : MonoBehaviour
 
     public void FirstPassiveButton(int index)
     {
-        if (player.PlayerLevel.Value < passive1Req) return;
+        if (stats.PlayerLevel.Value < passive1Req) return;
         player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
         BlueBorder(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
 
-        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         firstPassive[index].StartSkill(stateMachine);
     }
 
     public void SecondPassiveButton(int index)
     {
-        if (player.PlayerLevel.Value < passive2Req) return;
+        if (stats.PlayerLevel.Value < passive2Req) return;
         player.SecondPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
         BlueBorder(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
 
-        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         secondPassive[index].StartSkill(stateMachine);
     }
 
     public void ThirdPassiveButton(int index)
     {
-        if (player.PlayerLevel.Value < passive3Req) return;
+        if (stats.PlayerLevel.Value < passive3Req) return;
         player.ThirdPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
         BlueBorder(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
 
-        PlayerStateMachine stateMachine = player.GetComponent<PlayerStateMachine>();
         thirdPassive[index].StartSkill(stateMachine);
     }
 
     public void BasicButton(int index)
     {
-        if (player.PlayerLevel.Value < basicReq) return;
+        if (stats.PlayerLevel.Value < basicReq) return;
         player.BasicIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -263,7 +262,7 @@ public class SkillPanel : MonoBehaviour
 
     public void OffensiveButton(int index)
     {
-        if (player.PlayerLevel.Value < offensiveReq) return;
+        if (stats.PlayerLevel.Value < offensiveReq) return;
         player.OffensiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -272,7 +271,7 @@ public class SkillPanel : MonoBehaviour
 
     public void MobilityButton(int index)
     {
-        if (player.PlayerLevel.Value < mobilityReq) return;
+        if (stats.PlayerLevel.Value < mobilityReq) return;
         player.MobilityIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -281,7 +280,7 @@ public class SkillPanel : MonoBehaviour
 
     public void DefensiveButton(int index)
     {
-        if (player.PlayerLevel.Value < defensiveReq) return;
+        if (stats.PlayerLevel.Value < defensiveReq) return;
         player.DefensiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -290,7 +289,7 @@ public class SkillPanel : MonoBehaviour
 
     public void UtilityButton(int index)
     {
-        if (player.PlayerLevel.Value < utilityReq) return;
+        if (stats.PlayerLevel.Value < utilityReq) return;
         player.UtilityIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -299,7 +298,7 @@ public class SkillPanel : MonoBehaviour
 
     public void UltimateButton(int index)
     {
-        if (player.PlayerLevel.Value < ultimateReq) return;
+        if (stats.PlayerLevel.Value < ultimateReq) return;
         player.UltimateIndex = index;
         OnSkillSelected?.Invoke();
 

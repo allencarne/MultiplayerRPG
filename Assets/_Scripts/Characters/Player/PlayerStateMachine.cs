@@ -102,9 +102,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (skills == null) return;
 
-        switch (player.playerClass)
+        switch (Stats.playerClass)
         {
-            case Player.PlayerClass.Beginner:
+            case PlayerStats.PlayerClass.Beginner:
 
                 if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
                 {
@@ -152,13 +152,13 @@ public class PlayerStateMachine : NetworkBehaviour
                 }
 
                 break;
-            case Player.PlayerClass.Warrior:
+            case PlayerStats.PlayerClass.Warrior:
                 break;
-            case Player.PlayerClass.Magician:
+            case PlayerStats.PlayerClass.Magician:
                 break;
-            case Player.PlayerClass.Archer:
+            case PlayerStats.PlayerClass.Archer:
                 break;
-            case Player.PlayerClass.Rogue:
+            case PlayerStats.PlayerClass.Rogue:
                 break;
         }
     }

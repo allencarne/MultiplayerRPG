@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Buff_Protection : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
@@ -109,7 +109,7 @@ public class Buff_Protection : NetworkBehaviour
         float vulnerabilityMultiplier = deBuffs.vulnerability.TotalVulnerabilityStacks * deBuffs.vulnerability.vulnerabilityPercent;
         float multiplier = 1 + protectionMultiplier - vulnerabilityMultiplier;
 
-        if (player != null) player.CurrentArmor.Value = player.BaseArmor.Value * multiplier;
+        if (stats != null) stats.Armor.Value = stats.Armor.Value * multiplier;
         if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor * multiplier;
     }
 

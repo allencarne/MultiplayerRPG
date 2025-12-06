@@ -5,6 +5,7 @@ public class AttributeSkillButtons : MonoBehaviour
     [Header("Player")]
     [SerializeField] PlayerUI playerUI;
     [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
 
     [Header("UI")]
     [SerializeField] GameObject attributeUI;
@@ -33,7 +34,7 @@ public class AttributeSkillButtons : MonoBehaviour
 
     public void HandleAttributes()
     {
-        if (player.AttributePoints.Value == 0)
+        if (stats.AttributePoints.Value == 0)
         {
             attribute_Button.SetActive(false);
             m_attribute_Button.SetActive(false);
@@ -68,7 +69,7 @@ public class AttributeSkillButtons : MonoBehaviour
     {
         if (abilityIndex == -1)
         {
-            if (player.PlayerLevel.Value >= level)
+            if (stats.PlayerLevel.Value >= level)
             {
                 if (isMobile)
                 {

@@ -3298,7 +3298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
@@ -4002,7 +4002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
@@ -6070,6 +6070,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d041dd716916fa94ebe09a964cb328fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
   furyBar: {fileID: 1313816813468223693}
   furyBar_Back: {fileID: 3457510952343749779}
 --- !u!114 &8785762146455488116
@@ -8213,6 +8215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 8
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   beginnerSkills: {fileID: 640528868884370920}
   warriorSkills: {fileID: 2317716940561466545}
   magicianSkills: {fileID: 5795398845700227845}
@@ -14324,7 +14327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
@@ -17853,6 +17856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 4
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   beginnerSkills: {fileID: 640528868884370920}
   warriorSkills: {fileID: 2317716940561466545}
   magicianSkills: {fileID: 5795398845700227845}
@@ -19307,7 +19311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
@@ -19857,6 +19861,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 3
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   beginnerSkills: {fileID: 640528868884370920}
   warriorSkills: {fileID: 2317716940561466545}
   magicianSkills: {fileID: 5795398845700227845}
@@ -23132,35 +23137,6 @@ MonoBehaviour:
   UltimateIndex: -1
   Coins: 0
   hairIndex: 0
-  PlayerName: 
-  PlayerLevel:
-    m_InternalValue: 0
-  CurrentExperience:
-    m_InternalValue: 0
-  RequiredExperience:
-    m_InternalValue: 0
-  AttributePoints:
-    m_InternalValue: 0
-  Fury:
-    m_InternalValue: 0
-  MaxFury:
-    m_InternalValue: 0
-  BaseDamage:
-    m_InternalValue: 0
-  CurrentDamage:
-    m_InternalValue: 0
-  BaseAttackSpeed:
-    m_InternalValue: 0
-  CurrentAttackSpeed:
-    m_InternalValue: 0
-  BaseCDR:
-    m_InternalValue: 0
-  CurrentCDR:
-    m_InternalValue: 0
-  BaseArmor:
-    m_InternalValue: 0
-  CurrentArmor:
-    m_InternalValue: 0
   OnDamaged:
     m_PersistentCalls:
       m_Calls:
@@ -23191,7 +23167,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  playerClass: 0
 --- !u!114 &6475613187630994528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23347,7 +23322,7 @@ MonoBehaviour:
   experienceText: {fileID: 2399128155856467448}
   levelText: {fileID: 3908792987332763312}
   levelUpText: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   frontXpBar: {fileID: 6438291673167540992}
   backXpBar: {fileID: 2824420699212628155}
   additionMultiplier: 25
@@ -23356,8 +23331,8 @@ MonoBehaviour:
   OnEXPGained:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
+      - m_Target: {fileID: 5710798942256160764}
+        m_TargetAssemblyTypeName: PlayerSave, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
@@ -23374,18 +23349,6 @@ MonoBehaviour:
       - m_Target: {fileID: 8213140386547283737}
         m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
         m_MethodName: LevelUpClientRPC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
-        m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23455,7 +23418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eda3897acd87bb4faf0eec745aed834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerQuest
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   inventory: {fileID: 6762276146836678153}
   experience: {fileID: 6940644233207828720}
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
@@ -23919,6 +23882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c810cb457715f2f4f9a12f19b70e233a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 2477393547595159198}
   player: {fileID: 841304983140234989}
   stateMachine: {fileID: 6475613187630994528}
   BeginnerPanel: {fileID: 3778139816889554955}
@@ -24020,7 +23984,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
   - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
   - {fileID: 11400000, guid: 9fccd38173ed7eb4cbfd6dc8ddc85bfe, type: 2}
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   playerQuest: {fileID: 2815023884702440214}
   questListUI: {fileID: 5750095017788648469}
   questUI_Button: {fileID: 2759240771576674268, guid: 57923a8056fd9e64485b898d91171b2a, type: 3}
@@ -24051,6 +24015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerUI: {fileID: 2846862907457918475}
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   attributeUI: {fileID: 4474952441136511288}
   skillUI: {fileID: 3759623618371899525}
   attribute_Button: {fileID: 3808015105832604949}
@@ -24089,8 +24054,8 @@ MonoBehaviour:
   OnStatsApplied:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
+      - m_Target: {fileID: 5710798942256160764}
+        m_TargetAssemblyTypeName: PlayerSave, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
@@ -29394,7 +29359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
@@ -30019,6 +29984,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
+  stateMachine: {fileID: 6475613187630994528}
   firstPassive:
   - {fileID: 5675753275583343769}
   secondPassive:
@@ -30088,8 +30055,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
+      - m_Target: {fileID: 5710798942256160764}
+        m_TargetAssemblyTypeName: PlayerSave, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1
         m_Arguments:
@@ -31001,6 +30968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 7
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   beginnerSkills: {fileID: 640528868884370920}
   warriorSkills: {fileID: 2317716940561466545}
   magicianSkills: {fileID: 5795398845700227845}
@@ -32419,6 +32387,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
+  stateMachine: {fileID: 6475613187630994528}
   firstPassive: []
   secondPassive: []
   thirdPassive: []
@@ -33147,6 +33117,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
+  stateMachine: {fileID: 6475613187630994528}
   firstPassive: []
   secondPassive: []
   thirdPassive: []
@@ -33783,6 +33755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 5
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   beginnerSkills: {fileID: 640528868884370920}
   warriorSkills: {fileID: 2317716940561466545}
   magicianSkills: {fileID: 5795398845700227845}
@@ -37212,7 +37185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
@@ -43805,7 +43778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
@@ -45888,7 +45861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
@@ -50080,6 +50053,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
+  stateMachine: {fileID: 6475613187630994528}
   firstPassive: []
   secondPassive: []
   thirdPassive: []
@@ -55247,6 +55222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
+  stateMachine: {fileID: 6475613187630994528}
   firstPassive: []
   secondPassive: []
   thirdPassive: []
@@ -65946,6 +65923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillType: 6
   player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   beginnerSkills: {fileID: 640528868884370920}
   warriorSkills: {fileID: 2317716940561466545}
   magicianSkills: {fileID: 5795398845700227845}

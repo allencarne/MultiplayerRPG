@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Buff_Alacrity : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
@@ -109,7 +109,7 @@ public class Buff_Alacrity : NetworkBehaviour
         float impedeMultiplier = deBuffs.impede.TotalImpedeStacks * deBuffs.impede.impedePercent;
         float multiplier = 1f + alacrityMultiplier - impedeMultiplier;
 
-        if (player != null) player.CurrentCDR.Value = player.BaseCDR.Value * multiplier;
+        if (stats != null) stats.CoolDownReduction.Value = stats.CoolDownReduction.Value * multiplier;
         if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR * multiplier;
     }
 

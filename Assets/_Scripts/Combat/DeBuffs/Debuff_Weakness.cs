@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Debuff_Weakness : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] Buffs buffs;
 
@@ -109,10 +109,10 @@ public class Debuff_Weakness : NetworkBehaviour
         float weaknessMultiplier = TotalWeaknessStacks * weaknessPercent;
         float multiplier = 1 + mightMultiplier - weaknessMultiplier;
 
-        if (player != null)
+        if (stats != null)
         {
-            float damage = player.BaseDamage.Value * multiplier;
-            player.CurrentDamage.Value = Mathf.Max(Mathf.RoundToInt(damage), 1);
+            float damage = stats.Damage.Value * multiplier;
+            stats.Damage.Value = Mathf.Max(Mathf.RoundToInt(damage), 1);
         }
 
         if (enemy != null)

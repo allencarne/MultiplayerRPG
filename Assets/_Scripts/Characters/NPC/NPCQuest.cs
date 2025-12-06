@@ -12,7 +12,7 @@ public class NPCQuest : MonoBehaviour
         if (quests == null || quests.Count == 0) return null;
 
         Quest candidate = quests[QuestIndex];
-        Player player = playerQuest.GetComponent<Player>();
+        PlayerStats stats = playerQuest.GetComponent<PlayerStats>();
 
         foreach (QuestProgress progress in playerQuest.activeQuests)
         {
@@ -44,7 +44,7 @@ public class NPCQuest : MonoBehaviour
         }
 
         // Offer the candidate quest if requirements are met
-        if (player.PlayerLevel.Value < candidate.LevelRequirment) return null;
+        if (stats.PlayerLevel.Value < candidate.LevelRequirment) return null;
         if (!HasMetQuestRequirements(playerQuest, candidate)) return null;
 
         return candidate;

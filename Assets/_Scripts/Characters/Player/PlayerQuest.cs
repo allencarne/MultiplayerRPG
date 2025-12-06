@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class PlayerQuest : MonoBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
     [SerializeField] Inventory inventory;
     [SerializeField] PlayerExperience experience;
     [SerializeField] Item coin;
@@ -33,7 +33,7 @@ public class PlayerQuest : MonoBehaviour
         if (npcQuest.quests == null || npcQuest.quests.Count == 0) return QuestState.None;
         Quest candidateQuest = npcQuest.quests[npcQuest.QuestIndex];
 
-        if (player.PlayerLevel.Value < candidateQuest.LevelRequirment) return QuestState.Unavailable;
+        if (stats.PlayerLevel.Value < candidateQuest.LevelRequirment) return QuestState.Unavailable;
         if (!npcQuest.HasMetQuestRequirements(this, candidateQuest)) return QuestState.Unavailable;
 
         foreach (Quest quest in npcQuest.quests)

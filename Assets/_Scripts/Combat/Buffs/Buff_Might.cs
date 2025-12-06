@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Buff_Might : NetworkBehaviour
 {
-    [SerializeField] Player player;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
@@ -109,7 +109,7 @@ public class Buff_Might : NetworkBehaviour
         float weaknessMultiplier = deBuffs.weakness.TotalWeaknessStacks * deBuffs.weakness.weaknessPercent;
         float multiplier = 1 + mightMultiplier - weaknessMultiplier;
 
-        if (player != null) player.CurrentDamage.Value = Mathf.RoundToInt(player.BaseDamage.Value * multiplier);
+        if (stats != null) stats.Damage.Value = Mathf.RoundToInt(stats.Damage.Value * multiplier);
         if (enemy != null) enemy.CurrentDamage = Mathf.RoundToInt(enemy.BaseDamage * multiplier);
     }
 

@@ -15,7 +15,7 @@ public class PlayerExperience : NetworkBehaviour
     [SerializeField] GameObject levelUpText;
 
     [Header("Components")]
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
     [SerializeField] Image frontXpBar;
     [SerializeField] Image backXpBar;
 
@@ -32,19 +32,19 @@ public class PlayerExperience : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        player.CurrentExperience.OnValueChanged += OnExperienceChanged;
-        player.PlayerLevel.OnValueChanged += OnLevelChanged;
+        stats.CurrentExperience.OnValueChanged += OnExperienceChanged;
+        stats.PlayerLevel.OnValueChanged += OnLevelChanged;
 
-        frontXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
-        backXpBar.fillAmount = player.CurrentExperience.Value / player.RequiredExperience.Value;
+        frontXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
+        backXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
 
         if (IsServer)
         {
-            player.RequiredExperience.Value = CalculateRequiredXp();
+            stats.RequiredExperience.Value = CalculateRequiredXp();
         }
 
-        levelText.text = player.PlayerLevel.Value.ToString();
-        experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
+        levelText.text = stats.PlayerLevel.Value.ToString();
+        experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
         StartCoroutine(LerpXpBar());
     }
 
@@ -52,9 +52,9 @@ public class PlayerExperience : NetworkBehaviour
     {
         StartCoroutine(LerpXpBar());
 
-        experienceText.text = player.CurrentExperience.Value + "/" + player.RequiredExperience.Value;
+        experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
 
-        if (player.CurrentExperience.Value >= player.RequiredExperience.Value && IsServer)
+        if (stats.CurrentExperience.Value >= stats.RequiredExperience.Value && IsServer)
         {
             LevelUp();
         }
@@ -62,7 +62,7 @@ public class PlayerExperience : NetworkBehaviour
 
     void OnLevelChanged(int oldValue, int newValue)
     {
-        levelText.text = player.PlayerLevel.Value.ToString();
+        levelText.text = stats.PlayerLevel.Value.ToString();
     }
 
     IEnumerator LerpXpBar()
@@ -70,7 +70,7 @@ public class PlayerExperience : NetworkBehaviour
         float elapsed = 0f;
         float duration = 1.5f;
         float startFill = frontXpBar.fillAmount;
-        float targetFill = player.CurrentExperience.Value / player.RequiredExperience.Value;
+        float targetFill = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
 
         backXpBar.fillAmount = targetFill;
 
@@ -88,7 +88,7 @@ public class PlayerExperience : NetworkBehaviour
     private int CalculateRequiredXp()
     {
         int solveForRequiredXp = 0;
-        for (int levelCycle = 1; levelCycle <= player.PlayerLevel.Value; levelCycle++)
+        for (int levelCycle = 1; levelCycle <= stats.PlayerLevel.Value; levelCycle++)
         {
             solveForRequiredXp += (int)Mathf.Floor(levelCycle + additionMultiplier * Mathf.Pow(powerMultiplier, levelCycle / divisionMultiplier));
         }
@@ -99,7 +99,7 @@ public class PlayerExperience : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        player.CurrentExperience.Value += xpGained;
+        stats.CurrentExperience.Value += xpGained;
 
         textPopUp.EXPText(xpGained);
         OnEXPGained?.Invoke();
@@ -108,16 +108,16 @@ public class PlayerExperience : NetworkBehaviour
     public void LevelUp()
     {
         // Increase Player Level
-        player.PlayerLevel.Value++;
+        stats.PlayerLevel.Value++;
 
         // Attribute Points
-        if (player.PlayerLevel.Value < 10)
+        if (stats.PlayerLevel.Value < 10)
         {
-            player.AttributePoints.Value += 1;
+            stats.AttributePoints.Value += 1;
         }
         else
         {
-            player.AttributePoints.Value += 3;
+            stats.AttributePoints.Value += 3;
         }
 
         // Increase Player Health
@@ -128,13 +128,13 @@ public class PlayerExperience : NetworkBehaviour
         //player.BaseDamage.Value++;
         //player.CurrentDamage.Value++;
 
-        player.GiveHeal(100, HealType.Percentage);
+        stats.GiveHeal(100, HealType.Percentage);
 
         // Update Bar
         frontXpBar.fillAmount = 0f;
         backXpBar.fillAmount = 0f;
-        player.CurrentExperience.Value = Mathf.RoundToInt(player.CurrentExperience.Value - player.RequiredExperience.Value);
-        player.RequiredExperience.Value = CalculateRequiredXp();
+        stats.CurrentExperience.Value = Mathf.RoundToInt(stats.CurrentExperience.Value - stats.RequiredExperience.Value);
+        stats.RequiredExperience.Value = CalculateRequiredXp();
 
         OnLevelUp?.Invoke();
     }

@@ -52,61 +52,8 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public float Coins;
     public int hairIndex;
 
-    // BASE STATS CHANGE WITH LEVEL/EQUIPMENT -- PERMANENT
-    // CURRENT STATS CHANGE WITH BUFFS/DEBUFFS -- TEMPORARY
-
-    [Header("Player Stats")]
-    public string PlayerName;
-    public NetworkVariable<int> PlayerLevel = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CurrentExperience = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> RequiredExperience = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> AttributePoints = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Health")]
-    //public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Fury")]
-    public NetworkVariable<float> Fury = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxFury = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Endurance")]
-    //public NetworkVariable<float> Endurance = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Movement Speed")]
-    //public NetworkVariable<float> BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<float> CurrentSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Attack Damage")]
-    public NetworkVariable<int> BaseDamage = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> CurrentDamage = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Attack Speed")]
-    public NetworkVariable<float> BaseAttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CurrentAttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("CDR")]
-    public NetworkVariable<float> BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CurrentCDR = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Armor")]
-    public NetworkVariable<float> BaseArmor = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CurrentArmor = new(writePerm: NetworkVariableWritePermission.Server);
-
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
-
-    public enum PlayerClass
-    {
-        Beginner,
-        Warrior,
-        Magician,
-        Archer,
-        Rogue
-    }
-
-    public PlayerClass playerClass;
 
     private void Update()
     {
@@ -131,16 +78,10 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
 
     public override void OnNetworkSpawn()
     {
-        Fury.OnValueChanged += OnFuryChanged;
-        MaxFury.OnValueChanged += OnMaxFuryChanged;
-
         if (IsOwner)
         {
             PlayerCamera();
         }
-
-        // Initial UI update
-        furyBar.UpdateFuryBar(MaxFury.Value, Fury.Value);
     }
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
@@ -151,16 +92,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public void GiveHeal(float healAmount, HealType healType)
     {
 
-    }
-
-    void OnFuryChanged(float oldValue, float newValue)
-    {
-        furyBar.UpdateFuryBar(MaxFury.Value, newValue);
-    }
-
-    void OnMaxFuryChanged(float oldValue, float newValue)
-    {
-        furyBar.UpdateFuryBar(newValue, Fury.Value);
     }
 
     void PlayerCamera()

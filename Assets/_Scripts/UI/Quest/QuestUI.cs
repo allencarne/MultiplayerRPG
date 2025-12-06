@@ -8,7 +8,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] Quest[] allQuests;
 
     [Header("Player")]
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
     [SerializeField] PlayerQuest playerQuest;
 
     [Header("Quest List")]
@@ -114,7 +114,7 @@ public class QuestUI : MonoBehaviour
         }
         else
         {
-            if (player.PlayerLevel.Value < quest.LevelRequirment)
+            if (stats.PlayerLevel.Value < quest.LevelRequirment)
             {
                 iconImage.sprite = questIcons[0];
             }

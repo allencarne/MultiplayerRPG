@@ -21,6 +21,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] SkillType skillType;
 
     [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
 
     [SerializeField] SkillPanel beginnerSkills;
     [SerializeField] SkillPanel warriorSkills;
@@ -36,25 +37,25 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        switch (player.playerClass)
+        switch (stats.playerClass)
         {
-            case Player.PlayerClass.Beginner:
+            case PlayerStats.PlayerClass.Beginner:
                 ToolTip(beginnerSkills, skillType);
 
                 break;
-            case Player.PlayerClass.Warrior:
+            case PlayerStats.PlayerClass.Warrior:
                 ToolTip(warriorSkills, skillType);
 
                 break;
-            case Player.PlayerClass.Magician:
+            case PlayerStats.PlayerClass.Magician:
                 ToolTip(magicianSkills, skillType);
 
                 break;
-            case Player.PlayerClass.Archer:
+            case PlayerStats.PlayerClass.Archer:
                 ToolTip(archerSkills, skillType);
 
                 break;
-            case Player.PlayerClass.Rogue:
+            case PlayerStats.PlayerClass.Rogue:
                 ToolTip(rogueSkills, skillType);
 
                 break;
