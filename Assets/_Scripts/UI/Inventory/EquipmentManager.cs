@@ -4,7 +4,7 @@ using UnityEngine;
 public class EquipmentManager : MonoBehaviour
 {
     [SerializeField] private ItemList itemDatabase;
-    [SerializeField] PlayerInitialize initialize;
+    [SerializeField] PlayerSave save;
 
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentUI equipmentUI;
@@ -29,7 +29,7 @@ public class EquipmentManager : MonoBehaviour
         if (itemIndex != -1)
         {
             inventory.items[itemIndex] = null;
-            initialize.SaveInventory(null, itemIndex, 0);
+            save.SaveInventory(null, itemIndex, 0);
         }
 
         // If there is already a piece of equipment in the slot
@@ -45,7 +45,7 @@ public class EquipmentManager : MonoBehaviour
         currentEquipment[slotIndex] = newItem;
 
         // Save new equipment
-        initialize.SaveEquipment(newItem, slotIndex);
+        save.SaveEquipment(newItem, slotIndex);
     }
 
     public void UnEquip(int slotIndex)
@@ -64,7 +64,7 @@ public class EquipmentManager : MonoBehaviour
             currentEquipment[slotIndex] = null;
             equipmentUI.UpdateUI(null, oldItem);
             equipment.OnEquipmentChanged(null, oldItem);
-            initialize.SaveEquipment(null, slotIndex);
+            save.SaveEquipment(null, slotIndex);
         }
     }
 
@@ -78,7 +78,7 @@ public class EquipmentManager : MonoBehaviour
 
     public void LoadEquipment()
     {
-        string prefix = initialize.CharacterNumber;
+        string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
 
         // Loop through all equipment slot indices (0–7)
         int numberOfSlots = System.Enum.GetNames(typeof(EquipmentType)).Length;

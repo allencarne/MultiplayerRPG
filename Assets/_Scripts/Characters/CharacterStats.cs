@@ -22,31 +22,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("List")]
     public List<StatModifier> modifiers = new List<StatModifier>();
-    public StatModifier tempMod;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Damage.Value += 1;
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Damage.Value -= 1;
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            AddModifier(tempMod);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            RemoveModifier(tempMod);
-        }
-    }
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {

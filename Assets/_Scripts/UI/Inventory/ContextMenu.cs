@@ -54,7 +54,7 @@ public class ContextMenu : MonoBehaviour
         // Update current slot with remaining amount
         data.quantity = remainingAmount;
         inventory.items[inventorySlot.slotIndex] = data;
-        inventory.initialize.SaveInventory(data.item, inventorySlot.slotIndex, remainingAmount);
+        inventory.Save.SaveInventory(data.item, inventorySlot.slotIndex, remainingAmount);
 
         // Place split amount into empty slot
         inventory.AddItemToSlot(data.item, splitAmount, targetSlot);
@@ -73,7 +73,7 @@ public class ContextMenu : MonoBehaviour
 
         if (data == null) return;
 
-        GameObject dropped = Instantiate(data.item.Prefab, inventory.initialize.transform.position, Quaternion.identity);
+        GameObject dropped = Instantiate(data.item.Prefab, inventory.Save.transform.position, Quaternion.identity);
         NetworkObject netObj = dropped.GetComponent<NetworkObject>();
         netObj.Spawn();
 

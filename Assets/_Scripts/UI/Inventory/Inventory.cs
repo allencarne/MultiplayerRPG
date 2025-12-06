@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerQuest playerquests;
-    public PlayerInitialize initialize;
+    public PlayerSave Save;
 
     public InventoryUI inventoryUI;
     public int inventorySlots = 30;
@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour
         items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
         inventoryUI.UpdateUI();
         if (!isUnEquip) OnItemAdded?.Invoke(newItem, quantity);
-        initialize.SaveInventory(newItem, emptySlotIndex, quantity);
+        Save.SaveInventory(newItem, emptySlotIndex, quantity);
 
         CheckIfItemIsForQuest(newItem, quantity);
         return true;
@@ -114,7 +114,7 @@ public class Inventory : MonoBehaviour
                 items[existingIndex].quantity += quantity;
                 inventoryUI.UpdateUI();
                 OnItemAdded?.Invoke(newItem, quantity);
-                initialize.SaveInventory(newItem, existingIndex, items[existingIndex].quantity);
+                Save.SaveInventory(newItem, existingIndex, items[existingIndex].quantity);
                 return true;
             }
         }
@@ -131,7 +131,7 @@ public class Inventory : MonoBehaviour
             // Remove the item from the inventory by setting its slot to null
             items[itemIndex] = null;
 
-            initialize.SaveInventory(removedItem, itemIndex, 1);
+            Save.SaveInventory(removedItem, itemIndex, 1);
         }
 
         inventoryUI.UpdateUI();
@@ -139,7 +139,7 @@ public class Inventory : MonoBehaviour
 
     public void LoadInventory()
     {
-        string prefix = initialize.CharacterNumber;
+        string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
 
         for (int i = 0; i < inventorySlots; i++)
         {
@@ -187,7 +187,7 @@ public class Inventory : MonoBehaviour
         if (items[targetSlot] == null)
         {
             items[targetSlot] = new InventorySlotData(item, quantity);
-            initialize.SaveInventory(item, targetSlot, quantity);
+            Save.SaveInventory(item, targetSlot, quantity);
             return true;
         }
 
@@ -215,12 +215,12 @@ public class Inventory : MonoBehaviour
 
                     // Clear target slot
                     items[j] = null;
-                    initialize.SaveInventory(null, j, 0); // Clear saved slot
+                    Save.SaveInventory(null, j, 0); // Clear saved slot
                 }
             }
 
             // Save updated source slot
-            initialize.SaveInventory(sourceSlot.item, i, sourceSlot.quantity);
+            Save.SaveInventory(sourceSlot.item, i, sourceSlot.quantity);
         }
 
         inventoryUI.UpdateUI();
@@ -253,14 +253,14 @@ public class Inventory : MonoBehaviour
                     removedFromThisSlot = items[i].quantity;
                     remainingToRemove -= items[i].quantity;
                     items[i] = null;
-                    initialize.SaveInventory(null, i, 0);
+                    Save.SaveInventory(null, i, 0);
                 }
                 else
                 {
                     // Reduce quantity
                     removedFromThisSlot = remainingToRemove;
                     items[i].quantity -= remainingToRemove;
-                    initialize.SaveInventory(items[i].item, i, items[i].quantity);
+                    Save.SaveInventory(items[i].item, i, items[i].quantity);
                     remainingToRemove = 0;
                 }
             }
@@ -282,14 +282,14 @@ public class Inventory : MonoBehaviour
             // Remove entire stack
             actualQuantityRemoved = items[slotIndex].quantity;
             items[slotIndex] = null;
-            initialize.SaveInventory(null, slotIndex, 0);
+            Save.SaveInventory(null, slotIndex, 0);
         }
         else
         {
             // Remove partial quantity
             actualQuantityRemoved = quantityToRemove;
             items[slotIndex].quantity -= quantityToRemove;
-            initialize.SaveInventory(items[slotIndex].item, slotIndex, items[slotIndex].quantity);
+            Save.SaveInventory(items[slotIndex].item, slotIndex, items[slotIndex].quantity);
         }
 
         inventoryUI.UpdateUI();

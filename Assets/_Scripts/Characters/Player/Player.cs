@@ -407,7 +407,7 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         yield return new WaitForSeconds(0.05f);
 
         // Reset to original color
-        BodySprite.color = playerInitialize.net_bodyColor.Value;
+        //BodySprite.color = playerInitialize.net_bodyColor.Value;
     }
 
     [ClientRpc]

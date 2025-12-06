@@ -22328,12 +22328,14 @@ GameObject:
   - component: {fileID: 841304983140234989}
   - component: {fileID: 6475613187630994528}
   - component: {fileID: 7139024652526368089}
-  - component: {fileID: 5375708365107018510}
   - component: {fileID: 6004191219924147057}
   - component: {fileID: 1521853271822668813}
   - component: {fileID: 263776561653739863}
   - component: {fileID: 6940644233207828720}
   - component: {fileID: 2815023884702440214}
+  - component: {fileID: 2477393547595159198}
+  - component: {fileID: 5710798942256160764}
+  - component: {fileID: 5248151491556837222}
   m_Layer: 6
   m_Name: Prefab_Player
   m_TagString: Player
@@ -22947,7 +22949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -23056,7 +23058,7 @@ MonoBehaviour:
   PlayerInventory: {fileID: 6762276146836678153}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   CastBar: {fileID: 8073125645903022343}
-  playerInitialize: {fileID: 5375708365107018510}
+  playerInitialize: {fileID: 0}
   input: {fileID: 8050150357123000786}
   SwordSprite: {fileID: 5543647698223086082}
   BodySprite: {fileID: 7867530632741787033}
@@ -23241,31 +23243,6 @@ MonoBehaviour:
   Dagger: {fileID: 7987029974950451484}
   IsWeaponEquipped: 0
   currentWeapon: 0
---- !u!114 &5375708365107018510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910263212190248897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd8d50b8238670148aece53c60c87a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  saveText: {fileID: 2229989780815055974}
-  playerNameText: {fileID: 368875013985293729}
-  bodySprite: {fileID: 7867530632741787033}
-  hairSprite: {fileID: 3619931694366323352}
-  net_CharacterSlot:
-    m_InternalValue: 0
-  net_bodyColor:
-    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
-  player: {fileID: 841304983140234989}
-  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
-  inventory: {fileID: 6762276146836678153}
-  equipment: {fileID: 6787697978767703092}
 --- !u!114 &6004191219924147057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23355,7 +23332,7 @@ MonoBehaviour:
   OnEXPGained:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5375708365107018510}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1
@@ -23382,7 +23359,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5375708365107018510}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1
@@ -23489,6 +23466,158 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   activeQuests: []
+--- !u!114 &2477393547595159198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e00cfd2c918ff64990b99131a912a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  ShowTopMostFoldoutHeaderGroup: 1
+  Health:
+    m_InternalValue: 0
+  MaxHealth:
+    m_InternalValue: 0
+  Speed:
+    m_InternalValue: 0
+  Damage:
+    m_InternalValue: 0
+  AttackSpeed:
+    m_InternalValue: 0
+  CoolDownReduction:
+    m_InternalValue: 0
+  Armor:
+    m_InternalValue: 0
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2868109441062658180}
+        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
+        m_MethodName: TakeDamageText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2868109441062658180}
+        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
+        m_MethodName: HealingText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  modifiers: []
+  net_CharacterSlot:
+    m_InternalValue: 0
+  net_playerName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
+  net_bodyColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  net_hairColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  PlayerLevel:
+    m_InternalValue: 0
+  CurrentExperience:
+    m_InternalValue: 0
+  RequiredExperience:
+    m_InternalValue: 0
+  AttributePoints:
+    m_InternalValue: 0
+  Endurance:
+    m_InternalValue: 0
+  MaxEndurance:
+    m_InternalValue: 0
+  EnduranceRechargeRate:
+    m_InternalValue: 0
+  Fury:
+    m_InternalValue: 0
+  MaxFury:
+    m_InternalValue: 0
+  Coins: 0
+--- !u!114 &5710798942256160764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 897b9794bcc8b2945ab273c2c57f9670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSave
+  ShowTopMostFoldoutHeaderGroup: 1
+  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
+  saveText: {fileID: 2229989780815055974}
+  coinText: {fileID: 5366855196545885066}
+--- !u!114 &5248151491556837222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77efe6f2b98ec184886f8d97479ce1cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCustomization
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
+  playerNameText: {fileID: 368875013985293729}
+  bodySprite: {fileID: 7867530632741787033}
+  hairSprite: {fileID: 3619931694366323352}
+  hairIndex: 0
 --- !u!1 &2913849871181157441
 GameObject:
   m_ObjectHideFlags: 0
@@ -23700,7 +23829,7 @@ MonoBehaviour:
   player: {fileID: 841304983140234989}
   itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
   playerquests: {fileID: 2815023884702440214}
-  initialize: {fileID: 5375708365107018510}
+  Save: {fileID: 5710798942256160764}
   inventoryUI: {fileID: 4184313615137920459}
   inventorySlots: 30
   items: []
@@ -23734,7 +23863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
-  initialize: {fileID: 5375708365107018510}
+  save: {fileID: 5710798942256160764}
   inventory: {fileID: 6762276146836678153}
   equipmentUI: {fileID: 5064500241921087722}
   equipment: {fileID: 7139024652526368089}
@@ -23934,7 +24063,7 @@ MonoBehaviour:
   OnStatsApplied:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5375708365107018510}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1
@@ -29896,7 +30025,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5375708365107018510}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerInitialize, Assembly-CSharp
         m_MethodName: SaveStats
         m_Mode: 1

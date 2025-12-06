@@ -90,12 +90,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         fromSlot.UpdateSlotVisuals();
         toSlot.UpdateSlotVisuals();
 
-        fromSlot.inventory.initialize.SaveInventory(
+        fromSlot.inventory.Save.SaveInventory(
             fromSlot.slotData?.item,
             fromSlot.slotIndex,
             fromSlot.slotData?.quantity ?? 0);
 
-        toSlot.inventory.initialize.SaveInventory(
+        toSlot.inventory.Save.SaveInventory(
             toSlot.slotData?.item,
             toSlot.slotIndex,
             toSlot.slotData?.quantity ?? 0);
