@@ -6054,6 +6054,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e358dd85ea40e2b48ace5b542d98833a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
   healthBar: {fileID: 2971390234961832005}
   healthBar_Back: {fileID: 7699765498428556517}
 --- !u!114 &5616087460647815688
@@ -23139,10 +23141,6 @@ MonoBehaviour:
     m_InternalValue: 0
   AttributePoints:
     m_InternalValue: 0
-  Health:
-    m_InternalValue: 0
-  MaxHealth:
-    m_InternalValue: 0
   Fury:
     m_InternalValue: 0
   MaxFury:
@@ -23625,7 +23623,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSave
   ShowTopMostFoldoutHeaderGroup: 1
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
-  player: {fileID: 0}
   saveText: {fileID: 2229989780815055974}
   coinText: {fileID: 5366855196545885066}
 --- !u!114 &5248151491556837222
@@ -24072,10 +24069,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106038d429e1fb7488a5af0133763491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   defaultColor: {r: 0.227451, g: 0.1764706, b: 0.1764706, a: 1}
   buttonToSelect: {fileID: 1335062164938425931}
   applyButton: {fileID: 5163968379567947567}
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   HealthPlus: {fileID: 8050625268881765391}
   healthText: {fileID: 3184867870083080976}
   HealthMinus: {fileID: 3934932469487610605}
@@ -34886,7 +34884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3451925783829ee4985c7c4be35f28d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats: {fileID: 2477393547595159198}
   playerName: {fileID: 7203341393840461499}
   playerClass: {fileID: 7015519222498460158}
   classIcons:

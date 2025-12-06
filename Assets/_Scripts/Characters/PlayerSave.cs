@@ -9,7 +9,7 @@ public class PlayerSave : NetworkBehaviour
     [SerializeField] CharacterCustomizationData customizationData;
 
     [Header("References")]
-    [SerializeField] Player player;
+    Player player;
     PlayerCustomization customization;
     PlayerStats stats;
     Inventory inventory;

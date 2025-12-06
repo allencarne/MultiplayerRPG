@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBar : NetworkBehaviour
 {
-    [SerializeField] PlayerStats stats;
+    [SerializeField] CharacterStats stats;
     [SerializeField] Image healthBar;
     [SerializeField] Image healthBar_Back;
 

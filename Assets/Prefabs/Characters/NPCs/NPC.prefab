@@ -161,6 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e358dd85ea40e2b48ace5b542d98833a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 6038468416201059741}
   healthBar: {fileID: 4678726492327112400}
   healthBar_Back: {fileID: 1213457383435907860}
 --- !u!114 &3652510914053340914
@@ -2090,7 +2092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
@@ -3343,7 +3345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
@@ -3573,6 +3575,7 @@ GameObject:
   - component: {fileID: 6313527615267260075}
   - component: {fileID: 2030219489607158631}
   - component: {fileID: 2313668481455553807}
+  - component: {fileID: 6038468416201059741}
   m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
@@ -3710,7 +3713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 206476993
+  GlobalObjectIdHash: 252941149
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -4052,6 +4055,40 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6038468416201059741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152011778197999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ade069e0113b62e46bd14e640c75e65d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
+  ShowTopMostFoldoutHeaderGroup: 1
+  Health:
+    m_InternalValue: 0
+  MaxHealth:
+    m_InternalValue: 0
+  Speed:
+    m_InternalValue: 0
+  Damage:
+    m_InternalValue: 0
+  AttackSpeed:
+    m_InternalValue: 0
+  CoolDownReduction:
+    m_InternalValue: 0
+  Armor:
+    m_InternalValue: 0
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  modifiers: []
 --- !u!1 &8074817158488108185
 GameObject:
   m_ObjectHideFlags: 0
