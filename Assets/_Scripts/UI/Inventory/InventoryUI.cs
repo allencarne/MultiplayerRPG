@@ -1,7 +1,9 @@
+using TMPro;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
+    public TextMeshProUGUI CoinText;
     [SerializeField] Inventory inventory;
     [SerializeField] Transform itemsParent;
     InventorySlot[] iSlots;

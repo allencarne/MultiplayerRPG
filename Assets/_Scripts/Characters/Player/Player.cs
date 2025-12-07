@@ -25,9 +25,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     [Header("UI")]
     public Image[] playerImages;
     [SerializeField] PlayerStateMachine stateMachine;
-    [SerializeField] HealthBar healthBar;
-    [SerializeField] FuryBar furyBar;
-    public TextMeshProUGUI CoinText;
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] RectTransform playerUIRect;
@@ -49,7 +46,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public int UltimateIndex = -1;
 
     [Header("Stats")]
-    public float Coins;
     public int hairIndex;
 
     public UnityEvent<float> OnDamaged;
@@ -103,14 +99,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         cameraInstance.GetComponent<CameraZoom>().GetPlayer();
         playerUI.worldCamera = cameraInstance.GetComponent<Camera>();
         input.cameraInstance = cameraInstance.GetComponent<Camera>();
-    }
-
-    public void CoinCollected(float amount)
-    {
-        Coins += amount;
-        CoinText.text = $"{Coins}<sprite index=0>";
-
-        save.SaveStats();
     }
 
     #region Death

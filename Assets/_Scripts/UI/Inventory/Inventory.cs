@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] EquipmentManager equipmentManager;
-    [SerializeField] Player player;
+    [SerializeField] PlayerStats stats;
     [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerQuest playerquests;
     public PlayerSave Save;
@@ -81,7 +81,7 @@ public class Inventory : MonoBehaviour
         if (newItem is Currency)
         {
             OnItemAdded?.Invoke(newItem, quantity);
-            player.CoinCollected(quantity); return true;
+            CoinCollected(quantity); return true;
         }
 
         return false;
@@ -302,5 +302,13 @@ public class Inventory : MonoBehaviour
         {
             playerquests.OnItemRemoved(itemID, quantity);
         }
+    }
+
+    public void CoinCollected(float amount)
+    {
+        stats.Coins += amount;
+        inventoryUI.CoinText.text = $"{stats.Coins}<sprite index=0>";
+
+        Save.SaveStats();
     }
 }

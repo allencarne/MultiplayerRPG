@@ -23116,9 +23116,6 @@ MonoBehaviour:
   - {fileID: 8636521633625716063}
   - {fileID: 3573648353881278789}
   stateMachine: {fileID: 6475613187630994528}
-  healthBar: {fileID: 3083023006027742737}
-  furyBar: {fileID: 5616087460647815688}
-  CoinText: {fileID: 5366855196545885066}
   playerUI: {fileID: 3299133459724338860}
   cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
   playerUIRect: {fileID: 1319158235293109785}
@@ -23135,7 +23132,6 @@ MonoBehaviour:
   DefensiveIndex: -1
   UtilityIndex: -1
   UltimateIndex: -1
-  Coins: 0
   hairIndex: 0
   OnDamaged:
     m_PersistentCalls:
@@ -23814,7 +23810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentManager: {fileID: 6787697978767703092}
-  player: {fileID: 841304983140234989}
+  stats: {fileID: 2477393547595159198}
   itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
   playerquests: {fileID: 2815023884702440214}
   Save: {fileID: 5710798942256160764}
@@ -23836,6 +23832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638cd42ef38789647ba82c4d2086ec48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoinText: {fileID: 5366855196545885066}
   inventory: {fileID: 6762276146836678153}
   itemsParent: {fileID: 2941290785684567280}
 --- !u!114 &6787697978767703092
