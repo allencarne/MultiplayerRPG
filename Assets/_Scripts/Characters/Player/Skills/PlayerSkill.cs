@@ -232,7 +232,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         }
 
         owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
-        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.player.hairIndex);
+        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.hairIndex);
         owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
         owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
 

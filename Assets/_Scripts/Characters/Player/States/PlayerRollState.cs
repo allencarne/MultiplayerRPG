@@ -48,7 +48,7 @@ public class PlayerRollState : PlayerState
 
         owner.HairAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.HairAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.HairAnimator.Play("Roll_" + owner.player.hairIndex);
+        owner.HairAnimator.Play("Roll_" + owner.customization.hairIndex);
 
         owner.HeadAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.HeadAnimator.SetFloat("Vertical", facingDirection.y);

@@ -45,9 +45,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     public int UtilityIndex = -1;
     public int UltimateIndex = -1;
 
-    [Header("Stats")]
-    public int hairIndex;
-
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
 

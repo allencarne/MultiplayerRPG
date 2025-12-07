@@ -30,6 +30,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Scrips")]
     public Player player;
     public PlayerStats Stats;
+    public PlayerCustomization customization;
     public PlayerInputHandler Input;
     public PlayerEquipment Equipment;
     public EnduranceBar EnduranceBar;
