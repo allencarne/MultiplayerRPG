@@ -34,14 +34,17 @@ public class PlayerExperience : NetworkBehaviour
     {
         stats.CurrentExperience.OnValueChanged += OnExperienceChanged;
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
+    }
 
-        frontXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
-        backXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
-
+    private void Start()
+    {
         if (IsServer)
         {
             stats.RequiredExperience.Value = CalculateRequiredXp();
         }
+
+        frontXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
+        backXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
 
         levelText.text = stats.PlayerLevel.Value.ToString();
         experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
