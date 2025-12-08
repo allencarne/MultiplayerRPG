@@ -273,22 +273,13 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void ApplyModifier(StatModifier mod, bool apply)
     {
-        int value = apply ? mod.value : -mod.value;
-
-        switch (mod.statType)
+        if (apply)
         {
-            case StatType.Health:
-                stats.IncreaseHealth(value);
-                break;
-            case StatType.Damage:
-                stats.IncreaseDamage(value);
-                break;
-            case StatType.CoolDown:
-                stats.IncreaseCoolDownReduction(value);
-                break;
-            case StatType.AttackSpeed:
-                stats.IncreaseAttackSpeed(value);
-                break;
+            stats.AddModifier(mod);
+        }
+        else
+        {
+            stats.RemoveModifier(mod);
         }
     }
 }

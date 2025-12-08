@@ -168,6 +168,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
+            MaxHealth.Value += amount;
             Health.Value += amount;
         }
         else
@@ -179,6 +180,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseHealthServerRPC(int amount)
     {
+        MaxHealth.Value += amount;
         Health.Value += amount;
     }
 
@@ -186,6 +188,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
+            MaxHealth.Value -= amount;
             Health.Value -= amount;
         }
         else
@@ -197,6 +200,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseHealthServerRPC(int amount)
     {
+        MaxHealth.Value -= amount;
         Health.Value -= amount;
     }
     #endregion
