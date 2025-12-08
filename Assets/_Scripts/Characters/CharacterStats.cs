@@ -16,12 +16,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public float CoolDownReduction;
     public float Armor;
 
-    //public NetworkVariable<float> Speed = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<int> Damage = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<float> AttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<float> CoolDownReduction = new(writePerm: NetworkVariableWritePermission.Server);
-    //public NetworkVariable<float> Armor = new(writePerm: NetworkVariableWritePermission.Server);
-
     public int ModifiedDamage => Damage + GetModifierInt(StatType.Damage);
     public float ModifiedMaxHealth => MaxHealth.Value + GetModifierFloat(StatType.Health);
 

@@ -5,9 +5,9 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] EquipmentManager equipmentManager;
-    [SerializeField] PlayerStats stats;
     [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerQuest playerquests;
+    public PlayerStats Stats;
     public PlayerSave Save;
 
     public InventoryUI inventoryUI;
@@ -306,8 +306,8 @@ public class Inventory : MonoBehaviour
 
     public void CoinCollected(float amount)
     {
-        stats.Coins += amount;
-        inventoryUI.CoinText.text = $"{stats.Coins}<sprite index=0>";
+        Stats.Coins += amount;
+        inventoryUI.CoinText.text = $"{Stats.Coins}<sprite index=0>";
 
         Save.SaveStats();
     }

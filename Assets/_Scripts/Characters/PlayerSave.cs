@@ -17,7 +17,6 @@ public class PlayerSave : NetworkBehaviour
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI saveText;
-    [SerializeField] TextMeshProUGUI coinText;
 
     private void Awake()
     {
@@ -38,10 +37,6 @@ public class PlayerSave : NetworkBehaviour
             LoadPlayerStats();
             inventory.LoadInventory();
             equipment.LoadEquipment();
-
-            // Set Coin Text UI
-            coinText.text = $"{stats.Coins}<sprite index=0>";
-            
         }
         else
         {

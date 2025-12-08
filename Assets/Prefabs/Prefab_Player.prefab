@@ -23466,16 +23466,12 @@ MonoBehaviour:
     m_InternalValue: 0
   MaxHealth:
     m_InternalValue: 0
-  Speed:
-    m_InternalValue: 0
-  Damage:
-    m_InternalValue: 0
-  AttackSpeed:
-    m_InternalValue: 0
-  CoolDownReduction:
-    m_InternalValue: 0
-  Armor:
-    m_InternalValue: 0
+  Speed: 0
+  Damage: 0
+  AttackSpeed: 0
+  CoolDownReduction: 0
+  Armor: 0
+  modifiers: []
   OnDamaged:
     m_PersistentCalls:
       m_Calls:
@@ -23506,7 +23502,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  modifiers: []
   net_CharacterSlot:
     m_InternalValue: 0
   net_playerName:
@@ -23583,7 +23578,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
   saveText: {fileID: 2229989780815055974}
-  coinText: {fileID: 5366855196545885066}
 --- !u!114 &5248151491556837222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23810,9 +23804,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentManager: {fileID: 6787697978767703092}
-  stats: {fileID: 2477393547595159198}
   itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
   playerquests: {fileID: 2815023884702440214}
+  Stats: {fileID: 2477393547595159198}
   Save: {fileID: 5710798942256160764}
   inventoryUI: {fileID: 4184313615137920459}
   inventorySlots: 30
