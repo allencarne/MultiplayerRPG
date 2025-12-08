@@ -16,12 +16,45 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> CoolDownReduction = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> Armor = new(writePerm: NetworkVariableWritePermission.Server);
 
-    [Header("Events")]
-    public UnityEvent<float> OnDamaged;
-    public UnityEvent<float> OnHealed;
+    public int ModifiedDamage => Damage.Value + GetModifierInt(StatType.Damage);
+    public float ModifiedMaxHealth => MaxHealth.Value + GetModifierFloat(StatType.Health);
+
+    int GetModifierInt(StatType type)
+    {
+        int value = 0;
+
+        foreach (StatModifier mod in modifiers)
+        {
+            if (mod.statType == type)
+            {
+                value += mod.value;
+            }
+        }
+
+        return value;
+    }
+
+    float GetModifierFloat(StatType type)
+    {
+        float value = 0;
+
+        foreach (StatModifier mod in modifiers)
+        {
+            if (mod.statType == type)
+            {
+                value += mod.value;
+            }
+        }
+
+        return value;
+    }
 
     [Header("List")]
     public List<StatModifier> modifiers = new List<StatModifier>();
+
+    [Header("Events")]
+    public UnityEvent<float> OnDamaged;
+    public UnityEvent<float> OnHealed;
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
@@ -99,14 +132,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (!IsServer) return;
 
         modifiers.Add(modifier);
-
-        switch (modifier.statType)
-        {
-            case StatType.Damage: IncreaseDamage(modifier.value); break;
-            case StatType.Health: IncreaseHealth(modifier.value); break;
-            case StatType.AttackSpeed: IncreaseAttackSpeed(modifier.value); break;
-            case StatType.CoolDown: IncreaseCoolDownReduction(modifier.value); break;
-        }
     }
 
     public void RemoveModifier(StatModifier modifier)
@@ -115,14 +140,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (modifiers.Count == 0) return;
 
         modifiers.Remove(modifier);
-
-        switch (modifier.statType)
-        {
-            case StatType.Damage: DecreaseDamage(modifier.value); break;
-            case StatType.Health: DecreaseHealth(modifier.value); break;
-            case StatType.AttackSpeed: DecreaseAttackSpeed(modifier.value); break;
-            case StatType.CoolDown: DecreaseCoolDownReduction(modifier.value); break;
-        }
     }
 
     #region Damage

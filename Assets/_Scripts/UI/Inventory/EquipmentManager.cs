@@ -99,7 +99,7 @@ public class EquipmentManager : MonoBehaviour
 
                     currentEquipment[slotIndex] = newItem;
                     equipmentUI.UpdateUI(newItem, oldItem);
-                    equipment.OnEquipmentChanged(newItem, oldItem, false);
+                    equipment.OnEquipmentChanged(newItem, oldItem, true);
                 }
                 else
                 {

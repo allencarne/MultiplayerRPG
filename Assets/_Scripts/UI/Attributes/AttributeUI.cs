@@ -41,10 +41,10 @@ public class AttributeUI : MonoBehaviour
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
         // Health
-        totalHealth.text = stats.MaxHealth.Value.ToString();
+        totalHealth.text = stats.ModifiedMaxHealth.ToString();
 
         // Damage
-        totalDamage.text = stats.Damage.Value.ToString();
+        totalDamage.text = stats.ModifiedDamage.ToString();
 
         // Attack Speed
         totalAttackSpeed.text = stats.AttackSpeed.Value.ToString("F2");

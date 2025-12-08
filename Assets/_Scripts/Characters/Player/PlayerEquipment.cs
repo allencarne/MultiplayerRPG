@@ -8,7 +8,6 @@ public class PlayerEquipment : NetworkBehaviour
     [SerializeField] ItemList itemDatabase;
     PlayerStats stats;
     PlayerStateMachine stateMachine;
-    //Player player;
     PlayerSave save;
 
     [Header("Index")]
