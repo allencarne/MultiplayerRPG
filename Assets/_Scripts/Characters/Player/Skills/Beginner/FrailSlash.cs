@@ -7,7 +7,7 @@ public class FrailSlash : PlayerSkill
         InitializeAbility(skillType, owner);
 
         // Cast Time - Basic Attack Only
-        ModifiedCastTime = CastTime / owner.Stats.AttackSpeed.Value;
+        ModifiedCastTime = CastTime / owner.Stats.AttackSpeed;
 
         // Aim
         AimDirection = owner.Aimer.right;

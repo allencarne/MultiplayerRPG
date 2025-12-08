@@ -111,8 +111,8 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
         if (stats != null)
         {
-            float speed = stats.Speed.Value * multiplier;
-            stats.Speed.Value = Mathf.Max(speed, 0.1f);
+            float speed = stats.Speed * multiplier;
+            stats.Speed = Mathf.Max(speed, 0.1f);
         }
 
         if (enemy != null)

@@ -10,13 +10,19 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Stats")]
-    public NetworkVariable<float> Speed = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<int> Damage = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> AttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> CoolDownReduction = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> Armor = new(writePerm: NetworkVariableWritePermission.Server);
+    public float Speed;
+    public int Damage;
+    public float AttackSpeed;
+    public float CoolDownReduction;
+    public float Armor;
 
-    public int ModifiedDamage => Damage.Value + GetModifierInt(StatType.Damage);
+    //public NetworkVariable<float> Speed = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<int> Damage = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> AttackSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> CoolDownReduction = new(writePerm: NetworkVariableWritePermission.Server);
+    //public NetworkVariable<float> Armor = new(writePerm: NetworkVariableWritePermission.Server);
+
+    public int ModifiedDamage => Damage + GetModifierInt(StatType.Damage);
     public float ModifiedMaxHealth => MaxHealth.Value + GetModifierFloat(StatType.Health);
 
     int GetModifierInt(StatType type)
@@ -78,7 +84,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
-        float armor = Armor.Value; // Get the target's current armor
+        float armor = Armor; // Get the target's current armor
 
         switch (damageType)
         {
@@ -147,7 +153,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            Damage.Value += amount;
+            Damage += amount;
         }
         else
         {
@@ -158,14 +164,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseDamageServerRPC(int amount)
     {
-        Damage.Value += amount;
+        Damage += amount;
     }
 
     public void DecreaseDamage(int amount)
     {
         if (IsServer)
         {
-            Damage.Value -= amount;
+            Damage -= amount;
         }
         else
         {
@@ -176,7 +182,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseDamageServerRPC(int amount)
     {
-        Damage.Value -= amount;
+        Damage -= amount;
     }
     #endregion
 
@@ -227,7 +233,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            AttackSpeed.Value += amount;
+            AttackSpeed += amount;
         }
         else
         {
@@ -238,14 +244,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseAttackSpeedServerRPC(int amount)
     {
-        AttackSpeed.Value += amount;
+        AttackSpeed += amount;
     }
 
     public void DecreaseAttackSpeed(int amount)
     {
         if (IsServer)
         {
-            AttackSpeed.Value -= amount;
+            AttackSpeed -= amount;
         }
         else
         {
@@ -256,7 +262,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseAttackSpeedServerRPC(int amount)
     {
-        AttackSpeed.Value -= amount;
+        AttackSpeed -= amount;
     }
     #endregion
 
@@ -265,7 +271,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            CoolDownReduction.Value += amount;
+            CoolDownReduction += amount;
         }
         else
         {
@@ -276,14 +282,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseCoolDownReductionServerRPC(int amount)
     {
-        CoolDownReduction.Value += amount;
+        CoolDownReduction += amount;
     }
 
     public void DecreaseCoolDownReduction(int amount)
     {
         if (IsServer)
         {
-            CoolDownReduction.Value -= amount;
+            CoolDownReduction -= amount;
         }
         else
         {
@@ -294,7 +300,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseCoolDownReductionServerRPC(int amount)
     {
-        CoolDownReduction.Value -= amount;
+        CoolDownReduction -= amount;
     }
     #endregion
 }

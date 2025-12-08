@@ -183,7 +183,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.Stats.CoolDownReduction.Value;
+        float modifiedCooldown = coolDown / owner.Stats.CoolDownReduction;
         owner.coolDownTracker.SkillCoolDown(skillType, modifiedCooldown);
 
         yield return new WaitForSeconds(modifiedCooldown);

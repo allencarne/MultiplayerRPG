@@ -111,8 +111,8 @@ public class Debuff_Weakness : NetworkBehaviour
 
         if (stats != null)
         {
-            float damage = stats.Damage.Value * multiplier;
-            stats.Damage.Value = Mathf.Max(Mathf.RoundToInt(damage), 1);
+            float damage = stats.Damage * multiplier;
+            stats.Damage = Mathf.Max(Mathf.RoundToInt(damage), 1);
         }
 
         if (enemy != null)

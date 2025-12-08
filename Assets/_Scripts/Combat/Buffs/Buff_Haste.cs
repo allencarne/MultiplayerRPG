@@ -109,7 +109,7 @@ public class Buff_Haste : NetworkBehaviour
         float slowMultiplier = deBuffs.slow.TotalSlowStacks * deBuffs.slow.slowPercent;
         float multiplier = 1 + hasteMultiplier - slowMultiplier;
 
-        if (stats != null) stats.Speed.Value = stats.Speed.Value * multiplier;
+        if (stats != null) stats.Speed = stats.Speed * multiplier;
         if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 

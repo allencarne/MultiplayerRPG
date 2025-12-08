@@ -47,19 +47,19 @@ public class AttributeUI : MonoBehaviour
         totalDamage.text = stats.ModifiedDamage.ToString();
 
         // Attack Speed
-        totalAttackSpeed.text = stats.AttackSpeed.Value.ToString("F2");
+        totalAttackSpeed.text = stats.AttackSpeed.ToString("F2");
 
         // Cooldown Reduction (CDR)
-        totalCDR.text = stats.CoolDownReduction.Value.ToString("F2");
+        totalCDR.text = stats.CoolDownReduction.ToString("F2");
 
         // Speed
-        totalSpeed.text = stats.Speed.Value.ToString("F2");
+        totalSpeed.text = stats.Speed.ToString("F2");
 
         // Endurance
         totalEndurance.text = stats.MaxEndurance.Value.ToString();
 
         // Armor
-        totalArmor.text = stats.Armor.Value.ToString();
+        totalArmor.text = stats.Armor.ToString();
     }
 
     void GetClassIcon()

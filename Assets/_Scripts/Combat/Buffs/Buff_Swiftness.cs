@@ -110,7 +110,7 @@ public class Buff_Swiftness : NetworkBehaviour
 
         float multiplier = 1 + swiftnessMultiplier - exhaustMultiplier;
 
-        if (stats != null) stats.AttackSpeed.Value = stats.AttackSpeed.Value * multiplier;
+        if (stats != null) stats.AttackSpeed = stats.AttackSpeed * multiplier;
         if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed * multiplier;
     }
 

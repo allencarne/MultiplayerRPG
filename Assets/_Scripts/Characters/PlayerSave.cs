@@ -136,11 +136,11 @@ public class PlayerSave : NetworkBehaviour
         stats.MaxFury.Value = maxFury;
         stats.MaxEndurance.Value = maxEndurance;
 
-        stats.Speed.Value = baseSpeed;
-        stats.Damage.Value = baseDamage;
-        stats.AttackSpeed.Value = baseAttackSpeed;
-        stats.CoolDownReduction.Value = baseCDR;
-        stats.Armor.Value = baseArmor;
+        stats.Speed = baseSpeed;
+        stats.Damage = baseDamage;
+        stats.AttackSpeed = baseAttackSpeed;
+        stats.CoolDownReduction = baseCDR;
+        stats.Armor = baseArmor;
 
         // Set current values to full/base
         stats.Health.Value = maxHealth;
@@ -168,11 +168,11 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetFloat($"{prefix}Endurance", stats.Endurance.Value);
         PlayerPrefs.SetFloat($"{prefix}MaxEndurance", stats.MaxEndurance.Value);
 
-        PlayerPrefs.SetFloat($"{prefix}Speed", stats.Speed.Value);
-        PlayerPrefs.SetInt($"{prefix}Damage", stats.Damage.Value);
-        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", stats.AttackSpeed.Value);
-        PlayerPrefs.SetFloat($"{prefix}CDR", stats.CoolDownReduction.Value);
-        PlayerPrefs.SetFloat($"{prefix}Armor", stats.Armor.Value);
+        PlayerPrefs.SetFloat($"{prefix}Speed", stats.Speed);
+        PlayerPrefs.SetInt($"{prefix}Damage", stats.Damage);
+        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", stats.AttackSpeed);
+        PlayerPrefs.SetFloat($"{prefix}CDR", stats.CoolDownReduction);
+        PlayerPrefs.SetFloat($"{prefix}Armor", stats.Armor);
 
         // Skills
         PlayerPrefs.SetInt($"{prefix}FirstPassive", player.FirstPassiveIndex);

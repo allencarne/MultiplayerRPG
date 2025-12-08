@@ -109,7 +109,7 @@ public class Buff_Alacrity : NetworkBehaviour
         float impedeMultiplier = deBuffs.impede.TotalImpedeStacks * deBuffs.impede.impedePercent;
         float multiplier = 1f + alacrityMultiplier - impedeMultiplier;
 
-        if (stats != null) stats.CoolDownReduction.Value = stats.CoolDownReduction.Value * multiplier;
+        if (stats != null) stats.CoolDownReduction = stats.CoolDownReduction * multiplier;
         if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR * multiplier;
     }
 
