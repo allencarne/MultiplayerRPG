@@ -1,9 +1,8 @@
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class PlayerUI : NetworkBehaviour
+public class PlayerUI : MonoBehaviour
 {
     [SerializeField] PlayerInput playerInput;
     [SerializeField] AttributeSkillButtons skillButtons;

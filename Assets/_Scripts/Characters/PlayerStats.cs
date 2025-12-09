@@ -1,4 +1,3 @@
-using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -39,4 +38,22 @@ public class PlayerStats : CharacterStats
     }
 
     public PlayerClass playerClass;
+
+    public void ConsumeAttributePoints(int amount)
+    {
+        if (IsServer)
+        {
+            AttributePoints.Value -= amount;
+        }
+        else
+        {
+            ConsumeAttributePointsServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void ConsumeAttributePointsServerRPC(int amount)
+    {
+        AttributePoints.Value -= amount;
+    }
 }

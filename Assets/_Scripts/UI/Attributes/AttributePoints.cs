@@ -1,11 +1,10 @@
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AttributePoints : NetworkBehaviour
+public class AttributePoints : MonoBehaviour
 {
     [SerializeField] Color defaultColor;
     [Header("Button")]
@@ -137,7 +136,7 @@ public class AttributePoints : NetworkBehaviour
         stats.IncreaseDamage(damageToAdd);
         stats.IncreaseAttackSpeed(asToAdd);
         stats.IncreaseCoolDownReduction(cdrToAdd);
-        ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
+        stats.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;
         healthText.text = healthToAdd.ToString();
@@ -162,23 +161,5 @@ public class AttributePoints : NetworkBehaviour
         if (healthToAdd < 1) healthText.text = "";
         if (asToAdd < 1) ASText.text = "";
         if (cdrToAdd < 1) CDRText.text = "";
-    }
-
-    public void ConsumeAttributePoints(int amount)
-    {
-        if (IsServer)
-        {
-            stats.AttributePoints.Value -= amount;
-        }
-        else
-        {
-            ConsumeAttributePointsServerRPC(amount);
-        }
-    }
-
-    [ServerRpc]
-    void ConsumeAttributePointsServerRPC(int amount)
-    {
-        stats.AttributePoints.Value -= amount;
     }
 }
