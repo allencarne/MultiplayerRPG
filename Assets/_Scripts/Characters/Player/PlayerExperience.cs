@@ -36,6 +36,12 @@ public class PlayerExperience : NetworkBehaviour
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
     }
 
+    private void OnDisable()
+    {
+        stats.CurrentExperience.OnValueChanged -= OnExperienceChanged;
+        stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
+    }
+
     private void Start()
     {
         if (IsServer)

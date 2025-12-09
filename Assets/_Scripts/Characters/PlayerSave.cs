@@ -32,6 +32,8 @@ public class PlayerSave : NetworkBehaviour
     {
         if (IsOwner)
         {
+            SetSelectedCharacterServerRpc(PlayerPrefs.GetInt("SelectedCharacter"));
+
             LoadCustomization();
             LoadPlayerStats();
             LoadCharacterStats();
@@ -45,6 +47,12 @@ public class PlayerSave : NetworkBehaviour
             custom.bodySprite.color = stats.net_bodyColor.Value;
             custom.hairSprite.color = stats.net_hairColor.Value;
         }
+    }
+
+    [ServerRpc]
+    void SetSelectedCharacterServerRpc(int slot)
+    {
+        stats.net_CharacterSlot.Value = slot;
     }
 
     void LoadCustomization()
@@ -87,7 +95,7 @@ public class PlayerSave : NetworkBehaviour
 
     void LoadPlayerStats()
     {
-        int slot = stats.net_CharacterSlot.Value;
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         int level = PlayerPrefs.GetInt($"{slot}PlayerLevel", 1);
         float currentExp = PlayerPrefs.GetFloat($"{slot}CurrentExperience", 0);
@@ -122,7 +130,7 @@ public class PlayerSave : NetworkBehaviour
 
     void LoadCharacterStats()
     {
-        int slot = stats.net_CharacterSlot.Value;
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 10);
         float fury = PlayerPrefs.GetFloat($"{slot}MaxFury", 100);
@@ -134,27 +142,27 @@ public class PlayerSave : NetworkBehaviour
         float cdr = PlayerPrefs.GetFloat($"{slot}CDR", 1);
         float armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
 
-        if (IsServer)
-        {
-            ApplyCharacterStats(health, fury, end, speed, damage, atspd, cdr, armor);
-        }
-        else
-        {
-            LoadCharacterStatsServerRPC(health, fury, end, speed, damage, atspd, cdr, armor);
-        }
-    }
-
-    void ApplyCharacterStats(float health, float fury, float end, float speed, int damage, float atspd, float cdr, float armor)
-    {
-        stats.MaxHealth.Value = health;
-        stats.MaxFury.Value = fury;
-        stats.MaxEndurance.Value = end;
-
         stats.Speed = speed;
         stats.Damage = damage;
         stats.AttackSpeed = atspd;
         stats.CoolDownReduction = cdr;
         stats.Armor = armor;
+
+        if (IsServer)
+        {
+            ApplyCharacterStats(health, fury, end);
+        }
+        else
+        {
+            LoadCharacterStatsServerRPC(health, fury, end);
+        }
+    }
+
+    void ApplyCharacterStats(float health, float fury, float end)
+    {
+        stats.MaxHealth.Value = health;
+        stats.MaxFury.Value = fury;
+        stats.MaxEndurance.Value = end;
 
         stats.Health.Value = health;
         stats.Fury.Value = 0;
@@ -162,14 +170,14 @@ public class PlayerSave : NetworkBehaviour
     }
 
     [ServerRpc]
-    void LoadCharacterStatsServerRPC(float health, float fury, float end, float speed, int damage, float atspd, float cdr, float armor)
+    void LoadCharacterStatsServerRPC(float health, float fury, float end)
     {
-        ApplyCharacterStats(health, fury, end, speed, damage, atspd, cdr, armor);
+        ApplyCharacterStats(health, fury, end);
     }
 
     void LoadPlayerSkills()
     {
-        int slot = stats.net_CharacterSlot.Value;
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         player.FirstPassiveIndex = PlayerPrefs.GetInt($"{slot}FirstPassive", 0);
         player.SecondPassiveIndex = PlayerPrefs.GetInt($"{slot}SecondPassive", -1);
