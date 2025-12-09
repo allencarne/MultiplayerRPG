@@ -6,14 +6,10 @@ public class PlayerEquipment : NetworkBehaviour
 {
     [Header("Player")]
     [SerializeField] ItemList itemDatabase;
+    PlayerCustomization customization;
     PlayerStats stats;
     PlayerStateMachine stateMachine;
     PlayerSave save;
-
-    [Header("Index")]
-    public int HeadAnimIndex;
-    public int ChestAnimIndex;
-    public int LegsAnimIndex;
 
     [Header("WeaponSprites")]
     [SerializeField] SpriteRenderer Sword;
@@ -64,6 +60,7 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void Awake()
     {
+        customization = GetComponent<PlayerCustomization>();
         stats = GetComponent<PlayerStats>();
         stateMachine = GetComponent<PlayerStateMachine>();
         save = GetComponent<PlayerSave>();
@@ -194,8 +191,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: HeadAnimIndex = newEquipment.itemIndex; break;
-                    case 2: HeadAnimIndex = newEquipment.itemIndex; break;
+                    case 1: customization.HeadAnimIndex = newEquipment.itemIndex; break;
+                    case 2: customization.HeadAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
 
@@ -203,8 +200,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: ChestAnimIndex = newEquipment.itemIndex; break;
-                    case 2: ChestAnimIndex = newEquipment.itemIndex; break;
+                    case 1: customization.ChestAnimIndex = newEquipment.itemIndex; break;
+                    case 2: customization.ChestAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
 
@@ -212,8 +209,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: LegsAnimIndex = newEquipment.itemIndex; break;
-                    case 2: LegsAnimIndex = newEquipment.itemIndex; break;
+                    case 1: customization.LegsAnimIndex = newEquipment.itemIndex; break;
+                    case 2: customization.LegsAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
         }
@@ -243,8 +240,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (oldItem.itemIndex)
                 {
-                    case 1: HeadAnimIndex = 0; break;
-                    case 2: HeadAnimIndex = 0; break;
+                    case 1: customization.HeadAnimIndex = 0; break;
+                    case 2: customization.HeadAnimIndex = 0; break;
                 }
                 break;
 
@@ -252,8 +249,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (oldItem.itemIndex)
                 {
-                    case 1: ChestAnimIndex = 0; break;
-                    case 2: ChestAnimIndex = 0; break;
+                    case 1: customization.ChestAnimIndex = 0; break;
+                    case 2: customization.ChestAnimIndex = 0; break;
                 }
                 break;
 
@@ -261,8 +258,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (oldItem.itemIndex)
                 {
-                    case 1: LegsAnimIndex = 0; break;
-                    case 2: LegsAnimIndex = 0; break;
+                    case 1: customization.LegsAnimIndex = 0; break;
+                    case 2: customization.LegsAnimIndex = 0; break;
                 }
                 break;
         }

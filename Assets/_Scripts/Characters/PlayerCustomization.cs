@@ -5,12 +5,21 @@ using UnityEngine;
 
 public class PlayerCustomization : NetworkBehaviour
 {
+    [Header("Player")]
     [SerializeField] PlayerStats stats;
 
+    [Header("UI")]
     public TextMeshProUGUI playerNameText;
+
+    [Header("Sprites")]
     public SpriteRenderer bodySprite;
     public SpriteRenderer hairSprite;
-    public int hairIndex;
+
+    [Header("Index")]
+    public int HairIndex;
+    public int HeadAnimIndex;
+    public int ChestAnimIndex;
+    public int LegsAnimIndex;
 
     public override void OnNetworkSpawn()
     {
@@ -18,17 +27,9 @@ public class PlayerCustomization : NetworkBehaviour
         stats.net_bodyColor.OnValueChanged += OnBodyColorChanged;
         stats.net_hairColor.OnValueChanged += OnHairColorChanged;
 
-        if (IsOwner)
-        {
-            // Load Me
-        }
-        else
-        {
-            // Load Others
-            playerNameText.text = stats.net_playerName.Value.ToString();
-            bodySprite.color = stats.net_bodyColor.Value;
-            hairSprite.color = stats.net_hairColor.Value;
-        }
+        playerNameText.text = stats.net_playerName.Value.ToString();
+        bodySprite.color = stats.net_bodyColor.Value;
+        hairSprite.color = stats.net_hairColor.Value;
     }
 
     public override void OnDestroy()

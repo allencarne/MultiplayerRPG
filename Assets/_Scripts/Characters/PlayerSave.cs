@@ -52,7 +52,7 @@ public class PlayerSave : NetworkBehaviour
         customization.playerNameText.text = PlayerPrefs.GetString($"Character{prefix}Name", "PlayerName");
         customization.bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt($"Character{prefix}SkinColor")];
         customization.hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt($"Character{prefix}HairColor")];
-        customization.hairIndex = PlayerPrefs.GetInt($"Character{prefix}HairStyle");
+        customization.HairIndex = PlayerPrefs.GetInt($"Character{prefix}HairStyle");
 
         // Set Customization
         stats.net_playerName.Value = customization.playerNameText.text;
