@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -31,116 +32,144 @@ public class PlayerSave : NetworkBehaviour
     {
         if (IsOwner)
         {
-            SetSelectedCharacterServerRpc(PlayerPrefs.GetInt("SelectedCharacter"));
-
             LoadCustomization();
             LoadPlayerStats();
+            LoadCharacterStats();
+            LoadPlayerSkills();
             inventory.LoadInventory();
             equipment.LoadEquipment();
-        }
-        else
-        {
-
         }
     }
 
     void LoadCustomization()
     {
-        int prefix = stats.net_CharacterSlot.Value;
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        // Load Customization
-        customization.playerNameText.text = PlayerPrefs.GetString($"Character{prefix}Name", "PlayerName");
-        customization.bodySprite.color = customizationData.skinColors[PlayerPrefs.GetInt($"Character{prefix}SkinColor")];
-        customization.hairSprite.color = customizationData.hairColors[PlayerPrefs.GetInt($"Character{prefix}HairColor")];
-        customization.HairIndex = PlayerPrefs.GetInt($"Character{prefix}HairStyle");
+        string name = PlayerPrefs.GetString($"{slot}Name", "No Name");
+        int skinIndex = PlayerPrefs.GetInt($"{slot}SkinColor");
+        int hairIndex = PlayerPrefs.GetInt($"{slot}HairColor");
+        Color skinCol = customizationData.skinColors[skinIndex];
+        Color hairCol = customizationData.hairColors[hairIndex];
 
-        // Set Customization
-        stats.net_playerName.Value = customization.playerNameText.text;
-        stats.net_bodyColor.Value = customization.bodySprite.color;
-        stats.net_hairColor.Value = customization.hairSprite.color;
-    }
-
-    public void LoadPlayerStats()
-    {
-        string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
-
-        // Load from PlayerPrefs
-        int level = PlayerPrefs.GetInt($"{prefix}PlayerLevel", 1);
-        float currentExp = PlayerPrefs.GetFloat($"{prefix}CurrentExperience", 0);
-        float requiredExp = PlayerPrefs.GetFloat($"{prefix}RequiredExperience", 10);
-        float coins = PlayerPrefs.GetFloat($"{prefix}Coins", 0);
-        int ap = PlayerPrefs.GetInt($"{prefix}AP", 0);
-
-        float maxHealth = PlayerPrefs.GetFloat($"{prefix}MaxHealth", 10);
-        float maxFury = PlayerPrefs.GetFloat($"{prefix}MaxFury", 100);
-        float maxEndurance = PlayerPrefs.GetFloat($"{prefix}MaxEndurance", 100);
-
-        float baseSpeed = PlayerPrefs.GetFloat($"{prefix}Speed", 5);
-        int baseDamage = PlayerPrefs.GetInt($"{prefix}Damage", 1);
-        float baseAttackSpeed = PlayerPrefs.GetFloat($"{prefix}AttackSpeed", 1);
-        float baseCDR = PlayerPrefs.GetFloat($"{prefix}CDR", 1);
-        float baseArmor = PlayerPrefs.GetFloat($"{prefix}Armor", 0);
-
-        // Non-NetworkVariable stats (can set directly)
-        stats.Coins = coins;
-        player.FirstPassiveIndex = PlayerPrefs.GetInt($"{prefix}FirstPassive", 0);
-        player.SecondPassiveIndex = PlayerPrefs.GetInt($"{prefix}SecondPassive", -1);
-        player.ThirdPassiveIndex = PlayerPrefs.GetInt($"{prefix}ThirdPassive", -1);
-        player.BasicIndex = PlayerPrefs.GetInt($"{prefix}Basic", 0);
-        player.OffensiveIndex = PlayerPrefs.GetInt($"{prefix}Offensive", -1);
-        player.MobilityIndex = PlayerPrefs.GetInt($"{prefix}Mobility", -1);
-        player.DefensiveIndex = PlayerPrefs.GetInt($"{prefix}Defensive", -1);
-        player.UtilityIndex = PlayerPrefs.GetInt($"{prefix}Utility", -1);
-        player.UltimateIndex = PlayerPrefs.GetInt($"{prefix}Ultimate", -1);
-
-        // NetworkVariables (need server authority)
         if (IsServer)
         {
-            // Server can set directly
-            SetPlayerStats(level, currentExp, requiredExp, ap, maxHealth, maxFury, maxEndurance,
-                baseSpeed, baseDamage, baseAttackSpeed, baseCDR, baseArmor);
+            ApplyCustomization(slot, name, skinCol, hairCol);
         }
         else
         {
-            // Client asks server to set them
-            SetPlayerStatsServerRpc(level, currentExp, requiredExp, ap, maxHealth, maxFury, maxEndurance,
-                baseSpeed, baseDamage, baseAttackSpeed, baseCDR, baseArmor);
+            LoadCustomizationServerRPC(slot, name, skinCol, hairCol);
         }
     }
 
-    [ServerRpc]
-    void SetPlayerStatsServerRpc(int level, float currentExp, float requiredExp, int ap,
-    float maxHealth, float maxFury, float maxEndurance, float baseSpeed, int baseDamage,
-    float baseAttackSpeed, float baseCDR, float baseArmor)
+    void ApplyCustomization(int slot, FixedString32Bytes name, Color skin, Color hair)
     {
-        SetPlayerStats(level, currentExp, requiredExp, ap, maxHealth, maxFury, maxEndurance,
-            baseSpeed, baseDamage, baseAttackSpeed, baseCDR, baseArmor);
+        stats.net_CharacterSlot.Value = slot;
+        stats.net_playerName.Value = name;
+        stats.net_bodyColor.Value = skin;
+        stats.net_hairColor.Value = hair;
     }
 
-    void SetPlayerStats(int level, float currentExp, float requiredExp, int ap,
-        float maxHealth, float maxFury, float maxEndurance, float baseSpeed, int baseDamage,
-        float baseAttackSpeed, float baseCDR, float baseArmor)
+    [ServerRpc]
+    void LoadCustomizationServerRPC(int slot, FixedString32Bytes name, Color skin, Color hair)
     {
-        // Set NetworkVariables
+        ApplyCustomization(slot, name, skin, hair);
+    }
+
+    void LoadPlayerStats()
+    {
+        int slot = stats.net_CharacterSlot.Value;
+
+        int level = PlayerPrefs.GetInt($"{slot}PlayerLevel", 1);
+        float currentExp = PlayerPrefs.GetFloat($"{slot}CurrentExperience", 0);
+        float requiredExp = PlayerPrefs.GetFloat($"{slot}RequiredExperience", 10);
+        int ap = PlayerPrefs.GetInt($"{slot}AP", 0);
+        float coins = PlayerPrefs.GetFloat($"{slot}Coins", 0);
+
+        if (IsServer)
+        {
+            ApplyPlayerStats(level, currentExp, requiredExp, coins, ap);
+        }
+        else
+        {
+            LoadPlayerStatsServerRPC(level, currentExp, requiredExp, coins, ap);
+        }
+    }
+
+    void ApplyPlayerStats(int level, float cEXP, float rEXP, float coins, int ap)
+    {
         stats.PlayerLevel.Value = level;
-        stats.CurrentExperience.Value = currentExp;
-        stats.RequiredExperience.Value = requiredExp;
+        stats.CurrentExperience.Value = cEXP;
+        stats.RequiredExperience.Value = rEXP;
         stats.AttributePoints.Value = ap;
+        stats.Coins = coins;
+    }
 
-        stats.MaxHealth.Value = maxHealth;
-        stats.MaxFury.Value = maxFury;
-        stats.MaxEndurance.Value = maxEndurance;
+    [ServerRpc]
+    void LoadPlayerStatsServerRPC(int level, float cEXP, float rEXP, float coins, int ap)
+    {
+        ApplyPlayerStats(level, cEXP,rEXP, coins, ap);
+    }
 
-        stats.Speed = baseSpeed;
-        stats.Damage = baseDamage;
-        stats.AttackSpeed = baseAttackSpeed;
-        stats.CoolDownReduction = baseCDR;
-        stats.Armor = baseArmor;
+    void LoadCharacterStats()
+    {
+        int slot = stats.net_CharacterSlot.Value;
 
-        // Set current values to full/base
-        stats.Health.Value = maxHealth;
+        float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 10);
+        float fury = PlayerPrefs.GetFloat($"{slot}MaxFury", 100);
+        float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
+
+        float speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
+        int damage = PlayerPrefs.GetInt($"{slot}Damage", 1);
+        float atspd = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
+        float cdr = PlayerPrefs.GetFloat($"{slot}CDR", 1);
+        float armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
+
+        if (IsServer)
+        {
+            ApplyCharacterStats(health, fury, end, speed, damage, atspd, cdr, armor);
+        }
+        else
+        {
+            LoadCharacterStatsServerRPC(health, fury, end, speed, damage, atspd, cdr, armor);
+        }
+    }
+
+    void ApplyCharacterStats(float health, float fury, float end, float speed, int damage, float atspd, float cdr, float armor)
+    {
+        stats.MaxHealth.Value = health;
+        stats.MaxFury.Value = fury;
+        stats.MaxEndurance.Value = end;
+
+        stats.Speed = speed;
+        stats.Damage = damage;
+        stats.AttackSpeed = atspd;
+        stats.CoolDownReduction = cdr;
+        stats.Armor = armor;
+
+        stats.Health.Value = health;
         stats.Fury.Value = 0;
-        stats.Endurance.Value = maxEndurance;
+        stats.Endurance.Value = end;
+    }
+
+    [ServerRpc]
+    void LoadCharacterStatsServerRPC(float health, float fury, float end, float speed, int damage, float atspd, float cdr, float armor)
+    {
+        ApplyCharacterStats(health, fury, end, speed, damage, atspd, cdr, armor);
+    }
+
+    void LoadPlayerSkills()
+    {
+        int slot = stats.net_CharacterSlot.Value;
+
+        player.FirstPassiveIndex = PlayerPrefs.GetInt($"{slot}FirstPassive", 0);
+        player.SecondPassiveIndex = PlayerPrefs.GetInt($"{slot}SecondPassive", -1);
+        player.ThirdPassiveIndex = PlayerPrefs.GetInt($"{slot}ThirdPassive", -1);
+        player.BasicIndex = PlayerPrefs.GetInt($"{slot}Basic", 0);
+        player.OffensiveIndex = PlayerPrefs.GetInt($"{slot}Offensive", -1);
+        player.MobilityIndex = PlayerPrefs.GetInt($"{slot}Mobility", -1);
+        player.DefensiveIndex = PlayerPrefs.GetInt($"{slot}Defensive", -1);
+        player.UtilityIndex = PlayerPrefs.GetInt($"{slot}Utility", -1);
+        player.UltimateIndex = PlayerPrefs.GetInt($"{slot}Ultimate", -1);
     }
 
     public void SaveStats()
@@ -223,11 +252,5 @@ public class PlayerSave : NetworkBehaviour
         saveText.text = "Save";
         yield return new WaitForSeconds(1);
         saveText.text = "";
-    }
-
-    [ServerRpc]
-    void SetSelectedCharacterServerRpc(int slot)
-    {
-        stats.net_CharacterSlot.Value = slot;
     }
 }
