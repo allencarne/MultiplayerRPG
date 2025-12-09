@@ -197,32 +197,23 @@ public class CharacterSelect : MonoBehaviour
         statPreview3.SetActive(false);
     }
 
-    private void ResetCharacterSaveData(int characterNumber)
+    private void ResetCharacterSaveData(int slot)
     {
-        string prefix = $"Character{characterNumber}_";
-
-        // Delete all related stats
         string[] keys = new string[]
         {
-        $"{prefix}PlayerLevel",
-        $"{prefix}CurrentExperience",
-        $"{prefix}RequiredExperience",
-        $"{prefix}Coins",
-        $"{prefix}AP",
-        $"{prefix}Health",
-        $"{prefix}MaxHealth",
-        $"{prefix}Endurance",
-        $"{prefix}MaxEndurance",
-        $"{prefix}Speed",
-        $"{prefix}CurrentSpeed",
-        $"{prefix}Damage",
-        $"{prefix}CurrentDamage",
-        $"{prefix}AttackSpeed",
-        $"{prefix}CurrentAttackSpeed",
-        $"{prefix}CDR",
-        $"{prefix}CurrentCDR",
-        $"{prefix}BaseArmor",
-        $"{prefix}CurrentArmor"
+        $"{slot}PlayerLevel",
+        $"{slot}CurrentExperience",
+        $"{slot}RequiredExperience",
+        $"{slot}Coins",
+        $"{slot}AP",
+        $"{slot}MaxHealth",
+        $"{slot}MaxFury",
+        $"{slot}MaxEndurance",
+        $"{slot}Speed",
+        $"{slot}Damage",
+        $"{slot}AttackSpeed",
+        $"{slot}CDR",
+        $"{slot}BaseArmor",
         };
 
         foreach (string key in keys)

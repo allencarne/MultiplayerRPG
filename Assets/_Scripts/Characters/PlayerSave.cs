@@ -11,7 +11,6 @@ public class PlayerSave : NetworkBehaviour
 
     [Header("References")]
     Player player;
-    PlayerCustomization customization;
     PlayerStats stats;
     Inventory inventory;
     EquipmentManager equipment;
@@ -23,7 +22,6 @@ public class PlayerSave : NetworkBehaviour
     {
         player = GetComponent<Player>();
         stats = GetComponent<PlayerStats>();
-        customization = GetComponent<PlayerCustomization>();
         inventory = GetComponentInChildren<Inventory>();
         equipment = GetComponentInChildren<EquipmentManager>();
     }
@@ -45,9 +43,9 @@ public class PlayerSave : NetworkBehaviour
     {
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        string name = PlayerPrefs.GetString($"{slot}Name", "No Name");
-        int skinIndex = PlayerPrefs.GetInt($"{slot}SkinColor");
-        int hairIndex = PlayerPrefs.GetInt($"{slot}HairColor");
+        string name = PlayerPrefs.GetString($"Character{slot}Name", "No Name");
+        int skinIndex = PlayerPrefs.GetInt($"Character{slot}SkinColor");
+        int hairIndex = PlayerPrefs.GetInt($"Character{slot}HairColor");
         Color skinCol = customizationData.skinColors[skinIndex];
         Color hairCol = customizationData.hairColors[hairIndex];
 
@@ -174,40 +172,35 @@ public class PlayerSave : NetworkBehaviour
 
     public void SaveStats()
     {
-        string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        PlayerPrefs.SetInt($"{prefix}PlayerLevel", stats.PlayerLevel.Value);
-        PlayerPrefs.SetFloat($"{prefix}CurrentExperience", stats.CurrentExperience.Value);
-        PlayerPrefs.SetFloat($"{prefix}RequiredExperience", stats.RequiredExperience.Value);
-        PlayerPrefs.SetFloat($"{prefix}Coins", stats.Coins);
-        PlayerPrefs.SetInt($"{prefix}AP", stats.AttributePoints.Value);
+        PlayerPrefs.SetInt($"{slot}PlayerLevel", stats.PlayerLevel.Value);
+        PlayerPrefs.SetFloat($"{slot}CurrentExperience", stats.CurrentExperience.Value);
+        PlayerPrefs.SetFloat($"{slot}RequiredExperience", stats.RequiredExperience.Value);
+        PlayerPrefs.SetFloat($"{slot}Coins", stats.Coins);
+        PlayerPrefs.SetInt($"{slot}AP", stats.AttributePoints.Value);
 
         // Stats
-        PlayerPrefs.SetFloat($"{prefix}Health", stats.Health.Value);
-        PlayerPrefs.SetFloat($"{prefix}MaxHealth", stats.MaxHealth.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.MaxHealth.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxFury", stats.MaxFury.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.MaxEndurance.Value);
 
-        PlayerPrefs.SetFloat($"{prefix}Fury", stats.Fury.Value);
-        PlayerPrefs.SetFloat($"{prefix}MaxFury", stats.MaxFury.Value);
-
-        PlayerPrefs.SetFloat($"{prefix}Endurance", stats.Endurance.Value);
-        PlayerPrefs.SetFloat($"{prefix}MaxEndurance", stats.MaxEndurance.Value);
-
-        PlayerPrefs.SetFloat($"{prefix}Speed", stats.Speed);
-        PlayerPrefs.SetInt($"{prefix}Damage", stats.Damage);
-        PlayerPrefs.SetFloat($"{prefix}AttackSpeed", stats.AttackSpeed);
-        PlayerPrefs.SetFloat($"{prefix}CDR", stats.CoolDownReduction);
-        PlayerPrefs.SetFloat($"{prefix}Armor", stats.Armor);
+        PlayerPrefs.SetFloat($"{slot}Speed", stats.Speed);
+        PlayerPrefs.SetInt($"{slot}Damage", stats.Damage);
+        PlayerPrefs.SetFloat($"{slot}AttackSpeed", stats.AttackSpeed);
+        PlayerPrefs.SetFloat($"{slot}CDR", stats.CoolDownReduction);
+        PlayerPrefs.SetFloat($"{slot}Armor", stats.Armor);
 
         // Skills
-        PlayerPrefs.SetInt($"{prefix}FirstPassive", player.FirstPassiveIndex);
-        PlayerPrefs.SetInt($"{prefix}SecondPassive", player.SecondPassiveIndex);
-        PlayerPrefs.SetInt($"{prefix}ThirdPassive", player.ThirdPassiveIndex);
-        PlayerPrefs.SetInt($"{prefix}Basic", player.BasicIndex);
-        PlayerPrefs.SetInt($"{prefix}Offensive", player.OffensiveIndex);
-        PlayerPrefs.SetInt($"{prefix}Mobility", player.MobilityIndex);
-        PlayerPrefs.SetInt($"{prefix}Defensive", player.DefensiveIndex);
-        PlayerPrefs.SetInt($"{prefix}Utility", player.UtilityIndex);
-        PlayerPrefs.SetInt($"{prefix}Ultimate", player.UltimateIndex);
+        PlayerPrefs.SetInt($"{slot}FirstPassive", player.FirstPassiveIndex);
+        PlayerPrefs.SetInt($"{slot}SecondPassive", player.SecondPassiveIndex);
+        PlayerPrefs.SetInt($"{slot}ThirdPassive", player.ThirdPassiveIndex);
+        PlayerPrefs.SetInt($"{slot}Basic", player.BasicIndex);
+        PlayerPrefs.SetInt($"{slot}Offensive", player.OffensiveIndex);
+        PlayerPrefs.SetInt($"{slot}Mobility", player.MobilityIndex);
+        PlayerPrefs.SetInt($"{slot}Defensive", player.DefensiveIndex);
+        PlayerPrefs.SetInt($"{slot}Utility", player.UtilityIndex);
+        PlayerPrefs.SetInt($"{slot}Ultimate", player.UltimateIndex);
 
         PlayerPrefs.Save();
         StartCoroutine(SaveText());
