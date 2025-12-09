@@ -44,6 +44,11 @@ public class PlayerExperience : NetworkBehaviour
 
     private void Start()
     {
+        Invoke("Init", 3);
+    }
+
+    void Init()
+    {
         if (IsServer)
         {
             stats.RequiredExperience.Value = CalculateRequiredXp();
@@ -94,7 +99,7 @@ public class PlayerExperience : NetworkBehaviour
         frontXpBar.fillAmount = targetFill;
     }
 
-    private int CalculateRequiredXp()
+    int CalculateRequiredXp()
     {
         int solveForRequiredXp = 0;
         for (int levelCycle = 1; levelCycle <= stats.PlayerLevel.Value; levelCycle++)
@@ -106,15 +111,26 @@ public class PlayerExperience : NetworkBehaviour
 
     public void IncreaseEXP(float xpGained)
     {
-        if (!IsServer) return;
+        if (IsServer)
+        {
+            stats.CurrentExperience.Value += xpGained;
+        }
+        else
+        {
+            IncreaseEXPServerRPC(xpGained);
+        }
 
-        stats.CurrentExperience.Value += xpGained;
-
-        textPopUp.EXPText(xpGained);
         OnEXPGained?.Invoke();
+        textPopUp.EXPText(xpGained);
     }
 
-    public void LevelUp()
+    [ServerRpc]
+    void IncreaseEXPServerRPC(float xpGained)
+    {
+        stats.CurrentExperience.Value += xpGained;
+    }
+
+    void LevelUp()
     {
         // Increase Player Level
         stats.PlayerLevel.Value++;
