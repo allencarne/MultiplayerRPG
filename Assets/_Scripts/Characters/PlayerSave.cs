@@ -11,6 +11,7 @@ public class PlayerSave : NetworkBehaviour
 
     [Header("References")]
     Player player;
+    PlayerCustomization custom;
     PlayerStats stats;
     Inventory inventory;
     EquipmentManager equipment;
@@ -21,6 +22,7 @@ public class PlayerSave : NetworkBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        custom = GetComponent<PlayerCustomization>();
         stats = GetComponent<PlayerStats>();
         inventory = GetComponentInChildren<Inventory>();
         equipment = GetComponentInChildren<EquipmentManager>();
@@ -37,6 +39,12 @@ public class PlayerSave : NetworkBehaviour
             inventory.LoadInventory();
             equipment.LoadEquipment();
         }
+        else
+        {
+            custom.playerNameText.text = stats.net_playerName.Value.ToString();
+            custom.bodySprite.color = stats.net_bodyColor.Value;
+            custom.hairSprite.color = stats.net_hairColor.Value;
+        }
     }
 
     void LoadCustomization()
@@ -44,10 +52,14 @@ public class PlayerSave : NetworkBehaviour
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         string name = PlayerPrefs.GetString($"Character{slot}Name", "No Name");
-        int skinIndex = PlayerPrefs.GetInt($"Character{slot}SkinColor");
-        int hairIndex = PlayerPrefs.GetInt($"Character{slot}HairColor");
-        Color skinCol = customizationData.skinColors[skinIndex];
-        Color hairCol = customizationData.hairColors[hairIndex];
+        Color skinCol = customizationData.skinColors[PlayerPrefs.GetInt($"Character{slot}SkinColor")];
+        Color hairCol = customizationData.hairColors[PlayerPrefs.GetInt($"Character{slot}HairColor")];
+        int hairIndex = PlayerPrefs.GetInt($"Character{slot}HairStyle");
+
+        custom.HairIndex = hairIndex;
+        custom.playerNameText.text = name;
+        custom.bodySprite.color = skinCol;
+        custom.hairSprite.color = hairCol;
 
         if (IsServer)
         {

@@ -26,10 +26,6 @@ public class PlayerCustomization : NetworkBehaviour
         stats.net_playerName.OnValueChanged += OnNameChanged;
         stats.net_bodyColor.OnValueChanged += OnBodyColorChanged;
         stats.net_hairColor.OnValueChanged += OnHairColorChanged;
-
-        playerNameText.text = stats.net_playerName.Value.ToString();
-        bodySprite.color = stats.net_bodyColor.Value;
-        hairSprite.color = stats.net_hairColor.Value;
     }
 
     public override void OnDestroy()
