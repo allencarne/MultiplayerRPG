@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 {
-    [SerializeField] bool isEnemy;
+    public bool IsEnemy;
 
     [Header("Health")]
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
@@ -70,7 +70,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
 
         // Feedback
-        OnDamaged?.Invoke(roundedDamage, isEnemy);
+        OnDamaged?.Invoke(roundedDamage, IsEnemy);
 
         if (Health.Value <= 0)
         {

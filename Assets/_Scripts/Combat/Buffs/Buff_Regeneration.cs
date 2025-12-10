@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Buff_Regeneration : NetworkBehaviour
 {
-    [SerializeField] Player player;
-    [SerializeField] Enemy enemy;
+    [SerializeField] CharacterStats stats;
 
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject buff_Regeneration;
@@ -43,8 +42,7 @@ public class Buff_Regeneration : NetworkBehaviour
 
             if (elapsed >= nextHealTime)
             {
-                if (player != null) player.GiveHeal(amount, type);
-                if (enemy != null) enemy.GiveHeal(amount, type);
+                stats.GiveHeal(amount,type);
                 nextHealTime += rate;
             }
 

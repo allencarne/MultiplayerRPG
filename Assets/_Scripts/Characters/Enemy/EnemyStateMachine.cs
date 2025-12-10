@@ -178,28 +178,19 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
         if (enemy.IsDummy) return;
         if (Buffs.phase.IsPhased) return;
 
-        Player player = collision.gameObject.GetComponent<Player>();
-        CrowdControl playerCC = player.GetComponent<CrowdControl>();
+        CharacterStats stats = collision.gameObject.GetComponent<CharacterStats>();
+        CrowdControl cc = collision.gameObject.GetComponent<CrowdControl>();
 
-        if (player != null && playerCC != null)
+        if (stats != null && cc != null)
         {
-            player.TakeDamage(1, DamageType.Flat, NetworkObject);
-            Vector2 dir = player.transform.position - transform.position;
-            playerCC.knockBack.KnockBack(dir, 5, .3f);
-        }
+            if (stats.IsEnemy) return;
 
-        NPC npc = collision.gameObject.GetComponent<NPC>();
-        CrowdControl npcCC = npc.GetComponent<CrowdControl>();
-
-        if (npc != null && npcCC != null)
-        {
-            npc.TakeDamage(1, DamageType.Flat, NetworkObject);
-            Vector2 dir = npc.transform.position - transform.position;
-            npcCC.knockBack.KnockBack(dir, 5, .3f);
+            stats.TakeDamage(1, DamageType.Flat, NetworkObject);
+            Vector2 dir = collision.transform.position - transform.position;
+            cc.knockBack.KnockBack(dir, 5, .3f);
         }
     }
 

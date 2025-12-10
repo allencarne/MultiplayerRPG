@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Player : NetworkBehaviour, IDamageable, IHealable
+public class Player : NetworkBehaviour
 {
     [Header("Components")]
     public Inventory PlayerInventory;
@@ -74,16 +74,6 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         {
             PlayerCamera();
         }
-    }
-
-    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
-    {
-
-    }
-
-    public void GiveHeal(float healAmount, HealType healType)
-    {
-
     }
 
     void PlayerCamera()

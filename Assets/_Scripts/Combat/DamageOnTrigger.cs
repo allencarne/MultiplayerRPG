@@ -75,12 +75,6 @@ public class DamageOnTrigger : NetworkBehaviour
                 player.InCombat = true;
             }
 
-            // Heal
-            if (CanHeal)
-            {
-                player.GiveHeal(HealAmount, HealType.Flat);
-            }
-
             // Fury
             if (CanGenerateFury)
             {
@@ -96,6 +90,12 @@ public class DamageOnTrigger : NetworkBehaviour
             }
 
             HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
+        }
+
+        IHealable healable = collision.GetComponent<IHealable>();
+        if (healable != null)
+        {
+            if (CanHeal) healable.GiveHeal(HealAmount, HealType.Flat);
         }
     }
 

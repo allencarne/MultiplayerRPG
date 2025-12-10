@@ -477,7 +477,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [ServerRpc]
     public void RequestRespawnServerRpc()
     {
-        player.GiveHeal(100, HealType.Percentage);
+        Stats.GiveHeal(100, HealType.Percentage);
     }
 
     #region Animation
