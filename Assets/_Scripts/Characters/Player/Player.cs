@@ -97,18 +97,12 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
         input.cameraInstance = cameraInstance.GetComponent<Camera>();
     }
 
-    #region Death
-
     [ClientRpc]
     void DeathClientRPC()
     {
         if (!IsOwner) return;
         stateMachine.SetState(PlayerStateMachine.State.Death);
     }
-
-    #endregion
-
-    #region Flash
 
     public IEnumerator FlashEffect()
     {
@@ -124,6 +118,4 @@ public class Player : NetworkBehaviour, IDamageable, IHealable
     {
         StartCoroutine(FlashEffect());
     }
-
-    #endregion
 }

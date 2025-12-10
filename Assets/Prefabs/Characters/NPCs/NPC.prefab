@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
@@ -748,7 +748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
@@ -3085,7 +3085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
@@ -3401,7 +3401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
@@ -3507,7 +3507,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3312496477763755939}
-  - component: {fileID: 7370158243866098048}
   m_Layer: 0
   m_Name: TextPopUp
   m_TagString: Untagged
@@ -3534,23 +3533,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 14.673}
   m_SizeDelta: {x: 16.34, y: 9.346}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7370158243866098048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6726114271831439948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08b8ec23d9779434da45162594f210bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  DealDamagePopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
-  TakeDamagePopUp: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
-  HealingPopUp: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
-  ExpPopUp: {fileID: 0}
 --- !u!1 &7152011778197999100
 GameObject:
   m_ObjectHideFlags: 0
@@ -4072,23 +4054,18 @@ MonoBehaviour:
     m_InternalValue: 0
   MaxHealth:
     m_InternalValue: 0
-  Speed:
-    m_InternalValue: 0
-  Damage:
-    m_InternalValue: 0
-  AttackSpeed:
-    m_InternalValue: 0
-  CoolDownReduction:
-    m_InternalValue: 0
-  Armor:
-    m_InternalValue: 0
+  Speed: 0
+  Damage: 0
+  AttackSpeed: 0
+  CoolDownReduction: 0
+  Armor: 0
+  modifiers: []
   OnDamaged:
     m_PersistentCalls:
       m_Calls: []
   OnHealed:
     m_PersistentCalls:
       m_Calls: []
-  modifiers: []
 --- !u!1 &8074817158488108185
 GameObject:
   m_ObjectHideFlags: 0
@@ -4138,7 +4115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
@@ -4551,7 +4528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
@@ -4607,7 +4584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
+  stats: {fileID: 0}
   enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}

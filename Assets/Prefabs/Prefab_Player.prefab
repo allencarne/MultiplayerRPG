@@ -5946,6 +5946,7 @@ GameObject:
   - component: {fileID: 8785762146455488116}
   - component: {fileID: 3947169594819012984}
   - component: {fileID: 8213140386547283737}
+  - component: {fileID: 603070945422152525}
   m_Layer: 0
   m_Name: WorldUI
   m_TagString: Untagged
@@ -5968,10 +5969,10 @@ RectTransform:
   - {fileID: 1958890226798441182}
   - {fileID: 8340746725181239960}
   - {fileID: 6288964439789588268}
-  - {fileID: 2316710519867917316}
-  - {fileID: 4214664803295272693}
   - {fileID: 24981261518718078}
   - {fileID: 1282875851576006216}
+  - {fileID: 4214664803295272693}
+  - {fileID: 2316710519867917316}
   m_Father: {fileID: 5144383124475292198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6124,6 +6125,30 @@ MonoBehaviour:
   player: {fileID: 841304983140234989}
   skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
   levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}
+--- !u!114 &603070945422152525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818786303329478144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d39f6c54bb93d74e9bb1eefa0ab8e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatText
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
+  experience: {fileID: 6940644233207828720}
+  hightRect: {fileID: 4214664803295272693}
+  lowRect: {fileID: 2316710519867917316}
+  Hurt_Prefab: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
+  Deal_Prefab: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
+  Heal_Prefab: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
+  Exp_Prefab: {fileID: 7893874486923855606, guid: ba8655a5cf081344fa7cde2f954412f3, type: 3}
+  Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
+  Buff_Prefab: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
+  DeBuff_Prefab: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
 --- !u!1 &826984987251254489
 GameObject:
   m_ObjectHideFlags: 0
@@ -23134,34 +23159,10 @@ MonoBehaviour:
   UltimateIndex: -1
   OnDamaged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2868109441062658180}
-        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
-        m_MethodName: TakeDamageText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnHealed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2868109441062658180}
-        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
-        m_MethodName: HealingText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &6475613187630994528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23310,7 +23311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  textPopUp: {fileID: 2868109441062658180}
   rect: {fileID: 4214664803295272693}
   experienceText: {fileID: 2399128155856467448}
   levelText: {fileID: 3908792987332763312}
@@ -23471,34 +23471,10 @@ MonoBehaviour:
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2868109441062658180}
-        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
-        m_MethodName: TakeDamageText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnHealed:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2868109441062658180}
-        m_TargetAssemblyTypeName: TextPopUp, Assembly-CSharp
-        m_MethodName: HealingText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   net_CharacterSlot:
     m_InternalValue: 0
   net_playerName:
@@ -24024,7 +24000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106038d429e1fb7488a5af0133763491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   defaultColor: {r: 0.227451, g: 0.1764706, b: 0.1764706, a: 1}
   buttonToSelect: {fileID: 1335062164938425931}
   applyButton: {fileID: 5163968379567947567}
@@ -29601,7 +29576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4214664803295272693}
   m_Layer: 8
-  m_Name: LevelTextPopUp
+  m_Name: HighRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62985,9 +62960,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2316710519867917316}
-  - component: {fileID: 2868109441062658180}
   m_Layer: 8
-  m_Name: TextPopUp
+  m_Name: LowRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63012,23 +62986,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -40}
   m_SizeDelta: {x: 16.34, y: 9.346}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2868109441062658180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8347845072976314554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08b8ec23d9779434da45162594f210bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  DealDamagePopUp: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
-  TakeDamagePopUp: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
-  HealingPopUp: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
-  ExpPopUp: {fileID: 7893874486923855606, guid: ba8655a5cf081344fa7cde2f954412f3, type: 3}
 --- !u!1 &8361607543491615492
 GameObject:
   m_ObjectHideFlags: 0

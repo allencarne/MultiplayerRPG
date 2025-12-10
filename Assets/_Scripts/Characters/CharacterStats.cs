@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 {
+    [SerializeField] bool isEnemy;
+
     [Header("Health")]
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
@@ -53,7 +55,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public List<StatModifier> modifiers = new List<StatModifier>();
 
     [Header("Events")]
-    public UnityEvent<float> OnDamaged;
+    public UnityEvent<float, bool> OnDamaged;
     public UnityEvent<float> OnHealed;
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
@@ -68,7 +70,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
 
         // Feedback
-        OnDamaged?.Invoke(roundedDamage);
+        OnDamaged?.Invoke(roundedDamage, isEnemy);
 
         if (Health.Value <= 0)
         {

@@ -7,17 +7,14 @@ using UnityEngine.UI;
 
 public class PlayerExperience : NetworkBehaviour
 {
-    [Header("UI")]
-    [SerializeField] TextPopUp textPopUp;
-    [SerializeField] RectTransform rect;
-    [SerializeField] TextMeshProUGUI experienceText;
-    [SerializeField] TextMeshProUGUI levelText;
-    [SerializeField] GameObject levelUpText;
-
     [Header("Components")]
     [SerializeField] PlayerStats stats;
+
+    [Header("UI")]
     [SerializeField] Image frontXpBar;
     [SerializeField] Image backXpBar;
+    [SerializeField] TextMeshProUGUI experienceText;
+    [SerializeField] TextMeshProUGUI levelText;
 
     [Header("Multipliers")]
     [Range(1f, 300f)]
@@ -27,7 +24,8 @@ public class PlayerExperience : NetworkBehaviour
     [Range(7f, 14f)]
     public float divisionMultiplier = 7;
 
-    public UnityEvent OnEXPGained;
+    [Header("Events")]
+    public UnityEvent<float> OnEXPGained;
     public UnityEvent OnLevelUp;
 
     public override void OnNetworkSpawn()
@@ -120,8 +118,7 @@ public class PlayerExperience : NetworkBehaviour
             IncreaseEXPServerRPC(xpGained);
         }
 
-        OnEXPGained?.Invoke();
-        textPopUp.EXPText(xpGained);
+        OnEXPGained?.Invoke(xpGained);
     }
 
     [ServerRpc]
