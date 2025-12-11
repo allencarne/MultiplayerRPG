@@ -34,17 +34,17 @@ public class CombatText : NetworkBehaviour
         stats.OnDamaged.AddListener(Hurt);
         stats.OnHealed.AddListener(Heal);
         stats.OnDamageDealt.AddListener(Deal);
-        experience.OnEXPGained.AddListener(EXP);
-        experience.OnLevelUp.AddListener(Level);
+        if (experience != null) experience.OnEXPGained.AddListener(EXP);
+        if (experience != null) experience.OnLevelUp.AddListener(Level);
     }
 
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
         stats.OnDamaged.RemoveListener(Hurt);
         stats.OnHealed.RemoveListener(Heal);
         stats.OnDamageDealt.RemoveListener(Deal);
-        experience.OnEXPGained.RemoveListener(EXP);
-        experience.OnLevelUp.RemoveListener(Level);
+        if (experience != null) experience.OnEXPGained.RemoveListener(EXP);
+        if (experience != null) experience.OnLevelUp.RemoveListener(Level);
     }
 
     void Hurt(float amount)

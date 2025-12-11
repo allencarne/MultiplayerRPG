@@ -1,7 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Player : NetworkBehaviour
@@ -43,9 +42,6 @@ public class Player : NetworkBehaviour
     public int DefensiveIndex = -1;
     public int UtilityIndex = -1;
     public int UltimateIndex = -1;
-
-    public UnityEvent<float> OnDamaged;
-    public UnityEvent<float> OnHealed;
 
     private void Update()
     {
@@ -92,20 +88,5 @@ public class Player : NetworkBehaviour
     {
         if (!IsOwner) return;
         stateMachine.SetState(PlayerStateMachine.State.Death);
-    }
-
-    public IEnumerator FlashEffect()
-    {
-        BodySprite.color = Color.white;
-        yield return new WaitForSeconds(0.05f);
-
-        // Reset to original color
-        //BodySprite.color = playerInitialize.net_bodyColor.Value;
-    }
-
-    [ClientRpc]
-    public void TriggerFlashEffectClientRpc()
-    {
-        StartCoroutine(FlashEffect());
     }
 }

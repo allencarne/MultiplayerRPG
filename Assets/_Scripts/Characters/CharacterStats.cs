@@ -56,6 +56,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public UnityEvent<float> OnDamaged;
     public UnityEvent<float> OnHealed;
     public UnityEvent<float, Vector2> OnDamageDealt;
+    public UnityEvent OnDeath;
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
@@ -73,7 +74,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
-            // Die
+            OnDeath?.Invoke();
+
+            EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
+            if (enemy != null) enemy.Target = null;
         }
     }
 

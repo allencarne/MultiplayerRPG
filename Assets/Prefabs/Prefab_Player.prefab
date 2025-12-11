@@ -23157,12 +23157,6 @@ MonoBehaviour:
   DefensiveIndex: -1
   UtilityIndex: -1
   UltimateIndex: -1
-  OnDamaged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &6475613187630994528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23337,18 +23331,6 @@ MonoBehaviour:
   OnLevelUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8213140386547283737}
-        m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
-        m_MethodName: LevelUpClientRPC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 4657129753721047416}
         m_TargetAssemblyTypeName: SetSkillPanel, Assembly-CSharp
         m_MethodName: OnLevelUp
@@ -23474,6 +23456,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
     m_PersistentCalls:
       m_Calls: []
   net_CharacterSlot:
@@ -58999,6 +58984,7 @@ GameObject:
   - component: {fileID: 7987199576899813099}
   - component: {fileID: 7994913272089993089}
   - component: {fileID: 7692280098248216016}
+  - component: {fileID: 7813428309846512742}
   m_Layer: 0
   m_Name: Sprites
   m_TagString: Untagged
@@ -59107,6 +59093,22 @@ MonoBehaviour:
   questPanel: {fileID: 5173483628460252864}
   dialoguePanel: {fileID: 7354151868377779039}
   questInfoPanel: {fileID: 5208837189891262195}
+--- !u!114 &7813428309846512742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712448548237800742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d57979aaa463a4eac1054500bad4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteFlash
+  ShowTopMostFoldoutHeaderGroup: 1
+  bodySprite: {fileID: 7867530632741787033}
+  playerStats: {fileID: 2477393547595159198}
+  stats: {fileID: 2477393547595159198}
 --- !u!1 &7727896407979873591
 GameObject:
   m_ObjectHideFlags: 0
