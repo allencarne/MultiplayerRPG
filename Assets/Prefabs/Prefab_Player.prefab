@@ -23311,13 +23311,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  rect: {fileID: 4214664803295272693}
-  experienceText: {fileID: 2399128155856467448}
-  levelText: {fileID: 3908792987332763312}
-  levelUpText: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
   stats: {fileID: 2477393547595159198}
   frontXpBar: {fileID: 6438291673167540992}
   backXpBar: {fileID: 2824420699212628155}
+  experienceText: {fileID: 2399128155856467448}
+  levelText: {fileID: 3908792987332763312}
   additionMultiplier: 25
   powerMultiplier: 2
   divisionMultiplier: 7
@@ -23473,6 +23471,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageDealt:
     m_PersistentCalls:
       m_Calls: []
   net_CharacterSlot:
@@ -61808,8 +61809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
-  enemy: {fileID: 0}
+  stats: {fileID: 0}
   buffBar: {fileID: 7354079026291478614}
   buff_Regeneration: {fileID: 435407050109934694, guid: 2ebaaffc2197ecc4e895282f733dce81, type: 3}
 --- !u!1 &8182204099677249541

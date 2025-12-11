@@ -42,7 +42,7 @@ public class Buff_Regeneration : NetworkBehaviour
 
             if (elapsed >= nextHealTime)
             {
-                stats.GiveHeal(amount,type);
+                if (stats != null) stats.GiveHeal(amount, type);
                 nextHealTime += rate;
             }
 

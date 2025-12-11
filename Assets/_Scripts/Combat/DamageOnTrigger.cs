@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DamageOnTrigger : NetworkBehaviour
 {
@@ -87,6 +88,12 @@ public class DamageOnTrigger : NetworkBehaviour
                         fury.FuryClientRPC();
                     }
                 }
+            }
+
+            CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();
+            if (attackerStats != null)
+            {
+                attackerStats.OnDamageDealt?.Invoke(AbilityDamage + CharacterDamage, (Vector2)collision.transform.position);
             }
 
             HitSparkClientRPC(hitPosition, rotation, collision.transform.position);

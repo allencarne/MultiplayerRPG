@@ -178,6 +178,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
         if (enemy.IsDummy) return;
         if (Buffs.phase.IsPhased) return;
 
@@ -186,8 +187,6 @@ public class EnemyStateMachine : NetworkBehaviour
 
         if (stats != null && cc != null)
         {
-            if (stats.IsEnemy) return;
-
             stats.TakeDamage(1, DamageType.Flat, NetworkObject);
             Vector2 dir = collision.transform.position - transform.position;
             cc.knockBack.KnockBack(dir, 5, .3f);

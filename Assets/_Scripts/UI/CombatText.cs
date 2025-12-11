@@ -29,10 +29,11 @@ public class CombatText : NetworkBehaviour
         Debuff
     }
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
         stats.OnDamaged.AddListener(Hurt);
         stats.OnHealed.AddListener(Heal);
+        stats.OnDamageDealt.AddListener(Deal);
         experience.OnEXPGained.AddListener(EXP);
         experience.OnLevelUp.AddListener(Level);
     }
@@ -41,35 +42,20 @@ public class CombatText : NetworkBehaviour
     {
         stats.OnDamaged.RemoveListener(Hurt);
         stats.OnHealed.RemoveListener(Heal);
+        stats.OnDamageDealt.RemoveListener(Deal);
         experience.OnEXPGained.RemoveListener(EXP);
         experience.OnLevelUp.RemoveListener(Level);
     }
 
-    void Hurt(float amount, bool isEnemy)
+    void Hurt(float amount)
     {
         if (IsServer)
         {
-            if (isEnemy)
-            {
-                TextClientRPC(amount, false, TextType.Deal);
-            }
-            else
-            {
-                TextClientRPC(amount, false, TextType.Hurt);
-            }
-
+            TextClientRPC(amount, false, TextType.Hurt);
         }
         else
         {
-            if (isEnemy)
-            {
-                TextServerRPC(amount, false, TextType.Deal);
-            }
-            else
-            {
-                TextServerRPC(amount, false, TextType.Hurt);
-            }
-            
+            TextServerRPC(amount, false, TextType.Hurt);
         }
     }
 
@@ -82,6 +68,18 @@ public class CombatText : NetworkBehaviour
         else
         {
             TextServerRPC(amount, false, TextType.Heal);
+        }
+    }
+
+    void Deal(float amount, Vector2 position)
+    {
+        if (IsServer)
+        {
+            DealTextClientRPC(amount, TextType.Deal, position);
+        }
+        else
+        {
+            DealTextServerRPC(amount, TextType.Deal, position);
         }
     }
 
@@ -133,13 +131,14 @@ public class CombatText : NetworkBehaviour
         
         switch (type)
         {
+            case TextType.Hurt: popUpText.text = amount.ToString(); break;
+            case TextType.Deal: popUpText.text = amount.ToString(); break;
+            case TextType.Heal: popUpText.text = amount.ToString(); break;
             case TextType.Exp: popUpText.text = $"+ {amount} EXP"; break;
             case TextType.Level: popUpText.text = "LEVEL UP"; break;
-            case TextType.Buff: popUpText.text = "+ Buff"; break;
-            case TextType.Debuff: popUpText.text = "+ DeBuff"; break;
+            case TextType.Buff: popUpText.text = "+Buff"; break;
+            case TextType.Debuff: popUpText.text = "+DeBuff"; break;
         }
-
-        popUpText.text = amount.ToString();
     }
 
     [ServerRpc]
@@ -161,5 +160,28 @@ public class CombatText : NetworkBehaviour
             case TextType.Debuff: return DeBuff_Prefab;
             default: return null;
         }
+    }
+
+    [ClientRpc]
+    void DealTextClientRPC(float amount, TextType type, Vector2 position)
+    {
+        Vector2 spawnPosition;
+        Vector2 headOffset = new Vector2(0, 4.0f);
+
+        spawnPosition = position + headOffset + Random.insideUnitCircle * 0.3f;
+
+        GameObject prefab = GetTextPrefab(type);
+        if (prefab == null) return;
+
+        GameObject popUp = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
+        TextMeshProUGUI popUpText = popUp.GetComponent<TextMeshProUGUI>();
+
+        popUpText.text = amount.ToString();
+    }
+
+    [ServerRpc]
+    void DealTextServerRPC(float amount, TextType type, Vector2 position)
+    {
+        DealTextClientRPC(amount, type, position);
     }
 }

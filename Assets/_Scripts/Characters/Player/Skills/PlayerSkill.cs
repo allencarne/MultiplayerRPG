@@ -271,7 +271,6 @@ public abstract class PlayerSkill : NetworkBehaviour
     protected void Attack(ulong attackerID)
     {
         NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
-        //NetworkObject attacker = GetComponentInParent<NetworkObject>();
 
         GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
