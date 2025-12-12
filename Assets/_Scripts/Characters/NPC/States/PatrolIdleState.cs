@@ -17,10 +17,10 @@ public class PatrolIdleState : NPCState
         owner.SwordAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
         owner.EyesAnimator.Play("Run");
-        owner.HairAnimator.Play("Run_" + owner.npc.hairIndex);
-        owner.HeadAnimator.Play("Run_" + owner.npc.HeadIndex);
-        owner.ChestAnimator.Play("Run_" + owner.npc.ChestIndex);
-        owner.LegsAnimator.Play("Run_" + owner.npc.LegsIndex);
+        owner.HairAnimator.Play("Run_" + owner.npc.Data.hairIndex);
+        owner.HeadAnimator.Play("Run_" + owner.npc.Data.HeadIndex);
+        owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
+        owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
     }
 
     public override void UpdateState(NPCStateMachine owner)

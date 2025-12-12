@@ -64,7 +64,7 @@ public class QuestInfoPanel : MonoBehaviour
         {
             bool hasTalkObjectiveForThisNPC = progress.objectives.Exists(obj =>
                 obj.type == ObjectiveType.Talk &&
-                obj.ObjectiveID == npc.NPC_ID &&
+                obj.ObjectiveID == npc.Data.NPC_ID &&
                 !obj.IsCompleted);
 
             if (hasTalkObjectiveForThisNPC)
@@ -148,7 +148,7 @@ public class QuestInfoPanel : MonoBehaviour
         }
 
         bool isTalkQuest = currentQuest.HasTalkObjective();
-        if (isTalkQuest) playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.NPC_ID);
+        if (isTalkQuest) playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.Data.NPC_ID);
 
         playerquests.TurnInQuest(currentQuest);
     }

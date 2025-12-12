@@ -7,10 +7,10 @@ public class NPCIdleState : NPCState
         owner.SwordAnimator.Play("Idle");
         owner.BodyAnimator.Play("Idle");
         owner.EyesAnimator.Play("Idle");
-        owner.HairAnimator.Play("Idle_" + owner.npc.hairIndex);
-        owner.HeadAnimator.Play("Idle_" + owner.npc.HeadIndex);
-        owner.ChestAnimator.Play("Idle_" + owner.npc.ChestIndex);
-        owner.LegsAnimator.Play("Idle_" + owner.npc.LegsIndex);
+        owner.HairAnimator.Play("Idle_" + owner.npc.Data.hairIndex);
+        owner.HeadAnimator.Play("Idle_" + owner.npc.Data.HeadIndex);
+        owner.ChestAnimator.Play("Idle_" + owner.npc.Data.ChestIndex);
+        owner.LegsAnimator.Play("Idle_" + owner.npc.Data.LegsIndex);
 
         owner.SwordAnimator.SetFloat("Vertical", -1);
         owner.BodyAnimator.SetFloat("Vertical", -1);

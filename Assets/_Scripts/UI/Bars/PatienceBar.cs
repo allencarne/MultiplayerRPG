@@ -35,7 +35,7 @@ public class PatienceBar : NetworkBehaviour
 
         if (npc != null)
         {
-            float fillAmount = Mathf.Clamp01(patience / npc.TotalPatience);
+            float fillAmount = Mathf.Clamp01(patience / npc.Data.TotalPatience);
             patienceBarFill.fillAmount = fillAmount;
         }
     }

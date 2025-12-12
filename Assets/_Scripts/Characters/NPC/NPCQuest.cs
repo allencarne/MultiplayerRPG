@@ -19,7 +19,7 @@ public class NPCQuest : MonoBehaviour
             Quest quest = progress.quest;
 
             // Turn In Talk Quest 
-            if (progress.state == QuestState.InProgress && quest.HasTalkObjective() && quest.GetReceiverID() == npc.NPC_ID) return quest;
+            if (progress.state == QuestState.InProgress && quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
 
             // Skip if this quest doesn't belong to this NPC
             if (!quests.Contains(quest)) continue;
@@ -32,7 +32,7 @@ public class NPCQuest : MonoBehaviour
             {
                 foreach (QuestObjective obj in progress.objectives)
                 {
-                    if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == npc.NPC_ID && !obj.IsCompleted)
+                    if (obj.type == ObjectiveType.Talk && obj.ObjectiveID == npc.Data.NPC_ID && !obj.IsCompleted)
                     {
                         return quest;
                     }

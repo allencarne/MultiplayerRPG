@@ -8,6 +8,11 @@ public class SpriteFlash : NetworkBehaviour
     [SerializeField] PlayerStats playerStats;
     [SerializeField] CharacterStats stats;
 
+    [SerializeField] Material flashMaterial;
+    [SerializeField] Material defaultMaterial;
+
+    Coroutine flashRoutine;
+
     public override void OnNetworkSpawn()
     {
         stats.OnDamaged.AddListener(TriggerFlashEffectClientRpc);
@@ -21,20 +26,27 @@ public class SpriteFlash : NetworkBehaviour
     [ClientRpc]
     public void TriggerFlashEffectClientRpc(float amount)
     {
-        StartCoroutine(FlashEffect());
+        if (flashRoutine != null) StopCoroutine(flashRoutine);
+        flashRoutine = StartCoroutine(FlashEffect());
     }
 
     IEnumerator FlashEffect()
     {
+        bodySprite.material = flashMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
 
+        bodySprite.material = defaultMaterial;
         bodySprite.color = playerStats.net_bodyColor.Value;
         yield return new WaitForSeconds(0.05f);
 
+        bodySprite.material = flashMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
 
+        bodySprite.material = defaultMaterial;
         bodySprite.color = playerStats.net_bodyColor.Value;
+
+        flashRoutine = null;
     }
 }

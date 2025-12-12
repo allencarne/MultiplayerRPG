@@ -17,7 +17,7 @@ public class PlayerQuest : MonoBehaviour
     {
         foreach (QuestProgress progress in activeQuests)
         {
-            if (progress.quest.HasTalkObjective() && progress.quest.GetReceiverID() == npc.NPC_ID)
+            if (progress.quest.HasTalkObjective() && progress.quest.GetReceiverID() == npc.Data.NPC_ID)
             {
                 if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
                 {

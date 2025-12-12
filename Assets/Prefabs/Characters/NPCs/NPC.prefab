@@ -2578,6 +2578,7 @@ GameObject:
   - component: {fileID: 6888746980857083032}
   - component: {fileID: 7447691256168071309}
   - component: {fileID: 8814254548056775977}
+  - component: {fileID: 7545364753675973918}
   m_Layer: 0
   m_Name: Sprites
   m_TagString: Untagged
@@ -2657,6 +2658,24 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 6
+--- !u!114 &7545364753675973918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5130920822455000575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b559cba3b5fe4ca4b899434868f216ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteFlashNPC
+  ShowTopMostFoldoutHeaderGroup: 1
+  data: {fileID: 0}
+  bodySprite: {fileID: 1579145827163279184}
+  stats: {fileID: 6038468416201059741}
+  flashMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
 --- !u!1 &5134350331630582043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,31 +3890,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NPC_ID: 
-  NPC_Name: 
-  NPC_Level: 0
-  StartingMaxHealth: 100
-  Health:
-    m_InternalValue: 0
-  MaxHealth:
-    m_InternalValue: 0
-  BaseSpeed: 3
-  CurrentSpeed: 3
-  BaseDamage: 1
-  CurrentDamage: 1
-  BaseAttackSpeed: 1
-  CurrentAttackSpeed: 1
-  BaseCDR: 1
-  CurrentCDR: 1
-  BaseArmor: 0
-  CurrentArmor: 0
-  skinColor: {r: 0.9921569, g: 0.7960785, b: 0.6901961, a: 1}
-  hairColor: {r: 0.3647059, g: 0.2509804, b: 0.21568629, a: 1}
-  hairIndex: 3
-  HeadIndex: 0
-  ChestIndex: 0
-  LegsIndex: 0
-  TotalPatience: 5
+  Data: {fileID: 0}
+  stats: {fileID: 6038468416201059741}
   IsDead: 0
   SwordSprite: {fileID: 6725349109888877609}
   BodySprite: {fileID: 1579145827163279184}
@@ -3905,18 +3901,10 @@ MonoBehaviour:
   npcQuest: {fileID: 6313527615267260075}
   npcDialogue: {fileID: 7778428804253406039}
   CastBar: {fileID: 3652510914053340914}
-  healthBar: {fileID: 2733491689196158365}
   stateMachine: {fileID: 7580783204941348460}
   death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
   PatienceBar: {fileID: 5571914206174223953}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
-  OnDamaged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealed:
-    m_PersistentCalls:
-      m_Calls: []
-  type: 0
 --- !u!114 &7580783204941348460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4092,6 +4080,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &8074817158488108185

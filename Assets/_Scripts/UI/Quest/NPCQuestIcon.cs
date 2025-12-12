@@ -30,7 +30,7 @@ public class NPCQuestIcon : MonoBehaviour
     public void UpdateSprite()
     {
         if (getPlayer?.player == null) return;
-        if (npc.NPC_Name == "Patrol" || npc.NPC_Name == "Guard") return;
+        if (npc.Data.NPCName == "Patrol" || npc.Data.NPCName == "Guard") return;
 
         QuestState state = playerQuest.GetQuestStateForNpc(npc, npcQuest);
 

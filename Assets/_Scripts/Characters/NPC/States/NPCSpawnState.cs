@@ -16,9 +16,9 @@ public class NPCSpawnState : NPCState
         owner.BodyAnimator.Play("Spawn");
         owner.EyesAnimator.Play("Spawn");
         owner.HairAnimator.Play("Spawn");
-        owner.HeadAnimator.Play("Spawn_" + owner.npc.HeadIndex);
-        owner.ChestAnimator.Play("Spawn_" + owner.npc.ChestIndex);
-        owner.LegsAnimator.Play("Spawn_" + owner.npc.LegsIndex);
+        owner.HeadAnimator.Play("Spawn_" + owner.npc.Data.HeadIndex);
+        owner.ChestAnimator.Play("Spawn_" + owner.npc.Data.ChestIndex);
+        owner.LegsAnimator.Play("Spawn_" + owner.npc.Data.LegsIndex);
 
         owner.StartCoroutine(Duration(owner));
     }

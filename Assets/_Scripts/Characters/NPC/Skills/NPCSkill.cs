@@ -148,7 +148,7 @@ public abstract class NPCSkill : NetworkBehaviour
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
 
-        AttackerDamage = owner.npc.CurrentDamage;
+        AttackerDamage = owner.npc.stats.Damage;
 
         owner.NpcRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
@@ -157,7 +157,7 @@ public abstract class NPCSkill : NetworkBehaviour
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, NPCStateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.npc.CurrentCDR;
+        float modifiedCooldown = coolDown / owner.npc.stats.CoolDownReduction;
 
         yield return new WaitForSeconds(modifiedCooldown);
 
@@ -199,13 +199,13 @@ public abstract class NPCSkill : NetworkBehaviour
         }
 
         owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
-        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.hairIndex);
+        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.hairIndex);
         owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
         owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
 
-        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.HeadIndex);
-        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.ChestIndex);
-        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.LegsIndex);
+        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.HeadIndex);
+        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.ChestIndex);
+        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.LegsIndex);
     }
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)

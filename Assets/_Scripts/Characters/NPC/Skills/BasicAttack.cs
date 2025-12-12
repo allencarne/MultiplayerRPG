@@ -7,7 +7,7 @@ public class BasicAttack : NPCSkill
         InitializeAbility(skillType, owner);
 
         // Basic
-        ModifiedCastTime = CastTime / owner.npc.CurrentAttackSpeed;
+        ModifiedCastTime = CastTime / owner.npc.stats.AttackSpeed;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;

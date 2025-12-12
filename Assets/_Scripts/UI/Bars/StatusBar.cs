@@ -17,8 +17,8 @@ public class StatusBar : MonoBehaviour
     {
         if (npc != null)
         {
-            nameText.text = npc.NPC_Name;
-            levelText.text = "Lvl: " + npc.NPC_Level.ToString();
+            nameText.text = npc.Data.NPCName;
+            levelText.text = "Lvl: " + npc.Data.NPC_Level.ToString();
         }
 
         if (enemy != null)
