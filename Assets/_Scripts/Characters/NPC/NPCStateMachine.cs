@@ -279,7 +279,7 @@ public class NPCStateMachine : NetworkBehaviour
     [ServerRpc]
     public void RequestRespawnServerRpc()
     {
-        npc.GiveHeal(100, HealType.Percentage);
+        npc.stats.GiveHeal(100, HealType.Percentage);
     }
 
     #endregion

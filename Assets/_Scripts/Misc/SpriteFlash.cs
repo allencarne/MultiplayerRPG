@@ -8,31 +8,34 @@ public class SpriteFlash : NetworkBehaviour
     [SerializeField] PlayerStats playerStats;
     [SerializeField] CharacterStats stats;
 
-    [SerializeField] Material flashMaterial;
     [SerializeField] Material defaultMaterial;
+    [SerializeField] Material flashRedMaterial;
+    [SerializeField] Material flashGreenMaterial;
 
     Coroutine flashRoutine;
 
     public override void OnNetworkSpawn()
     {
-        stats.OnDamaged.AddListener(TriggerFlashEffectClientRpc);
+        stats.OnDamaged.AddListener(FlashRedClientRPC);
+        stats.OnHealed.AddListener(FlashGreenClientRPC);
     }
 
     public override void OnNetworkDespawn()
     {
-        stats.OnDamaged.RemoveListener(TriggerFlashEffectClientRpc);
+        stats.OnDamaged.RemoveListener(FlashRedClientRPC);
+        stats.OnHealed.RemoveListener(FlashGreenClientRPC);
     }
 
     [ClientRpc]
-    public void TriggerFlashEffectClientRpc(float amount)
+    public void FlashRedClientRPC(float amount)
     {
         if (flashRoutine != null) StopCoroutine(flashRoutine);
-        flashRoutine = StartCoroutine(FlashEffect());
+        flashRoutine = StartCoroutine(FlashRed());
     }
 
-    IEnumerator FlashEffect()
+    IEnumerator FlashRed()
     {
-        bodySprite.material = flashMaterial;
+        bodySprite.material = flashRedMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
 
@@ -40,7 +43,34 @@ public class SpriteFlash : NetworkBehaviour
         bodySprite.color = playerStats.net_bodyColor.Value;
         yield return new WaitForSeconds(0.05f);
 
-        bodySprite.material = flashMaterial;
+        bodySprite.material = flashRedMaterial;
+        bodySprite.color = Color.white;
+        yield return new WaitForSeconds(0.05f);
+
+        bodySprite.material = defaultMaterial;
+        bodySprite.color = playerStats.net_bodyColor.Value;
+
+        flashRoutine = null;
+    }
+
+    [ClientRpc]
+    public void FlashGreenClientRPC(float amount)
+    {
+        if (flashRoutine != null) StopCoroutine(flashRoutine);
+        flashRoutine = StartCoroutine(FlashGreen());
+    }
+
+    IEnumerator FlashGreen()
+    {
+        bodySprite.material = flashGreenMaterial;
+        bodySprite.color = Color.white;
+        yield return new WaitForSeconds(0.05f);
+
+        bodySprite.material = defaultMaterial;
+        bodySprite.color = playerStats.net_bodyColor.Value;
+        yield return new WaitForSeconds(0.05f);
+
+        bodySprite.material = flashGreenMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
 

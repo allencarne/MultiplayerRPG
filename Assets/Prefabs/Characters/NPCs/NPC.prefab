@@ -2671,7 +2671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteFlashNPC
   ShowTopMostFoldoutHeaderGroup: 1
-  data: {fileID: 0}
+  npc: {fileID: 4856348772391820444}
   bodySprite: {fileID: 1579145827163279184}
   stats: {fileID: 6038468416201059741}
   flashMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
@@ -3739,7 +3739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 252941149
+  GlobalObjectIdHash: 206476993
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3901,10 +3901,10 @@ MonoBehaviour:
   npcQuest: {fileID: 6313527615267260075}
   npcDialogue: {fileID: 7778428804253406039}
   CastBar: {fileID: 3652510914053340914}
-  stateMachine: {fileID: 7580783204941348460}
-  death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
   PatienceBar: {fileID: 5571914206174223953}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
+  stateMachine: {fileID: 7580783204941348460}
+  death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
 --- !u!114 &7580783204941348460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3984,7 +3984,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 4856348772391820444}
-  quests: []
   QuestIndex: 0
 --- !u!114 &2030219489607158631
 MonoBehaviour:

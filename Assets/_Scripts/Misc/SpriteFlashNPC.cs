@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpriteFlashNPC : NetworkBehaviour
 {
-    [SerializeField] NPCData data;
+    [SerializeField] NPC npc;
 
     [SerializeField] SpriteRenderer bodySprite;
     [SerializeField] CharacterStats stats;
@@ -38,7 +38,7 @@ public class SpriteFlashNPC : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = defaultMaterial;
-        bodySprite.color = data.skinColor;
+        bodySprite.color = npc.Data.skinColor;
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = flashMaterial;
@@ -46,7 +46,7 @@ public class SpriteFlashNPC : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = defaultMaterial;
-        bodySprite.color = data.skinColor;
+        bodySprite.color = npc.Data.skinColor;
 
         flashRoutine = null;
     }

@@ -1,8 +1,7 @@
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
+public class NPC : NetworkBehaviour, IInteractable
 {
     public NPCData Data;
     public CharacterStats stats;
@@ -23,10 +22,10 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
 
     [Header("Components")]
     public CastBar CastBar;
-    [SerializeField] NPCStateMachine stateMachine;
-    [SerializeField] GameObject death_Effect;
     public PatienceBar PatienceBar;
     public GameObject spawn_Effect;
+    [SerializeField] NPCStateMachine stateMachine;
+    [SerializeField] GameObject death_Effect;
 
     private void Start()
     {
@@ -67,20 +66,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
         //
     }
 
-    #region Damage
-    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
-    {
-
-    }
-
-    public void GiveHeal(float healAmount, HealType healType)
-    {
-
-    }
-
-    #endregion
-
-    #region Death
     [ClientRpc]
     void DeathClientRPC()
     {
@@ -89,9 +74,6 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
         Instantiate(death_Effect, transform.position, transform.rotation);
     }
 
-    #endregion
-
-    #region Target
     void TargetAttacker(NetworkObject attackerID)
     {
         if (stateMachine.state == NPCStateMachine.State.Reset) return;
@@ -103,6 +85,4 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
             stateMachine.IsEnemyInRange = true;
         }
     }
-
-    #endregion
 }
