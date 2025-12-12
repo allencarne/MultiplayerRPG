@@ -2674,8 +2674,9 @@ MonoBehaviour:
   npc: {fileID: 4856348772391820444}
   bodySprite: {fileID: 1579145827163279184}
   stats: {fileID: 6038468416201059741}
-  flashMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  flashRedMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
+  flashGreenMaterial: {fileID: 2100000, guid: 59ade6f9dc58335478bc47459e1532a0, type: 2}
 --- !u!1 &5134350331630582043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3739,7 +3740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 206476993
+  GlobalObjectIdHash: 252941149
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
