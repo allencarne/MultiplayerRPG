@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class NPCDialogue : MonoBehaviour
 {
-    [TextArea(3, 8)] public string[] Dialogue;
+    [SerializeField] NPC npc;
     int conversationIndex;
 
     public string GetDialogue()
     {
-        if (Dialogue == null || Dialogue.Length == 0) return "...";
+        if (npc.Data.Dialogue == null || npc.Data.Dialogue.Length == 0) return "...";
 
         // Clamp index so it never goes out of bounds
-        if (conversationIndex < 0 || conversationIndex >= Dialogue.Length) conversationIndex = 0;
+        if (conversationIndex < 0 || conversationIndex >= npc.Data.Dialogue.Length) conversationIndex = 0;
 
-        return Dialogue[conversationIndex];
+        return npc.Data.Dialogue[conversationIndex];
     }
 
     public void AdvanceDialogue()
@@ -20,7 +20,7 @@ public class NPCDialogue : MonoBehaviour
         conversationIndex++;
 
         // Optional: Loop back to start
-        if (conversationIndex >= Dialogue.Length) conversationIndex = Dialogue.Length - 1;
+        if (conversationIndex >= npc.Data.Dialogue.Length) conversationIndex = npc.Data.Dialogue.Length - 1;
     }
 
     public void ResetDialogue()

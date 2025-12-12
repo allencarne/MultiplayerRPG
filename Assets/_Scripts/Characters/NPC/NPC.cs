@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
@@ -37,10 +38,7 @@ public class NPC : NetworkBehaviour, IDamageable, IHealable, IInteractable
         stats.AttackSpeed = Data.AttackSpeed;
         stats.CoolDownReduction = Data.CoolDownRecution;
         stats.Armor = Data.Armor;
-    }
 
-    public override void OnNetworkSpawn()
-    {
         if (IsServer)
         {
             stats.MaxHealth.Value = Data.MaxHealth;

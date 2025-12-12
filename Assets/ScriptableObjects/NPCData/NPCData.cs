@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NPCData", menuName = "Scriptable Objects/NPCData")]
@@ -28,7 +29,7 @@ public class NPCData : ScriptableObject
     public Sprite Weapon;
 
     [Header("Quest")]
-    public Quest[] Quests;
+    public List<Quest> Quests;
     [TextArea(3, 8)] public string[] Dialogue;
     public Item[] Items;
 }

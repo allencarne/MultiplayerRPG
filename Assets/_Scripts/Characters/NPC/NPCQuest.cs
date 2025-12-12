@@ -1,17 +1,15 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCQuest : MonoBehaviour
 {
     [SerializeField] NPC npc;
-    public List<Quest> quests = new List<Quest>();
-    public int QuestIndex = 0;
+    [HideInInspector] public int QuestIndex = 0;
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
-        if (quests == null || quests.Count == 0) return null;
+        if (npc.Data.Quests == null || npc.Data.Quests.Count == 0) return null;
 
-        Quest candidate = quests[QuestIndex];
+        Quest candidate = npc.Data.Quests[QuestIndex];
         PlayerStats stats = playerQuest.GetComponent<PlayerStats>();
 
         foreach (QuestProgress progress in playerQuest.activeQuests)
@@ -22,7 +20,7 @@ public class NPCQuest : MonoBehaviour
             if (progress.state == QuestState.InProgress && quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
 
             // Skip if this quest doesn't belong to this NPC
-            if (!quests.Contains(quest)) continue;
+            if (!npc.Data.Quests.Contains(quest)) continue;
 
             // Ready To TurnIn
             if (progress.state == QuestState.ReadyToTurnIn) return quest;
@@ -64,7 +62,7 @@ public class NPCQuest : MonoBehaviour
 
     public void IncreaseQuestIndex(Quest quest)
     {
-        if (quests.Contains(quest) && QuestIndex < quests.Count - 1)
+        if (npc.Data.Quests.Contains(quest) && QuestIndex < npc.Data.Quests.Count - 1)
         {
             QuestIndex++;
         }

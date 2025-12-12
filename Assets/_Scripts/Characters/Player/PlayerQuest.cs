@@ -25,18 +25,18 @@ public class PlayerQuest : MonoBehaviour
                 }
             }
 
-            if (!npcQuest.quests.Contains(progress.quest)) continue;
+            if (!npc.Data.Quests.Contains(progress.quest)) continue;
             if (progress.state == QuestState.ReadyToTurnIn) return QuestState.ReadyToTurnIn;
             if (progress.state == QuestState.InProgress) return QuestState.InProgress;
         }
 
-        if (npcQuest.quests == null || npcQuest.quests.Count == 0) return QuestState.None;
-        Quest candidateQuest = npcQuest.quests[npcQuest.QuestIndex];
+        if (npc.Data.Quests == null || npc.Data.Quests.Count == 0) return QuestState.None;
+        Quest candidateQuest = npc.Data.Quests[npcQuest.QuestIndex];
 
         if (stats.PlayerLevel.Value < candidateQuest.LevelRequirment) return QuestState.Unavailable;
         if (!npcQuest.HasMetQuestRequirements(this, candidateQuest)) return QuestState.Unavailable;
 
-        foreach (Quest quest in npcQuest.quests)
+        foreach (Quest quest in npc.Data.Quests)
         {
             bool alreadyAccepted = activeQuests.Exists(q => q.quest == quest);
             if (!alreadyAccepted) return QuestState.Available;
