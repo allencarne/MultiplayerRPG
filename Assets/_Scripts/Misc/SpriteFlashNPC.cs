@@ -15,6 +15,18 @@ public class SpriteFlashNPC : NetworkBehaviour
 
     Coroutine flashRoutine;
 
+    public override void OnNetworkSpawn()
+    {
+        stats.OnDamaged.AddListener(FlashRedClientRPC);
+        stats.OnHealed.AddListener(FlashGreenClientRPC);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        stats.OnDamaged.RemoveListener(FlashRedClientRPC);
+        stats.OnHealed.RemoveListener(FlashGreenClientRPC);
+    }
+
     [ClientRpc]
     public void FlashRedClientRPC(float amount)
     {

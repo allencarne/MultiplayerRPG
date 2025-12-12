@@ -10,8 +10,6 @@ public class NPCSpawnState : NPCState
         owner.EyesAnimator.SetFloat("Vertical", -1);
         owner.SwordAnimator.SetFloat("Vertical", -1);
 
-        Instantiate(owner.npc.spawn_Effect, transform.position, transform.rotation);
-
         owner.SwordAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
         owner.EyesAnimator.Play("Spawn");

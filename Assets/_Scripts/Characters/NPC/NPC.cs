@@ -3,11 +3,19 @@ using UnityEngine;
 
 public class NPC : NetworkBehaviour, IInteractable
 {
+    [Header("Components")]
+    [SerializeField] NPCStateMachine stateMachine;
     public NPCData Data;
     public CharacterStats stats;
-    public string DisplayName => Data.NPCName;
+    [SerializeField] NPCQuest npcQuest;
+    [SerializeField] NPCDialogue npcDialogue;
+
+    [Header("UI")]
+    public PatienceBar PatienceBar;
+    public CastBar CastBar;
 
     [Header("Variables")]
+    public string DisplayName => Data.NPCName;
     public bool IsDead;
 
     [Header("Sprites")]
@@ -17,15 +25,15 @@ public class NPC : NetworkBehaviour, IInteractable
     public SpriteRenderer EyeSprite;
     public SpriteRenderer ShadowSprite;
 
-    [SerializeField] NPCQuest npcQuest;
-    [SerializeField] NPCDialogue npcDialogue;
+    public override void OnNetworkSpawn()
+    {
+        stats.OnDeath.AddListener(DeathState);
+    }
 
-    [Header("Components")]
-    public CastBar CastBar;
-    public PatienceBar PatienceBar;
-    public GameObject spawn_Effect;
-    [SerializeField] NPCStateMachine stateMachine;
-    [SerializeField] GameObject death_Effect;
+    public override void OnNetworkDespawn()
+    {
+        stats.OnDeath.RemoveListener(DeathState);
+    }
 
     private void Start()
     {
@@ -66,16 +74,15 @@ public class NPC : NetworkBehaviour, IInteractable
         //
     }
 
-    [ClientRpc]
-    void DeathClientRPC()
+    void DeathState()
     {
-        if (!IsOwner) return;
         stateMachine.SetState(NPCStateMachine.State.Death);
-        Instantiate(death_Effect, transform.position, transform.rotation);
     }
 
     void TargetAttacker(NetworkObject attackerID)
     {
+        // On Hurt?
+
         if (stateMachine.state == NPCStateMachine.State.Reset) return;
         if (!attackerID.gameObject.CompareTag("Enemy")) return;
 
