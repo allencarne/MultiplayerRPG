@@ -58,6 +58,9 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<float, Vector2> OnDamageDealt;
     [HideInInspector] public UnityEvent OnDeath;
 
+    [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
+    [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDeath;
+
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
         if (!IsServer) return;
@@ -71,10 +74,12 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         // Feedback
         OnDamaged?.Invoke(roundedDamage);
+        OnEnemyDamaged?.Invoke(attackerID);
 
         if (Health.Value <= 0)
         {
             OnDeath?.Invoke();
+            OnEnemyDeath?.Invoke(attackerID);
 
             EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
             if (enemy != null) enemy.Target = null;

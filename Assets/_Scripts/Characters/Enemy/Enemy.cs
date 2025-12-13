@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Enemy : NetworkBehaviour, IDamageable, IHealable
+public class Enemy : NetworkBehaviour
 {
     [Header("Variables")]
     public string Enemy_ID;
@@ -34,14 +34,16 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     public override void OnNetworkSpawn()
     {
-        //stats.OnDeath.AddListener(DeathState);
+        stats.OnEnemyDamaged.AddListener(Damaged);
+        stats.OnEnemyDeath.AddListener(Death);
 
         Invoke("AssignHealth", 1);
     }
 
     public override void OnNetworkDespawn()
     {
-        //stats.OnDeath.RemoveListener(DeathState);
+        stats.OnEnemyDamaged.RemoveListener(Damaged);
+        stats.OnEnemyDeath.RemoveListener(Death);
     }
 
     void AssignHealth()
@@ -53,113 +55,60 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         }
     }
 
-    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
+    void Damaged(NetworkObject attackerID)
     {
         if (!IsServer) return;
         if (IsDummy) PatienceBar.Patience.Value = 0;
 
         TargetAttacker(attackerID);
-
-        // Calculate
-        float finalDamage = CalculateFinalDamage(damage, damageType);
-        int roundedDamage = Mathf.RoundToInt(finalDamage);
-
-        // Subtract
-        stats.Health.Value = Mathf.Max(stats.Health.Value - roundedDamage, 0);
-
-        // Quest
         UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
+    }
 
-        if (stats.Health.Value <= 0)
+    void Death(NetworkObject attackerID)
+    {
+        if (IsDummy) return;
+
+        PlayerEventParticipation(attackerID);
+        NPCEventParticipation(attackerID);
+
+        Transform attackerPosition = attackerID.GetComponent<Transform>();
+        if (attackerPosition != null) StartCoroutine(DropEXP(attackerPosition));
+
+        PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
+        if (exp) exp.IncreaseEXP(expToGive);
+
+        UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId);
+
+        DeathClientRpc();
+        stateMachine.SetState(EnemyStateMachine.State.Death);
+    }
+
+    void PlayerEventParticipation(NetworkObject attackerID)
+    {
+        Player player = attackerID.GetComponent<Player>();
+        if (player != null && TotemReference != null)
         {
-            if (IsDummy) return;
-
-            Player player = attackerID.GetComponent<Player>();
-            if (player != null && TotemReference != null)
+            switch (TotemReference.CurrentEvent)
             {
-                switch (TotemReference.CurrentEvent)
-                {
-                    case SwarmEvent swarm: swarm.EnemyDeath(player); break;
-                    case BossEvent boss: boss.EnemyDeath(player); break;
-                }
+                case SwarmEvent swarm: swarm.EnemyDeath(player); break;
+                case BossEvent boss: boss.EnemyDeath(player); break;
             }
+        }
+    }
 
-            NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
-            if (npc != null) npc.Target = null;
+    void NPCEventParticipation(NetworkObject attackerID)
+    {
+        NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
+        if (npc != null) npc.Target = null;
 
-            if (npc != null && TotemReference != null)
+        if (npc != null && TotemReference != null)
+        {
+            switch (TotemReference.CurrentEvent)
             {
-                switch (TotemReference.CurrentEvent)
-                {
-                    case SwarmEvent swarm: swarm.DeathByNPC(); break;
-                    case BossEvent boss: boss.DeathByNPC(); break;
-                }
+                case SwarmEvent swarm: swarm.DeathByNPC(); break;
+                case BossEvent boss: boss.DeathByNPC(); break;
             }
-
-            Transform attackerPosition = attackerID.GetComponent<Transform>();
-            if (attackerPosition != null) StartCoroutine(delay(attackerPosition));
-
-            PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
-            if (exp) exp.IncreaseEXP(expToGive);
-
-            UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId);
-
-            DeathClientRpc(transform.position, transform.rotation);
-            stateMachine.SetState(EnemyStateMachine.State.Death);
         }
-    }
-
-    IEnumerator delay(Transform attackerPosition)
-    {
-        for (int i = 0; i < expToGive; i++)
-        {
-            GameObject expObj = Instantiate(expPrefab, transform.position, transform.rotation);
-            expObj.GetComponent<TravelToTarget>().target = attackerPosition;
-            yield return new WaitForSeconds(.1f);
-        }
-    }
-
-    private float CalculateFinalDamage(float baseDamage, DamageType damageType)
-    {
-        float armor = stats.Armor; // Get the target's current armor
-
-        switch (damageType)
-        {
-            case DamageType.Flat:
-                {
-                    float armorMultiplier = 100f / (100f + armor); // How much of the damage is applied after armor
-                    return baseDamage * armorMultiplier; // Flat base damage reduced by armor
-                }
-
-            case DamageType.Percent:
-                {
-                    float percentDamage = stats.MaxHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
-                    float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
-                    return percentDamage * armorMultiplier; // % Health damage reduced by armor
-                }
-
-            case DamageType.True:
-                {
-                    return baseDamage; // Ignore Armor
-                }
-
-            default:
-                {
-                    return baseDamage; // Fallback
-                }
-        }
-    }
-
-    public void GiveHeal(float healAmount, HealType healType)
-    {
-        if (!IsServer) return;
-
-        if (healType == HealType.Percentage)
-        {
-            healAmount = stats.MaxHealth.Value * (healAmount / 100f); // Get %
-        }
-
-        stats.Health.Value = Mathf.Min(stats.Health.Value + healAmount, stats.MaxHealth.Value);
     }
 
     void TargetAttacker(NetworkObject attackerID)
@@ -170,6 +119,16 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         {
             stateMachine.Target = attackerID.transform;
             stateMachine.IsPlayerInRange = true;
+        }
+    }
+
+    IEnumerator DropEXP(Transform attackerPosition)
+    {
+        for (int i = 0; i < expToGive; i++)
+        {
+            GameObject expObj = Instantiate(expPrefab, transform.position, transform.rotation);
+            expObj.GetComponent<TravelToTarget>().target = attackerPosition;
+            yield return new WaitForSeconds(.1f);
         }
     }
 
@@ -187,7 +146,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ClientRpc]
-    private void DeathClientRpc(Vector3 position, Quaternion rotation)
+    private void DeathClientRpc()
     {
         stateMachine.EnemyAnimator.Play("Death");
         stateMachine.Collider.enabled = false;

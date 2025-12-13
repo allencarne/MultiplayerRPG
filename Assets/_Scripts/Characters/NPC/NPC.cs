@@ -27,11 +27,13 @@ public class NPC : NetworkBehaviour, IInteractable
 
     public override void OnNetworkSpawn()
     {
+        stats.OnEnemyDamaged.AddListener(TargetAttacker);
         stats.OnDeath.AddListener(DeathState);
     }
 
     public override void OnNetworkDespawn()
     {
+        stats.OnEnemyDamaged.RemoveListener(TargetAttacker);
         stats.OnDeath.RemoveListener(DeathState);
     }
 
@@ -81,8 +83,6 @@ public class NPC : NetworkBehaviour, IInteractable
 
     void TargetAttacker(NetworkObject attackerID)
     {
-        // On Hurt?
-
         if (stateMachine.state == NPCStateMachine.State.Reset) return;
         if (!attackerID.gameObject.CompareTag("Enemy")) return;
 
