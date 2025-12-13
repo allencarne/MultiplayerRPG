@@ -6,7 +6,6 @@ using UnityEngine;
 public class Buff_Haste : NetworkBehaviour
 {
     [SerializeField] CharacterStats stats;
-    [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
     [SerializeField] GameObject buffBar;
@@ -110,7 +109,6 @@ public class Buff_Haste : NetworkBehaviour
         float multiplier = 1 + hasteMultiplier - slowMultiplier;
 
         if (stats != null) stats.Speed = stats.Speed * multiplier;
-        if (enemy != null) enemy.CurrentSpeed = enemy.BaseSpeed * multiplier;
     }
 
     void UpdateHasteUI()

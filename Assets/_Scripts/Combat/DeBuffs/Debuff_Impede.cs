@@ -6,7 +6,6 @@ using UnityEngine;
 public class Debuff_Impede : NetworkBehaviour
 {
     [SerializeField] CharacterStats stats;
-    [SerializeField] Enemy enemy;
     [SerializeField] Buffs buffs;
 
     [SerializeField] GameObject debuffBar;
@@ -113,12 +112,6 @@ public class Debuff_Impede : NetworkBehaviour
         {
             float cdr = stats.CoolDownReduction * multiplier;
             stats.CoolDownReduction = Mathf.Max(cdr, 0.1f);
-        }
-
-        if (enemy != null)
-        {
-            float cdr = enemy.BaseCDR * multiplier;
-            enemy.CurrentCDR = Mathf.Max(cdr, 0.1f);
         }
     }
 

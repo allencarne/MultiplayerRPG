@@ -97,6 +97,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: startingHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: StartingMaxHealth
       value: 50
       objectReference: {fileID: 0}
@@ -133,16 +137,28 @@ PrefabInstance:
       value: 3614148832
       objectReference: {fileID: 0}
     - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: Speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: Damage
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: AttackSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: CoolDownReduction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: Health.m_InternalValue
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: MaxHealth.m_InternalValue
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7106822311554138973, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: m_Name

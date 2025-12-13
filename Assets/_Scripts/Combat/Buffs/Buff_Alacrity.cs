@@ -6,7 +6,6 @@ using UnityEngine;
 public class Buff_Alacrity : NetworkBehaviour
 {
     [SerializeField] CharacterStats stats;
-    [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
     [SerializeField] GameObject buffBar;
@@ -110,7 +109,6 @@ public class Buff_Alacrity : NetworkBehaviour
         float multiplier = 1f + alacrityMultiplier - impedeMultiplier;
 
         if (stats != null) stats.CoolDownReduction = stats.CoolDownReduction * multiplier;
-        if (enemy != null) enemy.CurrentCDR = enemy.BaseCDR * multiplier;
     }
 
     void UpdateAlacrityUI()

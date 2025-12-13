@@ -6,7 +6,6 @@ using UnityEngine;
 public class Buff_Swiftness : NetworkBehaviour
 {
     [SerializeField] CharacterStats stats;
-    [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
     [SerializeField] GameObject buffBar;
@@ -111,7 +110,6 @@ public class Buff_Swiftness : NetworkBehaviour
         float multiplier = 1 + swiftnessMultiplier - exhaustMultiplier;
 
         if (stats != null) stats.AttackSpeed = stats.AttackSpeed * multiplier;
-        if (enemy != null) enemy.CurrentAttackSpeed = enemy.BaseAttackSpeed * multiplier;
     }
 
     void UpdateSwiftnessUI()

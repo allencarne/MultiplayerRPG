@@ -11,7 +11,7 @@ public class EnemyStaggerState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        if (owner.enemy.Health.Value <= 0) return;
+        if (owner.enemy.stats.Health.Value <= 0) return;
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack && 
             !owner.CrowdControl.stun.IsStunned && 

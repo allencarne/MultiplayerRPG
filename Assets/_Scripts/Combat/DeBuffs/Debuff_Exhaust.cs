@@ -6,7 +6,6 @@ using UnityEngine;
 public class Debuff_Exhaust : NetworkBehaviour
 {
     [SerializeField] CharacterStats stats;
-    [SerializeField] Enemy enemy;
     [SerializeField] Buffs buffs;
 
     [SerializeField] GameObject debuffBar;
@@ -113,12 +112,6 @@ public class Debuff_Exhaust : NetworkBehaviour
         {
             float attackspeed = stats.AttackSpeed * multiplier;
             stats.AttackSpeed = Mathf.Max(attackspeed, 0.1f);
-        }
-
-        if (enemy != null)
-        {
-            float attackspeed = enemy.BaseAttackSpeed * multiplier;
-            enemy.CurrentAttackSpeed = Mathf.Max(attackspeed, 0.1f);
         }
     }
 

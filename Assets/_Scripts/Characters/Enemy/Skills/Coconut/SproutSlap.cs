@@ -7,7 +7,7 @@ public class SproutSlap : EnemySkill
         InitializeAbility(skillType, owner);
 
         // Basic
-        ModifiedCastTime = CastTime / owner.enemy.CurrentAttackSpeed;
+        ModifiedCastTime = CastTime / owner.enemy.stats.AttackSpeed;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;

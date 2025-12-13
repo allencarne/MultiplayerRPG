@@ -10,6 +10,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public int Enemy_Level;
     public float expToGive;
     public float TotalPatience;
+    [SerializeField] float startingHealth;
 
     [Header("Components")]
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
@@ -26,25 +27,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] HealthBar healthBar;
     public PatienceBar PatienceBar;
     public CastBar CastBar;
-
-    [Header("Health")]
-    public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
-    [Header("Speed")]
-    public float BaseSpeed;
-    public float CurrentSpeed;
-    [Header("Damage")]
-    public int BaseDamage;
-    public int CurrentDamage;
-    [Header("AttackSpeed")]
-    public float BaseAttackSpeed;
-    public float CurrentAttackSpeed;
-    [Header("CDR")]
-    public float BaseCDR;
-    public float CurrentCDR;
-    [Header("Armor")]
-    public float BaseArmor;
-    public float CurrentArmor;
 
     [Header("Bools")]
     public bool IsDummy;
@@ -65,6 +47,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
+            stats.MaxHealth.Value = startingHealth;
             stats.Health.Value = stats.MaxHealth.Value;
         }
     }
@@ -81,12 +64,12 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         int roundedDamage = Mathf.RoundToInt(finalDamage);
 
         // Subtract
-        Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
+        stats.Health.Value = Mathf.Max(stats.Health.Value - roundedDamage, 0);
 
         // Quest
         UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
 
-        if (Health.Value <= 0)
+        if (stats.Health.Value <= 0)
         {
             if (IsDummy) return;
 
@@ -137,7 +120,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
-        float armor = CurrentArmor; // Get the target's current armor
+        float armor = stats.Armor; // Get the target's current armor
 
         switch (damageType)
         {
@@ -149,7 +132,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
             case DamageType.Percent:
                 {
-                    float percentDamage = MaxHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
+                    float percentDamage = stats.MaxHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
                     float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
                     return percentDamage * armorMultiplier; // % Health damage reduced by armor
                 }
@@ -172,10 +155,10 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         if (healType == HealType.Percentage)
         {
-            healAmount = MaxHealth.Value * (healAmount / 100f); // Get %
+            healAmount = stats.MaxHealth.Value * (healAmount / 100f); // Get %
         }
 
-        Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
+        stats.Health.Value = Mathf.Min(stats.Health.Value + healAmount, stats.MaxHealth.Value);
     }
 
     void TargetAttacker(NetworkObject attackerID)

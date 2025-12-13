@@ -166,7 +166,7 @@ public abstract class EnemySkill : NetworkBehaviour
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.enemy.CurrentCDR;
+        float modifiedCooldown = coolDown / owner.enemy.stats.CoolDownReduction;
 
         yield return new WaitForSeconds(modifiedCooldown);
 
@@ -251,7 +251,7 @@ public abstract class EnemySkill : NetworkBehaviour
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = enemy.CurrentDamage + SkillDamage;
+            damageOnTrigger.AbilityDamage = enemy.stats.Damage + SkillDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
 

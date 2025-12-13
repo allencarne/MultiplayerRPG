@@ -6,7 +6,6 @@ using UnityEngine;
 public class Buff_Protection : NetworkBehaviour
 {
     [SerializeField] CharacterStats stats;
-    [SerializeField] Enemy enemy;
     [SerializeField] DeBuffs deBuffs;
 
     [SerializeField] GameObject buffBar;
@@ -110,7 +109,6 @@ public class Buff_Protection : NetworkBehaviour
         float multiplier = 1 + protectionMultiplier - vulnerabilityMultiplier;
 
         if (stats != null) stats.Armor = stats.Armor * multiplier;
-        if (enemy != null) enemy.CurrentArmor = enemy.BaseArmor * multiplier;
     }
 
     void UpdateProtectionUI()
