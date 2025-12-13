@@ -1,6 +1,5 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class DamageOnTrigger : NetworkBehaviour
 {

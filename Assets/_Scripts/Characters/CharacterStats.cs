@@ -53,11 +53,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public List<StatModifier> modifiers = new List<StatModifier>();
 
     [Header("Events")]
-    public UnityEvent<float> OnDamaged;
-    public UnityEvent<float> OnHealed;
-    public UnityEvent<float, Vector2> OnDamageDealt;
-    public UnityEvent OnDeath;
-    public UnityEvent<NetworkObject> OnDeathBy;
+    [HideInInspector] public UnityEvent<float> OnDamaged;
+    [HideInInspector] public UnityEvent<float> OnHealed;
+    [HideInInspector] public UnityEvent<float, Vector2> OnDamageDealt;
+    [HideInInspector] public UnityEvent OnDeath;
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
@@ -76,7 +75,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (Health.Value <= 0)
         {
             OnDeath?.Invoke();
-            OnDeathBy?.Invoke(attackerID);
 
             EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
             if (enemy != null) enemy.Target = null;

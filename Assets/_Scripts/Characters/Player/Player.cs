@@ -11,7 +11,6 @@ public class Player : NetworkBehaviour
     [SerializeField] PlayerSave save;
     public Inventory PlayerInventory;
 
-
     [Header("Sprites")]
     public SpriteRenderer SwordSprite;
     public SpriteRenderer BodySprite;

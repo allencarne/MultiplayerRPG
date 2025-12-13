@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteFlashEnemy
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 4431175905520060998}
+  stats: {fileID: 878784667173873402}
   bodySprite: {fileID: 6097983339982761849}
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   flashRedMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyEffects
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 4431175905520060998}
+  stats: {fileID: 878784667173873402}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   death_Effect: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
 --- !u!1 &176918509443175885
@@ -157,7 +157,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
@@ -213,7 +212,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
@@ -321,7 +319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
@@ -535,7 +532,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
@@ -591,7 +587,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
@@ -743,7 +738,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
@@ -1360,7 +1354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
@@ -1424,13 +1417,13 @@ GameObject:
   - component: {fileID: 1327236019924439968}
   - component: {fileID: 7231263033550627338}
   - component: {fileID: 4308624374852627709}
+  - component: {fileID: 878784667173873402}
   - component: {fileID: 5006461325889791442}
   - component: {fileID: 8001761435941154268}
   - component: {fileID: 6402268282429907237}
   - component: {fileID: 1913103621938294649}
   - component: {fileID: 568576347084111489}
   - component: {fileID: 9147428821795703245}
-  - component: {fileID: 4431175905520060998}
   m_Layer: 7
   m_Name: Prefab_Enemy
   m_TagString: Enemy
@@ -1608,6 +1601,41 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &878784667173873402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494865281095228816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ade069e0113b62e46bd14e640c75e65d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
+  ShowTopMostFoldoutHeaderGroup: 1
+  Health:
+    m_InternalValue: 0
+  MaxHealth:
+    m_InternalValue: 0
+  Speed: 0
+  Damage: 0
+  AttackSpeed: 0
+  CoolDownReduction: 0
+  Armor: 0
+  modifiers: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5006461325889791442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,38 +1649,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  EnemySpawnerReference: {fileID: 0}
-  TotemReference: {fileID: 0}
-  expPrefab: {fileID: 6311114248360890762, guid: dd052559657c2d44c935e05e3f870231, type: 3}
-  stateMachine: {fileID: 8001761435941154268}
-  stats: {fileID: 4431175905520060998}
-  bodySprite: {fileID: 6097983339982761849}
-  shadowSprite: {fileID: 4703369267009836052}
-  healthBar: {fileID: 1827727574157614942}
-  PatienceBar: {fileID: 724171929062541461}
-  CastBar: {fileID: 7538848170769235199}
-  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
-  death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
-  death_EffectParticle: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
   Enemy_ID: 
   Enemy_Name: 
   Enemy_Level: 0
   expToGive: 0
   TotalPatience: 5
-  Health:
-    m_InternalValue: 0
-  MaxHealth:
-    m_InternalValue: 0
-  BaseSpeed: 0
-  CurrentSpeed: 0
-  BaseDamage: 0
-  CurrentDamage: 0
-  BaseAttackSpeed: 0
-  CurrentAttackSpeed: 0
-  BaseCDR: 0
-  CurrentCDR: 0
-  BaseArmor: 0
-  CurrentArmor: 0
+  startingHealth: 0
+  EnemySpawnerReference: {fileID: 0}
+  TotemReference: {fileID: 0}
+  expPrefab: {fileID: 6311114248360890762, guid: dd052559657c2d44c935e05e3f870231, type: 3}
+  stateMachine: {fileID: 8001761435941154268}
+  stats: {fileID: 878784667173873402}
+  bodySprite: {fileID: 6097983339982761849}
+  shadowSprite: {fileID: 4703369267009836052}
+  healthBar: {fileID: 1827727574157614942}
+  PatienceBar: {fileID: 724171929062541461}
+  CastBar: {fileID: 7538848170769235199}
   IsDummy: 0
   IsDead: 0
 --- !u!114 &8001761435941154268
@@ -1772,44 +1784,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droppableItems: []
---- !u!114 &4431175905520060998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4494865281095228816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ade069e0113b62e46bd14e640c75e65d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  ShowTopMostFoldoutHeaderGroup: 1
-  Health:
-    m_InternalValue: 0
-  MaxHealth:
-    m_InternalValue: 0
-  Speed: 0
-  Damage: 0
-  AttackSpeed: 0
-  CoolDownReduction: 0
-  Armor: 0
-  modifiers: []
-  OnDamaged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamageDealt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeathBy:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4830251803286897434
 GameObject:
   m_ObjectHideFlags: 0
@@ -2984,7 +2958,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
@@ -3359,7 +3332,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
@@ -3619,7 +3591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 4431175905520060998}
+  stats: {fileID: 878784667173873402}
   healthBar: {fileID: 5859928345871486707}
   healthBar_Back: {fileID: 4142390380479643555}
 --- !u!114 &7538848170769235199
@@ -3724,7 +3696,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}

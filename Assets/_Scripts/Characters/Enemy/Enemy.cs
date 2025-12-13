@@ -32,10 +32,11 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public bool IsDummy;
     public bool IsDead;
 
-
     public override void OnNetworkSpawn()
     {
         //stats.OnDeath.AddListener(DeathState);
+
+        Invoke("AssignHealth", 1);
     }
 
     public override void OnNetworkDespawn()
@@ -43,12 +44,12 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         //stats.OnDeath.RemoveListener(DeathState);
     }
 
-    private void Start()
+    void AssignHealth()
     {
         if (IsServer)
         {
             stats.MaxHealth.Value = startingHealth;
-            stats.Health.Value = stats.MaxHealth.Value;
+            stats.Health.Value = startingHealth;
         }
     }
 
