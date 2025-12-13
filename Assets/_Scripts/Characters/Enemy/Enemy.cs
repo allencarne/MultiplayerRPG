@@ -1,16 +1,38 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
+    [Header("Components")]
+    [HideInInspector] public EnemySpawner EnemySpawnerReference;
+    [HideInInspector] public Totem TotemReference;
+    [SerializeField] GameObject expPrefab;
+    [SerializeField] EnemyStateMachine stateMachine;
+    public CharacterStats stats;
+
+    [Header("Sprites")]
+    public SpriteRenderer bodySprite;
+    public SpriteRenderer shadowSprite;
+
+    [Header("UI")]
+    [SerializeField] HealthBar healthBar;
+    public PatienceBar PatienceBar;
+    public CastBar CastBar;
+
+    [Header("Effects")]
+    [SerializeField] GameObject spawn_Effect;
+    [SerializeField] GameObject death_Effect;
+    [SerializeField] GameObject death_EffectParticle;
+
+    [Header("Variables")]
     public string Enemy_ID;
     public string Enemy_Name;
     public int Enemy_Level;
+    public float expToGive;
+    public float TotalPatience;
 
     [Header("Health")]
-    [SerializeField] float StartingMaxHealth;
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> MaxHealth = new(writePerm: NetworkVariableWritePermission.Server);
     [Header("Speed")]
@@ -29,80 +51,31 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     public float BaseArmor;
     public float CurrentArmor;
 
-    [Header("Exp")]
-    public float expToGive;
-
-    [Header("Components")]
-    [HideInInspector] public EnemySpawner EnemySpawnerReference;
-    [HideInInspector] public Totem TotemReference;
-    [SerializeField] GameObject expPrefab;
-    EnemyStateMachine stateMachine;
-    [SerializeField] GameObject spawn_Effect;
-    [SerializeField] GameObject death_Effect;
-    [SerializeField] GameObject death_EffectParticle;
-    [SerializeField] HealthBar healthBar;
-    public PatienceBar PatienceBar;
-    public CastBar CastBar;
-    public SpriteRenderer bodySprite;
-    public SpriteRenderer shadowSprite;
-
-    [Header("Variables")]
-    public float TotalPatience;
+    [Header("Bools")]
     public bool IsDummy;
     public bool IsDead;
 
-    [Header("Events")]
-    public UnityEvent<float> OnDamaged;
-    public UnityEvent<float> OnHealed;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
-        stateMachine = GetComponent<EnemyStateMachine>();
+        //stats.OnDeath.AddListener(DeathState);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        //stats.OnDeath.RemoveListener(DeathState);
     }
 
     private void Start()
     {
-        Instantiate(spawn_Effect, transform.position, transform.rotation);
-
-        // Set Speed
-        CurrentSpeed = BaseSpeed;
-
-        // Set Damage
-        CurrentDamage = BaseDamage;
-
-        // Set Attack Speed
-        CurrentAttackSpeed = BaseAttackSpeed;
-
-        // Set CDR
-        CurrentCDR = BaseCDR;
-
-        // Set Armor
-        CurrentArmor = BaseArmor;
-    }
-
-    public override void OnNetworkSpawn()
-    {
         if (IsServer)
         {
-            MaxHealth.Value = StartingMaxHealth;
-            Health.Value = MaxHealth.Value;
+            stats.Health.Value = stats.MaxHealth.Value;
         }
 
-        Health.OnValueChanged += OnHealthChanged;
-        MaxHealth.OnValueChanged += OnMaxHealthChanged;
 
-        // Initial UI update
-        healthBar.UpdateHealthBar(MaxHealth.Value, Health.Value);
-    }
 
-    private void OnHealthChanged(float oldValue, float newValue)
-    {
-        healthBar.UpdateHealthBar(MaxHealth.Value, newValue);
-    }
-
-    private void OnMaxHealthChanged(float oldValue, float newValue)
-    {
-        healthBar.UpdateHealthBar(newValue, Health.Value);
+        Instantiate(spawn_Effect, transform.position, transform.rotation);
     }
 
     #region Damage/Heal
@@ -123,7 +96,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         // Feedback
         TriggerFlashEffectClientRpc(Color.red);
-        OnDamaged?.Invoke(roundedDamage);
 
         // Quest
         UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
@@ -220,7 +192,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
 
         TriggerFlashEffectClientRpc(Color.green);
-        OnHealed?.Invoke(healAmount);
     }
 
     #endregion

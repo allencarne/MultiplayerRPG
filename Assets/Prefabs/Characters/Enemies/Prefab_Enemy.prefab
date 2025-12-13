@@ -232,8 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 0}
-  enemy: {fileID: 5006461325889791442}
+  stats: {fileID: 0}
   buffBar: {fileID: 8671912296722552889}
   buff_Regeneration: {fileID: 435407050109934694, guid: 2ebaaffc2197ecc4e895282f733dce81, type: 3}
 --- !u!1 &286103111848336678
@@ -1586,6 +1585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 4431175905520060998}
   Enemy_ID: 
   Enemy_Name: 
   Enemy_Level: 0
@@ -1608,6 +1608,7 @@ MonoBehaviour:
   EnemySpawnerReference: {fileID: 0}
   TotemReference: {fileID: 0}
   expPrefab: {fileID: 6311114248360890762, guid: dd052559657c2d44c935e05e3f870231, type: 3}
+  stateMachine: {fileID: 8001761435941154268}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   death_Effect: {fileID: 5327868760041425528, guid: 0dcf2a41213a71c44b6bccbe85ef24a7, type: 3}
   death_EffectParticle: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
@@ -1779,7 +1780,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   ShowTopMostFoldoutHeaderGroup: 1
-  isEnemy: 1
   Health:
     m_InternalValue: 0
   MaxHealth:
@@ -1794,6 +1794,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &4830251803286897434
