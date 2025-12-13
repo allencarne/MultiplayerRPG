@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Enemy : NetworkBehaviour, IDamageable, IHealable
 {
+    [Header("Variables")]
+    public string Enemy_ID;
+    public string Enemy_Name;
+    public int Enemy_Level;
+    public float expToGive;
+    public float TotalPatience;
+
     [Header("Components")]
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
     [HideInInspector] public Totem TotemReference;
@@ -19,18 +26,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [SerializeField] HealthBar healthBar;
     public PatienceBar PatienceBar;
     public CastBar CastBar;
-
-    [Header("Effects")]
-    [SerializeField] GameObject spawn_Effect;
-    [SerializeField] GameObject death_Effect;
-    [SerializeField] GameObject death_EffectParticle;
-
-    [Header("Variables")]
-    public string Enemy_ID;
-    public string Enemy_Name;
-    public int Enemy_Level;
-    public float expToGive;
-    public float TotalPatience;
 
     [Header("Health")]
     public NetworkVariable<float> Health = new(writePerm: NetworkVariableWritePermission.Server);
@@ -72,13 +67,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         {
             stats.Health.Value = stats.MaxHealth.Value;
         }
-
-
-
-        Instantiate(spawn_Effect, transform.position, transform.rotation);
     }
-
-    #region Damage/Heal
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
@@ -93,9 +82,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
 
         // Subtract
         Health.Value = Mathf.Max(Health.Value - roundedDamage, 0);
-
-        // Feedback
-        TriggerFlashEffectClientRpc(Color.red);
 
         // Quest
         UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
@@ -190,13 +176,7 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
         }
 
         Health.Value = Mathf.Min(Health.Value + healAmount, MaxHealth.Value);
-
-        TriggerFlashEffectClientRpc(Color.green);
     }
-
-    #endregion
-
-    #region Target
 
     void TargetAttacker(NetworkObject attackerID)
     {
@@ -208,37 +188,6 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
             stateMachine.IsPlayerInRange = true;
         }
     }
-
-    #endregion
-
-    #region Flash
-
-    public IEnumerator FlashEffect(Color color)
-    {
-        float flashDuration = 0.1f;
-
-        bodySprite.color = color;
-        yield return new WaitForSeconds(flashDuration / 2);
-
-        bodySprite.color = Color.white;
-        yield return new WaitForSeconds(flashDuration / 2);
-
-        bodySprite.color = color;
-        yield return new WaitForSeconds(flashDuration / 2);
-
-        // Reset to original color
-        bodySprite.color = Color.white;
-    }
-
-    [ClientRpc]
-    public void TriggerFlashEffectClientRpc(Color flashColor)
-    {
-        StartCoroutine(FlashEffect(flashColor));
-    }
-
-    #endregion
-
-    #region RPC
 
     [ClientRpc]
     private void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetId)
@@ -256,15 +205,9 @@ public class Enemy : NetworkBehaviour, IDamageable, IHealable
     [ClientRpc]
     private void DeathClientRpc(Vector3 position, Quaternion rotation)
     {
-        Instantiate(death_Effect, position, rotation);
-        Quaternion particleRotation = Quaternion.Euler(-90f, 0f, 0f);
-        Instantiate(death_EffectParticle, position, particleRotation);
-
         stateMachine.EnemyAnimator.Play("Death");
         stateMachine.Collider.enabled = false;
         shadowSprite.enabled = false;
         CastBar.gameObject.SetActive(false);
     }
-
-    #endregion
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,11 +5,12 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     [Header("Components")]
-    public Inventory PlayerInventory;
-    public GameObject spawn_Effect;
-    public CastBar CastBar;
-    [SerializeField] PlayerSave save;
+    [SerializeField] PlayerStateMachine stateMachine;
+    [SerializeField] PlayerStats stats;
     [SerializeField] PlayerInputHandler input;
+    [SerializeField] PlayerSave save;
+    public Inventory PlayerInventory;
+
 
     [Header("Sprites")]
     public SpriteRenderer SwordSprite;
@@ -21,8 +21,8 @@ public class Player : NetworkBehaviour
     public SpriteRenderer AimerSprite;
 
     [Header("UI")]
+    public CastBar CastBar;
     public Image[] playerImages;
-    [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] RectTransform playerUIRect;
@@ -42,6 +42,17 @@ public class Player : NetworkBehaviour
     public int DefensiveIndex = -1;
     public int UtilityIndex = -1;
     public int UltimateIndex = -1;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner) PlayerCamera();
+        stats.OnDeath.AddListener(DeathClientRPC);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        stats.OnDeath.RemoveListener(DeathClientRPC);
+    }
 
     private void Update()
     {
@@ -64,14 +75,6 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner)
-        {
-            PlayerCamera();
-        }
-    }
-
     void PlayerCamera()
     {
         GameObject cameraInstance = Instantiate(cameraPrefab);
@@ -86,7 +89,6 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     void DeathClientRPC()
     {
-        if (!IsOwner) return;
         stateMachine.SetState(PlayerStateMachine.State.Death);
     }
 }

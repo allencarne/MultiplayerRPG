@@ -3,16 +3,20 @@ using UnityEngine.UI;
 
 public class SetSkillPanel : MonoBehaviour
 {
+    [Header("Refences")]
     [SerializeField] PlayerStats stats;
     [SerializeField] Player player;
+    [SerializeField] PlayerExperience exp;
     [SerializeField] PlayerStateMachine stateMachine;
 
+    [Header("Panels")]
     [SerializeField] GameObject BeginnerPanel;
     [SerializeField] GameObject WarriorPanel;
     [SerializeField] GameObject MagicianPanel;
     [SerializeField] GameObject ArcherPanel;
     [SerializeField] GameObject RoguePanel;
 
+    [Header("Skills")]
     public SkillPanel begginerSkills;
     public SkillPanel warriorSkills;
     public SkillPanel magicianSkills;
@@ -34,6 +38,16 @@ public class SetSkillPanel : MonoBehaviour
     [SerializeField] Image[] skillBar_Defensive_Lock;
     [SerializeField] Image[] skillBar_Utility_Lock;
     [SerializeField] Image[] skillBar_Ultimate_Lock;
+
+    private void OnEnable()
+    {
+        exp.OnLevelUp.AddListener(OnLevelUp);
+    }
+
+    private void OnDisable()
+    {
+        exp.OnLevelUp.RemoveListener(OnLevelUp);
+    }
 
     private void Start()
     {
@@ -136,7 +150,7 @@ public class SetSkillPanel : MonoBehaviour
         }
     }
 
-    public void OnLevelUp()
+    void OnLevelUp()
     {
         if (stats.PlayerLevel.Value >= 1)
         {

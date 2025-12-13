@@ -5945,7 +5945,6 @@ GameObject:
   - component: {fileID: 5616087460647815688}
   - component: {fileID: 8785762146455488116}
   - component: {fileID: 3947169594819012984}
-  - component: {fileID: 8213140386547283737}
   - component: {fileID: 603070945422152525}
   m_Layer: 0
   m_Name: WorldUI
@@ -6109,22 +6108,6 @@ MonoBehaviour:
   BarColor:
     m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
   castBarFill: {fileID: 3573648353881278789}
---- !u!114 &8213140386547283737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818786303329478144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 882dda46c03cc3a488c050d98e5ff415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  player: {fileID: 841304983140234989}
-  skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
-  levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}
 --- !u!114 &603070945422152525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23120,17 +23103,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  stateMachine: {fileID: 6475613187630994528}
+  stats: {fileID: 2477393547595159198}
+  input: {fileID: 8050150357123000786}
+  save: {fileID: 5710798942256160764}
   PlayerInventory: {fileID: 6762276146836678153}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
-  CastBar: {fileID: 3947169594819012984}
-  save: {fileID: 5710798942256160764}
-  input: {fileID: 8050150357123000786}
   SwordSprite: {fileID: 5543647698223086082}
   BodySprite: {fileID: 7867530632741787033}
   EyeSprite: {fileID: 279537451489674445}
   HairSprite: {fileID: 3619931694366323352}
   ShadowSprite: {fileID: 6137828857873210559}
   AimerSprite: {fileID: 6230546296620156252}
+  CastBar: {fileID: 3947169594819012984}
   playerImages:
   - {fileID: 3915695176270634388}
   - {fileID: 7699765498428556517}
@@ -23140,7 +23125,6 @@ MonoBehaviour:
   - {fileID: 6451793305796271205}
   - {fileID: 8636521633625716063}
   - {fileID: 3573648353881278789}
-  stateMachine: {fileID: 6475613187630994528}
   playerUI: {fileID: 3299133459724338860}
   cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
   playerUIRect: {fileID: 1319158235293109785}
@@ -23331,18 +23315,6 @@ MonoBehaviour:
   OnLevelUp:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4657129753721047416}
-        m_TargetAssemblyTypeName: SetSkillPanel, Assembly-CSharp
-        m_MethodName: OnLevelUp
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1055530045472428052}
         m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
         m_MethodName: HandleAttributes
@@ -23459,6 +23431,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathBy:
     m_PersistentCalls:
       m_Calls: []
   net_CharacterSlot:
@@ -23836,6 +23811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 2477393547595159198}
   player: {fileID: 841304983140234989}
+  exp: {fileID: 6940644233207828720}
   stateMachine: {fileID: 6475613187630994528}
   BeginnerPanel: {fileID: 3778139816889554955}
   WarriorPanel: {fileID: 4163396321560676768}
@@ -24017,7 +23993,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 8213140386547283737}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
         m_MethodName: SkillSelect
         m_Mode: 1
@@ -29982,7 +29958,7 @@ MonoBehaviour:
   OnSkillSelected:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8213140386547283737}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
         m_MethodName: SkillSelect
         m_Mode: 1
@@ -58985,6 +58961,7 @@ GameObject:
   - component: {fileID: 7994913272089993089}
   - component: {fileID: 7692280098248216016}
   - component: {fileID: 7813428309846512742}
+  - component: {fileID: 2366508084683366402}
   m_Layer: 0
   m_Name: Sprites
   m_TagString: Untagged
@@ -59112,6 +59089,24 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   flashRedMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
   flashGreenMaterial: {fileID: 2100000, guid: 59ade6f9dc58335478bc47459e1532a0, type: 2}
+--- !u!114 &2366508084683366402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712448548237800742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882dda46c03cc3a488c050d98e5ff415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
+  exp: {fileID: 6940644233207828720}
+  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
+  skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
+  levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}
 --- !u!1 &7727896407979873591
 GameObject:
   m_ObjectHideFlags: 0
