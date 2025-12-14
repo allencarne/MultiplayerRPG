@@ -9,6 +9,7 @@ public class QuestUI : MonoBehaviour
 
     [Header("Player")]
     [SerializeField] PlayerStats stats;
+    [SerializeField] PlayerExperience exp;
     [SerializeField] PlayerQuest playerQuest;
 
     [Header("Quest List")]
@@ -29,6 +30,18 @@ public class QuestUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI questInfo;
     [SerializeField] TextMeshProUGUI questRewardText;
 
+    private void OnEnable()
+    {
+        exp.OnLevelUp.AddListener(RefreshQuestUI);
+        playerQuest.OnQuestStateChanged.AddListener(RefreshQuestUI);
+    }
+
+    private void OnDisable()
+    {
+        exp.OnLevelUp.RemoveListener(RefreshQuestUI);
+        playerQuest.OnQuestStateChanged.RemoveListener(RefreshQuestUI);
+    }
+
     private void Start()
     {
         if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
@@ -43,7 +56,7 @@ public class QuestUI : MonoBehaviour
         GetObjectives(quest);
     }
 
-    public void RefreshQuestUI()
+    void RefreshQuestUI()
     {
         ClearQuestList();
         GetQuestList();

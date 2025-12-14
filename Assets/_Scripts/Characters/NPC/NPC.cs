@@ -29,6 +29,8 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         stats.OnEnemyDamaged.AddListener(TargetAttacker);
         stats.OnDeath.AddListener(DeathState);
+
+        Invoke("AssignHealth", 1);
     }
 
     public override void OnNetworkDespawn()
@@ -47,7 +49,10 @@ public class NPC : NetworkBehaviour, IInteractable
         stats.AttackSpeed = Data.AttackSpeed;
         stats.CoolDownReduction = Data.CoolDownRecution;
         stats.Armor = Data.Armor;
+    }
 
+    void AssignHealth()
+    {
         if (IsServer)
         {
             stats.MaxHealth.Value = Data.MaxHealth;

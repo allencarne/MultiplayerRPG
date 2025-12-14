@@ -26,6 +26,7 @@ public class PlayerExperience : NetworkBehaviour
 
     [Header("Events")]
     public UnityEvent<float> OnEXPGained;
+    public UnityEvent OnEXP;
     public UnityEvent OnLevelUp;
 
     public override void OnNetworkSpawn()
@@ -119,6 +120,7 @@ public class PlayerExperience : NetworkBehaviour
         }
 
         OnEXPGained?.Invoke(xpGained);
+        OnEXP?.Invoke();
     }
 
     [ServerRpc]

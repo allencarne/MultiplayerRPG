@@ -1420,10 +1420,10 @@ GameObject:
   - component: {fileID: 878784667173873402}
   - component: {fileID: 5006461325889791442}
   - component: {fileID: 8001761435941154268}
+  - component: {fileID: 9147428821795703245}
   - component: {fileID: 6402268282429907237}
   - component: {fileID: 1913103621938294649}
   - component: {fileID: 568576347084111489}
-  - component: {fileID: 9147428821795703245}
   m_Layer: 7
   m_Name: Prefab_Enemy
   m_TagString: Enemy
@@ -1636,6 +1636,12 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  OnEnemyDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5006461325889791442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1709,6 +1715,19 @@ MonoBehaviour:
   DeBuffs: {fileID: 1913103621938294649}
   Drops: {fileID: 9147428821795703245}
   state: 0
+--- !u!114 &9147428821795703245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494865281095228816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8add7df1e190b0e4db1dce67e114fa2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppableItems: []
 --- !u!114 &6402268282429907237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1771,19 +1790,6 @@ MonoBehaviour:
   knockUp: {fileID: 5435382533902370838}
   pull: {fileID: 7153349269270407564}
   interrupt: {fileID: 3498860030662666909}
---- !u!114 &9147428821795703245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4494865281095228816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8add7df1e190b0e4db1dce67e114fa2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  droppableItems: []
 --- !u!1 &4830251803286897434
 GameObject:
   m_ObjectHideFlags: 0

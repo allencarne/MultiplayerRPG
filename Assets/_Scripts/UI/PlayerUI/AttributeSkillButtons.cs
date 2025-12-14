@@ -7,6 +7,9 @@ public class AttributeSkillButtons : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
 
+    [SerializeField] AttributePoints ap;
+    [SerializeField] PlayerExperience exp;
+
     [Header("UI")]
     [SerializeField] GameObject attributeUI;
     [SerializeField] GameObject skillUI;
@@ -20,6 +23,20 @@ public class AttributeSkillButtons : MonoBehaviour
     [SerializeField] GameObject m_skill_Button;
 
     bool isMobile;
+
+    private void OnEnable()
+    {
+        exp.OnLevelUp.AddListener(HandleAttributes);
+        exp.OnLevelUp.AddListener(HandleAllSkills);
+        ap.OnStatsApplied.AddListener(HandleAttributes);
+    }
+
+    private void OnDisable()
+    {
+        exp.OnLevelUp.RemoveListener(HandleAttributes);
+        exp.OnLevelUp.RemoveListener(HandleAllSkills);
+        ap.OnStatsApplied.RemoveListener(HandleAttributes);
+    }
 
     private void Start()
     {

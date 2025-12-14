@@ -15,6 +15,8 @@ public class PlayerSave : NetworkBehaviour
     PlayerStats stats;
     Inventory inventory;
     EquipmentManager equipment;
+    [SerializeField] AttributePoints ap;
+    [SerializeField] PlayerExperience exp;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI saveText;
@@ -30,6 +32,9 @@ public class PlayerSave : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        ap.OnStatsApplied.AddListener(SaveStats);
+        exp.OnEXP.AddListener(SaveStats);
+
         if (IsOwner)
         {
             SetSelectedCharacterServerRpc(PlayerPrefs.GetInt("SelectedCharacter"));
@@ -47,6 +52,12 @@ public class PlayerSave : NetworkBehaviour
             custom.bodySprite.color = stats.net_bodyColor.Value;
             custom.hairSprite.color = stats.net_hairColor.Value;
         }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        ap.OnStatsApplied.RemoveListener(SaveStats);
+        exp.OnEXP.RemoveListener(SaveStats);
     }
 
     [ServerRpc]

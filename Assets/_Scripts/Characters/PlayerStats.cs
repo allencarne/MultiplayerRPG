@@ -39,6 +39,19 @@ public class PlayerStats : CharacterStats
 
     public PlayerClass playerClass;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            TakeDamage(1,DamageType.Flat, NetworkObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            GiveHeal(1, HealType.Flat);
+        }
+    }
+
     public void ConsumeAttributePoints(int amount)
     {
         if (IsServer)

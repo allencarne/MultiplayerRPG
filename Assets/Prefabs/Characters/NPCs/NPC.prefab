@@ -266,7 +266,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
   buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
@@ -748,7 +747,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
   debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
@@ -1246,7 +1244,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
   debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
@@ -2091,7 +2088,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
   buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
@@ -3183,7 +3179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
   debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
@@ -3443,7 +3438,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
   debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
@@ -3499,7 +3493,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
   buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
@@ -3610,16 +3603,16 @@ GameObject:
   - component: {fileID: 4388476150063590076}
   - component: {fileID: 4202708670573458207}
   - component: {fileID: 5832090195188820490}
-  - component: {fileID: 6674310060799249892}
-  - component: {fileID: 5438906521032660789}
-  - component: {fileID: 3730166254070588288}
+  - component: {fileID: 6038468416201059741}
   - component: {fileID: 4856348772391820444}
   - component: {fileID: 7580783204941348460}
   - component: {fileID: 7778428804253406039}
   - component: {fileID: 6313527615267260075}
   - component: {fileID: 2030219489607158631}
   - component: {fileID: 2313668481455553807}
-  - component: {fileID: 6038468416201059741}
+  - component: {fileID: 6674310060799249892}
+  - component: {fileID: 5438906521032660789}
+  - component: {fileID: 3730166254070588288}
   m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
@@ -3757,7 +3750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 206476993
+  GlobalObjectIdHash: 252941149
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3833,7 +3826,7 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
---- !u!114 &6674310060799249892
+--- !u!114 &6038468416201059741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3842,59 +3835,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 7152011778197999100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51aa70aba569e874ba2a7b3d315379ec, type: 3}
+  m_Script: {fileID: 11500000, guid: ade069e0113b62e46bd14e640c75e65d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   ShowTopMostFoldoutHeaderGroup: 1
-  phase: {fileID: 5364981764065818715}
-  immune: {fileID: 2694619765784629286}
-  immoveable: {fileID: 6947868132366318720}
-  haste: {fileID: 3572790814088423517}
-  might: {fileID: 3867559211630701524}
-  alacrity: {fileID: 2942181595308185842}
-  protection: {fileID: 2230392837678422631}
-  swiftness: {fileID: 526519191180926239}
-  regeneration: {fileID: 8975984412371179804}
---- !u!114 &5438906521032660789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7152011778197999100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 788048d035e76a649ba7c42865b675b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  slow: {fileID: 8654056754009939617}
-  weakness: {fileID: 280722004867670086}
-  impede: {fileID: 2373548673805613631}
-  vulnerability: {fileID: 267476235522507233}
-  exhaust: {fileID: 293205125217867439}
---- !u!114 &3730166254070588288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7152011778197999100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5a017cc8255d61448978e31100217cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  disarm: {fileID: 3242486336029305453}
-  silence: {fileID: 3624312820601236351}
-  immobilize: {fileID: 4395231976278378374}
-  stun: {fileID: 6257445900315457185}
-  incapacitate: {fileID: 7756951678100911160}
-  knockBack: {fileID: 4595054840192329172}
-  knockUp: {fileID: 997002833693817929}
-  pull: {fileID: 6337960835322944255}
-  interrupt: {fileID: 5421379036071635315}
+  Health:
+    m_InternalValue: 0
+  MaxHealth:
+    m_InternalValue: 0
+  Speed: 0
+  Damage: 0
+  AttackSpeed: 0
+  CoolDownReduction: 0
+  Armor: 0
+  modifiers: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4856348772391820444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4063,7 +4035,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6038468416201059741
+--- !u!114 &6674310060799249892
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4072,32 +4044,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 7152011778197999100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ade069e0113b62e46bd14e640c75e65d, type: 3}
+  m_Script: {fileID: 11500000, guid: 51aa70aba569e874ba2a7b3d315379ec, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
+  m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  Health:
-    m_InternalValue: 0
-  MaxHealth:
-    m_InternalValue: 0
-  Speed: 0
-  Damage: 0
-  AttackSpeed: 0
-  CoolDownReduction: 0
-  Armor: 0
-  modifiers: []
-  OnDamaged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamageDealt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  phase: {fileID: 5364981764065818715}
+  immune: {fileID: 2694619765784629286}
+  immoveable: {fileID: 6947868132366318720}
+  haste: {fileID: 3572790814088423517}
+  might: {fileID: 3867559211630701524}
+  alacrity: {fileID: 2942181595308185842}
+  protection: {fileID: 2230392837678422631}
+  swiftness: {fileID: 526519191180926239}
+  regeneration: {fileID: 8975984412371179804}
+--- !u!114 &5438906521032660789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152011778197999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788048d035e76a649ba7c42865b675b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  slow: {fileID: 8654056754009939617}
+  weakness: {fileID: 280722004867670086}
+  impede: {fileID: 2373548673805613631}
+  vulnerability: {fileID: 267476235522507233}
+  exhaust: {fileID: 293205125217867439}
+--- !u!114 &3730166254070588288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152011778197999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a017cc8255d61448978e31100217cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  disarm: {fileID: 3242486336029305453}
+  silence: {fileID: 3624312820601236351}
+  immobilize: {fileID: 4395231976278378374}
+  stun: {fileID: 6257445900315457185}
+  incapacitate: {fileID: 7756951678100911160}
+  knockBack: {fileID: 4595054840192329172}
+  knockUp: {fileID: 997002833693817929}
+  pull: {fileID: 6337960835322944255}
+  interrupt: {fileID: 5421379036071635315}
 --- !u!1 &8074817158488108185
 GameObject:
   m_ObjectHideFlags: 0
@@ -4148,7 +4147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
   buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
@@ -4596,7 +4594,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 6674310060799249892}
   debuffBar: {fileID: 3896601426424586401}
   debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
@@ -4652,7 +4649,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 5438906521032660789}
   buffBar: {fileID: 8452951922686297947}
   buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}

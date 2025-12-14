@@ -3299,7 +3299,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
   buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
@@ -4003,7 +4002,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
   buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
@@ -14336,7 +14334,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
   debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
@@ -19320,7 +19317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
   debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
@@ -22373,17 +22369,17 @@ GameObject:
   - component: {fileID: 5662133979919877741}
   - component: {fileID: 4396679508418396757}
   - component: {fileID: 8808567701147247267}
+  - component: {fileID: 2477393547595159198}
   - component: {fileID: 841304983140234989}
   - component: {fileID: 6475613187630994528}
+  - component: {fileID: 5248151491556837222}
   - component: {fileID: 7139024652526368089}
-  - component: {fileID: 6004191219924147057}
-  - component: {fileID: 1521853271822668813}
-  - component: {fileID: 263776561653739863}
   - component: {fileID: 6940644233207828720}
   - component: {fileID: 2815023884702440214}
-  - component: {fileID: 2477393547595159198}
   - component: {fileID: 5710798942256160764}
-  - component: {fileID: 5248151491556837222}
+  - component: {fileID: 1521853271822668813}
+  - component: {fileID: 263776561653739863}
+  - component: {fileID: 6004191219924147057}
   m_Layer: 6
   m_Name: Prefab_Player
   m_TagString: Player
@@ -23090,6 +23086,108 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &2477393547595159198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e00cfd2c918ff64990b99131a912a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  ShowTopMostFoldoutHeaderGroup: 1
+  Health:
+    m_InternalValue: 0
+  MaxHealth:
+    m_InternalValue: 0
+  Speed: 0
+  Damage: 0
+  AttackSpeed: 0
+  CoolDownReduction: 0
+  Armor: 0
+  modifiers: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamageDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  net_CharacterSlot:
+    m_InternalValue: 0
+  net_playerName:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
+  net_bodyColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  net_hairColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  PlayerLevel:
+    m_InternalValue: 0
+  CurrentExperience:
+    m_InternalValue: 0
+  RequiredExperience:
+    m_InternalValue: 0
+  AttributePoints:
+    m_InternalValue: 0
+  Endurance:
+    m_InternalValue: 0
+  MaxEndurance:
+    m_InternalValue: 0
+  EnduranceRechargeRate:
+    m_InternalValue: 0
+  Fury:
+    m_InternalValue: 0
+  MaxFury:
+    m_InternalValue: 0
+  Coins: 0
+  playerClass: 0
 --- !u!114 &841304983140234989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23108,7 +23206,6 @@ MonoBehaviour:
   input: {fileID: 8050150357123000786}
   save: {fileID: 5710798942256160764}
   PlayerInventory: {fileID: 6762276146836678153}
-  spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   SwordSprite: {fileID: 5543647698223086082}
   BodySprite: {fileID: 7867530632741787033}
   EyeSprite: {fileID: 279537451489674445}
@@ -23194,6 +23291,27 @@ MonoBehaviour:
   CanUtility: 1
   CanUltimate: 1
   state: 0
+--- !u!114 &5248151491556837222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77efe6f2b98ec184886f8d97479ce1cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCustomization
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
+  playerNameText: {fileID: 368875013985293729}
+  bodySprite: {fileID: 7867530632741787033}
+  hairSprite: {fileID: 3619931694366323352}
+  HairIndex: 0
+  HeadAnimIndex: 0
+  ChestAnimIndex: 0
+  LegsAnimIndex: 0
 --- !u!114 &7139024652526368089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23214,7 +23332,7 @@ MonoBehaviour:
   Dagger: {fileID: 7987029974950451484}
   IsWeaponEquipped: 0
   currentWeapon: 0
---- !u!114 &6004191219924147057
+--- !u!114 &6940644233207828720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23223,19 +23341,67 @@ MonoBehaviour:
   m_GameObject: {fileID: 2910263212190248897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5a017cc8255d61448978e31100217cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 057775b68026d0b429fa400eeb2be78e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  disarm: {fileID: 8938425498417698410}
-  silence: {fileID: 3353144369877275943}
-  immobilize: {fileID: 1244825112377662710}
-  stun: {fileID: 1015839325677655301}
-  incapacitate: {fileID: 2996047110226498673}
-  knockBack: {fileID: 398958292745264834}
-  knockUp: {fileID: 7837662349585901939}
-  pull: {fileID: 5736713197127442165}
-  interrupt: {fileID: 667601083996839834}
+  stats: {fileID: 2477393547595159198}
+  frontXpBar: {fileID: 6438291673167540992}
+  backXpBar: {fileID: 2824420699212628155}
+  experienceText: {fileID: 2399128155856467448}
+  levelText: {fileID: 3908792987332763312}
+  additionMultiplier: 25
+  powerMultiplier: 2
+  divisionMultiplier: 7
+  OnEXPGained:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEXP:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2815023884702440214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eda3897acd87bb4faf0eec745aed834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerQuest
+  stats: {fileID: 2477393547595159198}
+  inventory: {fileID: 6762276146836678153}
+  experience: {fileID: 6940644233207828720}
+  coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+  OnQuestStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnQuestTurnedIn:
+    m_PersistentCalls:
+      m_Calls: []
+  activeQuests: []
+--- !u!114 &5710798942256160764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 897b9794bcc8b2945ab273c2c57f9670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSave
+  ShowTopMostFoldoutHeaderGroup: 1
+  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
+  ap: {fileID: 5950257301322909682}
+  exp: {fileID: 6940644233207828720}
+  saveText: {fileID: 2229989780815055974}
 --- !u!114 &1521853271822668813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23276,7 +23442,7 @@ MonoBehaviour:
   impede: {fileID: 1646342625533901897}
   vulnerability: {fileID: 5514744723095896370}
   exhaust: {fileID: 9203867875972622916}
---- !u!114 &6940644233207828720
+--- !u!114 &6004191219924147057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23285,254 +23451,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2910263212190248897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 057775b68026d0b429fa400eeb2be78e, type: 3}
+  m_Script: {fileID: 11500000, guid: e5a017cc8255d61448978e31100217cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 2477393547595159198}
-  frontXpBar: {fileID: 6438291673167540992}
-  backXpBar: {fileID: 2824420699212628155}
-  experienceText: {fileID: 2399128155856467448}
-  levelText: {fileID: 3908792987332763312}
-  additionMultiplier: 25
-  powerMultiplier: 2
-  divisionMultiplier: 7
-  OnEXPGained:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5710798942256160764}
-        m_TargetAssemblyTypeName: PlayerSave, Assembly-CSharp
-        m_MethodName: SaveStats
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnLevelUp:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1055530045472428052}
-        m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
-        m_MethodName: HandleAttributes
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1055530045472428052}
-        m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
-        m_MethodName: HandleAllSkills
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3006592319348859898}
-        m_TargetAssemblyTypeName: QuestUI, Assembly-CSharp
-        m_MethodName: RefreshQuestUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &2815023884702440214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910263212190248897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eda3897acd87bb4faf0eec745aed834, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerQuest
-  stats: {fileID: 2477393547595159198}
-  inventory: {fileID: 6762276146836678153}
-  experience: {fileID: 6940644233207828720}
-  coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
-  OnQuestStateChanged:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7463888921163288595}
-        m_TargetAssemblyTypeName: QusetTracker, Assembly-CSharp
-        m_MethodName: UpdateQuestUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3006592319348859898}
-        m_TargetAssemblyTypeName: QuestUI, Assembly-CSharp
-        m_MethodName: RefreshQuestUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnQuestTurnedIn:
-    m_PersistentCalls:
-      m_Calls: []
-  activeQuests: []
---- !u!114 &2477393547595159198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910263212190248897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e00cfd2c918ff64990b99131a912a4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  ShowTopMostFoldoutHeaderGroup: 1
-  Health:
-    m_InternalValue: 0
-  MaxHealth:
-    m_InternalValue: 0
-  Speed: 0
-  Damage: 0
-  AttackSpeed: 0
-  CoolDownReduction: 0
-  Armor: 0
-  modifiers: []
-  OnDamaged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnHealed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDamageDealt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeathBy:
-    m_PersistentCalls:
-      m_Calls: []
-  net_CharacterSlot:
-    m_InternalValue: 0
-  net_playerName:
-    m_InternalValue:
-      utf8LengthInBytes: 0
-      bytes:
-        offset0000:
-          byte0000: 0
-          byte0001: 0
-          byte0002: 0
-          byte0003: 0
-          byte0004: 0
-          byte0005: 0
-          byte0006: 0
-          byte0007: 0
-          byte0008: 0
-          byte0009: 0
-          byte0010: 0
-          byte0011: 0
-          byte0012: 0
-          byte0013: 0
-          byte0014: 0
-          byte0015: 0
-        byte0016: 0
-        byte0017: 0
-        byte0018: 0
-        byte0019: 0
-        byte0020: 0
-        byte0021: 0
-        byte0022: 0
-        byte0023: 0
-        byte0024: 0
-        byte0025: 0
-        byte0026: 0
-        byte0027: 0
-        byte0028: 0
-        byte0029: 0
-  net_bodyColor:
-    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
-  net_hairColor:
-    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
-  PlayerLevel:
-    m_InternalValue: 0
-  CurrentExperience:
-    m_InternalValue: 0
-  RequiredExperience:
-    m_InternalValue: 0
-  AttributePoints:
-    m_InternalValue: 0
-  Endurance:
-    m_InternalValue: 0
-  MaxEndurance:
-    m_InternalValue: 0
-  EnduranceRechargeRate:
-    m_InternalValue: 0
-  Fury:
-    m_InternalValue: 0
-  MaxFury:
-    m_InternalValue: 0
-  Coins: 0
-  playerClass: 0
---- !u!114 &5710798942256160764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910263212190248897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 897b9794bcc8b2945ab273c2c57f9670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerSave
-  ShowTopMostFoldoutHeaderGroup: 1
-  customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
-  saveText: {fileID: 2229989780815055974}
---- !u!114 &5248151491556837222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2910263212190248897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77efe6f2b98ec184886f8d97479ce1cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCustomization
-  ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 2477393547595159198}
-  playerNameText: {fileID: 368875013985293729}
-  bodySprite: {fileID: 7867530632741787033}
-  hairSprite: {fileID: 3619931694366323352}
-  HairIndex: 0
-  HeadAnimIndex: 0
-  ChestAnimIndex: 0
-  LegsAnimIndex: 0
+  disarm: {fileID: 8938425498417698410}
+  silence: {fileID: 3353144369877275943}
+  immobilize: {fileID: 1244825112377662710}
+  stun: {fileID: 1015839325677655301}
+  incapacitate: {fileID: 2996047110226498673}
+  knockBack: {fileID: 398958292745264834}
+  knockUp: {fileID: 7837662349585901939}
+  pull: {fileID: 5736713197127442165}
+  interrupt: {fileID: 667601083996839834}
 --- !u!1 &2913849871181157441
 GameObject:
   m_ObjectHideFlags: 0
@@ -23912,7 +23843,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
   - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
   - {fileID: 11400000, guid: 9fccd38173ed7eb4cbfd6dc8ddc85bfe, type: 2}
+  - {fileID: 11400000, guid: 43804a6b192d4a847a46772877a7939c, type: 2}
+  - {fileID: 11400000, guid: 7558749bf1bcbcf4f8b9eaffce3df71f, type: 2}
+  - {fileID: 11400000, guid: b632dca8a0d2b0d4fb6ed7adedcb2f31, type: 2}
+  - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
   stats: {fileID: 2477393547595159198}
+  exp: {fileID: 6940644233207828720}
   playerQuest: {fileID: 2815023884702440214}
   questListUI: {fileID: 5750095017788648469}
   questUI_Button: {fileID: 2759240771576674268, guid: 57923a8056fd9e64485b898d91171b2a, type: 3}
@@ -23944,6 +23880,8 @@ MonoBehaviour:
   playerUI: {fileID: 2846862907457918475}
   player: {fileID: 841304983140234989}
   stats: {fileID: 2477393547595159198}
+  ap: {fileID: 5950257301322909682}
+  exp: {fileID: 6940644233207828720}
   attributeUI: {fileID: 4474952441136511288}
   skillUI: {fileID: 3759623618371899525}
   attribute_Button: {fileID: 3808015105832604949}
@@ -23980,43 +23918,7 @@ MonoBehaviour:
   CDRMinus: {fileID: 1028675477376366914}
   OnStatsApplied:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5710798942256160764}
-        m_TargetAssemblyTypeName: PlayerSave, Assembly-CSharp
-        m_MethodName: SaveStats
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
-        m_MethodName: SkillSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1055530045472428052}
-        m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
-        m_MethodName: HandleAttributes
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &7463888921163288595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29287,7 +29189,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
   buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
@@ -35363,7 +35264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 2477393547595159198}
-  enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
   debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
@@ -37113,7 +37013,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
   debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
@@ -43706,7 +43605,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   buffs: {fileID: 1521853271822668813}
   debuffBar: {fileID: 416108943347118816}
   debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
@@ -45789,7 +45687,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
   buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
@@ -59157,7 +59054,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 2477393547595159198}
-  enemy: {fileID: 0}
   deBuffs: {fileID: 263776561653739863}
   buffBar: {fileID: 7354079026291478614}
   buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}

@@ -16,6 +16,16 @@ public class QusetTracker : MonoBehaviour
     [SerializeField] GameObject QuestUIPrefab;
     [SerializeField] GameObject ObjectiveUIPrefab;
 
+    private void OnEnable()
+    {
+        playerQuest.OnQuestStateChanged.AddListener(UpdateQuestUI);
+    }
+
+    private void OnDisable()
+    {
+        playerQuest.OnQuestStateChanged.RemoveListener(UpdateQuestUI);
+    }
+
     private void Start()
     {
         isMobile = Application.isMobilePlatform;
@@ -24,7 +34,7 @@ public class QusetTracker : MonoBehaviour
         UpdateQuestUI();
     }
 
-    public void UpdateQuestUI()
+    void UpdateQuestUI()
     {
         ClearQuestTracker();
 
