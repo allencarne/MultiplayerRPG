@@ -37,15 +37,7 @@ public class PlayerEquipment : NetworkBehaviour
         net_currentWeapon.OnValueChanged += OnWeaponChanged;
         net_itemName.OnValueChanged += OnItemNameChanged;
 
-        if (IsOwner)
-        {
-            net_currentWeapon.Value = currentWeapon;
-            net_itemName.Value = "";
-        }
-        else
-        {
-            UpdateWeaponVisuals(net_currentWeapon.Value, net_itemName.Value.ToString());
-        }
+        UpdateWeaponVisuals(net_currentWeapon.Value, net_itemName.Value.ToString());
     }
 
     public override void OnNetworkDespawn()
@@ -109,8 +101,6 @@ public class PlayerEquipment : NetworkBehaviour
             net_currentWeapon.Value = currentWeapon;
             net_itemName.Value = cleanName;
         }
-
-        //UpdateWeaponVisuals(currentWeapon, newWeapon.name);
     }
 
     private void UnequipWeapon()
@@ -123,8 +113,6 @@ public class PlayerEquipment : NetworkBehaviour
             net_currentWeapon.Value = CurrentWeapon.None;
             net_itemName.Value = "";
         }
-
-        //UpdateWeaponVisuals(CurrentWeapon.None, "");
     }
 
     private void UpdateWeaponVisuals(CurrentWeapon weapon, string itemName)
