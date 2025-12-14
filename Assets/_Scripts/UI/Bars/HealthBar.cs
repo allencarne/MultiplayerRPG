@@ -15,31 +15,29 @@ public class HealthBar : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         stats.Health.OnValueChanged += OnHealthChanged;
-        stats.MaxHealth.OnValueChanged += OnMaxHealthChanged;
 
-        UpdateHealthBar(stats.MaxHealth.Value, stats.Health.Value);
+        UpdateHealthBar();
     }
 
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
         stats.Health.OnValueChanged -= OnHealthChanged;
-        stats.MaxHealth.OnValueChanged -= OnMaxHealthChanged;
     }
 
-    public void UpdateHealthBar(float maxHealth, float currentHealth)
+    public void UpdateHealthBar()
     {
+        float maxHealth = stats.ModifiedMaxHealth;
+        float currentHealth = stats.Health.Value;
+
         if (maxHealth <= 0) return;
 
-        healthBar.fillAmount = currentHealth / maxHealth;
+        float fill = currentHealth / maxHealth;
+        healthBar.fillAmount = fill;
 
-        if (!gameObject.activeInHierarchy)
-            return;
+        if (!gameObject.activeInHierarchy) return;
 
-        if (lerpCoroutine != null)
-        {
-            StopCoroutine(lerpCoroutine);
-        }
-        lerpCoroutine = StartCoroutine(LerpHealthBarBack(currentHealth / maxHealth));
+        if (lerpCoroutine != null) StopCoroutine(lerpCoroutine);
+        lerpCoroutine = StartCoroutine(LerpHealthBarBack(fill));
     }
 
     IEnumerator LerpHealthBarBack(float targetFillAmount)
@@ -56,11 +54,6 @@ public class HealthBar : NetworkBehaviour
 
     void OnHealthChanged(float oldValue, float newValue)
     {
-        UpdateHealthBar(stats.MaxHealth.Value, newValue);
-    }
-
-    void OnMaxHealthChanged(float oldValue, float newValue)
-    {
-        UpdateHealthBar(newValue, stats.Health.Value);
+        UpdateHealthBar();
     }
 }
