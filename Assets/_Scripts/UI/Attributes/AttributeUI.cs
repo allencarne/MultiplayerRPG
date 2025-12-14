@@ -18,7 +18,7 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI totalAttackSpeed;
     [SerializeField] TextMeshProUGUI totalCDR;
     [SerializeField] TextMeshProUGUI totalSpeed;
-    [SerializeField] TextMeshProUGUI totalEndurance;
+    [SerializeField] TextMeshProUGUI enduranceRecharge;
     [SerializeField] TextMeshProUGUI totalArmor;
 
     private void OnEnable()
@@ -41,10 +41,10 @@ public class AttributeUI : MonoBehaviour
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
         // Health
-        totalHealth.text = stats.ModifiedMaxHealth.ToString();
+        totalHealth.text = StringBuildFloat(stats.ModifiedMaxHealth, stats.Health.Value, stats.GetModifierFloat(StatType.Health));
 
         // Damage
-        totalDamage.text = stats.ModifiedDamage.ToString();
+        totalDamage.text = StringBuildInt(stats.ModifiedDamage, stats.Damage, stats.GetModifierInt(StatType.Damage));
 
         // Attack Speed
         totalAttackSpeed.text = stats.AttackSpeed.ToString("F2");
@@ -56,10 +56,34 @@ public class AttributeUI : MonoBehaviour
         totalSpeed.text = stats.Speed.ToString("F2");
 
         // Endurance
-        totalEndurance.text = stats.MaxEndurance.Value.ToString();
+        enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
 
         // Armor
         totalArmor.text = stats.Armor.ToString();
+    }
+
+    string StringBuildFloat(float total, float value, float mods)
+    {
+        if (mods == 0)
+        {
+            return total.ToString();
+        }
+        else
+        {
+            return $"{total} ({value} + <color=#33C4FF>{mods}</color>)";
+        }
+    }
+
+    string StringBuildInt(int total, int value, int mods)
+    {
+        if (mods == 0)
+        {
+            return total.ToString();
+        }
+        else
+        {
+            return $"{total} ({value} + <color=#33C4FF>{mods}</color>)";
+        }
     }
 
     void GetClassIcon()

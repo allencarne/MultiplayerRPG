@@ -19,7 +19,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public int ModifiedDamage => Damage + GetModifierInt(StatType.Damage);
     public float ModifiedMaxHealth => MaxHealth.Value + GetModifierFloat(StatType.Health);
 
-    int GetModifierInt(StatType type)
+    public int GetModifierInt(StatType type)
     {
         int value = 0;
 
@@ -34,7 +34,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         return value;
     }
 
-    float GetModifierFloat(StatType type)
+    public float GetModifierFloat(StatType type)
     {
         float value = 0;
 
