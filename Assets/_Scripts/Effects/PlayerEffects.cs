@@ -5,6 +5,8 @@ public class PlayerEffects : NetworkBehaviour
 {
     [SerializeField] PlayerStats stats;
     [SerializeField] PlayerExperience exp;
+    [SerializeField] AttributePoints ap;
+    [SerializeField] SkillPanel skillPanel;
 
     [SerializeField] GameObject spawn_Effect;
     [SerializeField] GameObject skillSelect_Effect;
@@ -14,11 +16,15 @@ public class PlayerEffects : NetworkBehaviour
     {
         SpawnClientRPC();
         exp.OnLevelUp.AddListener(LevelUpClientRPC);
+        ap.OnStatsApplied.AddListener(PowerUpClientRPC);
+        skillPanel.OnSkillSelected.AddListener(PowerUpClientRPC);
     }
 
     public override void OnNetworkDespawn()
     {
         exp.OnLevelUp.RemoveListener(LevelUpClientRPC);
+        ap.OnStatsApplied.RemoveListener(PowerUpClientRPC);
+        skillPanel.OnSkillSelected.RemoveListener(PowerUpClientRPC);
     }
 
     [ClientRpc]
@@ -27,20 +33,8 @@ public class PlayerEffects : NetworkBehaviour
         Instantiate(spawn_Effect, transform.position, transform.rotation);
     }
 
-    public void SkillSelect()
-    {
-        if (!IsOwner) return;
-        SkillSelectServerRPC();
-    }
-
-    [ServerRpc]
-    void SkillSelectServerRPC()
-    {
-        SkillSelectClientRPC();
-    }
-
     [ClientRpc]
-    void SkillSelectClientRPC()
+    void PowerUpClientRPC()
     {
         GameObject effect = Instantiate(skillSelect_Effect, transform.position, Quaternion.identity, transform);
         Destroy(effect, 1);

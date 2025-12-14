@@ -6,6 +6,7 @@ public class AttributeSkillButtons : MonoBehaviour
     [SerializeField] PlayerUI playerUI;
     [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
+    [SerializeField] SkillPanel skillPanel;
 
     [SerializeField] AttributePoints ap;
     [SerializeField] PlayerExperience exp;
@@ -29,6 +30,7 @@ public class AttributeSkillButtons : MonoBehaviour
         exp.OnLevelUp.AddListener(HandleAttributes);
         exp.OnLevelUp.AddListener(HandleAllSkills);
         ap.OnStatsApplied.AddListener(HandleAttributes);
+        skillPanel.OnSkillSelected.AddListener(HandleAllSkills);
     }
 
     private void OnDisable()
@@ -36,6 +38,7 @@ public class AttributeSkillButtons : MonoBehaviour
         exp.OnLevelUp.RemoveListener(HandleAttributes);
         exp.OnLevelUp.RemoveListener(HandleAllSkills);
         ap.OnStatsApplied.RemoveListener(HandleAttributes);
+        skillPanel.OnSkillSelected.RemoveListener(HandleAllSkills);
     }
 
     private void Start()

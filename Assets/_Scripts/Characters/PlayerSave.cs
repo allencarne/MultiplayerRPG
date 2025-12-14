@@ -17,6 +17,7 @@ public class PlayerSave : NetworkBehaviour
     EquipmentManager equipment;
     [SerializeField] AttributePoints ap;
     [SerializeField] PlayerExperience exp;
+    [SerializeField] SkillPanel skillPanel;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI saveText;
@@ -34,6 +35,7 @@ public class PlayerSave : NetworkBehaviour
     {
         ap.OnStatsApplied.AddListener(SaveStats);
         exp.OnEXP.AddListener(SaveStats);
+        skillPanel.OnSkillSelected.AddListener(SaveStats);
 
         if (IsOwner)
         {
@@ -58,6 +60,7 @@ public class PlayerSave : NetworkBehaviour
     {
         ap.OnStatsApplied.RemoveListener(SaveStats);
         exp.OnEXP.RemoveListener(SaveStats);
+        skillPanel.OnSkillSelected.RemoveListener(SaveStats);
     }
 
     [ServerRpc]

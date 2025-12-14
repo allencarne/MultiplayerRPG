@@ -23401,6 +23401,7 @@ MonoBehaviour:
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
   ap: {fileID: 5950257301322909682}
   exp: {fileID: 6940644233207828720}
+  skillPanel: {fileID: 640528868884370920}
   saveText: {fileID: 2229989780815055974}
 --- !u!114 &1521853271822668813
 MonoBehaviour:
@@ -23744,6 +23745,7 @@ MonoBehaviour:
   player: {fileID: 841304983140234989}
   exp: {fileID: 6940644233207828720}
   stateMachine: {fileID: 6475613187630994528}
+  skillPanel: {fileID: 640528868884370920}
   BeginnerPanel: {fileID: 3778139816889554955}
   WarriorPanel: {fileID: 4163396321560676768}
   MagicianPanel: {fileID: 6556639898603264574}
@@ -23880,6 +23882,7 @@ MonoBehaviour:
   playerUI: {fileID: 2846862907457918475}
   player: {fileID: 841304983140234989}
   stats: {fileID: 2477393547595159198}
+  skillPanel: {fileID: 640528868884370920}
   ap: {fileID: 5950257301322909682}
   exp: {fileID: 6940644233207828720}
   attributeUI: {fileID: 4474952441136511288}
@@ -29858,55 +29861,7 @@ MonoBehaviour:
   icon_Ultimate2: {fileID: 0}
   OnSkillSelected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerEffects, Assembly-CSharp
-        m_MethodName: SkillSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4657129753721047416}
-        m_TargetAssemblyTypeName: SetSkillPanel, Assembly-CSharp
-        m_MethodName: SetSkills
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5710798942256160764}
-        m_TargetAssemblyTypeName: PlayerSave, Assembly-CSharp
-        m_MethodName: SaveStats
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1055530045472428052}
-        m_TargetAssemblyTypeName: AttributeSkillButtons, Assembly-CSharp
-        m_MethodName: HandleAllSkills
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &3778347087147015405
 GameObject:
   m_ObjectHideFlags: 0
@@ -59001,6 +58956,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 2477393547595159198}
   exp: {fileID: 6940644233207828720}
+  ap: {fileID: 5950257301322909682}
+  skillPanel: {fileID: 640528868884370920}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
   levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}

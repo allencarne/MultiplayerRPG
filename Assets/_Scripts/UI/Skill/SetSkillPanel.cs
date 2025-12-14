@@ -8,6 +8,7 @@ public class SetSkillPanel : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] PlayerExperience exp;
     [SerializeField] PlayerStateMachine stateMachine;
+    [SerializeField] SkillPanel skillPanel;
 
     [Header("Panels")]
     [SerializeField] GameObject BeginnerPanel;
@@ -42,11 +43,13 @@ public class SetSkillPanel : MonoBehaviour
     private void OnEnable()
     {
         exp.OnLevelUp.AddListener(OnLevelUp);
+        skillPanel.OnSkillSelected.AddListener(SetSkills);
     }
 
     private void OnDisable()
     {
         exp.OnLevelUp.RemoveListener(OnLevelUp);
+        skillPanel.OnSkillSelected.RemoveListener(SetSkills);
     }
 
     private void Start()
