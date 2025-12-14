@@ -2,7 +2,6 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using static PlayerEquipment;
 
 public class PlayerCustomization : NetworkBehaviour
 {
@@ -58,7 +57,7 @@ public class PlayerCustomization : NetworkBehaviour
         hairSprite.color = newColor;
     }
 
-    public Sprite FetchWeaponSprite(string itemName)
+    Sprite FetchWeaponSprite(string itemName)
     {
         if (string.IsNullOrEmpty(itemName)) return null;
 
@@ -69,26 +68,26 @@ public class PlayerCustomization : NetworkBehaviour
         return null;
     }
 
-    public void UpdateWeaponVisuals(CurrentWeapon weapon, string itemName)
+    public void UpdateWeaponVisuals(PlayerEquipment.CurrentWeapon weapon, string itemName)
     {
         Sword.enabled = Staff.enabled = Bow.enabled = Dagger.enabled = false;
         Sprite sprite = FetchWeaponSprite(itemName);
 
         switch (weapon)
         {
-            case CurrentWeapon.Sword:
+            case PlayerEquipment.CurrentWeapon.Sword:
                 Sword.enabled = true;
                 Sword.sprite = sprite;
                 break;
-            case CurrentWeapon.Staff:
+            case PlayerEquipment.CurrentWeapon.Staff:
                 Staff.enabled = true;
                 Staff.sprite = sprite;
                 break;
-            case CurrentWeapon.Bow:
+            case PlayerEquipment.CurrentWeapon.Bow:
                 Bow.enabled = true;
                 Bow.sprite = sprite;
                 break;
-            case CurrentWeapon.Dagger:
+            case PlayerEquipment.CurrentWeapon.Dagger:
                 Dagger.enabled = true;
                 Dagger.sprite = sprite;
                 break;
