@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
-    [Header("Player")]
-    [SerializeField] ItemList itemDatabase;
-    PlayerCustomization customization;
-    PlayerStats stats;
-    PlayerStateMachine stateMachine;
-    PlayerSave save;
+    public NetworkVariable<CurrentWeapon> net_currentWeapon = new(writePerm: NetworkVariableWritePermission.Owner);
+    public NetworkVariable<FixedString64Bytes> net_itemName = new("", writePerm: NetworkVariableWritePermission.Owner);
 
     [Header("WeaponSprites")]
     [SerializeField] SpriteRenderer Sword;
@@ -17,13 +13,13 @@ public class PlayerEquipment : NetworkBehaviour
     [SerializeField] SpriteRenderer Bow;
     [SerializeField] SpriteRenderer Dagger;
 
+    [Header("Player")]
+    [SerializeField] ItemList itemDatabase;
+    PlayerCustomization customization;
+    PlayerStats stats;
+    PlayerStateMachine stateMachine;
+    PlayerSave save;
     public bool IsWeaponEquipped = false;
-
-    private NetworkVariable<CurrentWeapon> net_currentWeapon =
-        new(writePerm: NetworkVariableWritePermission.Owner);
-
-    private NetworkVariable<FixedString64Bytes> net_itemName =
-        new("", writePerm: NetworkVariableWritePermission.Owner);
 
     public enum CurrentWeapon
 	{
@@ -52,7 +48,7 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
-    public override void OnDestroy()
+    public override void OnNetworkDespawn()
     {
         net_currentWeapon.OnValueChanged -= OnWeaponChanged;
         net_itemName.OnValueChanged -= OnItemNameChanged;
@@ -133,16 +129,6 @@ public class PlayerEquipment : NetworkBehaviour
         }
 
         UpdateWeaponVisuals(CurrentWeapon.None, "");
-    }
-
-    private void OnWeaponChanged(CurrentWeapon previous, CurrentWeapon next)
-    {
-        UpdateWeaponVisuals(next, net_itemName.Value.ToString());
-    }
-
-    private void OnItemNameChanged(FixedString64Bytes previous, FixedString64Bytes next)
-    {
-        UpdateWeaponVisuals(net_currentWeapon.Value, next.ToString());
     }
 
     private void UpdateWeaponVisuals(CurrentWeapon weapon, string itemName)
@@ -277,5 +263,15 @@ public class PlayerEquipment : NetworkBehaviour
         {
             stats.RemoveModifier(mod);
         }
+    }
+
+    private void OnWeaponChanged(CurrentWeapon previous, CurrentWeapon next)
+    {
+        UpdateWeaponVisuals(next, net_itemName.Value.ToString());
+    }
+
+    private void OnItemNameChanged(FixedString64Bytes previous, FixedString64Bytes next)
+    {
+        UpdateWeaponVisuals(net_currentWeapon.Value, next.ToString());
     }
 }

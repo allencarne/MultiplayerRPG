@@ -146,14 +146,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     public void AddModifier(StatModifier modifier)
     {
-        if (!IsServer) return;
-
         modifiers.Add(modifier);
     }
 
     public void RemoveModifier(StatModifier modifier)
     {
-        if (!IsServer) return;
         if (modifiers.Count == 0) return;
 
         modifiers.Remove(modifier);
