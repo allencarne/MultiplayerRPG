@@ -71,8 +71,6 @@ public class PlayerEquipment : NetworkBehaviour
                 foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
             }
 
-            save.SaveStats();
-
             if (newItem is Weapon newWeapon)
             {
                 EquipWeapon(newWeapon);
@@ -88,8 +86,6 @@ public class PlayerEquipment : NetworkBehaviour
             {
                 foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
             }
-
-            save.SaveStats();
 
             if (oldItem is Weapon oldWeapon)
             {
@@ -114,7 +110,7 @@ public class PlayerEquipment : NetworkBehaviour
             net_itemName.Value = cleanName;
         }
 
-        UpdateWeaponVisuals(currentWeapon, newWeapon.name);
+        //UpdateWeaponVisuals(currentWeapon, newWeapon.name);
     }
 
     private void UnequipWeapon()
@@ -128,7 +124,7 @@ public class PlayerEquipment : NetworkBehaviour
             net_itemName.Value = "";
         }
 
-        UpdateWeaponVisuals(CurrentWeapon.None, "");
+        //UpdateWeaponVisuals(CurrentWeapon.None, "");
     }
 
     private void UpdateWeaponVisuals(CurrentWeapon weapon, string itemName)
@@ -263,6 +259,8 @@ public class PlayerEquipment : NetworkBehaviour
         {
             stats.RemoveModifier(mod);
         }
+
+        save.SaveStats();
     }
 
     private void OnWeaponChanged(CurrentWeapon previous, CurrentWeapon next)
