@@ -92,6 +92,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Start()
     {
+        if (CurrentSkill != null) Debug.LogError("Current Skill is Not Null");
+
         playerSpawnState.StartState(this);
 
         BodyAnimator.SetFloat("Vertical", -1);
@@ -166,23 +168,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        //Debug.Log($"PlayerStateMachine.Awake - IsAttacking: {IsAttacking}, CurrentSkill: {CurrentSkill?.GetType().Name ?? "null"}");
-
-        if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
-        {
-            skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
-        }
-
-        if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
-        {
-            skills.secondPassive[player.SecondPassiveIndex].UpdateSkill(this);
-        }
-
-        if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
-        {
-            skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
-        }
-
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;
@@ -198,25 +183,25 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Ultility: skills.utilityAbilities[player.UtilityIndex].UpdateSkill(this); break;
             case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].UpdateSkill(this); break;
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
-            skills.firstPassive[player.FirstPassiveIndex].FixedUpdateSkill(this);
+            skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
         }
 
         if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
         {
-            skills.secondPassive[player.SecondPassiveIndex].FixedUpdateSkill(this);
+            skills.secondPassive[player.SecondPassiveIndex].UpdateSkill(this);
         }
 
         if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
         {
-            skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
+            skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
         }
+    }
 
+    private void FixedUpdate()
+    {
         switch (state)
         {
             case State.Spawn: playerSpawnState.FixedUpdateState(this); break;
@@ -231,6 +216,21 @@ public class PlayerStateMachine : NetworkBehaviour
             case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].FixedUpdateSkill(this); break;
             case State.Ultility: skills.utilityAbilities[player.UtilityIndex].FixedUpdateSkill(this); break;
             case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].FixedUpdateSkill(this); break;
+        }
+
+        if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
+        {
+            skills.firstPassive[player.FirstPassiveIndex].FixedUpdateSkill(this);
+        }
+
+        if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
+        {
+            skills.secondPassive[player.SecondPassiveIndex].FixedUpdateSkill(this);
+        }
+
+        if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
+        {
+            skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
         }
     }
 

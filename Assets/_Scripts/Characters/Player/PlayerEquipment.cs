@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,15 +8,8 @@ public class PlayerEquipment : NetworkBehaviour
     public NetworkVariable<CurrentWeapon> net_currentWeapon = new(writePerm: NetworkVariableWritePermission.Owner);
     public NetworkVariable<FixedString64Bytes> net_itemName = new("", writePerm: NetworkVariableWritePermission.Owner);
 
-    [Header("WeaponSprites")]
-    [SerializeField] SpriteRenderer Sword;
-    [SerializeField] SpriteRenderer Staff;
-    [SerializeField] SpriteRenderer Bow;
-    [SerializeField] SpriteRenderer Dagger;
-
     [Header("Player")]
-    [SerializeField] ItemList itemDatabase;
-    PlayerCustomization customization;
+    PlayerCustomization custom;
     PlayerStats stats;
     PlayerStateMachine stateMachine;
     PlayerSave save;
@@ -37,7 +31,7 @@ public class PlayerEquipment : NetworkBehaviour
         net_currentWeapon.OnValueChanged += OnWeaponChanged;
         net_itemName.OnValueChanged += OnItemNameChanged;
 
-        UpdateWeaponVisuals(net_currentWeapon.Value, net_itemName.Value.ToString());
+        custom.UpdateWeaponVisuals(net_currentWeapon.Value, net_itemName.Value.ToString());
     }
 
     public override void OnNetworkDespawn()
@@ -48,7 +42,7 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void Awake()
     {
-        customization = GetComponent<PlayerCustomization>();
+        custom = GetComponent<PlayerCustomization>();
         stats = GetComponent<PlayerStats>();
         stateMachine = GetComponent<PlayerStateMachine>();
         save = GetComponent<PlayerSave>();
@@ -115,44 +109,6 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
-    private void UpdateWeaponVisuals(CurrentWeapon weapon, string itemName)
-    {
-        // disable all first
-        Sword.enabled = Staff.enabled = Bow.enabled = Dagger.enabled = false;
-        Sprite sprite = FetchWeaponSprite(itemName);
-
-        switch (weapon)
-        {
-            case CurrentWeapon.Sword:
-                Sword.enabled = true;
-                Sword.sprite = sprite;
-                break;
-            case CurrentWeapon.Staff:
-                Staff.enabled = true;
-                Staff.sprite = sprite;
-                break;
-            case CurrentWeapon.Bow:
-                Bow.enabled = true;
-                Bow.sprite = sprite;
-                break;
-            case CurrentWeapon.Dagger:
-                Dagger.enabled = true;
-                Dagger.sprite = sprite;
-                break;
-        }
-    }
-
-    private Sprite FetchWeaponSprite(string itemName)
-    {
-        if (string.IsNullOrEmpty(itemName)) return null;
-
-        string cleanName = itemName.Replace("(Clone)", "").Trim();
-        Item baseItem = itemDatabase.GetItemByName(cleanName);
-        if (baseItem is Weapon weapon) return weapon.weaponSprite;
-
-        return null;
-    }
-
     void EquipArmor(Equipment newEquipment)
     {
         switch (newEquipment.equipmentType)
@@ -161,8 +117,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: customization.HeadAnimIndex = newEquipment.itemIndex; break;
-                    case 2: customization.HeadAnimIndex = newEquipment.itemIndex; break;
+                    case 1: custom.HeadAnimIndex = newEquipment.itemIndex; break;
+                    case 2: custom.HeadAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
 
@@ -170,8 +126,8 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: customization.ChestAnimIndex = newEquipment.itemIndex; break;
-                    case 2: customization.ChestAnimIndex = newEquipment.itemIndex; break;
+                    case 1: custom.ChestAnimIndex = newEquipment.itemIndex; break;
+                    case 2: custom.ChestAnimIndex = newEquipment.itemIndex; break;
                 }
                 break;
 
@@ -179,8 +135,45 @@ public class PlayerEquipment : NetworkBehaviour
 
                 switch (newEquipment.itemIndex)
                 {
-                    case 1: customization.LegsAnimIndex = newEquipment.itemIndex; break;
-                    case 2: customization.LegsAnimIndex = newEquipment.itemIndex; break;
+                    case 1: custom.LegsAnimIndex = newEquipment.itemIndex; break;
+                    case 2: custom.LegsAnimIndex = newEquipment.itemIndex; break;
+                }
+                break;
+        }
+
+        stateMachine.SetState(PlayerStateMachine.State.Idle);
+    }
+
+    void UnEquipArmor(Equipment oldItem)
+    {
+        if (oldItem == null) return;
+
+        switch (oldItem.equipmentType)
+        {
+            case EquipmentType.Head:
+
+                switch (oldItem.itemIndex)
+                {
+                    case 1: custom.HeadAnimIndex = 0; break;
+                    case 2: custom.HeadAnimIndex = 0; break;
+                }
+                break;
+
+            case EquipmentType.Chest:
+
+                switch (oldItem.itemIndex)
+                {
+                    case 1: custom.ChestAnimIndex = 0; break;
+                    case 2: custom.ChestAnimIndex = 0; break;
+                }
+                break;
+
+            case EquipmentType.Legs:
+
+                switch (oldItem.itemIndex)
+                {
+                    case 1: custom.LegsAnimIndex = 0; break;
+                    case 2: custom.LegsAnimIndex = 0; break;
                 }
                 break;
         }
@@ -200,43 +193,6 @@ public class PlayerEquipment : NetworkBehaviour
         }
     }
 
-    void UnEquipArmor(Equipment oldItem)
-    {
-        if (oldItem == null) return;
-
-        switch (oldItem.equipmentType)
-        {
-            case EquipmentType.Head:
-
-                switch (oldItem.itemIndex)
-                {
-                    case 1: customization.HeadAnimIndex = 0; break;
-                    case 2: customization.HeadAnimIndex = 0; break;
-                }
-                break;
-
-            case EquipmentType.Chest:
-
-                switch (oldItem.itemIndex)
-                {
-                    case 1: customization.ChestAnimIndex = 0; break;
-                    case 2: customization.ChestAnimIndex = 0; break;
-                }
-                break;
-
-            case EquipmentType.Legs:
-
-                switch (oldItem.itemIndex)
-                {
-                    case 1: customization.LegsAnimIndex = 0; break;
-                    case 2: customization.LegsAnimIndex = 0; break;
-                }
-                break;
-        }
-
-        stateMachine.SetState(PlayerStateMachine.State.Idle);
-    }
-
     private void ApplyModifier(StatModifier mod, bool apply)
     {
         if (apply)
@@ -253,11 +209,11 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void OnWeaponChanged(CurrentWeapon previous, CurrentWeapon next)
     {
-        UpdateWeaponVisuals(next, net_itemName.Value.ToString());
+        custom.UpdateWeaponVisuals(next, net_itemName.Value.ToString());
     }
 
     private void OnItemNameChanged(FixedString64Bytes previous, FixedString64Bytes next)
     {
-        UpdateWeaponVisuals(net_currentWeapon.Value, next.ToString());
+        custom.UpdateWeaponVisuals(net_currentWeapon.Value, next.ToString());
     }
 }
