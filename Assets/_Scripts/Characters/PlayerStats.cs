@@ -41,6 +41,8 @@ public class PlayerStats : CharacterStats
 
     private void Update()
     {
+        if (!IsOwner) return;
+
         if (Input.GetKeyDown(KeyCode.F1))
         {
             TakeDamage(1,DamageType.Flat, NetworkObject);

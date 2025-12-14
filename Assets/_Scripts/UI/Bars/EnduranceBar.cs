@@ -5,13 +5,17 @@ using UnityEngine.UI;
 
 public class EnduranceBar : NetworkBehaviour
 {
+    [Header("Stats")]
     [SerializeField] PlayerStats stats;
+
+    [Header("UI")]
     [SerializeField] Image enduranceBar;
     [SerializeField] Image enduranceBar_Back;
-    bool isRecharging = false;
 
-    private float lerpSpeed = 5f;
-    private Coroutine lerpCoroutine;
+    [Header("Variables")]
+    bool isRecharging = false;
+    float lerpSpeed = 5f;
+    Coroutine lerpCoroutine;
 
     public override void OnNetworkSpawn()
     {
@@ -21,7 +25,7 @@ public class EnduranceBar : NetworkBehaviour
         UpdateEnduranceBar(stats.MaxEndurance.Value, stats.Endurance.Value);
     }
 
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
         stats.Endurance.OnValueChanged -= OnEnduranceChanged;
         stats.MaxEndurance.OnValueChanged -= OnMaxEnduranceChanged;
@@ -43,12 +47,12 @@ public class EnduranceBar : NetworkBehaviour
         }
         else
         {
-            RequestDodgeServerRpc(amount);
+            SpendEnduranceServerRpc(amount);
         }
     }
 
     [ServerRpc]
-    public void RequestDodgeServerRpc(float amount)
+    void SpendEnduranceServerRpc(float amount)
     {
         if (stats.Endurance.Value >= amount)
         {
@@ -61,7 +65,23 @@ public class EnduranceBar : NetworkBehaviour
         }
     }
 
-    public void UpdateEnduranceBar(float maxEndurance, float currentEndurance)
+    IEnumerator RechargeEndurance()
+    {
+        isRecharging = true;
+        yield return new WaitForSeconds(1f);
+
+        while (stats.Endurance.Value < stats.MaxEndurance.Value)
+        {
+            yield return new WaitForSeconds(stats.EnduranceRechargeRate.Value);
+
+            stats.Endurance.Value += 5f;
+            stats.Endurance.Value = Mathf.Min(stats.Endurance.Value, stats.MaxEndurance.Value);
+        }
+
+        isRecharging = false;
+    }
+
+    void UpdateEnduranceBar(float maxEndurance, float currentEndurance)
     {
         if (maxEndurance <= 0) return;
         enduranceBar.fillAmount = currentEndurance / maxEndurance;
@@ -72,23 +92,6 @@ public class EnduranceBar : NetworkBehaviour
         }
 
         lerpCoroutine = StartCoroutine(LerpEnduranceBar(currentEndurance / maxEndurance));
-    }
-
-    private IEnumerator RechargeEndurance()
-    {
-        isRecharging = true;
-
-        yield return new WaitForSeconds(1f); // Optional delay before recharge starts
-
-        while (stats.Endurance.Value < stats.MaxEndurance.Value)
-        {
-            yield return new WaitForSeconds(0.2f); // How fast it recharges
-
-            stats.Endurance.Value += 5f;
-            stats.Endurance.Value = Mathf.Min(stats.Endurance.Value, stats.MaxEndurance.Value);
-        }
-
-        isRecharging = false;
     }
 
     IEnumerator LerpEnduranceBar(float targetFillAmount)

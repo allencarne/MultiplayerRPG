@@ -149,6 +149,7 @@ public class PlayerSave : NetworkBehaviour
         float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 10);
         float fury = PlayerPrefs.GetFloat($"{slot}MaxFury", 100);
         float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
+        float endrech = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
 
         float speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
         int damage = PlayerPrefs.GetInt($"{slot}Damage", 1);
@@ -164,19 +165,20 @@ public class PlayerSave : NetworkBehaviour
 
         if (IsServer)
         {
-            ApplyCharacterStats(health, fury, end);
+            ApplyCharacterStats(health, fury, end, endrech);
         }
         else
         {
-            LoadCharacterStatsServerRPC(health, fury, end);
+            LoadCharacterStatsServerRPC(health, fury, end, endrech);
         }
     }
 
-    void ApplyCharacterStats(float health, float fury, float end)
+    void ApplyCharacterStats(float health, float fury, float end, float endrech)
     {
         stats.MaxHealth.Value = health;
         stats.MaxFury.Value = fury;
         stats.MaxEndurance.Value = end;
+        stats.EnduranceRechargeRate.Value = endrech;
 
         stats.Health.Value = health;
         stats.Fury.Value = 0;
@@ -184,9 +186,9 @@ public class PlayerSave : NetworkBehaviour
     }
 
     [ServerRpc]
-    void LoadCharacterStatsServerRPC(float health, float fury, float end)
+    void LoadCharacterStatsServerRPC(float health, float fury, float end, float endrech)
     {
-        ApplyCharacterStats(health, fury, end);
+        ApplyCharacterStats(health, fury, end, endrech);
     }
 
     void LoadPlayerSkills()
@@ -218,6 +220,7 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.MaxHealth.Value);
         PlayerPrefs.SetFloat($"{slot}MaxFury", stats.MaxFury.Value);
         PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.MaxEndurance.Value);
+        PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);
 
         PlayerPrefs.SetFloat($"{slot}Speed", stats.Speed);
         PlayerPrefs.SetInt($"{slot}Damage", stats.Damage);

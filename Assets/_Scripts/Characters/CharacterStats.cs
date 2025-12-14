@@ -78,12 +78,19 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (Health.Value <= 0)
         {
+            ClearTarget(attackerID);
             OnDeath?.Invoke();
             OnEnemyDeath?.Invoke(attackerID);
-
-            EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
-            if (enemy != null) enemy.Target = null;
         }
+    }
+
+    void ClearTarget(NetworkObject attackerID)
+    {
+        EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
+        if (enemy != null) enemy.Target = null;
+
+        NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
+        if (npc != null) npc.Target = null;
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
