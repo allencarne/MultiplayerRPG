@@ -68,7 +68,6 @@ public class EnduranceBar : NetworkBehaviour
     IEnumerator RechargeEndurance()
     {
         isRecharging = true;
-        yield return new WaitForSeconds(1f);
 
         while (stats.Endurance.Value < stats.MaxEndurance.Value)
         {
