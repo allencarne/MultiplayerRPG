@@ -23,7 +23,7 @@ public class PlayerCustomization : NetworkBehaviour
     public SpriteRenderer Dagger;
 
     [Header("Index")]
-    public int HairIndex;
+    public NetworkVariable<int> net_HairIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
     public int HeadAnimIndex;
     public int ChestAnimIndex;
     public int LegsAnimIndex;

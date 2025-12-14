@@ -74,37 +74,38 @@ public class PlayerSave : NetworkBehaviour
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         string name = PlayerPrefs.GetString($"Character{slot}Name", "No Name");
+        int hairIndex = PlayerPrefs.GetInt($"Character{slot}HairStyle");
         Color skinCol = customizationData.skinColors[PlayerPrefs.GetInt($"Character{slot}SkinColor")];
         Color hairCol = customizationData.hairColors[PlayerPrefs.GetInt($"Character{slot}HairColor")];
-        int hairIndex = PlayerPrefs.GetInt($"Character{slot}HairStyle");
 
-        custom.HairIndex = hairIndex;
         custom.playerNameText.text = name;
         custom.bodySprite.color = skinCol;
         custom.hairSprite.color = hairCol;
 
         if (IsServer)
         {
-            ApplyCustomization(slot, name, skinCol, hairCol);
+            ApplyCustomization(slot, name, skinCol, hairCol, hairIndex);
         }
         else
         {
-            LoadCustomizationServerRPC(slot, name, skinCol, hairCol);
+            LoadCustomizationServerRPC(slot, name, skinCol, hairCol, hairIndex);
         }
     }
 
-    void ApplyCustomization(int slot, FixedString32Bytes name, Color skin, Color hair)
+    void ApplyCustomization(int slot, FixedString32Bytes name, Color skin, Color hair, int hairIndex)
     {
         stats.net_CharacterSlot.Value = slot;
         stats.net_playerName.Value = name;
         stats.net_bodyColor.Value = skin;
         stats.net_hairColor.Value = hair;
+
+        custom.net_HairIndex.Value = hairIndex;
     }
 
     [ServerRpc]
-    void LoadCustomizationServerRPC(int slot, FixedString32Bytes name, Color skin, Color hair)
+    void LoadCustomizationServerRPC(int slot, FixedString32Bytes name, Color skin, Color hair, int hairIndex)
     {
-        ApplyCustomization(slot, name, skin, hair);
+        ApplyCustomization(slot, name, skin, hair, hairIndex);
     }
 
     void LoadPlayerStats()
