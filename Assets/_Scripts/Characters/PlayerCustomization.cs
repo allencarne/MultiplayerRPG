@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerCustomization : NetworkBehaviour
 {
     [Header("Player")]
+    [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerStats stats;
 
@@ -33,6 +34,10 @@ public class PlayerCustomization : NetworkBehaviour
         stats.net_playerName.OnValueChanged += OnNameChanged;
         stats.net_bodyColor.OnValueChanged += OnBodyColorChanged;
         stats.net_hairColor.OnValueChanged += OnHairColorChanged;
+
+        net_HeadIndex.OnValueChanged += OnEquipmentChanged;
+        net_ChestIndex.OnValueChanged += OnEquipmentChanged;
+        net_LegsIndex.OnValueChanged += OnEquipmentChanged;
     }
 
     public override void OnDestroy()
@@ -40,6 +45,10 @@ public class PlayerCustomization : NetworkBehaviour
         stats.net_playerName.OnValueChanged -= OnNameChanged;
         stats.net_bodyColor.OnValueChanged -= OnBodyColorChanged;
         stats.net_hairColor.OnValueChanged -= OnHairColorChanged;
+
+        net_HeadIndex.OnValueChanged -= OnEquipmentChanged;
+        net_ChestIndex.OnValueChanged -= OnEquipmentChanged;
+        net_LegsIndex.OnValueChanged -= OnEquipmentChanged;
     }
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
@@ -55,5 +64,10 @@ public class PlayerCustomization : NetworkBehaviour
     void OnHairColorChanged(Color previousColor, Color newColor)
     {
         hairSprite.color = newColor;
+    }
+
+    void OnEquipmentChanged(int oldValue, int newValue)
+    {
+        stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 }

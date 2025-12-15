@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -33,7 +34,14 @@ public class PlayerEquipment : NetworkBehaviour
             }
             else
             {
-                EquipArmor(newItem);
+                if (IsServer)
+                {
+                    EquipArmor(newItem.equipmentType, newItem.AnimationIndex);
+                }
+                else
+                {
+                    EquipArmorServerRPC(newItem.equipmentType, newItem.AnimationIndex);
+                }
             }
         }
         else
@@ -49,7 +57,14 @@ public class PlayerEquipment : NetworkBehaviour
             }
             else
             {
-                UnEquipArmor(oldItem);
+                if (IsServer)
+                {
+                    UnEquipArmor(oldItem.equipmentType);
+                }
+                else
+                {
+                    UnEquipArmorServerRPC(oldItem.equipmentType);
+                }
             }
         }
     }
@@ -100,30 +115,36 @@ public class PlayerEquipment : NetworkBehaviour
         IsWeaponEquipped = false;
     }
 
-    void EquipArmor(Equipment newEquipment)
+    void EquipArmor(EquipmentType type, int index)
     {
-        switch (newEquipment.equipmentType)
+        switch (type)
         {
-            case EquipmentType.Head: custom.net_HeadIndex.Value = newEquipment.AnimationIndex; break;
-            case EquipmentType.Chest: custom.net_ChestIndex.Value = newEquipment.AnimationIndex; break;
-            case EquipmentType.Legs: custom.net_LegsIndex.Value = newEquipment.AnimationIndex; break;
+            case EquipmentType.Head: custom.net_HeadIndex.Value = index; break;
+            case EquipmentType.Chest: custom.net_ChestIndex.Value = index; break;
+            case EquipmentType.Legs: custom.net_LegsIndex.Value = index; break;
         }
-
-        stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 
-    void UnEquipArmor(Equipment oldItem)
+    [ServerRpc]
+    void EquipArmorServerRPC(EquipmentType type, int index)
     {
-        if (oldItem == null) return;
+        EquipArmor(type, index);
+    }
 
-        switch (oldItem.equipmentType)
+    void UnEquipArmor(EquipmentType type)
+    {
+        switch (type)
         {
             case EquipmentType.Head: custom.net_HeadIndex.Value = 0; break;
             case EquipmentType.Chest: custom.net_ChestIndex.Value = 0; break;
             case EquipmentType.Legs: custom.net_LegsIndex.Value = 0; break;
         }
+    }
 
-        stateMachine.SetState(PlayerStateMachine.State.Idle);
+    [ServerRpc]
+    void UnEquipArmorServerRPC(EquipmentType type)
+    {
+        UnEquipArmor(type);
     }
 
     private void ApplyModifier(StatModifier mod, bool apply)
