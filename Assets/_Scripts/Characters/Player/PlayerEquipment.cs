@@ -104,32 +104,9 @@ public class PlayerEquipment : NetworkBehaviour
     {
         switch (newEquipment.equipmentType)
         {
-            case EquipmentType.Head:
-
-                switch (newEquipment.AnimationIndex)
-                {
-                    case 1: custom.net_HeadIndex.Value = newEquipment.AnimationIndex; break;
-                    case 2: custom.net_HeadIndex.Value = newEquipment.AnimationIndex; break;
-                }
-                break;
-
-            case EquipmentType.Chest:
-
-                switch (newEquipment.AnimationIndex)
-                {
-                    case 1: custom.net_ChestIndex.Value = newEquipment.AnimationIndex; break;
-                    case 2: custom.net_ChestIndex.Value = newEquipment.AnimationIndex; break;
-                }
-                break;
-
-            case EquipmentType.Legs:
-
-                switch (newEquipment.AnimationIndex)
-                {
-                    case 1: custom.net_LegsIndex.Value = newEquipment.AnimationIndex; break;
-                    case 2: custom.net_LegsIndex.Value = newEquipment.AnimationIndex; break;
-                }
-                break;
+            case EquipmentType.Head: custom.net_HeadIndex.Value = newEquipment.AnimationIndex; break;
+            case EquipmentType.Chest: custom.net_ChestIndex.Value = newEquipment.AnimationIndex; break;
+            case EquipmentType.Legs: custom.net_LegsIndex.Value = newEquipment.AnimationIndex; break;
         }
 
         stateMachine.SetState(PlayerStateMachine.State.Idle);
@@ -141,32 +118,9 @@ public class PlayerEquipment : NetworkBehaviour
 
         switch (oldItem.equipmentType)
         {
-            case EquipmentType.Head:
-
-                switch (oldItem.AnimationIndex)
-                {
-                    case 1: custom.net_HeadIndex.Value = 0; break;
-                    case 2: custom.net_HeadIndex.Value = 0; break;
-                }
-                break;
-
-            case EquipmentType.Chest:
-
-                switch (oldItem.AnimationIndex)
-                {
-                    case 1: custom.net_ChestIndex.Value = 0; break;
-                    case 2: custom.net_ChestIndex.Value = 0; break;
-                }
-                break;
-
-            case EquipmentType.Legs:
-
-                switch (oldItem.AnimationIndex)
-                {
-                    case 1: custom.net_LegsIndex.Value = 0; break;
-                    case 2: custom.net_LegsIndex.Value = 0; break;
-                }
-                break;
+            case EquipmentType.Head: custom.net_HeadIndex.Value = 0; break;
+            case EquipmentType.Chest: custom.net_ChestIndex.Value = 0; break;
+            case EquipmentType.Legs: custom.net_LegsIndex.Value = 0; break;
         }
 
         stateMachine.SetState(PlayerStateMachine.State.Idle);
