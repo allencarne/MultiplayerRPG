@@ -24,9 +24,9 @@ public class PlayerCustomization : NetworkBehaviour
 
     [Header("Index")]
     public NetworkVariable<int> net_HairIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
-    public int HeadAnimIndex;
-    public int ChestAnimIndex;
-    public int LegsAnimIndex;
+    public NetworkVariable<int> net_HeadIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> net_ChestIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> net_LegsIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
 
     public override void OnNetworkSpawn()
     {
@@ -55,42 +55,5 @@ public class PlayerCustomization : NetworkBehaviour
     void OnHairColorChanged(Color previousColor, Color newColor)
     {
         hairSprite.color = newColor;
-    }
-
-    Sprite FetchWeaponSprite(string itemName)
-    {
-        if (string.IsNullOrEmpty(itemName)) return null;
-
-        string cleanName = itemName.Replace("(Clone)", "").Trim();
-        Item baseItem = itemDatabase.GetItemByName(cleanName);
-        if (baseItem is Weapon weapon) return weapon.weaponSprite;
-
-        return null;
-    }
-
-    public void UpdateWeaponVisuals(PlayerEquipment.CurrentWeapon weapon, string itemName)
-    {
-        Sword.enabled = Staff.enabled = Bow.enabled = Dagger.enabled = false;
-        Sprite sprite = FetchWeaponSprite(itemName);
-
-        switch (weapon)
-        {
-            case PlayerEquipment.CurrentWeapon.Sword:
-                Sword.enabled = true;
-                Sword.sprite = sprite;
-                break;
-            case PlayerEquipment.CurrentWeapon.Staff:
-                Staff.enabled = true;
-                Staff.sprite = sprite;
-                break;
-            case PlayerEquipment.CurrentWeapon.Bow:
-                Bow.enabled = true;
-                Bow.sprite = sprite;
-                break;
-            case PlayerEquipment.CurrentWeapon.Dagger:
-                Dagger.enabled = true;
-                Dagger.sprite = sprite;
-                break;
-        }
     }
 }

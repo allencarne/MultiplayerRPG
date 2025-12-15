@@ -1,44 +1,14 @@
-using System.Collections;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerEquipment : NetworkBehaviour
 {
-    public NetworkVariable<CurrentWeapon> net_currentWeapon = new(writePerm: NetworkVariableWritePermission.Owner);
-    public NetworkVariable<FixedString64Bytes> net_itemName = new("", writePerm: NetworkVariableWritePermission.Owner);
-
     [Header("Player")]
     PlayerCustomization custom;
     PlayerStats stats;
     PlayerStateMachine stateMachine;
     PlayerSave save;
     public bool IsWeaponEquipped = false;
-
-    public enum CurrentWeapon
-	{
-		None,
-		Sword,
-		Staff,
-		Bow,
-		Dagger
-	}
-
-	public CurrentWeapon currentWeapon = CurrentWeapon.None;
-
-    public override void OnNetworkSpawn()
-    {
-        net_currentWeapon.OnValueChanged += OnWeaponChanged;
-        net_itemName.OnValueChanged += OnItemNameChanged;
-
-        custom.UpdateWeaponVisuals(net_currentWeapon.Value, net_itemName.Value.ToString());
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        net_currentWeapon.OnValueChanged -= OnWeaponChanged;
-        net_itemName.OnValueChanged -= OnItemNameChanged;
-    }
 
     private void Awake()
     {
@@ -75,7 +45,7 @@ public class PlayerEquipment : NetworkBehaviour
 
             if (oldItem is Weapon oldWeapon)
             {
-                UnequipWeapon();
+                UnequipWeapon(oldWeapon);
             }
             else
             {
@@ -86,27 +56,48 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void EquipWeapon(Weapon newWeapon)
     {
-        currentWeapon = MapWeaponType(newWeapon.weaponType);
-        IsWeaponEquipped = true;
-
-        if (IsOwner)
+        switch (newWeapon.weaponType)
         {
-            string cleanName = newWeapon.name.Replace("(Clone)", "").Trim();
-            net_currentWeapon.Value = currentWeapon;
-            net_itemName.Value = cleanName;
+            case WeaponType.Sword:
+                custom.Sword.enabled = true;
+                custom.Sword.sprite = newWeapon.weaponSprite;
+                break;
+            case WeaponType.Staff:
+                custom.Staff.enabled = true;
+                custom.Staff.sprite = newWeapon.weaponSprite;
+                break;
+            case WeaponType.Bow:
+                custom.Bow.enabled = true;
+                custom.Bow.sprite = newWeapon.weaponSprite;
+                break;
+            case WeaponType.Dagger:
+                custom.Dagger.enabled = true;
+                custom.Dagger.sprite = newWeapon.weaponSprite;
+                break;
         }
+
+        IsWeaponEquipped = true;
     }
 
-    private void UnequipWeapon()
+    private void UnequipWeapon(Weapon oldWeapon)
     {
-        currentWeapon = CurrentWeapon.None;
-        IsWeaponEquipped = false;
-
-        if (IsOwner)
+        switch (oldWeapon.weaponType)
         {
-            net_currentWeapon.Value = CurrentWeapon.None;
-            net_itemName.Value = "";
+            case WeaponType.Sword:
+                custom.Sword.enabled = false;
+                break;
+            case WeaponType.Staff:
+                custom.Staff.enabled = false;
+                break;
+            case WeaponType.Bow:
+                custom.Bow.enabled = false;
+                break;
+            case WeaponType.Dagger:
+                custom.Dagger.enabled = false;
+                break;
         }
+
+        IsWeaponEquipped = false;
     }
 
     void EquipArmor(Equipment newEquipment)
@@ -115,28 +106,28 @@ public class PlayerEquipment : NetworkBehaviour
         {
             case EquipmentType.Head:
 
-                switch (newEquipment.itemIndex)
+                switch (newEquipment.AnimationIndex)
                 {
-                    case 1: custom.HeadAnimIndex = newEquipment.itemIndex; break;
-                    case 2: custom.HeadAnimIndex = newEquipment.itemIndex; break;
+                    case 1: custom.net_HeadIndex.Value = newEquipment.AnimationIndex; break;
+                    case 2: custom.net_HeadIndex.Value = newEquipment.AnimationIndex; break;
                 }
                 break;
 
             case EquipmentType.Chest:
 
-                switch (newEquipment.itemIndex)
+                switch (newEquipment.AnimationIndex)
                 {
-                    case 1: custom.ChestAnimIndex = newEquipment.itemIndex; break;
-                    case 2: custom.ChestAnimIndex = newEquipment.itemIndex; break;
+                    case 1: custom.net_ChestIndex.Value = newEquipment.AnimationIndex; break;
+                    case 2: custom.net_ChestIndex.Value = newEquipment.AnimationIndex; break;
                 }
                 break;
 
             case EquipmentType.Legs:
 
-                switch (newEquipment.itemIndex)
+                switch (newEquipment.AnimationIndex)
                 {
-                    case 1: custom.LegsAnimIndex = newEquipment.itemIndex; break;
-                    case 2: custom.LegsAnimIndex = newEquipment.itemIndex; break;
+                    case 1: custom.net_LegsIndex.Value = newEquipment.AnimationIndex; break;
+                    case 2: custom.net_LegsIndex.Value = newEquipment.AnimationIndex; break;
                 }
                 break;
         }
@@ -152,45 +143,33 @@ public class PlayerEquipment : NetworkBehaviour
         {
             case EquipmentType.Head:
 
-                switch (oldItem.itemIndex)
+                switch (oldItem.AnimationIndex)
                 {
-                    case 1: custom.HeadAnimIndex = 0; break;
-                    case 2: custom.HeadAnimIndex = 0; break;
+                    case 1: custom.net_HeadIndex.Value = 0; break;
+                    case 2: custom.net_HeadIndex.Value = 0; break;
                 }
                 break;
 
             case EquipmentType.Chest:
 
-                switch (oldItem.itemIndex)
+                switch (oldItem.AnimationIndex)
                 {
-                    case 1: custom.ChestAnimIndex = 0; break;
-                    case 2: custom.ChestAnimIndex = 0; break;
+                    case 1: custom.net_ChestIndex.Value = 0; break;
+                    case 2: custom.net_ChestIndex.Value = 0; break;
                 }
                 break;
 
             case EquipmentType.Legs:
 
-                switch (oldItem.itemIndex)
+                switch (oldItem.AnimationIndex)
                 {
-                    case 1: custom.LegsAnimIndex = 0; break;
-                    case 2: custom.LegsAnimIndex = 0; break;
+                    case 1: custom.net_LegsIndex.Value = 0; break;
+                    case 2: custom.net_LegsIndex.Value = 0; break;
                 }
                 break;
         }
 
         stateMachine.SetState(PlayerStateMachine.State.Idle);
-    }
-
-    private CurrentWeapon MapWeaponType(WeaponType type)
-    {
-        switch (type)
-        {
-            case WeaponType.Sword: return CurrentWeapon.Sword;
-            case WeaponType.Staff: return CurrentWeapon.Staff;
-            case WeaponType.Bow: return CurrentWeapon.Bow;
-            case WeaponType.Dagger: return CurrentWeapon.Dagger;
-            default: return CurrentWeapon.None;
-        }
     }
 
     private void ApplyModifier(StatModifier mod, bool apply)
@@ -205,15 +184,5 @@ public class PlayerEquipment : NetworkBehaviour
         }
 
         save.SaveStats();
-    }
-
-    private void OnWeaponChanged(CurrentWeapon previous, CurrentWeapon next)
-    {
-        custom.UpdateWeaponVisuals(next, net_itemName.Value.ToString());
-    }
-
-    private void OnItemNameChanged(FixedString64Bytes previous, FixedString64Bytes next)
-    {
-        custom.UpdateWeaponVisuals(net_currentWeapon.Value, next.ToString());
     }
 }

@@ -10,9 +10,9 @@ public class PlayerRunState : PlayerState
         owner.BodyAnimator.Play("Run", -1, 0);
         owner.EyesAnimator.Play("Run", -1, 0);
         owner.HairAnimator.Play("Run_" + owner.customization.net_HairIndex.Value, -1, 0);
-        owner.HeadAnimator.Play("Run_" + owner.customization.HeadAnimIndex, -1, 0);
-        owner.ChestAnimator.Play("Run_" + owner.customization.ChestAnimIndex, -1, 0);
-        owner.LegsAnimator.Play("Run_" + owner.customization.LegsAnimIndex, -1, 0);
+        owner.HeadAnimator.Play("Run_" + owner.customization.net_HeadIndex.Value, -1, 0);
+        owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
+        owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
 
         lastDirection = Vector2.zero;

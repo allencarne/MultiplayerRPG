@@ -236,9 +236,9 @@ public abstract class PlayerSkill : NetworkBehaviour
         owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
         owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
 
-        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.HeadAnimIndex);
-        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.ChestAnimIndex);
-        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.LegsAnimIndex);
+        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_HeadIndex.Value);
+        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_ChestIndex.Value);
+        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_LegsIndex.Value);
     }
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
