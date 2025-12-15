@@ -15,7 +15,7 @@ public class NPCDeathState : NPCState
         owner.PatrolIndex = 0;
         owner.PatrolForward = true;
 
-        owner.npc.CastBar.ForceReset();
+        owner.npc.CastBar.ResetCastBar();
         owner.RequestDisableColliderServerRpc(false);
 
         StartCoroutine(Delay(owner));

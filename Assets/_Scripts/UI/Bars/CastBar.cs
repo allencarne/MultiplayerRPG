@@ -5,164 +5,169 @@ using UnityEngine.UI;
 
 public class CastBar : NetworkBehaviour
 {
-    public NetworkVariable<float> FillAmount = new NetworkVariable<float>(
-    0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> FillAmount = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<Color> BarColor = new NetworkVariable<Color>(Color.clear, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    public NetworkVariable<Color> BarColor = new NetworkVariable<Color>(
-        Color.clear, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [SerializeField] Image castBarFill;
+    Coroutine currentCastCoroutine;
 
-    public Image castBarFill;
-    private Coroutine currentCastCoroutine;
+    public override void OnNetworkSpawn()
+    {
+        FillAmount.OnValueChanged += OnFillChanged;
+        BarColor.OnValueChanged += OnColorChanged;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        FillAmount.OnValueChanged -= OnFillChanged;
+        BarColor.OnValueChanged -= OnColorChanged;
+    }
 
     public void StartCast(float castTime)
     {
-        if (currentCastCoroutine != null)
+        if (IsServer)
         {
-            StopCoroutine(currentCastCoroutine);
+            Cast(castTime);
         }
+        else
+        {
+            CastServerRpc(castTime);
+        }
+    }
 
+    void Cast(float castTime)
+    {
+        if (currentCastCoroutine != null) StopCoroutine(currentCastCoroutine);
         currentCastCoroutine = StartCoroutine(HandleCast(castTime));
     }
 
-    [ServerRpc]
-    public void StartCastServerRpc(float castTime)
+    [ServerRpc(RequireOwnership = false)]
+    public void CastServerRpc(float castTime)
     {
-        StartCast(castTime);
+        Cast(castTime);
     }
 
-    private IEnumerator HandleCast(float duration)
+    IEnumerator HandleCast(float duration)
     {
         float elapsed = 0f;
-        if (IsServer)
-        {
-            FillAmount.Value = 0f;
-            BarColor.Value = Color.blue;
-        }
+        FillAmount.Value = 0f;
+        BarColor.Value = Color.blue;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float fill = Mathf.Clamp01(elapsed / duration);
-
-            if (IsServer)
-            {
-                FillAmount.Value = fill;
-            }
+            FillAmount.Value = fill;
 
             yield return null;
         }
 
-        if (IsServer)
-        {
-            FillAmount.Value = 1f;
-            BarColor.Value = Color.green;
-        }
+        FillAmount.Value = 1f;
+        BarColor.Value = Color.green;
     }
 
     public void StartRecovery(float recoveryTime)
     {
         if (!gameObject.activeInHierarchy) return;
 
-        if (currentCastCoroutine != null)
+        if (IsServer)
         {
-            StopCoroutine(currentCastCoroutine);
+            Recovery(recoveryTime);
         }
+        else
+        {
+            RecoveryServerRPC(recoveryTime);
+        }
+    }
 
+    void Recovery(float recoveryTime)
+    {
+        if (currentCastCoroutine != null) StopCoroutine(currentCastCoroutine);
         currentCastCoroutine = StartCoroutine(HandleRecovery(recoveryTime));
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void RecoveryServerRPC(float recoveryTime)
+    {
+        Recovery(recoveryTime);
     }
 
     IEnumerator HandleRecovery(float duration)
     {
         float elapsed = 0f;
-        if (IsServer)
-        {
-            FillAmount.Value = 0f;
-            BarColor.Value = Color.yellowNice;
-        }
+        FillAmount.Value = 0f;
+        BarColor.Value = Color.yellowNice;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float fill = Mathf.Clamp01(elapsed / duration);
-
-            if (IsServer)
-            {
-                FillAmount.Value = fill;
-            }
+            FillAmount.Value = fill;
 
             yield return null;
         }
 
-        if (IsServer)
-        {
-            FillAmount.Value = 0f;
-        }
-    }
-
-    [ServerRpc]
-    public void StartRecoveryServerRpc(float recoveryTime)
-    {
-        StartRecovery(recoveryTime);
+        FillAmount.Value = 0f;
     }
 
     public void InterruptCastBar()
     {
         if (!gameObject.activeInHierarchy) return;
 
-        if (currentCastCoroutine != null)
-        {
-            StopCoroutine(currentCastCoroutine);
-        }
-
         if (IsServer)
         {
-            BarColor.Value = Color.red;
-            FillAmount.Value = 1f;
+            Interrupt();
         }
-
-        StartCoroutine(ResetCastBar());
+        else
+        {
+            InterruptServerRPC();
+        }
     }
 
-    [ServerRpc]
-    public void InterruptServerRpc()
+    void Interrupt()
     {
-        InterruptCastBar();
+        if (currentCastCoroutine != null) StopCoroutine(currentCastCoroutine);
+        BarColor.Value = Color.red;
+        FillAmount.Value = 1f;
+        StartCoroutine(HandleInterrupt());
     }
 
-    IEnumerator ResetCastBar()
+    [ServerRpc(RequireOwnership = false)]
+    void InterruptServerRPC()
+    {
+        Interrupt();
+    }
+
+    IEnumerator HandleInterrupt()
     {
         yield return new WaitForSeconds(.2f);
 
+        FillAmount.Value = 0;
+    }
+
+    public void ResetCastBar()
+    {
         if (IsServer)
         {
-            FillAmount.Value = 0;
+            ResetBar();
         }
-    }
-
-    public void ForceReset()
-    {
-        if (currentCastCoroutine != null)
+        else
         {
-            StopCoroutine(currentCastCoroutine);
-        }
-
-        if (IsServer)
-        {
-            FillAmount.Value = 0f;
-            BarColor.Value = Color.clear;
+            ResetServerRPC();
         }
     }
 
-    private void OnEnable()
+    void ResetBar()
     {
-        FillAmount.OnValueChanged += OnFillChanged;
-        BarColor.OnValueChanged += OnColorChanged;
+        if (currentCastCoroutine != null) StopCoroutine(currentCastCoroutine);
+        FillAmount.Value = 0f;
+        BarColor.Value = Color.clear;
     }
 
-    private void OnDisable()
+    [ServerRpc(RequireOwnership = false)]
+    void ResetServerRPC()
     {
-        FillAmount.OnValueChanged -= OnFillChanged;
-        BarColor.OnValueChanged -= OnColorChanged;
+        ResetBar();
     }
 
     private void OnFillChanged(float previous, float current)

@@ -33,7 +33,10 @@ public class PlayerStateMachine : NetworkBehaviour
     public PlayerCustomization customization;
     public PlayerInputHandler Input;
     public PlayerEquipment Equipment;
+
+    [Header("UI")]
     public EnduranceBar EnduranceBar;
+    public CastBar CastBar;
 
     [Header("Components")]
     public Collider2D Collider;
