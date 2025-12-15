@@ -215,11 +215,30 @@ public class CharacterSelect : MonoBehaviour
         $"{slot}AttackSpeed",
         $"{slot}CDR",
         $"{slot}BaseArmor",
+        $"{slot}FirstPassive",
+        $"{slot}SecondPassive",
+        $"{slot}ThirdPassive",
+        $"{slot}Basic",
+        $"{slot}Offensive",
+        $"{slot}Mobility",
+        $"{slot}Defensive",
+        $"{slot}Utility",
+        $"{slot}Ultimate",
         };
 
         foreach (string key in keys)
         {
             PlayerPrefs.DeleteKey(key);
+        }
+
+        for (int i = 0; i < 30; i++)
+        {
+            PlayerPrefs.DeleteKey($"Character{slot}_InventorySlot_{i}");
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            PlayerPrefs.DeleteKey($"Character{slot}_EquipmentSlot_{i}");
         }
     }
 }
