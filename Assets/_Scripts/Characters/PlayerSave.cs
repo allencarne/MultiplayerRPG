@@ -36,8 +36,6 @@ public class PlayerSave : NetworkBehaviour
     {
         if (IsOwner)
         {
-            Debug.Log($"[OnNetworkSpawn] Loading data for OWNER. IsServer: {IsServer}");
-
             SetSelectedCharacterServerRpc(PlayerPrefs.GetInt("SelectedCharacter"));
 
             LoadCustomization();
@@ -51,8 +49,6 @@ public class PlayerSave : NetworkBehaviour
         }
         else
         {
-            Debug.Log($"[OnNetworkSpawn] NOT OWNER - Loading from network variables");
-
             custom.playerNameText.text = stats.net_playerName.Value.ToString();
             custom.bodySprite.color = stats.net_bodyColor.Value;
             custom.hairSprite.color = stats.net_hairColor.Value;
@@ -154,23 +150,16 @@ public class PlayerSave : NetworkBehaviour
     {
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        Debug.Log($"[LoadCharacterStats] Loading stats for character slot: {slot}");
-        Debug.Log($"[LoadCharacterStats] Speed key exists: {PlayerPrefs.HasKey($"{slot}Speed")}");
-
         float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 10);
         float fury = PlayerPrefs.GetFloat($"{slot}MaxFury", 100);
         float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
         float endrech = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
-
-        Debug.Log($"[LoadCharacterStats] Current stats.Speed before assignment: {stats.Speed}");
 
         stats.Speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
         stats.Damage = PlayerPrefs.GetInt($"{slot}Damage", 1);
         stats.AttackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
         stats.CoolDownReduction = PlayerPrefs.GetFloat($"{slot}CDR", 1);
         stats.Armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
-
-        Debug.Log($"[LoadCharacterStats] stats.Speed after assignment: {stats.Speed}");
 
         if (IsServer)
         {
@@ -180,8 +169,6 @@ public class PlayerSave : NetworkBehaviour
         {
             LoadCharacterStatsServerRPC(health, fury, end, endrech);
         }
-
-        Debug.Log($"[LoadCharacterStats] FINAL stats.Speed: {stats.Speed}");
     }
 
     void ApplyCharacterStats(float health, float fury, float end, float endrech)
@@ -224,9 +211,6 @@ public class PlayerSave : NetworkBehaviour
 
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        Debug.Log($"[SaveStats] Saving stats for character slot: {slot}");
-        Debug.Log($"[SaveStats] Current stats.Speed value: {stats.Speed}");
-
         PlayerPrefs.SetInt($"{slot}PlayerLevel", stats.PlayerLevel.Value);
         PlayerPrefs.SetFloat($"{slot}CurrentExperience", stats.CurrentExperience.Value);
         PlayerPrefs.SetFloat($"{slot}RequiredExperience", stats.RequiredExperience.Value);
@@ -240,8 +224,6 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);
 
         PlayerPrefs.SetFloat($"{slot}Speed", stats.Speed);
-        Debug.Log($"[SaveStats] Saved Speed to PlayerPrefs key '{slot}Speed': {stats.Speed}");
-
         PlayerPrefs.SetInt($"{slot}Damage", stats.Damage);
         PlayerPrefs.SetFloat($"{slot}AttackSpeed", stats.AttackSpeed);
         PlayerPrefs.SetFloat($"{slot}CDR", stats.CoolDownReduction);
@@ -260,11 +242,6 @@ public class PlayerSave : NetworkBehaviour
 
         PlayerPrefs.Save();
         StartCoroutine(SaveText());
-
-        Debug.Log($"[SaveStats] PlayerPrefs.Save() called");
-
-        float verifySpeed = PlayerPrefs.GetFloat($"{slot}Speed");
-        Debug.Log($"[SaveStats] VERIFICATION - Speed read back from PlayerPrefs: {verifySpeed}");
     }
 
     public void SaveInventory(Item item, int slotIndex, int quantity, bool saveImmediately = true)
