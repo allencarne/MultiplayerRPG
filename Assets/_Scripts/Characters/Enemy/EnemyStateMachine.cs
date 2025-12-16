@@ -145,7 +145,7 @@ public class EnemyStateMachine : NetworkBehaviour
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
 
-        enemy.CastBar.InterruptCastBar();
+        enemy.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
 
@@ -153,7 +153,7 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         if (Buffs.immoveable.IsImmovable) return;
 
-        enemy.CastBar.InterruptCastBar();
+        enemy.CastBar.StartInterrupt();
 
         if (CurrentSkill != null)
         {

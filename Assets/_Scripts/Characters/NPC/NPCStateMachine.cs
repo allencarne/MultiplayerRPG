@@ -146,7 +146,7 @@ public class NPCStateMachine : NetworkBehaviour
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
 
-        npc.CastBar.InterruptCastBar();
+        npc.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
 
@@ -154,7 +154,7 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (Buffs.immoveable.IsImmovable) return;
 
-        npc.CastBar.InterruptCastBar();
+        npc.CastBar.StartInterrupt();
 
         if (CurrentSkill != null)
         {

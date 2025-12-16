@@ -255,7 +255,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != PlayerSkill.State.Cast) return;
 
-        player.CastBar.InterruptCastBar();
+        player.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
 
@@ -263,7 +263,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (Buffs.immoveable.IsImmovable) return;
 
-        player.CastBar.InterruptCastBar();
+        player.CastBar.StartInterrupt();
 
         if (CurrentSkill != null)
         {
