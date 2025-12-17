@@ -30,6 +30,21 @@ public class PlayerExperience : NetworkBehaviour
     public UnityEvent OnEXP;
     public UnityEvent OnLevelUp;
 
+    private void Update()
+    {
+        if (!IsOwner) return;
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            IncreaseEXP(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            IncreaseEXP(10);
+        }
+    }
+
     public override void OnNetworkSpawn()
     {
         stats.RequiredExperience.OnValueChanged += OnReqExperienceChanged;

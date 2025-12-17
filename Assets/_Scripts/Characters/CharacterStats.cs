@@ -107,7 +107,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
             case DamageType.Percent:
                 {
-                    float percentDamage = MaxHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
+                    float percentDamage = ModifiedMaxHealth * (baseDamage / 100f); // Calculate % of Max Health as base damage
                     float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
                     return percentDamage * armorMultiplier; // % Health damage reduced by armor
                 }
@@ -130,11 +130,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (healType == HealType.Percentage)
         {
-            healAmount = MaxHealth.Value * (healAmount / 100f);
+            healAmount = ModifiedMaxHealth * (healAmount / 100f);
         }
 
         // Heal
-        float missingHealth = MaxHealth.Value - Health.Value;
+        float missingHealth = ModifiedMaxHealth - Health.Value;
         float actualHeal = Mathf.Min(healAmount, missingHealth);
         int roundedHeal = Mathf.FloorToInt(actualHeal);
 
