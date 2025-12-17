@@ -172,13 +172,13 @@ public class PlayerSave : NetworkBehaviour
 
     void ApplyCharacterStats(float health, float fury, float end, float endrech)
     {
-        stats.MaxHealth.Value = health;
+        stats.net_BaseHealth.Value = health;
         stats.MaxFury.Value = fury;
         stats.MaxEndurance.Value = end;
         stats.EnduranceRechargeRate.Value = endrech;
 
 
-        stats.Health.Value = health;
+        stats.net_CurrentHealth.Value = health;
         stats.Fury.Value = 0;
         stats.Endurance.Value = end;
     }
@@ -218,7 +218,7 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetInt($"{slot}AP", stats.AttributePoints.Value);
 
         // Stats
-        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.MaxHealth.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHealth.Value);
         PlayerPrefs.SetFloat($"{slot}MaxFury", stats.MaxFury.Value);
         PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.MaxEndurance.Value);
         PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);

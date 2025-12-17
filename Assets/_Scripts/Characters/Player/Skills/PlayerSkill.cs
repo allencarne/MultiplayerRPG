@@ -174,7 +174,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
 
-        AttackerDamage = owner.Stats.ModifiedDamage;
+        AttackerDamage = owner.Stats.TotalDamage;
 
         owner.PlayerRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;

@@ -8,7 +8,7 @@ public class DummyResetState : EnemyState
         owner.Collider.enabled = false;
         owner.EnemyAnimator.Play("Reset");
 
-        float missingHealth = owner.enemy.stats.MaxHealth.Value - owner.enemy.stats.Health.Value;
+        float missingHealth = owner.enemy.stats.net_BaseHealth.Value - owner.enemy.stats.net_CurrentHealth.Value;
         owner.enemy.stats.GiveHeal(missingHealth, HealType.Flat);
 
         StartCoroutine(Delay(owner));

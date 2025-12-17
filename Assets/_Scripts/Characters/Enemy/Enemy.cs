@@ -50,8 +50,8 @@ public class Enemy : NetworkBehaviour
     {
         if (IsServer)
         {
-            stats.MaxHealth.Value = startingHealth;
-            stats.Health.Value = startingHealth;
+            stats.net_BaseHealth.Value = startingHealth;
+            stats.net_CurrentHealth.Value = startingHealth;
         }
     }
 
