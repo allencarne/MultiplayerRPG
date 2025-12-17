@@ -44,6 +44,7 @@ public class PlayerSave : NetworkBehaviour
             LoadPlayerSkills();
             inventory.LoadInventory();
             equipment.LoadEquipment();
+            exp.Initialize();
 
             statsInitialized = true;
         }
@@ -117,33 +118,31 @@ public class PlayerSave : NetworkBehaviour
 
         int level = PlayerPrefs.GetInt($"{slot}PlayerLevel", 1);
         float currentExp = PlayerPrefs.GetFloat($"{slot}CurrentExperience", 0);
-        float requiredExp = PlayerPrefs.GetFloat($"{slot}RequiredExperience", 10);
         int ap = PlayerPrefs.GetInt($"{slot}AP", 0);
         float coins = PlayerPrefs.GetFloat($"{slot}Coins", 0);
 
         if (IsServer)
         {
-            ApplyPlayerStats(level, currentExp, requiredExp, coins, ap);
+            ApplyPlayerStats(level, currentExp, coins, ap);
         }
         else
         {
-            LoadPlayerStatsServerRPC(level, currentExp, requiredExp, coins, ap);
+            LoadPlayerStatsServerRPC(level, currentExp, coins, ap);
         }
     }
 
-    void ApplyPlayerStats(int level, float cEXP, float rEXP, float coins, int ap)
+    void ApplyPlayerStats(int level, float cEXP, float coins, int ap)
     {
         stats.PlayerLevel.Value = level;
         stats.CurrentExperience.Value = cEXP;
-        stats.RequiredExperience.Value = rEXP;
         stats.AttributePoints.Value = ap;
         stats.Coins = coins;
     }
 
     [ServerRpc]
-    void LoadPlayerStatsServerRPC(int level, float cEXP, float rEXP, float coins, int ap)
+    void LoadPlayerStatsServerRPC(int level, float cEXP, float coins, int ap)
     {
-        ApplyPlayerStats(level, cEXP,rEXP, coins, ap);
+        ApplyPlayerStats(level, cEXP, coins, ap);
     }
 
     void LoadCharacterStats()

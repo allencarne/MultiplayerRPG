@@ -9,6 +9,7 @@ public class PlayerExperience : NetworkBehaviour
 {
     [Header("Components")]
     [SerializeField] PlayerStats stats;
+    bool statsInitialized;
 
     [Header("UI")]
     [SerializeField] Image frontXpBar;
@@ -41,12 +42,7 @@ public class PlayerExperience : NetworkBehaviour
         stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
     }
 
-    private void Start()
-    {
-        Invoke("Init", 3);
-    }
-
-    void Init()
+    public void Initialize()
     {
         if (IsServer)
         {
@@ -59,10 +55,14 @@ public class PlayerExperience : NetworkBehaviour
         levelText.text = stats.PlayerLevel.Value.ToString();
         experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
         StartCoroutine(LerpXpBar());
+
+        statsInitialized = true;
     }
 
     void OnExperienceChanged(float oldValue, float newValue)
     {
+        if (!statsInitialized) return;
+
         StartCoroutine(LerpXpBar());
 
         experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;

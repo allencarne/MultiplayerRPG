@@ -203,7 +203,6 @@ public class CharacterSelect : MonoBehaviour
         {
         $"{slot}PlayerLevel",
         $"{slot}CurrentExperience",
-        $"{slot}RequiredExperience",
         $"{slot}Coins",
         $"{slot}AP",
         $"{slot}MaxHealth",
