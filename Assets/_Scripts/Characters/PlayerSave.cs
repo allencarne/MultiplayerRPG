@@ -177,6 +177,7 @@ public class PlayerSave : NetworkBehaviour
         stats.MaxEndurance.Value = end;
         stats.EnduranceRechargeRate.Value = endrech;
 
+
         stats.Health.Value = health;
         stats.Fury.Value = 0;
         stats.Endurance.Value = end;

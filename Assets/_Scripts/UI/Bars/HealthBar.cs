@@ -9,19 +9,23 @@ public class HealthBar : NetworkBehaviour
     [SerializeField] Image healthBar;
     [SerializeField] Image healthBar_Back;
 
-    private float lerpSpeed = 5f;
-    private Coroutine lerpCoroutine;
+    float lerpSpeed = 5f;
+    Coroutine lerpCoroutine;
 
     public override void OnNetworkSpawn()
     {
         stats.Health.OnValueChanged += OnHealthChanged;
-
         UpdateHealthBar();
     }
 
     public override void OnNetworkDespawn()
     {
         stats.Health.OnValueChanged -= OnHealthChanged;
+    }
+
+    void OnHealthChanged(float oldValue, float newValue)
+    {
+        UpdateHealthBar();
     }
 
     public void UpdateHealthBar()
@@ -50,10 +54,5 @@ public class HealthBar : NetworkBehaviour
             healthBar_Back.fillAmount = currentFillAmount;
             yield return null;
         }
-    }
-
-    void OnHealthChanged(float oldValue, float newValue)
-    {
-        UpdateHealthBar();
     }
 }

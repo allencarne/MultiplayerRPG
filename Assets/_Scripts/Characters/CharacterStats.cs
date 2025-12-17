@@ -147,6 +147,25 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public void AddModifier(StatModifier modifier)
     {
         modifiers.Add(modifier);
+
+        if (modifier.statType == StatType.Health)
+        {
+            if (IsServer)
+            {
+                Health.Value += modifier.value;
+            }
+            else
+            {
+                HPIncreaseServerRPC(modifier.value);
+            }
+
+        }
+    }
+
+    [ServerRpc]
+    void HPIncreaseServerRPC(float value)
+    {
+        Health.Value += value;
     }
 
     public void RemoveModifier(StatModifier modifier)
@@ -154,6 +173,25 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (modifiers.Count == 0) return;
 
         modifiers.Remove(modifier);
+
+        if (modifier.statType == StatType.Health)
+        {
+            if (IsServer)
+            {
+                Health.Value -= modifier.value;
+            }
+            else
+            {
+                HPDecreaseServerRPC(modifier.value);
+            }
+
+        }
+    }
+
+    [ServerRpc]
+    void HPDecreaseServerRPC(float value)
+    {
+        Health.Value -= value;
     }
 
     #region Damage
