@@ -32,12 +32,14 @@ public class PlayerExperience : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        stats.RequiredExperience.OnValueChanged += OnReqExperienceChanged;
         stats.CurrentExperience.OnValueChanged += OnExperienceChanged;
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
     }
 
     private void OnDisable()
     {
+        stats.RequiredExperience.OnValueChanged -= OnReqExperienceChanged;
         stats.CurrentExperience.OnValueChanged -= OnExperienceChanged;
         stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
     }
@@ -48,7 +50,20 @@ public class PlayerExperience : NetworkBehaviour
         {
             stats.RequiredExperience.Value = CalculateRequiredXp();
         }
+        else
+        {
+            CalculateServerRPC();
+        }
+    }
 
+    [ServerRpc]
+    void CalculateServerRPC()
+    {
+        stats.RequiredExperience.Value = CalculateRequiredXp();
+    }
+
+    void OnReqExperienceChanged(float oldValue, float newValue)
+    {
         frontXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
         backXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
 
