@@ -175,12 +175,8 @@ public class PlayerExperience : NetworkBehaviour
         }
 
         // Increase Player Health
-        //player.MaxHealth.Value++;
-        //player.Health.Value++;
 
         // Increase Player Damage
-        //player.BaseDamage.Value++;
-        //player.CurrentDamage.Value++;
 
         stats.GiveHeal(100, HealType.Percentage);
 

@@ -248,7 +248,7 @@ public class EnemyStateMachine : NetworkBehaviour
         }
 
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        EnemyRB.linearVelocity = direction * enemy.stats.Speed;
+        EnemyRB.linearVelocity = direction * enemy.stats.BaseSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)

@@ -14,7 +14,7 @@ public class NPCStaggerState : NPCState
     {
         if (!owner.IsServer) return;
 
-        if (owner.npc.stats.net_CurrentHealth.Value <= 0) return;
+        if (owner.npc.stats.net_CurrentHP.Value <= 0) return;
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack &&
             !owner.CrowdControl.stun.IsStunned &&

@@ -14,15 +14,15 @@ public class HealthBar : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        stats.net_CurrentHealth.OnValueChanged += OnHealthChanged;
-        stats.net_TotalHealth.OnValueChanged += OnHealthChanged;
+        stats.net_CurrentHP.OnValueChanged += OnHealthChanged;
+        stats.net_TotalHP.OnValueChanged += OnHealthChanged;
         UpdateHealthBar();
     }
 
     public override void OnNetworkDespawn()
     {
-        stats.net_CurrentHealth.OnValueChanged -= OnHealthChanged;
-        stats.net_TotalHealth.OnValueChanged -= OnHealthChanged;
+        stats.net_CurrentHP.OnValueChanged -= OnHealthChanged;
+        stats.net_TotalHP.OnValueChanged -= OnHealthChanged;
     }
 
     void OnHealthChanged(float oldValue, float newValue)
@@ -32,8 +32,8 @@ public class HealthBar : NetworkBehaviour
 
     public void UpdateHealthBar()
     {
-        float maxHealth = stats.net_TotalHealth.Value;
-        float currentHealth = stats.net_CurrentHealth.Value;
+        float maxHealth = stats.net_TotalHP.Value;
+        float currentHealth = stats.net_CurrentHP.Value;
 
         if (maxHealth <= 0) return;
 

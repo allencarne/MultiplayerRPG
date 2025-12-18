@@ -108,7 +108,7 @@ public class Buff_Might : NetworkBehaviour
         float weaknessMultiplier = deBuffs.weakness.TotalWeaknessStacks * deBuffs.weakness.weaknessPercent;
         float multiplier = 1 + mightMultiplier - weaknessMultiplier;
 
-        if (stats != null) stats.Damage = Mathf.RoundToInt(stats.Damage * multiplier);
+        if (stats != null) stats.BaseDamage = Mathf.RoundToInt(stats.BaseDamage * multiplier);
     }
 
     void UpdateMightUI()

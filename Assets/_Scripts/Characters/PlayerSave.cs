@@ -157,11 +157,11 @@ public class PlayerSave : NetworkBehaviour
         float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
         float endrech = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
 
-        stats.Speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
-        stats.Damage = PlayerPrefs.GetInt($"{slot}Damage", 1);
-        stats.AttackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
-        stats.CoolDownReduction = PlayerPrefs.GetFloat($"{slot}CDR", 1);
-        stats.Armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
+        stats.BaseSpeed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
+        stats.BaseDamage = PlayerPrefs.GetInt($"{slot}Damage", 1);
+        stats.BaseAS = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
+        stats.BaseCDR = PlayerPrefs.GetFloat($"{slot}CDR", 1);
+        stats.BaseArmor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
 
         if (IsServer)
         {
@@ -175,13 +175,13 @@ public class PlayerSave : NetworkBehaviour
 
     void ApplyCharacterStats(float health, float fury, float end, float endrech)
     {
-        stats.net_BaseHealth.Value = health;
+        stats.net_BaseHP.Value = health;
         stats.MaxFury.Value = fury;
         stats.MaxEndurance.Value = end;
         stats.EnduranceRechargeRate.Value = endrech;
 
 
-        stats.net_CurrentHealth.Value = health;
+        stats.net_CurrentHP.Value = health;
         stats.Fury.Value = 0;
         stats.Endurance.Value = end;
     }
@@ -221,16 +221,16 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetInt($"{slot}AP", stats.AttributePoints.Value);
 
         // Stats
-        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHealth.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHP.Value);
         PlayerPrefs.SetFloat($"{slot}MaxFury", stats.MaxFury.Value);
         PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.MaxEndurance.Value);
         PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);
 
-        PlayerPrefs.SetFloat($"{slot}Speed", stats.Speed);
-        PlayerPrefs.SetInt($"{slot}Damage", stats.Damage);
-        PlayerPrefs.SetFloat($"{slot}AttackSpeed", stats.AttackSpeed);
-        PlayerPrefs.SetFloat($"{slot}CDR", stats.CoolDownReduction);
-        PlayerPrefs.SetFloat($"{slot}Armor", stats.Armor);
+        PlayerPrefs.SetFloat($"{slot}Speed", stats.BaseSpeed);
+        PlayerPrefs.SetInt($"{slot}Damage", stats.BaseDamage);
+        PlayerPrefs.SetFloat($"{slot}AttackSpeed", stats.BaseAS);
+        PlayerPrefs.SetFloat($"{slot}CDR", stats.BaseCDR);
+        PlayerPrefs.SetFloat($"{slot}Armor", stats.BaseArmor);
 
         // Skills
         PlayerPrefs.SetInt($"{slot}FirstPassive", player.FirstPassiveIndex);

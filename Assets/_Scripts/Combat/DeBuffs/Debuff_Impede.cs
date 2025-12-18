@@ -110,8 +110,8 @@ public class Debuff_Impede : NetworkBehaviour
 
         if (stats != null)
         {
-            float cdr = stats.CoolDownReduction * multiplier;
-            stats.CoolDownReduction = Mathf.Max(cdr, 0.1f);
+            float cdr = stats.BaseCDR * multiplier;
+            stats.BaseCDR = Mathf.Max(cdr, 0.1f);
         }
     }
 

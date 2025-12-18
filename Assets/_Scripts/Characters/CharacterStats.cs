@@ -6,17 +6,19 @@ using UnityEngine.Events;
 public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
-    public NetworkVariable<float> net_BaseHealth = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_CurrentHealth = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_TotalHealth = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_BaseHP = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_CurrentHP = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_TotalHP = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Stats")]
-    public float Speed;
-    public int Damage;
-    public float AttackSpeed;
-    public float CoolDownReduction;
-    public float Armor;
-    public int TotalDamage => Damage + GetModifierInt(StatType.Damage);
+    public float BaseSpeed;
+    public int BaseDamage;
+    public float BaseAS;
+    public float BaseCDR;
+    public float BaseArmor;
+    public int TotalDamage => BaseDamage + GetModifierInt(StatType.Damage);
+    public float TotalAS => BaseAS + GetModifierFloat(StatType.AttackSpeed);
+    public float TotalCDR => BaseCDR + GetModifierFloat(StatType.CoolDown);
 
     [Header("List")]
     public List<StatModifier> modifiers = new List<StatModifier>();
@@ -63,13 +65,13 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         int roundedDamage = Mathf.RoundToInt(finalDamage);
 
         // Subtract
-        net_CurrentHealth.Value = Mathf.Max(net_CurrentHealth.Value - roundedDamage, 0);
+        net_CurrentHP.Value = Mathf.Max(net_CurrentHP.Value - roundedDamage, 0);
 
         // Feedback
         OnDamaged?.Invoke(roundedDamage);
         OnEnemyDamaged?.Invoke(attackerID);
 
-        if (net_CurrentHealth.Value <= 0)
+        if (net_CurrentHP.Value <= 0)
         {
             ClearTarget(attackerID);
             OnDeath?.Invoke();
@@ -88,7 +90,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
-        float armor = Armor; // Get the target's current armor
+        float armor = BaseArmor; // Get the target's current armor
 
         switch (damageType)
         {
@@ -100,7 +102,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
             case DamageType.Percent:
                 {
-                    float percentDamage = net_TotalHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
+                    float percentDamage = net_TotalHP.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
                     float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
                     return percentDamage * armorMultiplier; // % Health damage reduced by armor
                 }
@@ -123,15 +125,15 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (healType == HealType.Percentage)
         {
-            healAmount = net_TotalHealth.Value * (healAmount / 100f);
+            healAmount = net_TotalHP.Value * (healAmount / 100f);
         }
 
         // Heal
-        float missingHealth = net_TotalHealth.Value - net_CurrentHealth.Value;
+        float missingHealth = net_TotalHP.Value - net_CurrentHP.Value;
         float actualHeal = Mathf.Min(healAmount, missingHealth);
         int roundedHeal = Mathf.FloorToInt(actualHeal);
 
-        net_CurrentHealth.Value += roundedHeal;
+        net_CurrentHP.Value += roundedHeal;
 
         // Feedback
         OnHealed?.Invoke(roundedHeal);
@@ -147,7 +149,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         {
             if (IsServer)
             {
-                net_CurrentHealth.Value += modifier.value;
+                net_CurrentHP.Value += modifier.value;
                 RecalculateTotalHealth(modHealth);
             }
             else
@@ -160,7 +162,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void HPIncreaseServerRPC(float value, float modHealth)
     {
-        net_CurrentHealth.Value += value;
+        net_CurrentHP.Value += value;
         RecalculateTotalHealth(modHealth);
     }
 
@@ -175,7 +177,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         {
             if (IsServer)
             {
-                net_CurrentHealth.Value -= modifier.value;
+                net_CurrentHP.Value -= modifier.value;
                 RecalculateTotalHealth(modHealth);
             }
             else
@@ -189,14 +191,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void HPDecreaseServerRPC(float value, float modHealth)
     {
-        net_CurrentHealth.Value -= value;
+        net_CurrentHP.Value -= value;
         RecalculateTotalHealth(modHealth);
     }
 
     public void RecalculateTotalHealth(float modHealth)
     {
         if (!IsServer) return;
-        net_TotalHealth.Value = net_BaseHealth.Value + modHealth;
+        net_TotalHP.Value = net_BaseHP.Value + modHealth;
     }
 
     #region Damage
@@ -204,7 +206,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            Damage += amount;
+            BaseDamage += amount;
         }
         else
         {
@@ -215,14 +217,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseDamageServerRPC(int amount)
     {
-        Damage += amount;
+        BaseDamage += amount;
     }
 
     public void DecreaseDamage(int amount)
     {
         if (IsServer)
         {
-            Damage -= amount;
+            BaseDamage -= amount;
         }
         else
         {
@@ -233,7 +235,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseDamageServerRPC(int amount)
     {
-        Damage -= amount;
+        BaseDamage -= amount;
     }
     #endregion
 
@@ -244,8 +246,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (IsServer)
         {
-            net_BaseHealth.Value += amount;
-            net_CurrentHealth.Value += amount;
+            net_BaseHP.Value += amount;
+            net_CurrentHP.Value += amount;
             RecalculateTotalHealth(modHealth);
         }
         else
@@ -257,8 +259,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseHealthServerRPC(int amount, float modHealth)
     {
-        net_BaseHealth.Value += amount;
-        net_CurrentHealth.Value += amount;
+        net_BaseHP.Value += amount;
+        net_CurrentHP.Value += amount;
         RecalculateTotalHealth(modHealth);
     }
 
@@ -268,8 +270,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (IsServer)
         {
-            net_BaseHealth.Value -= amount;
-            net_CurrentHealth.Value -= amount;
+            net_BaseHP.Value -= amount;
+            net_CurrentHP.Value -= amount;
             RecalculateTotalHealth(modHealth);
         }
         else
@@ -281,8 +283,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseHealthServerRPC(int amount, float modHealth)
     {
-        net_BaseHealth.Value -= amount;
-        net_CurrentHealth.Value -= amount;
+        net_BaseHP.Value -= amount;
+        net_CurrentHP.Value -= amount;
         RecalculateTotalHealth(modHealth);
     }
     #endregion
@@ -292,7 +294,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            AttackSpeed += amount;
+            BaseAS += amount;
         }
         else
         {
@@ -303,14 +305,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseAttackSpeedServerRPC(int amount)
     {
-        AttackSpeed += amount;
+        BaseAS += amount;
     }
 
     public void DecreaseAttackSpeed(int amount)
     {
         if (IsServer)
         {
-            AttackSpeed -= amount;
+            BaseAS -= amount;
         }
         else
         {
@@ -321,7 +323,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseAttackSpeedServerRPC(int amount)
     {
-        AttackSpeed -= amount;
+        BaseAS -= amount;
     }
     #endregion
 
@@ -330,7 +332,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         if (IsServer)
         {
-            CoolDownReduction += amount;
+            BaseCDR += amount;
         }
         else
         {
@@ -341,14 +343,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void IncreaseCoolDownReductionServerRPC(int amount)
     {
-        CoolDownReduction += amount;
+        BaseCDR += amount;
     }
 
     public void DecreaseCoolDownReduction(int amount)
     {
         if (IsServer)
         {
-            CoolDownReduction -= amount;
+            BaseCDR -= amount;
         }
         else
         {
@@ -359,7 +361,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [ServerRpc]
     void DecreaseCoolDownReductionServerRPC(int amount)
     {
-        CoolDownReduction -= amount;
+        BaseCDR -= amount;
     }
     #endregion
 }

@@ -7,7 +7,7 @@ public class Whack : EnemySkill
         InitializeAbility(skillType, owner);
 
         // Basic
-        ModifiedCastTime = CastTime / owner.enemy.stats.AttackSpeed;
+        ModifiedCastTime = CastTime / owner.enemy.stats.TotalAS;
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;

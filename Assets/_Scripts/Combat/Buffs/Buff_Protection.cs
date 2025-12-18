@@ -108,7 +108,7 @@ public class Buff_Protection : NetworkBehaviour
         float vulnerabilityMultiplier = deBuffs.vulnerability.TotalVulnerabilityStacks * deBuffs.vulnerability.vulnerabilityPercent;
         float multiplier = 1 + protectionMultiplier - vulnerabilityMultiplier;
 
-        if (stats != null) stats.Armor = stats.Armor * multiplier;
+        if (stats != null) stats.BaseArmor = stats.BaseArmor * multiplier;
     }
 
     void UpdateProtectionUI()

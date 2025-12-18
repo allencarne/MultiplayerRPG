@@ -44,20 +44,20 @@ public class NPC : NetworkBehaviour, IInteractable
         BodySprite.color = Data.skinColor;
         HairSprite.color = Data.hairColor;
 
-        stats.Speed = Data.Speed;
-        stats.Damage = Data.Damage;
-        stats.AttackSpeed = Data.AttackSpeed;
-        stats.CoolDownReduction = Data.CoolDownRecution;
-        stats.Armor = Data.Armor;
+        stats.BaseSpeed = Data.Speed;
+        stats.BaseDamage = Data.Damage;
+        stats.BaseAS = Data.AttackSpeed;
+        stats.BaseCDR = Data.CoolDownRecution;
+        stats.BaseArmor = Data.Armor;
     }
 
     void AssignHealth()
     {
         if (IsServer)
         {
-            stats.net_TotalHealth.Value = Data.MaxHealth;
-            stats.net_BaseHealth.Value = Data.MaxHealth;
-            stats.net_CurrentHealth.Value = Data.MaxHealth;
+            stats.net_TotalHP.Value = Data.MaxHealth;
+            stats.net_BaseHP.Value = Data.MaxHealth;
+            stats.net_CurrentHP.Value = Data.MaxHealth;
         }
     }
 

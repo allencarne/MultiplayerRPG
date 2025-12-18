@@ -110,8 +110,8 @@ public class Debuff_Exhaust : NetworkBehaviour
 
         if (stats != null)
         {
-            float attackspeed = stats.AttackSpeed * multiplier;
-            stats.AttackSpeed = Mathf.Max(attackspeed, 0.1f);
+            float attackspeed = stats.BaseAS * multiplier;
+            stats.BaseAS = Mathf.Max(attackspeed, 0.1f);
         }
     }
 

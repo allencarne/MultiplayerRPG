@@ -148,7 +148,7 @@ public abstract class NPCSkill : NetworkBehaviour
         owner.IsAttacking = true;
         owner.CurrentSkill = this;
 
-        AttackerDamage = owner.npc.stats.Damage;
+        AttackerDamage = owner.npc.stats.TotalDamage;
 
         owner.NpcRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
@@ -157,7 +157,7 @@ public abstract class NPCSkill : NetworkBehaviour
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, NPCStateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.npc.stats.CoolDownReduction;
+        float modifiedCooldown = coolDown / owner.npc.stats.TotalCDR;
 
         yield return new WaitForSeconds(modifiedCooldown);
 

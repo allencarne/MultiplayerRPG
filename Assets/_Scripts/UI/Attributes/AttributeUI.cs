@@ -41,25 +41,25 @@ public class AttributeUI : MonoBehaviour
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
         // Health
-        totalHealth.text = StringBuildFloat(stats.net_TotalHealth.Value, stats.net_BaseHealth.Value, stats.GetModifierFloat(StatType.Health));
+        totalHealth.text = StringBuildFloat(stats.net_TotalHP.Value, stats.net_BaseHP.Value, stats.GetModifierFloat(StatType.Health));
 
         // Damage
-        totalDamage.text = StringBuildInt(stats.TotalDamage, stats.Damage, stats.GetModifierInt(StatType.Damage));
+        totalDamage.text = StringBuildInt(stats.TotalDamage, stats.BaseDamage, stats.GetModifierInt(StatType.Damage));
 
         // Attack Speed
-        totalAttackSpeed.text = stats.AttackSpeed.ToString("F2");
+        totalAttackSpeed.text = StringBuildFloat(stats.TotalAS, stats.BaseAS, stats.GetModifierFloat(StatType.AttackSpeed));
 
         // Cooldown Reduction (CDR)
-        totalCDR.text = stats.CoolDownReduction.ToString("F2");
+        totalCDR.text = StringBuildFloat(stats.TotalCDR, stats.BaseCDR, stats.GetModifierFloat(StatType.CoolDown));
 
         // Speed
-        totalSpeed.text = stats.Speed.ToString("F2");
+        totalSpeed.text = stats.BaseSpeed.ToString("F2");
 
         // Endurance
         enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
 
         // Armor
-        totalArmor.text = stats.Armor.ToString();
+        totalArmor.text = stats.BaseArmor.ToString();
     }
 
     string StringBuildFloat(float total, float value, float mods)
