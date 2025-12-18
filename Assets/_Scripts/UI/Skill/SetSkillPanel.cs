@@ -42,13 +42,13 @@ public class SetSkillPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        exp.OnLevelUp.AddListener(OnLevelUp);
+        stats.PlayerLevel.OnValueChanged += OnLevelChanged;
         skillPanel.OnSkillSelected.AddListener(SetSkills);
     }
 
     private void OnDisable()
     {
-        exp.OnLevelUp.RemoveListener(OnLevelUp);
+        stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
         skillPanel.OnSkillSelected.RemoveListener(SetSkills);
     }
 
@@ -61,7 +61,6 @@ public class SetSkillPanel : MonoBehaviour
         RoguePanel.SetActive(false);
 
         SetSkills();
-        OnLevelUp();
     }
 
     public void SetSkills()
@@ -151,6 +150,11 @@ public class SetSkillPanel : MonoBehaviour
                 skillBar_Ultimate[i].sprite = skills.ultimateAbilities[player.UltimateIndex].SkillIcon;
             }
         }
+    }
+
+    void OnLevelChanged(int oldValue, int newValue)
+    {
+        OnLevelUp();
     }
 
     void OnLevelUp()

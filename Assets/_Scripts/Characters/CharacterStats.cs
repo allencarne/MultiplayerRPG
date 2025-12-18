@@ -12,10 +12,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Stats")]
     public float BaseSpeed;
+    public float BaseArmor;
+
     public int BaseDamage;
     public float BaseAS;
     public float BaseCDR;
-    public float BaseArmor;
     public int TotalDamage => BaseDamage + GetModifierInt(StatType.Damage);
     public float TotalAS => BaseAS + GetModifierFloat(StatType.AttackSpeed);
     public float TotalCDR => BaseCDR + GetModifierFloat(StatType.CoolDown);

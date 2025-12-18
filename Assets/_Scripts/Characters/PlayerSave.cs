@@ -227,7 +227,7 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);
 
         PlayerPrefs.SetFloat($"{slot}Speed", stats.BaseSpeed);
-        PlayerPrefs.SetInt($"{slot}Damage", stats.BaseDamage);
+        PlayerPrefs.SetInt($"{slot}Damage", stats. BaseDamage);
         PlayerPrefs.SetFloat($"{slot}AttackSpeed", stats.BaseAS);
         PlayerPrefs.SetFloat($"{slot}CDR", stats.BaseCDR);
         PlayerPrefs.SetFloat($"{slot}Armor", stats.BaseArmor);
