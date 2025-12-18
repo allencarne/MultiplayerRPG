@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class PatienceBar : NetworkBehaviour
 {
+    public NetworkVariable<float> Patience = new(writePerm: NetworkVariableWritePermission.Server);
+    [SerializeField] Image patienceBarFill;
     [SerializeField] Enemy enemy;
     [SerializeField] NPC npc;
-    [SerializeField] Image patienceBarFill;
-    public NetworkVariable<float> Patience = new(writePerm: NetworkVariableWritePermission.Server);
 
-    private void OnEnable()
+    public override void OnNetworkSpawn()
     {
         Patience.OnValueChanged += OnPatienceChanged;
         UpdatePatienceBar(Patience.Value);
     }
 
-    private void OnDisable()
+    public override void OnNetworkDespawn()
     {
         Patience.OnValueChanged -= OnPatienceChanged;
     }
