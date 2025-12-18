@@ -137,26 +137,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         OnHealed?.Invoke(roundedHeal);
     }
 
-    public void RecalculateTotalHealth()
-    {
-        if (IsServer)
-        {
-            float healthFromModifiers = GetModifierFloat(StatType.Health);
-            net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
-        }
-        else
-        {
-            RecalculateTotalHealthServerRPC();
-        }
-    }
-
-    [ServerRpc]
-    void RecalculateTotalHealthServerRPC()
-    {
-        float healthFromModifiers = GetModifierFloat(StatType.Health);
-        net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
-    }
-
     public void AddModifier(StatModifier modifier)
     {
         modifiers.Add(modifier);
@@ -211,6 +191,26 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         RecalculateTotalHealth();
     }
 
+    public void RecalculateTotalHealth()
+    {
+        float healthFromModifiers = GetModifierFloat(StatType.Health);
+
+        if (IsServer)
+        {
+            net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
+        }
+        else
+        {
+            RecalculateTotalHealthServerRPC(healthFromModifiers);
+        }
+    }
+
+    [ServerRpc]
+    void RecalculateTotalHealthServerRPC(float healthFromModifiers)
+    {
+        net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
+    }
+
     #region Damage
     public void IncreaseDamage(int amount)
     {
@@ -256,6 +256,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         {
             net_BaseHealth.Value += amount;
             net_CurrentHealth.Value += amount;
+            RecalculateTotalHealth();
         }
         else
         {
@@ -268,6 +269,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         net_BaseHealth.Value += amount;
         net_CurrentHealth.Value += amount;
+        RecalculateTotalHealth();
     }
 
     public void DecreaseHealth(int amount)
@@ -276,6 +278,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         {
             net_BaseHealth.Value -= amount;
             net_CurrentHealth.Value -= amount;
+            RecalculateTotalHealth();
         }
         else
         {
@@ -288,6 +291,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         net_BaseHealth.Value -= amount;
         net_CurrentHealth.Value -= amount;
+        RecalculateTotalHealth();
     }
     #endregion
 

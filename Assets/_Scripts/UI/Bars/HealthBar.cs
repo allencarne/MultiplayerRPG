@@ -15,12 +15,14 @@ public class HealthBar : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         stats.net_CurrentHealth.OnValueChanged += OnHealthChanged;
+        stats.net_TotalHealth.OnValueChanged += OnHealthChanged;
         UpdateHealthBar();
     }
 
     public override void OnNetworkDespawn()
     {
         stats.net_CurrentHealth.OnValueChanged -= OnHealthChanged;
+        stats.net_TotalHealth.OnValueChanged -= OnHealthChanged;
     }
 
     void OnHealthChanged(float oldValue, float newValue)
@@ -42,6 +44,8 @@ public class HealthBar : NetworkBehaviour
 
         if (lerpCoroutine != null) StopCoroutine(lerpCoroutine);
         lerpCoroutine = StartCoroutine(LerpHealthBarBack(fill));
+
+        Debug.Log(currentHealth + " " + maxHealth);
     }
 
     IEnumerator LerpHealthBarBack(float targetFillAmount)
