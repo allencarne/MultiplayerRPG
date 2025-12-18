@@ -46,9 +46,6 @@ public class PlayerSave : NetworkBehaviour
             equipment.LoadEquipment();
             exp.Initialize();
 
-            float modHealth = stats.GetModifierFloat(StatType.Health);
-            stats.RecalculateTotalHealth(modHealth);
-
             statsInitialized = true;
         }
         else
@@ -184,6 +181,9 @@ public class PlayerSave : NetworkBehaviour
         stats.net_CurrentHP.Value = health;
         stats.Fury.Value = 0;
         stats.Endurance.Value = end;
+
+        float modHealth = stats.GetModifierFloat(StatType.Health);
+        stats.RecalculateTotalHealth(modHealth);
     }
 
     [ServerRpc]
