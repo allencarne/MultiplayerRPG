@@ -20,6 +20,22 @@ public class FuryBar : NetworkBehaviour
         UpdateFuryBar(stats.MaxFury.Value, stats.Fury.Value);
     }
 
+    public override void OnNetworkDespawn()
+    {
+        stats.Fury.OnValueChanged -= OnFuryChanged;
+        stats.MaxFury.OnValueChanged -= OnMaxFuryChanged;
+    }
+
+    void OnFuryChanged(float oldValue, float newValue)
+    {
+        UpdateFuryBar(stats.MaxFury.Value, newValue);
+    }
+
+    void OnMaxFuryChanged(float oldValue, float newValue)
+    {
+        UpdateFuryBar(newValue, stats.Fury.Value);
+    }
+
     public void UpdateFuryBar(float maxFury, float currentFury)
     {
         if (maxFury <= 0) return;
@@ -43,15 +59,5 @@ public class FuryBar : NetworkBehaviour
             furyBar.fillAmount = currentFillAmount;
             yield return null;
         }
-    }
-
-    void OnFuryChanged(float oldValue, float newValue)
-    {
-        UpdateFuryBar(stats.MaxFury.Value, newValue);
-    }
-
-    void OnMaxFuryChanged(float oldValue, float newValue)
-    {
-        UpdateFuryBar(newValue, stats.Fury.Value);
     }
 }
