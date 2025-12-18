@@ -30,7 +30,7 @@ public class HealthBar : NetworkBehaviour
 
     public void UpdateHealthBar()
     {
-        float maxHealth = stats.TotalHealth;
+        float maxHealth = stats.net_TotalHealth.Value;
         float currentHealth = stats.net_CurrentHealth.Value;
 
         if (maxHealth <= 0) return;

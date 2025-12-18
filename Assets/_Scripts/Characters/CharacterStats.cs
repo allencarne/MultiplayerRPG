@@ -6,8 +6,9 @@ using UnityEngine.Events;
 public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
-    public NetworkVariable<float> net_CurrentHealth = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_BaseHealth = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_CurrentHealth = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_TotalHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Stats")]
     public float Speed;
@@ -15,39 +16,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public float AttackSpeed;
     public float CoolDownReduction;
     public float Armor;
-
     public int TotalDamage => Damage + GetModifierInt(StatType.Damage);
-    public float TotalHealth => net_BaseHealth.Value + GetModifierFloat(StatType.Health);
-
-    public int GetModifierInt(StatType type)
-    {
-        int value = 0;
-
-        foreach (StatModifier mod in modifiers)
-        {
-            if (mod.statType == type)
-            {
-                value += mod.value;
-            }
-        }
-
-        return value;
-    }
-
-    public float GetModifierFloat(StatType type)
-    {
-        float value = 0;
-
-        foreach (StatModifier mod in modifiers)
-        {
-            if (mod.statType == type)
-            {
-                value += mod.value;
-            }
-        }
-
-        return value;
-    }
 
     [Header("List")]
     public List<StatModifier> modifiers = new List<StatModifier>();
@@ -60,6 +29,30 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDeath;
+
+    public int GetModifierInt(StatType type)
+    {
+        int value = 0;
+
+        foreach (StatModifier mod in modifiers)
+        {
+            if (mod.statType == type) value += mod.value;
+        }
+
+        return value;
+    }
+
+    public float GetModifierFloat(StatType type)
+    {
+        float value = 0;
+
+        foreach (StatModifier mod in modifiers)
+        {
+            if (mod.statType == type) value += mod.value;
+        }
+
+        return value;
+    }
 
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID)
     {
@@ -107,7 +100,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
             case DamageType.Percent:
                 {
-                    float percentDamage = TotalHealth * (baseDamage / 100f); // Calculate % of Max Health as base damage
+                    float percentDamage = net_TotalHealth.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
                     float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
                     return percentDamage * armorMultiplier; // % Health damage reduced by armor
                 }
@@ -130,11 +123,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (healType == HealType.Percentage)
         {
-            healAmount = TotalHealth * (healAmount / 100f);
+            healAmount = net_TotalHealth.Value * (healAmount / 100f);
         }
 
         // Heal
-        float missingHealth = TotalHealth - net_CurrentHealth.Value;
+        float missingHealth = net_TotalHealth.Value - net_CurrentHealth.Value;
         float actualHeal = Mathf.Min(healAmount, missingHealth);
         int roundedHeal = Mathf.FloorToInt(actualHeal);
 
@@ -142,6 +135,26 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         // Feedback
         OnHealed?.Invoke(roundedHeal);
+    }
+
+    public void RecalculateTotalHealth()
+    {
+        if (IsServer)
+        {
+            float healthFromModifiers = GetModifierFloat(StatType.Health);
+            net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
+        }
+        else
+        {
+            RecalculateTotalHealthServerRPC();
+        }
+    }
+
+    [ServerRpc]
+    void RecalculateTotalHealthServerRPC()
+    {
+        float healthFromModifiers = GetModifierFloat(StatType.Health);
+        net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
     }
 
     public void AddModifier(StatModifier modifier)
@@ -153,6 +166,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
             if (IsServer)
             {
                 net_CurrentHealth.Value += modifier.value;
+                RecalculateTotalHealth();
             }
             else
             {
@@ -166,6 +180,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     void HPIncreaseServerRPC(float value)
     {
         net_CurrentHealth.Value += value;
+        RecalculateTotalHealth();
     }
 
     public void RemoveModifier(StatModifier modifier)
@@ -179,6 +194,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
             if (IsServer)
             {
                 net_CurrentHealth.Value -= modifier.value;
+                RecalculateTotalHealth();
             }
             else
             {
@@ -192,6 +208,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     void HPDecreaseServerRPC(float value)
     {
         net_CurrentHealth.Value -= value;
+        RecalculateTotalHealth();
     }
 
     #region Damage

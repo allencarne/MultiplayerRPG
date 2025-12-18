@@ -41,7 +41,7 @@ public class AttributeUI : MonoBehaviour
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
         // Health
-        totalHealth.text = StringBuildFloat(stats.TotalHealth, stats.net_BaseHealth.Value, stats.GetModifierFloat(StatType.Health));
+        totalHealth.text = StringBuildFloat(stats.net_TotalHealth.Value, stats.net_BaseHealth.Value, stats.GetModifierFloat(StatType.Health));
 
         // Damage
         totalDamage.text = StringBuildInt(stats.TotalDamage, stats.Damage, stats.GetModifierInt(StatType.Damage));
