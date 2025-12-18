@@ -140,27 +140,28 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public void AddModifier(StatModifier modifier)
     {
         modifiers.Add(modifier);
+        float modHealth = GetModifierFloat(StatType.Health);
+
 
         if (modifier.statType == StatType.Health)
         {
             if (IsServer)
             {
                 net_CurrentHealth.Value += modifier.value;
-                RecalculateTotalHealth();
+                RecalculateTotalHealth(modHealth);
             }
             else
             {
-                HPIncreaseServerRPC(modifier.value);
+                HPIncreaseServerRPC(modifier.value, modHealth);
             }
-
         }
     }
 
     [ServerRpc]
-    void HPIncreaseServerRPC(float value)
+    void HPIncreaseServerRPC(float value, float modHealth)
     {
         net_CurrentHealth.Value += value;
-        RecalculateTotalHealth();
+        RecalculateTotalHealth(modHealth);
     }
 
     public void RemoveModifier(StatModifier modifier)
@@ -168,47 +169,34 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (modifiers.Count == 0) return;
 
         modifiers.Remove(modifier);
+        float modHealth = GetModifierFloat(StatType.Health);
 
         if (modifier.statType == StatType.Health)
         {
             if (IsServer)
             {
                 net_CurrentHealth.Value -= modifier.value;
-                RecalculateTotalHealth();
+                RecalculateTotalHealth(modHealth);
             }
             else
             {
-                HPDecreaseServerRPC(modifier.value);
+                HPDecreaseServerRPC(modifier.value, modHealth);
             }
 
         }
     }
 
     [ServerRpc]
-    void HPDecreaseServerRPC(float value)
+    void HPDecreaseServerRPC(float value, float modHealth)
     {
         net_CurrentHealth.Value -= value;
-        RecalculateTotalHealth();
+        RecalculateTotalHealth(modHealth);
     }
 
-    public void RecalculateTotalHealth()
+    public void RecalculateTotalHealth(float modHealth)
     {
-        float healthFromModifiers = GetModifierFloat(StatType.Health);
-
-        if (IsServer)
-        {
-            net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
-        }
-        else
-        {
-            RecalculateTotalHealthServerRPC(healthFromModifiers);
-        }
-    }
-
-    [ServerRpc]
-    void RecalculateTotalHealthServerRPC(float healthFromModifiers)
-    {
-        net_TotalHealth.Value = net_BaseHealth.Value + healthFromModifiers;
+        if (!IsServer) return;
+        net_TotalHealth.Value = net_BaseHealth.Value + modHealth;
     }
 
     #region Damage
@@ -252,46 +240,50 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     #region Health
     public void IncreaseHealth(int amount)
     {
+        float modHealth = GetModifierFloat(StatType.Health);
+
         if (IsServer)
         {
             net_BaseHealth.Value += amount;
             net_CurrentHealth.Value += amount;
-            RecalculateTotalHealth();
+            RecalculateTotalHealth(modHealth);
         }
         else
         {
-            IncreaseHealthServerRPC(amount);
+            IncreaseHealthServerRPC(amount, modHealth);
         }
     }
 
     [ServerRpc]
-    void IncreaseHealthServerRPC(int amount)
+    void IncreaseHealthServerRPC(int amount, float modHealth)
     {
         net_BaseHealth.Value += amount;
         net_CurrentHealth.Value += amount;
-        RecalculateTotalHealth();
+        RecalculateTotalHealth(modHealth);
     }
 
     public void DecreaseHealth(int amount)
     {
+        float modHealth = GetModifierFloat(StatType.Health);
+
         if (IsServer)
         {
             net_BaseHealth.Value -= amount;
             net_CurrentHealth.Value -= amount;
-            RecalculateTotalHealth();
+            RecalculateTotalHealth(modHealth);
         }
         else
         {
-            DecreaseHealthServerRPC(amount);
+            DecreaseHealthServerRPC(amount, modHealth);
         }
     }
 
     [ServerRpc]
-    void DecreaseHealthServerRPC(int amount)
+    void DecreaseHealthServerRPC(int amount, float modHealth)
     {
         net_BaseHealth.Value -= amount;
         net_CurrentHealth.Value -= amount;
-        RecalculateTotalHealth();
+        RecalculateTotalHealth(modHealth);
     }
     #endregion
 

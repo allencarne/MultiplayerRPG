@@ -45,7 +45,9 @@ public class PlayerSave : NetworkBehaviour
             inventory.LoadInventory();
             equipment.LoadEquipment();
             exp.Initialize();
-            stats.RecalculateTotalHealth();
+
+            float modHealth = stats.GetModifierFloat(StatType.Health);
+            stats.RecalculateTotalHealth(modHealth);
 
             statsInitialized = true;
         }
