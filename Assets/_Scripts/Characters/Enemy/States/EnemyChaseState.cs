@@ -1,17 +1,20 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
-    private const float ANIMATION_UPDATE_INTERVAL = 0.1f; // 10 times per second
-    private float nextAnimationUpdateTime;
+    float updateInterval = 0.1f;
+    float updateTime;
+
+    bool canRollUlt = true;
+    bool canRollSpecial = true;
 
     public override void StartState(EnemyStateMachine owner)
     {
         if (!owner.IsServer) return;
 
         owner.EnemyAnimator.Play("Chase");
-        nextAnimationUpdateTime = Time.time;
+        updateTime = Time.time;
     }
 
     public override void UpdateState(EnemyStateMachine owner)
@@ -34,13 +37,13 @@ public class EnemyChaseState : EnemyState
 
         owner.MoveTowardsTarget(owner.Target.position);
 
-        if (Time.time >= nextAnimationUpdateTime)
+        if (Time.time >= updateTime)
         {
             Vector2 direction = (owner.Target.position - owner.transform.position).normalized;
             owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
             owner.EnemyAnimator.SetFloat("Vertical", direction.y);
 
-            nextAnimationUpdateTime = Time.time + ANIMATION_UPDATE_INTERVAL;
+            updateTime = Time.time + updateInterval;
         }
     }
 
@@ -66,8 +69,23 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
             {
-                owner.SetState(EnemyStateMachine.State.Ultimate);
-                return;
+                if (!canRollUlt) return;
+                canRollUlt = false;
+
+                int roll = Random.Range(0, 2);
+                if (roll == 0)
+                {
+                    // Failed the Roll - Do not Ult
+                    StartCoroutine(RollUltimate());
+                    return;
+                }
+                else
+                {
+                    // Passed the Roll - Ult
+                    canRollUlt = true;
+                    owner.SetState(EnemyStateMachine.State.Ultimate);
+                    return;
+                }
             }
         }
 
@@ -75,8 +93,23 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanSpecial && !owner.CrowdControl.silence.IsSilenced)
             {
-                owner.SetState(EnemyStateMachine.State.Special);
-                return;
+                if (!canRollSpecial) return;
+                canRollSpecial = false;
+
+                int roll = Random.Range(0, 2);
+                if (roll == 0)
+                {
+                    // Failed the Roll - Do not Special
+                    StartCoroutine(RollSpecial());
+                    return;
+                }
+                else
+                {
+                    // Passed the Roll - Special
+                    canRollSpecial = true;
+                    owner.SetState(EnemyStateMachine.State.Special);
+                    return;
+                }
             }
         }
 
@@ -88,6 +121,18 @@ public class EnemyChaseState : EnemyState
                 return;
             }
         }
+    }
+
+    IEnumerator RollUltimate()
+    {
+        yield return new WaitForSeconds(.2f);
+        canRollUlt = true;
+    }
+
+    IEnumerator RollSpecial()
+    {
+        yield return new WaitForSeconds(.2f);
+        canRollSpecial = true;
     }
 
     public void HandleDeAggro(EnemyStateMachine owner)

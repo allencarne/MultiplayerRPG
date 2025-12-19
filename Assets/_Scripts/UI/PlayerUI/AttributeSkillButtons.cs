@@ -27,18 +27,22 @@ public class AttributeSkillButtons : MonoBehaviour
 
     private void OnEnable()
     {
-        exp.OnLevelUp.AddListener(HandleAttributes);
-        exp.OnLevelUp.AddListener(HandleAllSkills);
+        stats.PlayerLevel.OnValueChanged += OnLevelChanged;
         ap.OnStatsApplied.AddListener(HandleAttributes);
         skillPanel.OnSkillSelected.AddListener(HandleAllSkills);
     }
 
     private void OnDisable()
     {
-        exp.OnLevelUp.RemoveListener(HandleAttributes);
-        exp.OnLevelUp.RemoveListener(HandleAllSkills);
+        stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
         ap.OnStatsApplied.RemoveListener(HandleAttributes);
         skillPanel.OnSkillSelected.RemoveListener(HandleAllSkills);
+    }
+
+    void OnLevelChanged(int oldValue, int newValue)
+    {
+        HandleAttributes();
+        HandleAllSkills();
     }
 
     private void Start()
@@ -47,9 +51,6 @@ public class AttributeSkillButtons : MonoBehaviour
         {
             isMobile = true;
         }
-
-        HandleAttributes();
-        HandleAllSkills();
     }
 
     public void HandleAttributes()

@@ -23095,15 +23095,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   ShowTopMostFoldoutHeaderGroup: 1
-  Health:
+  net_BaseHP:
     m_InternalValue: 0
-  MaxHealth:
+  net_CurrentHP:
     m_InternalValue: 0
-  Speed: 0
-  Damage: 0
-  AttackSpeed: 0
-  CoolDownReduction: 0
-  Armor: 0
+  net_TotalHP:
+    m_InternalValue: 0
+  BaseSpeed: 0
+  BaseArmor: 0
+  BaseDamage: 0
+  BaseAS: 0
+  BaseCDR: 0
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
