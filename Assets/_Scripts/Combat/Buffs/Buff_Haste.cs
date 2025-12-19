@@ -1,11 +1,11 @@
 using System.Collections;
-using TMPro;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Buff_Haste : NetworkBehaviour, IHasteable
 {
-    StatModifier mod = new StatModifier();
+    private List<StatModifier> activeModifiers = new List<StatModifier>();
 
     [SerializeField] CharacterStats stats;
     [SerializeField] DeBuffs deBuffs;
@@ -13,169 +13,35 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject buff_Haste;
 
-    [HideInInspector] public float hastePercent = 0.036f;
-    [HideInInspector] public int HasteStacks;
-    GameObject durationHasteUI = null;
-    GameObject conditionalHasteUI = null;
-    float hasteElapsed = 0f;
-    float hasteTotal = 0f;
-    int durationHasteStacks = 0;
-    int conditionalHasteStacks = 0;
-    bool IsHasted => TotalHasteStacks > 0;
-    public int TotalHasteStacks => durationHasteStacks + conditionalHasteStacks;
+    private int maxStacks = 25;
+    public int TotalStacks => activeModifiers.Count;
 
-    private void Update()
+
+    public void StartHaste(int stacks, float duration)
     {
-        UpdateHasteUI();
-    }
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
 
-    public void StartHaste(int stacks, float? duration = null)
-    {
-        if (!IsOwner) return;
-
-        if (IsServer)
+        for (int i = 0; i < stacksToAdd; i++)
         {
-            if (duration.HasValue)
-                StartCoroutine(Initialize(stacks, duration.Value));
-        }
-        else
-        {
-            if (duration.HasValue)
-                RequestServerRPC(stacks, duration.Value);
+            StartCoroutine(Duration(1, duration));
         }
     }
 
-    [ServerRpc]
-    void RequestServerRPC(int stacks, float duration)
+    IEnumerator Duration(int stackValue, float duration)
     {
-        StartCoroutine(Initialize(stacks, duration));
-    }
-
-    IEnumerator Initialize(int stacks, float duration)
-    {
-        durationHasteStacks += stacks;
-        durationHasteStacks = Mathf.Min(durationHasteStacks, 25);
-
-        UpdateHasteUI();
-        CalculateSpeed(false);
-
-        if (duration > hasteTotal - hasteElapsed)
+        StatModifier mod = new StatModifier
         {
-            BroadcastClientRPC(durationHasteStacks, duration);
-        }
+            statType = StatType.Speed,
+            value = stackValue
+        };
+
+        activeModifiers.Add(mod);
+        stats.AddModifier(mod);
 
         yield return new WaitForSeconds(duration);
 
-        durationHasteStacks -= stacks;
-        durationHasteStacks = Mathf.Max(durationHasteStacks, 0);
-
-        UpdateHasteUI();
-        CalculateSpeed(true);
-
-        BroadcastClientRPC(durationHasteStacks);
-    }
-
-    [ClientRpc]
-    void BroadcastClientRPC(int stacks, float remaining = -1f)
-    {
-        if (stacks > 0)
-        {
-            if (durationHasteUI == null)
-                durationHasteUI = Instantiate(buff_Haste, buffBar.transform);
-
-            durationHasteUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
-
-            if (remaining > 0f)
-            {
-                hasteElapsed = 0f;
-                hasteTotal = remaining;
-            }
-        }
-        else
-        {
-            if (durationHasteUI != null)
-            {
-                Destroy(durationHasteUI);
-                durationHasteUI = null;
-            }
-
-            hasteElapsed = 0f;
-            hasteTotal = 0f;
-        }
-    }
-
-    void CalculateSpeed(bool isCompleted)
-    {
-        if (isCompleted)
-        {
-            stats.RemoveModifier(mod);
-            return;
-        }
-
-        mod.value = HasteStacks;
-        mod.statType = StatType.Speed;
-        stats.AddModifier(mod);
-    }
-
-    void UpdateHasteUI()
-    {
-        if (hasteTotal > 0f && durationHasteUI != null)
-        {
-            hasteElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(hasteElapsed / hasteTotal);
-
-            StatusEffects ui = durationHasteUI.GetComponent<StatusEffects>();
-            if (ui != null) ui.UpdateFill(fill);
-        }
-    }
-
-    public void StartConditionalHaste(int stacks)
-    {
-        if (!IsOwner) return;
-
-        if (IsServer)
-        {
-            InitializeConditional(stacks);
-        }
-        else
-        {
-            RequestConditionalServerRPC(stacks);
-        }
-    }
-
-    [ServerRpc]
-    void RequestConditionalServerRPC(int stacks)
-    {
-        InitializeConditional(stacks);
-    }
-
-    void InitializeConditional(int stacks)
-    {
-        conditionalHasteStacks += stacks;
-        conditionalHasteStacks = Mathf.Clamp(conditionalHasteStacks, 0, 25);
-
-        UpdateHasteUI();
-        CalculateSpeed(false);
-        BroadcastConditionalClientRPC(conditionalHasteStacks);
-    }
-
-    [ClientRpc]
-    void BroadcastConditionalClientRPC(int stacks)
-    {
-        if (stacks > 0)
-        {
-            if (conditionalHasteUI == null)
-                conditionalHasteUI = Instantiate(buff_Haste, buffBar.transform);
-
-            conditionalHasteUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
-        }
-        else
-        {
-            if (conditionalHasteUI != null)
-            {
-                Destroy(conditionalHasteUI);
-                conditionalHasteUI = null;
-            }
-        }
+        activeModifiers.Remove(mod);
+        stats.RemoveModifier(mod);
     }
 }
