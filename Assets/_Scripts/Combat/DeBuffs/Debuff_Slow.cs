@@ -33,7 +33,8 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
-            value = -stackValue
+            value = -stackValue,
+            source = ModSource.Debuff
         };
 
         activeModifiers.Add(mod);

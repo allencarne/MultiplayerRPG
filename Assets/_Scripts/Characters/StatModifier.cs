@@ -4,6 +4,7 @@ public class StatModifier
 {
     public StatType statType;
     public int value;
+    public ModSource source;
 }
 
 public enum StatType
@@ -13,4 +14,11 @@ public enum StatType
     AttackSpeed,
     CoolDown,
     Speed
+}
+
+public enum ModSource
+{
+    Equipment,
+    Buff,
+    Debuff
 }

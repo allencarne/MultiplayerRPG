@@ -149,6 +149,8 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void ApplyModifier(StatModifier mod, bool apply)
     {
+        mod.source = ModSource.Equipment;
+
         if (apply)
         {
             stats.AddModifier(mod);

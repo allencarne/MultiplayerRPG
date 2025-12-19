@@ -36,27 +36,35 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDeath;
 
-    public int GetModifierInt(StatType type)
+    public int GetModifierInt(StatType type, ModSource? source = null)
     {
         int value = 0;
-
         foreach (StatModifier mod in modifiers)
         {
-            if (mod.statType == type) value += mod.value;
+            if (mod.statType == type)
+            {
+                if (source == null || mod.source == source)
+                {
+                    value += mod.value;
+                }
+            }
         }
-
         return value;
     }
 
-    public float GetModifierFloat(StatType type)
+    public float GetModifierFloat(StatType type, ModSource? source = null)
     {
         float value = 0;
-
         foreach (StatModifier mod in modifiers)
         {
-            if (mod.statType == type) value += mod.value;
+            if (mod.statType == type)
+            {
+                if (source == null || mod.source == source)
+                {
+                    value += mod.value;
+                }
+            }
         }
-
         return value;
     }
 

@@ -33,7 +33,8 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
-            value = stackValue
+            value = stackValue,
+            source = ModSource.Buff
         };
 
         activeModifiers.Add(mod);
