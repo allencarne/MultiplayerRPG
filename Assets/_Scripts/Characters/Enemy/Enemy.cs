@@ -62,6 +62,8 @@ public class Enemy : NetworkBehaviour
         if (IsDummy) PatienceBar.Patience.Value = 0;
 
         TargetAttacker(attackerID);
+        EventParticipate(attackerID);
+
         UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
     }
 
@@ -69,7 +71,7 @@ public class Enemy : NetworkBehaviour
     {
         if (IsDummy) return;
 
-        PlayerEventParticipation(attackerID);
+        EventDeath(attackerID);
         NPCEventParticipation(attackerID);
 
         Transform attackerPosition = attackerID.GetComponent<Transform>();
@@ -84,15 +86,28 @@ public class Enemy : NetworkBehaviour
         stateMachine.SetState(EnemyStateMachine.State.Death);
     }
 
-    void PlayerEventParticipation(NetworkObject attackerID)
+    void EventDeath(NetworkObject attackerID)
     {
         Player player = attackerID.GetComponent<Player>();
         if (player != null && TotemReference != null)
         {
             switch (TotemReference.CurrentEvent)
             {
-                case SwarmEvent swarm: swarm.EnemyDeath(player); break;
-                case BossEvent boss: boss.EnemyDeath(player); break;
+                case SwarmEvent swarm: swarm.EnemyDeath(); break;
+                case BossEvent boss: boss.EnemyDeath(); break;
+            }
+        }
+    }
+
+    void EventParticipate(NetworkObject attackerID)
+    {
+        Player player = attackerID.GetComponent<Player>();
+        if (player != null && TotemReference != null)
+        {
+            switch (TotemReference.CurrentEvent)
+            {
+                case SwarmEvent swarm: swarm.Participate(player); break;
+                case BossEvent boss: boss.Participate(player); break;
             }
         }
     }

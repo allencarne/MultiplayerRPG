@@ -64,15 +64,18 @@ public class BossEvent : NetworkBehaviour, ITotemEvent
         isActive = true;
     }
 
-    public void EnemyDeath(Player player)
+    public void Participate(Player player)
     {
-        enemyCount--;
-        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{maxEnemies} Enemies";
-
         if (player != null && !totem.participants.Contains(player))
         {
             totem.participants.Add(player);
         }
+    }
+
+    public void EnemyDeath()
+    {
+        enemyCount--;
+        totem.NetEventObjective.Value = $"{(spawnedEnemies.Count - enemyCount)}/{maxEnemies} Enemies";
     }
 
     public void DeathByNPC()
