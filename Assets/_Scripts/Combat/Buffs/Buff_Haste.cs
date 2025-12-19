@@ -112,7 +112,7 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
             return;
         }
 
-        mod.value = TotalHasteStacks;
+        mod.value = HasteStacks;
         mod.statType = StatType.Speed;
         stats.AddModifier(mod);
     }

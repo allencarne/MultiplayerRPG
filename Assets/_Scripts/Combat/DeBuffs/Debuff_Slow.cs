@@ -112,7 +112,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
             return;
         }
 
-        mod.value = -TotalSlowStacks;
+        mod.value = -SlowStacks;
         mod.statType = StatType.Speed;
         stats.AddModifier(mod);
     }
