@@ -11,5 +11,6 @@ public enum StatType
     Damage,
     Health,
     AttackSpeed,
-    CoolDown
+    CoolDown,
+    Speed
 }

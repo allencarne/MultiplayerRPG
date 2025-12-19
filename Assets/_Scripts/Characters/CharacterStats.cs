@@ -11,15 +11,16 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> net_TotalHP = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Stats")]
-    public float BaseSpeed;
     public float BaseArmor;
 
     public int BaseDamage;
     public float BaseAS;
     public float BaseCDR;
+    public float BaseSpeed;
     public int TotalDamage => BaseDamage + GetModifierInt(StatType.Damage);
     public float TotalAS => BaseAS + GetModifierFloat(StatType.AttackSpeed);
     public float TotalCDR => BaseCDR + GetModifierFloat(StatType.CoolDown);
+    public float TotalSpeed => BaseSpeed + GetModifierFloat(StatType.Speed);
 
     [Header("List")]
     public List<StatModifier> modifiers = new List<StatModifier>();

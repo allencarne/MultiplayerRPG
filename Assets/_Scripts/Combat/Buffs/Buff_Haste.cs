@@ -3,8 +3,10 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Buff_Haste : NetworkBehaviour
+public class Buff_Haste : NetworkBehaviour, IHasteable
 {
+    StatModifier mod = new StatModifier();
+
     [SerializeField] CharacterStats stats;
     [SerializeField] DeBuffs deBuffs;
 
@@ -55,7 +57,7 @@ public class Buff_Haste : NetworkBehaviour
         durationHasteStacks = Mathf.Min(durationHasteStacks, 25);
 
         UpdateHasteUI();
-        CalculateSpeed();
+        CalculateSpeed(false);
 
         if (duration > hasteTotal - hasteElapsed)
         {
@@ -68,7 +70,7 @@ public class Buff_Haste : NetworkBehaviour
         durationHasteStacks = Mathf.Max(durationHasteStacks, 0);
 
         UpdateHasteUI();
-        CalculateSpeed();
+        CalculateSpeed(true);
 
         BroadcastClientRPC(durationHasteStacks);
     }
@@ -102,13 +104,17 @@ public class Buff_Haste : NetworkBehaviour
         }
     }
 
-    void CalculateSpeed()
+    void CalculateSpeed(bool isCompleted)
     {
-        float hasteMultiplier = TotalHasteStacks * hastePercent;
-        float slowMultiplier = deBuffs.slow.TotalSlowStacks * deBuffs.slow.slowPercent;
-        float multiplier = 1 + hasteMultiplier - slowMultiplier;
+        if (isCompleted)
+        {
+            stats.RemoveModifier(mod);
+            return;
+        }
 
-        if (stats != null) stats.BaseSpeed = stats.BaseSpeed * multiplier;
+        mod.value = TotalHasteStacks;
+        mod.statType = StatType.Speed;
+        stats.AddModifier(mod);
     }
 
     void UpdateHasteUI()
@@ -118,7 +124,7 @@ public class Buff_Haste : NetworkBehaviour
             hasteElapsed += Time.deltaTime;
             float fill = Mathf.Clamp01(hasteElapsed / hasteTotal);
 
-            var ui = durationHasteUI.GetComponent<StatusEffects>();
+            StatusEffects ui = durationHasteUI.GetComponent<StatusEffects>();
             if (ui != null) ui.UpdateFill(fill);
         }
     }
@@ -149,7 +155,7 @@ public class Buff_Haste : NetworkBehaviour
         conditionalHasteStacks = Mathf.Clamp(conditionalHasteStacks, 0, 25);
 
         UpdateHasteUI();
-        CalculateSpeed();
+        CalculateSpeed(false);
         BroadcastConditionalClientRPC(conditionalHasteStacks);
     }
 

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class SlowOnTrigger : NetworkBehaviour
 {
-    [HideInInspector] public int Stacks;
-    [HideInInspector] public float Duration;
-    [HideInInspector] public NetworkObject attacker;
+    public int Stacks;
+    public float Duration;
+    public NetworkObject attacker;
 
-    [HideInInspector] public bool IgnorePlayer;
-    [HideInInspector] public bool IgnoreEnemy;
-    [HideInInspector] public bool IgnoreNPC;
+    public bool IgnorePlayer;
+    public bool IgnoreEnemy;
+    public bool IgnoreNPC;
 
     private HashSet<NetworkObject> slowedObjects = new HashSet<NetworkObject>();
 

@@ -202,7 +202,7 @@ public class NPCStateMachine : NetworkBehaviour
         }
 
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        NpcRB.linearVelocity = direction * npc.stats.BaseSpeed;
+        NpcRB.linearVelocity = direction * npc.stats.TotalSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)

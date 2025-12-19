@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prefab_Plants_Plumeria_Yellow
       objectReference: {fileID: 0}
+    - target: {fileID: 4415022472426526357, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 962536595
+      objectReference: {fileID: 0}
     - target: {fileID: 8060441590951296984, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -63,5 +67,43 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3405344731805143505, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2958211550500521572}
   m_SourcePrefab: {fileID: 100100000, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+--- !u!1 &245765086956382165 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3405344731805143505, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+  m_PrefabInstance: {fileID: 3182660611259774468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2958211550500521572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245765086956382165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab4135712b612e34fbc0b4aaf307df9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HasteOnTrigger
+  ShowTopMostFoldoutHeaderGroup: 1
+  Stacks: 2
+  Duration: 5
+  attacker: {fileID: 1256041928422432913}
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0
+--- !u!114 &1256041928422432913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4415022472426526357, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+  m_PrefabInstance: {fileID: 3182660611259774468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject

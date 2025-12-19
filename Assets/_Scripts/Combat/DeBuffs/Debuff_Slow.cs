@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Debuff_Slow : NetworkBehaviour, ISlowable
 {
+    StatModifier mod = new StatModifier();
+
     [SerializeField] CharacterStats stats;
     [SerializeField] Buffs buffs;
 
@@ -55,7 +57,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         durationSlowStacks = Mathf.Min(durationSlowStacks, 25);
 
         UpdateSlowUI();
-        CalculateSpeed();
+        CalculateSpeed(false);
 
         if (duration > slowTotal - slowElapsed)
         {
@@ -68,7 +70,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         durationSlowStacks = Mathf.Max(durationSlowStacks, 0);
 
         UpdateSlowUI();
-        CalculateSpeed();
+        CalculateSpeed(true);
 
         BroadcastClientRPC(durationSlowStacks);
     }
@@ -102,17 +104,17 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         }
     }
 
-    void CalculateSpeed()
+    void CalculateSpeed(bool isCompleted)
     {
-        float hasteMultiplier = buffs.haste.TotalHasteStacks * buffs.haste.hastePercent;
-        float slowMultiplier = TotalSlowStacks * slowPercent;
-        float multiplier = 1 + hasteMultiplier - slowMultiplier;
-
-        if (stats != null)
+        if (isCompleted)
         {
-            float speed = stats.BaseSpeed * multiplier;
-            stats.BaseSpeed = Mathf.Max(speed, 0.1f);
+            stats.RemoveModifier(mod);
+            return;
         }
+
+        mod.value = -TotalSlowStacks;
+        mod.statType = StatType.Speed;
+        stats.AddModifier(mod);
     }
 
     void UpdateSlowUI()
@@ -122,7 +124,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
             slowElapsed += Time.deltaTime;
             float fill = Mathf.Clamp01(slowElapsed / slowTotal);
 
-            var ui = durationSlowUI.GetComponent<StatusEffects>();
+            StatusEffects ui = durationSlowUI.GetComponent<StatusEffects>();
             if (ui != null) ui.UpdateFill(fill);
         }
     }
@@ -153,7 +155,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         conditionalSlowStacks = Mathf.Clamp(conditionalSlowStacks, 0, 25);
 
         UpdateSlowUI();
-        CalculateSpeed();
+        CalculateSpeed(false);
         BroadcastConditionalClientRPC(conditionalSlowStacks);
     }
 

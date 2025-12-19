@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   buffBar: {fileID: 8671912296722552889}
   buff_Regeneration: {fileID: 435407050109934694, guid: 2ebaaffc2197ecc4e895282f733dce81, type: 3}
 --- !u!1 &286103111848336678
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
@@ -1614,15 +1614,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
   ShowTopMostFoldoutHeaderGroup: 1
-  Health:
+  net_BaseHP:
     m_InternalValue: 0
-  MaxHealth:
+  net_CurrentHP:
     m_InternalValue: 0
-  Speed: 0
-  Damage: 0
-  AttackSpeed: 0
-  CoolDownReduction: 0
-  Armor: 0
+  net_TotalHP:
+    m_InternalValue: 0
+  BaseArmor: 0
+  BaseDamage: 0
+  BaseAS: 0
+  BaseCDR: 0
+  BaseSpeed: 0
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -2963,7 +2965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
@@ -3337,7 +3339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   deBuffs: {fileID: 1913103621938294649}
   buffBar: {fileID: 8671912296722552889}
   buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
@@ -3627,11 +3629,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  enemy: {fileID: 5006461325889791442}
-  npc: {fileID: 0}
-  patienceBarFill: {fileID: 1073209790744301300}
   Patience:
     m_InternalValue: 0
+  patienceBarFill: {fileID: 1073209790744301300}
+  enemy: {fileID: 5006461325889791442}
+  npc: {fileID: 0}
 --- !u!114 &8128619070399711013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3697,7 +3699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 0}
+  stats: {fileID: 878784667173873402}
   buffs: {fileID: 6402268282429907237}
   debuffBar: {fileID: 3479727012297293821}
   debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}

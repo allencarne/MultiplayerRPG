@@ -53,7 +53,7 @@ public class AttributeUI : MonoBehaviour
         totalCDR.text = StringBuildFloat(stats.TotalCDR, stats.BaseCDR, stats.GetModifierFloat(StatType.CoolDown));
 
         // Speed
-        totalSpeed.text = stats.BaseSpeed.ToString("F2");
+        totalSpeed.text = StringBuildFloat(stats.TotalSpeed, stats.BaseSpeed, stats.GetModifierFloat(StatType.Speed));
 
         // Endurance
         enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
