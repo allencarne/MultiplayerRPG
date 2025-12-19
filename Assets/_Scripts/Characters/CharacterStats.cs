@@ -20,7 +20,9 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public int TotalDamage => BaseDamage + GetModifierInt(StatType.Damage);
     public float TotalAS => BaseAS + GetModifierFloat(StatType.AttackSpeed);
     public float TotalCDR => BaseCDR + GetModifierFloat(StatType.CoolDown);
-    public float TotalSpeed => BaseSpeed + GetModifierFloat(StatType.Speed);
+    public float TotalSpeed => Mathf.Max(BaseSpeed + GetModifierFloat(StatType.Speed), minSpeed);
+
+    float minSpeed = .2f;
 
     [Header("List")]
     public List<StatModifier> modifiers = new List<StatModifier>();
