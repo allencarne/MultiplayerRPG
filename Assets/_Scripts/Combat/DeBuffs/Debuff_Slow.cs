@@ -75,12 +75,12 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         if (IsServer)
         {
             UpdateUIClientRPC(TotalStacks);
-            DestroeyUIClientRPC();
+            DestroeyUIClientRPC(TotalStacks);
         }
         else
         {
             UpdateUIServerRPC(TotalStacks);
-            DestroeyUIServerRPC();
+            DestroeyUIServerRPC(TotalStacks);
         }
     }
 
@@ -128,17 +128,17 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     }
 
     [ClientRpc]
-    void DestroeyUIClientRPC()
+    void DestroeyUIClientRPC(float stacks)
     {
-        if (TotalStacks == 0)
+        if (stacks == 0)
         {
             if (slowUI != null) Destroy(slowUI);
         }
     }
 
     [ServerRpc]
-    void DestroeyUIServerRPC()
+    void DestroeyUIServerRPC(float stacks)
     {
-        DestroeyUIClientRPC();
+        DestroeyUIClientRPC(stacks);
     }
 }
