@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     List<StatModifier> activeModifiers = new List<StatModifier>();
     float slowPercent = 0.10f;
     int maxStacks = 9;
+    float currentRemainingTime = 0f;
     int TotalStacks => activeModifiers.Count;
-    float longestDuration = 0f;
 
     [Header("Components")]
     [SerializeField] CharacterStats stats;
@@ -26,24 +27,29 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
         if (stacksToAdd <= 0) return;
 
-        longestDuration = Mathf.Max(longestDuration, duration);
+        if (duration > currentRemainingTime)
+        {
+            currentRemainingTime = duration;
+
+            if (slowUI == null)
+            {
+                slowUI = Instantiate(debuff_Slow, debuffBar.transform);
+            }
+
+            StatusEffects se = slowUI.GetComponent<StatusEffects>();
+            se.StartUI(duration);
+            slowUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        }
 
         for (int i = 0; i < stacksToAdd; i++)
         {
             StartCoroutine(Duration(duration));
-        }
-
-        if (slowUI != null)
-        {
-            StatusEffects se = slowUI.GetComponent<StatusEffects>();
-            se.StartUI(longestDuration);
         }
     }
 
     IEnumerator Duration(float duration)
     {
         float multiplier = stats.BaseSpeed * slowPercent;
-
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
@@ -54,18 +60,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         activeModifiers.Add(mod);
         stats.AddModifier(mod);
 
-        if (TotalStacks == 1)
-        {
-            slowUI = Instantiate(debuff_Slow, debuffBar.transform);
-
-            StatusEffects se = slowUI.GetComponent<StatusEffects>();
-            if (slowUI != null)
-            {
-                longestDuration = duration;
-                se.StartUI(duration);
-            }
-        }
-
         yield return new WaitForSeconds(duration);
 
         activeModifiers.Remove(mod);
@@ -73,8 +67,15 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
         if (TotalStacks == 0)
         {
-            longestDuration = 0f;
             if (slowUI != null) Destroy(slowUI);
+        }
+    }
+
+    void Update()
+    {
+        if (currentRemainingTime > 0)
+        {
+            currentRemainingTime -= Time.deltaTime;
         }
     }
 }

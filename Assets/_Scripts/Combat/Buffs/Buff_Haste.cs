@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class Buff_Haste : NetworkBehaviour, IHasteable
 {
-    private List<StatModifier> activeModifiers = new List<StatModifier>();
+    [Header("Variables")]
+    List<StatModifier> activeModifiers = new List<StatModifier>();
+    float hastePercent = 0.10f;
+    int maxStacks = 9;
+    int TotalStacks => activeModifiers.Count;
+    float activeTime = 0f;
 
+    [Header("Components")]
     [SerializeField] CharacterStats stats;
     [SerializeField] DeBuffs deBuffs;
 
+    [Header("UI")]
     [SerializeField] GameObject buffBar;
     [SerializeField] GameObject buff_Haste;
-
-    private int maxStacks = 25;
-    public int TotalStacks => activeModifiers.Count;
+    GameObject hasteUI;
 
 
     public void StartHaste(int stacks, float duration)
@@ -24,16 +29,17 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
 
         for (int i = 0; i < stacksToAdd; i++)
         {
-            StartCoroutine(Duration(1, duration));
+            StartCoroutine(Duration(duration));
         }
     }
 
-    IEnumerator Duration(int stackValue, float duration)
+    IEnumerator Duration(float duration)
     {
+        float multiplier = stats.BaseSpeed * hastePercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
-            value = stackValue,
+            value = multiplier,
             source = ModSource.Buff
         };
 
