@@ -29,15 +29,14 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
         if (duration > currentRemainingTime)
         {
-            currentRemainingTime = duration;
-
-            if (slowUI == null)
+            if (IsServer)
             {
-                slowUI = Instantiate(debuff_Slow, debuffBar.transform);
+                StartUIClientRPC(duration);
             }
-
-            StatusEffects se = slowUI.GetComponent<StatusEffects>();
-            se.StartUI(duration);
+            else
+            {
+                StartUIServerRPC(duration);
+            }
         }
 
         for (int i = 0; i < stacksToAdd; i++)
@@ -59,26 +58,29 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         activeModifiers.Add(mod);
         stats.AddModifier(mod);
 
-        UpdateStackText();
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+        }
 
         yield return new WaitForSeconds(duration);
 
         activeModifiers.Remove(mod);
         stats.RemoveModifier(mod);
 
-        UpdateStackText();
-
-        if (TotalStacks == 0)
+        if (IsServer)
         {
-            if (slowUI != null) Destroy(slowUI);
+            UpdateUIClientRPC(TotalStacks);
+            DestroeyUIClientRPC();
         }
-    }
-
-    void UpdateStackText()
-    {
-        if (slowUI != null)
+        else
         {
-            slowUI.GetComponentInChildren<TextMeshProUGUI>().text = TotalStacks.ToString();
+            UpdateUIServerRPC(TotalStacks);
+            DestroeyUIServerRPC();
         }
     }
 
@@ -88,5 +90,55 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         {
             currentRemainingTime -= Time.deltaTime;
         }
+    }
+
+    [ClientRpc]
+    void StartUIClientRPC(float duration)
+    {
+        currentRemainingTime = duration;
+
+        if (slowUI == null)
+        {
+            slowUI = Instantiate(debuff_Slow, debuffBar.transform);
+        }
+
+        StatusEffects se = slowUI.GetComponent<StatusEffects>();
+        se.StartUI(duration);
+    }
+
+    [ServerRpc]
+    void StartUIServerRPC(float duration)
+    {
+        StartUIClientRPC(duration);
+    }
+
+    [ClientRpc]
+    void UpdateUIClientRPC(float stacks)
+    {
+        if (slowUI != null)
+        {
+            slowUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+        }
+    }
+
+    [ServerRpc]
+    void UpdateUIServerRPC(float stacks)
+    {
+        UpdateUIClientRPC(stacks);
+    }
+
+    [ClientRpc]
+    void DestroeyUIClientRPC()
+    {
+        if (TotalStacks == 0)
+        {
+            if (slowUI != null) Destroy(slowUI);
+        }
+    }
+
+    [ServerRpc]
+    void DestroeyUIServerRPC()
+    {
+        DestroeyUIClientRPC();
     }
 }
