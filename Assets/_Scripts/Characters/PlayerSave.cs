@@ -182,7 +182,7 @@ public class PlayerSave : NetworkBehaviour
         stats.Fury.Value = 0;
         stats.Endurance.Value = end;
 
-        float modHealth = stats.GetModifierFloat(StatType.Health);
+        float modHealth = stats.GetModifier(StatType.Health);
         stats.RecalculateTotalHealth(modHealth);
     }
 

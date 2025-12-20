@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Debuff_Slow : NetworkBehaviour, ISlowable
 {
     private List<StatModifier> activeModifiers = new List<StatModifier>();
+    float slowPercent = 0.10f;
+    private int maxStacks = 9;
+    public int TotalStacks => activeModifiers.Count;
 
     [SerializeField] CharacterStats stats;
     [SerializeField] Buffs buffs;
 
     [SerializeField] GameObject debuffBar;
     [SerializeField] GameObject debuff_Slow;
-
-    private int maxStacks = 25;
-    public int TotalStacks => activeModifiers.Count;
 
     public void StartSlow(int stacks, float duration)
     {
@@ -24,25 +23,37 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
         for (int i = 0; i < stacksToAdd; i++)
         {
-            StartCoroutine(Duration(1, duration));
+            StartCoroutine(Duration(duration));
         }
     }
 
-    IEnumerator Duration(int stackValue, float duration)
+    IEnumerator Duration(float duration)
     {
+        float multiplier = stats.BaseSpeed * slowPercent;
+
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
-            value = -stackValue,
+            value = -multiplier,
             source = ModSource.Debuff
         };
 
         activeModifiers.Add(mod);
         stats.AddModifier(mod);
 
+        if (TotalStacks == 1 && debuff_Slow != null)
+        {
+            // Add UI
+        }
+
         yield return new WaitForSeconds(duration);
 
         activeModifiers.Remove(mod);
         stats.RemoveModifier(mod);
+
+        if (TotalStacks == 0 && debuff_Slow != null)
+        {
+            // Remove UI
+        }
     }
 }

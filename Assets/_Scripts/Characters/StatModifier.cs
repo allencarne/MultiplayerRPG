@@ -5,7 +5,6 @@ public class StatModifier
     public float value;
     public StatType statType;
     public ModSource source;
-    public ModType modType;
 }
 
 public enum StatType
@@ -22,10 +21,4 @@ public enum ModSource
     Equipment,
     Buff,
     Debuff
-}
-
-public enum ModType
-{
-    Flat,
-    Percentage
 }

@@ -17,10 +17,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public float BaseAS;
     public float BaseCDR;
     public float BaseSpeed;
-    public float TotalDamage => BaseDamage + GetModifierFloat(StatType.Damage);
-    public float TotalAS => BaseAS + GetModifierFloat(StatType.AttackSpeed);
-    public float TotalCDR => BaseCDR + GetModifierFloat(StatType.CoolDown);
-    public float TotalSpeed => Mathf.Max(BaseSpeed + GetModifierFloat(StatType.Speed), minSpeed);
+    public float TotalDamage => BaseDamage + GetModifier(StatType.Damage);
+    public float TotalAS => BaseAS + GetModifier(StatType.AttackSpeed);
+    public float TotalCDR => BaseCDR + GetModifier(StatType.CoolDown);
+    public float TotalSpeed => Mathf.Max(BaseSpeed + GetModifier(StatType.Speed), minSpeed);
 
     float minSpeed = .2f;
 
@@ -36,7 +36,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDeath;
 
-    public float GetModifierFloat(StatType type, ModSource? source = null)
+    public float GetModifier(StatType type, ModSource? source = null)
     {
         float value = 0;
         foreach (StatModifier mod in modifiers)
@@ -138,7 +138,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public void AddModifier(StatModifier modifier)
     {
         modifiers.Add(modifier);
-        float modHealth = GetModifierFloat(StatType.Health);
+        float modHealth = GetModifier(StatType.Health);
 
 
         if (modifier.statType == StatType.Health)
@@ -167,7 +167,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (modifiers.Count == 0) return;
 
         modifiers.Remove(modifier);
-        float modHealth = GetModifierFloat(StatType.Health);
+        float modHealth = GetModifier(StatType.Health);
 
         if (modifier.statType == StatType.Health)
         {
@@ -238,7 +238,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     #region Health
     public void IncreaseHealth(int amount)
     {
-        float modHealth = GetModifierFloat(StatType.Health);
+        float modHealth = GetModifier(StatType.Health);
 
         if (IsServer)
         {
@@ -262,7 +262,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     public void DecreaseHealth(int amount)
     {
-        float modHealth = GetModifierFloat(StatType.Health);
+        float modHealth = GetModifier(StatType.Health);
 
         if (IsServer)
         {

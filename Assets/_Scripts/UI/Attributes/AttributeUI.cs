@@ -42,44 +42,44 @@ public class AttributeUI : MonoBehaviour
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
         // Health
-        totalHealth.text = StringBuildFloat(
+        totalHealth.text = StringBuild(
             stats.net_TotalHP.Value,
             stats.net_BaseHP.Value,
-            stats.GetModifierFloat(StatType.Health, ModSource.Equipment),
-            stats.GetModifierFloat(StatType.Health, ModSource.Buff),
-            stats.GetModifierFloat(StatType.Health, ModSource.Debuff));
+            stats.GetModifier(StatType.Health, ModSource.Equipment),
+            stats.GetModifier(StatType.Health, ModSource.Buff),
+            stats.GetModifier(StatType.Health, ModSource.Debuff));
 
         // Damage
-        totalDamage.text = StringBuildFloat(
+        totalDamage.text = StringBuild(
             stats.TotalDamage,
             stats.BaseDamage,
-            stats.GetModifierFloat(StatType.Damage, ModSource.Equipment),
-            stats.GetModifierFloat(StatType.Damage, ModSource.Buff),
-            stats.GetModifierFloat(StatType.Damage, ModSource.Debuff));
+            stats.GetModifier(StatType.Damage, ModSource.Equipment),
+            stats.GetModifier(StatType.Damage, ModSource.Buff),
+            stats.GetModifier(StatType.Damage, ModSource.Debuff));
 
         // Attack Speed
-        totalAttackSpeed.text = StringBuildFloat(
+        totalAttackSpeed.text = StringBuild(
             stats.TotalAS,
             stats.BaseAS,
-            stats.GetModifierFloat(StatType.AttackSpeed, ModSource.Equipment),
-            stats.GetModifierFloat(StatType.AttackSpeed, ModSource.Buff),
-            stats.GetModifierFloat(StatType.AttackSpeed, ModSource.Debuff));
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Equipment),
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Buff),
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff));
 
         // Cooldown Reduction (CDR)
-        totalCDR.text = StringBuildFloat(
+        totalCDR.text = StringBuild(
             stats.TotalCDR,
             stats.BaseCDR,
-            stats.GetModifierFloat(StatType.CoolDown, ModSource.Equipment),
-            stats.GetModifierFloat(StatType.CoolDown, ModSource.Buff),
-            stats.GetModifierFloat(StatType.CoolDown, ModSource.Debuff));
+            stats.GetModifier(StatType.CoolDown, ModSource.Equipment),
+            stats.GetModifier(StatType.CoolDown, ModSource.Buff),
+            stats.GetModifier(StatType.CoolDown, ModSource.Debuff));
 
         // Speed
-        totalSpeed.text = StringBuildFloat(
+        totalSpeed.text = StringBuild(
             stats.TotalSpeed,
             stats.BaseSpeed,
-            stats.GetModifierFloat(StatType.Speed, ModSource.Equipment),
-            stats.GetModifierFloat(StatType.Speed, ModSource.Buff),
-            stats.GetModifierFloat(StatType.Speed, ModSource.Debuff));
+            stats.GetModifier(StatType.Speed, ModSource.Equipment),
+            stats.GetModifier(StatType.Speed, ModSource.Buff),
+            stats.GetModifier(StatType.Speed, ModSource.Debuff));
 
         // Endurance
         enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
@@ -88,7 +88,7 @@ public class AttributeUI : MonoBehaviour
         totalArmor.text = stats.BaseArmor.ToString();
     }
 
-    string StringBuildFloat(float total, float value, float equipment, float buff, float debuff)
+    string StringBuild(float total, float value, float equipment, float buff, float debuff)
     {
         float totalMods = equipment + buff + debuff;
 
