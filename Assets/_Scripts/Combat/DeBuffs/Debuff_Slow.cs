@@ -38,7 +38,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
             StatusEffects se = slowUI.GetComponent<StatusEffects>();
             se.StartUI(duration);
-            slowUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
         }
 
         for (int i = 0; i < stacksToAdd; i++)
@@ -60,14 +59,26 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         activeModifiers.Add(mod);
         stats.AddModifier(mod);
 
+        UpdateStackText();
+
         yield return new WaitForSeconds(duration);
 
         activeModifiers.Remove(mod);
         stats.RemoveModifier(mod);
 
+        UpdateStackText();
+
         if (TotalStacks == 0)
         {
             if (slowUI != null) Destroy(slowUI);
+        }
+    }
+
+    void UpdateStackText()
+    {
+        if (slowUI != null)
+        {
+            slowUI.GetComponentInChildren<TextMeshProUGUI>().text = TotalStacks.ToString();
         }
     }
 
