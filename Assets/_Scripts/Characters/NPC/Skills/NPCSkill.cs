@@ -16,7 +16,7 @@ public abstract class NPCSkill : NetworkBehaviour
     [SerializeField] protected GameObject TelegraphPrefab;
 
     [Header("Stats")]
-    [SerializeField] protected int SkillDamage;
+    [SerializeField] protected float SkillDamage;
     [SerializeField] protected float SkillRange;
     [SerializeField] protected float SkillForce;
     [SerializeField] protected float SkillDuration;
@@ -47,7 +47,7 @@ public abstract class NPCSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimDirection;
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
-    [HideInInspector] protected int AttackerDamage;
+    [HideInInspector] protected float AttackerDamage;
 
     public virtual void StartSkill(NPCStateMachine owner)
     {
@@ -287,7 +287,7 @@ public abstract class NPCSkill : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, int damage)
+    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, float damage)
     {
         SpawnPosition = spawnPosition;
         AimOffset = aimOffset;

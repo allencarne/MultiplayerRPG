@@ -21,7 +21,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     [SerializeField] protected GameObject TelegraphPrefab;
 
     [Header("Stats")]
-    [SerializeField] protected int SkillDamage;
+    [SerializeField] protected float SkillDamage;
     [SerializeField] protected float SkillRange;
     [SerializeField] protected float SkillForce;
     [SerializeField] protected float SkillDuration;
@@ -62,7 +62,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimDirection;
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
-    [HideInInspector] protected int AttackerDamage;
+    [HideInInspector] protected float AttackerDamage;
     bool isBasic = false;
 
     public virtual void StartSkill(PlayerStateMachine owner)
@@ -336,7 +336,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, int damage, ulong attackerID)
+    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, float damage, ulong attackerID)
     {
         SpawnPosition = spawnPosition;
         AimOffset = aimOffset;

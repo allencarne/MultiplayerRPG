@@ -50,7 +50,7 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifierFloat(StatType.Health, ModSource.Debuff));
 
         // Damage
-        totalDamage.text = StringBuildInt(
+        totalDamage.text = StringBuildFloat(
             stats.TotalDamage,
             stats.BaseDamage,
             stats.GetModifierInt(StatType.Damage, ModSource.Equipment),

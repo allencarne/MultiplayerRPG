@@ -155,7 +155,7 @@ public class PlayerSave : NetworkBehaviour
         float endrech = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
 
         stats.BaseSpeed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
-        stats.BaseDamage = PlayerPrefs.GetInt($"{slot}Damage", 1);
+        stats.BaseDamage = PlayerPrefs.GetFloat($"{slot}Damage", 1);
         stats.BaseAS = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
         stats.BaseCDR = PlayerPrefs.GetFloat($"{slot}CDR", 1);
         stats.BaseArmor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
@@ -227,7 +227,7 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);
 
         PlayerPrefs.SetFloat($"{slot}Speed", stats.BaseSpeed);
-        PlayerPrefs.SetInt($"{slot}Damage", stats. BaseDamage);
+        PlayerPrefs.SetFloat($"{slot}Damage", stats. BaseDamage);
         PlayerPrefs.SetFloat($"{slot}AttackSpeed", stats.BaseAS);
         PlayerPrefs.SetFloat($"{slot}CDR", stats.BaseCDR);
         PlayerPrefs.SetFloat($"{slot}Armor", stats.BaseArmor);

@@ -9,8 +9,8 @@ public class DamageOnTrigger : NetworkBehaviour
 
     [HideInInspector] public NetworkObject attacker;
 
-    [HideInInspector] public int AbilityDamage;
-    [HideInInspector] public int CharacterDamage;
+    [HideInInspector] public float AbilityDamage;
+    [HideInInspector] public float CharacterDamage;
 
     [HideInInspector] public bool CanGenerateFury;
     [HideInInspector] public bool IsBreakable;

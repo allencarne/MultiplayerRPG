@@ -13,11 +13,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [Header("Stats")]
     public float BaseArmor;
 
-    public int BaseDamage;
+    public float BaseDamage;
     public float BaseAS;
     public float BaseCDR;
     public float BaseSpeed;
-    public int TotalDamage => BaseDamage + GetModifierInt(StatType.Damage);
+    public float TotalDamage => BaseDamage + GetModifierFloat(StatType.Damage);
     public float TotalAS => BaseAS + GetModifierFloat(StatType.AttackSpeed);
     public float TotalCDR => BaseCDR + GetModifierFloat(StatType.CoolDown);
     public float TotalSpeed => Mathf.Max(BaseSpeed + GetModifierFloat(StatType.Speed), minSpeed);

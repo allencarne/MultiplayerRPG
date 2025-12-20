@@ -22,3 +22,9 @@ public enum ModSource
     Buff,
     Debuff
 }
+
+public enum ModifierType
+{
+    Flat,
+    Percentage
+}

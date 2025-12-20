@@ -14,7 +14,7 @@ public abstract class EnemySkill : NetworkBehaviour
     [SerializeField] protected GameObject TelegraphPrefab;
 
     [Header("Stats")]
-    [SerializeField] protected int SkillDamage;
+    [SerializeField] protected float SkillDamage;
     [SerializeField] protected float SkillRange;
     [SerializeField] protected float SkillForce;
     [SerializeField] protected float SkillDuration;
