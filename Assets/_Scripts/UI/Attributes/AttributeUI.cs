@@ -94,22 +94,52 @@ public class AttributeUI : MonoBehaviour
 
         if (totalMods == 0)
         {
-            return total.ToString();
+            return FormatValue(total);
         }
         else
         {
             List<string> modStrings = new List<string>();
 
             if (equipment != 0)
-                modStrings.Add($"<color=#33C4FF>{equipment:+0;-0}</color>");
+            {
+                modStrings.Add($"<color=#33C4FF>{FormatModifier(equipment)}</color>");
+            }
 
             if (buff != 0)
-                modStrings.Add($"<color=#33FF33>{buff:+0;-0}</color>");
+            {
+                modStrings.Add($"<color=#33FF33>{FormatModifier(buff)}</color>");
+            }
 
             if (debuff != 0)
-                modStrings.Add($"<color=#FF3333>{debuff:+0;-0}</color>");
+            {
+                modStrings.Add($"<color=#FF3333>{FormatModifier(debuff)}</color>");
+            }
 
-            return $"{total} ({value} {string.Join(" ", modStrings)})";
+            return $"{FormatValue(total)} ({FormatValue(value)} {string.Join(" ", modStrings)})";
+        }
+    }
+
+    string FormatModifier(float modifier)
+    {
+        if (modifier % 1 == 0)
+        {
+            return $"{modifier:+0;-0}";
+        }
+        else
+        {
+            return $"{modifier:+0.0;-0.0}";
+        }
+    }
+
+    string FormatValue(float val)
+    {
+        if (val % 1 == 0)
+        {
+            return $"{val:0}";
+        }
+        else
+        {
+            return $"{val:0.0}";
         }
     }
 
