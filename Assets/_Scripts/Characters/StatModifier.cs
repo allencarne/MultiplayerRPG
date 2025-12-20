@@ -2,9 +2,10 @@
 [System.Serializable]
 public class StatModifier
 {
+    public float value;
     public StatType statType;
-    public int value;
     public ModSource source;
+    public ModType modType;
 }
 
 public enum StatType
@@ -23,7 +24,7 @@ public enum ModSource
     Debuff
 }
 
-public enum ModifierType
+public enum ModType
 {
     Flat,
     Percentage
