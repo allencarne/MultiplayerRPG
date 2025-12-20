@@ -5,25 +5,38 @@ using UnityEngine;
 
 public class Debuff_Slow : NetworkBehaviour, ISlowable
 {
-    private List<StatModifier> activeModifiers = new List<StatModifier>();
+    [Header("Variables")]
+    List<StatModifier> activeModifiers = new List<StatModifier>();
     float slowPercent = 0.10f;
-    private int maxStacks = 9;
-    public int TotalStacks => activeModifiers.Count;
+    int maxStacks = 9;
+    int TotalStacks => activeModifiers.Count;
+    float longestDuration = 0f;
 
+    [Header("Components")]
     [SerializeField] CharacterStats stats;
     [SerializeField] Buffs buffs;
 
+    [Header("UI")]
     [SerializeField] GameObject debuffBar;
     [SerializeField] GameObject debuff_Slow;
+    GameObject slowUI;
 
     public void StartSlow(int stacks, float duration)
     {
         int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
         if (stacksToAdd <= 0) return;
 
+        longestDuration = Mathf.Max(longestDuration, duration);
+
         for (int i = 0; i < stacksToAdd; i++)
         {
             StartCoroutine(Duration(duration));
+        }
+
+        if (slowUI != null)
+        {
+            StatusEffects se = slowUI.GetComponent<StatusEffects>();
+            se.StartUI(longestDuration);
         }
     }
 
@@ -41,9 +54,16 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         activeModifiers.Add(mod);
         stats.AddModifier(mod);
 
-        if (TotalStacks == 1 && debuff_Slow != null)
+        if (TotalStacks == 1)
         {
-            // Add UI
+            slowUI = Instantiate(debuff_Slow, debuffBar.transform);
+
+            StatusEffects se = slowUI.GetComponent<StatusEffects>();
+            if (slowUI != null)
+            {
+                longestDuration = duration;
+                se.StartUI(duration);
+            }
         }
 
         yield return new WaitForSeconds(duration);
@@ -51,9 +71,10 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         activeModifiers.Remove(mod);
         stats.RemoveModifier(mod);
 
-        if (TotalStacks == 0 && debuff_Slow != null)
+        if (TotalStacks == 0)
         {
-            // Remove UI
+            longestDuration = 0f;
+            if (slowUI != null) Destroy(slowUI);
         }
     }
 }
