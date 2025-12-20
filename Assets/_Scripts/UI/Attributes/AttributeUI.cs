@@ -53,9 +53,9 @@ public class AttributeUI : MonoBehaviour
         totalDamage.text = StringBuildFloat(
             stats.TotalDamage,
             stats.BaseDamage,
-            stats.GetModifierInt(StatType.Damage, ModSource.Equipment),
-            stats.GetModifierInt(StatType.Damage, ModSource.Buff),
-            stats.GetModifierInt(StatType.Damage, ModSource.Debuff));
+            stats.GetModifierFloat(StatType.Damage, ModSource.Equipment),
+            stats.GetModifierFloat(StatType.Damage, ModSource.Buff),
+            stats.GetModifierFloat(StatType.Damage, ModSource.Debuff));
 
         // Attack Speed
         totalAttackSpeed.text = StringBuildFloat(
@@ -91,31 +91,6 @@ public class AttributeUI : MonoBehaviour
     string StringBuildFloat(float total, float value, float equipment, float buff, float debuff)
     {
         float totalMods = equipment + buff + debuff;
-
-        if (totalMods == 0)
-        {
-            return total.ToString();
-        }
-        else
-        {
-            List<string> modStrings = new List<string>();
-
-            if (equipment != 0)
-                modStrings.Add($"<color=#33C4FF>{equipment:+0;-0}</color>");
-
-            if (buff != 0)
-                modStrings.Add($"<color=#33FF33>{buff:+0;-0}</color>");
-
-            if (debuff != 0)
-                modStrings.Add($"<color=#FF3333>{debuff:+0;-0}</color>");
-
-            return $"{total} ({value} {string.Join(" ", modStrings)})";
-        }
-    }
-
-    string StringBuildInt(int total, int value, int equipment, int buff, int debuff)
-    {
-        int totalMods = equipment + buff + debuff;
 
         if (totalMods == 0)
         {
