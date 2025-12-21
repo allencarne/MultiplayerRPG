@@ -25,6 +25,8 @@ public class StatusEffects : MonoBehaviour
 
             yield return null;
         }
+
+        imageFill.fillAmount = 0;
     }
 
 
