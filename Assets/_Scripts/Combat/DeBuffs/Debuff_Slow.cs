@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -8,10 +9,11 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 {
     [Header("Variables")]
     List<StatModifier> activeModifiers = new List<StatModifier>();
+    List<StatModifier> fixedModifiers = new List<StatModifier>();
     float slowPercent = 0.10f;
     int maxStacks = 9;
     float currentRemainingTime = 0f;
-    int TotalStacks => activeModifiers.Count;
+    int TotalStacks => activeModifiers.Count + fixedModifiers.Count;
 
     [Header("Components")]
     [SerializeField] CharacterStats stats;
@@ -154,16 +156,36 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     {
         if (!IsOwner) return;
 
+        if (stacks < 0)
+        {
+            if (fixedModifiers.Count < 1) return;
+
+            int stacksToRemove = Mathf.Abs(stacks);
+            Debug.Log(stacksToRemove);
+
+            stacksToRemove = Mathf.Min(stacksToRemove, fixedModifiers.Count);
+            Debug.Log(stacksToRemove);
+
+            for (int i = 0; i < stacksToRemove; i++)
+            {
+                RemoveStackFixed();
+            }
+
+            return;
+        }
+
+
         int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
         if (stacksToAdd <= 0) return;
 
         for (int i = 0; i < stacksToAdd; i++)
         {
-            StackFixed();
+            Debug.Log(stacks);
+            AddStackFixed();
         }
     }
 
-    void StackFixed()
+    void AddStackFixed()
     {
         float multiplier = stats.BaseSpeed * slowPercent;
         StatModifier mod = new StatModifier
@@ -173,7 +195,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
             source = ModSource.Debuff
         };
 
-        activeModifiers.Add(mod);
+        fixedModifiers.Add(mod);
         stats.AddModifier(mod);
 
 
@@ -186,6 +208,25 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         {
             StartFixedUIServerRPC();
             UpdateUIServerRPC(TotalStacks);
+        }
+    }
+
+    void RemoveStackFixed()
+    {
+        StatModifier modToRemove = fixedModifiers[0];
+
+        fixedModifiers.Remove(modToRemove);
+        stats.RemoveModifier(modToRemove);
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroeyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroeyUIServerRPC(TotalStacks);
         }
     }
 
