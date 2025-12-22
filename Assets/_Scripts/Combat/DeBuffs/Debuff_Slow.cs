@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -161,10 +160,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
             if (fixedModifiers.Count < 1) return;
 
             int stacksToRemove = Mathf.Abs(stacks);
-            Debug.Log(stacksToRemove);
-
             stacksToRemove = Mathf.Min(stacksToRemove, fixedModifiers.Count);
-            Debug.Log(stacksToRemove);
 
             for (int i = 0; i < stacksToRemove; i++)
             {
@@ -180,7 +176,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
         for (int i = 0; i < stacksToAdd; i++)
         {
-            Debug.Log(stacks);
             AddStackFixed();
         }
     }
@@ -243,5 +238,35 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     void StartFixedUIServerRPC()
     {
         StartFixedUIClientRPC();
+    }
+
+    public void CleanseSlow()
+    {
+        StopAllCoroutines();
+
+        while (activeModifiers.Count > 0)
+        {
+            StatModifier mod = activeModifiers[0];
+            activeModifiers.Remove(mod);
+            stats.RemoveModifier(mod);
+        }
+
+        while (fixedModifiers.Count > 0)
+        {
+            StatModifier mod = fixedModifiers[0];
+            fixedModifiers.Remove(mod);
+            stats.RemoveModifier(mod);
+        }
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroeyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroeyUIServerRPC(TotalStacks);
+        }
     }
 }

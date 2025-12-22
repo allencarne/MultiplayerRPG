@@ -7,4 +7,9 @@ public class DeBuffs : NetworkBehaviour
     public Debuff_Impede impede;
     public Debuff_Vulnerability vulnerability;
     public Debuff_Exhaust exhaust;
+
+    public void CleanseAllDebuffs()
+    {
+        slow?.CleanseSlow();
+    }
 }

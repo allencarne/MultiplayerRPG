@@ -55,6 +55,11 @@ public class Player : NetworkBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            stateMachine.DeBuffs.CleanseAllDebuffs();
+        }
+
         if (InCombat)
         {
             CombatTime += Time.deltaTime;
