@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
-using UnityEngine;
+﻿using Unity.Netcode;
 
 public class Buffs : NetworkBehaviour
 {
@@ -14,4 +11,9 @@ public class Buffs : NetworkBehaviour
     public Buff_Protection protection;
     public Buff_Swiftness swiftness;
     public Buff_Regeneration regeneration;
+
+    public void PurgeAllDebuffs()
+    {
+        haste?.PurgeHaste();
+    }
 }
