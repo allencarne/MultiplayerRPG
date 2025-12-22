@@ -1,179 +1,268 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Debuff_Exhaust : NetworkBehaviour
+public class Debuff_Exhaust : NetworkBehaviour, IExhaustable
 {
+    [Header("Variables")]
+    List<StatModifier> durationModifiers = new List<StatModifier>();
+    List<StatModifier> fixedModifiers = new List<StatModifier>();
+    float stackPercent = 0.10f;
+    int maxStacks = 9;
+    float remainingTime = 0f;
+    int TotalStacks => durationModifiers.Count + fixedModifiers.Count;
+
+    [Header("Components")]
     [SerializeField] CharacterStats stats;
-    [SerializeField] Buffs buffs;
+    [SerializeField] GameObject UI_Bar;
+    [SerializeField] GameObject UI_Prefab;
+    GameObject UI_Instance;
 
-    [SerializeField] GameObject debuffBar;
-    [SerializeField] GameObject debuff_Exhaust;
-
-    [HideInInspector] public float exhaustPercent = 0.036f;
-    [HideInInspector] public int ExhaustStacks;
-    GameObject durationExhaustUI = null;
-    GameObject conditionalExhaustUI = null;
-    float exhaustElapsed = 0f;
-    float exhaustTotal = 0f;
-    int durationExhaustStacks = 0;
-    int conditionalExhaustStacks = 0;
-    public int TotalExhaustStacks => durationExhaustStacks + conditionalExhaustStacks;
-    bool IsExhausted => TotalExhaustStacks > 0;
-
-    private void Update()
+    void Update()
     {
-        UpdateExhaustUI();
+        if (remainingTime > 0)
+        {
+            remainingTime -= Time.deltaTime;
+        }
     }
 
-    public void StartExhaust(int stacks, float? duration = null)
+    public void StartExhaust(int stacks, float duration)
     {
         if (!IsOwner) return;
 
+        if (duration < 0)
+        {
+            StartExhaustFixed(stacks);
+            return;
+        }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
+
+        if (duration > remainingTime)
+        {
+            if (IsServer)
+            {
+                StartUIClientRPC(duration);
+            }
+            else
+            {
+                StartUIServerRPC(duration);
+            }
+        }
+
+        for (int i = 0; i < stacksToAdd; i++)
+        {
+            StartCoroutine(Duration(duration));
+        }
+    }
+
+    IEnumerator Duration(float duration)
+    {
+        float multiplier = stats.BaseSpeed * stackPercent;
+        StatModifier mod = new StatModifier
+        {
+            statType = StatType.AttackSpeed,
+            value = -multiplier,
+            source = ModSource.Debuff
+        };
+
+        durationModifiers.Add(mod);
+        stats.AddModifier(mod);
+
         if (IsServer)
         {
-            if (duration.HasValue)
-                StartCoroutine(Initialize(stacks, duration.Value));
+            UpdateUIClientRPC(TotalStacks);
         }
         else
         {
-            if (duration.HasValue)
-                RequestServerRPC(stacks, duration.Value);
-        }
-    }
-
-    [ServerRpc]
-    void RequestServerRPC(int stacks, float duration)
-    {
-        StartCoroutine(Initialize(stacks, duration));
-    }
-
-    IEnumerator Initialize(int stacks, float duration)
-    {
-        durationExhaustStacks += stacks;
-        durationExhaustStacks = Mathf.Min(durationExhaustStacks, 25);
-
-        UpdateExhaustUI();
-        CalculateAttackSpeed();
-
-        if (duration > exhaustTotal - exhaustElapsed)
-        {
-            BroadcastClientRPC(durationExhaustStacks, duration);
+            UpdateUIServerRPC(TotalStacks);
         }
 
         yield return new WaitForSeconds(duration);
 
-        durationExhaustStacks -= stacks;
-        durationExhaustStacks = Mathf.Max(durationExhaustStacks, 0);
-
-        UpdateExhaustUI();
-        CalculateAttackSpeed();
-
-        BroadcastClientRPC(durationExhaustStacks);
-    }
-
-    [ClientRpc]
-    void BroadcastClientRPC(int stacks, float remaining = -1f)
-    {
-        if (stacks > 0)
-        {
-            if (durationExhaustUI == null)
-                durationExhaustUI = Instantiate(debuff_Exhaust, debuffBar.transform);
-
-            durationExhaustUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
-
-            if (remaining > 0f)
-            {
-                exhaustElapsed = 0f;
-                exhaustTotal = remaining;
-            }
-        }
-        else
-        {
-            if (durationExhaustUI != null)
-            {
-                Destroy(durationExhaustUI);
-                durationExhaustUI = null;
-            }
-
-            exhaustElapsed = 0f;
-            exhaustTotal = 0f;
-        }
-    }
-
-    void CalculateAttackSpeed()
-    {
-        float swiftnessMultiplier = buffs.swiftness.TotalSwiftnessStacks * buffs.swiftness.swiftnessPercent;
-        float exhaustMultiplier = TotalExhaustStacks * exhaustPercent;
-        float multiplier = 1 + swiftnessMultiplier - exhaustMultiplier;
-
-        if (stats != null)
-        {
-            float attackspeed = stats.BaseAS * multiplier;
-            stats.BaseAS = Mathf.Max(attackspeed, 0.1f);
-        }
-    }
-
-    void UpdateExhaustUI()
-    {
-        if (exhaustTotal > 0f && durationExhaustUI != null)
-        {
-            exhaustElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(exhaustElapsed / exhaustTotal);
-
-            var ui = durationExhaustUI.GetComponent<StatusEffects>();
-            if (ui != null) ui.UpdateFill(fill);
-        }
-    }
-
-    public void StartConditionalExhaust(int stacks)
-    {
-        if (!IsOwner) return;
+        durationModifiers.Remove(mod);
+        stats.RemoveModifier(mod);
 
         if (IsServer)
         {
-            InitializeConditional(stacks);
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
         }
         else
         {
-            RequestConditionalServerRPC(stacks);
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
+        }
+    }
+
+    [ClientRpc]
+    void StartUIClientRPC(float duration)
+    {
+        remainingTime = duration;
+
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
+        se.StartUI(duration);
+    }
+
+    [ServerRpc]
+    void StartUIServerRPC(float duration)
+    {
+        StartUIClientRPC(duration);
+    }
+
+    [ClientRpc]
+    void UpdateUIClientRPC(float stacks)
+    {
+        if (UI_Instance != null)
+        {
+            UI_Instance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
         }
     }
 
     [ServerRpc]
-    void RequestConditionalServerRPC(int stacks)
+    void UpdateUIServerRPC(float stacks)
     {
-        InitializeConditional(stacks);
-    }
-
-    void InitializeConditional(int stacks)
-    {
-        conditionalExhaustStacks += stacks;
-        conditionalExhaustStacks = Mathf.Clamp(conditionalExhaustStacks, 0, 25);
-
-        UpdateExhaustUI();
-        CalculateAttackSpeed();
-        BroadcastConditionalClientRPC(conditionalExhaustStacks);
+        UpdateUIClientRPC(stacks);
     }
 
     [ClientRpc]
-    void BroadcastConditionalClientRPC(int stacks)
+    void DestroyUIClientRPC(float stacks)
     {
-        if (stacks > 0)
+        if (stacks == 0)
         {
-            if (conditionalExhaustUI == null)
-                conditionalExhaustUI = Instantiate(debuff_Exhaust, debuffBar.transform);
+            if (UI_Instance != null) Destroy(UI_Instance);
+        }
+    }
 
-            conditionalExhaustUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    [ServerRpc]
+    void DestroyUIServerRPC(float stacks)
+    {
+        DestroyUIClientRPC(stacks);
+    }
+
+    public void StartExhaustFixed(int stacks)
+    {
+        if (!IsOwner) return;
+
+        if (stacks < 0)
+        {
+            if (fixedModifiers.Count < 1) return;
+
+            int stacksToRemove = Mathf.Abs(stacks);
+            stacksToRemove = Mathf.Min(stacksToRemove, fixedModifiers.Count);
+
+            for (int i = 0; i < stacksToRemove; i++)
+            {
+                RemoveStackFixed();
+            }
+
+            return;
+        }
+
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
+
+        for (int i = 0; i < stacksToAdd; i++)
+        {
+            AddStackFixed();
+        }
+    }
+
+    void AddStackFixed()
+    {
+        float multiplier = stats.BaseSpeed * stackPercent;
+        StatModifier mod = new StatModifier
+        {
+            statType = StatType.AttackSpeed,
+            value = -multiplier,
+            source = ModSource.Debuff
+        };
+
+        fixedModifiers.Add(mod);
+        stats.AddModifier(mod);
+
+        if (IsServer)
+        {
+            StartFixedUIClientRPC();
+            UpdateUIClientRPC(TotalStacks);
         }
         else
         {
-            if (conditionalExhaustUI != null)
-            {
-                Destroy(conditionalExhaustUI);
-                conditionalExhaustUI = null;
-            }
+            StartFixedUIServerRPC();
+            UpdateUIServerRPC(TotalStacks);
+        }
+    }
+
+    void RemoveStackFixed()
+    {
+        StatModifier modToRemove = fixedModifiers[0];
+
+        fixedModifiers.Remove(modToRemove);
+        stats.RemoveModifier(modToRemove);
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
+        }
+    }
+
+    [ClientRpc]
+    void StartFixedUIClientRPC()
+    {
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+    }
+
+    [ServerRpc]
+    void StartFixedUIServerRPC()
+    {
+        StartFixedUIClientRPC();
+    }
+
+    public void CleanseExhaust()
+    {
+        StopAllCoroutines();
+
+        while (durationModifiers.Count > 0)
+        {
+            StatModifier mod = durationModifiers[0];
+            durationModifiers.Remove(mod);
+            stats.RemoveModifier(mod);
+        }
+
+        while (fixedModifiers.Count > 0)
+        {
+            StatModifier mod = fixedModifiers[0];
+            fixedModifiers.Remove(mod);
+            stats.RemoveModifier(mod);
+        }
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
         }
     }
 }

@@ -15,5 +15,9 @@ public class Buffs : NetworkBehaviour
     public void PurgeAllDebuffs()
     {
         haste?.PurgeHaste();
+        might?.PurgeMight();
+        swiftness?.PurgeSwiftness();
+        alacrity?.PurgeAlacrity();
+        protection?.PurgeProtection();
     }
 }

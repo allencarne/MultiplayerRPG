@@ -1,5 +1,5 @@
 
 public interface IImpedeable
 {
-    void StartImpeded(int stacks, float duration);
+    void StartImpede(int stacks, float duration);
 }

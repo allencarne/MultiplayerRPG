@@ -11,5 +11,9 @@ public class DeBuffs : NetworkBehaviour
     public void CleanseAllDebuffs()
     {
         slow?.CleanseSlow();
+        weakness?.CleanseWeakness();
+        impede?.CleanseImpede();
+        vulnerability?.CleanseVulnerability();
+        exhaust?.CleanseExhaust();
     }
 }

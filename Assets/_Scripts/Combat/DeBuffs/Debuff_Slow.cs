@@ -7,27 +7,24 @@ using UnityEngine;
 public class Debuff_Slow : NetworkBehaviour, ISlowable
 {
     [Header("Variables")]
-    List<StatModifier> activeModifiers = new List<StatModifier>();
+    List<StatModifier> durationModifiers = new List<StatModifier>();
     List<StatModifier> fixedModifiers = new List<StatModifier>();
-    float slowPercent = 0.10f;
+    float stackPercent = 0.10f;
     int maxStacks = 9;
-    float currentRemainingTime = 0f;
-    int TotalStacks => activeModifiers.Count + fixedModifiers.Count;
+    float remainingTime = 0f;
+    int TotalStacks => durationModifiers.Count + fixedModifiers.Count;
 
     [Header("Components")]
     [SerializeField] CharacterStats stats;
-    [SerializeField] Buffs buffs;
-
-    [Header("UI")]
-    [SerializeField] GameObject debuffBar;
-    [SerializeField] GameObject debuff_Slow;
-    GameObject slowUI;
+    [SerializeField] GameObject UI_Bar;
+    [SerializeField] GameObject UI_Prefab;
+    GameObject UI_Instance;
 
     void Update()
     {
-        if (currentRemainingTime > 0)
+        if (remainingTime > 0)
         {
-            currentRemainingTime -= Time.deltaTime;
+            remainingTime -= Time.deltaTime;
         }
     }
 
@@ -44,7 +41,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
         if (stacksToAdd <= 0) return;
 
-        if (duration > currentRemainingTime)
+        if (duration > remainingTime)
         {
             if (IsServer)
             {
@@ -64,7 +61,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
     IEnumerator Duration(float duration)
     {
-        float multiplier = stats.BaseSpeed * slowPercent;
+        float multiplier = stats.BaseSpeed * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
@@ -72,7 +69,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
             source = ModSource.Debuff
         };
 
-        activeModifiers.Add(mod);
+        durationModifiers.Add(mod);
         stats.AddModifier(mod);
 
         if (IsServer)
@@ -86,32 +83,32 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
         yield return new WaitForSeconds(duration);
 
-        activeModifiers.Remove(mod);
+        durationModifiers.Remove(mod);
         stats.RemoveModifier(mod);
 
         if (IsServer)
         {
             UpdateUIClientRPC(TotalStacks);
-            DestroeyUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
         }
         else
         {
             UpdateUIServerRPC(TotalStacks);
-            DestroeyUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
         }
     }
 
     [ClientRpc]
     void StartUIClientRPC(float duration)
     {
-        currentRemainingTime = duration;
+        remainingTime = duration;
 
-        if (slowUI == null)
+        if (UI_Instance == null)
         {
-            slowUI = Instantiate(debuff_Slow, debuffBar.transform);
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
 
-        StatusEffects se = slowUI.GetComponent<StatusEffects>();
+        StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
         se.StartUI(duration);
     }
 
@@ -124,9 +121,9 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     [ClientRpc]
     void UpdateUIClientRPC(float stacks)
     {
-        if (slowUI != null)
+        if (UI_Instance != null)
         {
-            slowUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+            UI_Instance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
         }
     }
 
@@ -137,18 +134,18 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     }
 
     [ClientRpc]
-    void DestroeyUIClientRPC(float stacks)
+    void DestroyUIClientRPC(float stacks)
     {
         if (stacks == 0)
         {
-            if (slowUI != null) Destroy(slowUI);
+            if (UI_Instance != null) Destroy(UI_Instance);
         }
     }
 
     [ServerRpc]
-    void DestroeyUIServerRPC(float stacks)
+    void DestroyUIServerRPC(float stacks)
     {
-        DestroeyUIClientRPC(stacks);
+        DestroyUIClientRPC(stacks);
     }
 
     public void StartSlowFixed(int stacks)
@@ -182,7 +179,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
     void AddStackFixed()
     {
-        float multiplier = stats.BaseSpeed * slowPercent;
+        float multiplier = stats.BaseSpeed * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,
@@ -215,21 +212,21 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         if (IsServer)
         {
             UpdateUIClientRPC(TotalStacks);
-            DestroeyUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
         }
         else
         {
             UpdateUIServerRPC(TotalStacks);
-            DestroeyUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
         }
     }
 
     [ClientRpc]
     void StartFixedUIClientRPC()
     {
-        if (slowUI == null)
+        if (UI_Instance == null)
         {
-            slowUI = Instantiate(debuff_Slow, debuffBar.transform);
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
     }
 
@@ -243,10 +240,10 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
     {
         StopAllCoroutines();
 
-        while (activeModifiers.Count > 0)
+        while (durationModifiers.Count > 0)
         {
-            StatModifier mod = activeModifiers[0];
-            activeModifiers.Remove(mod);
+            StatModifier mod = durationModifiers[0];
+            durationModifiers.Remove(mod);
             stats.RemoveModifier(mod);
         }
 
@@ -260,12 +257,12 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         if (IsServer)
         {
             UpdateUIClientRPC(TotalStacks);
-            DestroeyUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
         }
         else
         {
             UpdateUIServerRPC(TotalStacks);
-            DestroeyUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
         }
     }
 }

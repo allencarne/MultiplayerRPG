@@ -104,7 +104,7 @@ public class Fury : PlayerSkill
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            _owner.Buffs.swiftness.StartConditionalSwiftness(delta);
+            //_owner.Buffs.swiftness.StartConditionalSwiftness(delta);
         }
 
         furyHasteStacks = newStacks;

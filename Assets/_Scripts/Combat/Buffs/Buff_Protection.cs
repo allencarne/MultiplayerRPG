@@ -1,175 +1,268 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Buff_Protection : NetworkBehaviour
+public class Buff_Protection : NetworkBehaviour, IProtectionable
 {
+    [Header("Variables")]
+    List<StatModifier> durationModifiers = new List<StatModifier>();
+    List<StatModifier> fixedModifiers = new List<StatModifier>();
+    float stackPercent = 0.10f;
+    int maxStacks = 9;
+    float remainingTime = 0f;
+    int TotalStacks => durationModifiers.Count + fixedModifiers.Count;
+
+    [Header("Components")]
     [SerializeField] CharacterStats stats;
-    [SerializeField] DeBuffs deBuffs;
+    [SerializeField] GameObject UI_Bar;
+    [SerializeField] GameObject UI_Prefab;
+    GameObject UI_Instance;
 
-    [SerializeField] GameObject buffBar;
-    [SerializeField] GameObject buff_Protection;
-
-    [HideInInspector] public float protectionPercent = 0.036f;
-    [HideInInspector] public int ProtectionStacks;
-    GameObject durationProtectionUI = null;
-    GameObject conditionalProtectionUI = null;
-    float protectionElapsed = 0f;
-    float protectionTotal = 0f;
-    int durationProtectionStacks = 0;
-    int conditionalProtectionStacks = 0;
-    bool IsProtected => TotalProtectionStacks > 0;
-    public int TotalProtectionStacks => durationProtectionStacks + conditionalProtectionStacks;
-
-    private void Update()
+    void Update()
     {
-        UpdateProtectionUI();
+        if (remainingTime > 0)
+        {
+            remainingTime -= Time.deltaTime;
+        }
     }
 
-    public void StartProtection(int stacks, float? duration = null)
+    public void StartProtection(int stacks, float duration)
     {
         if (!IsOwner) return;
 
+        if (duration < 0)
+        {
+            StartProtectionFixed(stacks);
+            return;
+        }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
+
+        if (duration > remainingTime)
+        {
+            if (IsServer)
+            {
+                StartUIClientRPC(duration);
+            }
+            else
+            {
+                StartUIServerRPC(duration);
+            }
+        }
+
+        for (int i = 0; i < stacksToAdd; i++)
+        {
+            StartCoroutine(Duration(duration));
+        }
+    }
+
+    IEnumerator Duration(float duration)
+    {
+        float multiplier = stats.BaseSpeed * stackPercent;
+        StatModifier mod = new StatModifier
+        {
+            statType = StatType.Armor,
+            value = multiplier,
+            source = ModSource.Buff
+        };
+
+        durationModifiers.Add(mod);
+        stats.AddModifier(mod);
+
         if (IsServer)
         {
-            if (duration.HasValue)
-                StartCoroutine(Initialize(stacks, duration.Value));
+            UpdateUIClientRPC(TotalStacks);
         }
         else
         {
-            if (duration.HasValue)
-                RequestServerRPC(stacks, duration.Value);
-        }
-    }
-
-    [ServerRpc]
-    void RequestServerRPC(int stacks, float duration)
-    {
-        StartCoroutine(Initialize(stacks, duration));
-    }
-
-    IEnumerator Initialize(int stacks, float duration)
-    {
-        durationProtectionStacks += stacks;
-        durationProtectionStacks = Mathf.Min(durationProtectionStacks, 25);
-
-        UpdateProtectionUI();
-        CalculateArmor();
-
-        if (duration > protectionTotal - protectionElapsed)
-        {
-            BroadcastClientRPC(durationProtectionStacks, duration);
+            UpdateUIServerRPC(TotalStacks);
         }
 
         yield return new WaitForSeconds(duration);
 
-        durationProtectionStacks -= stacks;
-        durationProtectionStacks = Mathf.Max(durationProtectionStacks, 0);
-
-        UpdateProtectionUI();
-        CalculateArmor();
-
-        BroadcastClientRPC(durationProtectionStacks);
-    }
-
-    [ClientRpc]
-    void BroadcastClientRPC(int stacks, float remaining = -1f)
-    {
-        if (stacks > 0)
-        {
-            if (durationProtectionUI == null)
-                durationProtectionUI = Instantiate(buff_Protection, buffBar.transform);
-
-            durationProtectionUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
-
-            if (remaining > 0f)
-            {
-                protectionElapsed = 0f;
-                protectionTotal = remaining;
-            }
-        }
-        else
-        {
-            if (durationProtectionUI != null)
-            {
-                Destroy(durationProtectionUI);
-                durationProtectionUI = null;
-            }
-
-            protectionElapsed = 0f;
-            protectionTotal = 0f;
-        }
-    }
-
-    void CalculateArmor()
-    {
-        float protectionMultiplier = TotalProtectionStacks * protectionPercent;
-        float vulnerabilityMultiplier = deBuffs.vulnerability.TotalVulnerabilityStacks * deBuffs.vulnerability.vulnerabilityPercent;
-        float multiplier = 1 + protectionMultiplier - vulnerabilityMultiplier;
-
-        if (stats != null) stats.BaseArmor = stats.BaseArmor * multiplier;
-    }
-
-    void UpdateProtectionUI()
-    {
-        if (protectionTotal > 0f && durationProtectionUI != null)
-        {
-            protectionElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(protectionElapsed / protectionTotal);
-
-            var ui = durationProtectionUI.GetComponent<StatusEffects>();
-            if (ui != null) ui.UpdateFill(fill);
-        }
-    }
-
-    public void StartConditionalProtection(int stacks)
-    {
-        if (!IsOwner) return;
+        durationModifiers.Remove(mod);
+        stats.RemoveModifier(mod);
 
         if (IsServer)
         {
-            InitializeConditional(stacks);
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
         }
         else
         {
-            RequestConditionalServerRPC(stacks);
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
+        }
+    }
+
+    [ClientRpc]
+    void StartUIClientRPC(float duration)
+    {
+        remainingTime = duration;
+
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
+        se.StartUI(duration);
+    }
+
+    [ServerRpc]
+    void StartUIServerRPC(float duration)
+    {
+        StartUIClientRPC(duration);
+    }
+
+    [ClientRpc]
+    void UpdateUIClientRPC(float stacks)
+    {
+        if (UI_Instance != null)
+        {
+            UI_Instance.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
         }
     }
 
     [ServerRpc]
-    void RequestConditionalServerRPC(int stacks)
+    void UpdateUIServerRPC(float stacks)
     {
-        InitializeConditional(stacks);
-    }
-
-    void InitializeConditional(int stacks)
-    {
-        conditionalProtectionStacks += stacks;
-        conditionalProtectionStacks = Mathf.Clamp(conditionalProtectionStacks, 0, 25);
-
-        UpdateProtectionUI();
-        CalculateArmor();
-        BroadcastConditionalClientRPC(conditionalProtectionStacks);
+        UpdateUIClientRPC(stacks);
     }
 
     [ClientRpc]
-    void BroadcastConditionalClientRPC(int stacks)
+    void DestroyUIClientRPC(float stacks)
     {
-        if (stacks > 0)
+        if (stacks == 0)
         {
-            if (conditionalProtectionUI == null)
-                conditionalProtectionUI = Instantiate(buff_Protection, buffBar.transform);
+            if (UI_Instance != null) Destroy(UI_Instance);
+        }
+    }
 
-            conditionalProtectionUI.GetComponentInChildren<TextMeshProUGUI>().text = stacks.ToString();
+    [ServerRpc]
+    void DestroyUIServerRPC(float stacks)
+    {
+        DestroyUIClientRPC(stacks);
+    }
+
+    public void StartProtectionFixed(int stacks)
+    {
+        if (!IsOwner) return;
+
+        if (stacks < 0)
+        {
+            if (fixedModifiers.Count < 1) return;
+
+            int stacksToRemove = Mathf.Abs(stacks);
+            stacksToRemove = Mathf.Min(stacksToRemove, fixedModifiers.Count);
+
+            for (int i = 0; i < stacksToRemove; i++)
+            {
+                RemoveStackFixed();
+            }
+
+            return;
+        }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
+
+        for (int i = 0; i < stacksToAdd; i++)
+        {
+            AddStackFixed();
+        }
+    }
+
+    void AddStackFixed()
+    {
+        float multiplier = stats.BaseSpeed * stackPercent;
+        StatModifier mod = new StatModifier
+        {
+            statType = StatType.Armor,
+            value = multiplier,
+            source = ModSource.Buff
+        };
+
+        fixedModifiers.Add(mod);
+        stats.AddModifier(mod);
+
+
+        if (IsServer)
+        {
+            StartFixedUIClientRPC();
+            UpdateUIClientRPC(TotalStacks);
         }
         else
         {
-            if (conditionalProtectionUI != null)
-            {
-                Destroy(conditionalProtectionUI);
-                conditionalProtectionUI = null;
-            }
+            StartFixedUIServerRPC();
+            UpdateUIServerRPC(TotalStacks);
+        }
+    }
+
+    void RemoveStackFixed()
+    {
+        StatModifier modToRemove = fixedModifiers[0];
+
+        fixedModifiers.Remove(modToRemove);
+        stats.RemoveModifier(modToRemove);
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
+        }
+    }
+
+    [ClientRpc]
+    void StartFixedUIClientRPC()
+    {
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+    }
+
+    [ServerRpc]
+    void StartFixedUIServerRPC()
+    {
+        StartFixedUIClientRPC();
+    }
+
+    public void PurgeProtection()
+    {
+        StopAllCoroutines();
+
+        while (durationModifiers.Count > 0)
+        {
+            StatModifier mod = durationModifiers[0];
+            durationModifiers.Remove(mod);
+            stats.RemoveModifier(mod);
+        }
+
+        while (fixedModifiers.Count > 0)
+        {
+            StatModifier mod = fixedModifiers[0];
+            fixedModifiers.Remove(mod);
+            stats.RemoveModifier(mod);
+        }
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
         }
     }
 }

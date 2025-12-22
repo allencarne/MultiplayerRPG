@@ -13,7 +13,8 @@ public enum StatType
     Health,
     AttackSpeed,
     CoolDown,
-    Speed
+    Speed,
+    Armor
 }
 
 public enum ModSource
