@@ -193,7 +193,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         fixedModifiers.Add(mod);
         stats.AddModifier(mod);
 
-
         if (IsServer)
         {
             StartFixedUIClientRPC();
