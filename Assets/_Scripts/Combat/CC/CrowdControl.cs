@@ -1,6 +1,4 @@
-using System.Collections;
 using Unity.Netcode;
-using UnityEngine;
 
 public class CrowdControl : NetworkBehaviour
 {

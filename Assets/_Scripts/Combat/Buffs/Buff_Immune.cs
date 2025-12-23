@@ -1,110 +1,183 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Buff_Immune : NetworkBehaviour
 {
-    [SerializeField] GameObject buffBar;
-    [SerializeField] GameObject buff_Immune;
-    GameObject immuneInstance;
+    [Header("Variables")]
+    float remainingTime = 0f;
+    int activeBuffs = 0;
+    bool isFixedBuffActive = false;
     public bool IsImmune;
-    private float immuneElapsedTime = 0f;
-    private float immuneTotalDuration = 0f;
-    private float localImmuneElapsed = 0f;
-    private float localImmuneTotal = 0f;
 
-    private void Update()
+    [Header("Components")]
+    [SerializeField] GameObject UI_Bar;
+    [SerializeField] GameObject UI_Prefab;
+    GameObject UI_Instance;
+
+    void Update()
     {
-        UpdateTimer();
-        UpdateUI();
+        if (remainingTime > 0)
+        {
+            remainingTime -= Time.deltaTime;
+        }
     }
 
-    public void StartImmune(float duration)
+    public void StartImmune(float duration, bool isActive = false)
     {
-        if (IsServer)
+        if (!IsOwner) return;
+
+        if (duration < 0)
         {
-            Initialize(duration);
+            StartImmuneFixed(isActive);
+            return;
+        }
+
+        if (duration > remainingTime)
+        {
+            if (IsServer)
+            {
+                StartUIClientRPC(duration);
+            }
+            else
+            {
+                StartUIServerRPC(duration);
+            }
+        }
+
+        StartCoroutine(Duration(duration));
+    }
+
+    IEnumerator Duration(float duration)
+    {
+        activeBuffs++;
+        IsImmune = true;
+
+        yield return new WaitForSeconds(duration);
+
+        activeBuffs--;
+
+        if (activeBuffs == 0 && isFixedBuffActive == false)
+        {
+            IsImmune = false;
+
+            if (IsServer)
+            {
+                DestroyUIClientRPC();
+            }
+            else
+            {
+                DestroyUIServerRPC();
+            }
+        }
+    }
+
+    [ClientRpc]
+    void StartUIClientRPC(float duration)
+    {
+        remainingTime = duration;
+
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
+        se.StartUI(duration);
+    }
+
+    [ServerRpc]
+    void StartUIServerRPC(float duration)
+    {
+        StartUIClientRPC(duration);
+    }
+
+    [ClientRpc]
+    void DestroyUIClientRPC()
+    {
+        if (UI_Instance != null) Destroy(UI_Instance);
+    }
+
+    [ServerRpc]
+    void DestroyUIServerRPC()
+    {
+        DestroyUIClientRPC();
+    }
+
+    public void StartImmuneFixed(bool isActive)
+    {
+        if (!IsOwner) return;
+
+        if (isActive)
+        {
+            AddStackFixed();
         }
         else
         {
-            RequestServerRPC(duration);
+            RemoveStackFixed();
+        }
+    }
+
+    void AddStackFixed()
+    {
+        isFixedBuffActive = true;
+        IsImmune = true;
+
+        if (IsServer)
+        {
+            StartFixedUIClientRPC();
+        }
+        else
+        {
+            StartFixedUIServerRPC();
+        }
+    }
+
+    void RemoveStackFixed()
+    {
+        isFixedBuffActive = false;
+
+        if (activeBuffs == 0 && isFixedBuffActive == false)
+        {
+            IsImmune = false;
+
+            if (IsServer)
+            {
+                DestroyUIClientRPC();
+            }
+            else
+            {
+                DestroyUIServerRPC();
+            }
+        }
+    }
+
+    [ClientRpc]
+    void StartFixedUIClientRPC()
+    {
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
     }
 
     [ServerRpc]
-    private void RequestServerRPC(float duration)
+    void StartFixedUIServerRPC()
     {
-        Initialize(duration);
+        StartFixedUIClientRPC();
     }
 
-    void Initialize(float duration)
+    public void PurgeImmune()
     {
-        immuneTotalDuration += duration;
+        StopAllCoroutines();
 
-        if (!IsImmune)
+        if (IsServer)
         {
-            IsImmune = true;
-        }
-
-        float remainingTime = immuneTotalDuration - immuneElapsedTime;
-        BroadcastClientRPC(true, remainingTime);
-    }
-
-    [ClientRpc]
-    private void BroadcastClientRPC(bool isImmune, float remainingTime = 0f)
-    {
-        IsImmune = isImmune;
-
-        if (isImmune)
-        {
-            if (immuneInstance == null)
-            {
-                immuneInstance = Instantiate(buff_Immune, buffBar.transform);
-            }
-
-            localImmuneElapsed = 0f;
-            localImmuneTotal = remainingTime;
+            DestroyUIClientRPC();
         }
         else
         {
-            if (immuneInstance != null)
-            {
-                Destroy(immuneInstance);
-            }
-
-            localImmuneElapsed = 0f;
-            localImmuneTotal = 0f;
-        }
-    }
-
-    void UpdateTimer()
-    {
-        if (IsServer && IsImmune)
-        {
-            immuneElapsedTime += Time.deltaTime;
-
-            if (immuneElapsedTime >= immuneTotalDuration)
-            {
-                BroadcastClientRPC(false);
-                IsImmune = false;
-                immuneElapsedTime = 0f;
-                immuneTotalDuration = 0f;
-            }
-        }
-    }
-
-    void UpdateUI()
-    {
-        if (IsImmune && localImmuneTotal > 0f)
-        {
-            localImmuneElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(localImmuneElapsed / localImmuneTotal);
-
-            if (immuneInstance != null)
-            {
-                var ui = immuneInstance.GetComponent<StatusEffects>();
-                if (ui != null)
-                    ui.UpdateFill(fill);
-            }
+            DestroyUIServerRPC();
         }
     }
 }

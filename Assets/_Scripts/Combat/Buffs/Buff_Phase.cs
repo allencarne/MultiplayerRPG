@@ -1,118 +1,191 @@
-using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Buff_Phase : NetworkBehaviour
 {
-    [SerializeField] GameObject buffBar;
-    [SerializeField] GameObject buff_Phase;
-    GameObject phaseInstance;
+    [Header("Variables")]
+    float remainingTime = 0f;
+    int activeBuffs = 0;
+    bool isFixedBuffActive = false;
     public bool IsPhased;
-    private float phaseElapsedTime = 0f;
-    private float phaseTotalDuration = 0f;
-    private float localPhaseElapsed = 0f;
-    private float localPhaseTotal = 0f;
 
-    private void Update()
+    [Header("Components")]
+    [SerializeField] GameObject UI_Bar;
+    [SerializeField] GameObject UI_Prefab;
+    GameObject UI_Instance;
+
+    void Update()
     {
-        UpdateTimer();
-        UpdateUI();
+        if (remainingTime > 0)
+        {
+            remainingTime -= Time.deltaTime;
+        }
     }
 
-    public void StartPhase(float duration)
+    public void StartPhase(float duration, bool isActive = false)
     {
-        if (IsServer)
+        if (!IsOwner) return;
+
+        if (duration < 0)
         {
-            Initialize(duration);
+            StartPhaseFixed(isActive);
+            return;
+        }
+
+        if (duration > remainingTime)
+        {
+            if (IsServer)
+            {
+                StartUIClientRPC(duration);
+            }
+            else
+            {
+                StartUIServerRPC(duration);
+            }
+        }
+
+        StartCoroutine(Duration(duration));
+    }
+
+    IEnumerator Duration(float duration)
+    {
+        activeBuffs++;
+        IsPhased = true;
+
+        Physics2D.IgnoreLayerCollision(6,7,true); // Player Vs Enemy
+        Physics2D.IgnoreLayerCollision(6, 10, true); // Player Vs NPC
+        Physics2D.IgnoreLayerCollision(7, 10, true); // Enemy Vs NPC
+
+        yield return new WaitForSeconds(duration);
+
+        activeBuffs--;
+
+        if (activeBuffs == 0 && isFixedBuffActive == false)
+        {
+            IsPhased = false;
+
+            Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
+            Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
+            Physics2D.IgnoreLayerCollision(7, 10, false); // Enemy Vs NPC
+
+            if (IsServer)
+            {
+                DestroyUIClientRPC();
+            }
+            else
+            {
+                DestroyUIServerRPC();
+            }
+        }
+    }
+
+    [ClientRpc]
+    void StartUIClientRPC(float duration)
+    {
+        remainingTime = duration;
+
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
+        se.StartUI(duration);
+    }
+
+    [ServerRpc]
+    void StartUIServerRPC(float duration)
+    {
+        StartUIClientRPC(duration);
+    }
+
+    [ClientRpc]
+    void DestroyUIClientRPC()
+    {
+        if (UI_Instance != null) Destroy(UI_Instance);
+    }
+
+    [ServerRpc]
+    void DestroyUIServerRPC()
+    {
+        DestroyUIClientRPC();
+    }
+
+    public void StartPhaseFixed(bool isActive)
+    {
+        if (!IsOwner) return;
+
+        if (isActive)
+        {
+            AddStackFixed();
         }
         else
         {
-            RequestServerRPC(duration);
+            RemoveStackFixed();
+        }
+    }
+
+    void AddStackFixed()
+    {
+        isFixedBuffActive = true;
+        IsPhased = true;
+
+        if (IsServer)
+        {
+            StartFixedUIClientRPC();
+        }
+        else
+        {
+            StartFixedUIServerRPC();
+        }
+    }
+
+    void RemoveStackFixed()
+    {
+        isFixedBuffActive = false;
+
+        if (activeBuffs == 0 && isFixedBuffActive == false)
+        {
+            IsPhased = false;
+
+            if (IsServer)
+            {
+                DestroyUIClientRPC();
+            }
+            else
+            {
+                DestroyUIServerRPC();
+            }
+        }
+    }
+
+    [ClientRpc]
+    void StartFixedUIClientRPC()
+    {
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
     }
 
     [ServerRpc]
-    private void RequestServerRPC(float duration)
+    void StartFixedUIServerRPC()
     {
-        Initialize(duration);
+        StartFixedUIClientRPC();
     }
 
-    void Initialize(float duration)
+    public void PurgePhase()
     {
-        phaseTotalDuration += duration;
+        StopAllCoroutines();
 
-        if (!IsPhased)
+        if (IsServer)
         {
-            IsPhased = true;
-        }
-
-        float remainingTime = phaseTotalDuration - phaseElapsedTime;
-        BroadcastClientRPC(true, remainingTime);
-    }
-
-    [ClientRpc]
-    private void BroadcastClientRPC(bool isPhased, float remainingTime = 0f)
-    {
-        IsPhased = isPhased;
-
-        //Physics2D.IgnoreLayerCollision(6, 6, isPhased); // Player vs Player
-        //Physics2D.IgnoreLayerCollision(7, 7, isPhased); // Enemy vs Enemy
-        //Physics2D.IgnoreLayerCollision(10, 10, isPhased); // NPC vs NPC
-        Physics2D.IgnoreLayerCollision(6, 7, isPhased); // Player vs Enemy
-        Physics2D.IgnoreLayerCollision(6, 10, isPhased); // Player vs NPC
-        Physics2D.IgnoreLayerCollision(7, 10, isPhased); // Enemy vs NPC
-
-        if (isPhased)
-        {
-            if (phaseInstance == null)
-            {
-                phaseInstance = Instantiate(buff_Phase, buffBar.transform);
-            }
-
-            localPhaseElapsed = 0f;
-            localPhaseTotal = remainingTime;
+            DestroyUIClientRPC();
         }
         else
         {
-            if (phaseInstance != null)
-            {
-                Destroy(phaseInstance);
-            }
-
-            localPhaseElapsed = 0f;
-            localPhaseTotal = 0f;
-        }
-    }
-
-    void UpdateTimer()
-    {
-        if (IsServer && IsPhased)
-        {
-            phaseElapsedTime += Time.deltaTime;
-
-            if (phaseElapsedTime >= phaseTotalDuration)
-            {
-                BroadcastClientRPC(false);
-                IsPhased = false;
-
-                phaseElapsedTime = 0f;
-                phaseTotalDuration = 0f;
-            }
-        }
-    }
-
-    void UpdateUI()
-    {
-        if (IsPhased && localPhaseTotal > 0f)
-        {
-            localPhaseElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(localPhaseElapsed / localPhaseTotal);
-
-            if (phaseInstance != null)
-            {
-                var ui = phaseInstance.GetComponent<StatusEffects>();
-                if (ui != null) ui.UpdateFill(fill);
-            }
+            DestroyUIServerRPC();
         }
     }
 }
