@@ -262,11 +262,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  deBuffs: {fileID: 5438906521032660789}
-  buffBar: {fileID: 8452951922686297947}
-  buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
-  protectionPercent: 0.036
-  ProtectionStacks: 0
+  UI_Bar: {fileID: 8452951922686297947}
+  UI_Prefab: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
 --- !u!1 &349771496411391183
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,11 +740,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  buffs: {fileID: 6674310060799249892}
-  debuffBar: {fileID: 3896601426424586401}
-  debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
-  weaknessPercent: 0.05
-  WeaknessStacks: 0
+  UI_Bar: {fileID: 3896601426424586401}
+  UI_Prefab: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
 --- !u!1 &1040291535501143895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,11 +1234,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  buffs: {fileID: 6674310060799249892}
-  debuffBar: {fileID: 3896601426424586401}
-  debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
-  vulnerabilityPercent: 0.036
-  VulnerabilityStacks: 0
+  UI_Bar: {fileID: 3896601426424586401}
+  UI_Prefab: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
 --- !u!1 &2893073950735807109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,9 +1470,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  buffBar: {fileID: 8452951922686297947}
-  buff_Immovable: {fileID: 1074361865954493798, guid: 487569e36a7eb3b45a5cb41b21397fdb, type: 3}
   IsImmovable: 0
+  UI_Bar: {fileID: 8452951922686297947}
+  UI_Prefab: {fileID: 1074361865954493798, guid: 487569e36a7eb3b45a5cb41b21397fdb, type: 3}
 --- !u!1 &3377768599964520693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2084,11 +2075,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  deBuffs: {fileID: 5438906521032660789}
-  buffBar: {fileID: 8452951922686297947}
-  buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
-  hastePercent: 0.036
-  HasteStacks: 0
+  UI_Bar: {fileID: 8452951922686297947}
+  UI_Prefab: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
 --- !u!1 &4364326355849705858
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,11 +3163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  buffs: {fileID: 6674310060799249892}
-  debuffBar: {fileID: 3896601426424586401}
-  debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
-  impedePercent: 0.036
-  ImpedeStacks: 0
+  UI_Bar: {fileID: 3896601426424586401}
+  UI_Prefab: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
 --- !u!1 &6274490074705883410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3434,11 +3419,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  buffs: {fileID: 6674310060799249892}
-  debuffBar: {fileID: 3896601426424586401}
-  debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
-  slowPercent: 0.036
-  SlowStacks: 0
+  UI_Bar: {fileID: 3896601426424586401}
+  UI_Prefab: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
 --- !u!1 &6527525202109100029
 GameObject:
   m_ObjectHideFlags: 0
@@ -3489,11 +3471,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  deBuffs: {fileID: 5438906521032660789}
-  buffBar: {fileID: 8452951922686297947}
-  buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
-  alacrityPercent: 0.036
-  AlacrityStacks: 0
+  UI_Bar: {fileID: 8452951922686297947}
+  UI_Prefab: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
 --- !u!1 &6582489857698858953
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,11 +4124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  deBuffs: {fileID: 5438906521032660789}
-  buffBar: {fileID: 8452951922686297947}
-  buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
-  mightPercent: 0.036
-  MightStacks: 0
+  UI_Bar: {fileID: 8452951922686297947}
+  UI_Prefab: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
 --- !u!1 &8182805225150834440
 GameObject:
   m_ObjectHideFlags: 0
@@ -4592,11 +4568,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  buffs: {fileID: 6674310060799249892}
-  debuffBar: {fileID: 3896601426424586401}
-  debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
-  exhaustPercent: 0.036
-  ExhaustStacks: 0
+  UI_Bar: {fileID: 3896601426424586401}
+  UI_Prefab: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
 --- !u!1 &8840773784569927908
 GameObject:
   m_ObjectHideFlags: 0
@@ -4647,11 +4620,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  deBuffs: {fileID: 5438906521032660789}
-  buffBar: {fileID: 8452951922686297947}
-  buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
-  swiftnessPercent: 0.036
-  SwiftnessStacks: 0
+  UI_Bar: {fileID: 8452951922686297947}
+  UI_Prefab: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
 --- !u!1 &8914489462420290876
 GameObject:
   m_ObjectHideFlags: 0

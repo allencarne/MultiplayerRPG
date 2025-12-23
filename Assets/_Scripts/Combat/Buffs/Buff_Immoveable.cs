@@ -1,110 +1,183 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Buff_Immoveable : NetworkBehaviour
 {
-    [SerializeField] GameObject buffBar;
-    [SerializeField] GameObject buff_Immovable;
-    GameObject immovableInstance;
+    [Header("Variables")]
+    float remainingTime = 0f;
+    int activeBuffs = 0;
+    bool isFixedBuffActive = false;
     public bool IsImmovable;
-    private float immovableElapsedTime = 0f;
-    private float immovableTotalDuration = 0f;
-    private float localImmovableElapsed = 0f;
-    private float localImmovableTotal = 0f;
 
-    private void Update()
+    [Header("Components")]
+    [SerializeField] GameObject UI_Bar;
+    [SerializeField] GameObject UI_Prefab;
+    GameObject UI_Instance;
+
+    void Update()
     {
-        UpdateTimer();
-        UpdateUI();
+        if (remainingTime > 0)
+        {
+            remainingTime -= Time.deltaTime;
+        }
     }
 
-    public void StartImmovable(float duration)
+    public void StartImmovable(float duration, bool isActive = false)
     {
-        if (IsServer)
+        if (!IsOwner) return;
+
+        if (duration < 0)
         {
-            Initialize(duration);
+            StartImmovableFixed(isActive);
+            return;
+        }
+
+        if (duration > remainingTime)
+        {
+            if (IsServer)
+            {
+                StartUIClientRPC(duration);
+            }
+            else
+            {
+                StartUIServerRPC(duration);
+            }
+        }
+        
+        StartCoroutine(Duration(duration));
+    }
+
+    IEnumerator Duration(float duration)
+    {
+        activeBuffs++;
+        IsImmovable = true;
+
+        yield return new WaitForSeconds(duration);
+
+        activeBuffs--;
+
+        if (activeBuffs == 0 && isFixedBuffActive == false)
+        {
+            IsImmovable = false;
+
+            if (IsServer)
+            {
+                DestroyUIClientRPC();
+            }
+            else
+            {
+                DestroyUIServerRPC();
+            }
+        }
+    }
+
+    [ClientRpc]
+    void StartUIClientRPC(float duration)
+    {
+        remainingTime = duration;
+
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
+        se.StartUI(duration);
+    }
+
+    [ServerRpc]
+    void StartUIServerRPC(float duration)
+    {
+        StartUIClientRPC(duration);
+    }
+
+    [ClientRpc]
+    void DestroyUIClientRPC()
+    {
+        if (UI_Instance != null) Destroy(UI_Instance);
+    }
+
+    [ServerRpc]
+    void DestroyUIServerRPC()
+    {
+        DestroyUIClientRPC();
+    }
+
+    public void StartImmovableFixed(bool isActive)
+    {
+        if (!IsOwner) return;
+
+        if (isActive)
+        {
+            AddStackFixed();
         }
         else
         {
-            RequestServerRPC(duration);
+            RemoveStackFixed();
+        }
+    }
+
+    void AddStackFixed()
+    {
+        isFixedBuffActive = true;
+        IsImmovable = true;
+
+        if (IsServer)
+        {
+            StartFixedUIClientRPC();
+        }
+        else
+        {
+            StartFixedUIServerRPC();
+        }
+    }
+
+    void RemoveStackFixed()
+    {
+        isFixedBuffActive = false;
+
+        if (activeBuffs == 0 && isFixedBuffActive == false)
+        {
+            IsImmovable = false;
+
+            if (IsServer)
+            {
+                DestroyUIClientRPC();
+            }
+            else
+            {
+                DestroyUIServerRPC();
+            }
+        }
+    }
+
+    [ClientRpc]
+    void StartFixedUIClientRPC()
+    {
+        if (UI_Instance == null)
+        {
+            UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
     }
 
     [ServerRpc]
-    private void RequestServerRPC(float duration)
+    void StartFixedUIServerRPC()
     {
-        Initialize(duration);
+        StartFixedUIClientRPC();
     }
 
-    void Initialize(float duration)
+    public void PurgeImmovable()
     {
-        immovableTotalDuration += duration;
+        StopAllCoroutines();
 
-        if (!IsImmovable)
+        if (IsServer)
         {
-            IsImmovable = true;
-        }
-
-        float remainingTime = immovableTotalDuration - immovableElapsedTime;
-        BroadcastClientRPC(true, remainingTime);
-    }
-
-    [ClientRpc]
-    private void BroadcastClientRPC(bool isImmovable, float remainingTime = 0f)
-    {
-        IsImmovable = isImmovable;
-
-        if (isImmovable)
-        {
-            if (immovableInstance == null)
-            {
-                immovableInstance = Instantiate(buff_Immovable, buffBar.transform);
-            }
-
-            localImmovableElapsed = 0f;
-            localImmovableTotal = remainingTime;
+            DestroyUIClientRPC();
         }
         else
         {
-            if (immovableInstance != null)
-            {
-                Destroy(immovableInstance);
-            }
-
-            localImmovableElapsed = 0f;
-            localImmovableTotal = 0f;
-        }
-    }
-
-    void UpdateTimer()
-    {
-        if (IsServer && IsImmovable)
-        {
-            immovableElapsedTime += Time.deltaTime;
-
-            if (immovableElapsedTime >= immovableTotalDuration)
-            {
-                BroadcastClientRPC(false);
-                IsImmovable = false;
-                immovableElapsedTime = 0f;
-                immovableTotalDuration = 0f;
-            }
-        }
-    }
-
-    void UpdateUI()
-    {
-        if (IsImmovable && localImmovableTotal > 0f)
-        {
-            localImmovableElapsed += Time.deltaTime;
-            float fill = Mathf.Clamp01(localImmovableElapsed / localImmovableTotal);
-
-            if (immovableInstance != null)
-            {
-                var ui = immovableInstance.GetComponent<StatusEffects>();
-                if (ui != null)
-                    ui.UpdateFill(fill);
-            }
+            DestroyUIServerRPC();
         }
     }
 }

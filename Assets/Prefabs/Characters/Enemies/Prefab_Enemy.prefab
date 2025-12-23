@@ -157,11 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  buffs: {fileID: 6402268282429907237}
-  debuffBar: {fileID: 3479727012297293821}
-  debuff_Vulnerability: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
-  vulnerabilityPercent: 0.036
-  VulnerabilityStacks: 0
+  UI_Bar: {fileID: 3479727012297293821}
+  UI_Prefab: {fileID: 6097722473400429070, guid: f251496418da9944281c0a68a00bce23, type: 3}
 --- !u!1 &209614150994181623
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,11 +209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  deBuffs: {fileID: 1913103621938294649}
-  buffBar: {fileID: 8671912296722552889}
-  buff_Protection: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
-  protectionPercent: 0.036
-  ProtectionStacks: 0
+  UI_Bar: {fileID: 8671912296722552889}
+  UI_Prefab: {fileID: 8276484775322943229, guid: ad49d085ff819df468633f68a37c59d9, type: 3}
 --- !u!1 &264842691489351360
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,11 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  buffs: {fileID: 6402268282429907237}
-  debuffBar: {fileID: 3479727012297293821}
-  debuff_Slow: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
-  slowPercent: 0.036
-  SlowStacks: 0
+  UI_Bar: {fileID: 3479727012297293821}
+  UI_Prefab: {fileID: 8570272466414074826, guid: 9eb29c2dcdef29448a4b0b5a9ab433d6, type: 3}
 --- !u!1 &574136681238225508
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,11 +523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  deBuffs: {fileID: 1913103621938294649}
-  buffBar: {fileID: 8671912296722552889}
-  buff_Alacrity: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
-  alacrityPercent: 0.036
-  AlacrityStacks: 0
+  UI_Bar: {fileID: 8671912296722552889}
+  UI_Prefab: {fileID: 1483079718561123101, guid: 074cc4480b34a33479f4812b1707a580, type: 3}
 --- !u!1 &1833411625146954988
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,11 +575,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  buffs: {fileID: 6402268282429907237}
-  debuffBar: {fileID: 3479727012297293821}
-  debuff_Impede: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
-  impedePercent: 0.036
-  ImpedeStacks: 0
+  UI_Bar: {fileID: 3479727012297293821}
+  UI_Prefab: {fileID: 718914691044045244, guid: 94e57ec08a1f457409b4c699e328753a, type: 3}
 --- !u!1 &1903429837124387615
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,11 +723,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  buffs: {fileID: 6402268282429907237}
-  debuffBar: {fileID: 3479727012297293821}
-  debuff_Weakness: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
-  weaknessPercent: 0.05
-  WeaknessStacks: 0
+  UI_Bar: {fileID: 3479727012297293821}
+  UI_Prefab: {fileID: 7871674422558325232, guid: 6d2ba68520b602545b25c141027fc5fa, type: 3}
 --- !u!1 &2220218996233081236
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,11 +1336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  deBuffs: {fileID: 1913103621938294649}
-  buffBar: {fileID: 8671912296722552889}
-  buff_Haste: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
-  hastePercent: 0.036
-  HasteStacks: 0
+  UI_Bar: {fileID: 8671912296722552889}
+  UI_Prefab: {fileID: 3735481052785872043, guid: 1149962244bb4e442840740ee8a8db56, type: 3}
 --- !u!1 &4396367334379419357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1929,9 +1908,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  buffBar: {fileID: 8671912296722552889}
-  buff_Immovable: {fileID: 1074361865954493798, guid: 487569e36a7eb3b45a5cb41b21397fdb, type: 3}
   IsImmovable: 0
+  UI_Bar: {fileID: 8671912296722552889}
+  UI_Prefab: {fileID: 1074361865954493798, guid: 487569e36a7eb3b45a5cb41b21397fdb, type: 3}
 --- !u!1 &5097692767414307733
 GameObject:
   m_ObjectHideFlags: 0
@@ -2966,11 +2945,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  deBuffs: {fileID: 1913103621938294649}
-  buffBar: {fileID: 8671912296722552889}
-  buff_Swiftness: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
-  swiftnessPercent: 0.036
-  SwiftnessStacks: 0
+  UI_Bar: {fileID: 8671912296722552889}
+  UI_Prefab: {fileID: 5928847391826134332, guid: c880226139e36504695f65ba3f477839, type: 3}
 --- !u!1 &7072248997046940840
 GameObject:
   m_ObjectHideFlags: 0
@@ -3340,11 +3316,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  deBuffs: {fileID: 1913103621938294649}
-  buffBar: {fileID: 8671912296722552889}
-  buff_Might: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
-  mightPercent: 0.036
-  MightStacks: 0
+  UI_Bar: {fileID: 8671912296722552889}
+  UI_Prefab: {fileID: 988346738963608968, guid: 060131b756a9e414186571d4a4cb4d58, type: 3}
 --- !u!1 &8237154971988504177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3700,8 +3673,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  buffs: {fileID: 6402268282429907237}
-  debuffBar: {fileID: 3479727012297293821}
-  debuff_Exhaust: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
-  exhaustPercent: 0.036
-  ExhaustStacks: 0
+  UI_Bar: {fileID: 3479727012297293821}
+  UI_Prefab: {fileID: 2294641764720048144, guid: 99481b124678f464bb95802ccc6c3303, type: 3}
