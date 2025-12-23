@@ -29,7 +29,7 @@ public class ClawBarrage : EnemySkill
     public override void ImpactState(EnemyStateMachine owner)
     {
         owner.Buffs.immoveable.StartImmovable(ImpactTime);
-        owner.Buffs.phase.StartPhase(ImpactTime);
+        //owner.Buffs.phase.StartPhase(ImpactTime);
         owner.Buffs.protection.StartProtection(2, 5);
 
         Animate(owner, skillType, State.Impact);

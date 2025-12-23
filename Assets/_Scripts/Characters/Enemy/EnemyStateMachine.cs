@@ -180,7 +180,6 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
         if (enemy.IsDummy) return;
-        if (Buffs.phase.IsPhased) return;
 
         CharacterStats stats = collision.gameObject.GetComponent<CharacterStats>();
         CrowdControl cc = collision.gameObject.GetComponent<CrowdControl>();

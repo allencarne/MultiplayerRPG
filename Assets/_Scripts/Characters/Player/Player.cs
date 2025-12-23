@@ -57,17 +57,17 @@ public class Player : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            stateMachine.Buffs.immoveable.StartImmovable(5);
+            //stateMachine.Buffs.phase.StartPhase(5);
         }
 
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            stateMachine.Buffs.immoveable.StartImmovable(-1, true);
+            //stateMachine.Buffs.phase.StartPhase(-1, true);
         }
 
         if (Input.GetKeyDown(KeyCode.F7))
         {
-            stateMachine.Buffs.immoveable.StartImmovable(-1, false);
+            //stateMachine.Buffs.phase.StartPhase(-1, false);
         }
 
         if (InCombat)

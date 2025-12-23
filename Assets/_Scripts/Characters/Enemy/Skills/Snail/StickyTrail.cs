@@ -39,7 +39,7 @@ public class StickyTrail : EnemySkill
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.phase.StartPhase(ImpactTime);
+        //owner.Buffs.phase.StartPhase(ImpactTime);
         owner.Buffs.immoveable.StartImmovable(ImpactTime);
 
         Animate(owner, skillType, State.Impact);

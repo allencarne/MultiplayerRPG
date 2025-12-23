@@ -53,9 +53,9 @@ public class Buff_Phase : NetworkBehaviour
         activeBuffs++;
         IsPhased = true;
 
-        Physics2D.IgnoreLayerCollision(6,7,true); // Player Vs Enemy
-        Physics2D.IgnoreLayerCollision(6, 10, true); // Player Vs NPC
-        Physics2D.IgnoreLayerCollision(7, 10, true); // Enemy Vs NPC
+        //Physics2D.IgnoreLayerCollision(6,7,true); // Player Vs Enemy
+        //Physics2D.IgnoreLayerCollision(6, 10, true); // Player Vs NPC
+        //Physics2D.IgnoreLayerCollision(7, 10, true); // Enemy Vs NPC
 
         yield return new WaitForSeconds(duration);
 
@@ -64,10 +64,11 @@ public class Buff_Phase : NetworkBehaviour
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
             IsPhased = false;
+            Debug.Log(IsPhased + "Duration");
 
-            Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
-            Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
-            Physics2D.IgnoreLayerCollision(7, 10, false); // Enemy Vs NPC
+            //Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
+            //Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
+            //Physics2D.IgnoreLayerCollision(7, 10, false); // Enemy Vs NPC
 
             if (IsServer)
             {
@@ -131,6 +132,10 @@ public class Buff_Phase : NetworkBehaviour
         isFixedBuffActive = true;
         IsPhased = true;
 
+        //Physics2D.IgnoreLayerCollision(6, 7, true); // Player Vs Enemy
+        //Physics2D.IgnoreLayerCollision(6, 10, true); // Player Vs NPC
+        //Physics2D.IgnoreLayerCollision(7, 10, true); // Enemy Vs NPC
+
         if (IsServer)
         {
             StartFixedUIClientRPC();
@@ -148,6 +153,11 @@ public class Buff_Phase : NetworkBehaviour
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
             IsPhased = false;
+            Debug.Log(IsPhased + "Fixed");
+
+            //Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
+            //Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
+            //Physics2D.IgnoreLayerCollision(7, 10, false); // Enemy Vs NPC
 
             if (IsServer)
             {

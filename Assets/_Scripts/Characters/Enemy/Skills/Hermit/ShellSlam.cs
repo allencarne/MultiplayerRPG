@@ -54,7 +54,7 @@ public class ShellSlam : EnemySkill
     public override void ActionState(EnemyStateMachine owner)
     {
         dashTimer = 0f;
-        owner.Buffs.phase.StartPhase(ActionTime);
+        //owner.Buffs.phase.StartPhase(ActionTime);
         owner.Buffs.immoveable.StartImmovable(ActionTime);
 
         Animate(owner, skillType, State.Action);
