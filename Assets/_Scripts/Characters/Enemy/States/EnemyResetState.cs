@@ -11,7 +11,7 @@ public class EnemyResetState : EnemyState
 
         if (owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_BaseHP.Value)
         {
-            owner.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+            //owner.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
         }
     }
 

@@ -148,7 +148,7 @@ public class Buff_Might : NetworkBehaviour, IMightable
         DestroyUIClientRPC(stacks);
     }
 
-    public void StartMightFixed(int stacks)
+    void StartMightFixed(int stacks)
     {
         if (!IsOwner) return;
 

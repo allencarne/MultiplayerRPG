@@ -64,7 +64,6 @@ public class Buff_Phase : NetworkBehaviour
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
             IsPhased = false;
-            Debug.Log(IsPhased + "Duration");
 
             //Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
             //Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
@@ -153,7 +152,6 @@ public class Buff_Phase : NetworkBehaviour
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
             IsPhased = false;
-            Debug.Log(IsPhased + "Fixed");
 
             //Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
             //Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC

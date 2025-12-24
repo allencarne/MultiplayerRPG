@@ -5,9 +5,9 @@ public class SecondWind : PlayerSkill
 {
     bool isOnCooldown = false;
 
-    int healAmount = 1;
-    float healRate = 1f;
-    float abilityDuration = 5f;
+    //int healAmount = 1;
+    //float healRate = 1f;
+    //float abilityDuration = 5f;
 
     public override void UpdateSkill(PlayerStateMachine owner)
     {
@@ -19,7 +19,7 @@ public class SecondWind : PlayerSkill
         {
             isOnCooldown = true;
 
-            owner.Buffs.regeneration.Regeneration(HealType.Flat, healAmount, healRate, abilityDuration);
+            //owner.Buffs.regeneration.Regeneration(HealType.Flat, healAmount, healRate, abilityDuration);
             owner.StartCoroutine(CoolDownTime());
         }
     }
