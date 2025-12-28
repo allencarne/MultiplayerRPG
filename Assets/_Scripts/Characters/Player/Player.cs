@@ -45,11 +45,15 @@ public class Player : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (IsOwner) PlayerCamera();
+        stats.OnDamaged.AddListener(TakeDamage);
+        stats.OnDamageDealt.AddListener(DealDamage);
         stats.OnDeath.AddListener(DeathClientRPC);
     }
 
     public override void OnNetworkDespawn()
     {
+        stats.OnDamaged.RemoveListener(TakeDamage);
+        stats.OnDamageDealt.RemoveListener(DealDamage);
         stats.OnDeath.RemoveListener(DeathClientRPC);
     }
 
@@ -76,16 +80,19 @@ public class Player : NetworkBehaviour
 
             if (CombatTime >= 10)
             {
-                CombatTime = 0;
                 InCombat = false;
+                CombatTime = 0;
 
-                /*
-                if (Health.Value < MaxHealth.Value)
+                if (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
                 {
-                    stateMachine.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
+                    stateMachine.Buffs.regeneration.StartRegen(1, -1);
                 }
-                */
             }
+        }
+
+        if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat)
+        {
+            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
     }
 
@@ -104,5 +111,17 @@ public class Player : NetworkBehaviour
     void DeathClientRPC()
     {
         stateMachine.SetState(PlayerStateMachine.State.Death);
+    }
+
+    void TakeDamage(float damage)
+    {
+        InCombat = true;
+        CombatTime = 0;
+    }
+
+    void DealDamage(float damage, Vector2 position)
+    {
+        InCombat = true;
+        CombatTime = 0;
     }
 }

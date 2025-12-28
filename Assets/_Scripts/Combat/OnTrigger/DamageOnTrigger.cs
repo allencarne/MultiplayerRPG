@@ -67,14 +67,6 @@ public class DamageOnTrigger : NetworkBehaviour
         {
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
 
-            // In Combat
-            Player player = attacker.GetComponent<Player>();
-            if (player != null)
-            {
-                player.CombatTime = 0;
-                player.InCombat = true;
-            }
-
             // Fury
             if (CanGenerateFury)
             {
