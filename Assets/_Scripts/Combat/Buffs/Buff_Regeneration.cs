@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,12 +5,13 @@ using UnityEngine;
 public class Buff_Regeneration : NetworkBehaviour
 {
     [Header("Variables")]
+    int maxStacks = 9;
     int durBuff = 0;
     int fixedBuff = 0;
-    float stackPercent = 0.10f;
-    int maxStacks = 9;
-    float remainingTime = 0f;
     int TotalStacks => durBuff + fixedBuff;
+
+    float remainingTime = 0f;
+    float nextHealTime = 0f;
 
     [Header("Components")]
     [SerializeField] CharacterStats stats;
@@ -21,6 +21,15 @@ public class Buff_Regeneration : NetworkBehaviour
 
     void Update()
     {
+        if (durBuff > 0 || fixedBuff > 0)
+        {
+            if (Time.time >= nextHealTime)
+            {
+                stats.GiveHeal(TotalStacks, HealType.Flat);
+                nextHealTime = Time.time + 1f;
+            }
+        }
+
         if (durBuff == 0) return;
 
         if (Time.time >= remainingTime)
@@ -43,6 +52,7 @@ public class Buff_Regeneration : NetworkBehaviour
         if (stacksToAdd <= 0) return;
 
         remainingTime = Time.time + duration;
+        if (TotalStacks == 0) nextHealTime = Time.time;
 
         if (IsServer)
         {
@@ -69,6 +79,8 @@ public class Buff_Regeneration : NetworkBehaviour
         {
             durBuff++;
         }
+
+        if (TotalStacks == 1) nextHealTime = Time.time;
 
         if (IsServer)
         {
@@ -135,7 +147,8 @@ public class Buff_Regeneration : NetworkBehaviour
 
     public void PurgeRegen()
     {
-        StopAllCoroutines();
+        durBuff = 0;
+        fixedBuff = 0;
 
         if (IsServer)
         {
@@ -146,27 +159,6 @@ public class Buff_Regeneration : NetworkBehaviour
         {
             UpdateUIServerRPC(TotalStacks);
             DestroyUIServerRPC(TotalStacks);
-        }
-    }
-
-    IEnumerator Duration(float duration)
-    {
-        int healAmount = 2 * TotalStacks;
-
-        float elapsed = 0f;
-        float nextHealTime = 1;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-
-            if (elapsed >= nextHealTime)
-            {
-                stats.GiveHeal(healAmount, HealType.Flat);
-                nextHealTime += 1;
-            }
-
-            yield return null;
         }
     }
 
