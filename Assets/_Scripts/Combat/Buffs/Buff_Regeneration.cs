@@ -21,9 +21,11 @@ public class Buff_Regeneration : NetworkBehaviour
 
     void Update()
     {
-        if (remainingTime > 0)
+        if (durBuff == 0) return;
+
+        if (Time.time >= remainingTime)
         {
-            remainingTime -= Time.deltaTime;
+            RemoveStack(false);
         }
     }
 
@@ -40,37 +42,115 @@ public class Buff_Regeneration : NetworkBehaviour
         int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
         if (stacksToAdd <= 0) return;
 
-        if (duration > remainingTime)
+        remainingTime = Time.time + duration;
+
+        if (IsServer)
         {
-            if (IsServer)
-            {
-                StartUIClientRPC(duration);
-            }
-            else
-            {
-                StartUIServerRPC(duration);
-            }
+            StartUIClientRPC(duration);
+        }
+        else
+        {
+            StartUIServerRPC(duration);
         }
 
         for (int i = 0; i < stacksToAdd; i++)
         {
-            StartCoroutine(Duration(duration));
+            AddStack(false);
+        }
+    }
+
+    void AddStack(bool isFixed)
+    {
+        if (isFixed)
+        {
+            fixedBuff++;
+        }
+        else
+        {
+            durBuff++;
+        }
+
+        if (IsServer)
+        {
+            if (isFixed) StartFixedUIClientRPC();
+            UpdateUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            if (isFixed) StartFixedUIServerRPC();
+            UpdateUIServerRPC(TotalStacks);
+        }
+    }
+
+    void RemoveStack(bool isFixed)
+    {
+        if (isFixed)
+        {
+            fixedBuff--;
+        }
+        else
+        {
+            durBuff--;
+        }
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
+        }
+    }
+
+    void StartRegenFixed(int stacks)
+    {
+        if (!IsOwner) return;
+
+        if (stacks < 0)
+        {
+            if (fixedBuff < 1) return;
+
+            int stacksToRemove = Mathf.Abs(stacks);
+            stacksToRemove = Mathf.Min(stacksToRemove, fixedBuff);
+
+            for (int i = 0; i < stacksToRemove; i++)
+            {
+                RemoveStack(true);
+            }
+
+            return;
+        }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
+
+        for (int i = 0; i < stacksToAdd; i++)
+        {
+            AddStack(true);
+        }
+    }
+
+    public void PurgeRegen()
+    {
+        StopAllCoroutines();
+
+        if (IsServer)
+        {
+            UpdateUIClientRPC(TotalStacks);
+            DestroyUIClientRPC(TotalStacks);
+        }
+        else
+        {
+            UpdateUIServerRPC(TotalStacks);
+            DestroyUIServerRPC(TotalStacks);
         }
     }
 
     IEnumerator Duration(float duration)
     {
-        durBuff++;
-
-        if (IsServer)
-        {
-            UpdateUIClientRPC(TotalStacks);
-        }
-        else
-        {
-            UpdateUIServerRPC(TotalStacks);
-        }
-
         int healAmount = 2 * TotalStacks;
 
         float elapsed = 0f;
@@ -88,29 +168,11 @@ public class Buff_Regeneration : NetworkBehaviour
 
             yield return null;
         }
-
-        durBuff--;
-
-        if (durBuff == 0 && fixedBuff == 0)
-        {
-            if (IsServer)
-            {
-                UpdateUIClientRPC(TotalStacks);
-                DestroyUIClientRPC(TotalStacks);
-            }
-            else
-            {
-                UpdateUIServerRPC(TotalStacks);
-                DestroyUIServerRPC(TotalStacks);
-            }
-        }
     }
 
     [ClientRpc]
     void StartUIClientRPC(float duration)
     {
-        remainingTime = duration;
-
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
@@ -156,72 +218,6 @@ public class Buff_Regeneration : NetworkBehaviour
         DestroyUIClientRPC(stacks);
     }
 
-    void StartRegenFixed(int stacks)
-    {
-        if (!IsOwner) return;
-
-        if (stacks < 0)
-        {
-            if (fixedBuff < 1) return;
-
-            int stacksToRemove = Mathf.Abs(stacks);
-            stacksToRemove = Mathf.Min(stacksToRemove, fixedBuff);
-
-            for (int i = 0; i < stacksToRemove; i++)
-            {
-                RemoveStackFixed();
-            }
-
-            return;
-        }
-
-        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
-        if (stacksToAdd <= 0) return;
-
-        for (int i = 0; i < stacksToAdd; i++)
-        {
-            InvokeRepeating("AddStackFixed", 0, 1);
-        }
-    }
-
-    void AddStackFixed()
-    {
-        fixedBuff++;
-
-        CancelInvoke();
-
-        int healAmount = 2 * TotalStacks;
-        stats.GiveHeal(healAmount, HealType.Flat);
-
-
-        if (IsServer)
-        {
-            StartFixedUIClientRPC();
-            UpdateUIClientRPC(TotalStacks);
-        }
-        else
-        {
-            StartFixedUIServerRPC();
-            UpdateUIServerRPC(TotalStacks);
-        }
-    }
-
-    void RemoveStackFixed()
-    {
-        fixedBuff--;
-
-        if (IsServer)
-        {
-            UpdateUIClientRPC(TotalStacks);
-            DestroyUIClientRPC(TotalStacks);
-        }
-        else
-        {
-            UpdateUIServerRPC(TotalStacks);
-            DestroyUIServerRPC(TotalStacks);
-        }
-    }
-
     [ClientRpc]
     void StartFixedUIClientRPC()
     {
@@ -235,21 +231,5 @@ public class Buff_Regeneration : NetworkBehaviour
     void StartFixedUIServerRPC()
     {
         StartFixedUIClientRPC();
-    }
-
-    public void PurgeRegen()
-    {
-        StopAllCoroutines();
-
-        if (IsServer)
-        {
-            UpdateUIClientRPC(TotalStacks);
-            DestroyUIClientRPC(TotalStacks);
-        }
-        else
-        {
-            UpdateUIServerRPC(TotalStacks);
-            DestroyUIServerRPC(TotalStacks);
-        }
     }
 }
