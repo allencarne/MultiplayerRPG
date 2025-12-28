@@ -1,4 +1,3 @@
-using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,9 +16,11 @@ public class Buff_Immoveable : NetworkBehaviour
 
     void Update()
     {
-        if (remainingTime > 0)
+        if (activeBuffs == 0) return;
+
+        if (Time.time >= remainingTime)
         {
-            remainingTime -= Time.deltaTime;
+            RemoveStack(false);
         }
     }
 
@@ -33,29 +34,53 @@ public class Buff_Immoveable : NetworkBehaviour
             return;
         }
 
-        if (duration > remainingTime)
+        remainingTime = Time.time + duration;
+
+        if (IsServer)
         {
-            if (IsServer)
-            {
-                StartUIClientRPC(duration);
-            }
-            else
-            {
-                StartUIServerRPC(duration);
-            }
+            StartUIClientRPC(duration);
         }
-        
-        StartCoroutine(Duration(duration));
+        else
+        {
+            StartUIServerRPC(duration);
+        }
+
+        AddStack(false);
     }
 
-    IEnumerator Duration(float duration)
+    void AddStack(bool isFixed)
     {
-        activeBuffs++;
         IsImmovable = true;
 
-        yield return new WaitForSeconds(duration);
+        if (isFixed)
+        {
+            isFixedBuffActive = true;
+        }
+        else
+        {
+            activeBuffs++;
+        }
 
-        activeBuffs--;
+        if (IsServer)
+        {
+            if (isFixed) StartFixedUIClientRPC();
+        }
+        else
+        {
+            if (isFixed) StartFixedUIServerRPC();
+        }
+    }
+
+    void RemoveStack(bool isFixed)
+    {
+        if (isFixed)
+        {
+            isFixedBuffActive = false;
+        }
+        else
+        {
+            activeBuffs--;
+        }
 
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
@@ -72,11 +97,37 @@ public class Buff_Immoveable : NetworkBehaviour
         }
     }
 
+    public void StartImmovableFixed(bool isActive)
+    {
+        if (!IsOwner) return;
+
+        if (isActive)
+        {
+            AddStack(true);
+        }
+        else
+        {
+            RemoveStack(true);
+        }
+    }
+
+    public void PurgeImmovable()
+    {
+        StopAllCoroutines();
+
+        if (IsServer)
+        {
+            DestroyUIClientRPC();
+        }
+        else
+        {
+            DestroyUIServerRPC();
+        }
+    }
+
     [ClientRpc]
     void StartUIClientRPC(float duration)
     {
-        remainingTime = duration;
-
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
@@ -104,54 +155,6 @@ public class Buff_Immoveable : NetworkBehaviour
         DestroyUIClientRPC();
     }
 
-    public void StartImmovableFixed(bool isActive)
-    {
-        if (!IsOwner) return;
-
-        if (isActive)
-        {
-            AddStackFixed();
-        }
-        else
-        {
-            RemoveStackFixed();
-        }
-    }
-
-    void AddStackFixed()
-    {
-        isFixedBuffActive = true;
-        IsImmovable = true;
-
-        if (IsServer)
-        {
-            StartFixedUIClientRPC();
-        }
-        else
-        {
-            StartFixedUIServerRPC();
-        }
-    }
-
-    void RemoveStackFixed()
-    {
-        isFixedBuffActive = false;
-
-        if (activeBuffs == 0 && isFixedBuffActive == false)
-        {
-            IsImmovable = false;
-
-            if (IsServer)
-            {
-                DestroyUIClientRPC();
-            }
-            else
-            {
-                DestroyUIServerRPC();
-            }
-        }
-    }
-
     [ClientRpc]
     void StartFixedUIClientRPC()
     {
@@ -165,19 +168,5 @@ public class Buff_Immoveable : NetworkBehaviour
     void StartFixedUIServerRPC()
     {
         StartFixedUIClientRPC();
-    }
-
-    public void PurgeImmovable()
-    {
-        StopAllCoroutines();
-
-        if (IsServer)
-        {
-            DestroyUIClientRPC();
-        }
-        else
-        {
-            DestroyUIServerRPC();
-        }
     }
 }
