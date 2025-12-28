@@ -30,6 +30,7 @@ public class Player : NetworkBehaviour
     public bool InCombat = false;
     public float CombatTime = 0;
     public bool IsInteracting = false;
+    bool IsRegen = false;
 
     [Header("Ability Indexes")]
     public int FirstPassiveIndex = 0;
@@ -85,13 +86,16 @@ public class Player : NetworkBehaviour
 
                 if (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
                 {
+                    IsRegen = true;
                     stateMachine.Buffs.regeneration.StartRegen(1, -1);
                 }
             }
         }
 
+        if (!IsRegen) return;
         if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat)
         {
+            IsRegen = false;
             stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
     }
