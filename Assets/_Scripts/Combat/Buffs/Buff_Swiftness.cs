@@ -61,7 +61,7 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseSpeed * stackPercent;
+        float multiplier = stats.BaseAS * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.AttackSpeed,

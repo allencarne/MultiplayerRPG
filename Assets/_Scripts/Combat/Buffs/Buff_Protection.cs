@@ -61,10 +61,10 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseSpeed * stackPercent;
+        float multiplier = stats.BaseArmor * stackPercent;
         StatModifier mod = new StatModifier
         {
-            statType = StatType.Damage,
+            statType = StatType.Armor,
             value = multiplier,
             source = ModSource.Buff
         };

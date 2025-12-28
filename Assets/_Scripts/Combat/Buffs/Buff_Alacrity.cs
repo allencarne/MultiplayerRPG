@@ -61,7 +61,7 @@ public class Buff_Alacrity : NetworkBehaviour, IAlacrityable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseSpeed * stackPercent;
+        float multiplier = stats.BaseCDR * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.CoolDown,

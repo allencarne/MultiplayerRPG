@@ -61,7 +61,7 @@ public class Buff_Might : NetworkBehaviour, IMightable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseSpeed * stackPercent;
+        float multiplier = stats.BaseDamage * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Damage,
