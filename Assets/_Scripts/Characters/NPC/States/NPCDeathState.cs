@@ -5,6 +5,9 @@ public class NPCDeathState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.Buffs.PurgeAllDebuffs();
+        owner.DeBuffs.CleanseAllDebuffs();
+
         owner.BodyAnimator.Play("Death");
         owner.npc.IsDead = true;
         owner.IsAttacking = false;

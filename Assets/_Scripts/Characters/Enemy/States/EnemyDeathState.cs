@@ -5,6 +5,9 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
+        owner.Buffs.PurgeAllDebuffs();
+        owner.DeBuffs.CleanseAllDebuffs();
+
         owner.enemy.IsDead = true;
         owner.Drops.DropItem();
 

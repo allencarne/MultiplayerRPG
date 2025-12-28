@@ -690,6 +690,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14f913a1115b464fa0ada3a5f63ba27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCIdleState
+--- !u!1 &758246580443626073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3369190569222170235}
+  - component: {fileID: 5146136138087064544}
+  m_Layer: 0
+  m_Name: Debuff_Bleed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3369190569222170235
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758246580443626073}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3408060810418121356}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5146136138087064544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758246580443626073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd10215b99185404c9bc731c3b0a5f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Debuff_Bleed
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 6038468416201059741}
+  UI_Bar: {fileID: 3896601426424586401}
+  UI_Prefab: {fileID: 1198123121029324700, guid: efa4606fbb2d90044a8e9986b32608b5, type: 3}
 --- !u!1 &773394011784420499
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,8 +877,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 6038468416201059741}
-  buffBar: {fileID: 8452951922686297947}
-  buff_Regeneration: {fileID: 435407050109934694, guid: 2ebaaffc2197ecc4e895282f733dce81, type: 3}
+  UI_Bar: {fileID: 0}
+  UI_Prefab: {fileID: 0}
 --- !u!1 &1592761591981973528
 GameObject:
   m_ObjectHideFlags: 0
@@ -4052,6 +4104,7 @@ MonoBehaviour:
   impede: {fileID: 2373548673805613631}
   vulnerability: {fileID: 267476235522507233}
   exhaust: {fileID: 293205125217867439}
+  bleed: {fileID: 5146136138087064544}
 --- !u!114 &3730166254070588288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4859,6 +4912,7 @@ RectTransform:
   - {fileID: 1474956278504889842}
   - {fileID: 638598615726672040}
   - {fileID: 8732290578675789897}
+  - {fileID: 3369190569222170235}
   m_Father: {fileID: 650969734403615119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

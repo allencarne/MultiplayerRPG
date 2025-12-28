@@ -2,7 +2,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Buff_Regeneration : NetworkBehaviour
+public class Debuff_Bleed : NetworkBehaviour
 {
     [Header("Variables")]
     int maxStacks = 9;
@@ -11,7 +11,7 @@ public class Buff_Regeneration : NetworkBehaviour
     int TotalStacks => durBuff + fixedBuff;
 
     float remainingTime = 0f;
-    float nextHealTime = 0f;
+    float nextTick = 0f;
 
     [Header("Components")]
     [SerializeField] CharacterStats stats;
@@ -23,10 +23,10 @@ public class Buff_Regeneration : NetworkBehaviour
     {
         if (durBuff > 0 || fixedBuff > 0)
         {
-            if (Time.time >= nextHealTime)
+            if (Time.time >= nextTick)
             {
-                stats.GiveHeal(TotalStacks, HealType.Flat);
-                nextHealTime = Time.time + 1f;
+                stats.TakeDamage(TotalStacks, DamageType.Flat, NetworkObject);
+                nextTick = Time.time + 1f;
             }
         }
 
@@ -34,13 +34,13 @@ public class Buff_Regeneration : NetworkBehaviour
         if (Time.time >= remainingTime) RemoveStack(false);
     }
 
-    public void StartRegen(int stacks, float duration)
+    public void StartBleed(int stacks, float duration)
     {
         if (!IsOwner) return;
 
         if (duration < 0)
         {
-            StartRegenFixed(stacks);
+            StartBleedFixed(stacks);
             return;
         }
 
@@ -48,7 +48,7 @@ public class Buff_Regeneration : NetworkBehaviour
         if (stacksToAdd <= 0) return;
 
         remainingTime = Time.time + duration;
-        if (TotalStacks == 0) nextHealTime = Time.time;
+        if (TotalStacks == 0) nextTick = Time.time;
 
         if (IsServer)
         {
@@ -76,7 +76,7 @@ public class Buff_Regeneration : NetworkBehaviour
             durBuff++;
         }
 
-        if (TotalStacks == 1) nextHealTime = Time.time;
+        if (TotalStacks == 1) nextTick = Time.time;
 
         if (IsServer)
         {
@@ -113,7 +113,7 @@ public class Buff_Regeneration : NetworkBehaviour
         }
     }
 
-    void StartRegenFixed(int stacks)
+    void StartBleedFixed(int stacks)
     {
         if (!IsOwner) return;
 
@@ -141,7 +141,7 @@ public class Buff_Regeneration : NetworkBehaviour
         }
     }
 
-    public void PurgeRegen()
+    public void CleanseBleed()
     {
         durBuff = 0;
         fixedBuff = 0;

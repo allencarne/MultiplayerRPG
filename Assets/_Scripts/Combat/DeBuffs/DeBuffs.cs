@@ -7,6 +7,7 @@ public class DeBuffs : NetworkBehaviour
     public Debuff_Impede impede;
     public Debuff_Vulnerability vulnerability;
     public Debuff_Exhaust exhaust;
+    public Debuff_Bleed bleed;
 
     public void CleanseAllDebuffs()
     {
@@ -15,5 +16,6 @@ public class DeBuffs : NetworkBehaviour
         impede?.CleanseImpede();
         vulnerability?.CleanseVulnerability();
         exhaust?.CleanseExhaust();
+        bleed?.CleanseBleed();
     }
 }

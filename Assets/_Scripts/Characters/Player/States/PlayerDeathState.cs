@@ -7,6 +7,9 @@ public class PlayerDeathState : PlayerState
     {
         if (!owner.IsOwner) return;
 
+        owner.Buffs.PurgeAllDebuffs();
+        owner.DeBuffs.CleanseAllDebuffs();
+
         owner.BodyAnimator.Play("Death");
         owner.player.IsDead = true;
         owner.IsAttacking = false;

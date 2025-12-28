@@ -23434,6 +23434,7 @@ MonoBehaviour:
   impede: {fileID: 1646342625533901897}
   vulnerability: {fileID: 5514744723095896370}
   exhaust: {fileID: 9203867875972622916}
+  bleed: {fileID: 3630750917405687736}
 --- !u!114 &6004191219924147057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34420,6 +34421,7 @@ RectTransform:
   - {fileID: 8921005052116689262}
   - {fileID: 1733201852480434200}
   - {fileID: 5948743863606320685}
+  - {fileID: 3171435342219612379}
   m_Father: {fileID: 24981261518718078}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -49887,6 +49889,58 @@ Transform:
   - {fileID: 331360252154241923}
   m_Father: {fileID: 8700555072540215679}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6563237048786838227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3171435342219612379}
+  - component: {fileID: 3630750917405687736}
+  m_Layer: 8
+  m_Name: Debuff_Bleed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3171435342219612379
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6563237048786838227}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5573364526245665907}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3630750917405687736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6563237048786838227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd10215b99185404c9bc731c3b0a5f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Debuff_Bleed
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 2477393547595159198}
+  UI_Bar: {fileID: 416108943347118816}
+  UI_Prefab: {fileID: 1198123121029324700, guid: efa4606fbb2d90044a8e9986b32608b5, type: 3}
 --- !u!1 &6575348979389237470
 GameObject:
   m_ObjectHideFlags: 0
