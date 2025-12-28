@@ -1,4 +1,3 @@
-using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,9 +16,11 @@ public class Buff_Phase : NetworkBehaviour
 
     void Update()
     {
-        if (remainingTime > 0)
+        if (activeBuffs == 0) return;
+
+        if (Time.time >= remainingTime)
         {
-            remainingTime -= Time.deltaTime;
+            RemoveStack(false);
         }
     }
 
@@ -33,41 +34,57 @@ public class Buff_Phase : NetworkBehaviour
             return;
         }
 
-        if (duration > remainingTime)
+        remainingTime = Time.time + duration;
+
+        if (IsServer)
         {
-            if (IsServer)
-            {
-                StartUIClientRPC(duration);
-            }
-            else
-            {
-                StartUIServerRPC(duration);
-            }
+            StartUIClientRPC(duration);
+        }
+        else
+        {
+            StartUIServerRPC(duration);
         }
 
-        StartCoroutine(Duration(duration));
+        AddStack(false);
     }
 
-    IEnumerator Duration(float duration)
+    void AddStack(bool isFixed)
     {
-        activeBuffs++;
         IsPhased = true;
 
-        //Physics2D.IgnoreLayerCollision(6,7,true); // Player Vs Enemy
-        //Physics2D.IgnoreLayerCollision(6, 10, true); // Player Vs NPC
-        //Physics2D.IgnoreLayerCollision(7, 10, true); // Enemy Vs NPC
+        if (isFixed)
+        {
+            isFixedBuffActive = true;
+        }
+        else
+        {
+            activeBuffs++;
+        }
 
-        yield return new WaitForSeconds(duration);
+        if (IsServer)
+        {
+            if (isFixed) StartFixedUIClientRPC();
+        }
+        else
+        {
+            if (isFixed) StartFixedUIServerRPC();
+        }
+    }
 
-        activeBuffs--;
+    void RemoveStack(bool isFixed)
+    {
+        if (isFixed)
+        {
+            isFixedBuffActive = false;
+        }
+        else
+        {
+            activeBuffs--;
+        }
 
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
             IsPhased = false;
-
-            //Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
-            //Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
-            //Physics2D.IgnoreLayerCollision(7, 10, false); // Enemy Vs NPC
 
             if (IsServer)
             {
@@ -80,11 +97,37 @@ public class Buff_Phase : NetworkBehaviour
         }
     }
 
+    public void StartPhaseFixed(bool isActive)
+    {
+        if (!IsOwner) return;
+
+        if (isActive)
+        {
+            AddStack(true);
+        }
+        else
+        {
+            RemoveStack(true);
+        }
+    }
+
+    public void PurgePhase()
+    {
+        StopAllCoroutines();
+
+        if (IsServer)
+        {
+            DestroyUIClientRPC();
+        }
+        else
+        {
+            DestroyUIServerRPC();
+        }
+    }
+
     [ClientRpc]
     void StartUIClientRPC(float duration)
     {
-        remainingTime = duration;
-
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
@@ -112,62 +155,6 @@ public class Buff_Phase : NetworkBehaviour
         DestroyUIClientRPC();
     }
 
-    public void StartPhaseFixed(bool isActive)
-    {
-        if (!IsOwner) return;
-
-        if (isActive)
-        {
-            AddStackFixed();
-        }
-        else
-        {
-            RemoveStackFixed();
-        }
-    }
-
-    void AddStackFixed()
-    {
-        isFixedBuffActive = true;
-        IsPhased = true;
-
-        //Physics2D.IgnoreLayerCollision(6, 7, true); // Player Vs Enemy
-        //Physics2D.IgnoreLayerCollision(6, 10, true); // Player Vs NPC
-        //Physics2D.IgnoreLayerCollision(7, 10, true); // Enemy Vs NPC
-
-        if (IsServer)
-        {
-            StartFixedUIClientRPC();
-        }
-        else
-        {
-            StartFixedUIServerRPC();
-        }
-    }
-
-    void RemoveStackFixed()
-    {
-        isFixedBuffActive = false;
-
-        if (activeBuffs == 0 && isFixedBuffActive == false)
-        {
-            IsPhased = false;
-
-            //Physics2D.IgnoreLayerCollision(6, 7, false); // Player Vs Enemy
-            //Physics2D.IgnoreLayerCollision(6, 10, false); // Player Vs NPC
-            //Physics2D.IgnoreLayerCollision(7, 10, false); // Enemy Vs NPC
-
-            if (IsServer)
-            {
-                DestroyUIClientRPC();
-            }
-            else
-            {
-                DestroyUIServerRPC();
-            }
-        }
-    }
-
     [ClientRpc]
     void StartFixedUIClientRPC()
     {
@@ -181,19 +168,5 @@ public class Buff_Phase : NetworkBehaviour
     void StartFixedUIServerRPC()
     {
         StartFixedUIClientRPC();
-    }
-
-    public void PurgePhase()
-    {
-        StopAllCoroutines();
-
-        if (IsServer)
-        {
-            DestroyUIClientRPC();
-        }
-        else
-        {
-            DestroyUIServerRPC();
-        }
     }
 }
