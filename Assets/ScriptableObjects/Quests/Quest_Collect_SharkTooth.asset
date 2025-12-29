@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Collect_Sprouts
+  m_Name: Quest_Collect_SharkTooth
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest4
-  QuestName: Collect Sprouts
+  QuestID: Quest8
+  QuestName: Find Shark Teeth
   LevelRequirment: 0
-  Instructions: Hello, we need sprouts, Please collect 10. Sprouts drop from Coconuts.
-    You can find Coconuts North and South of the town.
+  Instructions: Hello, we need Shark Teeth, please find some and bring them to me.
+    You can locate them along the shore. Try searching North and South of the town.
   Deliver: Thank you! This is very helpful.
   RequiredQuests: []
   Objectives:
   - type: 1
-    ObjectiveID: Item11
-    Description: Collect 10 Sprouts
-    RequiredAmount: 10
+    ObjectiveID: Item14
+    Description: Collect 5 Shark Teeth
+    RequiredAmount: 5
     CurrentAmount: 0
   expReward: 3
   goldReward: 3
