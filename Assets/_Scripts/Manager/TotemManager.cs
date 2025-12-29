@@ -28,7 +28,8 @@ public class TotemManager : NetworkBehaviour
     void CheckIfWeCanSpawn()
     {
         if (!IsServer) return;
-        if (currentTotems < maxTotems && !isSpawning) StartCoroutine(Delay());
+        if (isSpawning) return;
+        if (currentTotems < maxTotems) StartCoroutine(Delay());
     }
 
     IEnumerator Delay()
