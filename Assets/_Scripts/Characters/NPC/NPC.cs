@@ -18,6 +18,11 @@ public class NPC : NetworkBehaviour, IInteractable
     public string DisplayName => Data.NPCName;
     public bool IsDead;
 
+    [Header("Combat")]
+    public bool InCombat = false;
+    public bool IsRegen;
+    float CombatTime = 0;
+
     [Header("Sprites")]
     public SpriteRenderer SwordSprite;
     public SpriteRenderer BodySprite;
@@ -30,6 +35,9 @@ public class NPC : NetworkBehaviour, IInteractable
         stats.OnEnemyDamaged.AddListener(TargetAttacker);
         stats.OnDeath.AddListener(DeathState);
 
+        stats.OnDamaged.AddListener(TakeDamage);
+        stats.OnDamageDealt.AddListener(DealDamage);
+
         Invoke("AssignHealth", 1);
     }
 
@@ -37,6 +45,9 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         stats.OnEnemyDamaged.RemoveListener(TargetAttacker);
         stats.OnDeath.RemoveListener(DeathState);
+
+        stats.OnDamaged.RemoveListener(TakeDamage);
+        stats.OnDamageDealt.RemoveListener(DealDamage);
     }
 
     private void Start()
@@ -49,6 +60,33 @@ public class NPC : NetworkBehaviour, IInteractable
         stats.BaseAS = Data.AttackSpeed;
         stats.BaseCDR = Data.CoolDownRecution;
         stats.BaseArmor = Data.Armor;
+    }
+
+    private void Update()
+    {
+        if (InCombat)
+        {
+            CombatTime += Time.deltaTime;
+
+            if (CombatTime >= 10)
+            {
+                InCombat = false;
+                CombatTime = 0;
+
+                if (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
+                {
+                    IsRegen = true;
+                    stateMachine.Buffs.regeneration.StartRegen(1, -1);
+                }
+            }
+        }
+
+        if (!IsRegen) return;
+        if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat)
+        {
+            IsRegen = false;
+            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+        }
     }
 
     void AssignHealth()
@@ -97,5 +135,17 @@ public class NPC : NetworkBehaviour, IInteractable
             stateMachine.Target = attackerID.transform;
             stateMachine.IsEnemyInRange = true;
         }
+    }
+
+    void TakeDamage(float damage)
+    {
+        InCombat = true;
+        CombatTime = 0;
+    }
+
+    void DealDamage(float damage, Vector2 position)
+    {
+        InCombat = true;
+        CombatTime = 0;
     }
 }

@@ -8,11 +8,6 @@ public class EnemyResetState : EnemyState
 
         owner.EnemyAnimator.Play("Wander");
         owner.enemy.PatienceBar.Patience.Value = 0;
-
-        if (owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_BaseHP.Value)
-        {
-            //owner.Buffs.regeneration.Regeneration(HealType.Percentage, 10, .5f, 5);
-        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)

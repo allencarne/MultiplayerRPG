@@ -31,11 +31,15 @@ public class Enemy : NetworkBehaviour
     [Header("Bools")]
     public bool IsDummy;
     public bool IsDead;
+    public bool IsRegen;
 
     public override void OnNetworkSpawn()
     {
         stats.OnEnemyDamaged.AddListener(Damaged);
         stats.OnEnemyDeath.AddListener(Death);
+
+        stats.OnDamaged.AddListener(TakeDamage);
+        stats.OnDamageDealt.AddListener(DealDamage);
 
         Invoke("AssignHealth", 1);
     }
@@ -44,6 +48,33 @@ public class Enemy : NetworkBehaviour
     {
         stats.OnEnemyDamaged.RemoveListener(Damaged);
         stats.OnEnemyDeath.RemoveListener(Death);
+
+        stats.OnDamaged.RemoveListener(TakeDamage);
+        stats.OnDamageDealt.RemoveListener(DealDamage);
+    }
+
+    void TakeDamage(float damage)
+    {
+        if (!IsRegen) return;
+        IsRegen = false;
+        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+    }
+
+    void DealDamage(float damage, Vector2 position)
+    {
+        if (!IsRegen) return;
+        IsRegen = false;
+        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+    }
+
+    private void Update()
+    {
+        if (!IsRegen) return;
+        if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value)
+        {
+            IsRegen = false;
+            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+        }
     }
 
     void AssignHealth()

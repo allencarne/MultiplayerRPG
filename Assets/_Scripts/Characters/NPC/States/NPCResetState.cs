@@ -13,6 +13,12 @@ public class NPCResetState : NPCState
         owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
 
         owner.npc.PatienceBar.Patience.Value = 0;
+
+        if (owner.npc.stats.net_CurrentHP.Value < owner.npc.stats.net_TotalHP.Value)
+        {
+            owner.npc.IsRegen = true;
+            owner.Buffs.regeneration.StartRegen(1, -1);
+        }
     }
 
     public override void UpdateState(NPCStateMachine owner)

@@ -28,9 +28,9 @@ public class Player : NetworkBehaviour
 
     public bool IsDead = false;
     public bool InCombat = false;
-    public float CombatTime = 0;
     public bool IsInteracting = false;
     bool IsRegen = false;
+    float CombatTime = 0;
 
     [Header("Ability Indexes")]
     public int FirstPassiveIndex = 0;
