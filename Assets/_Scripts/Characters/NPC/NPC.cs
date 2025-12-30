@@ -102,22 +102,24 @@ public class NPC : NetworkBehaviour, IInteractable
     public void Interact(PlayerInteract player)
     {
         PlayerQuest playerQuest = player.GetComponentInParent<PlayerQuest>();
-
         Quest quest = npcQuest?.GetAvailableQuest(playerQuest);
+
         if (quest != null)
         {
             // Quest
             player.OpenQuestUI(quest, this);
+            return;
         }
-        else
-        {
-            // Dialogue
-            player.OpenDialogueUI(Data.NPCName, npcDialogue);
-        }
-        // If we have a shop
 
-        // If we don't have a quest
-        //
+        if (Data.Items.Length != 0)
+        {
+            // Shop
+            player.OpenShopUI();
+            return;
+        }
+
+        // Dialogue
+        player.OpenDialogueUI(Data.NPCName, npcDialogue);
     }
 
     void DeathState()

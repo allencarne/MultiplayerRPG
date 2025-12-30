@@ -28,12 +28,12 @@ public class PlayerInteract : NetworkBehaviour
     IInteractable currentInteractable;
     bool hasInteracted = false;
 
-    private void Awake()
+    public override void OnNetworkSpawn()
     {
         playerInput.onControlsChanged += OnControlsChanged;
     }
 
-    protected new void OnDestroy()
+    public override void OnNetworkDespawn()
     {
         playerInput.onControlsChanged -= OnControlsChanged;
     }
@@ -114,7 +114,8 @@ public class PlayerInteract : NetworkBehaviour
 
     public void OpenShopUI()
     {
-        // Open Shop Panel
+        interactText.enabled = false;
+        playerUI._VendorUI();
     }
 
     public void CloseUI()

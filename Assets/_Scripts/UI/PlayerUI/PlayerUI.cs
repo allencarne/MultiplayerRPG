@@ -16,6 +16,7 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] GameObject interactfirstSelected;
     [SerializeField] GameObject questInfoFirstSelected;
+    [SerializeField] GameObject vendorFirstSelected;
     [SerializeField] GameObject mapFirstSelected;
 
     [Header("Panel")]
@@ -27,6 +28,7 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] GameObject interactPanel;
     [SerializeField] GameObject questInfoPanel;
+    [SerializeField] GameObject vendorPanel;
     [SerializeField] GameObject mapPanel;
 
     [Header("HUD")]
@@ -146,6 +148,20 @@ public class PlayerUI : MonoBehaviour
         {
             questInfoPanel.SetActive(true);
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questInfoFirstSelected);
+        }
+    }
+
+    public void _VendorUI()
+    {
+        if (vendorPanel.activeSelf)
+        {
+            vendorPanel.SetActive(false);
+            UpdateSelectedUI();
+        }
+        else
+        {
+            vendorPanel.SetActive(true);
+            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(vendorFirstSelected);
         }
     }
 
