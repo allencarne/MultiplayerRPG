@@ -23,7 +23,10 @@ public class PlayerInteract : NetworkBehaviour
     [Header("Panel")]
     [SerializeField] GameObject questPanel;
     [SerializeField] GameObject dialoguePanel;
+    [SerializeField] GameObject vendorPanel;
+
     [SerializeField] QuestInfoPanel questInfoPanel;
+    [SerializeField] VendorInfoPanel vendorInfoPanel;
 
     IInteractable currentInteractable;
     bool hasInteracted = false;
@@ -94,6 +97,7 @@ public class PlayerInteract : NetworkBehaviour
             CloseUI();
             questPanel.SetActive(false);
             dialoguePanel.SetActive(false);
+            vendorPanel.SetActive(false);
         }
     }
 
@@ -112,9 +116,15 @@ public class PlayerInteract : NetworkBehaviour
         playerUI._QuestInfoUI();
     }
 
-    public void OpenShopUI()
+    public void OpenShopUI(NPCData data)
     {
         interactText.enabled = false;
+
+        foreach (Item item in data.Items)
+        {
+            vendorInfoPanel.CreateItem(item);
+        }
+
         playerUI._VendorUI();
     }
 

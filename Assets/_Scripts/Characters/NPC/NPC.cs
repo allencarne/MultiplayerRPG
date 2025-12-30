@@ -114,7 +114,7 @@ public class NPC : NetworkBehaviour, IInteractable
         if (Data.Items.Length != 0)
         {
             // Shop
-            player.OpenShopUI();
+            player.OpenShopUI(Data);
             return;
         }
 
