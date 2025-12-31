@@ -7,9 +7,6 @@ public class Equipment : Item
     [Header("Index")]
     public int AnimationIndex; // Used to determine what Equipment (Not Weapon) to place on the character
 
-    [Header("Stats")]
-    public int PurchaseValue;
-
     [Header("Equipment")]
     public int LevelRequirement;
     public EquipmentType equipmentType;

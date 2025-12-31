@@ -4,12 +4,26 @@ using UnityEngine.UI;
 
 public class VendorInfoPanel : MonoBehaviour
 {
+    [SerializeField] PlayerStats playerStats;
+    [SerializeField] Inventory inventory;
+
+
     [SerializeField] GameObject Item_Prefab;
     [SerializeField] Transform parent;
 
     public void CreateItem(Item item)
     {
         GameObject itemUI = Instantiate(Item_Prefab, parent);
+
+        VendorItem vendorItem = itemUI.GetComponent<VendorItem>();
+        if (vendorItem != null)
+        {
+            vendorItem.item = item;
+            vendorItem.inventory = inventory;
+            vendorItem.inventory = inventory;
+            vendorItem.playerStats = playerStats;
+            vendorItem.UpdateUI();
+        }
 
         Transform iconTransform = itemUI.transform.Find("Icon");
         if (iconTransform != null)
@@ -33,8 +47,7 @@ public class VendorInfoPanel : MonoBehaviour
         if (priceTransform != null)
         {
             TextMeshProUGUI priceText = priceTransform.GetComponent<TextMeshProUGUI>();
-            if (priceText != null) priceText.text = item.SellValue.ToString();
+            if (priceText != null) priceText.text = item.Cost.ToString();
         }
-
     }
 }

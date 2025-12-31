@@ -146,6 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3033639477280471580}
   - component: {fileID: 1621316212682675845}
+  - component: {fileID: 7598970263772515908}
   m_Layer: 5
   m_Name: Prefab_UI_Vendor_Slot
   m_TagString: Untagged
@@ -184,6 +185,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3849305696696717786}
   m_CullTransparentMesh: 1
+--- !u!114 &7598970263772515908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3849305696696717786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f7e5de96cab0a43acb1337d4ecdfcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VendorItem
+  background: {fileID: 3707347087713540367}
+  priceText: {fileID: 5615027014645190300}
+  playerStats: {fileID: 0}
+  inventory: {fileID: 0}
+  item: {fileID: 0}
 --- !u!1 &5345353934287962020
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +533,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3707347087713540367}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7598970263772515908}
+        m_TargetAssemblyTypeName: VendorItem, Assembly-CSharp
+        m_MethodName: AttemptToPurchase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3510860509485272492
 MonoBehaviour:
   m_ObjectHideFlags: 0

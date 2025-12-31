@@ -13,6 +13,7 @@ public class Item : ScriptableObject
     public ItemRarity ItemRarity;
 
     public int SellValue;
+    public int Cost;
     public string Description;
     [Range(0, 100)] public int DropChance;
     public bool IsStackable;

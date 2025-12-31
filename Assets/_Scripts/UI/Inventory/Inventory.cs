@@ -311,4 +311,12 @@ public class Inventory : MonoBehaviour
 
         Save.SaveStats();
     }
+
+    public void CoinSpent(float amount)
+    {
+        Stats.Coins -= amount;
+        inventoryUI.CoinText.text = $"{Stats.Coins}<sprite index=0>";
+
+        Save.SaveStats();
+    }
 }
