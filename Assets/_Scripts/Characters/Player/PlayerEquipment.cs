@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +6,6 @@ public class PlayerEquipment : NetworkBehaviour
     [Header("Player")]
     PlayerCustomization custom;
     PlayerStats stats;
-    PlayerStateMachine stateMachine;
     PlayerSave save;
     public bool IsWeaponEquipped = false;
 
@@ -15,7 +13,6 @@ public class PlayerEquipment : NetworkBehaviour
     {
         custom = GetComponent<PlayerCustomization>();
         stats = GetComponent<PlayerStats>();
-        stateMachine = GetComponent<PlayerStateMachine>();
         save = GetComponent<PlayerSave>();
     }
 
@@ -25,6 +22,10 @@ public class PlayerEquipment : NetworkBehaviour
         {
             if (applyModifiers)
             {
+                if (oldItem != null)
+                {
+                    foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
+                }
                 foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
             }
 
