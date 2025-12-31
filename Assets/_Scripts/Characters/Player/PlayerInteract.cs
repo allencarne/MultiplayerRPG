@@ -134,6 +134,7 @@ public class PlayerInteract : NetworkBehaviour
         interactText.enabled = false;
         player.IsInteracting = false;
         hasInteracted = true;
+        vendorInfoPanel.RemoveItems();
     }
 
     private void UpdateInteractText(string name)

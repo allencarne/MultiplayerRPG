@@ -7,7 +7,6 @@ public class VendorInfoPanel : MonoBehaviour
     [SerializeField] PlayerStats playerStats;
     [SerializeField] Inventory inventory;
 
-
     [SerializeField] GameObject Item_Prefab;
     [SerializeField] Transform parent;
 
@@ -48,6 +47,14 @@ public class VendorInfoPanel : MonoBehaviour
         {
             TextMeshProUGUI priceText = priceTransform.GetComponent<TextMeshProUGUI>();
             if (priceText != null) priceText.text = item.Cost.ToString();
+        }
+    }
+
+    public void RemoveItems()
+    {
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
         }
     }
 }
