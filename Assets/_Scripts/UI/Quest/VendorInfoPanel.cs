@@ -11,16 +11,30 @@ public class VendorInfoPanel : MonoBehaviour
     {
         GameObject itemUI = Instantiate(Item_Prefab, parent);
 
-        Image image = itemUI.GetComponent<Image>();
-        if (image != null)
+        Transform iconTransform = itemUI.transform.Find("Icon");
+        if (iconTransform != null)
         {
-            image.sprite = item.Icon;
+            Image icon = iconTransform.GetComponent<Image>();
+            if (icon != null)
+            {
+                icon.color = Color.white;
+                icon.sprite = item.Icon;
+            }
         }
 
-        TextMeshProUGUI nameText = itemUI.GetComponent<TextMeshProUGUI>();
-        if (nameText != null)
+        Transform nameTransform = itemUI.transform.Find("Text_Name");
+        if (nameTransform != null)
         {
-            nameText.text = item.name;
+            TextMeshProUGUI nameText = nameTransform.GetComponent<TextMeshProUGUI>();
+            if (nameText != null) nameText.text = item.name;
         }
+
+        Transform priceTransform = itemUI.transform.Find("Text_Price");
+        if (priceTransform != null)
+        {
+            TextMeshProUGUI priceText = priceTransform.GetComponent<TextMeshProUGUI>();
+            if (priceText != null) priceText.text = item.SellValue.ToString();
+        }
+
     }
 }

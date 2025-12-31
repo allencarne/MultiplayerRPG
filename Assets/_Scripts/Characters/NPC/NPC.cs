@@ -54,6 +54,7 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         BodySprite.color = Data.skinColor;
         HairSprite.color = Data.hairColor;
+        SwordSprite.sprite = Data.Weapon;
 
         stats.BaseSpeed = Data.Speed;
         stats.BaseDamage = Data.Damage;
