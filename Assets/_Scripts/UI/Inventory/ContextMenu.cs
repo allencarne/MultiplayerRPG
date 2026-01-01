@@ -11,22 +11,30 @@ public class ContextMenu : MonoBehaviour
     [SerializeField] ItemToolTip tooltip;
 
     [SerializeField] Button border_Button;
+
     [SerializeField] Button use_Button;
     [SerializeField] Button split_Button;
     [SerializeField] Button drop_Button;
+    [SerializeField] Button sell_Button;
 
     private void OnEnable()
     {
         StartCoroutine(CheckSelection());
     }
 
-    public void UseButton()
+    private void OnDisable()
+    {
+        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
+        contextMenu.SetActive(false);
+    }
+
+    public void _UseButton()
     {
         inventorySlot.UseItem();
         contextMenu.SetActive(false);
     }
 
-    public void SplitButton()
+    public void _SplitButton()
     {
         InventorySlotData data = inventorySlot.slotData;
         Inventory inventory = inventorySlot.inventory;
@@ -66,7 +74,7 @@ public class ContextMenu : MonoBehaviour
         contextMenu.SetActive(false);
     }
 
-    public void DropButton()
+    public void _DropButton()
     {
         InventorySlotData data = inventorySlot.slotData;
         Inventory inventory = inventorySlot.inventory;
@@ -83,8 +91,15 @@ public class ContextMenu : MonoBehaviour
         contextMenu.SetActive(false);
     }
 
-    private void OnDisable()
+    public void _SellButton()
     {
+        InventorySlotData data = inventorySlot.slotData;
+        Inventory inventory = inventorySlot.inventory;
+
+        if (data == null) return;
+
+        inventory.CoinCollected(data.item.SellValue);
+        inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);
         EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
     }
@@ -99,6 +114,7 @@ public class ContextMenu : MonoBehaviour
                 current == use_Button.gameObject ||
                 current == split_Button.gameObject ||
                 current == drop_Button.gameObject ||
+                current == sell_Button.gameObject ||
                 current == border_Button.gameObject;
 
             if (!isValid)

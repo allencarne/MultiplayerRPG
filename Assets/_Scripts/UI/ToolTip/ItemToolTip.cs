@@ -24,6 +24,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
     [SerializeField] GameObject button_Use;
     [SerializeField] GameObject button_Split;
     [SerializeField] GameObject button_Drop;
+    [SerializeField] GameObject button_Sell;
 
     public void UpdateCurrencyInfo(Currency currency, Item item)
     {
@@ -263,6 +264,9 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 
         // Always available
         button_Drop.SetActive(true);
+
+        bool canSell = item.SellValue > 0;
+        button_Sell.SetActive(canSell);
     }
 
     public void OnCancel(BaseEventData eventData)

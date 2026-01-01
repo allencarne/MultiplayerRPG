@@ -16,21 +16,24 @@ MonoBehaviour:
   Prefab: {fileID: 2407449040360443051, guid: 51761e75ca1b6e34db5f4d1dc1b30635, type: 3}
   Icon: {fileID: 21300000, guid: 2bb9e5bfca3cded4aacd71e85c2fb162, type: 3}
   ItemRarity: 4
-  SellValue: 0
+  SellValue: 1
+  Cost: 4
   Description: 
   DropChance: 10
   IsStackable: 0
-  itemIndex: 0
-  PurchaseValue: 0
+  AnimationIndex: 0
   LevelRequirement: 40
   equipmentType: 5
   ClassRequirement: 0
   modifiers:
-  - statType: 0
-    value: 8
-  - statType: 1
-    value: 5
-  - statType: 2
-    value: 1
+  - value: 8
+    statType: 0
+    source: 0
+  - value: 5
+    statType: 1
+    source: 0
+  - value: 1
+    statType: 2
+    source: 0
   weaponSprite: {fileID: 225808212, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
   weaponType: 0
