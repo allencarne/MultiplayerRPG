@@ -69,6 +69,29 @@ public class AttributePoints : MonoBehaviour
         ASMinus.colors = colors;
         CRDPlus.colors = colors;
         CDRMinus.colors = colors;
+
+        if (stats.AttributePoints.Value == 0)
+        {
+            HealthPlus.gameObject.SetActive(false);
+            HealthMinus.gameObject.SetActive(false);
+            DamagePlus.gameObject.SetActive(false);
+            DamageMinus.gameObject.SetActive(false);
+            ASPlus.gameObject.SetActive(false);
+            ASMinus.gameObject.SetActive(false);
+            CRDPlus.gameObject.SetActive(false);
+            CDRMinus.gameObject.SetActive(false);
+        }
+        else
+        {
+            HealthPlus.gameObject.SetActive(true);
+            HealthMinus.gameObject.SetActive(true);
+            DamagePlus.gameObject.SetActive(true);
+            DamageMinus.gameObject.SetActive(true);
+            ASPlus.gameObject.SetActive(true);
+            ASMinus.gameObject.SetActive(true);
+            CRDPlus.gameObject.SetActive(true);
+            CDRMinus.gameObject.SetActive(true);
+        }
     }
 
     public void PlusButton(int stat)
@@ -153,6 +176,7 @@ public class AttributePoints : MonoBehaviour
         OnStatsApplied?.Invoke();
 
         EventSystem.current.SetSelectedGameObject(buttonToSelect);
+        HideText();
     }
 
     void HideText()
