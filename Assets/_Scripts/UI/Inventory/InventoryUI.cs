@@ -10,8 +10,6 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
-        CoinText.text = $"{inventory.Stats.Coins}<sprite index=0>";
-
         iSlots = itemsParent.GetComponentsInChildren<InventorySlot>();
 
         for (int i = 0; i < iSlots.Length; i++)
@@ -23,6 +21,8 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateUI()
     {
+        CoinText.text = $"{inventory.Stats.Coins}<sprite index=0>";
+
         // Loop through all inventory slots
         for (int i = 0; i < iSlots.Length; i++)
         {

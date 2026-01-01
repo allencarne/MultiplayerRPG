@@ -298,12 +298,8 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.BasicIndex >= skills.basicAbilities.Length) return;
         if (CrowdControl.disarm.IsDisarmed) return;
 
-        Debug.Log("BASIC ABILITY");
-
         if (Input.BasicAbilityInput)
         {
-            Debug.Log("BASIC INPUT");
-
             DestroyAllIndicators();
             state = State.Basic;
             skills.basicAbilities[player.BasicIndex].StartSkill(this);
