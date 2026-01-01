@@ -1,14 +1,18 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class VendorInfoPanel : MonoBehaviour
 {
     [SerializeField] PlayerStats playerStats;
     [SerializeField] Inventory inventory;
+    Item itemToPurchase;
 
     [SerializeField] GameObject Item_Prefab;
     [SerializeField] Transform parent;
+
+    [SerializeField] GameObject ConfirmPanel;
 
     public void CreateItem(Item item)
     {
@@ -18,7 +22,6 @@ public class VendorInfoPanel : MonoBehaviour
         if (vendorItem != null)
         {
             vendorItem.item = item;
-            vendorItem.inventory = inventory;
             vendorItem.inventory = inventory;
             vendorItem.playerStats = playerStats;
             vendorItem.UpdateUI();
@@ -56,5 +59,27 @@ public class VendorInfoPanel : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    public void PurchaseAttempt(Item item)
+    {
+        itemToPurchase = item;
+        ConfirmPanel.SetActive(true);
+    }
+
+    public void NoButton()
+    {
+        ConfirmPanel.SetActive(false);
+        itemToPurchase = null;
+    }
+
+    public void YesButton()
+    {
+        ConfirmPanel.SetActive(false);
+
+        inventory.CoinSpent(itemToPurchase.Cost);
+        inventory.AddItem(itemToPurchase);
+
+        itemToPurchase = null;
     }
 }

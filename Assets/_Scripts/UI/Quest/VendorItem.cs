@@ -14,7 +14,6 @@ public class VendorItem : MonoBehaviour
     public void UpdateUI()
     {
         if (playerStats == null) return;
-        if (inventory == null) return;
         if (item == null) return;
 
         if (playerStats.Coins < item.Cost)
@@ -32,13 +31,15 @@ public class VendorItem : MonoBehaviour
 
         if (playerStats.Coins >= item.Cost)
         {
-            inventory.CoinSpent(item.Cost);
-
             int avaliableSlots = inventory.GetFreeSlotCount();
 
             if (avaliableSlots > 0)
             {
-                inventory.AddItem(item);
+                VendorInfoPanel panel = GetComponentInParent<VendorInfoPanel>();
+                if (panel != null)
+                {
+                    panel.PurchaseAttempt(item);
+                }
             }
             else
             {
