@@ -29,6 +29,7 @@ public class Player : NetworkBehaviour
     public bool IsDead = false;
     public bool InCombat = false;
     public bool IsInteracting = false;
+    public bool CanSellItems = false;
     bool IsRegen = false;
     float CombatTime = 0;
 

@@ -118,6 +118,7 @@ public class PlayerInteract : NetworkBehaviour
 
     public void OpenShopUI(NPCData data)
     {
+        player.CanSellItems = true;
         interactText.enabled = false;
 
         foreach (Item item in data.Items)
@@ -132,6 +133,7 @@ public class PlayerInteract : NetworkBehaviour
     {
         // Called From: QuestPanel, Decline Button, Turn-In Button, Dialogue Panel
         interactText.enabled = false;
+        player.CanSellItems = false;
         player.IsInteracting = false;
         hasInteracted = true;
         vendorInfoPanel.RemoveItems();

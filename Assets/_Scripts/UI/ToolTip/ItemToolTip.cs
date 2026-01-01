@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler, ICancelHandler
 {
+    [SerializeField] Player player;
     [SerializeField] GameObject tooltip;
     [SerializeField] GameObject contextMenu;
 
@@ -265,7 +266,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         // Always available
         button_Drop.SetActive(true);
 
-        bool canSell = item.SellValue > 0;
+        bool canSell = player.CanSellItems;
         button_Sell.SetActive(canSell);
     }
 
