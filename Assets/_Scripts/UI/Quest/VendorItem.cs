@@ -12,7 +12,22 @@ public class VendorItem : MonoBehaviour
     [HideInInspector] public Inventory inventory;
     [HideInInspector] public Item item;
 
-    private void Update()
+    public void Init(PlayerStats _stats, Inventory _inventory, Item _item)
+    {
+        playerStats = _stats;
+        inventory = _inventory;
+        item = _item;
+
+        UpdateUI();
+        inventory.OnCoinsChanged.AddListener(UpdateUI);
+    }
+
+    private void OnDisable()
+    {
+        inventory.OnCoinsChanged.RemoveListener(UpdateUI);
+    }
+
+    void UpdateUI()
     {
         if (playerStats == null) return;
         if (item == null) return;

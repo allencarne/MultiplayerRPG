@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour
     public InventorySlotData[] items;
 
     public UnityEvent<Item, int> OnItemAdded;
+    public UnityEvent OnCoinsChanged;
 
     void Awake()
     {
@@ -310,6 +311,7 @@ public class Inventory : MonoBehaviour
         inventoryUI.CoinText.text = $"{Stats.Coins}<sprite index=0>";
 
         Save.SaveStats();
+        OnCoinsChanged?.Invoke();
     }
 
     public void CoinSpent(float amount)
@@ -318,5 +320,6 @@ public class Inventory : MonoBehaviour
         inventoryUI.CoinText.text = $"{Stats.Coins}<sprite index=0>";
 
         Save.SaveStats();
+        OnCoinsChanged?.Invoke();
     }
 }

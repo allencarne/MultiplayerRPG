@@ -20,9 +20,7 @@ public class VendorInfoPanel : MonoBehaviour
         VendorItem vendorItem = itemUI.GetComponent<VendorItem>();
         if (vendorItem != null)
         {
-            vendorItem.item = item;
-            vendorItem.inventory = inventory;
-            vendorItem.playerStats = playerStats;
+            vendorItem.Init(playerStats,inventory,item);
         }
 
         Transform iconTransform = itemUI.transform.Find("Icon");
