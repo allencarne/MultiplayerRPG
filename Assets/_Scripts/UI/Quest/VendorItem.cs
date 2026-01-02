@@ -6,12 +6,13 @@ public class VendorItem : MonoBehaviour
 {
     [SerializeField] Image background;
     [SerializeField] TextMeshProUGUI priceText;
+    [SerializeField] Color color; 
 
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] public Inventory inventory;
     [HideInInspector] public Item item;
 
-    public void UpdateUI()
+    private void Update()
     {
         if (playerStats == null) return;
         if (item == null) return;
@@ -20,6 +21,11 @@ public class VendorItem : MonoBehaviour
         {
             background.color = Color.gray;
             priceText.color = Color.red;
+        }
+        else
+        {
+            background.color = color;
+            priceText.color = Color.black;
         }
     }
 
@@ -47,7 +53,5 @@ public class VendorItem : MonoBehaviour
                 return;
             }
         }
-
-        UpdateUI();
     }
 }

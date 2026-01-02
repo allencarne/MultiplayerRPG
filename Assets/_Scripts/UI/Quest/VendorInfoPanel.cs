@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class VendorInfoPanel : MonoBehaviour
 {
@@ -24,7 +23,6 @@ public class VendorInfoPanel : MonoBehaviour
             vendorItem.item = item;
             vendorItem.inventory = inventory;
             vendorItem.playerStats = playerStats;
-            vendorItem.UpdateUI();
         }
 
         Transform iconTransform = itemUI.transform.Find("Icon");
