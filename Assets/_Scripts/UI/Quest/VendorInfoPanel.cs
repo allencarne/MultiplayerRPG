@@ -23,6 +23,12 @@ public class VendorInfoPanel : MonoBehaviour
             vendorItem.Init(playerStats,inventory,item);
         }
 
+        VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
+        if (toolTip != null)
+        {
+            toolTip.Init(item);
+        }
+
         Transform iconTransform = itemUI.transform.Find("Icon");
         if (iconTransform != null)
         {
