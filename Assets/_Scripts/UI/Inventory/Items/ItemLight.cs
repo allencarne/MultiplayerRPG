@@ -37,6 +37,15 @@ public class ItemLight : MonoBehaviour
                 ma2.startColor = info.UnCommonColor;
 
                 break;
+            case ItemRarity.Fine:
+                itemLight.color = info.FineColor;
+                itemLight2.color = info.FineColor;
+                mapIcon.color = info.FineColor;
+
+                ParticleSystem.MainModule fine = particles.main;
+                fine.startColor = info.FineColor;
+
+                break;
             case ItemRarity.Rare:
                 itemLight.color = info.RareColor;
                 itemLight2.color = info.RareColor;
@@ -71,6 +80,15 @@ public class ItemLight : MonoBehaviour
 
                 ParticleSystem.MainModule ma6 = particles.main;
                 ma6.startColor = info.MythicColor;
+
+                break;
+            case ItemRarity.Ascended:
+                itemLight.color = info.AscendedColor;
+                itemLight2.color = info.AscendedColor;
+                mapIcon.color = info.AscendedColor;
+
+                ParticleSystem.MainModule ascended = particles.main;
+                ascended.startColor = info.AscendedColor;
 
                 break;
             case ItemRarity.Legendary:
