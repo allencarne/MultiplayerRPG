@@ -27,6 +27,11 @@ public class EnemySpawner : NetworkBehaviour
         InvokeRepeating("CheckIfWeCanSpawn", 0, 10);
     }
 
+    public override void OnNetworkDespawn()
+    {
+        CancelInvoke();
+    }
+
     void CheckIfWeCanSpawn()
     {
         if (!IsServer) return;

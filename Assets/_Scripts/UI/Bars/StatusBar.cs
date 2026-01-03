@@ -17,7 +17,24 @@ public class StatusBar : MonoBehaviour
     {
         if (npc != null)
         {
-            nameText.text = npc.Data.NPCName;
+            switch (npc.Data.npcClass)
+            {
+                case NPCClass.Quest:
+                    nameText.text = $"<sprite name=\"Quest_Icon\"> {npc.Data.NPCName}";
+                    break;
+                case NPCClass.Vendor:
+                    nameText.text = $"<sprite name=\"Vendor_Icon\"> {npc.Data.NPCName}";
+                    break;
+                case NPCClass.Guard:
+                    nameText.text = $"<sprite name=\"Guard_Icon\"> {npc.Data.NPCName}";
+                    break;
+                case NPCClass.Patrol:
+                    nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
+                    break;
+                case NPCClass.Villager:
+                    break;
+            }
+
             levelText.text = "Lvl: " + npc.Data.NPC_Level.ToString();
         }
 

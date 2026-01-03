@@ -50,7 +50,24 @@ public class PlayerSave : NetworkBehaviour
         }
         else
         {
-            custom.playerNameText.text = stats.net_playerName.Value.ToString();
+            switch (stats.playerClass)
+            {
+                case PlayerStats.PlayerClass.Beginner:
+                    custom.playerNameText.text = $"<sprite name=\"Beginner_Icon\"> {stats.net_playerName.Value}";
+                    break;
+                case PlayerStats.PlayerClass.Warrior:
+                    custom.playerNameText.text = $"<sprite name=\"Warrior_Icon\"> {stats.net_playerName.Value}";
+                    break;
+                case PlayerStats.PlayerClass.Magician:
+                    custom.playerNameText.text = $"<sprite name=\"Magician_Icon\"> {stats.net_playerName.Value}";
+                    break;
+                case PlayerStats.PlayerClass.Archer:
+                    custom.playerNameText.text = $"<sprite name=\"Archer_Icon\"> {stats.net_playerName.Value}";
+                    break;
+                case PlayerStats.PlayerClass.Rogue:
+                    custom.playerNameText.text = $"<sprite name=\"Rogue_Icon\"> {stats.net_playerName.Value}";
+                    break;
+            }
             custom.bodySprite.color = stats.net_bodyColor.Value;
             custom.hairSprite.color = stats.net_hairColor.Value;
         }
@@ -82,7 +99,25 @@ public class PlayerSave : NetworkBehaviour
         Color skinCol = customizationData.skinColors[PlayerPrefs.GetInt($"Character{slot}SkinColor")];
         Color hairCol = customizationData.hairColors[PlayerPrefs.GetInt($"Character{slot}HairColor")];
 
-        custom.playerNameText.text = name;
+        switch (stats.playerClass)
+        {
+            case PlayerStats.PlayerClass.Beginner:
+                custom.playerNameText.text = $"<sprite name=\"Beginner_Icon\"> {name}";
+                break;
+            case PlayerStats.PlayerClass.Warrior:
+                custom.playerNameText.text = $"<sprite name=\"Warrior_Icon\"> {name}";
+                break;
+            case PlayerStats.PlayerClass.Magician:
+                custom.playerNameText.text = $"<sprite name=\"Magician_Icon\"> {name}";
+                break;
+            case PlayerStats.PlayerClass.Archer:
+                custom.playerNameText.text = $"<sprite name=\"Archer_Icon\"> {name}";
+                break;
+            case PlayerStats.PlayerClass.Rogue:
+                custom.playerNameText.text = $"<sprite name=\"Rogue_Icon\"> {name}";
+                break;
+        }
+
         custom.bodySprite.color = skinCol;
         custom.hairSprite.color = hairCol;
 

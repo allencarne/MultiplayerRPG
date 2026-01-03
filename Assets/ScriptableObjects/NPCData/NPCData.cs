@@ -8,6 +8,7 @@ public class NPCData : ScriptableObject
     public string NPC_ID;
     public string NPCName;
     public int NPC_Level;
+    public NPCClass npcClass;
 
     [Header("Stats")]
     public int MaxHealth;
@@ -32,4 +33,13 @@ public class NPCData : ScriptableObject
     public List<Quest> Quests;
     [TextArea(3, 8)] public string[] Dialogue;
     public Item[] Items;
+}
+
+public enum NPCClass
+{
+    Quest,
+    Vendor,
+    Guard,
+    Patrol,
+    Villager
 }

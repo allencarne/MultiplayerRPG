@@ -53,7 +53,24 @@ public class PlayerCustomization : NetworkBehaviour
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
     {
-        playerNameText.text = newName.ToString();
+        switch (stats.playerClass)
+        {
+            case PlayerStats.PlayerClass.Beginner:
+                playerNameText.text = $"<sprite name=\"Beginner_Icon\"> {newName}";
+                break;
+            case PlayerStats.PlayerClass.Warrior:
+                playerNameText.text = $"<sprite name=\"Warrior_Icon\"> {newName}";
+                break;
+            case PlayerStats.PlayerClass.Magician:
+                playerNameText.text = $"<sprite name=\"Magician_Icon\"> {newName}";
+                break;
+            case PlayerStats.PlayerClass.Archer:
+                playerNameText.text = $"<sprite name=\"Archer_Icon\"> {newName}";
+                break;
+            case PlayerStats.PlayerClass.Rogue:
+                playerNameText.text = $"<sprite name=\"Rogue_Icon\"> {newName}";
+                break;
+        }
     }
 
     void OnBodyColorChanged(Color previousColor, Color newColor)
