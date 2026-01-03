@@ -10,24 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
-  m_Name: Green Sword
+  m_Name: Mythic Sword (Red)
   m_EditorClassIdentifier: 
   ITEM_ID: 
-  Prefab: {fileID: 110727388103589637, guid: 6acb599c8ba5b8949b83d6d4e201352f, type: 3}
-  Icon: {fileID: 21300000, guid: 10b08ec0e2e4cc44e8d59ac61609947e, type: 3}
-  ItemRarity: 1
+  Prefab: {fileID: 7341174565271230115, guid: d4d31bb885f0eae4d9a8f07b29ba8377, type: 3}
+  Icon: {fileID: 21300000, guid: 949b74539d93635439f0fe5c65b85a91, type: 3}
+  ItemRarity: 6
   SellValue: 1
-  Cost: 0
+  Cost: 5
   Description: 
   DropChance: 10
   IsStackable: 0
   AnimationIndex: 0
-  LevelRequirement: 10
+  LevelRequirement: 50
   equipmentType: 5
   ClassRequirement: 0
   modifiers:
-  - value: 5
+  - value: 9
     statType: 0
     source: 0
-  weaponSprite: {fileID: 2067492834, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+  - value: 9
+    statType: 1
+    source: 0
+  - value: 2
+    statType: 2
+    source: 0
+  weaponSprite: {fileID: -571953657, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
   weaponType: 0

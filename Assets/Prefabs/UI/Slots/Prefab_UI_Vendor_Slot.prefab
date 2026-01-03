@@ -324,7 +324,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 208718649441246471}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7598970263772515908}
+        m_TargetAssemblyTypeName: VendorItem, Assembly-CSharp
+        m_MethodName: AttemptToPurchase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4363036822361392637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,10 +350,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VendorItemToolTip
   riarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
-  itemIcon: {fileID: 0}
-  textBox: {fileID: 0}
-  itemName_Text: {fileID: 0}
-  itemInfo_Text: {fileID: 0}
   ToolTipPrefab: {fileID: 2566949134188032327, guid: d0cc83d9f57f33c4f88339f1bae1b791, type: 3}
 --- !u!114 &7840307822991852097
 MonoBehaviour:

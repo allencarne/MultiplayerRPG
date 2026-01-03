@@ -152,10 +152,12 @@ public class PickupToolTip : MonoBehaviour
         {
             ItemRarity.Common => riarityInfo.CommonColor,
             ItemRarity.Uncommon => riarityInfo.UnCommonColor,
+            ItemRarity.Fine => riarityInfo.FineColor,
             ItemRarity.Rare => riarityInfo.RareColor,
             ItemRarity.Epic => riarityInfo.EpicColor,
             ItemRarity.Exotic => riarityInfo.ExoticColor,
             ItemRarity.Mythic => riarityInfo.MythicColor,
+            ItemRarity.Ascended => riarityInfo.AscendedColor,
             ItemRarity.Legendary => riarityInfo.LegendaryColor,
             _ => Color.white // Default to white
         };

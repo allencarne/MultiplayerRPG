@@ -18,6 +18,11 @@ public class VendorItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
     GameObject tooltip;
     Item item;
 
+    public void OnClick()
+    {
+
+    }
+
     public void Init(Item _item)
     {
         item = _item;
@@ -30,7 +35,7 @@ public class VendorItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         Canvas canvas = GetComponentInParent<Canvas>();
         tooltip = Instantiate(ToolTipPrefab, canvas.transform);
         RectTransform tooltipRect = tooltip.GetComponent<RectTransform>();
-        tooltipRect.position = transform.position + new Vector3(0, 1f, 0);
+        tooltipRect.position = transform.position + new Vector3(-3.5f, -3, 0);
 
         Transform nameTransform = tooltip.transform.Find("TextBox/Text - Name");
         if (nameTransform != null)
@@ -191,10 +196,12 @@ public class VendorItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             ItemRarity.Common => riarityInfo.CommonColor,
             ItemRarity.Uncommon => riarityInfo.UnCommonColor,
+            ItemRarity.Fine => riarityInfo.FineColor,
             ItemRarity.Rare => riarityInfo.RareColor,
             ItemRarity.Epic => riarityInfo.EpicColor,
             ItemRarity.Exotic => riarityInfo.ExoticColor,
             ItemRarity.Mythic => riarityInfo.MythicColor,
+            ItemRarity.Ascended => riarityInfo.AscendedColor,
             ItemRarity.Legendary => riarityInfo.LegendaryColor,
             _ => Color.white // Default to white
         };
