@@ -286,6 +286,28 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         {
             UpdateContextMenuButtons(inventorySlot.slotData.item);
             contextMenu.SetActive(true);
+            SelectFirstActiveButton();
+        }
+    }
+
+    void SelectFirstActiveButton()
+    {
+        // Check buttons in priority order
+        if (button_Use.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(button_Use);
+        }
+        else if (button_Split.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(button_Split);
+        }
+        else if (button_Drop.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(button_Drop);
+        }
+        else if (button_Sell.activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(button_Sell);
         }
     }
 }
