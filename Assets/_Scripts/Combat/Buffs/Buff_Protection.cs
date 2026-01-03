@@ -39,9 +39,6 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
             return;
         }
 
-        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
-        if (stacksToAdd <= 0) return;
-
         remainingTime = Time.time + duration;
 
         if (IsServer)
@@ -52,6 +49,9 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
         {
             StartUIServerRPC(duration);
         }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
 
         for (int i = 0; i < stacksToAdd; i++)
         {

@@ -44,9 +44,6 @@ public class Buff_Regeneration : NetworkBehaviour
             return;
         }
 
-        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
-        if (stacksToAdd <= 0) return;
-
         remainingTime = Time.time + duration;
         if (TotalStacks == 0) nextHealTime = Time.time;
 
@@ -58,6 +55,9 @@ public class Buff_Regeneration : NetworkBehaviour
         {
             StartUIServerRPC(duration);
         }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
 
         for (int i = 0; i < stacksToAdd; i++)
         {

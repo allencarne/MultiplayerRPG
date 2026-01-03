@@ -39,9 +39,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
             return;
         }
 
-        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
-        if (stacksToAdd <= 0) return;
-
         remainingTime = Time.time + duration;
 
         if (IsServer)
@@ -52,6 +49,9 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
         {
             StartUIServerRPC(duration);
         }
+
+        int stacksToAdd = Mathf.Min(stacks, maxStacks - TotalStacks);
+        if (stacksToAdd <= 0) return;
 
         for (int i = 0; i < stacksToAdd; i++)
         {
