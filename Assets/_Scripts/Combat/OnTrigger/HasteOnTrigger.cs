@@ -13,8 +13,10 @@ public class HasteOnTrigger : NetworkBehaviour
     public bool IgnoreNPC;
 
     public bool IsRepeatable;
+    public float CooldownDuration;
 
     private HashSet<NetworkObject> hastedObjects = new HashSet<NetworkObject>();
+    private Dictionary<NetworkObject, float> cooldowns = new Dictionary<NetworkObject, float>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -26,14 +28,23 @@ public class HasteOnTrigger : NetworkBehaviour
 
         // Prevent Attacking Self
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
-        if (objectThatWasHit != null && objectThatWasHit == attacker) return;
+        if (objectThatWasHit == null || objectThatWasHit == attacker) return;
 
         // Haste
         if (!IsRepeatable)
         {
             if (hastedObjects.Contains(objectThatWasHit)) return;
+            hastedObjects.Add(objectThatWasHit);
         }
-        hastedObjects.Add(objectThatWasHit);
+        else
+        {
+            if (cooldowns.ContainsKey(objectThatWasHit))
+            {
+                if (Time.time < cooldowns[objectThatWasHit]) return;
+            }
+            cooldowns[objectThatWasHit] = Time.time + CooldownDuration;
+        }
+
         HasteClientRPC(objectThatWasHit, Stacks, Duration);
     }
 
