@@ -134,6 +134,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FlowerEffect
   sprite: {fileID: 6514541904756376907}
   haste: {fileID: 2958211550500521572}
+  shrinkScale: 0.7
+  cooldownColor: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 1}
+  transitionSpeed: 0.15
 --- !u!212 &6514541904756376907 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 8521753525613671247, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
