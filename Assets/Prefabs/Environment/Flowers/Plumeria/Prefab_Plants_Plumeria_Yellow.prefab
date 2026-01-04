@@ -68,6 +68,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 634088448289738501, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5485410743431431357}
     - targetCorrespondingSourceObject: {fileID: 3405344731805143505, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2958211550500521572}
@@ -97,14 +100,42 @@ MonoBehaviour:
   IgnoreEnemy: 0
   IgnoreNPC: 0
   IsRepeatable: 1
+  CooldownDuration: 0
+  OnCoolDownStarted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1256041928422432913 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4415022472426526357, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
   m_PrefabInstance: {fileID: 3182660611259774468}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2659279798613391617}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+--- !u!1 &2659279798613391617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 634088448289738501, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+  m_PrefabInstance: {fileID: 3182660611259774468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5485410743431431357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2659279798613391617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492976c441e948c4c9cf2740680e7a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlowerEffect
+  sprite: {fileID: 6514541904756376907}
+  haste: {fileID: 2958211550500521572}
+--- !u!212 &6514541904756376907 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8521753525613671247, guid: 2105556be341cea409cc20c7b2a23783, type: 3}
+  m_PrefabInstance: {fileID: 3182660611259774468}
+  m_PrefabAsset: {fileID: 0}

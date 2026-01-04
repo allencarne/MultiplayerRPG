@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HasteOnTrigger : NetworkBehaviour
 {
@@ -17,6 +18,7 @@ public class HasteOnTrigger : NetworkBehaviour
 
     private HashSet<NetworkObject> hastedObjects = new HashSet<NetworkObject>();
     private Dictionary<NetworkObject, float> cooldowns = new Dictionary<NetworkObject, float>();
+    public UnityEvent<float> OnCoolDownStarted;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -43,6 +45,16 @@ public class HasteOnTrigger : NetworkBehaviour
                 if (Time.time < cooldowns[objectThatWasHit]) return;
             }
             cooldowns[objectThatWasHit] = Time.time + CooldownDuration;
+
+
+            ClientRpcParams clientRpcParams = new ClientRpcParams
+            {
+                Send = new ClientRpcSendParams
+                {
+                    TargetClientIds = new ulong[] { objectThatWasHit.OwnerClientId }
+                }
+            };
+            ShowCooldownClientRpc(CooldownDuration, clientRpcParams);
         }
 
         HasteClientRPC(objectThatWasHit, Stacks, Duration);
@@ -56,5 +68,11 @@ public class HasteOnTrigger : NetworkBehaviour
 
         IHasteable hasteable = netObj.GetComponentInChildren<IHasteable>();
         if (hasteable != null) hasteable.StartHaste(stacks, duration);
+    }
+
+    [ClientRpc]
+    void ShowCooldownClientRpc(float duration, ClientRpcParams clientRpcParams = default)
+    {
+        OnCoolDownStarted?.Invoke(duration);
     }
 }
