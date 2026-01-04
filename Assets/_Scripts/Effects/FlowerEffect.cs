@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FlowerEffect : MonoBehaviour
 {
+    [SerializeField] GameObject particle;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] HasteOnTrigger haste;
 
@@ -34,6 +35,7 @@ public class FlowerEffect : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(CooldownAnimation(time));
+        Instantiate(particle, transform.position, Quaternion.identity);
     }
 
     IEnumerator CooldownAnimation(float cooldownDuration)

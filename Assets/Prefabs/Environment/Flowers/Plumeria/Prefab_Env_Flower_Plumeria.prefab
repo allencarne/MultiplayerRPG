@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492976c441e948c4c9cf2740680e7a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlowerEffect
+  particle: {fileID: 8629666284973178150, guid: ea105d6ca053ee249b3b66421d88e33e, type: 3}
   sprite: {fileID: 8521753525613671247}
   haste: {fileID: 4375381341929328511}
   shrinkScale: 0.7
@@ -340,7 +341,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 697386619284956615, guid: dced366ce4bddac448e593a1dbb9efa5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dced366ce4bddac448e593a1dbb9efa5, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2}
   m_FlipX: 0
   m_FlipY: 0
@@ -348,6 +349,6 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

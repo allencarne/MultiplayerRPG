@@ -95,8 +95,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Start()
     {
-        if (CurrentSkill != null) Debug.LogError("Current Skill is Not Null");
-
         playerSpawnState.StartState(this);
 
         BodyAnimator.SetFloat("Vertical", -1);
