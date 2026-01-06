@@ -21,13 +21,13 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Animators")]
     public Animator SwordAnimator;
     public Animator BodyAnimator;
-    public Animator HairAnimator;
-    public Animator EyesAnimator;
+    //public Animator HairAnimator;
+    //public Animator EyesAnimator;
     public Animator HeadAnimator;
     public Animator ChestAnimator;
     public Animator LegsAnimator;
 
-    public Animator PlayerHead;
+    public Animator PlayerHeadAnimator;
     public PlayerHead playerHead;
 
     [Header("Scrips")]
@@ -100,12 +100,11 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         playerSpawnState.StartState(this);
 
+        PlayerHeadAnimator.SetFloat("Vertical", -1);
         BodyAnimator.SetFloat("Vertical", -1);
-        HairAnimator.SetFloat("Vertical", -1);
-        EyesAnimator.SetFloat("Vertical", -1);
+        //HairAnimator.SetFloat("Vertical", -1);
+        //EyesAnimator.SetFloat("Vertical", -1);
         SwordAnimator.SetFloat("Vertical", -1);
-
-        PlayerHead.SetFloat("Vertical", -1);
 
         setSkills.SetSkills();
 
@@ -516,17 +515,20 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void SetAnimDir(Vector2 direction)
     {
-        SwordAnimator.SetFloat("Horizontal", direction.x);
-        SwordAnimator.SetFloat("Vertical", direction.y);
+        PlayerHeadAnimator.SetFloat("Horizontal", direction.x);
+        PlayerHeadAnimator.SetFloat("Vertical", direction.y);
 
         BodyAnimator.SetFloat("Horizontal", direction.x);
         BodyAnimator.SetFloat("Vertical", direction.y);
 
-        EyesAnimator.SetFloat("Horizontal", direction.x);
-        EyesAnimator.SetFloat("Vertical", direction.y);
+        SwordAnimator.SetFloat("Horizontal", direction.x);
+        SwordAnimator.SetFloat("Vertical", direction.y);
 
-        HairAnimator.SetFloat("Horizontal", direction.x);
-        HairAnimator.SetFloat("Vertical", direction.y);
+        //EyesAnimator.SetFloat("Horizontal", direction.x);
+        //EyesAnimator.SetFloat("Vertical", direction.y);
+
+        //HairAnimator.SetFloat("Horizontal", direction.x);
+        //HairAnimator.SetFloat("Vertical", direction.y);
 
         HeadAnimator.SetFloat("Horizontal", direction.x);
         HeadAnimator.SetFloat("Vertical", direction.y);

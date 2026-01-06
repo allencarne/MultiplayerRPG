@@ -6,15 +6,15 @@ public class PlayerRunState : PlayerState
 
     public override void StartState(PlayerStateMachine owner)
     {
-        owner.SwordAnimator.Play("Run", -1, 0);
+        owner.PlayerHeadAnimator.Play("Run", -1, 0);
         owner.BodyAnimator.Play("Run", -1, 0);
-        owner.EyesAnimator.Play("Run", -1, 0);
-        owner.HairAnimator.Play("Run_" + owner.customization.net_HairIndex.Value, -1, 0);
+        owner.SwordAnimator.Play("Run", -1, 0);
+
+        //owner.EyesAnimator.Play("Run", -1, 0);
+        //owner.HairAnimator.Play("Run_" + owner.customization.net_HairIndex.Value, -1, 0);
         owner.HeadAnimator.Play("Run_" + owner.customization.net_HeadIndex.Value, -1, 0);
         owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
-
-        owner.PlayerHead.Play("Run", -1, 0);
 
         lastDirection = Vector2.zero;
     }
@@ -69,15 +69,17 @@ public class PlayerRunState : PlayerState
 
     void UpdateAllAnimators(PlayerStateMachine owner, Vector2 direction)
     {
+        owner.PlayerHeadAnimator.SetFloat("Horizontal", direction.x);
+        owner.PlayerHeadAnimator.SetFloat("Vertical", direction.y);
+        owner.BodyAnimator.SetFloat("Horizontal", direction.x);
+        owner.BodyAnimator.SetFloat("Vertical", direction.y);
         owner.SwordAnimator.SetFloat("Horizontal", direction.x);
         owner.SwordAnimator.SetFloat("Vertical", direction.y);
 
-        owner.BodyAnimator.SetFloat("Horizontal", direction.x);
-        owner.BodyAnimator.SetFloat("Vertical", direction.y);
-        owner.EyesAnimator.SetFloat("Horizontal", direction.x);
-        owner.EyesAnimator.SetFloat("Vertical", direction.y);
-        owner.HairAnimator.SetFloat("Horizontal", direction.x);
-        owner.HairAnimator.SetFloat("Vertical", direction.y);
+        //owner.EyesAnimator.SetFloat("Horizontal", direction.x);
+        //owner.EyesAnimator.SetFloat("Vertical", direction.y);
+        //owner.HairAnimator.SetFloat("Horizontal", direction.x);
+        //owner.HairAnimator.SetFloat("Vertical", direction.y);
 
         owner.HeadAnimator.SetFloat("Horizontal", direction.x);
         owner.HeadAnimator.SetFloat("Vertical", direction.y);
@@ -85,8 +87,5 @@ public class PlayerRunState : PlayerState
         owner.ChestAnimator.SetFloat("Vertical", direction.y);
         owner.LegsAnimator.SetFloat("Horizontal", direction.x);
         owner.LegsAnimator.SetFloat("Vertical", direction.y);
-
-        owner.PlayerHead.SetFloat("Horizontal", direction.x);
-        owner.PlayerHead.SetFloat("Vertical", direction.y);
     }
 }

@@ -9,6 +9,7 @@ public class PlayerStats : CharacterStats
     public NetworkVariable<FixedString32Bytes> net_playerName = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<Color> net_bodyColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<Color> net_hairColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<Color> net_eyeColor = new NetworkVariable<Color>(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Player Stats")]
     public NetworkVariable<int> PlayerLevel = new(writePerm: NetworkVariableWritePermission.Server);

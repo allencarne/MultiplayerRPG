@@ -6,10 +6,11 @@ public class PlayerSpawnState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
-        owner.SwordAnimator.Play("Spawn");
+        owner.PlayerHeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
-        owner.EyesAnimator.Play("Spawn");
-        owner.HairAnimator.Play("Spawn");
+        owner.SwordAnimator.Play("Spawn");
+        //owner.EyesAnimator.Play("Spawn");
+        //owner.HairAnimator.Play("Spawn");
         owner.HeadAnimator.Play("Spawn_" + owner.customization.net_HeadIndex.Value);
         owner.ChestAnimator.Play("Spawn_" + owner.customization.net_ChestIndex.Value);
         owner.LegsAnimator.Play( "Spawn_" + owner.customization.net_LegsIndex.Value);

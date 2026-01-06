@@ -38,21 +38,25 @@ public class PlayerRollState : PlayerState
         }
 
         // Animate
+        owner.PlayerHeadAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.PlayerHeadAnimator.SetFloat("Vertical", facingDirection.y);
+        owner.PlayerHeadAnimator.Play("Roll");
+
         owner.BodyAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.BodyAnimator.SetFloat("Vertical", facingDirection.y);
         owner.BodyAnimator.Play("Roll");
-
-        owner.EyesAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.EyesAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.EyesAnimator.Play("Roll");
 
         owner.SwordAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.SwordAnimator.SetFloat("Vertical", facingDirection.y);
         owner.SwordAnimator.Play("Roll");
 
-        owner.HairAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.HairAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.HairAnimator.Play("Roll_" + owner.customization.net_HairIndex.Value);
+        //owner.EyesAnimator.SetFloat("Horizontal", facingDirection.x);
+        //owner.EyesAnimator.SetFloat("Vertical", facingDirection.y);
+        //owner.EyesAnimator.Play("Roll");
+
+        //owner.HairAnimator.SetFloat("Horizontal", facingDirection.x);
+        //owner.HairAnimator.SetFloat("Vertical", facingDirection.y);
+        //owner.HairAnimator.Play("Roll_" + owner.customization.net_HairIndex.Value);
 
         owner.HeadAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.HeadAnimator.SetFloat("Vertical", facingDirection.y);
@@ -65,10 +69,6 @@ public class PlayerRollState : PlayerState
         owner.LegsAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.LegsAnimator.SetFloat("Vertical", facingDirection.y);
         //owner.LegsAnimator.Play("Roll_" + owner.player.hairIndex);
-
-        owner.PlayerHead.SetFloat("Horizontal", facingDirection.x);
-        owner.PlayerHead.SetFloat("Vertical", facingDirection.y);
-        owner.PlayerHead.Play("Roll");
     }
 
     public override void UpdateState(PlayerStateMachine owner)

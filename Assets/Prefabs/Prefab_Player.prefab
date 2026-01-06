@@ -4442,7 +4442,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 5764557192756779510, guid: cf72d8bf8a637a5419ddd39bb0b7b0b4, type: 3}
+  m_Sprite: {fileID: 9213962798777526176, guid: 1eefff1ce65e8df4ca14c06d67330a9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15822,7 +15822,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2316518332725724670, guid: f9745382299ba444cb870dfdb34c57fc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15830,7 +15830,7 @@ SpriteRenderer:
   m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!95 &940950100477045103
@@ -28700,7 +28700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -28877,6 +28877,8 @@ MonoBehaviour:
     m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
   net_hairColor:
     m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
+  net_eyeColor:
+    m_InternalValue: {r: 0, g: 0, b: 0, a: 0}
   PlayerLevel:
     m_InternalValue: 0
   CurrentExperience:
@@ -28972,12 +28974,10 @@ MonoBehaviour:
   coolDownTracker: {fileID: 2797538976731670928}
   SwordAnimator: {fileID: 1012001254419383665}
   BodyAnimator: {fileID: 8282777624565145663}
-  HairAnimator: {fileID: 1886573199325115856}
-  EyesAnimator: {fileID: 940950100477045103}
   HeadAnimator: {fileID: 7854806111398192950}
   ChestAnimator: {fileID: 1947832283679940003}
   LegsAnimator: {fileID: 3756110123265388196}
-  PlayerHead: {fileID: 2584309363773974622}
+  PlayerHeadAnimator: {fileID: 2584309363773974622}
   playerHead: {fileID: 8195993090240432214}
   player: {fileID: 841304983140234989}
   Stats: {fileID: 2477393547595159198}
@@ -29016,12 +29016,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCustomization
   ShowTopMostFoldoutHeaderGroup: 1
+  playerHead: {fileID: 8195993090240432214}
   stateMachine: {fileID: 6475613187630994528}
   stats: {fileID: 2477393547595159198}
   playerNameText: {fileID: 368875013985293729}
   eyesSprite: {fileID: 5145609343775412902}
-  playerHair: {fileID: 6670205348827342926}
-  hairSprite: {fileID: 3619931694366323352}
+  hairSprite: {fileID: 6670205348827342926}
   bodySprite: {fileID: 7867530632741787033}
   playerHeadSprite: {fileID: 3197860205849077885}
   Sword: {fileID: 5543647698223086082}
@@ -81166,7 +81166,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6442401653005096395, guid: 9bf7699e2959b5a4e850b84e7c1d39b9, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -81174,7 +81174,7 @@ SpriteRenderer:
   m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!95 &1886573199325115856

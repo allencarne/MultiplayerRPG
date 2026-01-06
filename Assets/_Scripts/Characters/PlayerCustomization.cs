@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerCustomization : NetworkBehaviour
 {
     [Header("Player")]
+    [SerializeField] PlayerHead playerHead;
     [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] PlayerStats stats;
 
@@ -14,8 +15,6 @@ public class PlayerCustomization : NetworkBehaviour
 
     [Header("Sprites")]
     public SpriteRenderer eyesSprite;
-    public SpriteRenderer playerHair; // Remove later
-
     public SpriteRenderer hairSprite;
     public SpriteRenderer bodySprite;
     public SpriteRenderer playerHeadSprite;
@@ -38,22 +37,32 @@ public class PlayerCustomization : NetworkBehaviour
     {
         stats.net_playerName.OnValueChanged += OnNameChanged;
         stats.net_bodyColor.OnValueChanged += OnBodyColorChanged;
+
         stats.net_hairColor.OnValueChanged += OnHairColorChanged;
+        stats.net_eyeColor.OnValueChanged += OnEyeColorChanged;
 
         net_HeadIndex.OnValueChanged += OnEquipmentChanged;
         net_ChestIndex.OnValueChanged += OnEquipmentChanged;
         net_LegsIndex.OnValueChanged += OnEquipmentChanged;
+
+        net_HairIndex.OnValueChanged += OnHairIndexChanged;
+        net_EyeIndex.OnValueChanged += OnEyeIndexChanged;
     }
 
     public override void OnDestroy()
     {
         stats.net_playerName.OnValueChanged -= OnNameChanged;
         stats.net_bodyColor.OnValueChanged -= OnBodyColorChanged;
+
         stats.net_hairColor.OnValueChanged -= OnHairColorChanged;
+        stats.net_eyeColor.OnValueChanged -= OnEyeColorChanged;
 
         net_HeadIndex.OnValueChanged -= OnEquipmentChanged;
         net_ChestIndex.OnValueChanged -= OnEquipmentChanged;
         net_LegsIndex.OnValueChanged -= OnEquipmentChanged;
+
+        net_HairIndex.OnValueChanged -= OnHairIndexChanged;
+        net_EyeIndex.OnValueChanged -= OnEyeIndexChanged;
     }
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
@@ -89,8 +98,23 @@ public class PlayerCustomization : NetworkBehaviour
         hairSprite.color = newColor;
     }
 
+    void OnEyeColorChanged(Color previousColor, Color newColor)
+    {
+        eyesSprite.color = newColor;
+    }
+
     void OnEquipmentChanged(int oldValue, int newValue)
     {
         stateMachine.SetState(PlayerStateMachine.State.Idle);
+    }
+
+    void OnHairIndexChanged(int oldValue, int newValue)
+    {
+        playerHead.SetHair(new Vector2(0, -1));
+    }
+
+    void OnEyeIndexChanged(int oldValue, int newValue)
+    {
+        playerHead.SetEyes(new Vector2(0,-1));
     }
 }

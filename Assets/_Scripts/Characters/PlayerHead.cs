@@ -33,9 +33,9 @@ public class PlayerHead : MonoBehaviour
 
         switch (custom.net_HairIndex.Value)
         {
-            case 0: custom.playerHair.sprite = data.Hair0[dirIndex]; break;
-            case 1: custom.playerHair.sprite = data.Hair1[dirIndex]; break;
-            case 2: custom.playerHair.sprite = data.Hair2[dirIndex]; break;
+            case 0: custom.hairSprite.sprite = data.Hair0[dirIndex]; break;
+            case 1: custom.hairSprite.sprite = data.Hair1[dirIndex]; break;
+            case 2: custom.hairSprite.sprite = data.Hair2[dirIndex]; break;
         }
     }
 }

@@ -70,8 +70,8 @@ public class PlayerSave : NetworkBehaviour
             }
             custom.bodySprite.color = stats.net_bodyColor.Value;
             custom.playerHeadSprite.color = stats.net_bodyColor.Value;
-
             custom.hairSprite.color = stats.net_hairColor.Value;
+            custom.eyesSprite.color = stats.net_eyeColor.Value;
         }
 
         ap.OnStatsApplied.AddListener(SaveStats);
@@ -98,8 +98,10 @@ public class PlayerSave : NetworkBehaviour
 
         string name = PlayerPrefs.GetString($"Character{slot}Name", "No Name");
         int hairIndex = PlayerPrefs.GetInt($"Character{slot}HairStyle");
+        int eyeIndex = PlayerPrefs.GetInt($"Character{slot}EyeStyle");
         Color skinCol = customizationData.skinColors[PlayerPrefs.GetInt($"Character{slot}SkinColor")];
         Color hairCol = customizationData.hairColors[PlayerPrefs.GetInt($"Character{slot}HairColor")];
+        Color eyeCol = customizationData.eyeColors[PlayerPrefs.GetInt($"Character{slot}EyeColor")];
 
         switch (stats.playerClass)
         {
@@ -122,33 +124,35 @@ public class PlayerSave : NetworkBehaviour
 
         custom.bodySprite.color = skinCol;
         custom.playerHeadSprite.color = skinCol;
-
         custom.hairSprite.color = hairCol;
+        custom.eyesSprite.color = eyeCol;
 
         if (IsServer)
         {
-            ApplyCustomization(slot, name, skinCol, hairCol, hairIndex);
+            ApplyCustomization(slot, name, skinCol, hairCol, eyeCol, hairIndex, eyeIndex);
         }
         else
         {
-            LoadCustomizationServerRPC(slot, name, skinCol, hairCol, hairIndex);
+            LoadCustomizationServerRPC(slot, name, skinCol, hairCol, eyeCol, hairIndex, eyeIndex);
         }
     }
 
-    void ApplyCustomization(int slot, FixedString32Bytes name, Color skin, Color hair, int hairIndex)
+    void ApplyCustomization(int slot, FixedString32Bytes name, Color skin, Color hair, Color eye, int hairIndex, int eyeIndex)
     {
         stats.net_CharacterSlot.Value = slot;
         stats.net_playerName.Value = name;
         stats.net_bodyColor.Value = skin;
         stats.net_hairColor.Value = hair;
+        stats.net_eyeColor.Value = eye;
 
         custom.net_HairIndex.Value = hairIndex;
+        custom.net_EyeIndex.Value = eyeIndex;
     }
 
     [ServerRpc]
-    void LoadCustomizationServerRPC(int slot, FixedString32Bytes name, Color skin, Color hair, int hairIndex)
+    void LoadCustomizationServerRPC(int slot, FixedString32Bytes name, Color skin, Color hair, Color eye, int hairIndex, int eyeIndex)
     {
-        ApplyCustomization(slot, name, skin, hair, hairIndex);
+        ApplyCustomization(slot, name, skin, hair, eye, hairIndex, eyeIndex);
     }
 
     void LoadPlayerStats()

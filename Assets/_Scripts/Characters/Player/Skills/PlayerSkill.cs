@@ -231,10 +231,11 @@ public abstract class PlayerSkill : NetworkBehaviour
             case State.Done: _state = "Done"; break;
         }
 
+
         owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
-        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_HairIndex.Value);
-        owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
         owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
+        //owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_HairIndex.Value);
+        //owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
 
         owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_HeadIndex.Value);
         owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_ChestIndex.Value);
