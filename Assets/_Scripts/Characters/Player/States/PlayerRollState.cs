@@ -26,11 +26,15 @@ public class PlayerRollState : PlayerState
             Vector2 _newDir = new Vector2(_x, _y);
             owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
             facingDirection = owner.SnapDirection(_newDir);
+            owner.playerHead.SetEyes(facingDirection);
+            owner.playerHead.SetHair(facingDirection);
         }
         else
         {
             owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
             facingDirection = owner.SnapDirection(moveInput);
+            owner.playerHead.SetEyes(moveInput);
+            owner.playerHead.SetHair(moveInput);
         }
 
         // Animate
@@ -61,6 +65,10 @@ public class PlayerRollState : PlayerState
         owner.LegsAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.LegsAnimator.SetFloat("Vertical", facingDirection.y);
         //owner.LegsAnimator.Play("Roll_" + owner.player.hairIndex);
+
+        owner.PlayerHead.SetFloat("Horizontal", facingDirection.x);
+        owner.PlayerHead.SetFloat("Vertical", facingDirection.y);
+        owner.PlayerHead.Play("Roll");
     }
 
     public override void UpdateState(PlayerStateMachine owner)
