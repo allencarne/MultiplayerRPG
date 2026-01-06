@@ -3,7 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterCustomizationData", menuName = "Scriptable Objects/Customization Data")]
 public class CharacterCustomizationData : ScriptableObject
 {
-    public Color[] skinColors; // Array of skin color names or codes
-    public Sprite[] hairStyles; // Array of hair style names
-    public Color[] hairColors; // Array of hair color names
+    public Color[] skinColors;
+    public Color[] hairColors;
+    public Color[] eyeColors;
+
+    public Sprite[] hairStyles;
+
+    public Sprite[] Eye0;
+    public Sprite[] Eye1;
+    public Sprite[] Eye2;
+
+    public Sprite[] Hair0;
+    public Sprite[] Hair1;
+    public Sprite[] Hair2;
 }

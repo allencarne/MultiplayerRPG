@@ -14,6 +14,7 @@ public class PlayerRunState : PlayerState
         owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
+        owner.PlayerHead.Play("Run", -1, 0);
 
         lastDirection = Vector2.zero;
     }
@@ -60,6 +61,8 @@ public class PlayerRunState : PlayerState
             {
                 UpdateAllAnimators(owner, snappedDirection);
                 lastDirection = snappedDirection;
+                owner.playerHead.SetEyes(snappedDirection);
+                owner.playerHead.SetHair(snappedDirection);
             }
         }
     }
@@ -82,5 +85,8 @@ public class PlayerRunState : PlayerState
         owner.ChestAnimator.SetFloat("Vertical", direction.y);
         owner.LegsAnimator.SetFloat("Horizontal", direction.x);
         owner.LegsAnimator.SetFloat("Vertical", direction.y);
+
+        owner.PlayerHead.SetFloat("Horizontal", direction.x);
+        owner.PlayerHead.SetFloat("Vertical", direction.y);
     }
 }

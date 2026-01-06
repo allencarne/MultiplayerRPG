@@ -7,13 +7,15 @@ public class PlayerCustomization : NetworkBehaviour
 {
     [Header("Player")]
     [SerializeField] PlayerStateMachine stateMachine;
-    [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerStats stats;
 
     [Header("UI")]
     public TextMeshProUGUI playerNameText;
 
     [Header("Sprites")]
+    public SpriteRenderer eyesSprite;
+    public SpriteRenderer playerHair; // Remove later
+
     public SpriteRenderer hairSprite;
     public SpriteRenderer bodySprite;
 
@@ -28,6 +30,8 @@ public class PlayerCustomization : NetworkBehaviour
     public NetworkVariable<int> net_HeadIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> net_ChestIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> net_LegsIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
+
+    public NetworkVariable<int> net_EyeIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
 
     public override void OnNetworkSpawn()
     {

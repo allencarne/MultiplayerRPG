@@ -27,6 +27,9 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator ChestAnimator;
     public Animator LegsAnimator;
 
+    public Animator PlayerHead;
+    public PlayerHead playerHead;
+
     [Header("Scrips")]
     public Player player;
     public PlayerStats Stats;
@@ -101,6 +104,8 @@ public class PlayerStateMachine : NetworkBehaviour
         HairAnimator.SetFloat("Vertical", -1);
         EyesAnimator.SetFloat("Vertical", -1);
         SwordAnimator.SetFloat("Vertical", -1);
+
+        PlayerHead.SetFloat("Vertical", -1);
 
         setSkills.SetSkills();
 

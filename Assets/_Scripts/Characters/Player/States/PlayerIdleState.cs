@@ -11,6 +11,8 @@ public class PlayerIdleState : PlayerState
         owner.HeadAnimator.Play("Idle_" + owner.customization.net_HeadIndex.Value, -1, 0);
         owner.ChestAnimator.Play("Idle_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Idle_" + owner.customization.net_LegsIndex.Value, -1, 0);
+
+        owner.PlayerHead.Play("Idle", -1, 0);
     }
 
     public override void UpdateState(PlayerStateMachine owner)

@@ -3164,7 +3164,7 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &416108943347118816
@@ -28977,6 +28977,8 @@ MonoBehaviour:
   HeadAnimator: {fileID: 7854806111398192950}
   ChestAnimator: {fileID: 1947832283679940003}
   LegsAnimator: {fileID: 3756110123265388196}
+  PlayerHead: {fileID: 2584309363773974622}
+  playerHead: {fileID: 8195993090240432214}
   player: {fileID: 841304983140234989}
   Stats: {fileID: 2477393547595159198}
   customization: {fileID: 5248151491556837222}
@@ -29015,9 +29017,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCustomization
   ShowTopMostFoldoutHeaderGroup: 1
   stateMachine: {fileID: 6475613187630994528}
-  itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
   stats: {fileID: 2477393547595159198}
   playerNameText: {fileID: 368875013985293729}
+  eyesSprite: {fileID: 5145609343775412902}
+  playerHair: {fileID: 6670205348827342926}
   hairSprite: {fileID: 3619931694366323352}
   bodySprite: {fileID: 7867530632741787033}
   Sword: {fileID: 5543647698223086082}
@@ -29031,6 +29034,8 @@ MonoBehaviour:
   net_ChestIndex:
     m_InternalValue: 0
   net_LegsIndex:
+    m_InternalValue: 0
+  net_EyeIndex:
     m_InternalValue: 0
 --- !u!114 &7139024652526368089
 MonoBehaviour:
@@ -53063,15 +53068,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 019b885fb5db85f49bdf36151fb5f3db, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.1, y: 0.04}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6098115140415723478
@@ -81224,7 +81229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5627577072920211806
 Transform:
   m_ObjectHideFlags: 0
@@ -82370,8 +82375,9 @@ GameObject:
   - component: {fileID: 3197860205849077885}
   - component: {fileID: 6888055258996451941}
   - component: {fileID: 2584309363773974622}
+  - component: {fileID: 8195993090240432214}
   m_Layer: 0
-  m_Name: Cabeza
+  m_Name: PlayerHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82442,7 +82448,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2346719c3c618744aa33037e53882ccb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 96cb8ac83c41154498db24ffafc4d85e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -82490,6 +82496,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8195993090240432214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8572513556894301216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad823b880118f634bad5a8da918e5be3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHead
+  data: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
+  custom: {fileID: 5248151491556837222}
 --- !u!1 &8581368499849150945
 GameObject:
   m_ObjectHideFlags: 0
