@@ -61,6 +61,9 @@ public class PlayerRunState : PlayerState
             {
                 UpdateAllAnimators(owner, snappedDirection);
                 lastDirection = snappedDirection;
+
+                owner.customization.net_FacingDirection.Value = snappedDirection;
+
                 owner.playerHead.SetEyes(snappedDirection);
                 owner.playerHead.SetHair(snappedDirection);
             }

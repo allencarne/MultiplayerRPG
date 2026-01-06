@@ -30,8 +30,8 @@ public class PlayerCustomization : NetworkBehaviour
     public NetworkVariable<int> net_HeadIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> net_ChestIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<int> net_LegsIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
-
     public NetworkVariable<int> net_EyeIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<Vector2> net_FacingDirection = new NetworkVariable<Vector2>(new Vector2(0, -1),NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
     public override void OnNetworkSpawn()
     {
@@ -48,10 +48,12 @@ public class PlayerCustomization : NetworkBehaviour
         net_HairIndex.OnValueChanged += OnHairIndexChanged;
         net_EyeIndex.OnValueChanged += OnEyeIndexChanged;
 
+        net_FacingDirection.OnValueChanged += OnFacingDirectionChanged;
+
         if (!IsOwner)
         {
-            playerHead.SetHair(new Vector2(0, -1));
-            playerHead.SetEyes(new Vector2(0, -1));
+            playerHead.SetHair(net_FacingDirection.Value);
+            playerHead.SetEyes(net_FacingDirection.Value);
         }
     }
 
@@ -69,6 +71,8 @@ public class PlayerCustomization : NetworkBehaviour
 
         net_HairIndex.OnValueChanged -= OnHairIndexChanged;
         net_EyeIndex.OnValueChanged -= OnEyeIndexChanged;
+
+        net_FacingDirection.OnValueChanged -= OnFacingDirectionChanged;
     }
 
     void OnNameChanged(FixedString32Bytes oldName, FixedString32Bytes newName)
@@ -116,11 +120,17 @@ public class PlayerCustomization : NetworkBehaviour
 
     void OnHairIndexChanged(int oldValue, int newValue)
     {
-        playerHead.SetHair(new Vector2(0, -1));
+        playerHead.SetHair(net_FacingDirection.Value);
     }
 
     void OnEyeIndexChanged(int oldValue, int newValue)
     {
-        playerHead.SetEyes(new Vector2(0,-1));
+        playerHead.SetEyes(net_FacingDirection.Value);
+    }
+
+    void OnFacingDirectionChanged(Vector2 oldDirection, Vector2 newDirection)
+    {
+        playerHead.SetHair(newDirection);
+        playerHead.SetEyes(newDirection);
     }
 }
