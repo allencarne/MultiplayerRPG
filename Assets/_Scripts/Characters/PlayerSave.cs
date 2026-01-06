@@ -69,6 +69,8 @@ public class PlayerSave : NetworkBehaviour
                     break;
             }
             custom.bodySprite.color = stats.net_bodyColor.Value;
+            custom.playerHeadSprite.color = stats.net_bodyColor.Value;
+
             custom.hairSprite.color = stats.net_hairColor.Value;
         }
 
@@ -119,6 +121,8 @@ public class PlayerSave : NetworkBehaviour
         }
 
         custom.bodySprite.color = skinCol;
+        custom.playerHeadSprite.color = skinCol;
+
         custom.hairSprite.color = hairCol;
 
         if (IsServer)

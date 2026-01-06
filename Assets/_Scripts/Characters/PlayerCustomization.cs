@@ -18,6 +18,7 @@ public class PlayerCustomization : NetworkBehaviour
 
     public SpriteRenderer hairSprite;
     public SpriteRenderer bodySprite;
+    public SpriteRenderer playerHeadSprite;
 
     [Header("Weapons")]
     public SpriteRenderer Sword;
@@ -80,6 +81,7 @@ public class PlayerCustomization : NetworkBehaviour
     void OnBodyColorChanged(Color previousColor, Color newColor)
     {
         bodySprite.color = newColor;
+        playerHeadSprite.color = newColor;
     }
 
     void OnHairColorChanged(Color previousColor, Color newColor)
