@@ -47,9 +47,15 @@ public class PlayerCustomization : NetworkBehaviour
 
         net_HairIndex.OnValueChanged += OnHairIndexChanged;
         net_EyeIndex.OnValueChanged += OnEyeIndexChanged;
+
+        if (!IsOwner)
+        {
+            playerHead.SetHair(new Vector2(0, -1));
+            playerHead.SetEyes(new Vector2(0, -1));
+        }
     }
 
-    public override void OnDestroy()
+    public override void OnNetworkDespawn()
     {
         stats.net_playerName.OnValueChanged -= OnNameChanged;
         stats.net_bodyColor.OnValueChanged -= OnBodyColorChanged;
