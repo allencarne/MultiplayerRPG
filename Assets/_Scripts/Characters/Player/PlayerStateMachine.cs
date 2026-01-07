@@ -21,9 +21,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Animators")]
     public Animator SwordAnimator;
     public Animator BodyAnimator;
-    //public Animator HairAnimator;
-    //public Animator EyesAnimator;
-    public Animator HeadAnimator;
+    public Animator HeadAnimator; // Remove
     public Animator ChestAnimator;
     public Animator LegsAnimator;
 

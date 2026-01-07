@@ -28,6 +28,7 @@ public class PlayerRollState : PlayerState
             facingDirection = owner.SnapDirection(_newDir);
             owner.playerHead.SetEyes(facingDirection);
             owner.playerHead.SetHair(facingDirection);
+            owner.playerHead.SetHelm(facingDirection);
         }
         else
         {
@@ -35,6 +36,7 @@ public class PlayerRollState : PlayerState
             facingDirection = owner.SnapDirection(moveInput);
             owner.playerHead.SetEyes(moveInput);
             owner.playerHead.SetHair(moveInput);
+            owner.playerHead.SetHelm(moveInput);
         }
 
         // Animate
@@ -49,18 +51,6 @@ public class PlayerRollState : PlayerState
         owner.SwordAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.SwordAnimator.SetFloat("Vertical", facingDirection.y);
         owner.SwordAnimator.Play("Roll");
-
-        //owner.EyesAnimator.SetFloat("Horizontal", facingDirection.x);
-        //owner.EyesAnimator.SetFloat("Vertical", facingDirection.y);
-        //owner.EyesAnimator.Play("Roll");
-
-        //owner.HairAnimator.SetFloat("Horizontal", facingDirection.x);
-        //owner.HairAnimator.SetFloat("Vertical", facingDirection.y);
-        //owner.HairAnimator.Play("Roll_" + owner.customization.net_HairIndex.Value);
-
-        owner.HeadAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.HeadAnimator.SetFloat("Vertical", facingDirection.y);
-        //owner.HeadAnimator.Play("Roll_" + owner.player.hairIndex);
 
         owner.ChestAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.ChestAnimator.SetFloat("Vertical", facingDirection.y);

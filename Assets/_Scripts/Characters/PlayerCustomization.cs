@@ -13,11 +13,14 @@ public class PlayerCustomization : NetworkBehaviour
     [Header("UI")]
     public TextMeshProUGUI playerNameText;
 
-    [Header("Sprites")]
+    [Header("Head")]
     public SpriteRenderer eyesSprite;
     public SpriteRenderer hairSprite;
-    public SpriteRenderer bodySprite;
+    public SpriteRenderer helmSprite;
+
+    [Header("BodySprites")]
     public SpriteRenderer playerHeadSprite;
+    public SpriteRenderer bodySprite;
 
     [Header("Weapons")]
     public SpriteRenderer Sword;
@@ -47,6 +50,7 @@ public class PlayerCustomization : NetworkBehaviour
 
         net_HairIndex.OnValueChanged += OnHairIndexChanged;
         net_EyeIndex.OnValueChanged += OnEyeIndexChanged;
+        net_HeadIndex.OnValueChanged += OnHelmIndexChanged;
 
         net_FacingDirection.OnValueChanged += OnFacingDirectionChanged;
 
@@ -54,6 +58,7 @@ public class PlayerCustomization : NetworkBehaviour
         {
             playerHead.SetHair(net_FacingDirection.Value);
             playerHead.SetEyes(net_FacingDirection.Value);
+            playerHead.SetHelm(net_FacingDirection.Value);
         }
     }
 
@@ -71,6 +76,7 @@ public class PlayerCustomization : NetworkBehaviour
 
         net_HairIndex.OnValueChanged -= OnHairIndexChanged;
         net_EyeIndex.OnValueChanged -= OnEyeIndexChanged;
+        net_HeadIndex.OnValueChanged -= OnHelmIndexChanged;
 
         net_FacingDirection.OnValueChanged -= OnFacingDirectionChanged;
     }
@@ -128,9 +134,15 @@ public class PlayerCustomization : NetworkBehaviour
         playerHead.SetEyes(net_FacingDirection.Value);
     }
 
+    void OnHelmIndexChanged(int oldValue, int newValue)
+    {
+        playerHead.SetHelm(net_FacingDirection.Value);
+    }
+
     void OnFacingDirectionChanged(Vector2 oldDirection, Vector2 newDirection)
     {
         playerHead.SetHair(newDirection);
         playerHead.SetEyes(newDirection);
+        playerHead.SetHelm(newDirection);
     }
 }

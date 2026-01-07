@@ -38,4 +38,21 @@ public class PlayerHead : MonoBehaviour
             case 2: custom.hairSprite.sprite = data.Hair2[dirIndex]; break;
         }
     }
+
+    public void SetHelm(Vector2 direction)
+    {
+        int dirIndex;
+
+        if (direction.y > 0) dirIndex = 2;        // Up
+        else if (direction.y < 0) dirIndex = 0;   // Down
+        else if (direction.x < 0) dirIndex = 1;   // Left
+        else dirIndex = 3;                        // Right
+
+        switch (custom.net_HeadIndex.Value)
+        {
+            case 0: custom.helmSprite.sprite = data.Helm0[dirIndex]; break;
+            case 1: custom.helmSprite.sprite = data.Helm1[dirIndex]; break;
+            case 2: custom.helmSprite.sprite = data.Helm2[dirIndex]; break;
+        }
+    }
 }
