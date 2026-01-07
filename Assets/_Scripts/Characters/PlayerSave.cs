@@ -71,7 +71,9 @@ public class PlayerSave : NetworkBehaviour
             custom.bodySprite.color = stats.net_bodyColor.Value;
             custom.playerHeadSprite.color = stats.net_bodyColor.Value;
             custom.hairSprite.color = stats.net_hairColor.Value;
-            custom.eyesSprite.color = stats.net_eyeColor.Value;
+
+            Material eyeMat = custom.eyesSprite.material;
+            eyeMat.SetColor("_NewColor", stats.net_eyeColor.Value);
         }
 
         ap.OnStatsApplied.AddListener(SaveStats);
@@ -125,7 +127,9 @@ public class PlayerSave : NetworkBehaviour
         custom.bodySprite.color = skinCol;
         custom.playerHeadSprite.color = skinCol;
         custom.hairSprite.color = hairCol;
-        custom.eyesSprite.color = eyeCol;
+
+        Material eyeMat = custom.eyesSprite.material;
+        eyeMat.SetColor("_NewColor", eyeCol);
 
         if (IsServer)
         {

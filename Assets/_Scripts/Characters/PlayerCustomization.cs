@@ -113,7 +113,8 @@ public class PlayerCustomization : NetworkBehaviour
 
     void OnEyeColorChanged(Color previousColor, Color newColor)
     {
-        eyesSprite.color = newColor;
+        Material eyeMat = eyesSprite.material;
+        eyeMat.SetColor("_NewColor", newColor);
     }
 
     void OnEquipmentChanged(int oldValue, int newValue)
