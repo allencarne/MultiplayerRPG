@@ -14,12 +14,7 @@ public class PlayerHead : MonoBehaviour
         else if (direction.x < 0) dirIndex = 1;   // Left
         else dirIndex = 3;                        // Right
 
-        switch (custom.net_EyeIndex.Value)
-        {
-            case 0: custom.eyesSprite.sprite = data.Eye0[dirIndex]; break;
-            case 1: custom.eyesSprite.sprite = data.Eye1[dirIndex]; break;
-            case 2: custom.eyesSprite.sprite = data.Eye2[dirIndex]; break;
-        }
+        custom.eyesSprite.sprite = data.eyes[custom.net_EyeIndex.Value].sprites[dirIndex];
     }
 
     public void SetHair(Vector2 direction)
@@ -31,12 +26,7 @@ public class PlayerHead : MonoBehaviour
         else if (direction.x < 0) dirIndex = 1;   // Left
         else dirIndex = 3;                        // Right
 
-        switch (custom.net_HairIndex.Value)
-        {
-            case 0: custom.hairSprite.sprite = data.Hair0[dirIndex]; break;
-            case 1: custom.hairSprite.sprite = data.Hair1[dirIndex]; break;
-            case 2: custom.hairSprite.sprite = data.Hair2[dirIndex]; break;
-        }
+        custom.hairSprite.sprite = data.hairs[custom.net_HairIndex.Value].sprites[dirIndex];
     }
 
     public void SetHelm(Vector2 direction)
@@ -48,11 +38,6 @@ public class PlayerHead : MonoBehaviour
         else if (direction.x < 0) dirIndex = 1;   // Left
         else dirIndex = 3;                        // Right
 
-        switch (custom.net_HeadIndex.Value)
-        {
-            case 0: custom.helmSprite.sprite = data.Helm0[dirIndex]; break;
-            case 1: custom.helmSprite.sprite = data.Helm1[dirIndex]; break;
-            case 2: custom.helmSprite.sprite = data.Helm2[dirIndex]; break;
-        }
+        custom.helmSprite.sprite = data.helms[custom.net_HeadIndex.Value].sprites[dirIndex];
     }
 }

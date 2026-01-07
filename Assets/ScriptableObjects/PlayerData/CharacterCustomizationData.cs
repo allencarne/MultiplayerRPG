@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CharacterCustomizationData", menuName = "Scriptable Objects/Customization Data")]
@@ -9,18 +10,13 @@ public class CharacterCustomizationData : ScriptableObject
 
     public Sprite[] hairStyles;
 
-    public Sprite[] Eye0;
-    public Sprite[] Eye1;
-    public Sprite[] Eye2;
-    public Sprite[] Eye3;
+    public List<SpriteSet> eyes;
+    public List<SpriteSet> hairs;
+    public List<SpriteSet> helms;
+}
 
-    public Sprite[] Hair0;
-    public Sprite[] Hair1;
-    public Sprite[] Hair2;
-    public Sprite[] Hair3;
-
-    public Sprite[] Helm0;
-    public Sprite[] Helm1;
-    public Sprite[] Helm2;
-    public Sprite[] Helm3;
+[System.Serializable]
+public class SpriteSet
+{
+    public Sprite[] sprites = new Sprite[4];
 }

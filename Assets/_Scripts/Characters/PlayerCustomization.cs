@@ -54,12 +54,9 @@ public class PlayerCustomization : NetworkBehaviour
 
         net_FacingDirection.OnValueChanged += OnFacingDirectionChanged;
 
-        if (!IsOwner)
-        {
-            playerHead.SetHair(net_FacingDirection.Value);
-            playerHead.SetEyes(net_FacingDirection.Value);
-            playerHead.SetHelm(net_FacingDirection.Value);
-        }
+        playerHead.SetHair(net_FacingDirection.Value);
+        playerHead.SetEyes(net_FacingDirection.Value);
+        playerHead.SetHelm(net_FacingDirection.Value);
     }
 
     public override void OnNetworkDespawn()
