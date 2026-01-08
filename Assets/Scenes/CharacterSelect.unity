@@ -43352,6 +43352,7 @@ MonoBehaviour:
   hairStyleText: {fileID: 1330121718}
   hairColorText: {fileID: 112127261}
   nameInput: {fileID: 2017569865}
+  skinColorIndex: 0
   head: {fileID: 1711367285}
   body: {fileID: 2081493978}
   hair: {fileID: 689445971}
@@ -43370,7 +43371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596e183792721e942a10ce3c6c7e7518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterCreatorUI
-  data: {fileID: 0}
+  creator: {fileID: 1335499876}
+  data: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
   bodyColorParent: {fileID: 624297409}
   bodyColorPrefab: {fileID: 7540237200720339338, guid: d6f6d58a895c9234fa3e61e4cb7b7310, type: 3}
 --- !u!4 &1361120717 stripped
