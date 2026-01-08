@@ -5,28 +5,48 @@ using UnityEngine.UI;
 
 public class CharacterCreator : MonoBehaviour
 {
-    string[] bannedWords = { "nigger", "niger", "bitch", "fuck", "ass", "nigga", "niga", "shit", "nazi", "slut", "cunt", "whore"};
-    string[] randomNames = { "Tom", "Mark", "Travis", "Hank", "Frank", "Bob", "Jeff", "Jill", "Jack" };
-
-    [SerializeField] CharacterSelect characterSelect;
+    [Header("Scriptable")]
+    [SerializeField] CreatorNames names;
     [SerializeField] CharacterCustomizationData customizationData;
 
-    [SerializeField] TMP_InputField nameInput;
-    [SerializeField] TextMeshProUGUI feedbackText;
+    [Header("Scripts")]
+    [SerializeField] CharacterSelect characterSelect;
 
+    [Header("Text")]
+    [SerializeField] TextMeshProUGUI feedbackText;
     [SerializeField] TextMeshProUGUI skinColorText;
     [SerializeField] TextMeshProUGUI hairStyleText;
     [SerializeField] TextMeshProUGUI hairColorText;
 
-    int currentSkinIndex = 0;
-    int currentHairStyleIndex = 0;
-    int currentHairColorIndex = 0;
+    [Header("Input")]
+    [SerializeField] TMP_InputField nameInput;
 
+    [Header("Index")]
+    public int skinColorIndex = 0;
+    int hairStyleIndex = 0;
+    int hairColorIndex = 0;
+    int eyeStyleIndex = 0;
+    int eyeColorIndex = 0;
+
+    [Header("Image")]
+    [SerializeField] Image head;
     [SerializeField] Image body;
     [SerializeField] Image hair;
+    [SerializeField] Image eyes;
 
+    [Header("Buttons")]
     [SerializeField] Button randomButton;
     [SerializeField] Button continueButton;
+
+    private void OnEnable()
+    {
+        nameInput.onValueChanged.AddListener(ValidateName);
+    }
+
+    private void OnDisable()
+    {
+        nameInput.onValueChanged.RemoveListener(ValidateName);
+    }
 
     void Start()
     {
@@ -37,27 +57,23 @@ public class CharacterCreator : MonoBehaviour
 
         // UI
         UpdateUI();
-
-        // Add listener
-        nameInput.onValueChanged.AddListener(ValidateName);
-        randomButton.onClick.AddListener(RandomizeCharacter);
     }
 
     public void CycleSkinColor(bool next)
     {
-        currentSkinIndex = CycleIndex(currentSkinIndex, customizationData.skinColors.Length, next);
+        skinColorIndex = CycleIndex(skinColorIndex, customizationData.skinColors.Length, next);
         UpdateUI();
     }
 
     public void CycleHairStyle(bool next)
     {
-        currentHairStyleIndex = CycleIndex(currentHairStyleIndex, customizationData.hairStyles.Length, next);
+        hairStyleIndex = CycleIndex(hairStyleIndex, customizationData.hairs[hairStyleIndex].sprites.Length, next);
         UpdateUI();
     }
 
     public void CycleHairColor(bool next)
     {
-        currentHairColorIndex = CycleIndex(currentHairColorIndex, customizationData.hairColors.Length, next);
+        hairColorIndex = CycleIndex(hairColorIndex, customizationData.hairColors.Length, next);
         UpdateUI();
     }
 
@@ -71,9 +87,9 @@ public class CharacterCreator : MonoBehaviour
 
     public void RandomizeCharacter()
     {
-        currentSkinIndex = Random.Range(0, customizationData.skinColors.Length);
-        currentHairStyleIndex = Random.Range(0, customizationData.hairStyles.Length);
-        currentHairColorIndex = Random.Range(0, customizationData.hairColors.Length);
+        skinColorIndex = Random.Range(0, customizationData.skinColors.Length);
+        hairStyleIndex = Random.Range(0, customizationData.hairs[hairStyleIndex].sprites.Length);
+        hairColorIndex = Random.Range(0, customizationData.hairColors.Length);
         GetRandomName();
         UpdateUI();
     }
@@ -82,23 +98,24 @@ public class CharacterCreator : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(nameInput.text))
         {
-            int randomNameIndex = Random.Range(0, randomNames.Length);
-            nameInput.text = randomNames[randomNameIndex];
+            int randomNameIndex = Random.Range(0, names.randomNames.Length);
+            nameInput.text = names.randomNames[randomNameIndex];
 
             // Run validation on the new name
             ValidateName(nameInput.text);
         }
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
-        skinColorText.text = $"{currentSkinIndex}";
-        hairStyleText.text = $"{currentHairStyleIndex}";
-        hairColorText.text = $"{currentHairColorIndex}";
+        skinColorText.text = $"{skinColorIndex}";
+        hairStyleText.text = $"{hairStyleIndex}";
+        hairColorText.text = $"{hairColorIndex}";
 
-        body.color = customizationData.skinColors[currentSkinIndex];
-        hair.sprite = customizationData.hairStyles[currentHairStyleIndex];
-        hair.color = customizationData.hairColors[currentHairColorIndex];
+        head.color = customizationData.skinColors[skinColorIndex];
+        body.color = customizationData.skinColors[skinColorIndex];
+        hair.sprite = customizationData.hairs[hairStyleIndex].sprites[0];
+        hair.color = customizationData.hairColors[hairColorIndex];
     }
 
     public void ResetCreatorUI()
@@ -106,16 +123,17 @@ public class CharacterCreator : MonoBehaviour
         nameInput.text = "";
         feedbackText.text = "";
 
-        currentSkinIndex = 0;
-        currentHairStyleIndex = 0;
-        currentHairColorIndex = 0;
+        skinColorIndex = 0;
+        hairStyleIndex = 0;
+        hairColorIndex = 0;
 
-        skinColorText.text = $"{currentSkinIndex}";
-        hairStyleText.text = $"{currentHairStyleIndex}";
-        hairColorText.text = $"{currentHairColorIndex}";
+        skinColorText.text = $"{skinColorIndex}";
+        hairStyleText.text = $"{hairStyleIndex}";
+        hairColorText.text = $"{hairColorIndex}";
 
+        head.color = customizationData.skinColors[0];
         body.color = customizationData.skinColors[0];
-        hair.sprite = customizationData.hairStyles[0];
+        hair.sprite = customizationData.hairs[0].sprites[0];
         hair.color = customizationData.hairColors[0];
     }
 
@@ -131,7 +149,7 @@ public class CharacterCreator : MonoBehaviour
         }
 
         // Check for profanity
-        foreach (string bannedWord in bannedWords)
+        foreach (string bannedWord in names.bannedWords)
         {
             if (name.ToLower().Contains(bannedWord))
             {
@@ -148,12 +166,6 @@ public class CharacterCreator : MonoBehaviour
         continueButton.gameObject.SetActive(true);
     }
 
-    void OnDestroy()
-    {
-        // Remove listener to avoid memory leaks
-        nameInput.onValueChanged.RemoveListener(ValidateName);
-    }
-
     public void ContinueButton()
     {
         bool character1Exists = PlayerPrefs.GetInt("Character1") == 1;
@@ -163,9 +175,9 @@ public class CharacterCreator : MonoBehaviour
         if (!character1Exists)
         {
             PlayerPrefs.SetString("Character1Name", nameInput.text);
-            PlayerPrefs.SetInt("Character1SkinColor", currentSkinIndex);
-            PlayerPrefs.SetInt("Character1HairStyle", currentHairStyleIndex);
-            PlayerPrefs.SetInt("Character1HairColor", currentHairColorIndex);
+            PlayerPrefs.SetInt("Character1SkinColor", skinColorIndex);
+            PlayerPrefs.SetInt("Character1HairStyle", hairStyleIndex);
+            PlayerPrefs.SetInt("Character1HairColor", hairColorIndex);
 
             PlayerPrefs.SetInt("Character1", 1);
             characterSelect.LoadCharacters();
@@ -174,9 +186,9 @@ public class CharacterCreator : MonoBehaviour
         if (!character2Exists)
         {
             PlayerPrefs.SetString("Character2Name", nameInput.text);
-            PlayerPrefs.SetInt("Character2SkinColor", currentSkinIndex);
-            PlayerPrefs.SetInt("Character2HairStyle", currentHairStyleIndex);
-            PlayerPrefs.SetInt("Character2HairColor", currentHairColorIndex);
+            PlayerPrefs.SetInt("Character2SkinColor", skinColorIndex);
+            PlayerPrefs.SetInt("Character2HairStyle", hairStyleIndex);
+            PlayerPrefs.SetInt("Character2HairColor", hairColorIndex);
 
             PlayerPrefs.SetInt("Character2", 1);
             characterSelect.LoadCharacters();
@@ -185,9 +197,9 @@ public class CharacterCreator : MonoBehaviour
         if (!character3Exists)
         {
             PlayerPrefs.SetString("Character3Name", nameInput.text);
-            PlayerPrefs.SetInt("Character3SkinColor", currentSkinIndex);
-            PlayerPrefs.SetInt("Character3HairStyle", currentHairStyleIndex);
-            PlayerPrefs.SetInt("Character3HairColor", currentHairColorIndex);
+            PlayerPrefs.SetInt("Character3SkinColor", skinColorIndex);
+            PlayerPrefs.SetInt("Character3HairStyle", hairStyleIndex);
+            PlayerPrefs.SetInt("Character3HairColor", hairColorIndex);
 
             PlayerPrefs.SetInt("Character3", 1);
             characterSelect.LoadCharacters();

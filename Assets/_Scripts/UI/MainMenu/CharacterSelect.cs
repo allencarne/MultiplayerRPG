@@ -61,7 +61,7 @@ public class CharacterSelect : MonoBehaviour
         {
             Character1NameText.text = PlayerPrefs.GetString("Character1Name");
             body1.color = customizationData.skinColors[PlayerPrefs.GetInt("Character1SkinColor")];
-            hair1.sprite = customizationData.hairStyles[PlayerPrefs.GetInt("Character1HairStyle")];
+            hair1.sprite = customizationData.hairs[PlayerPrefs.GetInt("Character1HairStyle")].sprites[0];
             hair1.color = customizationData.hairColors[PlayerPrefs.GetInt("Character1HairColor")];
             deleteButton1.gameObject.SetActive(true);
             statPreview1.SetActive(true);
@@ -70,7 +70,7 @@ public class CharacterSelect : MonoBehaviour
         {
             Character2NameText.text = PlayerPrefs.GetString("Character2Name");
             body2.color = customizationData.skinColors[PlayerPrefs.GetInt("Character2SkinColor")];
-            hair2.sprite = customizationData.hairStyles[PlayerPrefs.GetInt("Character2HairStyle")];
+            hair2.sprite = customizationData.hairs[PlayerPrefs.GetInt("Character2HairStyle")].sprites[0];
             hair2.color = customizationData.hairColors[PlayerPrefs.GetInt("Character2HairColor")];
             deleteButton2.gameObject.SetActive(true);
             statPreview2.SetActive(true);
@@ -79,7 +79,7 @@ public class CharacterSelect : MonoBehaviour
         {
             Character3NameText.text = PlayerPrefs.GetString("Character3Name");
             body3.color = customizationData.skinColors[PlayerPrefs.GetInt("Character3SkinColor")];
-            hair3.sprite = customizationData.hairStyles[PlayerPrefs.GetInt("Character3HairStyle")];
+            hair3.sprite = customizationData.hairs[PlayerPrefs.GetInt("Character3HairStyle")].sprites[0];
             hair3.color = customizationData.hairColors[PlayerPrefs.GetInt("Character3HairColor")];
             deleteButton3.gameObject.SetActive(true);
             statPreview3.SetActive(true);
@@ -98,7 +98,7 @@ public class CharacterSelect : MonoBehaviour
 
         Character1NameText.text = "Empty";
         body1.color = Color.white;
-        hair1.sprite = customizationData.hairStyles[0];
+        hair1.sprite = customizationData.hairs[0].sprites[0];
         hair1.color = Color.black;
     }
 
@@ -114,7 +114,7 @@ public class CharacterSelect : MonoBehaviour
 
         Character2NameText.text = "Empty";
         body2.color = Color.white;
-        hair2.sprite = customizationData.hairStyles[0];
+        hair2.sprite = customizationData.hairs[0].sprites[0];
         hair2.color = Color.black;
     }
 
@@ -130,7 +130,7 @@ public class CharacterSelect : MonoBehaviour
 
         Character3NameText.text = "Empty";
         body3.color = Color.white;
-        hair3.sprite = customizationData.hairStyles[0];
+        hair3.sprite = customizationData.hairs[0].sprites[0];
         hair3.color = Color.black;
     }
 

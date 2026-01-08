@@ -8,8 +8,6 @@ public class CharacterCustomizationData : ScriptableObject
     public Color[] hairColors;
     public Color[] eyeColors;
 
-    public Sprite[] hairStyles;
-
     public List<SpriteSet> eyes;
     public List<SpriteSet> hairs;
     public List<SpriteSet> helms;
