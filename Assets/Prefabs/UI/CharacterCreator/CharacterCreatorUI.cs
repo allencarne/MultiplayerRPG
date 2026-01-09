@@ -8,25 +8,27 @@ public class CharacterCreatorUI : MonoBehaviour
     [SerializeField] CharacterCreator creator;
     [SerializeField] CharacterCustomizationData data;
 
+    [SerializeField] GameObject colorPreviewPrefab;
+    [SerializeField] GameObject stylePreviewPrefab;
+
     [SerializeField] GameObject bodyColorParent;
-    [SerializeField] GameObject bodyColorPrefab;
-
     [SerializeField] GameObject hairColorParent;
-    [SerializeField] GameObject hairColorPrefab;
-
     [SerializeField] GameObject eyeColorParent;
-    [SerializeField] GameObject eyeColorPrefab;
+    [SerializeField] GameObject hairStyleParent;
+    [SerializeField] GameObject eyeStyleParent;
 
     private List<GameObject> skinColorImages = new List<GameObject>();
     private List<GameObject> hairColorImages = new List<GameObject>();
     private List<GameObject> eyeColorImages = new List<GameObject>();
+    private List<GameObject> hairStyleImages = new List<GameObject>();
+    private List<GameObject> eyeStyleImages = new List<GameObject>();
 
     private void Start()
     {
         int skinColorIndex = 0;
         foreach (Color color in data.skinColors)
         {
-            GameObject button = Instantiate(bodyColorPrefab, bodyColorParent.transform);
+            GameObject button = Instantiate(colorPreviewPrefab, bodyColorParent.transform);
             Button buttonComponent = button.GetComponent<Button>();
             Image imageComponent = button.GetComponent<Image>();
 
@@ -45,7 +47,7 @@ public class CharacterCreatorUI : MonoBehaviour
         int hairColorIndex = 0;
         foreach (Color color in data.hairColors)
         {
-            GameObject button = Instantiate(hairColorPrefab, hairColorParent.transform);
+            GameObject button = Instantiate(colorPreviewPrefab, hairColorParent.transform);
             Button buttonComponent = button.GetComponent<Button>();
             Image imageComponent = button.GetComponent<Image>();
 
@@ -64,7 +66,7 @@ public class CharacterCreatorUI : MonoBehaviour
         int eyeColorIndex = 0;
         foreach (Color color in data.eyeColors)
         {
-            GameObject button = Instantiate(eyeColorPrefab, eyeColorParent.transform);
+            GameObject button = Instantiate(colorPreviewPrefab, eyeColorParent.transform);
             Button buttonComponent = button.GetComponent<Button>();
             Image imageComponent = button.GetComponent<Image>();
 
@@ -78,6 +80,46 @@ public class CharacterCreatorUI : MonoBehaviour
             buttonComponent.onClick.AddListener(() => EyeColorButton(currentIndex));
 
             eyeColorIndex++;
+        }
+
+        int hairStyleIndex = 0;
+        foreach (Sprite sprite in data.hairs[hairStyleIndex].sprites)
+        {
+            GameObject button = Instantiate(stylePreviewPrefab, hairStyleParent.transform);
+            Button buttonComponent = button.GetComponent<Button>();
+
+            int currentIndex = hairStyleIndex;
+
+            GameObject hairImage = button.transform.Find("Style").gameObject;
+            hairImage.GetComponent<Image>().sprite = data.hairs[hairStyleIndex].sprites[0];
+
+            GameObject selectionImage = button.transform.Find("Image").gameObject;
+            hairStyleImages.Add(selectionImage);
+            selectionImage.SetActive(false);
+
+            buttonComponent.onClick.AddListener(() => HairStyleButton(currentIndex));
+
+            hairStyleIndex++;
+        }
+
+        int eyeStyleIndex = 0;
+        foreach (Sprite sprite in data.eyes[eyeStyleIndex].sprites)
+        {
+            GameObject button = Instantiate(stylePreviewPrefab, eyeStyleParent.transform);
+            Button buttonComponent = button.GetComponent<Button>();
+
+            int currentIndex = eyeStyleIndex;
+
+            GameObject hairImage = button.transform.Find("Style").gameObject;
+            hairImage.GetComponent<Image>().sprite = data.eyes[eyeStyleIndex].sprites[0];
+
+            GameObject selectionImage = button.transform.Find("Image").gameObject;
+            eyeStyleImages.Add(selectionImage);
+            selectionImage.SetActive(false);
+
+            buttonComponent.onClick.AddListener(() => EyeStyleButton(currentIndex));
+
+            eyeStyleIndex++;
         }
 
         UpdateSelectionImages();
@@ -100,6 +142,20 @@ public class CharacterCreatorUI : MonoBehaviour
     public void EyeColorButton(int index)
     {
         creator.eyeColorIndex = index;
+        UpdateSelectionImages();
+        creator.UpdateUI();
+    }
+
+    public void HairStyleButton(int index)
+    {
+        creator.hairStyleIndex = index;
+        UpdateSelectionImages();
+        creator.UpdateUI();
+    }
+
+    public void EyeStyleButton(int index)
+    {
+        creator.eyeStyleIndex = index;
         UpdateSelectionImages();
         creator.UpdateUI();
     }
@@ -134,6 +190,26 @@ public class CharacterCreatorUI : MonoBehaviour
         if (eyeColorImages.Count > 0 && creator.eyeColorIndex < eyeColorImages.Count)
         {
             eyeColorImages[creator.eyeColorIndex].SetActive(true);
+        }
+
+        // Update hair style selection
+        foreach (GameObject selectionImage in hairStyleImages)
+        {
+            selectionImage.SetActive(false);
+        }
+        if (hairStyleImages.Count > 0 && creator.hairStyleIndex < hairStyleImages.Count)
+        {
+            hairStyleImages[creator.hairStyleIndex].SetActive(true);
+        }
+
+        // Update eye style selection
+        foreach (GameObject selectionImage in eyeStyleImages)
+        {
+            selectionImage.SetActive(false);
+        }
+        if (eyeStyleImages.Count > 0 && creator.eyeStyleIndex < eyeStyleImages.Count)
+        {
+            eyeStyleImages[creator.eyeStyleIndex].SetActive(true);
         }
     }
 }
