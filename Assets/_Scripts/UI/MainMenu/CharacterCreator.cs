@@ -15,9 +15,6 @@ public class CharacterCreator : MonoBehaviour
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI feedbackText;
-    [SerializeField] TextMeshProUGUI skinColorText;
-    [SerializeField] TextMeshProUGUI hairStyleText;
-    [SerializeField] TextMeshProUGUI hairColorText;
 
     [Header("Input")]
     [SerializeField] TMP_InputField nameInput;
@@ -60,38 +57,12 @@ public class CharacterCreator : MonoBehaviour
         RandomizeCharacter();
     }
 
-    public void CycleSkinColor(bool next)
-    {
-        skinColorIndex = CycleIndex(skinColorIndex, customizationData.skinColors.Length, next);
-        UpdateUI();
-    }
-
-    public void CycleHairStyle(bool next)
-    {
-        hairStyleIndex = CycleIndex(hairStyleIndex, customizationData.hairs[hairStyleIndex].sprites.Length, next);
-        UpdateUI();
-    }
-
-    public void CycleHairColor(bool next)
-    {
-        hairColorIndex = CycleIndex(hairColorIndex, customizationData.hairColors.Length, next);
-        UpdateUI();
-    }
-
-    private int CycleIndex(int currentIndex, int arrayLength, bool next)
-    {
-        if (next)
-            return (currentIndex + 1) % arrayLength;
-        else
-            return (currentIndex - 1 + arrayLength) % arrayLength;
-    }
-
     public void RandomizeCharacter()
     {
         skinColorIndex = Random.Range(0, customizationData.skinColors.Length);
-        hairStyleIndex = Random.Range(0, customizationData.hairs[hairStyleIndex].sprites.Length);
+        hairStyleIndex = Random.Range(0, customizationData.hairs.Count);
         hairColorIndex = Random.Range(0, customizationData.hairColors.Length);
-        eyeStyleIndex = Random.Range(0, customizationData.eyes[eyeStyleIndex].sprites.Length);
+        eyeStyleIndex = Random.Range(0, customizationData.eyes.Count);
         eyeColorIndex = Random.Range(0, customizationData.eyeColors.Length);
 
         GetRandomName();
@@ -113,10 +84,6 @@ public class CharacterCreator : MonoBehaviour
 
     public void UpdateUI()
     {
-        skinColorText.text = $"{skinColorIndex}";
-        hairStyleText.text = $"{hairStyleIndex}";
-        hairColorText.text = $"{hairColorIndex}";
-
         head.color = customizationData.skinColors[skinColorIndex];
         body.color = customizationData.skinColors[skinColorIndex];
         hair.sprite = customizationData.hairs[hairStyleIndex].sprites[0];
@@ -136,10 +103,6 @@ public class CharacterCreator : MonoBehaviour
         skinColorIndex = 0;
         hairStyleIndex = 0;
         hairColorIndex = 0;
-
-        skinColorText.text = $"{skinColorIndex}";
-        hairStyleText.text = $"{hairStyleIndex}";
-        hairColorText.text = $"{hairColorIndex}";
 
         head.color = customizationData.skinColors[0];
         body.color = customizationData.skinColors[0];
