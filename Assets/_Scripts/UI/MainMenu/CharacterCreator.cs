@@ -56,8 +56,8 @@ public class CharacterCreator : MonoBehaviour
         // Disable Continue Button
         continueButton.gameObject.SetActive(false);
 
-        // UI
-        UpdateUI();
+        // Randomize Character
+        RandomizeCharacter();
     }
 
     public void CycleSkinColor(bool next)
@@ -149,7 +149,7 @@ public class CharacterCreator : MonoBehaviour
         eyes.sprite = customizationData.eyes[0].sprites[0];
 
         Material eyeMat = eyes.material;
-        eyeMat.SetColor("_NewColor", eyes.color = customizationData.eyeColors[0]);
+        eyeMat.SetColor("_NewColor", customizationData.eyeColors[0]);
     }
 
     void ValidateName(string name)
