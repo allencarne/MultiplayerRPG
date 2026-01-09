@@ -91,6 +91,9 @@ public class CharacterCreator : MonoBehaviour
         skinColorIndex = Random.Range(0, customizationData.skinColors.Length);
         hairStyleIndex = Random.Range(0, customizationData.hairs[hairStyleIndex].sprites.Length);
         hairColorIndex = Random.Range(0, customizationData.hairColors.Length);
+        eyeStyleIndex = Random.Range(0, customizationData.eyes[eyeStyleIndex].sprites.Length);
+        eyeColorIndex = Random.Range(0, customizationData.eyeColors.Length);
+
         GetRandomName();
         UpdateUI();
         creatorUI.UpdateSelectionImages();
