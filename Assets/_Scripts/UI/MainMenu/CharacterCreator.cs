@@ -193,6 +193,8 @@ public class CharacterCreator : MonoBehaviour
             PlayerPrefs.SetInt("Character1SkinColor", skinColorIndex);
             PlayerPrefs.SetInt("Character1HairStyle", hairStyleIndex);
             PlayerPrefs.SetInt("Character1HairColor", hairColorIndex);
+            PlayerPrefs.SetInt("Character1EyeStyle", eyeStyleIndex);
+            PlayerPrefs.SetInt("Character1EyeColor", eyeColorIndex);
 
             PlayerPrefs.SetInt("Character1", 1);
             characterSelect.LoadCharacters();
@@ -204,6 +206,8 @@ public class CharacterCreator : MonoBehaviour
             PlayerPrefs.SetInt("Character2SkinColor", skinColorIndex);
             PlayerPrefs.SetInt("Character2HairStyle", hairStyleIndex);
             PlayerPrefs.SetInt("Character2HairColor", hairColorIndex);
+            PlayerPrefs.SetInt("Character2EyeStyle", eyeStyleIndex);
+            PlayerPrefs.SetInt("Character2EyeColor", eyeColorIndex);
 
             PlayerPrefs.SetInt("Character2", 1);
             characterSelect.LoadCharacters();
@@ -215,6 +219,8 @@ public class CharacterCreator : MonoBehaviour
             PlayerPrefs.SetInt("Character3SkinColor", skinColorIndex);
             PlayerPrefs.SetInt("Character3HairStyle", hairStyleIndex);
             PlayerPrefs.SetInt("Character3HairColor", hairColorIndex);
+            PlayerPrefs.SetInt("Character3EyeStyle", eyeStyleIndex);
+            PlayerPrefs.SetInt("Character3EyeColor", eyeColorIndex);
 
             PlayerPrefs.SetInt("Character3", 1);
             characterSelect.LoadCharacters();
