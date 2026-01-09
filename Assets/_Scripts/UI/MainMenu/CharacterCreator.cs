@@ -11,6 +11,7 @@ public class CharacterCreator : MonoBehaviour
 
     [Header("Scripts")]
     [SerializeField] CharacterSelect characterSelect;
+    [SerializeField] CharacterCreatorUI creatorUI;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI feedbackText;
@@ -23,10 +24,10 @@ public class CharacterCreator : MonoBehaviour
 
     [Header("Index")]
     public int skinColorIndex = 0;
-    int hairStyleIndex = 0;
-    int hairColorIndex = 0;
-    int eyeStyleIndex = 0;
-    int eyeColorIndex = 0;
+    public int hairStyleIndex = 0;
+    public int hairColorIndex = 0;
+    public int eyeStyleIndex = 0;
+    public int eyeColorIndex = 0;
 
     [Header("Image")]
     [SerializeField] Image head;
@@ -92,6 +93,7 @@ public class CharacterCreator : MonoBehaviour
         hairColorIndex = Random.Range(0, customizationData.hairColors.Length);
         GetRandomName();
         UpdateUI();
+        creatorUI.UpdateSelectionImages();
     }
 
     void GetRandomName()
@@ -116,6 +118,11 @@ public class CharacterCreator : MonoBehaviour
         body.color = customizationData.skinColors[skinColorIndex];
         hair.sprite = customizationData.hairs[hairStyleIndex].sprites[0];
         hair.color = customizationData.hairColors[hairColorIndex];
+
+        eyes.sprite = customizationData.eyes[eyeStyleIndex].sprites[0];
+
+        Material eyeMat = eyes.material;
+        eyeMat.SetColor("_NewColor", customizationData.eyeColors[eyeColorIndex]);
     }
 
     public void ResetCreatorUI()
@@ -135,6 +142,11 @@ public class CharacterCreator : MonoBehaviour
         body.color = customizationData.skinColors[0];
         hair.sprite = customizationData.hairs[0].sprites[0];
         hair.color = customizationData.hairColors[0];
+
+        eyes.sprite = customizationData.eyes[0].sprites[0];
+
+        Material eyeMat = eyes.material;
+        eyeMat.SetColor("_NewColor", eyes.color = customizationData.eyeColors[0]);
     }
 
     void ValidateName(string name)
