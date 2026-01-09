@@ -246,6 +246,7 @@ public class CharacterSelect : MonoBehaviour
         string[] keys = new string[]
         {
         $"{slot}PlayerLevel",
+        $"{slot}PlayerClass",
         $"{slot}CurrentExperience",
         $"{slot}Coins",
         $"{slot}AP",

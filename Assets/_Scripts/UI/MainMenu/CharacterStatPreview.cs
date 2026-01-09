@@ -4,23 +4,30 @@ using UnityEngine;
 public class CharacterStatPreview : MonoBehaviour
 {
     [SerializeField] int playerIndex;
-
-    [SerializeField] TextMeshProUGUI classText;
-    [SerializeField] TextMeshProUGUI levelText;
-    [SerializeField] TextMeshProUGUI coinText;
-    [SerializeField] TextMeshProUGUI healthText;
-    [SerializeField] TextMeshProUGUI damageText;
-    [SerializeField] TextMeshProUGUI attackSpeedText;
-    [SerializeField] TextMeshProUGUI cdrText;
+    [SerializeField] TextMeshProUGUI statText;
 
     private void Start()
     {
-        classText.text = "Class: Beginner";
-        levelText.text = "Level: " + PlayerPrefs.GetInt($"Character{playerIndex}_PlayerLevel", 1).ToString();
-        coinText.text = "Coins: " + PlayerPrefs.GetFloat($"Character{playerIndex}_Coins", 0).ToString();
-        healthText.text = "Health: " + PlayerPrefs.GetFloat($"Character{playerIndex}_MaxHealth", 10).ToString();
-        damageText.text = "Damage: " + PlayerPrefs.GetInt($"Character{playerIndex}_Damage", 1).ToString();
-        attackSpeedText.text = "Attack Speed: " + PlayerPrefs.GetFloat($"Character{playerIndex}_AttackSpeed", 1).ToString();
-        cdrText.text = "Cool Down: " + PlayerPrefs.GetFloat($"Character{playerIndex}_CDR", 1).ToString();
+        int level = PlayerPrefs.GetInt($"{playerIndex}PlayerLevel", 1);
+        int classInxed = PlayerPrefs.GetInt($"{playerIndex}PlayerClass");
+
+        switch (classInxed)
+        {
+            case 0:
+                statText.text = $"Level: {level} \n <sprite name=\"Beginner_Icon\">  Beginner";
+                break;
+            case 1:
+                statText.text = $"Level: {level} \n <sprite name=\"Warrior_Icon\">  Warrior";
+                break;
+            case 2:
+                statText.text = $"Level: {level} \n <sprite name=\"Magician_Icon\">  Magician";
+                break;
+            case 3:
+                statText.text = $"Level: {level} \n <sprite name=\"Archer_Icon\">  Archer";
+                break;
+            case 4:
+                statText.text = $"Level: {level} \n <sprite name=\"Rogue_Icon\">  Rogue";
+                break;
+        }
     }
 }
