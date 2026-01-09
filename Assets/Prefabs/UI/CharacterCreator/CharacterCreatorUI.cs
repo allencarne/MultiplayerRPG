@@ -83,7 +83,7 @@ public class CharacterCreatorUI : MonoBehaviour
         }
 
         int hairStyleIndex = 0;
-        foreach (Sprite sprite in data.hairs[hairStyleIndex].sprites)
+        foreach (SpriteSet hair in data.hairs)
         {
             GameObject button = Instantiate(stylePreviewPrefab, hairStyleParent.transform);
             Button buttonComponent = button.GetComponent<Button>();
@@ -91,7 +91,7 @@ public class CharacterCreatorUI : MonoBehaviour
             int currentIndex = hairStyleIndex;
 
             GameObject hairImage = button.transform.Find("Style").gameObject;
-            hairImage.GetComponent<Image>().sprite = data.hairs[hairStyleIndex].sprites[0];
+            hairImage.GetComponent<Image>().sprite = hair.sprites[0];
 
             GameObject selectionImage = button.transform.Find("Image").gameObject;
             hairStyleImages.Add(selectionImage);
@@ -103,7 +103,7 @@ public class CharacterCreatorUI : MonoBehaviour
         }
 
         int eyeStyleIndex = 0;
-        foreach (Sprite sprite in data.eyes[eyeStyleIndex].sprites)
+        foreach (SpriteSet eye in data.eyes)
         {
             GameObject button = Instantiate(stylePreviewPrefab, eyeStyleParent.transform);
             Button buttonComponent = button.GetComponent<Button>();
@@ -111,7 +111,7 @@ public class CharacterCreatorUI : MonoBehaviour
             int currentIndex = eyeStyleIndex;
 
             GameObject hairImage = button.transform.Find("Style").gameObject;
-            hairImage.GetComponent<Image>().sprite = data.eyes[eyeStyleIndex].sprites[0];
+            hairImage.GetComponent<Image>().sprite = eye.sprites[0];
 
             GameObject selectionImage = button.transform.Find("Image").gameObject;
             eyeStyleImages.Add(selectionImage);
