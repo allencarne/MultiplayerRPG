@@ -164,9 +164,12 @@ public class PlayerSave : NetworkBehaviour
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         int level = PlayerPrefs.GetInt($"{slot}PlayerLevel", 1);
+        int playerClass = PlayerPrefs.GetInt($"{slot}PlayerClass", 0);
         float currentExp = PlayerPrefs.GetFloat($"{slot}CurrentExperience", 0);
         int ap = PlayerPrefs.GetInt($"{slot}AP", 0);
         float coins = PlayerPrefs.GetFloat($"{slot}Coins", 0);
+
+        stats.playerClass = (PlayerStats.PlayerClass)playerClass;
 
         if (IsServer)
         {
@@ -262,6 +265,7 @@ public class PlayerSave : NetworkBehaviour
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         PlayerPrefs.SetInt($"{slot}PlayerLevel", stats.PlayerLevel.Value);
+        PlayerPrefs.SetInt($"{slot}PlayerClass", (int)stats.playerClass);
         PlayerPrefs.SetFloat($"{slot}CurrentExperience", stats.CurrentExperience.Value);
         PlayerPrefs.SetFloat($"{slot}RequiredExperience", stats.RequiredExperience.Value);
         PlayerPrefs.SetFloat($"{slot}Coins", stats.Coins);
