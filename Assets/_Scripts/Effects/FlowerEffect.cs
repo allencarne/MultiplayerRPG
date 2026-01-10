@@ -6,7 +6,6 @@ public class FlowerEffect : MonoBehaviour
     [SerializeField] GameObject particle;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] HasteOnTrigger haste;
-    [SerializeField] Collider2D collider2d;
 
     [Header("Cooldown Visual Settings")]
     [SerializeField] float shrinkScale = 0.7f;
@@ -19,11 +18,13 @@ public class FlowerEffect : MonoBehaviour
     private void OnEnable()
     {
         if (haste != null) haste.OnCoolDownStarted.AddListener(Effect);
+        if (haste != null) haste.OnTriggered.AddListener(Particle);
     }
 
     private void OnDisable()
     {
         if (haste != null) haste.OnCoolDownStarted.RemoveListener(Effect);
+        if (haste != null) haste.OnTriggered.RemoveListener(Particle);
     }
 
     private void Start()
@@ -32,11 +33,15 @@ public class FlowerEffect : MonoBehaviour
         originalColor = sprite.color;
     }
 
+    void Particle()
+    {
+        Instantiate(particle, transform.position, Quaternion.identity);
+    }
+
     void Effect(float time)
     {
         StopAllCoroutines();
         StartCoroutine(CooldownAnimation(time));
-        Instantiate(particle, transform.position, Quaternion.identity);
     }
 
     IEnumerator CooldownAnimation(float cooldownDuration)
@@ -50,7 +55,6 @@ public class FlowerEffect : MonoBehaviour
 
     IEnumerator AnimateToState(Vector3 targetScale, Color targetColor, float duration)
     {
-        collider2d.enabled = false;
         Vector3 startScale = transform.localScale;
         Color startColor = sprite.color;
         float elapsed = 0f;
@@ -71,6 +75,5 @@ public class FlowerEffect : MonoBehaviour
 
         transform.localScale = targetScale;
         sprite.color = targetColor;
-        collider2d.enabled = true;
     }
 }

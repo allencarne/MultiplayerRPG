@@ -30,6 +30,7 @@ public class EnemySpawner : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         CancelInvoke();
+        StopAllCoroutines();
     }
 
     void CheckIfWeCanSpawn()

@@ -21,6 +21,7 @@ public class SpawnItem : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         CancelInvoke();
+        StopAllCoroutines();
     }
 
     void CheckIfWeCanSpawn()

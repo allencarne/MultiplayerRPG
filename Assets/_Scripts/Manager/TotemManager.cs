@@ -28,6 +28,7 @@ public class TotemManager : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         CancelInvoke();
+        StopAllCoroutines();
     }
 
     void CheckIfWeCanSpawn()

@@ -19,6 +19,7 @@ public class HasteOnTrigger : NetworkBehaviour
     private HashSet<NetworkObject> hastedObjects = new HashSet<NetworkObject>();
     private Dictionary<NetworkObject, float> cooldowns = new Dictionary<NetworkObject, float>();
     public UnityEvent<float> OnCoolDownStarted;
+    public UnityEvent OnTriggered;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -46,17 +47,20 @@ public class HasteOnTrigger : NetworkBehaviour
             }
             cooldowns[objectThatWasHit] = Time.time + CooldownDuration;
 
-
-            ClientRpcParams clientRpcParams = new ClientRpcParams
+            if (collision.CompareTag("Player"))
             {
-                Send = new ClientRpcSendParams
+                ClientRpcParams clientRpcParams = new ClientRpcParams
                 {
-                    TargetClientIds = new ulong[] { objectThatWasHit.OwnerClientId }
-                }
-            };
-            ShowCooldownClientRpc(CooldownDuration, clientRpcParams);
+                    Send = new ClientRpcSendParams
+                    {
+                        TargetClientIds = new ulong[] { objectThatWasHit.OwnerClientId }
+                    }
+                };
+                ShowCooldownClientRpc(CooldownDuration, clientRpcParams);
+            }
         }
 
+        SpawnParticleClientRpc();
         HasteClientRPC(objectThatWasHit, Stacks, Duration);
     }
 
@@ -74,5 +78,11 @@ public class HasteOnTrigger : NetworkBehaviour
     void ShowCooldownClientRpc(float duration, ClientRpcParams clientRpcParams = default)
     {
         OnCoolDownStarted?.Invoke(duration);
+    }
+
+    [ClientRpc]
+    void SpawnParticleClientRpc()
+    {
+        OnTriggered?.Invoke();
     }
 }
