@@ -7,12 +7,12 @@ public class PlayerRunState : PlayerState
     public override void StartState(PlayerStateMachine owner)
     {
         owner.PlayerHeadAnimator.Play("Run", -1, 0);
-
         owner.BodyAnimator.Play("Run", -1, 0);
-        owner.SwordAnimator.Play("Run", -1, 0);
 
         owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
+
+        owner.SwordAnimator.Play("Run", -1, 0);
 
         lastDirection = Vector2.zero;
     }
@@ -73,15 +73,15 @@ public class PlayerRunState : PlayerState
     {
         owner.PlayerHeadAnimator.SetFloat("Horizontal", direction.x);
         owner.PlayerHeadAnimator.SetFloat("Vertical", direction.y);
-
         owner.BodyAnimator.SetFloat("Horizontal", direction.x);
         owner.BodyAnimator.SetFloat("Vertical", direction.y);
-        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
-        owner.SwordAnimator.SetFloat("Vertical", direction.y);
 
         owner.ChestAnimator.SetFloat("Horizontal", direction.x);
         owner.ChestAnimator.SetFloat("Vertical", direction.y);
         owner.LegsAnimator.SetFloat("Horizontal", direction.x);
         owner.LegsAnimator.SetFloat("Vertical", direction.y);
+
+        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
+        owner.SwordAnimator.SetFloat("Vertical", direction.y);
     }
 }

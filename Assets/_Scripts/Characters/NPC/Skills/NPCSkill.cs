@@ -198,14 +198,13 @@ public abstract class NPCSkill : NetworkBehaviour
             case State.Done: _state = "Done"; break;
         }
 
+        //owner.HeadAnimator.Play("Attack");
         owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
-        owner.HairAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.hairIndex);
-        owner.EyesAnimator.Play(_weapon + " " + _skill + " " + _state);
-        owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
 
-        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.HeadIndex);
         owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.npc.Data.LegsIndex);
+
+        owner.SwordAnimator.Play(_weapon + " " + _skill + " " + _state);
     }
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)

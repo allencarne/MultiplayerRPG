@@ -21,10 +21,15 @@ public class NPCData : ScriptableObject
     public float TotalPatience;
 
     [Header("Customization")]
-    public Color skinColor;
-    public Color hairColor;
-    public int hairIndex;
-    public int HeadIndex;
+    public int skinColorIndex;
+
+    public int hairStyleIndex;
+    public int hairColorIndex;
+
+    public int eyeStyleIndex;
+    public int eyeColorIndex;
+
+    public int HelmIndex;
     public int ChestIndex;
     public int LegsIndex;
     public Sprite Weapon;

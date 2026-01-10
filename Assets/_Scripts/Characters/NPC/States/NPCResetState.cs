@@ -4,13 +4,13 @@ public class NPCResetState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
-        owner.SwordAnimator.Play("Run");
+        owner.HeadAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
-        owner.EyesAnimator.Play("Run");
-        owner.HairAnimator.Play("Run_" + owner.npc.Data.hairIndex);
-        owner.HeadAnimator.Play("Run_" + owner.npc.Data.HeadIndex);
+
         owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
+
+        owner.SwordAnimator.Play("Run");
 
         owner.npc.PatienceBar.Patience.Value = 0;
 
@@ -25,9 +25,12 @@ public class NPCResetState : NPCState
     {
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
         {
+            owner.HeadAnimator.SetFloat("Vertical", -1);
             owner.BodyAnimator.SetFloat("Vertical", -1);
-            owner.HairAnimator.SetFloat("Vertical", -1);
-            owner.EyesAnimator.SetFloat("Vertical", -1);
+
+            owner.ChestAnimator.SetFloat("Vertical", -1);
+            owner.LegsAnimator.SetFloat("Vertical", -1);
+
             owner.SwordAnimator.SetFloat("Vertical", -1);
 
             owner.NpcRB.linearVelocity = Vector2.zero;
@@ -42,5 +45,9 @@ public class NPCResetState : NPCState
         Vector2 direction = (owner.StartingPosition - (Vector2)owner.transform.position).normalized;
         Vector2 snappedDir = owner.SnapDirection(direction);
         owner.SetAnimDir(snappedDir);
+
+        owner.npc.npcHead.SetEyes(snappedDir);
+        owner.npc.npcHead.SetHair(snappedDir);
+        owner.npc.npcHead.SetHelm(snappedDir);
     }
 }

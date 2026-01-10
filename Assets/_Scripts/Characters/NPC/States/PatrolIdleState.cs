@@ -14,13 +14,13 @@ public class PatrolIdleState : NPCState
             return;
         }
 
-        owner.SwordAnimator.Play("Run");
+        owner.HeadAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
-        owner.EyesAnimator.Play("Run");
-        owner.HairAnimator.Play("Run_" + owner.npc.Data.hairIndex);
-        owner.HeadAnimator.Play("Run_" + owner.npc.Data.HeadIndex);
+
         owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
+
+        owner.SwordAnimator.Play("Run");
     }
 
     public override void UpdateState(NPCStateMachine owner)
@@ -48,6 +48,10 @@ public class PatrolIdleState : NPCState
         Vector2 rawDir = (target - (Vector2)owner.transform.position).normalized;
         Vector2 snappedDir = owner.SnapDirection(rawDir);
         owner.SetAnimDir(snappedDir);
+
+        owner.npc.npcHead.SetEyes(snappedDir);
+        owner.npc.npcHead.SetHair(snappedDir);
+        owner.npc.npcHead.SetHelm(snappedDir);
     }
 
     private void AdvancePatrolIndex(NPCStateMachine owner)

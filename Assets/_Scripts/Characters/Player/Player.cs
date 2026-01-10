@@ -12,10 +12,9 @@ public class Player : NetworkBehaviour
     public Inventory PlayerInventory;
 
     [Header("Sprites")]
-    public SpriteRenderer SwordSprite;
+    public SpriteRenderer PlayerHeadSprite;
     public SpriteRenderer BodySprite;
-    public SpriteRenderer EyeSprite;
-    public SpriteRenderer HairSprite;
+    public SpriteRenderer SwordSprite;
     public SpriteRenderer ShadowSprite;
     public SpriteRenderer AimerSprite;
 

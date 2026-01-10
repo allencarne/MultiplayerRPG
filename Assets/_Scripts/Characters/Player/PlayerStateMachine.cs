@@ -19,18 +19,18 @@ public class PlayerStateMachine : NetworkBehaviour
     public SkillBarCoolDowns coolDownTracker;
 
     [Header("Animators")]
-    public Animator SwordAnimator;
+    public Animator PlayerHeadAnimator;
     public Animator BodyAnimator;
-    public Animator HeadAnimator; // Remove
+
     public Animator ChestAnimator;
     public Animator LegsAnimator;
 
-    public Animator PlayerHeadAnimator;
-    public PlayerHead playerHead;
+    public Animator SwordAnimator;
 
     [Header("Scrips")]
     public Player player;
     public PlayerStats Stats;
+    public PlayerHead playerHead;
     public PlayerCustomization customization;
     public PlayerInputHandler Input;
     public PlayerEquipment Equipment;
@@ -460,9 +460,11 @@ public class PlayerStateMachine : NetworkBehaviour
     public void RequestDisableColliderServerRpc(bool isEnabled)
     {
         Collider.enabled = isEnabled;
+
+        player.BodySprite.enabled = isEnabled;
+        player.PlayerHeadSprite.enabled = isEnabled;
+
         player.SwordSprite.enabled = isEnabled;
-        player.EyeSprite.enabled = isEnabled;
-        player.HairSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
         ApplyColliderStateClientRpc(isEnabled);
     }
@@ -471,9 +473,11 @@ public class PlayerStateMachine : NetworkBehaviour
     void ApplyColliderStateClientRpc(bool isEnabled)
     {
         Collider.enabled = isEnabled;
+
+        player.BodySprite.enabled = isEnabled;
+        player.PlayerHeadSprite.enabled = isEnabled;
+
         player.SwordSprite.enabled = isEnabled;
-        player.EyeSprite.enabled = isEnabled;
-        player.HairSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
     }
 
@@ -519,23 +523,14 @@ public class PlayerStateMachine : NetworkBehaviour
         BodyAnimator.SetFloat("Horizontal", direction.x);
         BodyAnimator.SetFloat("Vertical", direction.y);
 
-        SwordAnimator.SetFloat("Horizontal", direction.x);
-        SwordAnimator.SetFloat("Vertical", direction.y);
-
-        //EyesAnimator.SetFloat("Horizontal", direction.x);
-        //EyesAnimator.SetFloat("Vertical", direction.y);
-
-        //HairAnimator.SetFloat("Horizontal", direction.x);
-        //HairAnimator.SetFloat("Vertical", direction.y);
-
-        HeadAnimator.SetFloat("Horizontal", direction.x);
-        HeadAnimator.SetFloat("Vertical", direction.y);
-
         ChestAnimator.SetFloat("Horizontal", direction.x);
         ChestAnimator.SetFloat("Vertical", direction.y);
 
         LegsAnimator.SetFloat("Horizontal", direction.x);
         LegsAnimator.SetFloat("Vertical", direction.y);
+
+        SwordAnimator.SetFloat("Horizontal", direction.x);
+        SwordAnimator.SetFloat("Vertical", direction.y);
     }
 
     #endregion

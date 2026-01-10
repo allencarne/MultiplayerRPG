@@ -5,18 +5,22 @@ public class NPCSpawnState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.HeadAnimator.SetFloat("Vertical", -1);
         owner.BodyAnimator.SetFloat("Vertical", -1);
-        owner.HairAnimator.SetFloat("Vertical", -1);
-        owner.EyesAnimator.SetFloat("Vertical", -1);
+
+        owner.ChestAnimator.SetFloat("Vertical", -1);
+        owner.LegsAnimator.SetFloat("Vertical", -1);
+
         owner.SwordAnimator.SetFloat("Vertical", -1);
 
-        owner.SwordAnimator.Play("Spawn");
+
+        owner.HeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
-        owner.EyesAnimator.Play("Spawn");
-        owner.HairAnimator.Play("Spawn");
-        owner.HeadAnimator.Play("Spawn_" + owner.npc.Data.HeadIndex);
+
         owner.ChestAnimator.Play("Spawn_" + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play("Spawn_" + owner.npc.Data.LegsIndex);
+
+        owner.SwordAnimator.Play("Spawn");
 
         owner.StartCoroutine(Duration(owner));
     }

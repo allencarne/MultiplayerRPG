@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class NPC : NetworkBehaviour, IInteractable
 {
-    [Header("Components")]
-    [SerializeField] NPCStateMachine stateMachine;
+    [Header("Data")]
     public NPCData Data;
+    public CharacterCustomizationData Custom;
+
+    [Header("Components")]
+    public NPCHead npcHead;
+    [SerializeField] NPCStateMachine stateMachine;
     public CharacterStats stats;
     [SerializeField] NPCQuest npcQuest;
     [SerializeField] NPCDialogue npcDialogue;
@@ -17,6 +21,7 @@ public class NPC : NetworkBehaviour, IInteractable
     [Header("Variables")]
     public string DisplayName => Data.NPCName;
     public bool IsDead;
+    Vector2 facingDirection = new Vector2(0, -1);
 
     [Header("Combat")]
     public bool InCombat = false;
@@ -24,10 +29,14 @@ public class NPC : NetworkBehaviour, IInteractable
     float CombatTime = 0;
 
     [Header("Sprites")]
-    public SpriteRenderer SwordSprite;
+    public SpriteRenderer NPCHeadSprite;
     public SpriteRenderer BodySprite;
+
     public SpriteRenderer HairSprite;
     public SpriteRenderer EyeSprite;
+    public SpriteRenderer HelmSprite;
+
+    public SpriteRenderer SwordSprite;
     public SpriteRenderer ShadowSprite;
 
     public override void OnNetworkSpawn()
@@ -49,11 +58,20 @@ public class NPC : NetworkBehaviour, IInteractable
         stats.OnDamaged.RemoveListener(TakeDamage);
         stats.OnDamageDealt.RemoveListener(DealDamage);
     }
-
     private void Start()
     {
-        BodySprite.color = Data.skinColor;
-        HairSprite.color = Data.hairColor;
+        NPCHeadSprite.color = Custom.skinColors[Data.skinColorIndex];
+        BodySprite.color = Custom.skinColors[Data.skinColorIndex];
+
+        HairSprite.color = Custom.hairColors[Data.hairColorIndex];
+
+        Material eyemat = EyeSprite.material;
+        eyemat.SetColor("_NewColor", Custom.eyeColors[Data.eyeColorIndex]);
+
+        npcHead.SetEyes(facingDirection);
+        npcHead.SetHair(facingDirection);
+        npcHead.SetHelm(facingDirection);
+
         SwordSprite.sprite = Data.Weapon;
 
         stats.BaseSpeed = Data.Speed;

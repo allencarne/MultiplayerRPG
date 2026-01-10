@@ -41,7 +41,7 @@ public class SpriteFlashNPC : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = defaultMaterial;
-        bodySprite.color = npc.Data.skinColor;
+        bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = flashRedMaterial;
@@ -49,7 +49,7 @@ public class SpriteFlashNPC : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = defaultMaterial;
-        bodySprite.color = npc.Data.skinColor;
+        bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
 
         flashRoutine = null;
     }
@@ -68,7 +68,7 @@ public class SpriteFlashNPC : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = defaultMaterial;
-        bodySprite.color = npc.Data.skinColor;
+        bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = flashGreenMaterial;
@@ -76,7 +76,7 @@ public class SpriteFlashNPC : NetworkBehaviour
         yield return new WaitForSeconds(0.05f);
 
         bodySprite.material = defaultMaterial;
-        bodySprite.color = npc.Data.skinColor;
+        bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
 
         flashRoutine = null;
     }

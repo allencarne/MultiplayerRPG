@@ -20,13 +20,13 @@ public class NPCStateMachine : NetworkBehaviour
     [HideInInspector] public NPCSkill CurrentSkill;
 
     [Header("Animators")]
-    public Animator BodyAnimator;
-    public Animator EyesAnimator;
-    public Animator HairAnimator;
-    public Animator SwordAnimator;
     public Animator HeadAnimator;
+    public Animator BodyAnimator;
+
     public Animator ChestAnimator;
     public Animator LegsAnimator;
+
+    public Animator SwordAnimator;
 
     [Header("Status Effects")]
     public CrowdControl CrowdControl;
@@ -314,26 +314,20 @@ public class NPCStateMachine : NetworkBehaviour
 
     public void SetAnimDir(Vector2 direction)
     {
-        SwordAnimator.SetFloat("Horizontal", direction.x);
-        SwordAnimator.SetFloat("Vertical", direction.y);
+        HeadAnimator.SetFloat("Horizontal", direction.x);
+        HeadAnimator.SetFloat("Vertical", direction.y);
 
         BodyAnimator.SetFloat("Horizontal", direction.x);
         BodyAnimator.SetFloat("Vertical", direction.y);
-
-        EyesAnimator.SetFloat("Horizontal", direction.x);
-        EyesAnimator.SetFloat("Vertical", direction.y);
-
-        HairAnimator.SetFloat("Horizontal", direction.x);
-        HairAnimator.SetFloat("Vertical", direction.y);
-
-        HeadAnimator.SetFloat("Horizontal", direction.x);
-        HeadAnimator.SetFloat("Vertical", direction.y);
 
         ChestAnimator.SetFloat("Horizontal", direction.x);
         ChestAnimator.SetFloat("Vertical", direction.y);
 
         LegsAnimator.SetFloat("Horizontal", direction.x);
         LegsAnimator.SetFloat("Vertical", direction.y);
+
+        SwordAnimator.SetFloat("Horizontal", direction.x);
+        SwordAnimator.SetFloat("Vertical", direction.y);
     }
 
     #endregion
