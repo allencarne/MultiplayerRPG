@@ -29,6 +29,7 @@ public class NPCData : ScriptableObject
     public int eyeStyleIndex;
     public int eyeColorIndex;
 
+    [Header("Equipment")]
     public int HelmIndex;
     public int ChestIndex;
     public int LegsIndex;
