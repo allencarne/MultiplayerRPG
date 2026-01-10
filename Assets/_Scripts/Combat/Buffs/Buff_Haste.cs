@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Buff_Haste : NetworkBehaviour, IHasteable
 {
+    [SerializeField] Transform parentTransform;
+    [SerializeField] GameObject ParticlePrefab;
+    GameObject particleInstance;
+
     [Header("Variables")]
     List<StatModifier> durationModifiers = new List<StatModifier>();
     List<StatModifier> fixedModifiers = new List<StatModifier>();
@@ -18,6 +22,7 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
     [SerializeField] GameObject UI_Bar;
     [SerializeField] GameObject UI_Prefab;
     GameObject UI_Instance;
+
 
     void Update()
     {
@@ -197,6 +202,11 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
 
+        if (particleInstance == null)
+        {
+            particleInstance = Instantiate(ParticlePrefab, parentTransform);
+        }
+
         StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
         se.StartUI(duration);
     }
@@ -228,6 +238,7 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
         if (stacks == 0)
         {
             if (UI_Instance != null) Destroy(UI_Instance);
+            if (particleInstance != null) Destroy(particleInstance);
         }
     }
 

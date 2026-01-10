@@ -24,12 +24,22 @@ public class HasteOnTrigger : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
+        TryApplyHaste(collision);
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!IsServer) return;
+        if (!IsRepeatable) return;
+        TryApplyHaste(collision);
+    }
+
+    private void TryApplyHaste(Collider2D collision)
+    {
         if (collision.CompareTag("Player") && IgnorePlayer) return;
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
         if (collision.CompareTag("NPC") && IgnoreNPC) return;
 
-        // Prevent Attacking Self
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
         if (objectThatWasHit == null || objectThatWasHit == attacker) return;
 
@@ -45,6 +55,7 @@ public class HasteOnTrigger : NetworkBehaviour
             {
                 if (Time.time < cooldowns[objectThatWasHit]) return;
             }
+
             cooldowns[objectThatWasHit] = Time.time + CooldownDuration;
 
             if (collision.CompareTag("Player"))
@@ -69,7 +80,6 @@ public class HasteOnTrigger : NetworkBehaviour
     {
         if (!targetRef.TryGet(out NetworkObject netObj)) return;
         if (!netObj.IsOwner) return;
-
         IHasteable hasteable = netObj.GetComponentInChildren<IHasteable>();
         if (hasteable != null) hasteable.StartHaste(stacks, duration);
     }
