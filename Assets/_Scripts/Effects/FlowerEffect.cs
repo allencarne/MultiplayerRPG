@@ -6,6 +6,7 @@ public class FlowerEffect : MonoBehaviour
     [SerializeField] GameObject particle;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] HasteOnTrigger haste;
+    [SerializeField] Collider2D collider2d;
 
     [Header("Cooldown Visual Settings")]
     [SerializeField] float shrinkScale = 0.7f;
@@ -49,6 +50,7 @@ public class FlowerEffect : MonoBehaviour
 
     IEnumerator AnimateToState(Vector3 targetScale, Color targetColor, float duration)
     {
+        collider2d.enabled = false;
         Vector3 startScale = transform.localScale;
         Color startColor = sprite.color;
         float elapsed = 0f;
@@ -69,5 +71,6 @@ public class FlowerEffect : MonoBehaviour
 
         transform.localScale = targetScale;
         sprite.color = targetColor;
+        collider2d.enabled = true;
     }
 }
