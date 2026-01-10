@@ -102,6 +102,24 @@ public class Enemy : NetworkBehaviour
     {
         if (IsDummy) return;
 
+        if (stateMachine.hasMightOnStart)
+        {
+            PlayerStateMachine sm = attackerID.GetComponent<PlayerStateMachine>();
+            if (sm != null) sm.Buffs.might.StartMight(1, 30);
+        }
+
+        if (stateMachine.hasSwiftnessOnStart)
+        {
+            PlayerStateMachine sm = attackerID.GetComponent<PlayerStateMachine>();
+            if (sm != null) sm.Buffs.swiftness.StartSwiftness(1, 30);
+        }
+
+        if (stateMachine.hasAlacrityOnStart)
+        {
+            PlayerStateMachine sm = attackerID.GetComponent<PlayerStateMachine>();
+            if (sm != null) sm.Buffs.alacrity.StartAlacrity(1, 30);
+        }
+
         EventDeath(attackerID);
         NPCEventParticipation(attackerID);
 

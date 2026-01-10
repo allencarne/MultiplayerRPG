@@ -41,6 +41,10 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanSpecial = true;
     public bool CanUltimate = true;
 
+    public bool hasMightOnStart = false;
+    public bool hasSwiftnessOnStart = false;
+    public bool hasAlacrityOnStart = false;
+
     public LayerMask obstacleLayerMask;
     public Vector2 StartingPosition { get; set; }
     public Vector2 WanderPosition { get; set; }
@@ -85,6 +89,27 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         enemySpawnState.StartState(this);
         StartingPosition = transform.position;
+
+        int randomNumber = Random.Range(0, 100);
+        if (randomNumber <= 20)
+        {
+            Buffs.might.StartMight(1, -1);
+            hasMightOnStart = true;
+        }
+
+        int randomNumber2 = Random.Range(0, 100);
+        if (randomNumber2 <= 20)
+        {
+            Buffs.swiftness.StartSwiftness(1, -1);
+            hasSwiftnessOnStart = true;
+        }
+
+        int randomNumber3 = Random.Range(0, 100);
+        if (randomNumber3 <= 20)
+        {
+            Buffs.alacrity.StartAlacrity(1, -1);
+            hasAlacrityOnStart = true;
+        }
     }
 
     private void Update()

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Buff_Haste : NetworkBehaviour, IHasteable
 {
+    [Header("Particle")]
     [SerializeField] Transform parentTransform;
     [SerializeField] GameObject ParticlePrefab;
     GameObject particleInstance;
@@ -254,6 +255,11 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        if (particleInstance == null)
+        {
+            particleInstance = Instantiate(ParticlePrefab, parentTransform);
         }
     }
 

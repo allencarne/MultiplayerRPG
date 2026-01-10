@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
 {
+    [Header("Particle")]
+    [SerializeField] Transform parentTransform;
+    [SerializeField] GameObject ParticlePrefab;
+    GameObject particleInstance;
+
     [Header("Variables")]
     List<StatModifier> durationModifiers = new List<StatModifier>();
     List<StatModifier> fixedModifiers = new List<StatModifier>();
@@ -197,6 +202,11 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
 
+        if (particleInstance == null)
+        {
+            particleInstance = Instantiate(ParticlePrefab, parentTransform);
+        }
+
         StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
         se.StartUI(duration);
     }
@@ -228,6 +238,7 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
         if (stacks == 0)
         {
             if (UI_Instance != null) Destroy(UI_Instance);
+            if (particleInstance != null) Destroy(particleInstance);
         }
     }
 
@@ -243,6 +254,11 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        if (particleInstance == null)
+        {
+            particleInstance = Instantiate(ParticlePrefab, parentTransform);
         }
     }
 
