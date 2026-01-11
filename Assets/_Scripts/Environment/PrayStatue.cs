@@ -1,7 +1,6 @@
-using Unity.Netcode;
 using UnityEngine;
 
-public class PrayStatue : NetworkBehaviour, IInteractable
+public class PrayStatue : MonoBehaviour, IInteractable
 {
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] Material startMat;
@@ -9,41 +8,41 @@ public class PrayStatue : NetworkBehaviour, IInteractable
 
     [SerializeField] string area;
     [SerializeField] int index;
-    bool canClaim = true;
 
     public string DisplayName => "Praying Statue";
 
     private void Start()
     {
-        string status = PlayerPrefs.GetString($"{area}_Statue_{index}", "Incomplete");
+        int characterNumber = PlayerPrefs.GetInt("SelectedCharacter");
+        string status = PlayerPrefs.GetString($"Character{characterNumber}_{area}_Statue_{index}", "Incomplete");
 
         if (status == "Completed")
         {
-            canClaim = false;
+            Debug.Log("Completed");
             sprite.material = endMat;
+        }
+        else
+        {
+            Debug.Log("Incomplete");
+            sprite.material = startMat;
         }
     }
 
     public void Interact(PlayerInteract player)
     {
-        if (!canClaim) return;
-        StartEventServerRpc(player.NetworkObject);
-    }
+        int characterNumber = PlayerPrefs.GetInt("SelectedCharacter");
+        string status = PlayerPrefs.GetString($"Character{characterNumber}_{area}_Statue_{index}", "Incomplete");
 
-    [ServerRpc(RequireOwnership = false)]
-    void StartEventServerRpc(NetworkObjectReference playerRef)
-    {
-        if (!playerRef.TryGet(out NetworkObject networkObject)) return;
-        PlayerStats stats = networkObject.GetComponent<PlayerStats>();
+        if (status == "Completed") return;
 
+        PlayerStats stats = player.GetComponentInParent<PlayerStats>();
         if (stats != null)
         {
-            canClaim = false;
-            PlayerPrefs.SetString($"{area}_Statue_{index}", "Completed");
-            PlayerPrefs.Save();
-
-            stats.IncreaseAttribuePoints();
             sprite.material = endMat;
+            stats.IncreaseAttribuePoints();
+
+            PlayerPrefs.SetString($"Character{characterNumber}_{area}_Statue_{index}", "Completed");
+            PlayerPrefs.Save();
         }
     }
 }

@@ -80,13 +80,33 @@ public class PlayerStats : CharacterStats
     {
         if (PlayerLevel.Value < 10)
         {
-            AttributePoints.Value += 1;
+            if (IsServer)
+            {
+                AttributePoints.Value += 1;
+            }
+            else
+            {
+                IncreaseAttribuePointsServerRPC(1);
+            }
         }
         else
         {
-            AttributePoints.Value += 3;
+            if (IsServer)
+            {
+                AttributePoints.Value += 3;
+            }
+            else
+            {
+                IncreaseAttribuePointsServerRPC(3);
+            }
         }
 
         OnAPGained?.Invoke();
+    }
+
+    [ServerRpc]
+    void IncreaseAttribuePointsServerRPC(int amount)
+    {
+        AttributePoints.Value += amount;
     }
 }
