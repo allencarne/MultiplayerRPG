@@ -18,6 +18,7 @@ public class PlayerEffects : NetworkBehaviour
         exp.OnLevelUp.AddListener(LevelUpClientRPC);
         ap.OnStatsApplied.AddListener(PowerUpClientRPC);
         skillPanel.OnSkillSelected.AddListener(PowerUpClientRPC);
+        stats.OnAPGained.AddListener(APGainedClientRPC);
     }
 
     public override void OnNetworkDespawn()
@@ -25,10 +26,17 @@ public class PlayerEffects : NetworkBehaviour
         exp.OnLevelUp.RemoveListener(LevelUpClientRPC);
         ap.OnStatsApplied.RemoveListener(PowerUpClientRPC);
         skillPanel.OnSkillSelected.RemoveListener(PowerUpClientRPC);
+        stats.OnAPGained.RemoveListener(APGainedClientRPC);
     }
 
     [ClientRpc]
     void SpawnClientRPC()
+    {
+        Instantiate(spawn_Effect, transform.position, transform.rotation);
+    }
+
+    [ClientRpc]
+    void APGainedClientRPC()
     {
         Instantiate(spawn_Effect, transform.position, transform.rotation);
     }

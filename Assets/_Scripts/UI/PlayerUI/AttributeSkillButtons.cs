@@ -28,6 +28,8 @@ public class AttributeSkillButtons : MonoBehaviour
     private void OnEnable()
     {
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
+        stats.OnAPGained.AddListener(UpdateUI);
+
         ap.OnStatsApplied.AddListener(HandleAttributes);
         skillPanel.OnSkillSelected.AddListener(HandleAllSkills);
     }
@@ -35,8 +37,16 @@ public class AttributeSkillButtons : MonoBehaviour
     private void OnDisable()
     {
         stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
+        stats.OnAPGained.RemoveListener(UpdateUI);
+
         ap.OnStatsApplied.RemoveListener(HandleAttributes);
         skillPanel.OnSkillSelected.RemoveListener(HandleAllSkills);
+    }
+
+    void UpdateUI()
+    {
+        HandleAttributes();
+        HandleAllSkills();
     }
 
     void OnLevelChanged(int oldValue, int newValue)

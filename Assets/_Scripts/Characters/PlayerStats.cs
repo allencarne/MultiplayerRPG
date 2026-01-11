@@ -1,6 +1,7 @@
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerStats : CharacterStats
 {
@@ -40,6 +41,8 @@ public class PlayerStats : CharacterStats
 
     public PlayerClass playerClass;
 
+    public UnityEvent OnAPGained; 
+
     private void Update()
     {
         if (!IsOwner) return;
@@ -71,5 +74,19 @@ public class PlayerStats : CharacterStats
     void ConsumeAttributePointsServerRPC(int amount)
     {
         AttributePoints.Value -= amount;
+    }
+
+    public void IncreaseAttribuePoints()
+    {
+        if (PlayerLevel.Value < 10)
+        {
+            AttributePoints.Value += 1;
+        }
+        else
+        {
+            AttributePoints.Value += 3;
+        }
+
+        OnAPGained?.Invoke();
     }
 }

@@ -165,14 +165,7 @@ public class PlayerExperience : NetworkBehaviour
         stats.PlayerLevel.Value++;
 
         // Attribute Points
-        if (stats.PlayerLevel.Value < 10)
-        {
-            stats.AttributePoints.Value += 1;
-        }
-        else
-        {
-            stats.AttributePoints.Value += 3;
-        }
+        stats.IncreaseAttribuePoints();
 
         // Increase Player Health
 
