@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class LootChest : MonoBehaviour, IInteractable
 {
@@ -13,11 +12,10 @@ public class LootChest : MonoBehaviour, IInteractable
     [SerializeField] int index;
     PlayerStats PlayerStats;
 
-    public int Coins;
-    public int MaxCoinReward;
     [SerializeField] Item coin;
     [SerializeField] Item[] rewards;
 
+    [SerializeField] int coinReward;
     [SerializeField] int experienceReward;
 
     public string DisplayName => "Loot Chest";
@@ -84,15 +82,10 @@ public class LootChest : MonoBehaviour, IInteractable
 
     void CoinReward()
     {
-        int amount = Random.Range(0, Coins + 1);
-
-        for (int i = 0; i < amount; i++)
+        if (getPlayer.player != null)
         {
-            if (getPlayer.player != null)
-            {
-                Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
-                if (inventory != null) inventory.CoinCollected(amount);
-            }
+            Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
+            if (inventory != null) inventory.AddItem(coin,coinReward);
         }
     }
 
