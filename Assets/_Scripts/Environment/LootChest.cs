@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class LootChest : MonoBehaviour, IInteractable
@@ -17,6 +18,8 @@ public class LootChest : MonoBehaviour, IInteractable
 
     [SerializeField] int coinReward;
     [SerializeField] int experienceReward;
+
+    [SerializeField] GameObject particle;
 
     public string DisplayName => "Loot Chest";
 
@@ -74,6 +77,7 @@ public class LootChest : MonoBehaviour, IInteractable
         PlayerPrefs.Save();
 
         sprite.sprite = openedSprite;
+        SpawnClientRPC();
 
         CoinReward();
         ItemReward();
@@ -111,5 +115,17 @@ public class LootChest : MonoBehaviour, IInteractable
             PlayerExperience playerEXP = getPlayer.player.GetComponent<PlayerExperience>();
             if (playerEXP != null) playerEXP.IncreaseEXP(experienceReward);
         }
+    }
+
+    [ClientRpc]
+    void SpawnClientRPC()
+    {
+        Instantiate(particle, transform.position, Quaternion.identity);
+    }
+
+    [ServerRpc]
+    void RequestSpawnServerRPC()
+    {
+        Instantiate(particle, transform.position, Quaternion.identity);
     }
 }
