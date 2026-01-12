@@ -350,6 +350,8 @@ GameObject:
   - component: {fileID: 3444407035616611686}
   - component: {fileID: 2987935988741381190}
   - component: {fileID: 6385324047205038603}
+  - component: {fileID: 7013165319674665369}
+  - component: {fileID: -1981579356466425629}
   m_Layer: 0
   m_Name: Prefab_Env_Statue_Pray
   m_TagString: Untagged
@@ -424,9 +426,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e2a29e82098f8042821314f79802a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrayStatue
-  ShowTopMostFoldoutHeaderGroup: 1
+  getPlayer: {fileID: -1981579356466425629}
   sprite: {fileID: 643439052712430155}
   startMat: {fileID: 2100000, guid: 8126d208c2c2285498dc3527f39beeb8, type: 2}
   endMat: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   area: Beach
   index: 0
+--- !u!114 &7013165319674665369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188510846295640181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3104567095
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &-1981579356466425629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188510846295640181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b93318b1242e2704a904cec4ec088381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GetPlayerReference
+  ShowTopMostFoldoutHeaderGroup: 1
+  player: {fileID: 0}
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6385324047205038603}
+        m_TargetAssemblyTypeName: PrayStatue, Assembly-CSharp
+        m_MethodName: Initalize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

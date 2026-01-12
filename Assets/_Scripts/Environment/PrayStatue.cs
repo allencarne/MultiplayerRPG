@@ -2,47 +2,72 @@ using UnityEngine;
 
 public class PrayStatue : MonoBehaviour, IInteractable
 {
+    [SerializeField] GetPlayerReference getPlayer;
+
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] Material startMat;
     [SerializeField] Material endMat;
 
     [SerializeField] string area;
     [SerializeField] int index;
+    PlayerStats PlayerStats;
 
     public string DisplayName => "Praying Statue";
 
-    private void Start()
+    public void Initalize()
     {
-        int characterNumber = PlayerPrefs.GetInt("SelectedCharacter");
+        if (getPlayer != null)
+        {
+            PlayerStats = getPlayer.player.GetComponent<PlayerStats>();
+            if (PlayerStats == null) return;
+
+            PlayerStats.net_CharacterSlot.OnValueChanged += OnCharacterSlotChanged;
+            UpdateVisual(PlayerStats.net_CharacterSlot.Value);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (PlayerStats != null && PlayerStats.net_CharacterSlot != null)
+        {
+            PlayerStats.net_CharacterSlot.OnValueChanged -= OnCharacterSlotChanged;
+        }
+    }
+
+    private void OnCharacterSlotChanged(int previousValue, int newValue)
+    {
+        UpdateVisual(newValue);
+    }
+
+    public void UpdateVisual(int characterNumber)
+    {
         string status = PlayerPrefs.GetString($"Character{characterNumber}_{area}_Statue_{index}", "Incomplete");
 
         if (status == "Completed")
         {
-            Debug.Log("Completed");
             sprite.material = endMat;
         }
         else
         {
-            Debug.Log("Incomplete");
             sprite.material = startMat;
         }
     }
 
     public void Interact(PlayerInteract player)
     {
-        int characterNumber = PlayerPrefs.GetInt("SelectedCharacter");
+        PlayerStats stats = player.GetComponentInParent<PlayerStats>();
+        if (stats == null || !stats.IsOwner) return;
+
+        int characterNumber = stats.net_CharacterSlot.Value;
+
         string status = PlayerPrefs.GetString($"Character{characterNumber}_{area}_Statue_{index}", "Incomplete");
 
         if (status == "Completed") return;
 
-        PlayerStats stats = player.GetComponentInParent<PlayerStats>();
-        if (stats != null)
-        {
-            sprite.material = endMat;
-            stats.IncreaseAttribuePoints();
+        PlayerPrefs.SetString($"Character{characterNumber}_{area}_Statue_{index}", "Completed");
+        PlayerPrefs.Save();
 
-            PlayerPrefs.SetString($"Character{characterNumber}_{area}_Statue_{index}", "Completed");
-            PlayerPrefs.Save();
-        }
+        sprite.material = endMat;
+        stats.IncreaseAttribuePoints();
     }
 }

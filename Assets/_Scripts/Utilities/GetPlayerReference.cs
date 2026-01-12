@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.Netcode;
-using UnityEngine;
 using UnityEngine.Events;
 
 public class GetPlayerReference : NetworkBehaviour
