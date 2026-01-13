@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class LootChest : MonoBehaviour, IInteractable
+public class LootChest : NetworkBehaviour, IInteractable
 {
     [SerializeField] GetPlayerReference getPlayer;
 
@@ -35,7 +35,7 @@ public class LootChest : MonoBehaviour, IInteractable
         }
     }
 
-    private void OnDestroy()
+    public override void OnNetworkDespawn()
     {
         if (PlayerStats != null && PlayerStats.net_CharacterSlot != null)
         {
@@ -77,7 +77,14 @@ public class LootChest : MonoBehaviour, IInteractable
         PlayerPrefs.Save();
 
         sprite.sprite = openedSprite;
-        SpawnClientRPC();
+        if (IsServer)
+        {
+            SpawnClientRPC();
+        }
+        else
+        {
+            SpawnServerRPC();
+        }
 
         CoinReward();
         ItemReward();
@@ -124,8 +131,8 @@ public class LootChest : MonoBehaviour, IInteractable
     }
 
     [ServerRpc]
-    void RequestSpawnServerRPC()
+    void SpawnServerRPC()
     {
-        Instantiate(particle, transform.position, Quaternion.identity);
+        SpawnClientRPC();
     }
 }
