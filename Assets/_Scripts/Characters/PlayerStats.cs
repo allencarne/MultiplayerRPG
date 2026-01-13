@@ -83,6 +83,7 @@ public class PlayerStats : CharacterStats
             if (IsServer)
             {
                 AttributePoints.Value += 1;
+                OnAPGained?.Invoke();
             }
             else
             {
@@ -94,19 +95,19 @@ public class PlayerStats : CharacterStats
             if (IsServer)
             {
                 AttributePoints.Value += 3;
+                OnAPGained?.Invoke();
             }
             else
             {
                 IncreaseAttribuePointsServerRPC(3);
             }
         }
-
-        OnAPGained?.Invoke();
     }
 
     [ServerRpc]
     void IncreaseAttribuePointsServerRPC(int amount)
     {
         AttributePoints.Value += amount;
+        OnAPGained?.Invoke();
     }
 }
