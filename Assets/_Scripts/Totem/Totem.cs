@@ -105,6 +105,8 @@ public class Totem : NetworkBehaviour, IInteractable
         foreach (Player player in participants)
         {
             Manager.Rewards.ExperienceRewards(player);
+            Manager.Rewards.CoinRewards(player);
+            Manager.Rewards.ItemRewards(player);
 
             ulong targetClientId = player.OwnerClientId;
 

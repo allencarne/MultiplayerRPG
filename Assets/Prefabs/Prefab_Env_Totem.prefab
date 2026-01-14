@@ -15401,30 +15401,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2276322260735253674}
-        m_TargetAssemblyTypeName: TotemRewards, Assembly-CSharp
-        m_MethodName: CoinReward
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2276322260735253674}
-        m_TargetAssemblyTypeName: TotemRewards, Assembly-CSharp
-        m_MethodName: ItemReward
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   OnEventFail:
     m_PersistentCalls:
       m_Calls:
@@ -15538,8 +15514,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TotemRewards
   ShowTopMostFoldoutHeaderGroup: 1
   totem: {fileID: 682373914716753779}
-  Coins: 3
   MaxCoinReward: 1
+  MaxExpReward: 0
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
   rewards:
   - {fileID: 11400000, guid: 764f1db1e2ac0d041b607c12c3d7c3fd, type: 2}

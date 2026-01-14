@@ -77,13 +77,17 @@ public class LootChest : NetworkBehaviour, IInteractable
         PlayerPrefs.Save();
 
         sprite.sprite = openedSprite;
+
+        Instantiate(particle, transform.position, Quaternion.identity);
+        ulong ownerClientId = stats.OwnerClientId;
+
         if (IsServer)
         {
-            SpawnClientRPC();
+            SpawnClientRPC(ownerClientId);
         }
         else
         {
-            SpawnServerRPC();
+            SpawnServerRPC(ownerClientId);
         }
 
         CoinReward();
@@ -139,14 +143,15 @@ public class LootChest : NetworkBehaviour, IInteractable
     }
 
     [ClientRpc]
-    void SpawnClientRPC()
+    void SpawnClientRPC(ulong excludeClientId)
     {
+        if (NetworkManager.Singleton.LocalClientId == excludeClientId) return;
         Instantiate(particle, transform.position, Quaternion.identity);
     }
 
-    [ServerRpc]
-    void SpawnServerRPC()
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnServerRPC(ulong excludeClientId)
     {
-        SpawnClientRPC();
+        SpawnClientRPC(excludeClientId);
     }
 }

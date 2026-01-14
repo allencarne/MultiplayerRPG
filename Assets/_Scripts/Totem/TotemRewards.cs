@@ -6,47 +6,45 @@ public class TotemRewards : NetworkBehaviour
     [SerializeField] Totem totem;
 
     [Header("Rewards")]
-    public int Coins;
     public int MaxCoinReward;
+    public int MaxExpReward;
     [SerializeField] Item coin;
     [SerializeField] Item[] rewards;
 
-    public void CoinReward()
+    public void CoinRewards(Player player)
     {
-        int amountOfItems = Random.Range(1, Coins + 1);
+        PlayerStats stats = player.GetComponent<PlayerStats>();
+        Inventory inventory = player.GetComponentInChildren<Inventory>();
+        if (inventory == null && stats == null) return;
 
-        for (int i = 0; i < amountOfItems; i++)
-        {
-            GameObject instance = Instantiate(coin.Prefab, totem.GetRandomPoint(2), Quaternion.identity);
-            instance.GetComponent<NetworkObject>().Spawn();
-
-            ItemPickup pickup = instance.GetComponent<ItemPickup>();
-            if (pickup != null)
-            {
-                pickup.Quantity = Random.Range(0, MaxCoinReward);
-            }
-        }
+        float coinAmount = MaxCoinReward * (1f + (stats.PlayerLevel.Value * 0.15f));
+        int roundedCoin = Mathf.RoundToInt(coinAmount);
+        inventory.AddItem(coin, roundedCoin);
     }
 
-    public void ItemReward()
+    public void ItemRewards(Player player)
     {
+        Inventory inventory = player.GetComponentInChildren<Inventory>();
+        if (inventory == null) return;
+
         foreach (Item reward in rewards)
         {
             if (Random.Range(0f, 100f) < reward.DropChance)
             {
-                GameObject instance = Instantiate(reward.Prefab, totem.GetRandomPoint(2), Quaternion.identity);
-                instance.GetComponent<NetworkObject>().Spawn();
+                inventory.AddItem(reward);
             }
         }
     }
 
     public void ExperienceRewards(Player player)
     {
+        PlayerStats stats = player.GetComponent<PlayerStats>();
         PlayerExperience playerEXP = player.GetComponent<PlayerExperience>();
-        if (playerEXP != null)
-        {
-            playerEXP.IncreaseEXP(3);
-        }
+        if (playerEXP == null && stats == null) return;
+
+        float expAmount = MaxExpReward * (1f + (stats.PlayerLevel.Value * 0.15f));
+        int roundedEXP = Mathf.RoundToInt(expAmount);
+        playerEXP.IncreaseEXP(roundedEXP);
     }
 
     [ClientRpc]
