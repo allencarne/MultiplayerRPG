@@ -41,9 +41,8 @@ public class HasteOnTrigger : NetworkBehaviour
         if (collision.CompareTag("NPC") && IgnoreNPC) return;
 
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
-        if (objectThatWasHit == null || objectThatWasHit == attacker) return;
+        if (objectThatWasHit == null || objectThatWasHit == attacker || !objectThatWasHit.IsSpawned) return;
 
-        // Haste
         if (!IsRepeatable)
         {
             if (hastedObjects.Contains(objectThatWasHit)) return;
