@@ -57,7 +57,7 @@ public class PlayerEquipment : NetworkBehaviour
 
             if (oldItem is Weapon oldWeapon)
             {
-                UnequipWeapon(oldWeapon);
+                UnequipWeapon();
             }
             else
             {
@@ -75,168 +75,42 @@ public class PlayerEquipment : NetworkBehaviour
 
     private void EquipWeapon(Weapon newWeapon)
     {
-        switch (newWeapon.weaponType)
-        {
-            case WeaponType.Sword:
-                custom.Sword.enabled = true;
-                custom.Sword.sprite = newWeapon.weaponSprite;
-                break;
-            case WeaponType.Staff:
-                custom.Staff.enabled = true;
-                custom.Staff.sprite = newWeapon.weaponSprite;
-                break;
-            case WeaponType.Bow:
-                custom.Bow.enabled = true;
-                custom.Bow.sprite = newWeapon.weaponSprite;
-                break;
-            case WeaponType.Dagger:
-                custom.Dagger.enabled = true;
-                custom.Dagger.sprite = newWeapon.weaponSprite;
-                break;
-        }
-
         IsWeaponEquipped = true;
 
         if (IsServer)
         {
-            EquipWeaponClientRPC(newWeapon.ITEM_ID, newWeapon.weaponType);
+            custom.net_EquippedWeaponId.Value = newWeapon.ITEM_ID;
         }
         else
         {
-            EquipWeaponServerRPC(newWeapon.ITEM_ID, newWeapon.weaponType);
-        }
-    }
-
-    [ClientRpc]
-    void EquipWeaponClientRPC(FixedString64Bytes itemId, WeaponType weaponType)
-    {
-        if (IsOwner) return;
-
-        Item baseItem = itemList.GetItemById(itemId);
-        if (baseItem == null || !(baseItem is Weapon weapon)) return;
-
-        switch (weaponType)
-        {
-            case WeaponType.Sword:
-                custom.Sword.enabled = true;
-                custom.Sword.sprite = weapon.weaponSprite;
-                break;
-            case WeaponType.Staff:
-                custom.Staff.enabled = true;
-                custom.Staff.sprite = weapon.weaponSprite;
-                break;
-            case WeaponType.Bow:
-                custom.Bow.enabled = true;
-                custom.Bow.sprite = weapon.weaponSprite;
-                break;
-            case WeaponType.Dagger:
-                custom.Dagger.enabled = true;
-                custom.Dagger.sprite = weapon.weaponSprite;
-                break;
+            EquipWeaponServerRPC(newWeapon.ITEM_ID);
         }
     }
 
     [ServerRpc]
-    void EquipWeaponServerRPC(FixedString64Bytes itemId, WeaponType weaponType)
+    void EquipWeaponServerRPC(FixedString64Bytes itemId)
     {
-        Item baseItem = itemList.GetItemById(itemId);
-        if (baseItem == null || !(baseItem is Weapon weapon)) return;
-
-        switch (weaponType)
-        {
-            case WeaponType.Sword:
-                custom.Sword.enabled = true;
-                custom.Sword.sprite = weapon.weaponSprite;
-                break;
-            case WeaponType.Staff:
-                custom.Staff.enabled = true;
-                custom.Staff.sprite = weapon.weaponSprite;
-                break;
-            case WeaponType.Bow:
-                custom.Bow.enabled = true;
-                custom.Bow.sprite = weapon.weaponSprite;
-                break;
-            case WeaponType.Dagger:
-                custom.Dagger.enabled = true;
-                custom.Dagger.sprite = weapon.weaponSprite;
-                break;
-        }
-
-        EquipWeaponClientRPC(itemId, weaponType);
+        custom.net_EquippedWeaponId.Value = itemId;
     }
 
-    private void UnequipWeapon(Weapon oldWeapon)
+    private void UnequipWeapon()
     {
-        switch (oldWeapon.weaponType)
-        {
-            case WeaponType.Sword:
-                custom.Sword.enabled = false;
-                break;
-            case WeaponType.Staff:
-                custom.Staff.enabled = false;
-                break;
-            case WeaponType.Bow:
-                custom.Bow.enabled = false;
-                break;
-            case WeaponType.Dagger:
-                custom.Dagger.enabled = false;
-                break;
-        }
-
         IsWeaponEquipped = false;
 
         if (IsServer)
         {
-            UnequipWeaponClientRPC(oldWeapon.weaponType);
+            custom.net_EquippedWeaponId.Value = default;
         }
         else
         {
-            UnequipWeaponServerRPC(oldWeapon.weaponType);
-        }
-    }
-
-    [ClientRpc]
-    void UnequipWeaponClientRPC(WeaponType weaponType)
-    {
-        if (IsOwner) return;
-
-        switch (weaponType)
-        {
-            case WeaponType.Sword:
-                custom.Sword.enabled = false;
-                break;
-            case WeaponType.Staff:
-                custom.Staff.enabled = false;
-                break;
-            case WeaponType.Bow:
-                custom.Bow.enabled = false;
-                break;
-            case WeaponType.Dagger:
-                custom.Dagger.enabled = false;
-                break;
+            UnequipWeaponServerRPC();
         }
     }
 
     [ServerRpc]
-    void UnequipWeaponServerRPC(WeaponType weaponType)
+    void UnequipWeaponServerRPC()
     {
-        switch (weaponType)
-        {
-            case WeaponType.Sword:
-                custom.Sword.enabled = false;
-                break;
-            case WeaponType.Staff:
-                custom.Staff.enabled = false;
-                break;
-            case WeaponType.Bow:
-                custom.Bow.enabled = false;
-                break;
-            case WeaponType.Dagger:
-                custom.Dagger.enabled = false;
-                break;
-        }
-
-        UnequipWeaponClientRPC(weaponType);
+        custom.net_EquippedWeaponId.Value = default;
     }
 
     void EquipArmor(EquipmentType type, int index)
