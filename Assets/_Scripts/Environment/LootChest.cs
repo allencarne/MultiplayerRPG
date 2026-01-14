@@ -95,8 +95,15 @@ public class LootChest : NetworkBehaviour, IInteractable
     {
         if (getPlayer.player != null)
         {
+            PlayerStats stats = getPlayer.player.GetComponent<PlayerStats>();
             Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
-            if (inventory != null) inventory.AddItem(coin,coinReward);
+
+            if (inventory != null && stats != null)
+            {
+                float coinAmount = coinReward * (1f + (stats.PlayerLevel.Value * 0.15f));
+                int roundedCoin = Mathf.RoundToInt(coinAmount);
+                inventory.AddItem(coin, roundedCoin);
+            }
         }
     }
 
@@ -119,8 +126,15 @@ public class LootChest : NetworkBehaviour, IInteractable
     {
         if (getPlayer.player != null)
         {
+            PlayerStats stats = getPlayer.player.GetComponent<PlayerStats>();
             PlayerExperience playerEXP = getPlayer.player.GetComponent<PlayerExperience>();
-            if (playerEXP != null) playerEXP.IncreaseEXP(experienceReward);
+
+            if (playerEXP != null && stats != null)
+            {
+                float expAmount = experienceReward * (1f + (stats.PlayerLevel.Value * 0.15f));
+                int roundedEXP = Mathf.RoundToInt(expAmount);
+                playerEXP.IncreaseEXP(roundedEXP);
+            }
         }
     }
 
