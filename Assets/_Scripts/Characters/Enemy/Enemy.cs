@@ -92,36 +92,14 @@ public class Enemy : NetworkBehaviour
         if (!IsServer) return;
         if (IsDummy) PatienceBar.Patience.Value = 0;
 
+        UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
         TargetAttacker(attackerID);
         EventParticipate(attackerID);
-
-        UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId);
     }
 
     void Death(NetworkObject attackerID)
     {
         if (IsDummy) return;
-
-        if (stateMachine.hasMightOnStart)
-        {
-            PlayerStateMachine sm = attackerID.GetComponent<PlayerStateMachine>();
-            if (sm != null) sm.Buffs.might.StartMight(1, 30);
-        }
-
-        if (stateMachine.hasSwiftnessOnStart)
-        {
-            PlayerStateMachine sm = attackerID.GetComponent<PlayerStateMachine>();
-            if (sm != null) sm.Buffs.swiftness.StartSwiftness(1, 30);
-        }
-
-        if (stateMachine.hasAlacrityOnStart)
-        {
-            PlayerStateMachine sm = attackerID.GetComponent<PlayerStateMachine>();
-            if (sm != null) sm.Buffs.alacrity.StartAlacrity(1, 30);
-        }
-
-        EventDeath(attackerID);
-        NPCEventParticipation(attackerID);
 
         Transform attackerPosition = attackerID.GetComponent<Transform>();
         if (attackerPosition != null) StartCoroutine(DropEXP(attackerPosition));
@@ -130,6 +108,13 @@ public class Enemy : NetworkBehaviour
         if (exp) exp.IncreaseEXP(expToGive);
 
         UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId);
+        if (stateMachine.hasMightOnStart || stateMachine.hasSwiftnessOnStart || stateMachine.hasAlacrityOnStart)
+        {
+            StartBuffsClientRPC(attackerID.NetworkObjectId,stateMachine.hasMightOnStart,stateMachine.hasSwiftnessOnStart,stateMachine.hasAlacrityOnStart);
+        }
+
+        EventDeath(attackerID);
+        NPCEventParticipation(attackerID);
 
         DeathClientRpc();
         stateMachine.SetState(EnemyStateMachine.State.Death);
@@ -198,20 +183,31 @@ public class Enemy : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetId)
+    void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetworkObjectId)
     {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetId, out NetworkObject netObj))
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetworkObjectId, out NetworkObject netObj))
         {
             PlayerQuest quest = netObj.GetComponent<PlayerQuest>();
-            if (quest != null)
-            {
-                quest.UpdateObjective(type, id, amount);
-            }
+            if (quest != null) quest.UpdateObjective(type, id, amount);
         }
     }
 
     [ClientRpc]
-    private void DeathClientRpc()
+    void StartBuffsClientRPC(ulong attackerNetworkObjectId, bool hasMight, bool hasSwiftness, bool hasAlacrity)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetworkObjectId, out NetworkObject attackerObject))
+        {
+            PlayerStateMachine sm = attackerObject.GetComponent<PlayerStateMachine>();
+            if (sm == null) return;
+
+            if (hasMight) sm.Buffs.might.StartMight(1, 30);
+            if (hasSwiftness) sm.Buffs.swiftness.StartSwiftness(1, 30);
+            if (hasAlacrity) sm.Buffs.alacrity.StartAlacrity(1, 30);
+        }
+    }
+
+    [ClientRpc]
+    void DeathClientRpc()
     {
         stateMachine.EnemyAnimator.Play("Death");
         stateMachine.Collider.enabled = false;
