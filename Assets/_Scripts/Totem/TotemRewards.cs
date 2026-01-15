@@ -11,27 +11,24 @@ public class TotemRewards : NetworkBehaviour
     [SerializeField] Item coin;
     [SerializeField] Item[] rewards;
 
-    public void CoinRewards(Player player)
+    [ClientRpc]
+    public void CoinRewardsClientRpc(int amount, ClientRpcParams rpcParams)
     {
-        PlayerStats stats = player.GetComponent<PlayerStats>();
-        Inventory inventory = player.GetComponentInChildren<Inventory>();
-        if (inventory == null && stats == null) return;
+        Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
 
-        float coinAmount = MaxCoinReward * (1f + (stats.PlayerLevel.Value * 0.15f));
-        int roundedCoin = Mathf.RoundToInt(coinAmount);
-        inventory.AddItem(coin, roundedCoin);
+        inv.AddItem(coin, amount);
     }
 
-    public void ItemRewards(Player player)
+    [ClientRpc]
+    public void ItemRewardsClientRpc(ClientRpcParams rpcParams)
     {
-        Inventory inventory = player.GetComponentInChildren<Inventory>();
-        if (inventory == null) return;
+        Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
 
         foreach (Item reward in rewards)
         {
             if (Random.Range(0f, 100f) < reward.DropChance)
             {
-                inventory.AddItem(reward);
+                inv.AddItem(reward);
             }
         }
     }
@@ -40,7 +37,7 @@ public class TotemRewards : NetworkBehaviour
     {
         PlayerStats stats = player.GetComponent<PlayerStats>();
         PlayerExperience playerEXP = player.GetComponent<PlayerExperience>();
-        if (playerEXP == null && stats == null) return;
+        if (playerEXP == null || stats == null) return;
 
         float expAmount = MaxExpReward * (1f + (stats.PlayerLevel.Value * 0.15f));
         int roundedEXP = Mathf.RoundToInt(expAmount);
