@@ -101,7 +101,9 @@ public class Enemy : NetworkBehaviour
             }
         };
 
-        UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
+        PlayerQuest quest = attackerID.GetComponent<PlayerQuest>();
+        if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
+
         TargetAttacker(attackerID);
         EventParticipate(attackerID);
     }
@@ -125,7 +127,8 @@ public class Enemy : NetworkBehaviour
             }
         };
 
-        UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
+        PlayerQuest quest = attackerID.GetComponent<PlayerQuest>();
+        if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
 
         if (stateMachine.hasMightOnStart || stateMachine.hasSwiftnessOnStart || stateMachine.hasAlacrityOnStart)
         {
@@ -210,8 +213,6 @@ public class Enemy : NetworkBehaviour
     [ClientRpc]
     void UpdateObjectiveClientRpc(ObjectiveType type, string id, int amount, ulong attackerNetworkObjectId, ClientRpcParams rpcParams = default)
     {
-        Debug.Log("UpdateObjectiveClientRpc");
-
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetworkObjectId, out NetworkObject netObj))
         {
             PlayerQuest quest = netObj.GetComponent<PlayerQuest>();
@@ -222,8 +223,6 @@ public class Enemy : NetworkBehaviour
     [ClientRpc]
     void StartBuffsClientRPC(ulong attackerNetworkObjectId, bool hasMight, bool hasSwiftness, bool hasAlacrity, ClientRpcParams rpcParams = default)
     {
-        Debug.Log("StartBuffsClientRPC");
-
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetworkObjectId, out NetworkObject attackerObject))
         {
             PlayerStateMachine sm = attackerObject.GetComponent<PlayerStateMachine>();
