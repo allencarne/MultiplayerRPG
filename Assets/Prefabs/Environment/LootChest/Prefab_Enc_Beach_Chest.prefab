@@ -157,8 +157,8 @@ SpriteRenderer:
   m_SortingLayerID: -890941791
   m_SortingLayer: -3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.9996939, g: 0, b: 1, a: 1}
+  m_Sprite: {fileID: 1775329035007251067, guid: aebc08137d55bdb4e9812c769ce7415b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -370,10 +370,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b195865bd7d36794bb0c0713e6702aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootChest
+  ShowTopMostFoldoutHeaderGroup: 1
   getPlayer: {fileID: 3812002177927603665}
   sprite: {fileID: 1896202039389693452}
   closedSprite: {fileID: -6078700906261777908, guid: ca9e305b53fe9ed4ab35eef37601cde1, type: 3}
   openedSprite: {fileID: -1091078418, guid: ca9e305b53fe9ed4ab35eef37601cde1, type: 3}
+  miniMapIcon: {fileID: 5494015136226754618}
+  closedIcon: {fileID: 1775329035007251067, guid: aebc08137d55bdb4e9812c769ce7415b, type: 3}
+  openedIcon: {fileID: 873368996, guid: aebc08137d55bdb4e9812c769ce7415b, type: 3}
   area: Beach
   index: 0
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}

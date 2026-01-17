@@ -9,6 +9,10 @@ public class LootChest : NetworkBehaviour, IInteractable
     [SerializeField] Sprite closedSprite;
     [SerializeField] Sprite openedSprite;
 
+    [SerializeField] SpriteRenderer miniMapIcon;
+    [SerializeField] Sprite closedIcon;
+    [SerializeField] Sprite openedIcon;
+
     [SerializeField] string area;
     [SerializeField] int index;
     PlayerStats PlayerStats;
@@ -55,10 +59,12 @@ public class LootChest : NetworkBehaviour, IInteractable
         if (status == "Completed")
         {
             sprite.sprite = openedSprite;
+            miniMapIcon.sprite = openedIcon;
         }
         else
         {
             sprite.sprite = closedSprite;
+            miniMapIcon.sprite = closedIcon;
         }
     }
 
@@ -77,6 +83,7 @@ public class LootChest : NetworkBehaviour, IInteractable
         PlayerPrefs.Save();
 
         sprite.sprite = openedSprite;
+        miniMapIcon.sprite = openedIcon;
 
         Instantiate(particle, transform.position, Quaternion.identity);
         ulong ownerClientId = stats.OwnerClientId;
