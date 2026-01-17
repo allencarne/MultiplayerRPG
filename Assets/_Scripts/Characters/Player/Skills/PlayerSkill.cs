@@ -63,7 +63,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     [HideInInspector] protected Vector2 AimOffset;
     [HideInInspector] protected Quaternion AimRotation;
     [HideInInspector] protected float AttackerDamage;
-    bool isBasic = false;
+    [HideInInspector] protected bool IsBasic = false;
 
     public virtual void StartSkill(PlayerStateMachine owner)
     {
@@ -164,7 +164,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     {
         switch (skilltype)
         {
-            case SkillType.Basic: owner.CanBasic = false; isBasic = true; break;
+            case SkillType.Basic: owner.CanBasic = false; IsBasic = true; break;
             case SkillType.Offensive: owner.CanOffensive = false; break;
             case SkillType.Mobility: owner.CanMobility = false; break;
             case SkillType.Defensive: owner.CanDefensive = false; break;
@@ -284,7 +284,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
-            damageOnTrigger.CanGenerateFury = isBasic;
+            damageOnTrigger.CanGenerateFury = IsBasic;
             damageOnTrigger.attacker = attacker;
             damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
             damageOnTrigger.IgnorePlayer = true;
@@ -335,8 +335,9 @@ public abstract class PlayerSkill : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRpc(Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, float damage, ulong attackerID)
+    public void AttackServerRpc(bool isBasic, Vector2 spawnPosition, Vector2 aimOffset, Vector2 aimDirection, Quaternion aimRotation, float damage, ulong attackerID)
     {
+        IsBasic = isBasic;
         SpawnPosition = spawnPosition;
         AimOffset = aimOffset;
         AimDirection = aimDirection;

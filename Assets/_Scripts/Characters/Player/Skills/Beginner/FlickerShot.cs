@@ -44,7 +44,7 @@ public class FlickerShot : PlayerSkill
         }
         else
         {
-            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
+            AttackServerRpc(IsBasic, SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
         }
     }
 

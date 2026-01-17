@@ -67,19 +67,25 @@ public class DamageOnTrigger : NetworkBehaviour
         {
             damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
 
-            ulong targetClientID = attacker.OwnerClientId;
-            ClientRpcParams rpcParams = new ClientRpcParams
-            {
-                Send = new ClientRpcSendParams
-                {
-                    TargetClientIds = new ulong[] { targetClientID }
-                }
-            };
-
             // Fury
             if (CanGenerateFury)
             {
-                SetFuryClientRPC(attacker.NetworkObjectId, rpcParams);
+                Debug.Log("CanGenerate True");
+
+                PlayerStateMachine attackerStateMachine = attacker.GetComponent<PlayerStateMachine>();
+                if (attackerStateMachine != null)
+                {
+                    Debug.Log(attackerStateMachine + " Found!");
+                    attackerStateMachine.NotifyFuryGainClientRPC(attacker);
+                }
+                else
+                {
+                    Debug.Log("Not Found!");
+                }
+            }
+            else
+            {
+                Debug.Log("CanGenerate False");
             }
 
             CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();
@@ -104,19 +110,5 @@ public class DamageOnTrigger : NetworkBehaviour
         Instantiate(hitSpark, hitPosition, rotation);
 
         if (hitSpark_Special) Instantiate(hitSpark_Special, collisionPosition, rotation);
-    }
-
-    [ClientRpc]
-    void SetFuryClientRPC(ulong NetObjectID, ClientRpcParams rpcParams = default)
-    {
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(NetObjectID, out NetworkObject netObj))
-        {
-            PlayerStateMachine stateMachine = netObj.GetComponent<PlayerStateMachine>();
-            if (stateMachine != null)
-            {
-                Fury fury = stateMachine.GetComponentInChildren<Fury>();
-                if (fury != null) fury.SetFury();
-            }
-        }
     }
 }

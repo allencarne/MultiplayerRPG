@@ -10,36 +10,27 @@ public class Fury : PlayerSkill
     int furyIdleTime = 8;
 
     Coroutine idleCoroutine;
-    PlayerStateMachine stateMachine;
+    [SerializeField] PlayerStateMachine stateMachine;
 
     public override void StartSkill(PlayerStateMachine owner)
     {
-        stateMachine = owner;
+
     }
 
-    public void SetFury()
+    public void OnFuryGain()
     {
-        Debug.Log("SetFury " + OwnerClientId);
-
-        if (IsServer)
-        {
-            ApplyFury();
-        }
-        else
-        {
-            ApplyFuryServerRPC();
-        }
+        Debug.Log("OnFuryGain called for owner!");
+        ApplyFuryServerRPC();
 
         if (idleCoroutine != null)
         {
             StopCoroutine(idleCoroutine);
         }
-
         idleCoroutine = StartCoroutine(IdleFuryDecay());
     }
 
-    [ServerRpc]
-    void ApplyFuryServerRPC()
+    [ServerRpc(RequireOwnership = false)]
+    void ApplyFuryServerRPC(ServerRpcParams rpcParams = default)
     {
         ApplyFury();
     }
@@ -47,7 +38,6 @@ public class Fury : PlayerSkill
     void ApplyFury()
     {
         stateMachine.Stats.Fury.Value = Mathf.Min(stateMachine.Stats.Fury.Value + furyPerHit, stateMachine.Stats.MaxFury.Value);
-
         int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
         ApplyBuffClientRpc(newStacks);
     }

@@ -44,7 +44,7 @@ public class FlailingEdge : PlayerSkill
         }
         else
         {
-            AttackServerRpc(SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
+            AttackServerRpc(IsBasic,SpawnPosition, AimOffset, AimDirection, AimRotation, AttackerDamage, OwnerClientId);
         }
     }
 

@@ -1,7 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -647,4 +647,21 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     #endregion
+
+    [ClientRpc]
+    public void NotifyFuryGainClientRPC(NetworkObjectReference attackerRef)
+    {
+        if (attackerRef.TryGet(out NetworkObject attackerObject))
+        {
+            if (attackerObject.IsOwner)
+            {
+                // Find the Fury component and tell it to apply
+                Fury fury = GetComponentInChildren<Fury>();
+                if (fury != null)
+                {
+                    fury.OnFuryGain();
+                }
+            }
+        }
+    }
 }
