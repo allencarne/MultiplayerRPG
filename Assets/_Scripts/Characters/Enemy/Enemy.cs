@@ -130,13 +130,14 @@ public class Enemy : NetworkBehaviour
         PlayerQuest quest = attackerID.GetComponent<PlayerQuest>();
         if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
 
-        if (stateMachine.hasMightOnStart || stateMachine.hasSwiftnessOnStart || stateMachine.hasAlacrityOnStart)
+        if (stateMachine.hasMightOnStart || stateMachine.hasSwiftnessOnStart || stateMachine.hasAlacrityOnStart || stateMachine.hasProtectionOnStart)
         {
             StartBuffsClientRPC(
                 attackerID.NetworkObjectId,
                 stateMachine.hasMightOnStart,
                 stateMachine.hasSwiftnessOnStart,
                 stateMachine.hasAlacrityOnStart,
+                stateMachine.hasProtectionOnStart,
                 rpcParams
             );
         }
@@ -221,7 +222,7 @@ public class Enemy : NetworkBehaviour
     }
 
     [ClientRpc]
-    void StartBuffsClientRPC(ulong attackerNetworkObjectId, bool hasMight, bool hasSwiftness, bool hasAlacrity, ClientRpcParams rpcParams = default)
+    void StartBuffsClientRPC(ulong attackerNetworkObjectId, bool hasMight, bool hasSwiftness, bool hasAlacrity, bool hasProtection, ClientRpcParams rpcParams = default)
     {
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(attackerNetworkObjectId, out NetworkObject attackerObject))
         {
@@ -231,6 +232,7 @@ public class Enemy : NetworkBehaviour
             if (hasMight) sm.Buffs.might.StartMight(1, 30);
             if (hasSwiftness) sm.Buffs.swiftness.StartSwiftness(1, 30);
             if (hasAlacrity) sm.Buffs.alacrity.StartAlacrity(1, 30);
+            if (hasProtection) sm.Buffs.protection.StartProtection(1, 30);
         }
     }
 

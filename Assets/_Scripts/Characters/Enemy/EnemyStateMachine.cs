@@ -44,6 +44,7 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool hasMightOnStart = false;
     public bool hasSwiftnessOnStart = false;
     public bool hasAlacrityOnStart = false;
+    public bool hasProtectionOnStart = false;
 
     public LayerMask obstacleLayerMask;
     public Vector2 StartingPosition { get; set; }
@@ -91,24 +92,31 @@ public class EnemyStateMachine : NetworkBehaviour
         StartingPosition = transform.position;
 
         int randomNumber = Random.Range(0, 100);
-        if (randomNumber <= 20)
+        if (randomNumber <= 10)
         {
             Buffs.might.StartMight(1, -1);
             hasMightOnStart = true;
         }
 
         int randomNumber2 = Random.Range(0, 100);
-        if (randomNumber2 <= 20)
+        if (randomNumber2 <= 10)
         {
             Buffs.swiftness.StartSwiftness(1, -1);
             hasSwiftnessOnStart = true;
         }
 
         int randomNumber3 = Random.Range(0, 100);
-        if (randomNumber3 <= 20)
+        if (randomNumber3 <= 10)
         {
             Buffs.alacrity.StartAlacrity(1, -1);
             hasAlacrityOnStart = true;
+        }
+
+        int randomNumber4 = Random.Range(0, 100);
+        if (randomNumber4 <= 10)
+        {
+            Buffs.protection.StartProtection(1, -1);
+            hasProtectionOnStart = true;
         }
     }
 
