@@ -647,21 +647,4 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     #endregion
-
-    [ClientRpc]
-    public void NotifyFuryGainClientRPC(NetworkObjectReference attackerRef)
-    {
-        if (attackerRef.TryGet(out NetworkObject attackerObject))
-        {
-            if (attackerObject.IsOwner)
-            {
-                // Find the Fury component and tell it to apply
-                Fury fury = GetComponentInChildren<Fury>();
-                if (fury != null)
-                {
-                    fury.OnFuryGain();
-                }
-            }
-        }
-    }
 }

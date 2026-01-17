@@ -70,22 +70,8 @@ public class DamageOnTrigger : NetworkBehaviour
             // Fury
             if (CanGenerateFury)
             {
-                Debug.Log("CanGenerate True");
-
-                PlayerStateMachine attackerStateMachine = attacker.GetComponent<PlayerStateMachine>();
-                if (attackerStateMachine != null)
-                {
-                    Debug.Log(attackerStateMachine + " Found!");
-                    attackerStateMachine.NotifyFuryGainClientRPC(attacker);
-                }
-                else
-                {
-                    Debug.Log("Not Found!");
-                }
-            }
-            else
-            {
-                Debug.Log("CanGenerate False");
+                Fury fury = attacker.GetComponentInChildren<Fury>();
+                if (fury != null) fury.FuryClientRPC(attacker);
             }
 
             CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();

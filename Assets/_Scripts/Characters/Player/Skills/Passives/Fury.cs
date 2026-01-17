@@ -17,20 +17,34 @@ public class Fury : PlayerSkill
 
     }
 
-    public void OnFuryGain()
+    [ClientRpc]
+    public void FuryClientRPC(NetworkObjectReference attackerRef)
     {
-        Debug.Log("OnFuryGain called for owner!");
-        ApplyFuryServerRPC();
-
-        if (idleCoroutine != null)
+        if (attackerRef.TryGet(out NetworkObject attackerObject))
         {
-            StopCoroutine(idleCoroutine);
+            if (attackerObject.IsOwner)
+            {
+                if (IsServer)
+                {
+                    ApplyFury();
+                }
+                else
+                {
+                    ApplyFuryServerRPC();
+                }
+
+                if (idleCoroutine != null)
+                {
+                    StopCoroutine(idleCoroutine);
+                }
+
+                idleCoroutine = StartCoroutine(IdleFuryDecay());
+            }
         }
-        idleCoroutine = StartCoroutine(IdleFuryDecay());
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    void ApplyFuryServerRPC(ServerRpcParams rpcParams = default)
+    [ServerRpc]
+    void ApplyFuryServerRPC()
     {
         ApplyFury();
     }
