@@ -41,7 +41,7 @@ public class PlayerStats : CharacterStats
 
     public PlayerClass playerClass;
 
-    public UnityEvent OnAPGained; 
+    public UnityEvent OnAPGained;
 
     private void Update()
     {

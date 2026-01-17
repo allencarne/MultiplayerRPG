@@ -1,7 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Fury : PlayerSkill
 {
@@ -11,20 +10,16 @@ public class Fury : PlayerSkill
     int furyIdleTime = 8;
 
     Coroutine idleCoroutine;
-    PlayerStateMachine _owner;
-
-    [SerializeField] Material glow;
-    [SerializeField] Image border;
+    PlayerStateMachine stateMachine;
 
     public override void StartSkill(PlayerStateMachine owner)
     {
-        _owner = owner;
+        stateMachine = owner;
     }
 
-    [ClientRpc]
-    public void FuryClientRPC()
+    public void SetFury()
     {
-        if (!IsOwner) return;
+        Debug.Log("SetFury " + OwnerClientId);
 
         if (IsServer)
         {
@@ -51,9 +46,9 @@ public class Fury : PlayerSkill
 
     void ApplyFury()
     {
-        _owner.Stats.Fury.Value = Mathf.Min(_owner.Stats.Fury.Value + furyPerHit, _owner.Stats.MaxFury.Value);
+        stateMachine.Stats.Fury.Value = Mathf.Min(stateMachine.Stats.Fury.Value + furyPerHit, stateMachine.Stats.MaxFury.Value);
 
-        int newStacks = CalculateBuffStacks(_owner.Stats.Fury.Value);
+        int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
         ApplyBuffClientRpc(newStacks);
     }
 
@@ -61,12 +56,12 @@ public class Fury : PlayerSkill
     {
         yield return new WaitForSeconds(furyIdleTime);
 
-        while (_owner.Stats.Fury.Value > 0)
+        while (stateMachine.Stats.Fury.Value > 0)
         {
             if (IsServer)
             {
-                _owner.Stats.Fury.Value -= furyFallOff;
-                int newStacks = CalculateBuffStacks(_owner.Stats.Fury.Value);
+                stateMachine.Stats.Fury.Value -= furyFallOff;
+                int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
                 ApplyBuffClientRpc(newStacks);
             }
             else
@@ -80,9 +75,9 @@ public class Fury : PlayerSkill
     [ServerRpc]
     void DecayFuryServerRPC()
     {
-        _owner.Stats.Fury.Value -= furyFallOff;
+        stateMachine.Stats.Fury.Value -= furyFallOff;
 
-        int newStacks = CalculateBuffStacks(_owner.Stats.Fury.Value);
+        int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
         ApplyBuffClientRpc(newStacks);
     }
 
@@ -104,7 +99,7 @@ public class Fury : PlayerSkill
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)
         {
-            _owner.Buffs.swiftness.StartSwiftness(delta, -1);
+            stateMachine.Buffs.swiftness.StartSwiftness(delta, -1);
         }
 
         furyHasteStacks = newStacks;

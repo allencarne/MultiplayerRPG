@@ -12,6 +12,7 @@ public class PlayerSave : NetworkBehaviour
 
     [Header("References")]
     Player player;
+    PlayerStateMachine stateMachine;
     PlayerCustomization custom;
     PlayerStats stats;
     Inventory inventory;
@@ -26,6 +27,7 @@ public class PlayerSave : NetworkBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        stateMachine = GetComponent<PlayerStateMachine>();
         custom = GetComponent<PlayerCustomization>();
         stats = GetComponent<PlayerStats>();
         inventory = GetComponentInChildren<Inventory>();
@@ -45,6 +47,7 @@ public class PlayerSave : NetworkBehaviour
             inventory.LoadInventory();
             equipment.LoadEquipment();
             exp.Initialize();
+            stateMachine.SkillsOnSpawn();
 
             statsInitialized = true;
         }

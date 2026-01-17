@@ -19,15 +19,15 @@ public class SkillPanel : MonoBehaviour
     public PlayerSkill[] utilityAbilities;
     public PlayerSkill[] ultimateAbilities;
 
-    int passive1Req = 1;
-    int basicReq = 1;
-    int offensiveReq = 4;
-    int passive2Req = 6;
-    int mobilityReq = 8;
-    int defensiveReq = 12;
-    int passive3Req = 14;
-    int utilityReq = 16;
-    int ultimateReq = 20;
+    public int passive1Req = 0;
+    public int basicReq = 0;
+    public int offensiveReq = 4;
+    public int passive2Req = 6;
+    public int mobilityReq = 8;
+    public int defensiveReq = 12;
+    public int passive3Req = 14;
+    public int utilityReq = 16;
+    public int ultimateReq = 20;
 
     [Header("FirstPassive")]
     [SerializeField] Image icon_FirstPassive0;
@@ -82,25 +82,6 @@ public class SkillPanel : MonoBehaviour
     private void OnDisable()
     {
         CancelInvoke();
-    }
-
-    private void AssignIcon(Image icon, PlayerSkill[] abilities, int index)
-    {
-        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
-
-        if (abilities[index].SkillIcon != null) icon.sprite = abilities[index].SkillIcon;
-
-        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
-        if (tooltip != null) tooltip.SetAbility(abilities[index]);
-    }
-
-    void YellowBorder(int index, int reqLevel, Image icon)
-    {
-        if (icon == null) return;
-        if (index > -1) return;
-        if (stats.PlayerLevel.Value < reqLevel) return;
-
-        SetColor(icon, Color.cyan);
     }
 
     void SetColor(Image icon, Color color)
@@ -194,6 +175,16 @@ public class SkillPanel : MonoBehaviour
         BlueBorder(player.UltimateIndex, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
     }
 
+    private void AssignIcon(Image icon, PlayerSkill[] abilities, int index)
+    {
+        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
+
+        if (abilities[index].SkillIcon != null) icon.sprite = abilities[index].SkillIcon;
+
+        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
+        if (tooltip != null) tooltip.SetAbility(abilities[index]);
+    }
+
     void BlueBorder(int index, Image zero, Image one, Image two)
     {
         if (index < 0) return;
@@ -218,20 +209,26 @@ public class SkillPanel : MonoBehaviour
         }
     }
 
+    void YellowBorder(int index, int reqLevel, Image icon)
+    {
+        if (icon == null) return;
+        if (index > -1) return;
+        if (stats.PlayerLevel.Value < reqLevel) return;
+
+        SetColor(icon, Color.cyan);
+    }
+
     public void FirstPassiveButton(int index)
     {
-        if (stats.PlayerLevel.Value < passive1Req) return;
         player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
         BlueBorder(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
-
         firstPassive[index].StartSkill(stateMachine);
     }
 
     public void SecondPassiveButton(int index)
     {
-        if (stats.PlayerLevel.Value < passive2Req) return;
         player.SecondPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -242,7 +239,6 @@ public class SkillPanel : MonoBehaviour
 
     public void ThirdPassiveButton(int index)
     {
-        if (stats.PlayerLevel.Value < passive3Req) return;
         player.ThirdPassiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -253,7 +249,6 @@ public class SkillPanel : MonoBehaviour
 
     public void BasicButton(int index)
     {
-        if (stats.PlayerLevel.Value < basicReq) return;
         player.BasicIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -262,7 +257,6 @@ public class SkillPanel : MonoBehaviour
 
     public void OffensiveButton(int index)
     {
-        if (stats.PlayerLevel.Value < offensiveReq) return;
         player.OffensiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -271,7 +265,6 @@ public class SkillPanel : MonoBehaviour
 
     public void MobilityButton(int index)
     {
-        if (stats.PlayerLevel.Value < mobilityReq) return;
         player.MobilityIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -280,7 +273,6 @@ public class SkillPanel : MonoBehaviour
 
     public void DefensiveButton(int index)
     {
-        if (stats.PlayerLevel.Value < defensiveReq) return;
         player.DefensiveIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -289,7 +281,6 @@ public class SkillPanel : MonoBehaviour
 
     public void UtilityButton(int index)
     {
-        if (stats.PlayerLevel.Value < utilityReq) return;
         player.UtilityIndex = index;
         OnSkillSelected?.Invoke();
 
@@ -298,7 +289,6 @@ public class SkillPanel : MonoBehaviour
 
     public void UltimateButton(int index)
     {
-        if (stats.PlayerLevel.Value < ultimateReq) return;
         player.UltimateIndex = index;
         OnSkillSelected?.Invoke();
 

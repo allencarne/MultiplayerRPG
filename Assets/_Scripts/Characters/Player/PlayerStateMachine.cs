@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -21,10 +22,8 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Animators")]
     public Animator PlayerHeadAnimator;
     public Animator BodyAnimator;
-
     public Animator ChestAnimator;
     public Animator LegsAnimator;
-
     public Animator SwordAnimator;
 
     [Header("Scrips")]
@@ -94,18 +93,19 @@ public class PlayerStateMachine : NetworkBehaviour
         Ultimate,
     }
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        playerSpawnState.StartState(this);
+        if (!IsOwner) return;
 
+        playerSpawnState.StartState(this);
         PlayerHeadAnimator.SetFloat("Vertical", -1);
         BodyAnimator.SetFloat("Vertical", -1);
-        //HairAnimator.SetFloat("Vertical", -1);
-        //EyesAnimator.SetFloat("Vertical", -1);
         SwordAnimator.SetFloat("Vertical", -1);
+    }
 
+    public void SkillsOnSpawn()
+    {
         setSkills.SetSkills();
-
         if (skills == null) return;
 
         switch (Stats.playerClass)
@@ -114,47 +114,78 @@ public class PlayerStateMachine : NetworkBehaviour
 
                 if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
                 {
-                    setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
+                    if (Stats.PlayerLevel.Value >= skills.passive1Req)
+                    {
+                        setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
+                    }
                 }
 
                 if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
                 {
-                    setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
+                    if (Stats.PlayerLevel.Value >= skills.passive2Req)
+                    {
+                        setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
+                    }
                 }
 
                 if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
                 {
-                    setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
+                    if (Stats.PlayerLevel.Value >= skills.passive3Req)
+                    {
+                        setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
+                    }
                 }
 
                 if (player.BasicIndex > -1 && player.BasicIndex <= skills.basicAbilities.Length)
                 {
-                    setSkills.begginerSkills.BasicButton(player.BasicIndex);
+                    if (Stats.PlayerLevel.Value >= skills.basicReq)
+                    {
+                        setSkills.begginerSkills.BasicButton(player.BasicIndex);
+                    }
+                    
                 }
 
                 if (player.OffensiveIndex > -1 && player.OffensiveIndex <= skills.offensiveAbilities.Length)
                 {
-                    setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
+                    if (Stats.PlayerLevel.Value >= skills.offensiveReq)
+                    {
+                        setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
+                    }
                 }
 
                 if (player.MobilityIndex > -1 && player.MobilityIndex <= skills.mobilityAbilities.Length)
                 {
-                    setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
+                    if (Stats.PlayerLevel.Value >= skills.mobilityReq)
+                    {
+                        setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
+                    }
+                    
                 }
 
                 if (player.DefensiveIndex > -1 && player.DefensiveIndex <= skills.defensiveAbilities.Length)
                 {
-                    setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
+                    if (Stats.PlayerLevel.Value >= skills.defensiveReq)
+                    {
+                        setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
+                    }
+                    
                 }
 
                 if (player.UtilityIndex > -1 && player.UtilityIndex <= skills.utilityAbilities.Length)
                 {
-                    setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
+                    if (Stats.PlayerLevel.Value >= skills.utilityReq)
+                    {
+                        setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
+                    }
+                    
                 }
 
                 if (player.UltimateIndex > -1 && player.UltimateIndex <= skills.ultimateAbilities.Length)
                 {
-                    setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
+                    if (Stats.PlayerLevel.Value >= skills.ultimateReq)
+                    {
+                        setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
+                    }
                 }
 
                 break;
@@ -171,6 +202,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsSpawned) return;
+        if (skills == null || player == null) return;
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.UpdateState(this); break;
@@ -205,6 +239,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsSpawned) return;
+        if (skills == null || player == null) return;
+
         switch (state)
         {
             case State.Spawn: playerSpawnState.FixedUpdateState(this); break;

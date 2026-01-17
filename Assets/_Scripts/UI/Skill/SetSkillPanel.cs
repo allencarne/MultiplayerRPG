@@ -52,7 +52,7 @@ public class SetSkillPanel : MonoBehaviour
         skillPanel.OnSkillSelected.RemoveListener(SetSkills);
     }
 
-    private void Start()
+    private void Awake()
     {
         BeginnerPanel.SetActive(false);
         WarriorPanel.SetActive(false);
