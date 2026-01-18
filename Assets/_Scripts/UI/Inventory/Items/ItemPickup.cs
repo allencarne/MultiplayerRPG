@@ -15,12 +15,18 @@ public class ItemPickup : NetworkBehaviour
     PlayerInput playerInput;
 
     public Item Item;
-    public int Quantity = 1;
+    public NetworkVariable<int> Quantity = new NetworkVariable<int>(1,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     bool _hasBeenPickedUp = false;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        if (Quantity > 1) quantityText.text = Quantity.ToString();
+        Quantity.OnValueChanged += OnQuantityChanged;
+        UpdateQuantityUI(Quantity.Value);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        Quantity.OnValueChanged -= OnQuantityChanged;
     }
 
     public void PickUp(Player player)
@@ -29,7 +35,7 @@ public class ItemPickup : NetworkBehaviour
         _hasBeenPickedUp = true;
 
         // Add Item to Inventory if we have enough space
-        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity);
+        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value);
 
         // Destroy item if it was collected
         if (wasPickedUp)
@@ -49,11 +55,9 @@ public class ItemPickup : NetworkBehaviour
         Player player = collision.GetComponent<Player>();
         if (!player || !player.IsLocalPlayer) return;
 
-        // Store reference to PlayerInput
         playerInput = player.GetComponent<PlayerInput>();
         if (playerInput == null) return;
 
-        // Show tooltip
         toolTip.SetActive(true);
         UpdatePickupText();
     }
@@ -137,5 +141,22 @@ public class ItemPickup : NetworkBehaviour
     void DespawnServerRPC()
     {
         NetworkObject.Despawn(true);
+    }
+
+    private void OnQuantityChanged(int previousValue, int newValue)
+    {
+        UpdateQuantityUI(newValue);
+    }
+
+    private void UpdateQuantityUI(int quantity)
+    {
+        if (quantity > 1)
+        {
+            quantityText.text = quantity.ToString();
+        }
+        else
+        {
+            quantityText.text = "";
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ContextMenu : MonoBehaviour
 {
+    [SerializeField] PlayerEquipment equipment;
     [SerializeField] GameObject contextMenu;
     [SerializeField] InventorySlot inventorySlot;
     [SerializeField] ItemToolTip tooltip;
@@ -81,11 +82,18 @@ public class ContextMenu : MonoBehaviour
 
         if (data == null) return;
 
-        GameObject dropped = Instantiate(data.item.Prefab, inventory.Save.transform.position, Quaternion.identity);
-        NetworkObject netObj = dropped.GetComponent<NetworkObject>();
-        netObj.Spawn();
+        if (equipment.IsServer)
+        {
+            GameObject dropped = Instantiate(data.item.Prefab, inventory.Save.transform.position, Quaternion.identity);
+            NetworkObject netObj = dropped.GetComponent<NetworkObject>();
+            netObj.Spawn();
+            dropped.GetComponent<ItemPickup>().Quantity.Value = data.quantity;
+        }
+        else
+        {
+            equipment.DropItemServerRPC(data.item.ITEM_ID, data.quantity,inventory.Save.transform.position);
+        }
 
-        dropped.GetComponent<ItemPickup>().Quantity = data.quantity;
         inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);
         EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);

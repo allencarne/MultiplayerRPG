@@ -21,7 +21,14 @@ public class NPCStaggerState : NPCState
             !owner.CrowdControl.knockUp.IsKnockedUp &&
             !owner.CrowdControl.pull.IsPulled)
         {
-            owner.SetState(NPCStateMachine.State.Idle);
+            if (owner.isResetting)
+            {
+                owner.SetState(NPCStateMachine.State.Reset);
+            }
+            else
+            {
+                owner.SetState(NPCStateMachine.State.Idle);
+            }
         }
     }
 

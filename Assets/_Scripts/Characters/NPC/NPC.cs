@@ -83,7 +83,7 @@ public class NPC : NetworkBehaviour, IInteractable
 
     private void Update()
     {
-        if (InCombat)
+        if (InCombat && Data.npcClass == NPCClass.Patrol)
         {
             CombatTime += Time.deltaTime;
 
@@ -160,13 +160,27 @@ public class NPC : NetworkBehaviour, IInteractable
 
     void TakeDamage(float damage)
     {
-        InCombat = true;
-        CombatTime = 0;
+        if (Data.npcClass == NPCClass.Patrol)
+        {
+            InCombat = true;
+            CombatTime = 0;
+        }
+
+        if (!IsRegen) return;
+        IsRegen = false;
+        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
     }
 
     void DealDamage(float damage, Vector2 position)
     {
-        InCombat = true;
-        CombatTime = 0;
+        if (Data.npcClass == NPCClass.Patrol)
+        {
+            InCombat = true;
+            CombatTime = 0;
+        }
+
+        if (!IsRegen) return;
+        IsRegen = false;
+        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
     }
 }

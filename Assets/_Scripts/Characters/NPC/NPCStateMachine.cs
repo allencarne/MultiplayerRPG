@@ -22,10 +22,8 @@ public class NPCStateMachine : NetworkBehaviour
     [Header("Animators")]
     public Animator HeadAnimator;
     public Animator BodyAnimator;
-
     public Animator ChestAnimator;
     public Animator LegsAnimator;
-
     public Animator SwordAnimator;
 
     [Header("Status Effects")]
@@ -36,6 +34,7 @@ public class NPCStateMachine : NetworkBehaviour
     [Header("Bools")]
     public bool IsEnemyInRange = false;
     public bool IsAttacking = false;
+    public bool isResetting = false;
     public bool IsSliding = false;
     public bool CanBasic = true;
     public bool CanSpecial = false;

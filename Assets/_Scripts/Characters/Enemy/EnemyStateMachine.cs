@@ -35,8 +35,9 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
     [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
-    public bool CanDash = false;
     public bool IsAttacking = false;
+    public bool isResetting = false;
+    public bool CanDash = false;
     public bool CanBasic = true;
     public bool CanSpecial = true;
     public bool CanUltimate = true;

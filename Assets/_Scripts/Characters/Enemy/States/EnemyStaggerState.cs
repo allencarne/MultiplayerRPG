@@ -18,7 +18,14 @@ public class EnemyStaggerState : EnemyState
             !owner.CrowdControl.knockUp.IsKnockedUp && 
             !owner.CrowdControl.pull.IsPulled)
         {
-            owner.SetState(EnemyStateMachine.State.Idle);
+            if (owner.isResetting)
+            {
+                owner.SetState(EnemyStateMachine.State.Reset);
+            }
+            else
+            {
+                owner.SetState(EnemyStateMachine.State.Idle);
+            }
         }
     }
 

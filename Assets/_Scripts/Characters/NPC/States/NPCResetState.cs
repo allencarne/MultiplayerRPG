@@ -4,12 +4,12 @@ public class NPCResetState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.isResetting = true;
+
         owner.HeadAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
-
         owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
-
         owner.SwordAnimator.Play("Run");
 
         owner.npc.PatienceBar.Patience.Value = 0;
@@ -25,6 +25,8 @@ public class NPCResetState : NPCState
     {
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
         {
+            owner.isResetting = false;
+
             owner.HeadAnimator.SetFloat("Vertical", -1);
             owner.BodyAnimator.SetFloat("Vertical", -1);
 

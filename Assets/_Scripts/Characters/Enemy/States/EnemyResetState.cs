@@ -6,8 +6,16 @@ public class EnemyResetState : EnemyState
     {
         if (!owner.IsServer) return;
 
+        owner.isResetting = true;
+
         owner.EnemyAnimator.Play("Wander");
         owner.enemy.PatienceBar.Patience.Value = 0;
+
+        if (owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_TotalHP.Value)
+        {
+            owner.enemy.IsRegen = true;
+            owner.Buffs.regeneration.StartRegen(1, -1);
+        }
     }
 
     public override void UpdateState(EnemyStateMachine owner)
@@ -16,6 +24,7 @@ public class EnemyResetState : EnemyState
 
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.5f)
         {
+            owner.isResetting = false;
             owner.EnemyRB.linearVelocity = Vector2.zero;
             owner.SetState(EnemyStateMachine.State.Idle);
         }

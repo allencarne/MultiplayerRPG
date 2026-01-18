@@ -1,6 +1,7 @@
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerEquipment : NetworkBehaviour
 {
@@ -159,5 +160,22 @@ public class PlayerEquipment : NetworkBehaviour
         }
 
         save.SaveStats();
+    }
+
+    [ServerRpc]
+    public void DropItemServerRPC(FixedString64Bytes itemId, int quantity, Vector3 dropPosition)
+    {
+        Item item = itemList.GetItemById(itemId);
+
+        if (item == null)
+        {
+            Debug.LogError($"Failed to find item with ID: {itemId}");
+            return;
+        }
+
+        GameObject dropped = Instantiate(item.Prefab, dropPosition, Quaternion.identity);
+        NetworkObject netObj = dropped.GetComponent<NetworkObject>();
+        netObj.Spawn();
+        dropped.GetComponent<ItemPickup>().Quantity.Value = quantity;
     }
 }
