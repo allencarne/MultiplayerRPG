@@ -3,29 +3,34 @@ using UnityEngine;
 
 public class LootChest : NetworkBehaviour, IInteractable
 {
-    [SerializeField] GetPlayerReference getPlayer;
+    public string DisplayName => "Loot Chest";
 
+    [Header("Data")]
+    [SerializeField] string area;
+    [SerializeField] int index;
+
+    [Header("Rewards")]
+    [SerializeField] int coinReward;
+    [SerializeField] int experienceReward;
+
+    [Header("References")]
+    [SerializeField] GetPlayerReference getPlayer;
+    PlayerStats PlayerStats;
+
+    [Header("Sprite")]
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] Sprite closedSprite;
     [SerializeField] Sprite openedSprite;
 
+    [Header("MinMap Sprite")]
     [SerializeField] SpriteRenderer miniMapIcon;
     [SerializeField] Sprite closedIcon;
     [SerializeField] Sprite openedIcon;
 
-    [SerializeField] string area;
-    [SerializeField] int index;
-    PlayerStats PlayerStats;
-
+    [Header("Items")]
     [SerializeField] Item coin;
     [SerializeField] Item[] rewards;
-
-    [SerializeField] int coinReward;
-    [SerializeField] int experienceReward;
-
     [SerializeField] GameObject particle;
-
-    public string DisplayName => "Loot Chest";
 
     public void Initalize()
     {

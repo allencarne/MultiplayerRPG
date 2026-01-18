@@ -878,6 +878,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  parentTransform: {fileID: 4046972822653324019}
+  ParticlePrefab: {fileID: 253999956271101294, guid: 9977448cd8fbe9d429ef06ea942e2791, type: 3}
   stats: {fileID: 6038468416201059741}
   UI_Bar: {fileID: 8452951922686297947}
   UI_Prefab: {fileID: 435407050109934694, guid: 2ebaaffc2197ecc4e895282f733dce81, type: 3}
@@ -2628,8 +2630,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteFlashNPC
   ShowTopMostFoldoutHeaderGroup: 1
-  npc: {fileID: 4856348772391820444}
+  headSprite: {fileID: 7610224285271098685}
   bodySprite: {fileID: 1579145827163279184}
+  npc: {fileID: 4856348772391820444}
   stats: {fileID: 6038468416201059741}
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   flashRedMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
@@ -3724,7 +3727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 252941149
+  GlobalObjectIdHash: 206476993
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3909,6 +3912,7 @@ MonoBehaviour:
   DeBuffs: {fileID: 5438906521032660789}
   IsEnemyInRange: 0
   IsAttacking: 0
+  isResetting: 0
   IsSliding: 0
   CanBasic: 1
   CanSpecial: 0
@@ -3916,7 +3920,6 @@ MonoBehaviour:
   StartingPosition: {x: 0, y: 0}
   BasicRadius: 3
   DeAggroRadius: 10
-  Target: {fileID: 0}
   Collider: {fileID: 5667196409634766878}
   npc: {fileID: 4856348772391820444}
   NpcRB: {fileID: 4568072980406800238}
@@ -3925,6 +3928,7 @@ MonoBehaviour:
     m_Bits: 8
   PatrolIndex: 0
   PatrolForward: 1
+  Target: {fileID: 0}
   state: 0
 --- !u!114 &7778428804253406039
 MonoBehaviour:

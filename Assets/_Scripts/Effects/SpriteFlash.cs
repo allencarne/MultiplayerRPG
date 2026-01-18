@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SpriteFlash : NetworkBehaviour
 {
+    [SerializeField] SpriteRenderer headSprite;
     [SerializeField] SpriteRenderer bodySprite;
+
     [SerializeField] PlayerStats playerStats;
     [SerializeField] CharacterStats stats;
 
@@ -35,17 +37,29 @@ public class SpriteFlash : NetworkBehaviour
 
     IEnumerator FlashRed()
     {
+        headSprite.material = flashRedMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashRedMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = playerStats.net_bodyColor.Value;
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = playerStats.net_bodyColor.Value;
         yield return new WaitForSeconds(0.05f);
 
+        headSprite.material = flashRedMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashRedMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = playerStats.net_bodyColor.Value;
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = playerStats.net_bodyColor.Value;
@@ -62,17 +76,29 @@ public class SpriteFlash : NetworkBehaviour
 
     IEnumerator FlashGreen()
     {
+        headSprite.material = flashGreenMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashGreenMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = playerStats.net_bodyColor.Value;
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = playerStats.net_bodyColor.Value;
         yield return new WaitForSeconds(0.05f);
 
+        headSprite.material = flashGreenMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashGreenMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = playerStats.net_bodyColor.Value;
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = playerStats.net_bodyColor.Value;

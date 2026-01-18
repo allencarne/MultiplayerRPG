@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Buff_Regeneration : NetworkBehaviour
 {
+    [Header("Particle")]
+    [SerializeField] Transform parentTransform;
+    [SerializeField] GameObject ParticlePrefab;
+    GameObject particleInstance;
+
     [Header("Variables")]
     int maxStacks = 9;
     int durBuff = 0;
@@ -166,6 +171,11 @@ public class Buff_Regeneration : NetworkBehaviour
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
         }
 
+        if (particleInstance == null)
+        {
+            particleInstance = Instantiate(ParticlePrefab, parentTransform);
+        }
+
         StatusEffects se = UI_Instance.GetComponent<StatusEffects>();
         se.StartUI(duration);
     }
@@ -197,6 +207,7 @@ public class Buff_Regeneration : NetworkBehaviour
         if (stacks == 0)
         {
             if (UI_Instance != null) Destroy(UI_Instance);
+            if (particleInstance != null) Destroy(particleInstance);
         }
     }
 
@@ -212,6 +223,11 @@ public class Buff_Regeneration : NetworkBehaviour
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
+        }
+
+        if (particleInstance == null)
+        {
+            particleInstance = Instantiate(ParticlePrefab, parentTransform);
         }
     }
 

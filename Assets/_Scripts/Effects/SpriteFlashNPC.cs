@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SpriteFlashNPC : NetworkBehaviour
 {
-    [SerializeField] NPC npc;
-
+    [SerializeField] SpriteRenderer headSprite;
     [SerializeField] SpriteRenderer bodySprite;
+
+    [SerializeField] NPC npc;
     [SerializeField] CharacterStats stats;
 
     [SerializeField] Material defaultMaterial;
@@ -36,17 +37,29 @@ public class SpriteFlashNPC : NetworkBehaviour
 
     IEnumerator FlashRed()
     {
+        headSprite.material = flashRedMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashRedMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
         yield return new WaitForSeconds(0.05f);
 
+        headSprite.material = flashRedMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashRedMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
@@ -63,17 +76,29 @@ public class SpriteFlashNPC : NetworkBehaviour
 
     IEnumerator FlashGreen()
     {
+        headSprite.material = flashGreenMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashGreenMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
         yield return new WaitForSeconds(0.05f);
 
+        headSprite.material = flashGreenMaterial;
+        headSprite.color = Color.white;
+
         bodySprite.material = flashGreenMaterial;
         bodySprite.color = Color.white;
         yield return new WaitForSeconds(0.05f);
+
+        headSprite.material = defaultMaterial;
+        headSprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];
 
         bodySprite.material = defaultMaterial;
         bodySprite.color = npc.Custom.skinColors[npc.Data.skinColorIndex];

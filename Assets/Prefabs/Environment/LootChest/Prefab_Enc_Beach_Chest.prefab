@@ -105,7 +105,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 976555825025787811}
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1104798184
+  GlobalObjectIdHash: 605540068
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -371,6 +371,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootChest
   ShowTopMostFoldoutHeaderGroup: 1
+  area: Beach
+  index: 0
+  coinReward: 2
+  experienceReward: 3
   getPlayer: {fileID: 3812002177927603665}
   sprite: {fileID: 1896202039389693452}
   closedSprite: {fileID: -6078700906261777908, guid: ca9e305b53fe9ed4ab35eef37601cde1, type: 3}
@@ -378,8 +382,6 @@ MonoBehaviour:
   miniMapIcon: {fileID: 5494015136226754618}
   closedIcon: {fileID: 1775329035007251067, guid: aebc08137d55bdb4e9812c769ce7415b, type: 3}
   openedIcon: {fileID: 873368996, guid: aebc08137d55bdb4e9812c769ce7415b, type: 3}
-  area: Beach
-  index: 0
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
   rewards:
   - {fileID: 11400000, guid: f526a9de7f301414298f892e39924b5a, type: 2}
@@ -391,8 +393,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7b5b5a221b6fec14cb856e7b7c1c4a05, type: 2}
   - {fileID: 11400000, guid: 043ac164ca6319943b2ba08614328fb3, type: 2}
   - {fileID: 11400000, guid: a59b413f378ca544c9453ba8f82fba52, type: 2}
-  coinReward: 2
-  experienceReward: 3
   particle: {fileID: 5122904680868849753, guid: 90a61170fdb89d2499dd7a83b536e74f, type: 3}
 --- !u!114 &3812002177927603665
 MonoBehaviour:

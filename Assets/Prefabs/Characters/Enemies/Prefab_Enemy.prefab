@@ -262,6 +262,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  parentTransform: {fileID: 6306620828023998174}
+  ParticlePrefab: {fileID: 253999956271101294, guid: 9977448cd8fbe9d429ef06ea942e2791, type: 3}
   stats: {fileID: 878784667173873402}
   UI_Bar: {fileID: 8671912296722552889}
   UI_Prefab: {fileID: 435407050109934694, guid: 2ebaaffc2197ecc4e895282f733dce81, type: 3}
@@ -1737,26 +1739,28 @@ MonoBehaviour:
   enemySpecialAbility: {fileID: 0}
   enemyUltimateAbility: {fileID: 0}
   CurrentSkill: {fileID: 0}
+  CrowdControl: {fileID: 568576347084111489}
+  Buffs: {fileID: 6402268282429907237}
+  DeBuffs: {fileID: 1913103621938294649}
+  Drops: {fileID: 9147428821795703245}
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
   wanderRadius: 0
   basicRadius: 0
   specialRadius: 0
   ultimateRadius: 0
   deAggroRadius: 0
-  CanDash: 0
   IsAttacking: 0
+  isResetting: 0
+  CanDash: 0
   CanBasic: 1
   CanSpecial: 1
   CanUltimate: 1
   hasMightOnStart: 0
   hasSwiftnessOnStart: 0
   hasAlacrityOnStart: 0
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  CrowdControl: {fileID: 568576347084111489}
-  Buffs: {fileID: 6402268282429907237}
-  DeBuffs: {fileID: 1913103621938294649}
-  Drops: {fileID: 9147428821795703245}
+  hasProtectionOnStart: 0
   state: 0
 --- !u!114 &9147428821795703245
 MonoBehaviour:
