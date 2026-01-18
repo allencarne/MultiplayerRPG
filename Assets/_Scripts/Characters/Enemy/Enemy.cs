@@ -199,6 +199,12 @@ public class Enemy : NetworkBehaviour
             stateMachine.Target = attackerID.transform;
             stateMachine.IsPlayerInRange = true;
         }
+
+        if (stateMachine.Target != null && stateMachine.SecondTarget == null)
+        {
+            stateMachine.SecondTarget = attackerID.transform;
+            stateMachine.IsPlayerInRange = true;
+        }
     }
 
     IEnumerator DropEXP(Transform attackerPosition)

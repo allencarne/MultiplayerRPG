@@ -18,6 +18,12 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] EnemySkill enemyUltimateAbility;
     [HideInInspector] public EnemySkill CurrentSkill;
 
+    [Header("Scripts")]
+    public CrowdControl CrowdControl;
+    public Buffs Buffs;
+    public DeBuffs DeBuffs;
+    public EnemyDrops Drops;
+
     [Header("Components")]
     public Enemy enemy { get; private set; }
     public Rigidbody2D EnemyRB { get; private set; }
@@ -27,6 +33,9 @@ public class EnemyStateMachine : NetworkBehaviour
     [Header("Variables")]
     public int AttemptsCount { get; set; }
     public bool IsPlayerInRange { get; set; }
+    public Vector2 StartingPosition { get; set; }
+    public Vector2 WanderPosition { get; set; }
+    public LayerMask obstacleLayerMask;
 
     [Header("Radius")]
     [SerializeField] float wanderRadius; public float WanderRadius => wanderRadius;
@@ -35,6 +44,7 @@ public class EnemyStateMachine : NetworkBehaviour
     [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
     [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
+    [Header("Bools")]
     public bool IsAttacking = false;
     public bool isResetting = false;
     public bool CanDash = false;
@@ -42,19 +52,14 @@ public class EnemyStateMachine : NetworkBehaviour
     public bool CanSpecial = true;
     public bool CanUltimate = true;
 
+    [Header("Start Buffs")]
     public bool hasMightOnStart = false;
     public bool hasSwiftnessOnStart = false;
     public bool hasAlacrityOnStart = false;
     public bool hasProtectionOnStart = false;
 
-    public LayerMask obstacleLayerMask;
-    public Vector2 StartingPosition { get; set; }
-    public Vector2 WanderPosition { get; set; }
     public Transform Target { get; set; }
-    public CrowdControl CrowdControl;
-    public Buffs Buffs;
-    public DeBuffs DeBuffs;
-    public EnemyDrops Drops;
+    public Transform SecondTarget { get; set; }
 
     public enum State
     {
@@ -205,8 +210,18 @@ public class EnemyStateMachine : NetworkBehaviour
 
         if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
-            Target = other.transform;
-            IsPlayerInRange = true;
+            if (Target == null)
+            {
+                Target = other.transform;
+                IsPlayerInRange = true;
+            }
+
+            if (Target == other.transform) return;
+
+            if (SecondTarget == null && Target != null)
+            {
+                SecondTarget = other.transform;
+            }
         }
     }
 

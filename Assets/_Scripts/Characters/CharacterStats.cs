@@ -78,7 +78,20 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     void ClearTarget(NetworkObject attackerID)
     {
         EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
-        if (enemy != null) enemy.Target = null;
+        if (enemy != null)
+        {
+            if (enemy.SecondTarget != null)
+            {
+                enemy.Target = enemy.SecondTarget;
+                enemy.SecondTarget = null;
+                enemy.IsPlayerInRange = true;
+            }
+            else
+            {
+                enemy.Target = null;
+                enemy.IsPlayerInRange = false;
+            }
+        }
 
         NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
         if (npc != null) npc.Target = null;

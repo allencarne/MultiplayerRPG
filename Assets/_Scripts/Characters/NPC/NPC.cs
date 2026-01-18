@@ -156,6 +156,12 @@ public class NPC : NetworkBehaviour, IInteractable
             stateMachine.Target = attackerID.transform;
             stateMachine.IsEnemyInRange = true;
         }
+
+        if (stateMachine.Target != null && stateMachine.SecondTarget == null)
+        {
+            stateMachine.SecondTarget = attackerID.transform;
+            stateMachine.IsEnemyInRange = true;
+        }
     }
 
     void TakeDamage(float damage)

@@ -48,7 +48,6 @@ public class NPCStateMachine : NetworkBehaviour
     public float DeAggroRadius;
 
     [Header("Components")]
-    public Transform Target;
     [SerializeField] Collider2D Collider;
     public NPC npc;
     public Rigidbody2D NpcRB;
@@ -57,6 +56,9 @@ public class NPCStateMachine : NetworkBehaviour
     [Header("Patrol")]
     public int PatrolIndex = 0;
     public bool PatrolForward = true;
+
+    public Transform Target;
+    public Transform SecondTarget { get; set; }
 
     public enum State
     {
@@ -167,13 +169,24 @@ public class NPCStateMachine : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (state == State.Reset) return;
+
         if (other.CompareTag("Enemy"))
         {
-            if (state == State.Reset) return;
             if (other.GetComponent<Enemy>().IsDummy) return;
 
-            Target = other.transform;
-            IsEnemyInRange = true;
+            if (Target == null)
+            {
+                Target = other.transform;
+                IsEnemyInRange = true;
+            }
+
+            if (Target == other.transform) return;
+
+            if (SecondTarget == null && Target != null)
+            {
+                SecondTarget = other.transform;
+            }
         }
     }
 
