@@ -201,28 +201,12 @@ public class EnemyStateMachine : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (state == State.Reset) return;
+
         if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
-            if (state == State.Reset) return;
-
             Target = other.transform;
             IsPlayerInRange = true;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.gameObject.CompareTag("Player") || !collision.gameObject.CompareTag("NPC")) return;
-        if (enemy.IsDummy) return;
-
-        CharacterStats stats = collision.gameObject.GetComponent<CharacterStats>();
-        CrowdControl cc = collision.gameObject.GetComponent<CrowdControl>();
-
-        if (stats != null && cc != null)
-        {
-            stats.TakeDamage(1, DamageType.Flat, NetworkObject);
-            Vector2 dir = collision.transform.position - transform.position;
-            cc.knockBack.KnockBack(dir, 5, .3f);
         }
     }
 
