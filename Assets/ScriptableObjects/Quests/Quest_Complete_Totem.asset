@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest5
   QuestName: Complete Totem
-  LevelRequirment: 4
+  LevelRequirment: 3
   Instructions: Locate a totem and clompelte it's event
   Deliver: Good Job!
   RequiredQuests: []
@@ -27,4 +27,5 @@ MonoBehaviour:
   expReward: 3
   goldReward: 3
   Starter: []
-  reward: []
+  reward:
+  - {fileID: 11400000, guid: 923ad2e1901d96447a25ffe745dfb9bb, type: 2}

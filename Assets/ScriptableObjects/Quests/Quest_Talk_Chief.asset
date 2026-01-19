@@ -15,13 +15,13 @@ MonoBehaviour:
   QuestID: Quest7
   QuestName: Talk To Chief
   LevelRequirment: 3
-  Instructions: Talk To Chief
+  Instructions: Go meet the Village Chief, he's at the north side of the village.
   Deliver: Nice!
   RequiredQuests: []
   Objectives:
   - type: 2
-    ObjectiveID: NPC_2
-    Description: Talk To Chief
+    ObjectiveID: Quest_Chief
+    Description: Meet the Village Chief
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 3
