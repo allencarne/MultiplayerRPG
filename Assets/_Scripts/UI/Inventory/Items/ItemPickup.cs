@@ -22,6 +22,8 @@ public class ItemPickup : NetworkBehaviour
     {
         Quantity.OnValueChanged += OnQuantityChanged;
         UpdateQuantityUI(Quantity.Value);
+
+        StartCoroutine(Delay(180));
     }
 
     public override void OnNetworkDespawn()
@@ -112,7 +114,7 @@ public class ItemPickup : NetworkBehaviour
 
         if (!IsServer) PlayPickupAnimationServerRpc();
 
-        StartCoroutine(Delay());
+        StartCoroutine(Delay(.6f));
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -121,9 +123,9 @@ public class ItemPickup : NetworkBehaviour
         animator.Play("Anim_Item_Pickup");
     }
 
-    IEnumerator Delay()
+    IEnumerator Delay(float time)
     {
-        yield return new WaitForSeconds(.6f);
+        yield return new WaitForSeconds(time);
 
         gameObject.SetActive(false);
 
