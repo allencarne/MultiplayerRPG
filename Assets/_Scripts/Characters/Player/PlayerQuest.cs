@@ -140,9 +140,26 @@ public class PlayerQuest : MonoBehaviour
         {
             if (objective.type == ObjectiveType.Collect && objective.IsCompleted)
             {
-                inventory.RemoveItemByID(objective.ObjectiveID, objective.RequiredAmount);
+                Item item = GetItemByID(objective.ObjectiveID);
+
+                if (item != null && (item is Collectable))
+                {
+                    inventory.RemoveItemByID(objective.ObjectiveID, objective.RequiredAmount);
+                }
             }
         }
+    }
+
+    Item GetItemByID(string itemID)
+    {
+        foreach (InventorySlotData slot in inventory.items)
+        {
+            if (slot != null && slot.item.ITEM_ID == itemID)
+            {
+                return slot.item;
+            }
+        }
+        return null;
     }
 
     bool HasRequiredItems(QuestProgress progress)
