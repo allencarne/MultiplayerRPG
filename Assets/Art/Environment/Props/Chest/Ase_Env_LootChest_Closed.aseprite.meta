@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 55583e88b59e4254ca002e095d588dad
+guid: 80e7da0ae8c1a3141bc0274eab0d3a10
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,28 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Frame_0
-    originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 33
-      width: 16
-      height: 16
-    spriteID: 59a07008037c9654dad62f146287fd6c
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 33}
-  - name: Frame_1
+  - name: Ase_Env_LootChest_Closed
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -159,8 +138,8 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 16
-      height: 21
-    spriteID: bca7ba435c9c84c4d8c1d366807746c3
+      height: 16
+    spriteID: c2793e3ba9a3c2c44bc2a4e7b3caf14f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -174,17 +153,17 @@ ScriptedImporter:
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 398823789
+      value0: 1836537366
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Ase_Env_Beach_Chest
+    name: Ase_Env_LootChest_Closed
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Frame_0
+    - name: Ase_Env_LootChest_Closed
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -192,16 +171,7 @@ ScriptedImporter:
         y: 0
         width: 16
         height: 16
-      spriteId: 59a07008037c9654dad62f146287fd6c
-    - name: Frame_1
-      frameIndex: 1
-      additiveSortOrder: 0
-      cellRect:
-        x: 0
-        y: 0
-        width: 16
-        height: 21
-      spriteId: bca7ba435c9c84c4d8c1d366807746c3
+      spriteId: c2793e3ba9a3c2c44bc2a4e7b3caf14f
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -211,5 +181,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 16, y: 21}
-  previousTextureSize: {x: 32, y: 64}
+  canvasSize: {x: 16, y: 16}
+  previousTextureSize: {x: 32, y: 32}
