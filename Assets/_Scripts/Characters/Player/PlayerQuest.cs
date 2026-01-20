@@ -4,8 +4,10 @@ using UnityEngine.Events;
 
 public class PlayerQuest : MonoBehaviour
 {
-    [SerializeField] PlayerStats stats;
     [SerializeField] Inventory inventory;
+    [SerializeField] EquipmentManager equipment;
+
+    [SerializeField] PlayerStats stats;
     [SerializeField] PlayerExperience experience;
     [SerializeField] Item coin;
 
@@ -76,6 +78,8 @@ public class PlayerQuest : MonoBehaviour
 
     int GetItemCountInInventory(string itemID)
     {
+        // returns how much of a specific Inventory item we have. Example: 10 coins
+
         int total = 0;
         foreach (InventorySlotData slot in inventory.items)
         {
@@ -86,6 +90,23 @@ public class PlayerQuest : MonoBehaviour
         }
         return total;
     }
+
+    int GetItemCountInEquipment(string itemID)
+    {
+        // returns how much of a specific Equipment item we have. Example: 1 Legendary Sword
+
+        int total = 0;
+        foreach (Equipment equippedItem in equipment.currentEquipment)
+        {
+            if (equippedItem != null && equippedItem.ITEM_ID == itemID)
+            {
+                total++;
+            }
+        }
+
+        return total;
+    }
+
 
     public void UpdateObjective(ObjectiveType type, string id, int amount = 1)
     {
@@ -168,7 +189,11 @@ public class PlayerQuest : MonoBehaviour
         {
             if (objective.type == ObjectiveType.Collect)
             {
-                int currentCount = GetItemCountInInventory(objective.ObjectiveID);
+                int amountInInventory = GetItemCountInInventory(objective.ObjectiveID);
+                int amountInEquipment = GetItemCountInEquipment(objective.ObjectiveID);
+
+                int currentCount = amountInInventory + amountInEquipment;
+
                 if (currentCount < objective.RequiredAmount)
                 {
                     return false;
