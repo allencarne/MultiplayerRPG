@@ -66,10 +66,14 @@ public class PlayerQuest : MonoBehaviour
         {
             if (objective.type != ObjectiveType.Collect) continue;
 
-            int itemCount = GetItemCountInInventory(objective.ObjectiveID);
-            if (itemCount > 0)
+            int amountInInventory = GetItemCountInInventory(objective.ObjectiveID);
+            int amountInEquipment = GetItemCountInEquipment(objective.ObjectiveID);
+
+            int currentCount = amountInInventory + amountInEquipment;
+
+            if (currentCount > 0)
             {
-                objective.CurrentAmount = Mathf.Min(itemCount, objective.RequiredAmount);
+                objective.CurrentAmount = Mathf.Min(currentCount, objective.RequiredAmount);
             }
         }
 
