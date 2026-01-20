@@ -11425,6 +11425,7 @@ GameObject:
   - component: {fileID: 3321806332599077148}
   - component: {fileID: 4910691885704601772}
   - component: {fileID: 8955394106194103569}
+  - component: {fileID: 3761331875985291559}
   m_Layer: 5
   m_Name: Map Panel
   m_TagString: BlockInputUI
@@ -11505,6 +11506,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIZoom
   uiPanel: {fileID: 6116564204321049330}
+--- !u!114 &3761331875985291559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338428565520716670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec7f05e0e1361d4a8d80b10dd330cbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldMapLog
+  stats: {fileID: 2477393547595159198}
+  statueProgress: {fileID: 8761604807273754678}
+  chestProgress: {fileID: 1365687197894470659}
 --- !u!1 &1343341015143118681
 GameObject:
   m_ObjectHideFlags: 0
