@@ -23736,7 +23736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -29991,6 +29991,7 @@ GameObject:
   - component: {fileID: 5691212641735734298}
   - component: {fileID: 1585302440649131666}
   - component: {fileID: 3738651165720577839}
+  - component: {fileID: 1849493441898005980}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -30045,13 +30046,34 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 05be6d947aaef5d47b573272beff7aef, type: 2}
+  m_Texture: {fileID: 8400000, guid: 0d29deaeb637989469441b3543ffb866, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 1
     height: 1
+--- !u!114 &1849493441898005980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3636066042295977244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: addd9bea4ffd8d841b7f33f861658481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldMap
+  mapCamera: {fileID: 613767390955743458}
+  map: {fileID: 3738651165720577839}
+  cameraFollow: {fileID: 1766038978321739961}
+  miniMap: {fileID: 7439714473765753956}
+  miniMap_m: {fileID: 1706742846418026152}
+  worldMapRenderTexture: {fileID: 8400000, guid: 0d29deaeb637989469441b3543ffb866, type: 2}
+  miniMapRenderTexture: {fileID: 8400000, guid: 05be6d947aaef5d47b573272beff7aef, type: 2}
+  worldMapCameraPosition: {x: 200, y: 40, z: -10}
+  worldMapZoom: 125
 --- !u!1 &3660885095793205187
 GameObject:
   m_ObjectHideFlags: 0
