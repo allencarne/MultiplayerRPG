@@ -20,11 +20,13 @@ public class WorldMap : MonoBehaviour
 
     Vector3 cameraPosition;
     float cameraZoom;
+    Transform originalParent;
 
     private void OnEnable()
     {
         cameraPosition = mapCamera.transform.position;
         cameraZoom = mapCamera.orthographicSize;
+        originalParent = mapCamera.transform.parent;
 
         EnableWorldMap();
     }
@@ -40,6 +42,8 @@ public class WorldMap : MonoBehaviour
         miniMap.SetActive(false);
         miniMap_m.SetActive(false);
 
+        mapCamera.transform.SetParent(null);
+
         mapCamera.targetTexture = worldMapRenderTexture;
         mapCamera.transform.position = worldMapCameraPosition;
         mapCamera.orthographicSize = worldMapZoom;
@@ -47,6 +51,8 @@ public class WorldMap : MonoBehaviour
 
     public void EnableMiniMap()
     {
+        mapCamera.transform.SetParent(originalParent);
+
         cameraFollow.enabled = true;
         miniMap.SetActive(true);
         miniMap_m.SetActive(true);
