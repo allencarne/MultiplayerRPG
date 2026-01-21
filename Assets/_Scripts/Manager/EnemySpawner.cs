@@ -13,6 +13,9 @@ public class EnemySpawner : NetworkBehaviour
     [Header("Enemy Count")]
     [SerializeField] int maxEnemyCount;
 
+    [Header("Spawn Rate")]
+    [SerializeField] int spawnRate;
+
     [Header("Color")]
     [SerializeField] Color color;
 
@@ -24,7 +27,7 @@ public class EnemySpawner : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        InvokeRepeating("CheckIfWeCanSpawn", 0, 10);
+        InvokeRepeating("CheckIfWeCanSpawn", 0, spawnRate);
     }
 
     public override void OnNetworkDespawn()
