@@ -1,7 +1,6 @@
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class PlayerEquipment : NetworkBehaviour
 {
