@@ -9,8 +9,6 @@ public class PrayStatue : MonoBehaviour, IInteractable
     [SerializeField] Material endMat;
 
     [SerializeField] SpriteRenderer miniMapIcon;
-    [SerializeField] Sprite closedIcon;
-    [SerializeField] Sprite openedIcon;
 
     [SerializeField] string area;
     [SerializeField] int index;
@@ -50,12 +48,12 @@ public class PrayStatue : MonoBehaviour, IInteractable
         if (status == "Completed")
         {
             sprite.material = endMat;
-            miniMapIcon.sprite = openedIcon;
+            miniMapIcon.color = Color.white;
         }
         else
         {
             sprite.material = startMat;
-            miniMapIcon.sprite = closedIcon;
+            miniMapIcon.color = Color.black;
         }
     }
 
@@ -74,7 +72,7 @@ public class PrayStatue : MonoBehaviour, IInteractable
         PlayerPrefs.Save();
 
         sprite.material = endMat;
-        miniMapIcon.sprite = openedIcon;
+        miniMapIcon.color = Color.white;
         stats.IncreaseAttribuePoints();
     }
 }

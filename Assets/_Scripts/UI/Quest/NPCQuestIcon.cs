@@ -35,7 +35,27 @@ public class NPCQuestIcon : MonoBehaviour
     public void UpdateSprite()
     {
         if (getPlayer?.player == null) return;
-        if (npc.Data.NPCName == "Patrol" || npc.Data.NPCName == "Guard") return;
+
+        if (npc.Data.npcClass == NPCClass.Vendor)
+        {
+            miniIcon.color = Color.pink;
+            miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+            return;
+        }
+
+        if (npc.Data.npcClass == NPCClass.Guard)
+        {
+            miniIcon.color = Color.purple;
+            miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+            return;
+        }
+
+        if (npc.Data.npcClass == NPCClass.Patrol)
+        {
+            miniIcon.color = Color.cyan;
+            miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+            return;
+        }
 
         QuestState state = playerQuest.GetQuestStateForNpc(npc, npcQuest);
 
@@ -47,7 +67,7 @@ public class NPCQuestIcon : MonoBehaviour
                 miniIcon.sprite = icons[(int)QuestState.Unavailable];
 
                 miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(4, 4, 1);
+                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
             case QuestState.Available:
                 questIcon.enabled = true; 
@@ -55,7 +75,7 @@ public class NPCQuestIcon : MonoBehaviour
                 miniIcon.sprite = icons[(int)QuestState.Available];
 
                 miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(4, 4, 1);
+                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
             case QuestState.InProgress:
                 questIcon.enabled = true; 
@@ -63,7 +83,7 @@ public class NPCQuestIcon : MonoBehaviour
                 miniIcon.sprite = icons[(int)QuestState.InProgress];
 
                 miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(4, 4, 1);
+                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
             case QuestState.ReadyToTurnIn:
                 questIcon.enabled = true; 
@@ -71,21 +91,21 @@ public class NPCQuestIcon : MonoBehaviour
                 miniIcon.sprite = icons[(int)QuestState.ReadyToTurnIn];
 
                 miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(4, 4, 1);
+                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
             case QuestState.Completed:
                 questIcon.enabled = false;
                 miniIcon.sprite = defaulSprite;
 
                 miniIcon.color = Color.grey;
-                miniIcon.transform.localScale = new Vector3(2, 2, 1);
+                miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
                 break;
             case QuestState.None:
                 questIcon.enabled = false;
                 miniIcon.sprite = defaulSprite;
 
                 miniIcon.color = Color.grey;
-                miniIcon.transform.localScale = new Vector3(2, 2, 1);
+                miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
                 break;
         }
     }
