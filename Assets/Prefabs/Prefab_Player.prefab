@@ -24188,7 +24188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -31531,6 +31531,7 @@ GameObject:
   - component: {fileID: 6286642105400226194}
   - component: {fileID: 1404157428859664498}
   - component: {fileID: 619675343611026009}
+  - component: {fileID: 4493345128914309191}
   m_Layer: 5
   m_Name: Button_Attribute
   m_TagString: BlockInputUI
@@ -31667,6 +31668,20 @@ MonoBehaviour:
   imageRectTransform: []
   textObjects: []
   selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &4493345128914309191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3808015105832604949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8dd6006378d7d4d87ed746e7c8954a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulsingButton
+  enableScalePulse: 1
+  enableAlphaPulse: 1
 --- !u!1 &3825808745176180871
 GameObject:
   m_ObjectHideFlags: 0
@@ -33355,6 +33370,7 @@ GameObject:
   - component: {fileID: 2460433776048668583}
   - component: {fileID: 8446633414553189328}
   - component: {fileID: 1546521965600350534}
+  - component: {fileID: 2077755609435424044}
   m_Layer: 5
   m_Name: Button_Attribute
   m_TagString: Untagged
@@ -33491,6 +33507,20 @@ MonoBehaviour:
   imageRectTransform: []
   textObjects: []
   selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &2077755609435424044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4077680132061236837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8dd6006378d7d4d87ed746e7c8954a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulsingButton
+  enableScalePulse: 1
+  enableAlphaPulse: 1
 --- !u!1 &4120896512341230792
 GameObject:
   m_ObjectHideFlags: 0
@@ -39644,6 +39674,7 @@ GameObject:
   - component: {fileID: 3115451142610596858}
   - component: {fileID: 4788767446146201897}
   - component: {fileID: 551842040972046158}
+  - component: {fileID: 6557612631758355200}
   m_Layer: 5
   m_Name: Button_Skill
   m_TagString: BlockInputUI
@@ -39780,6 +39811,20 @@ MonoBehaviour:
   imageRectTransform: []
   textObjects: []
   selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &6557612631758355200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5072514720132259785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8dd6006378d7d4d87ed746e7c8954a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulsingButton
+  enableScalePulse: 1
+  enableAlphaPulse: 1
 --- !u!1 &5074222865708141262
 GameObject:
   m_ObjectHideFlags: 0
@@ -50546,6 +50591,7 @@ GameObject:
   - component: {fileID: 6049368027891399937}
   - component: {fileID: 2577702080082235056}
   - component: {fileID: 4200212404166049488}
+  - component: {fileID: 501067868640816328}
   m_Layer: 5
   m_Name: Button_Skill
   m_TagString: Untagged
@@ -50682,6 +50728,20 @@ MonoBehaviour:
   imageRectTransform: []
   textObjects: []
   selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
+--- !u!114 &501067868640816328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6387538786019860374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8dd6006378d7d4d87ed746e7c8954a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PulsingButton
+  enableScalePulse: 1
+  enableAlphaPulse: 1
 --- !u!1 &6393123598206320455
 GameObject:
   m_ObjectHideFlags: 0
