@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest6
   QuestName: Complete Swarm Events
-  LevelRequirment: 4
+  LevelRequirment: 0
   Instructions: Locate a totem and clompelte 3 Swarm Events
   Deliver: Good Job!
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
   Objectives:
   - type: 5
     ObjectiveID: Swarm Event

@@ -18,7 +18,8 @@ MonoBehaviour:
   Instructions: Hello, we need sprouts, Please collect 10. Sprouts drop from Coconuts.
     You can find Coconuts North and South of the town.
   Deliver: Thank you! This is very helpful.
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: f76be8ac36c52ea4798bf96615afc505, type: 2}
   Objectives:
   - type: 1
     ObjectiveID: coll_coconut_sprout

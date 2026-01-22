@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest7
   QuestName: Talk To Chief
-  LevelRequirment: 3
+  LevelRequirment: 0
   Instructions: Go meet the Village Chief, he's at the north side of the village.
   Deliver: Nice!
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
   Objectives:
   - type: 2
     ObjectiveID: Quest_Chief
