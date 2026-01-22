@@ -6,6 +6,9 @@ using System.Collections;
 
 public class ItemPickup : NetworkBehaviour
 {
+    [HideInInspector] public SpawnItem Manager;
+    [SerializeField] public Transform SpawnPoint;
+
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
     [SerializeField] TextMeshProUGUI quantityText;
@@ -22,8 +25,6 @@ public class ItemPickup : NetworkBehaviour
     {
         Quantity.OnValueChanged += OnQuantityChanged;
         UpdateQuantityUI(Quantity.Value);
-
-        StartCoroutine(Delay(180));
     }
 
     public override void OnNetworkDespawn()
@@ -31,10 +32,23 @@ public class ItemPickup : NetworkBehaviour
         Quantity.OnValueChanged -= OnQuantityChanged;
     }
 
+    private void Start()
+    {
+        if (Manager == null)
+        {
+            StartCoroutine(DespawnDelay(180));
+        }
+    }
+
     public void PickUp(Player player)
     {
         if (_hasBeenPickedUp) return;
         _hasBeenPickedUp = true;
+
+        if (Manager != null)
+        {
+            Manager.AddPosition(SpawnPoint);
+        }
 
         // Add Item to Inventory if we have enough space
         bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value);
@@ -114,7 +128,7 @@ public class ItemPickup : NetworkBehaviour
 
         if (!IsServer) PlayPickupAnimationServerRpc();
 
-        StartCoroutine(Delay(.6f));
+        StartCoroutine(DespawnDelay(.6f));
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -123,7 +137,24 @@ public class ItemPickup : NetworkBehaviour
         animator.Play("Anim_Item_Pickup");
     }
 
-    IEnumerator Delay(float time)
+    private void OnQuantityChanged(int previousValue, int newValue)
+    {
+        UpdateQuantityUI(newValue);
+    }
+
+    private void UpdateQuantityUI(int quantity)
+    {
+        if (quantity > 1)
+        {
+            quantityText.text = quantity.ToString();
+        }
+        else
+        {
+            quantityText.text = "";
+        }
+    }
+
+    IEnumerator DespawnDelay(float time)
     {
         yield return new WaitForSeconds(time);
 
@@ -143,22 +174,5 @@ public class ItemPickup : NetworkBehaviour
     void DespawnServerRPC()
     {
         NetworkObject.Despawn(true);
-    }
-
-    private void OnQuantityChanged(int previousValue, int newValue)
-    {
-        UpdateQuantityUI(newValue);
-    }
-
-    private void UpdateQuantityUI(int quantity)
-    {
-        if (quantity > 1)
-        {
-            quantityText.text = quantity.ToString();
-        }
-        else
-        {
-            quantityText.text = "";
-        }
     }
 }

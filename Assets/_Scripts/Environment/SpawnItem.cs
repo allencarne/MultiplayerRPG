@@ -52,6 +52,13 @@ public class SpawnItem : NetworkBehaviour
         NetworkObject networkInstance = item.GetComponent<NetworkObject>();
         networkInstance.Spawn();
 
+        ItemPickup pickup = item.GetComponent<ItemPickup>();
+        if (pickup != null)
+        {
+            pickup.Manager = this;
+            pickup.SpawnPoint = SpawnPoints[Randomnumber];
+        }
+
         // Remove from list
         SpawnPoints.RemoveAt(Randomnumber);
     }
@@ -59,5 +66,6 @@ public class SpawnItem : NetworkBehaviour
     public void AddPosition(Transform transform)
     {
         SpawnPoints.Add(transform);
+        currentItems--;
     }
 }
