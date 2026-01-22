@@ -19,18 +19,25 @@ public class VendorItem : MonoBehaviour
         item = _item;
 
         UpdateUI();
-        inventory.OnCoinsChanged.AddListener(UpdateUI);
+        if (inventory != null)
+        {
+            inventory.OnCoinsChanged.AddListener(UpdateUI);
+        }
     }
 
     private void OnDisable()
     {
-        inventory.OnCoinsChanged.RemoveListener(UpdateUI);
+        if (inventory != null)
+        {
+            inventory.OnCoinsChanged.RemoveListener(UpdateUI);
+        }
     }
 
     void UpdateUI()
     {
         if (playerStats == null) return;
         if (item == null) return;
+        if (inventory == null) return;
 
         if (playerStats.Coins < item.Cost)
         {

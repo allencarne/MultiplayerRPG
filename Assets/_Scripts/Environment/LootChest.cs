@@ -161,7 +161,7 @@ public class LootChest : NetworkBehaviour, IInteractable
         Instantiate(particle, transform.position, Quaternion.identity);
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void SpawnServerRPC(ulong excludeClientId)
     {
         SpawnClientRPC(excludeClientId);

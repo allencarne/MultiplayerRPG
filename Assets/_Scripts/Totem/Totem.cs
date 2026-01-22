@@ -48,7 +48,7 @@ public class Totem : NetworkBehaviour, IInteractable
         StartEventServerRpc(player.NetworkObject);
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void StartEventServerRpc(NetworkObjectReference playerRef)
     {
         if (!playerRef.TryGet(out NetworkObject networkObject)) return;

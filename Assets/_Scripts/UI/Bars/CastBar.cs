@@ -31,7 +31,7 @@ public class CastBar : NetworkBehaviour
         currentCast = StartCoroutine(HandleCast(castTime));
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void CastServerRpc(float castTime)
     {
         if (!gameObject.activeInHierarchy) return;
@@ -80,7 +80,7 @@ public class CastBar : NetworkBehaviour
         currentCast = StartCoroutine(HandleRecovery(recoveryTime));
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void RecoveryServerRPC(float recoveryTime)
     {
         if (!gameObject.activeInHierarchy) return;
@@ -130,7 +130,7 @@ public class CastBar : NetworkBehaviour
         StartCoroutine(HandleInterrupt());
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void InterruptServerRPC()
     {
         if (!gameObject.activeInHierarchy) return;
@@ -167,7 +167,7 @@ public class CastBar : NetworkBehaviour
         castBar.color = Color.clear;
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void ResetServerRPC()
     {
         if (!gameObject.activeInHierarchy) return;

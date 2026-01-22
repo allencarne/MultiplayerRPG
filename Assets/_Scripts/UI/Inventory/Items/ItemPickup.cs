@@ -131,7 +131,7 @@ public class ItemPickup : NetworkBehaviour
         StartCoroutine(DespawnDelay(.6f));
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void PlayPickupAnimationServerRpc()
     {
         animator.Play("Anim_Item_Pickup");
@@ -170,7 +170,7 @@ public class ItemPickup : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void DespawnServerRPC()
     {
         NetworkObject.Despawn(true);
