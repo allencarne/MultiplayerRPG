@@ -131,11 +131,29 @@ public class QuestUI : MonoBehaviour
             {
                 iconImage.sprite = questIcons[0];
             }
+            else if (!HasCompletedRequiredQuests(quest))
+            {
+                iconImage.sprite = questIcons[0];
+            }
             else
             {
                 iconImage.sprite = questIcons[1];
             }
         }
+    }
+
+    private bool HasCompletedRequiredQuests(Quest quest)
+    {
+        if (quest.RequiredQuests == null || quest.RequiredQuests.Count == 0)
+            return true;
+
+        foreach (Quest requiredQuest in quest.RequiredQuests)
+        {
+            QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == requiredQuest);
+            if (progress == null || progress.state != QuestState.Completed)
+                return false;
+        }
+        return true;
     }
 
     void ClearQuestList()
