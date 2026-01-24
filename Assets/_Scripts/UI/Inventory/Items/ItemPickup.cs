@@ -7,7 +7,7 @@ using System.Collections;
 public class ItemPickup : NetworkBehaviour
 {
     [HideInInspector] public SpawnItem Manager;
-    [SerializeField] public Transform SpawnPoint;
+    [HideInInspector] public Transform SpawnPoint;
 
     [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;

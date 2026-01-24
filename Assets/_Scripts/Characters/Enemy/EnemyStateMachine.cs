@@ -98,28 +98,28 @@ public class EnemyStateMachine : NetworkBehaviour
         StartingPosition = transform.position;
 
         int randomNumber = Random.Range(0, 100);
-        if (randomNumber <= 10)
+        if (randomNumber <= 5)
         {
             Buffs.might.StartMight(1, -1);
             hasMightOnStart = true;
         }
 
         int randomNumber2 = Random.Range(0, 100);
-        if (randomNumber2 <= 10)
+        if (randomNumber2 <= 5)
         {
             Buffs.swiftness.StartSwiftness(1, -1);
             hasSwiftnessOnStart = true;
         }
 
         int randomNumber3 = Random.Range(0, 100);
-        if (randomNumber3 <= 10)
+        if (randomNumber3 <= 5)
         {
             Buffs.alacrity.StartAlacrity(1, -1);
             hasAlacrityOnStart = true;
         }
 
         int randomNumber4 = Random.Range(0, 100);
-        if (randomNumber4 <= 10)
+        if (randomNumber4 <= 5)
         {
             Buffs.protection.StartProtection(1, -1);
             hasProtectionOnStart = true;
