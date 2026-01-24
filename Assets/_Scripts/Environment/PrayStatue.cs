@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class PrayStatue : MonoBehaviour, IInteractable
@@ -63,7 +64,6 @@ public class PrayStatue : MonoBehaviour, IInteractable
         if (stats == null || !stats.IsOwner) return;
 
         int characterNumber = stats.net_CharacterSlot.Value;
-
         string status = PlayerPrefs.GetString($"Character{characterNumber}_{area}_Statue_{index}", "Incomplete");
 
         if (status == "Completed") return;
@@ -74,5 +74,11 @@ public class PrayStatue : MonoBehaviour, IInteractable
         sprite.material = endMat;
         miniMapIcon.color = Color.white;
         stats.IncreaseAttribuePoints();
+
+        PlayerQuest quest = player.GetComponentInParent<PlayerQuest>();
+        if (quest != null)
+        {
+            quest.UpdateObjective(ObjectiveType.Complete, "Praying Statue");
+        }
     }
 }

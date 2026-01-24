@@ -15,7 +15,6 @@ public enum ObjectiveType
     Kill,
     Collect,
     Talk,
-    Equip,
     Hit,
     Complete
 }
