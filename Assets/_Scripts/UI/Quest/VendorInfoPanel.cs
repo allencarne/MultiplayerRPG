@@ -16,6 +16,7 @@ public class VendorInfoPanel : MonoBehaviour
     public void CreateItem(Item item)
     {
         GameObject itemUI = Instantiate(Item_Prefab, parent);
+        itemUI.transform.localPosition = Vector3.zero;
 
         VendorItem vendorItem = itemUI.GetComponent<VendorItem>();
         if (vendorItem != null)

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
+  m_Name: Quest_Collect_Leafs
+  m_EditorClassIdentifier: Assembly-CSharp::Quest
+  QuestID: Quest15
+  QuestName: Collect Leafs
+  LevelRequirment: 0
+  Instructions: Hello, we need leafs, Please collect 15. leafs drop killing enemies,
+    completing Totems, and opening chests. You can find Totems all over the place
+    and Check your map for Chest locations
+  Deliver: Thank you! This is very helpful.
+  RequiredQuests:
+  - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
+  Objectives:
+  - type: 1
+    ObjectiveID: coll_leaf
+    Description: Collect 15 Leafs
+    RequiredAmount: 15
+    CurrentAmount: 0
+  expReward: 3
+  goldReward: 3
+  Starter: []
+  reward:
+  - {fileID: 11400000, guid: e1f324ac775035e4d8b7654270c17b25, type: 2}
