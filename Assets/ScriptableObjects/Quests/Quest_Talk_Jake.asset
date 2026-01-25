@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
+  m_Name: Quest_Talk_Jake
+  m_EditorClassIdentifier: Assembly-CSharp::Quest
+  QuestID: Quest18
+  QuestName: Talk To Jake
+  LevelRequirment: 0
+  Instructions: Speak To Jake
+  Deliver: 'sdfksdfjsdkfjsd
+
+    fdskfjsldkfs
+
+    df
+
+    sdfsdfjsdf'
+  RequiredQuests:
+  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
+  Objectives:
+  - type: 2
+    ObjectiveID: Quest_Jake
+    Description: Talk To Jake
+    RequiredAmount: 1
+    CurrentAmount: 0
+  expReward: 3
+  goldReward: 3
+  Starter: []
+  reward: []

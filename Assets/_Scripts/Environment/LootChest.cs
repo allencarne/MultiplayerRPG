@@ -105,6 +105,12 @@ public class LootChest : NetworkBehaviour, IInteractable
         CoinReward();
         ItemReward();
         ExperienceReward();
+
+        PlayerQuest quest = player.GetComponentInParent<PlayerQuest>();
+        if (quest != null)
+        {
+            quest.UpdateObjective(ObjectiveType.Complete, "Loot Chest");
+        }
     }
 
     void CoinReward()
