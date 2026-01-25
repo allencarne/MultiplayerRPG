@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class WorldMap : MonoBehaviour
 {
+    [SerializeField] Transform playerTransform;
+    [SerializeField] ScrollRect scrollRect;
+
     [SerializeField] Camera mapCamera;
     [SerializeField] RawImage map;
     [SerializeField] CameraFollow cameraFollow;
@@ -55,7 +58,8 @@ public class WorldMap : MonoBehaviour
         mapCamera.transform.position = worldMapCameraPosition;
         mapCamera.orthographicSize = worldMapZoom;
 
-        SetZoomLevel(1f);
+        //SetZoomLevel(1f);
+        CenterOnPlayer();
     }
 
     public void EnableMiniMap()
@@ -74,26 +78,31 @@ public class WorldMap : MonoBehaviour
     public void SetZoom50()
     {
         SetZoomLevel(0.5f);
+        CenterOnPlayer();
     }
 
     public void SetZoom75()
     {
         SetZoomLevel(0.75f);
+        CenterOnPlayer();
     }
 
     public void SetZoom100()
     {
         SetZoomLevel(1f);
+        CenterOnPlayer();
     }
 
     public void SetZoom125()
     {
         SetZoomLevel(1.25f);
+        CenterOnPlayer();
     }
 
     public void SetZoom150()
     {
         SetZoomLevel(1.50f);
+        CenterOnPlayer();
     }
 
     private void SetZoomLevel(float zoomLevel)
@@ -101,5 +110,23 @@ public class WorldMap : MonoBehaviour
         currentZoomLevel = zoomLevel;
         Vector2 newSize = baseImageSize * zoomLevel;
         mapRectTransform.sizeDelta = newSize;
+    }
+
+    private void CenterOnPlayer()
+    {
+        if (playerTransform == null || scrollRect == null) return;
+
+        // Get player's world position
+        Vector3 playerWorldPos = playerTransform.position;
+
+        // Convert player world position to viewport position on the map camera
+        Vector3 viewportPos = mapCamera.WorldToViewportPoint(playerWorldPos);
+
+        // Clamp to valid range
+        viewportPos.x = Mathf.Clamp01(viewportPos.x);
+        viewportPos.y = Mathf.Clamp01(viewportPos.y);
+
+        // Set scroll position (note: viewport coordinates match scroll normalized position)
+        scrollRect.normalizedPosition = new Vector2(viewportPos.x, viewportPos.y);
     }
 }

@@ -42573,7 +42573,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8.7, y: -8.044998}
+  m_AnchoredPosition: {x: 8.700001, y: -8.044998}
   m_SizeDelta: {x: 16, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1964323521291543810
@@ -67019,6 +67019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: addd9bea4ffd8d841b7f33f861658481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldMap
+  playerTransform: {fileID: 5144383124475292198}
+  scrollRect: {fileID: 2384062324122528032}
   mapCamera: {fileID: 613767390955743458}
   map: {fileID: 9022955396587466507}
   cameraFollow: {fileID: 1766038978321739961}
