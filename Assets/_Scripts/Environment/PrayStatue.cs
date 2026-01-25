@@ -78,6 +78,8 @@ public class PrayStatue : MonoBehaviour, IInteractable
         PlayerQuest quest = player.GetComponentInParent<PlayerQuest>();
         if (quest != null)
         {
+            // Check for "Praying Statue 0"
+
             quest.UpdateObjective(ObjectiveType.Complete, "Praying Statue");
         }
     }
