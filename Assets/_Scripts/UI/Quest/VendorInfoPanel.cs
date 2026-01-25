@@ -52,7 +52,7 @@ public class VendorInfoPanel : MonoBehaviour
         if (priceTransform != null)
         {
             TextMeshProUGUI priceText = priceTransform.GetComponent<TextMeshProUGUI>();
-            if (priceText != null) priceText.text = item.Cost.ToString();
+            if (priceText != null) priceText.text = item.Cost.ToString()+ " <sprite index=0>";
         }
     }
 
