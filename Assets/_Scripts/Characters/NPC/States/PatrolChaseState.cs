@@ -85,6 +85,9 @@ public class PatrolChaseState : NPCState
         {
             if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
             {
+                owner.IsAttacking = true;
+                owner.CanBasic = false;
+
                 owner.SetState(NPCStateMachine.State.Basic);
                 return;
             }

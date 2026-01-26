@@ -57,11 +57,7 @@ public class EnemyChaseState : EnemyState
 
     public void HandleAttack(EnemyStateMachine owner)
     {
-        if (owner.IsAttacking)
-        {
-            Debug.Log("Is Attacking");
-            return;
-        }
+        if (owner.IsAttacking) return;
 
         float distanceToTarget = Vector2.Distance(owner.transform.position, owner.Target.position);
 
@@ -69,23 +65,10 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
             {
-                if (!canRollUlt) return;
-                canRollUlt = false;
+                owner.IsAttacking = true;
+                owner.CanUltimate = false;
 
-                int roll = Random.Range(0, 2);
-                if (roll == 0)
-                {
-                    // Failed the Roll - Do not Ult
-                    StartCoroutine(RollUltimate());
-                    return;
-                }
-                else
-                {
-                    // Passed the Roll - Ult
-                    canRollUlt = true;
-                    owner.SetState(EnemyStateMachine.State.Ultimate);
-                    return;
-                }
+                owner.SetState(EnemyStateMachine.State.Ultimate);
             }
         }
 
@@ -93,23 +76,10 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanSpecial && !owner.CrowdControl.silence.IsSilenced)
             {
-                if (!canRollSpecial) return;
-                canRollSpecial = false;
+                owner.IsAttacking = true;
+                owner.CanSpecial = false;
 
-                int roll = Random.Range(0, 2);
-                if (roll == 0)
-                {
-                    // Failed the Roll - Do not Special
-                    StartCoroutine(RollSpecial());
-                    return;
-                }
-                else
-                {
-                    // Passed the Roll - Special
-                    canRollSpecial = true;
-                    owner.SetState(EnemyStateMachine.State.Special);
-                    return;
-                }
+                owner.SetState(EnemyStateMachine.State.Special);
             }
         }
 
@@ -117,22 +87,12 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
             {
+                owner.IsAttacking = true;
+                owner.CanBasic = false;
+
                 owner.SetState(EnemyStateMachine.State.Basic);
-                return;
             }
         }
-    }
-
-    IEnumerator RollUltimate()
-    {
-        yield return new WaitForSeconds(.2f);
-        canRollUlt = true;
-    }
-
-    IEnumerator RollSpecial()
-    {
-        yield return new WaitForSeconds(.2f);
-        canRollSpecial = true;
     }
 
     public void HandleDeAggro(EnemyStateMachine owner)

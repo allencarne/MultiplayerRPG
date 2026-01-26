@@ -139,13 +139,6 @@ public abstract class NPCSkill : NetworkBehaviour
 
     protected void InitializeAbility(SkillType skilltype, NPCStateMachine owner)
     {
-        switch (skilltype)
-        {
-            case SkillType.Basic: owner.CanBasic = false; break;
-            case SkillType.Special: owner.CanSpecial = false; break;
-            case SkillType.Ultimate: owner.CanUltimate = false; break;
-        }
-        owner.IsAttacking = true;
         owner.CurrentSkill = this;
 
         AttackerDamage = owner.npc.stats.TotalDamage;

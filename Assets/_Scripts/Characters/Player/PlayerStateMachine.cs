@@ -201,8 +201,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
-        Debug.Log(IsAttacking);
-
         if (!IsSpawned) return;
         if (skills == null || player == null) return;
 
@@ -338,6 +336,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.BasicAbilityInput)
         {
+            IsAttacking = true;
+            CanBasic = false;
+
             DestroyAllIndicators();
             state = State.Basic;
             skills.basicAbilities[player.BasicIndex].StartSkill(this);
@@ -363,6 +364,9 @@ public class PlayerStateMachine : NetworkBehaviour
         }
 
         if (!Input.HasBufferedOffensiveInput) return;
+
+        IsAttacking = true;
+        CanOffensive = false;
 
         DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
@@ -390,6 +394,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedMobilityInput) return;
 
+        IsAttacking = true;
+        CanMobility = false;
+
         DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
         state = State.Mobility;
@@ -415,6 +422,9 @@ public class PlayerStateMachine : NetworkBehaviour
         }
 
         if (!Input.HasBufferedDefensiveInput) return;
+
+        IsAttacking = true;
+        CanDefensive = false;
 
         DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
@@ -442,6 +452,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (!Input.HasBufferedUtilityInput) return;
 
+        IsAttacking = true;
+        CanUtility = false;
+
         DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
         state = State.Ultility;
@@ -467,6 +480,9 @@ public class PlayerStateMachine : NetworkBehaviour
         }
 
         if (!Input.HasBufferedUltimateInput) return;
+
+        IsAttacking = true;
+        CanUltimate = false;
 
         DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;

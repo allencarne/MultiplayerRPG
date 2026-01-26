@@ -157,22 +157,13 @@ public abstract class PlayerSkill : NetworkBehaviour
         {
             owner.SetState(PlayerStateMachine.State.Idle);
         }
-
     }
 
     protected void InitializeAbility(SkillType skilltype, PlayerStateMachine owner)
     {
-        switch (skilltype)
-        {
-            case SkillType.Basic: owner.CanBasic = false; IsBasic = true; break;
-            case SkillType.Offensive: owner.CanOffensive = false; break;
-            case SkillType.Mobility: owner.CanMobility = false; break;
-            case SkillType.Defensive: owner.CanDefensive = false; break;
-            case SkillType.Utility: owner.CanUtility = false; break;
-            case SkillType.Ultimate: owner.CanUltimate = false; break;
-        }
-        owner.IsAttacking = true;
         owner.CurrentSkill = this;
+
+        if (skilltype == SkillType.Basic) IsBasic = true;
 
         AttackerDamage = owner.Stats.TotalDamage;
 
