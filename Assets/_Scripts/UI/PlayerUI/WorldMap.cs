@@ -21,7 +21,6 @@ public class WorldMap : MonoBehaviour
     [SerializeField] float worldMapZoom = 125;
     [SerializeField] Vector2 baseImageSize = new Vector2(640, 360);
     RectTransform mapRectTransform;
-    private float currentZoomLevel = 1f;
 
     Vector3 cameraPosition;
     float cameraZoom;
@@ -107,7 +106,6 @@ public class WorldMap : MonoBehaviour
 
     private void SetZoomLevel(float zoomLevel)
     {
-        currentZoomLevel = zoomLevel;
         Vector2 newSize = baseImageSize * zoomLevel;
         mapRectTransform.sizeDelta = newSize;
     }
