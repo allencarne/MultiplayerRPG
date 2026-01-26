@@ -201,6 +201,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
     private void Update()
     {
+        Debug.Log(IsAttacking);
+
         if (!IsSpawned) return;
         if (skills == null || player == null) return;
 
