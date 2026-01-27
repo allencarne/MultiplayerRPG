@@ -11,16 +11,14 @@ public class WorldMap : MonoBehaviour
     [SerializeField] GameObject miniMap;
     [SerializeField] GameObject miniMap_m;
 
-    [Header("World Map Settings")]
     [SerializeField] RenderTexture worldMapRenderTexture;
     [SerializeField] RenderTexture miniMapRenderTexture;
-    [SerializeField] Vector3 worldMapCameraPosition = new Vector3(200, 40, -10);
 
-    [Header("Zoom Settings")]
-    [SerializeField] float worldMapZoom = 125;
-    [SerializeField] Vector2 baseImageSize = new Vector2(640, 360);
+    Vector3 worldMapCameraPosition = new Vector3(200, 40, -10);
+    float worldMapZoom = 125;
+    Vector2 baseImageSize = new Vector2(640, 360);
+
     RectTransform mapRectTransform;
-
     Vector3 cameraPosition;
     float cameraZoom;
     Transform originalParent;
@@ -68,6 +66,8 @@ public class WorldMap : MonoBehaviour
         mapCamera.targetTexture = miniMapRenderTexture;
         mapCamera.transform.position = cameraPosition;
         mapCamera.orthographicSize = cameraZoom;
+
+        mapCamera.transform.localPosition = new Vector3(0, 0, -10);
     }
 
     public void SetZoom50()
