@@ -8,7 +8,6 @@ public class WorldMap : MonoBehaviour
 
     [SerializeField] Camera mapCamera;
     [SerializeField] RawImage map;
-    [SerializeField] CameraFollow cameraFollow;
     [SerializeField] GameObject miniMap;
     [SerializeField] GameObject miniMap_m;
 
@@ -47,7 +46,6 @@ public class WorldMap : MonoBehaviour
 
     public void EnableWorldMap()
     {
-        cameraFollow.enabled = false;
         miniMap.SetActive(false);
         miniMap_m.SetActive(false);
 
@@ -57,7 +55,6 @@ public class WorldMap : MonoBehaviour
         mapCamera.transform.position = worldMapCameraPosition;
         mapCamera.orthographicSize = worldMapZoom;
 
-        //SetZoomLevel(1f);
         CenterOnPlayer();
     }
 
@@ -65,7 +62,6 @@ public class WorldMap : MonoBehaviour
     {
         mapCamera.transform.SetParent(originalParent);
 
-        cameraFollow.enabled = true;
         miniMap.SetActive(true);
         miniMap_m.SetActive(true);
 

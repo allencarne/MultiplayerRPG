@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 public class NetworkInput : NetworkBehaviour
 {
-    [SerializeField] CameraFollow follow;
     [SerializeField] PlayerInputHandler playerInputHandler;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PlayerStateMachine playerStateMachine;
@@ -14,7 +13,6 @@ public class NetworkInput : NetworkBehaviour
     {
         playerInputHandler.enabled = false;
         playerInput.enabled = false;
-        follow.enabled = false;
     }
 
     public override void OnNetworkSpawn()
@@ -25,7 +23,6 @@ public class NetworkInput : NetworkBehaviour
         {
             playerInputHandler.enabled = true;
             playerInput.enabled = true;
-            follow.enabled = true;
         }
         else
         {

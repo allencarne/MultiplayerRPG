@@ -24730,7 +24730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -24802,7 +24802,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  follow: {fileID: 1766038978321739961}
   playerInputHandler: {fileID: 8050150357123000786}
   playerInput: {fileID: 2155053313424514762}
   playerStateMachine: {fileID: 6475613187630994528}
@@ -56855,7 +56854,6 @@ GameObject:
   - component: {fileID: 2356723022680556762}
   - component: {fileID: 613767390955743458}
   - component: {fileID: 3612983943565127391}
-  - component: {fileID: 1766038978321739961}
   m_Layer: 0
   m_Name: Map Camera
   m_TagString: Untagged
@@ -56973,20 +56971,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &1766038978321739961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6873600712336819583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 656b6f3f126a6c64c903b97b4acc8591, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  playerTransform: {fileID: 5144383124475292198}
-  smoothSpeed: 0.95
 --- !u!1 &6874222918802775113
 GameObject:
   m_ObjectHideFlags: 0
@@ -67307,7 +67291,6 @@ MonoBehaviour:
   scrollRect: {fileID: 2384062324122528032}
   mapCamera: {fileID: 613767390955743458}
   map: {fileID: 9022955396587466507}
-  cameraFollow: {fileID: 1766038978321739961}
   miniMap: {fileID: 7439714473765753956}
   miniMap_m: {fileID: 1706742846418026152}
   worldMapRenderTexture: {fileID: 8400000, guid: 0d29deaeb637989469441b3543ffb866, type: 2}
