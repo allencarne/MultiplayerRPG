@@ -62,17 +62,7 @@ public class Player : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            stateMachine.DeBuffs.bleed.StartBleed(1, 5);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F6))
-        {
-            stateMachine.DeBuffs.bleed.StartBleed(1,-1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            stateMachine.DeBuffs.bleed.StartBleed(-1,-1);
+            stateMachine.Buffs.might.StartMight(1, 5);
         }
 
         if (InCombat)

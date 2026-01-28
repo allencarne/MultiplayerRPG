@@ -65,19 +65,13 @@ public class DamageOnTrigger : NetworkBehaviour
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker);
+            damageable.TakeDamage(AbilityDamage + CharacterDamage, DamageType.Flat, attacker, (Vector2)collision.transform.position);
 
             // Fury
             if (CanGenerateFury)
             {
                 Fury fury = attacker.GetComponentInChildren<Fury>();
                 if (fury != null) fury.FuryClientRPC(attacker);
-            }
-
-            CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();
-            if (attackerStats != null)
-            {
-                attackerStats.OnDamageDealt?.Invoke(AbilityDamage + CharacterDamage, (Vector2)collision.transform.position);
             }
 
             HitSparkClientRPC(hitPosition, rotation, collision.transform.position);

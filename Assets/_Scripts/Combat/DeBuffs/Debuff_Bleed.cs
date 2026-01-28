@@ -25,7 +25,7 @@ public class Debuff_Bleed : NetworkBehaviour
         {
             if (Time.time >= nextTick)
             {
-                stats.TakeDamage(TotalStacks, DamageType.Flat, NetworkObject);
+                stats.TakeDamage(TotalStacks, DamageType.Flat, NetworkObject, transform.position);
                 nextTick = Time.time + 1f;
             }
         }

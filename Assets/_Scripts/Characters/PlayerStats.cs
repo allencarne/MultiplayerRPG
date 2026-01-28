@@ -49,7 +49,7 @@ public class PlayerStats : CharacterStats
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            TakeDamage(1,DamageType.Flat, NetworkObject);
+            TakeDamage(1,DamageType.Flat, NetworkObject, transform.position);
         }
 
         if (Input.GetKeyDown(KeyCode.F2))
