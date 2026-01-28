@@ -30,7 +30,14 @@ public class Buff_Regeneration : NetworkBehaviour
         {
             if (Time.time >= nextHealTime)
             {
-                stats.GiveHeal(TotalStacks, HealType.Flat);
+                if (IsServer)
+                {
+                    stats.GiveHeal(TotalStacks, HealType.Flat);
+                }
+                else
+                {
+                    RequestHealServerRpc(TotalStacks);
+                }
                 nextHealTime = Time.time + 1f;
             }
         }
@@ -235,5 +242,11 @@ public class Buff_Regeneration : NetworkBehaviour
     void StartFixedUIServerRPC()
     {
         StartFixedUIClientRPC();
+    }
+
+    [ServerRpc]
+    void RequestHealServerRpc(int healAmount)
+    {
+        stats.GiveHeal(healAmount, HealType.Flat);
     }
 }

@@ -6,7 +6,7 @@ public class Player : NetworkBehaviour
 {
     [Header("Combat")]
     public NetworkVariable<bool> InCombat = new NetworkVariable<bool>(false,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
-    private NetworkVariable<float> CombatTime = new NetworkVariable<float>(0f,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    float combatTime = 0f;
     bool IsRegen = false;
 
     [Header("Components")]
@@ -77,25 +77,22 @@ public class Player : NetworkBehaviour
 
         if (IsServer && InCombat.Value)
         {
-            CombatTime.Value += Time.deltaTime;
-            if (CombatTime.Value >= 10)
+            combatTime += Time.deltaTime;
+            if (combatTime >= 10)
             {
                 InCombat.Value = false;
-                CombatTime.Value = 0;
+                combatTime = 0;
             }
         }
 
-        // Each client handles their own regen state locally
         if (!IsOwner) return;
 
-        // Start regen when out of combat and missing health
         if (!InCombat.Value && !IsRegen && stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
         {
             IsRegen = true;
             stateMachine.Buffs.regeneration.StartRegen(1, -1);
         }
 
-        // Stop regen when full health or back in combat
         if (IsRegen && (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat.Value))
         {
             IsRegen = false;
@@ -124,13 +121,13 @@ public class Player : NetworkBehaviour
     {
         if (!IsServer) return;
         InCombat.Value = true;
-        CombatTime.Value = 0;
+        combatTime = 0;
     }
 
     void DealDamage()
     {
         if (!IsServer) return;
         InCombat.Value = true;
-        CombatTime.Value = 0;
+        combatTime = 0;
     }
 }
