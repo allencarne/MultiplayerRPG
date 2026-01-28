@@ -113,7 +113,7 @@ public class Player : NetworkBehaviour
         CombatTime = 0;
     }
 
-    void DealDamage(float damage, Vector2 position)
+    void DealDamage()
     {
         InCombat = true;
         CombatTime = 0;

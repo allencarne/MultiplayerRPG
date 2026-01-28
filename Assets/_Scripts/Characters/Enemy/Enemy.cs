@@ -60,7 +60,7 @@ public class Enemy : NetworkBehaviour
         stateMachine.Buffs.regeneration.StartRegen(-1, -1);
     }
 
-    void DealDamage(float damage, Vector2 position)
+    void DealDamage()
     {
         if (!IsRegen) return;
         IsRegen = false;

@@ -176,7 +176,7 @@ public class NPC : NetworkBehaviour, IInteractable
         stateMachine.Buffs.regeneration.StartRegen(-1, -1);
     }
 
-    void DealDamage(float damage, Vector2 position)
+    void DealDamage()
     {
         if (Data.npcClass == NPCClass.Patrol)
         {

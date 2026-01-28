@@ -31,7 +31,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [Header("Events")]
     [HideInInspector] public UnityEvent<float> OnDamaged;
     [HideInInspector] public UnityEvent<float> OnHealed;
-    [HideInInspector] public UnityEvent<float, Vector2> OnDamageDealt;
+    [HideInInspector] public UnityEvent OnDamageDealt;
     [HideInInspector] public UnityEvent OnDeath;
 
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
@@ -67,12 +67,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         // Feedback
         OnDamaged?.Invoke(roundedDamage);
         OnEnemyDamaged?.Invoke(attackerID);
-
-        CharacterStats attackerStats = attackerID.GetComponent<CharacterStats>();
-        if (attackerStats != null)
-        {
-            attackerStats.OnDamageDealt?.Invoke(roundedDamage, position);
-        }
 
         if (net_CurrentHP.Value <= 0)
         {

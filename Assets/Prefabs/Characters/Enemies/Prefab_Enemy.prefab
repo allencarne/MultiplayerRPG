@@ -1564,7 +1564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1539269538
+  GlobalObjectIdHash: 1366768421
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2065,6 +2065,7 @@ GameObject:
   - component: {fileID: 1786859157873782608}
   - component: {fileID: 7420002080002523575}
   - component: {fileID: 5375000477506134681}
+  - component: {fileID: 2350772152925964913}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -2156,6 +2157,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2350772152925964913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5339555231311239900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae3d743a67f18141b32560a00e306bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatText
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 878784667173873402}
+  Deal_Prefab: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
+  hightRect: {fileID: 9095509754017204285}
+  lowRect: {fileID: 0}
 --- !u!1 &5345717291366158480
 GameObject:
   m_ObjectHideFlags: 0

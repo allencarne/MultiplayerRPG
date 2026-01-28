@@ -11,7 +11,7 @@ public class CombatText : NetworkBehaviour
     [SerializeField] RectTransform lowRect;
 
     [SerializeField] GameObject Hurt_Prefab;
-    [SerializeField] GameObject Deal_Prefab;
+    //[SerializeField] GameObject Deal_Prefab;
     [SerializeField] GameObject Heal_Prefab;
     [SerializeField] GameObject Exp_Prefab;
     [SerializeField] GameObject Level_Prefab;
@@ -21,7 +21,6 @@ public class CombatText : NetworkBehaviour
     public enum TextType
     {
         Hurt,
-        Deal,
         Heal,
         Exp,
         Level,
@@ -33,7 +32,7 @@ public class CombatText : NetworkBehaviour
     {
         stats.OnDamaged.AddListener(Hurt);
         stats.OnHealed.AddListener(Heal);
-        stats.OnDamageDealt.AddListener(Deal);
+        //stats.OnDamageDealt.AddListener(Deal);
         if (experience != null) experience.OnEXPGained.AddListener(EXP);
         if (experience != null) experience.OnLevelUp.AddListener(Level);
     }
@@ -42,7 +41,7 @@ public class CombatText : NetworkBehaviour
     {
         stats.OnDamaged.RemoveListener(Hurt);
         stats.OnHealed.RemoveListener(Heal);
-        stats.OnDamageDealt.RemoveListener(Deal);
+        //stats.OnDamageDealt.RemoveListener(Deal);
         if (experience != null) experience.OnEXPGained.RemoveListener(EXP);
         if (experience != null) experience.OnLevelUp.RemoveListener(Level);
     }
@@ -68,18 +67,6 @@ public class CombatText : NetworkBehaviour
         else
         {
             TextServerRPC(amount, false, TextType.Heal);
-        }
-    }
-
-    void Deal(float amount, Vector2 position)
-    {
-        if (IsServer)
-        {
-            DealTextClientRPC(amount, TextType.Deal, position);
-        }
-        else
-        {
-            DealTextServerRPC(amount, TextType.Deal, position);
         }
     }
 
@@ -132,7 +119,6 @@ public class CombatText : NetworkBehaviour
         switch (type)
         {
             case TextType.Hurt: popUpText.text = amount.ToString(); break;
-            case TextType.Deal: popUpText.text = amount.ToString(); break;
             case TextType.Heal: popUpText.text = amount.ToString(); break;
             case TextType.Exp: popUpText.text = $"+ {amount} EXP"; break;
             case TextType.Level: popUpText.text = "LEVEL UP"; break;
@@ -152,7 +138,6 @@ public class CombatText : NetworkBehaviour
         switch (type)
         {
             case TextType.Hurt: return Hurt_Prefab;
-            case TextType.Deal: return Deal_Prefab;
             case TextType.Heal: return Heal_Prefab;
             case TextType.Exp: return Exp_Prefab;
             case TextType.Level: return Level_Prefab;
@@ -177,11 +162,5 @@ public class CombatText : NetworkBehaviour
         TextMeshProUGUI popUpText = popUp.GetComponent<TextMeshProUGUI>();
 
         popUpText.text = amount.ToString();
-    }
-
-    [ServerRpc]
-    void DealTextServerRPC(float amount, TextType type, Vector2 position)
-    {
-        DealTextClientRPC(amount, type, position);
     }
 }

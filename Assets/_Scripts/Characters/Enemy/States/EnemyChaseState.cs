@@ -66,6 +66,7 @@ public class EnemyChaseState : EnemyState
                 owner.CanUltimate = false;
 
                 owner.SetState(EnemyStateMachine.State.Ultimate);
+                return;
             }
         }
 
@@ -77,6 +78,7 @@ public class EnemyChaseState : EnemyState
                 owner.CanSpecial = false;
 
                 owner.SetState(EnemyStateMachine.State.Special);
+                return;
             }
         }
 
@@ -88,6 +90,7 @@ public class EnemyChaseState : EnemyState
                 owner.CanBasic = false;
 
                 owner.SetState(EnemyStateMachine.State.Basic);
+                return;
             }
         }
     }
