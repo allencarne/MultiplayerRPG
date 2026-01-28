@@ -267,14 +267,15 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnRoll(InputAction.CallbackContext context)
     {
+        if (context.canceled)
+        {
+            RollInput = false;
+            return;
+        }
+
         if (EventSystem.current.currentSelectedGameObject == null)
         {
             RollInput = context.ReadValueAsButton();
-
-            if (context.canceled)
-            {
-                RollInput = false;
-            }
         }
     }
 
