@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -67,6 +66,12 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         // Feedback
         OnDamaged?.Invoke(roundedDamage);
         OnEnemyDamaged?.Invoke(attackerID);
+
+        CharacterStats attackerStats = attackerID.GetComponent<CharacterStats>();
+        if (attackerStats != null)
+        {
+            attackerStats.OnDamageDealt?.Invoke();
+        }
 
         if (net_CurrentHP.Value <= 0)
         {
