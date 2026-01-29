@@ -24729,7 +24729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -24944,6 +24944,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  InCombat:
+    m_InternalValue: 0
   stateMachine: {fileID: 6475613187630994528}
   stats: {fileID: 2477393547595159198}
   input: {fileID: 8050150357123000786}
@@ -24968,7 +24970,6 @@ MonoBehaviour:
   cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
   playerUIRect: {fileID: 1319158235293109785}
   IsDead: 0
-  InCombat: 0
   IsInteracting: 0
   CanSellItems: 0
   FirstPassiveIndex: 0
@@ -25678,16 +25679,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
   - {fileID: 11400000, guid: f76be8ac36c52ea4798bf96615afc505, type: 2}
   - {fileID: 11400000, guid: 7558749bf1bcbcf4f8b9eaffce3df71f, type: 2}
-  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
+  - {fileID: 11400000, guid: 316b64ab897aaba46bc69c1fd9d9d261, type: 2}
   - {fileID: 11400000, guid: 43804a6b192d4a847a46772877a7939c, type: 2}
   - {fileID: 11400000, guid: cce273a202dbc0c48ba8ae7301fc4a03, type: 2}
   - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
-  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
   - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
   - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
   - {fileID: 11400000, guid: 48f619bcf427f4f488d5ddca317c816c, type: 2}
+  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
+  - {fileID: 11400000, guid: 468c9b2ee3131484f8280a7474d489e9, type: 2}
   - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
+  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
+  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
   - {fileID: 11400000, guid: 42501dfdac7198449b0abcac02cef4b7, type: 2}
+  - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
   - {fileID: 11400000, guid: b632dca8a0d2b0d4fb6ed7adedcb2f31, type: 2}
   stats: {fileID: 2477393547595159198}
   exp: {fileID: 6940644233207828720}

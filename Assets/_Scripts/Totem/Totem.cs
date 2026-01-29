@@ -110,6 +110,9 @@ public class Totem : NetworkBehaviour, IInteractable
             float coinAmount = Manager.Rewards.MaxCoinReward * (1f + (stats.PlayerLevel.Value * 0.15f));
             int roundedCoin = Mathf.RoundToInt(coinAmount);
 
+            float collectableAmount = Manager.Rewards.MaxCollectableReward * (1f + (stats.PlayerLevel.Value * 0.15f));
+            int roundedAmount = Mathf.RoundToInt(collectableAmount);
+
             ClientRpcParams rpcParams = new ClientRpcParams
             {
                 Send = new ClientRpcSendParams
@@ -120,6 +123,7 @@ public class Totem : NetworkBehaviour, IInteractable
 
             Manager.Rewards.QuestParticipationClientRPC(NetEventName.Value.ToString(), rpcParams);
             Manager.Rewards.CoinRewardsClientRpc(roundedCoin, rpcParams);
+            Manager.Rewards.CollectableRewardsClientRpc(roundedAmount, rpcParams);
             Manager.Rewards.ItemRewardsClientRpc(rpcParams);
 
             Manager.Rewards.ExperienceRewards(player);

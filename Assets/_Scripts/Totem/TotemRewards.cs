@@ -7,8 +7,11 @@ public class TotemRewards : NetworkBehaviour
 
     [Header("Rewards")]
     public int MaxCoinReward;
+    public int MaxCollectableReward;
+
     public int MaxExpReward;
     [SerializeField] Item coin;
+    [SerializeField] Item collectable;
     [SerializeField] Item[] rewards;
 
     [ClientRpc]
@@ -17,6 +20,14 @@ public class TotemRewards : NetworkBehaviour
         Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
 
         inv.AddItem(coin, amount);
+    }
+
+    [ClientRpc]
+    public void CollectableRewardsClientRpc(int amount, ClientRpcParams rpcParams)
+    {
+        Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
+
+        inv.AddItem(collectable, amount);
     }
 
     [ClientRpc]

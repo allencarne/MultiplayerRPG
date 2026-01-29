@@ -11,6 +11,7 @@ public class LootChest : NetworkBehaviour, IInteractable
 
     [Header("Rewards")]
     [SerializeField] int coinReward;
+    [SerializeField] int collectableReward;
     [SerializeField] int experienceReward;
 
     [Header("References")]
@@ -29,6 +30,8 @@ public class LootChest : NetworkBehaviour, IInteractable
 
     [Header("Items")]
     [SerializeField] Item coin;
+    [SerializeField] Item collectable;
+
     [SerializeField] Item[] rewards;
     [SerializeField] GameObject particle;
 
@@ -103,6 +106,7 @@ public class LootChest : NetworkBehaviour, IInteractable
         }
 
         CoinReward();
+        CollectableReward();
         ItemReward();
         ExperienceReward();
 
@@ -125,6 +129,22 @@ public class LootChest : NetworkBehaviour, IInteractable
                 float coinAmount = coinReward * (1f + (stats.PlayerLevel.Value * 0.15f));
                 int roundedCoin = Mathf.RoundToInt(coinAmount);
                 inventory.AddItem(coin, roundedCoin);
+            }
+        }
+    }
+
+    void CollectableReward()
+    {
+        if (getPlayer.player != null)
+        {
+            PlayerStats stats = getPlayer.player.GetComponent<PlayerStats>();
+            Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
+
+            if (inventory != null && stats != null)
+            {
+                float collectableAmount = collectableReward * (1f + (stats.PlayerLevel.Value * 0.15f));
+                int roundedAmount = Mathf.RoundToInt(collectableAmount);
+                inventory.AddItem(collectable, roundedAmount);
             }
         }
     }
