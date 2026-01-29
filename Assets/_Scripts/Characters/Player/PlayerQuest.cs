@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -56,6 +57,7 @@ public class PlayerQuest : MonoBehaviour
         activeQuests.Add(progress);
 
         CheckInventoryForQuestItems(progress);
+        CheckObjectProgress();
 
         OnQuestStateChanged?.Invoke();
     }
@@ -78,6 +80,23 @@ public class PlayerQuest : MonoBehaviour
         }
 
         progress.CheckCompletion();
+    }
+
+    void CheckObjectProgress()
+    {
+        string chest = PlayerPrefs.GetString($"Character{stats.net_CharacterSlot.Value}_{"Beach"}_Chest_{0}", "Incomplete");
+
+        if (chest == "Completed")
+        {
+            UpdateObjective(ObjectiveType.Complete, "Loot Chest");
+        }
+
+        string statue = PlayerPrefs.GetString($"Character{stats.net_CharacterSlot.Value}_{"Beach"}_Statue_{0}", "Incomplete");
+
+        if (statue == "Completed")
+        {
+            UpdateObjective(ObjectiveType.Complete, "Praying Statue");
+        }
     }
 
     int GetItemCountInInventory(string itemID)
