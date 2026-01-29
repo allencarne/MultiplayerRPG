@@ -102,7 +102,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (player.BasicIndex < 0) return;
                 icon.sprite = classPanel.basicAbilities[player.BasicIndex].SkillIcon;
-                skillName.text = "[Basic] " + classPanel.basicAbilities[player.BasicIndex].name;
+                skillName.text = "[Passive] " + classPanel.basicAbilities[player.BasicIndex].name;
                 description.text = classPanel.basicAbilities[player.BasicIndex].Description;
                 cooldown.text = "Cooldown: " + classPanel.basicAbilities[player.BasicIndex].CoolDown;
                 tooltip.SetActive(true);
@@ -111,7 +111,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (player.OffensiveIndex < 0) return;
                 icon.sprite = classPanel.offensiveAbilities[player.OffensiveIndex].SkillIcon;
-                skillName.text = "[Offensive] " + classPanel.offensiveAbilities[player.OffensiveIndex].name;
+                skillName.text = "[Passive] " + classPanel.offensiveAbilities[player.OffensiveIndex].name;
                 description.text = classPanel.offensiveAbilities[player.OffensiveIndex].Description;
                 cooldown.text = "Cooldown: " + classPanel.offensiveAbilities[player.OffensiveIndex].CoolDown;
                 tooltip.SetActive(true);
@@ -120,7 +120,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (player.MobilityIndex < 0) return;
                 icon.sprite = classPanel.mobilityAbilities[player.MobilityIndex].SkillIcon;
-                skillName.text = "[Mobility] " + classPanel.mobilityAbilities[player.MobilityIndex].name;
+                skillName.text = "[Passive] " + classPanel.mobilityAbilities[player.MobilityIndex].name;
                 description.text = classPanel.mobilityAbilities[player.MobilityIndex].Description;
                 cooldown.text = "Cooldown: " + classPanel.mobilityAbilities[player.MobilityIndex].CoolDown;
                 tooltip.SetActive(true);
@@ -129,7 +129,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (player.DefensiveIndex < 0) return;
                 icon.sprite = classPanel.defensiveAbilities[player.DefensiveIndex].SkillIcon;
-                skillName.text = "[Defensive] " + classPanel.defensiveAbilities[player.DefensiveIndex].name;
+                skillName.text = "[Passive] " + classPanel.defensiveAbilities[player.DefensiveIndex].name;
                 description.text = classPanel.defensiveAbilities[player.DefensiveIndex].Description;
                 cooldown.text = "Cooldown: " + classPanel.defensiveAbilities[player.DefensiveIndex].CoolDown;
                 tooltip.SetActive(true);
@@ -138,7 +138,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (player.UtilityIndex < 0) return;
                 icon.sprite = classPanel.utilityAbilities[player.UtilityIndex].SkillIcon;
-                skillName.text = "[Utility] " + classPanel.utilityAbilities[player.UtilityIndex].name;
+                skillName.text = "[Passive] " + classPanel.utilityAbilities[player.UtilityIndex].name;
                 description.text = classPanel.utilityAbilities[player.UtilityIndex].Description;
                 cooldown.text = "Cooldown: " + classPanel.utilityAbilities[player.UtilityIndex].CoolDown;
                 tooltip.SetActive(true);
@@ -147,7 +147,7 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (player.UltimateIndex < 0) return;
                 icon.sprite = classPanel.ultimateAbilities[player.UltimateIndex].SkillIcon;
-                skillName.text = "[Ultimate] " + classPanel.ultimateAbilities[player.UltimateIndex].name;
+                skillName.text = "[Passive] " + classPanel.ultimateAbilities[player.UltimateIndex].name;
                 description.text = classPanel.ultimateAbilities[player.UltimateIndex].Description;
                 cooldown.text = "Cooldown: " + classPanel.ultimateAbilities[player.UltimateIndex].CoolDown;
                 tooltip.SetActive(true);

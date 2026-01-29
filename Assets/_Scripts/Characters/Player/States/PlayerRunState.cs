@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerRunState : PlayerState
 {
     private Vector2 lastDirection = Vector2.zero;
-    private Vector2 lastRawInput = Vector2.zero;
 
     public override void StartState(PlayerStateMachine owner)
     {
@@ -16,7 +15,6 @@ public class PlayerRunState : PlayerState
         owner.SwordAnimator.Play("Run", -1, 0);
 
         lastDirection = Vector2.zero;
-        lastRawInput = Vector2.zero;
     }
 
     public override void UpdateState(PlayerStateMachine owner)
@@ -55,7 +53,7 @@ public class PlayerRunState : PlayerState
 
         if (movement != Vector2.zero)
         {
-            Vector2 snappedDirection = SnapDirectionWithPriority(movement, moveInput);
+            Vector2 snappedDirection = owner.SnapDirection(movement);
 
             if (snappedDirection != lastDirection)
             {
@@ -68,8 +66,6 @@ public class PlayerRunState : PlayerState
                 owner.playerHead.SetHair(snappedDirection);
                 owner.playerHead.SetHelm(snappedDirection);
             }
-
-            lastRawInput = moveInput;
         }
     }
 
@@ -87,50 +83,5 @@ public class PlayerRunState : PlayerState
 
         owner.SwordAnimator.SetFloat("Horizontal", direction.x);
         owner.SwordAnimator.SetFloat("Vertical", direction.y);
-    }
-
-    Vector2 SnapDirectionWithPriority(Vector2 direction, Vector2 currentInput)
-    {
-        float absX = Mathf.Abs(direction.x);
-        float absY = Mathf.Abs(direction.y);
-
-        // If magnitudes are clearly different, use the larger one
-        if (absX > absY + 0.01f)
-        {
-            return new Vector2(Mathf.Sign(direction.x), 0);
-        }
-        else if (absY > absX + 0.01f)
-        {
-            return new Vector2(0, Mathf.Sign(direction.y));
-        }
-        else
-        {
-            // Magnitudes are equal or very close - prioritize newest input
-            // Check which axis was PRESSED (went from 0 to non-zero)
-            bool xPressed = Mathf.Abs(lastRawInput.x) < 0.01f && Mathf.Abs(currentInput.x) > 0.01f;
-            bool yPressed = Mathf.Abs(lastRawInput.y) < 0.01f && Mathf.Abs(currentInput.y) > 0.01f;
-
-            if (xPressed && !yPressed)
-            {
-                // X was just pressed, prioritize horizontal
-                return new Vector2(Mathf.Sign(direction.x), 0);
-            }
-            else if (yPressed && !xPressed)
-            {
-                // Y was just pressed, prioritize vertical
-                return new Vector2(0, Mathf.Sign(direction.y));
-            }
-            else
-            {
-                // Both pressed simultaneously OR neither just pressed
-                // Keep the current direction if we have one
-                if (lastDirection != Vector2.zero)
-                {
-                    return lastDirection;
-                }
-                // Otherwise default to horizontal
-                return new Vector2(Mathf.Sign(direction.x), 0);
-            }
-        }
     }
 }
