@@ -35,13 +35,18 @@ public class Enemy : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (IsServer)
+        {
+            stats.net_TotalHP.Value = startingHealth;
+            stats.net_BaseHP.Value = startingHealth;
+            stats.net_CurrentHP.Value = startingHealth;
+        }
+
         stats.OnEnemyDamaged.AddListener(Damaged);
         stats.OnEnemyDeath.AddListener(Death);
 
         stats.OnDamaged.AddListener(TakeDamage);
         stats.OnDamageDealt.AddListener(DealDamage);
-
-        Invoke("AssignHealth", 1);
     }
 
     public override void OnNetworkDespawn()
@@ -74,16 +79,6 @@ public class Enemy : NetworkBehaviour
         {
             IsRegen = false;
             stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-        }
-    }
-
-    void AssignHealth()
-    {
-        if (IsServer)
-        {
-            stats.net_TotalHP.Value = startingHealth;
-            stats.net_BaseHP.Value = startingHealth;
-            stats.net_CurrentHP.Value = startingHealth;
         }
     }
 
