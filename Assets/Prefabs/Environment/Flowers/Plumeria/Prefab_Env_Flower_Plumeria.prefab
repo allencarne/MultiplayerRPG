@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 1259960066006103618}
   - component: {fileID: 1356579378450777034}
   - component: {fileID: 4375381341929328511}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,13 +253,11 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Stacks: 2
   Duration: 10
+  CooldownDuration: 3
   attacker: {fileID: 4415022472426526357}
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
-  IsRepeatable: 1
-  CooldownDuration: 3
-  hasteParticle: {fileID: 1741031254542823433, guid: 299511c72045ccd48b871c5517ccaae3, type: 3}
   OnCoolDownStarted:
     m_PersistentCalls:
       m_Calls: []

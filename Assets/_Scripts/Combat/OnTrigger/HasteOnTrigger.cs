@@ -30,16 +30,12 @@ public class HasteOnTrigger : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject);
-
         if (!IsServer) return;
         TryApplyHaste(collision);
     }
 
     private void TryApplyHaste(Collider2D collision)
     {
-        Debug.Log("TryApplyHaste");
-
         if (collision.CompareTag("Player") && IgnorePlayer) return;
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
         if (collision.CompareTag("NPC") && IgnoreNPC) return;
