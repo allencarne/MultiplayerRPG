@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class Player : NetworkBehaviour
     public NetworkVariable<bool> InCombat = new NetworkVariable<bool>(false,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     float combatTime = 0f;
     bool IsRegen = false;
+    Coroutine combatTimerCoroutine;
 
     [Header("Components")]
     [SerializeField] PlayerStateMachine stateMachine;
@@ -49,6 +51,13 @@ public class Player : NetworkBehaviour
     {
         if (IsOwner) PlayerCamera();
         stats.OnDeath.AddListener(DeathClientRPC);
+        InCombat.OnValueChanged += OnCombatStateChanged;
+
+        if (IsOwner)
+        {
+            stats.net_CurrentHP.OnValueChanged += OnHPChanged;
+            stats.net_TotalHP.OnValueChanged += OnMaxHPChanged;
+        }
 
         if (IsServer)
         {
@@ -60,43 +69,23 @@ public class Player : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         stats.OnDeath.RemoveListener(DeathClientRPC);
+        InCombat.OnValueChanged -= OnCombatStateChanged;
+
+        if (IsOwner)
+        {
+            stats.net_CurrentHP.OnValueChanged -= OnHPChanged;
+            stats.net_TotalHP.OnValueChanged -= OnMaxHPChanged;
+        }
 
         if (IsServer)
         {
             stats.OnDamaged.RemoveListener(TakeDamage);
             stats.OnDamageDealt.RemoveListener(DealDamage);
-        }
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F5))
-        {
-            stateMachine.Buffs.regeneration.StartRegen(1,5);
-        }
-
-        if (IsServer && InCombat.Value)
-        {
-            combatTime += Time.deltaTime;
-            if (combatTime >= 10)
+            if (combatTimerCoroutine != null)
             {
-                InCombat.Value = false;
-                combatTime = 0;
+                StopCoroutine(combatTimerCoroutine);
             }
-        }
-
-        if (!IsOwner) return;
-
-        if (!InCombat.Value && !IsRegen && stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
-        {
-            IsRegen = true;
-            stateMachine.Buffs.regeneration.StartRegen(1, -1);
-        }
-
-        if (IsRegen && (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat.Value))
-        {
-            IsRegen = false;
-            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
     }
 
@@ -129,5 +118,100 @@ public class Player : NetworkBehaviour
         if (!IsServer) return;
         InCombat.Value = true;
         combatTime = 0;
+    }
+
+    void OnCombatStateChanged(bool previousValue, bool newValue)
+    {
+        if (IsServer)
+        {
+            if (newValue)
+            {
+                // Entered combat - start timer
+                if (combatTimerCoroutine != null)
+                {
+                    StopCoroutine(combatTimerCoroutine);
+                }
+                combatTimerCoroutine = StartCoroutine(CombatTimer());
+            }
+            else
+            {
+                // Exited combat - stop timer
+                if (combatTimerCoroutine != null)
+                {
+                    StopCoroutine(combatTimerCoroutine);
+                    combatTimerCoroutine = null;
+                }
+                combatTime = 0;
+            }
+        }
+
+        // Handle on owning client for regeneration
+        if (IsOwner)
+        {
+            HandleRegeneration(newValue);
+        }
+    }
+
+    IEnumerator CombatTimer()
+    {
+        combatTime = 0f;
+
+        while (combatTime < 10f)
+        {
+            combatTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Timer expired, exit combat
+        InCombat.Value = false;
+        combatTimerCoroutine = null;
+    }
+
+    void HandleRegeneration(bool inCombat)
+    {
+        if (!inCombat && !IsRegen && stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
+        {
+            IsRegen = true;
+            stateMachine.Buffs.regeneration.StartRegen(1, -1);
+        }
+        else if (IsRegen && (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || inCombat))
+        {
+            IsRegen = false;
+            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+        }
+    }
+
+    void OnHPChanged(float previousValue, float newValue)
+    {
+        if (IsOwner)
+        {
+            UpdateRegeneration();
+        }
+    }
+
+    void OnMaxHPChanged(float previousValue, float newValue)
+    {
+        if (IsOwner)
+        {
+            UpdateRegeneration();
+        }
+    }
+
+    void UpdateRegeneration()
+    {
+        bool shouldRegen = !InCombat.Value && stats.net_CurrentHP.Value < stats.net_TotalHP.Value;
+
+        if (shouldRegen && !IsRegen)
+        {
+            // Start regeneration
+            IsRegen = true;
+            stateMachine.Buffs.regeneration.StartRegen(1, -1);
+        }
+        else if (!shouldRegen && IsRegen)
+        {
+            // Stop regeneration
+            IsRegen = false;
+            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+        }
     }
 }

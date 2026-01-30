@@ -42,22 +42,6 @@ public class PlayerStats : CharacterStats
     public PlayerClass playerClass;
 
     public UnityEvent OnAPGained;
-
-    private void Update()
-    {
-        if (!IsOwner) return;
-
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            TakeDamage(1,DamageType.Flat, NetworkObject, transform.position);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            GiveHeal(1, HealType.Flat);
-        }
-    }
-
     public void ConsumeAttributePoints(int amount)
     {
         if (IsServer)
