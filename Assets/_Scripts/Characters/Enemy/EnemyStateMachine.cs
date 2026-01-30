@@ -289,14 +289,16 @@ public class EnemyStateMachine : NetworkBehaviour
         Vector2 direction = (targetPos - currentPos).normalized;
         Vector2 bestDirection = Vector2.zero;
 
-        float distance = 3f;
+        float distance = .5f;
         float thickness = 0.25f;
+        float castOffset = 0.3f;
         int rayCount = 17;
-        float coneSpread = 120f;
+        float coneSpread = 180;
 
         // Straight ray
-        RaycastHit2D centerRay = Physics2D.CircleCast(currentPos, thickness, direction, distance, obstacleLayerMask);
-        Debug.DrawRay(currentPos, direction * distance, centerRay ? Color.red : Color.green);
+        Vector2 castOrigin = currentPos + direction * castOffset;
+        RaycastHit2D centerRay = Physics2D.CircleCast(castOrigin, thickness, direction, distance, obstacleLayerMask);
+        Debug.DrawRay(castOrigin, direction * distance, centerRay ? Color.red : Color.green);
 
         // I straight path is clear
         if (!centerRay) return direction;
@@ -310,8 +312,9 @@ public class EnemyStateMachine : NetworkBehaviour
             float angleOffset = -coneSpread / 2f + angleIncrement * i;
             Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
 
-            RaycastHit2D hit = Physics2D.CircleCast(currentPos, thickness, dir, distance, obstacleLayerMask);
-            Debug.DrawRay(currentPos, dir * distance, hit ? Color.red : Color.green);
+            castOrigin = currentPos + dir * castOffset;
+            RaycastHit2D hit = Physics2D.CircleCast(castOrigin, thickness, dir, distance, obstacleLayerMask);
+            Debug.DrawRay(castOrigin, dir * distance, hit ? Color.red : Color.green);
 
             if (!hit)
             {

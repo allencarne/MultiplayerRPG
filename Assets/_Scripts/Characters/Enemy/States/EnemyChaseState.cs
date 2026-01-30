@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
-    float updateInterval = 0.1f;
+    float updateInterval = .5f;
     float updateTime;
 
     public override void StartState(EnemyStateMachine owner)
