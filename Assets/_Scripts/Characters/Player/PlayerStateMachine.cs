@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -63,6 +64,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Indicator")]
     string indicatorType = null;
     GameObject indicator;
+    ItemPickup currentItem;
 
     public enum State
     {
@@ -234,6 +236,8 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
         }
+
+        PickupInput();
     }
 
     private void FixedUpdate()
@@ -490,17 +494,30 @@ public class PlayerStateMachine : NetworkBehaviour
         skills.ultimateAbilities[player.UltimateIndex].StartSkill(this);
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        ItemPickup item = collision.GetComponent<ItemPickup>();
-        if (item != null)
+        if (collision.CompareTag("Item"))
         {
-            if (Input.PickupInput && canPickup)
-            {
-                canPickup = false;
-                item.PickUp(player);
-                StartCoroutine(PickupCoolDown());
-            }
+            currentItem = collision.GetComponent<ItemPickup>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Item"))
+        {
+            currentItem = null;
+        }
+    }
+
+    void PickupInput()
+    {
+        if (currentItem != null && Input.PickupInput && canPickup)
+        {
+            canPickup = false;
+            currentItem.PickUp(player);
+            currentItem = null;
+            StartCoroutine(PickupCoolDown());
         }
     }
 
