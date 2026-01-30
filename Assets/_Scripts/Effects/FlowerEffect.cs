@@ -17,14 +17,20 @@ public class FlowerEffect : MonoBehaviour
 
     private void OnEnable()
     {
-        if (haste != null) haste.OnCoolDownStarted.AddListener(Effect);
-        if (haste != null) haste.OnTriggered.AddListener(Particle);
+        if (haste != null)
+        {
+            haste.OnCoolDownStarted.AddListener(Effect);
+            haste.OnTriggered.AddListener(Particle);
+        }
     }
 
     private void OnDisable()
     {
-        if (haste != null) haste.OnCoolDownStarted.RemoveListener(Effect);
-        if (haste != null) haste.OnTriggered.RemoveListener(Particle);
+        if (haste != null)
+        {
+            haste.OnCoolDownStarted.RemoveListener(Effect);
+            haste.OnTriggered.RemoveListener(Particle);
+        }
     }
 
     private void Start()

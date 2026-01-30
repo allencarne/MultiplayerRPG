@@ -5,37 +5,41 @@ using UnityEngine.Events;
 
 public class HasteOnTrigger : NetworkBehaviour
 {
+    private struct CooldownData
+    {
+        public float NextAvailableTime;
+        public bool HasBeenTriggered;
+    }
+
+    private Dictionary<NetworkObject, CooldownData> cooldownTracker = new Dictionary<NetworkObject, CooldownData>();
+
+    [Header("Buff Settings")]
     public int Stacks;
     public float Duration;
+    public float CooldownDuration;
     public NetworkObject attacker;
 
+    [Header("Filter")]
     public bool IgnorePlayer;
     public bool IgnoreEnemy;
     public bool IgnoreNPC;
 
-    public bool IsRepeatable;
-    public float CooldownDuration;
-
-    private HashSet<NetworkObject> hastedObjects = new HashSet<NetworkObject>();
-    private Dictionary<NetworkObject, float> cooldowns = new Dictionary<NetworkObject, float>();
+    [Header("Events")]
     public UnityEvent<float> OnCoolDownStarted;
     public UnityEvent OnTriggered;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!IsServer) return;
-        TryApplyHaste(collision);
-    }
+        Debug.Log(collision.gameObject);
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
         if (!IsServer) return;
-        if (!IsRepeatable) return;
         TryApplyHaste(collision);
     }
 
     private void TryApplyHaste(Collider2D collision)
     {
+        Debug.Log("TryApplyHaste");
+
         if (collision.CompareTag("Player") && IgnorePlayer) return;
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;
         if (collision.CompareTag("NPC") && IgnoreNPC) return;
@@ -43,55 +47,93 @@ public class HasteOnTrigger : NetworkBehaviour
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
         if (objectThatWasHit == null || objectThatWasHit == attacker || !objectThatWasHit.IsSpawned) return;
 
-        if (!IsRepeatable)
-        {
-            if (hastedObjects.Contains(objectThatWasHit)) return;
-            hastedObjects.Add(objectThatWasHit);
-        }
-        else
-        {
-            if (cooldowns.ContainsKey(objectThatWasHit))
-            {
-                if (Time.time < cooldowns[objectThatWasHit]) return;
-            }
+        // Check cooldown with single dictionary lookup
+        if (!CanApplyHaste(objectThatWasHit, out bool isFirstTime)) return;
 
-            cooldowns[objectThatWasHit] = Time.time + CooldownDuration;
+        // Update cooldown state
+        UpdateCooldown(objectThatWasHit);
 
-            if (collision.CompareTag("Player"))
-            {
-                ClientRpcParams clientRpcParams = new ClientRpcParams
-                {
-                    Send = new ClientRpcSendParams
-                    {
-                        TargetClientIds = new ulong[] { objectThatWasHit.OwnerClientId }
-                    }
-                };
-                ShowCooldownClientRpc(CooldownDuration, clientRpcParams);
-            }
+        // Only send cooldown RPC to players when there's an actual cooldown
+        if (CooldownDuration > 0 && collision.CompareTag("Player"))
+        {
+            SendCooldownToClient(objectThatWasHit.OwnerClientId);
         }
 
+        // Send effect RPCs
         SpawnParticleClientRpc();
         HasteClientRPC(objectThatWasHit, Stacks, Duration);
     }
 
     [ClientRpc]
-    void HasteClientRPC(NetworkObjectReference targetRef, int stacks, float duration)
+    private void HasteClientRPC(NetworkObjectReference targetRef, int stacks, float duration)
     {
         if (!targetRef.TryGet(out NetworkObject netObj)) return;
         if (!netObj.IsOwner) return;
+
+        // Cache component lookup if possible
         IHasteable hasteable = netObj.GetComponentInChildren<IHasteable>();
-        if (hasteable != null) hasteable.StartHaste(stacks, duration);
+        if (hasteable != null)
+        {
+            hasteable.StartHaste(stacks, duration);
+        }
     }
 
     [ClientRpc]
-    void ShowCooldownClientRpc(float duration, ClientRpcParams clientRpcParams = default)
+    private void ShowCooldownClientRpc(float duration, ClientRpcParams clientRpcParams = default)
     {
         OnCoolDownStarted?.Invoke(duration);
     }
 
     [ClientRpc]
-    void SpawnParticleClientRpc()
+    private void SpawnParticleClientRpc()
     {
         OnTriggered?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        cooldownTracker.Clear();
+    }
+
+    private bool CanApplyHaste(NetworkObject target, out bool isFirstTime)
+    {
+        isFirstTime = false;
+
+        if (!cooldownTracker.TryGetValue(target, out CooldownData data))
+        {
+            // First time encountering this object
+            isFirstTime = true;
+            return true;
+        }
+
+        // If cooldown is 0, allow spam (removed IsRepeatable)
+        if (CooldownDuration <= 0)
+        {
+            return true;
+        }
+
+        // Check if cooldown has expired
+        return Time.time >= data.NextAvailableTime;
+    }
+
+    private void UpdateCooldown(NetworkObject target)
+    {
+        cooldownTracker[target] = new CooldownData
+        {
+            NextAvailableTime = Time.time + CooldownDuration,
+            HasBeenTriggered = true
+        };
+    }
+
+    private void SendCooldownToClient(ulong clientId)
+    {
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { clientId }
+            }
+        };
+        ShowCooldownClientRpc(CooldownDuration, clientRpcParams);
     }
 }
