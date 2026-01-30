@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1504733462945200859}
   - component: {fileID: 6099592606823119452}
   - component: {fileID: 618845258358590608}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Prefab_Effect_Coconut_NutQuake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 8434245056991338228}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.31826, y: -1.38893, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -208,13 +208,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageOnTrigger
   ShowTopMostFoldoutHeaderGroup: 1
-  AbilityDamage: 0
-  CharacterDamage: 0
-  attacker: {fileID: 0}
-  IsBasic: 0
-  IsBreakable: 0
   hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
   hitSpark_Special: {fileID: 8237092951080147585, guid: 227ffce6aff91d34d8fce96d7034d0cc, type: 3}
+  attacker: {fileID: 0}
+  AbilityDamage: 0
+  CharacterDamage: 0
+  CanGenerateFury: 0
+  IsBreakable: 0
+  HealAmount: 0
+  CanHeal: 0
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
@@ -246,3 +248,4 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   enemy: {fileID: 0}
+  npc: {fileID: 0}

@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3132455004056181440}
   - component: {fileID: 5186176382038161399}
   - component: {fileID: 3210892748642926558}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Skill_FlickerShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,6 +61,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +84,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
@@ -268,6 +271,8 @@ TrailRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -289,6 +294,7 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: -1
@@ -376,14 +382,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  AbilityDamage: 0
-  CharacterDamage: 0
-  attacker: {fileID: 0}
-  IgnoreEnemy: 0
-  IsBasic: 0
-  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
+  attacker: {fileID: 0}
+  AbilityDamage: 0
+  CharacterDamage: 0
+  CanGenerateFury: 0
+  IsBreakable: 0
+  HealAmount: 0
+  CanHeal: 0
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0
 --- !u!114 &5186176382038161399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,4 +422,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   attacker: {fileID: 0}
   Duration: 0
+  IgnorePlayer: 0
   IgnoreEnemy: 0
+  IgnoreNPC: 0

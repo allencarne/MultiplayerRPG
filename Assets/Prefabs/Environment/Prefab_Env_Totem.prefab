@@ -15094,7 +15094,7 @@ GameObject:
   - component: {fileID: 7810993573596721297}
   - component: {fileID: 8186164635521792130}
   - component: {fileID: 2276322260735253674}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Prefab_Env_Totem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15515,8 +15515,10 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   totem: {fileID: 682373914716753779}
   MaxCoinReward: 3
+  MaxCollectableReward: 0
   MaxExpReward: 3
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+  collectable: {fileID: 0}
   rewards: []
 --- !u!1 &9214800039164809160
 GameObject:

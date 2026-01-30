@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 8573193392874070026}
   - component: {fileID: 7864766756875094977}
   - component: {fileID: 7940408725805837076}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Skill_FrailSlash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,13 +301,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  AbilityDamage: 0
-  CharacterDamage: 0
-  attacker: {fileID: 0}
-  IsBasic: 0
-  IsBreakable: 0
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
+  attacker: {fileID: 0}
+  AbilityDamage: 0
+  CharacterDamage: 0
+  CanGenerateFury: 0
+  IsBreakable: 0
+  HealAmount: 0
+  CanHeal: 0
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0

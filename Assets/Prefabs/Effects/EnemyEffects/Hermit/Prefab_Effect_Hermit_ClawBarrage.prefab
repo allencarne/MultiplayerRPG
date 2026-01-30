@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2294319447676784755}
   - component: {fileID: 6479435036741871479}
   - component: {fileID: 2569148892573182421}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Prefab_Effect_Hermit_ClawBarrage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,13 +255,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  AbilityDamage: 0
-  CharacterDamage: 0
-  attacker: {fileID: 0}
-  IsBasic: 0
-  IsBreakable: 0
   hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
   hitSpark_Special: {fileID: 7586632571060737446, guid: 828d75431c207504c9bcfd4bd50992d8, type: 3}
+  attacker: {fileID: 0}
+  AbilityDamage: 0
+  CharacterDamage: 0
+  CanGenerateFury: 0
+  IsBreakable: 0
+  HealAmount: 0
+  CanHeal: 0
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
@@ -293,3 +295,4 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   player: {fileID: 0}
   enemy: {fileID: 0}
+  npc: {fileID: 0}
