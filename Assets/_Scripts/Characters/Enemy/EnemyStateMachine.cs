@@ -289,10 +289,10 @@ public class EnemyStateMachine : NetworkBehaviour
         Vector2 direction = (targetPos - currentPos).normalized;
         Vector2 bestDirection = Vector2.zero;
 
-        float distance = 2f;
+        float distance = .5f;
         float castOffset = 0.3f;
-        int rayCount = 45;
-        float coneSpread = 360;
+        int rayCount = 21;
+        float coneSpread = 225;
 
         // Straight ray
         Vector2 castOrigin = currentPos + direction * castOffset;
