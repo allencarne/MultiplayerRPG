@@ -47,6 +47,9 @@ public class Enemy : NetworkBehaviour
 
         stats.OnDamaged.AddListener(TakeDamage);
         stats.OnDamageDealt.AddListener(DealDamage);
+
+        stats.net_CurrentHP.OnValueChanged += OnHPChanged;
+        stats.net_TotalHP.OnValueChanged += OnMaxHPChanged;
     }
 
     public override void OnNetworkDespawn()
@@ -56,6 +59,28 @@ public class Enemy : NetworkBehaviour
 
         stats.OnDamaged.RemoveListener(TakeDamage);
         stats.OnDamageDealt.RemoveListener(DealDamage);
+
+        stats.net_CurrentHP.OnValueChanged -= OnHPChanged;
+        stats.net_TotalHP.OnValueChanged -= OnMaxHPChanged;
+    }
+
+    void OnHPChanged(float previousValue, float newValue)
+    {
+        CheckStopRegen();
+    }
+
+    void OnMaxHPChanged(float previousValue, float newValue)
+    {
+        CheckStopRegen();
+    }
+
+    void CheckStopRegen()
+    {
+        if (IsRegen && stats.net_CurrentHP.Value >= stats.net_TotalHP.Value)
+        {
+            IsRegen = false;
+            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+        }
     }
 
     void TakeDamage(float damage)
@@ -70,16 +95,6 @@ public class Enemy : NetworkBehaviour
         if (!IsRegen) return;
         IsRegen = false;
         stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-    }
-
-    private void Update()
-    {
-        if (!IsRegen) return;
-        if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value)
-        {
-            IsRegen = false;
-            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-        }
     }
 
     void Damaged(NetworkObject attackerID)
