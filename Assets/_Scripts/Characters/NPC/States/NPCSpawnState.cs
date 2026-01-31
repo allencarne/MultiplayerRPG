@@ -5,6 +5,9 @@ public class NPCSpawnState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        owner.Target = null;
+        owner.IsEnemyInRange = false;
+
         owner.HeadAnimator.SetFloat("Vertical", -1);
         owner.BodyAnimator.SetFloat("Vertical", -1);
 

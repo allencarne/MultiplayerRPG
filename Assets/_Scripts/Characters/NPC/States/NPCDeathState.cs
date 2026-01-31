@@ -11,8 +11,6 @@ public class NPCDeathState : NPCState
         owner.BodyAnimator.Play("Death");
         owner.npc.IsDead = true;
         owner.IsAttacking = false;
-        owner.Target = null;
-        owner.IsEnemyInRange = false;
 
         // Patrol
         owner.PatrolIndex = 0;

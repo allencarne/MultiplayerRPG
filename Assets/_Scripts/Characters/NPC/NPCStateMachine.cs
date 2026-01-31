@@ -169,6 +169,7 @@ public class NPCStateMachine : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (npc.IsDead) return;
         if (state == State.Reset) return;
 
         if (other.CompareTag("Enemy"))
