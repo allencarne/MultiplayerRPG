@@ -209,17 +209,19 @@ public abstract class EnemySkill : NetworkBehaviour
         CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
         if (circle != null)
         {
+            circle.stats = gameObject.GetComponentInParent<CharacterStats>();
+
             circle.FillSpeed = time;
             circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            circle.enemy = gameObject.GetComponentInParent<Enemy>();
         }
 
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
+            square.stats = gameObject.GetComponentInParent<CharacterStats>();
+
             square.FillSpeed = time;
             square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
-            square.enemy = gameObject.GetComponentInParent<Enemy>();
         }
     }
     protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
@@ -268,7 +270,7 @@ public abstract class EnemySkill : NetworkBehaviour
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.enemy = GetComponentInParent<Enemy>();
+        if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));

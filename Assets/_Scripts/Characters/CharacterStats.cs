@@ -9,6 +9,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> net_BaseHP = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_CurrentHP = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_TotalHP = new(writePerm: NetworkVariableWritePermission.Server);
+    public bool isDead;
 
     [Header("Stats")]
     public float BaseArmor;
@@ -75,6 +76,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (net_CurrentHP.Value <= 0)
         {
+            isDead = true;
             ClearTarget(attackerID);
             OnDeath?.Invoke();
             OnEnemyDeath?.Invoke(attackerID);

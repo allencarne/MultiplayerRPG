@@ -21,7 +21,6 @@ public class NPC : NetworkBehaviour, IInteractable
 
     [Header("Variables")]
     public string DisplayName => Data.NPCName;
-    public bool IsDead;
     Vector2 facingDirection = new Vector2(0, -1);
 
     [Header("Combat")]
@@ -51,7 +50,7 @@ public class NPC : NetworkBehaviour, IInteractable
         }
 
         stats.OnEnemyDamaged.AddListener(TargetAttacker);
-        stats.OnDeath.AddListener(DeathState);
+        stats.OnDeath.AddListener(Death);
 
         stats.OnDamaged.AddListener(TakeDamage);
         stats.OnDamageDealt.AddListener(DealDamage);
@@ -63,7 +62,7 @@ public class NPC : NetworkBehaviour, IInteractable
     public override void OnNetworkDespawn()
     {
         stats.OnEnemyDamaged.RemoveListener(TargetAttacker);
-        stats.OnDeath.RemoveListener(DeathState);
+        stats.OnDeath.RemoveListener(Death);
 
         stats.OnDamaged.RemoveListener(TakeDamage);
         stats.OnDamageDealt.RemoveListener(DealDamage);
@@ -76,6 +75,7 @@ public class NPC : NetworkBehaviour, IInteractable
             StopCoroutine(combatTimerCoroutine);
         }
     }
+
     private void Start()
     {
         NPCHeadSprite.color = Custom.skinColors[Data.skinColorIndex];
@@ -163,7 +163,7 @@ public class NPC : NetworkBehaviour, IInteractable
         player.OpenDialogueUI(Data.NPCName, npcDialogue);
     }
 
-    void DeathState()
+    void Death()
     {
         stateMachine.SetState(NPCStateMachine.State.Death);
     }

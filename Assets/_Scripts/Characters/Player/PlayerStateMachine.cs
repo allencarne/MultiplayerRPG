@@ -291,6 +291,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Interrupt()
     {
+        if (Stats.isDead) return;
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != PlayerSkill.State.Cast) return;
 
@@ -300,6 +301,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Stagger()
     {
+        if (Stats.isDead) return;
         if (Buffs.immoveable.IsImmovable) return;
 
         player.CastBar.StartInterrupt();

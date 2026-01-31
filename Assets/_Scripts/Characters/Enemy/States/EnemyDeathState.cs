@@ -5,10 +5,11 @@ public class EnemyDeathState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
+        owner.EnemyAnimator.Play("Death");
+
         owner.Buffs.PurgeAllDebuffs();
         owner.DeBuffs.CleanseAllDebuffs();
 
-        owner.enemy.IsDead = true;
         owner.Drops.DropItem();
 
         if (owner.enemy.EnemySpawnerReference != null)

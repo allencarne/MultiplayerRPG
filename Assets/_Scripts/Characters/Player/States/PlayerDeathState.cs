@@ -11,7 +11,6 @@ public class PlayerDeathState : PlayerState
         owner.DeBuffs.CleanseAllDebuffs();
 
         owner.BodyAnimator.Play("Death");
-        owner.player.IsDead = true;
         owner.IsAttacking = false;
 
         owner.player.CastBar.ResetCastBar();
@@ -33,7 +32,7 @@ public class PlayerDeathState : PlayerState
     {
         yield return new WaitForSeconds(4);
 
-        owner.player.IsDead = false;
+        owner.Stats.isDead = false;
         owner.transform.position = Vector2.zero;
 
         yield return new WaitForSeconds(1);

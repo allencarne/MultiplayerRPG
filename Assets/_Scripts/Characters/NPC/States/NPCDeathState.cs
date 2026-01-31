@@ -9,7 +9,6 @@ public class NPCDeathState : NPCState
         owner.DeBuffs.CleanseAllDebuffs();
 
         owner.BodyAnimator.Play("Death");
-        owner.npc.IsDead = true;
         owner.IsAttacking = false;
 
         // Patrol
@@ -36,7 +35,7 @@ public class NPCDeathState : NPCState
     {
         yield return new WaitForSeconds(4);
 
-        owner.npc.IsDead = false;
+        owner.npc.stats.isDead = false;
         owner.transform.position = owner.StartingPosition;
 
         yield return new WaitForSeconds(1);

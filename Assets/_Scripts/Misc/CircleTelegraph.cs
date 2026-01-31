@@ -4,12 +4,10 @@ using UnityEngine;
 public class CircleTelegraph : NetworkBehaviour
 {
     [SerializeField] SpriteRenderer frontSprite;
+    [HideInInspector] public CharacterStats stats;
 
     [HideInInspector] public float FillSpeed;
     [HideInInspector] public CrowdControl crowdControl;
-    [HideInInspector] public Enemy enemy;
-    [HideInInspector] public NPC npc;
-    [HideInInspector] public Player player;
 
     private void Update()
     {
@@ -23,19 +21,7 @@ public class CircleTelegraph : NetworkBehaviour
             }
         }
 
-        if (enemy != null && enemy.IsDead)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        if (npc != null && npc.IsDead)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        if (player != null && player.IsDead)
+        if (stats != null && stats.isDead)
         {
             Destroy(gameObject);
             return;

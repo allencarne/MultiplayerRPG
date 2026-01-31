@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class NPCStaggerState : NPCState
 {
@@ -13,8 +12,7 @@ public class NPCStaggerState : NPCState
     public override void UpdateState(NPCStateMachine owner)
     {
         if (!owner.IsServer) return;
-
-        if (owner.npc.stats.net_CurrentHP.Value <= 0) return;
+        if (owner.npc.stats.isDead) return;
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack &&
             !owner.CrowdControl.stun.IsStunned &&

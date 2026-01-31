@@ -32,7 +32,6 @@ public class Player : NetworkBehaviour
     [SerializeField] GameObject cameraPrefab;
     [SerializeField] RectTransform playerUIRect;
 
-    public bool IsDead = false;
     public bool IsInteracting = false;
     public bool CanSellItems = false;
 

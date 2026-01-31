@@ -125,8 +125,6 @@ public class NPCStateMachine : NetworkBehaviour
 
     public void SetState(State newState)
     {
-        if (npc.IsDead) return;
-
         switch (newState)
         {
             case State.Spawn: state = State.Spawn; spawnState.StartState(this); break;
@@ -144,6 +142,7 @@ public class NPCStateMachine : NetworkBehaviour
 
     public void Interrupt()
     {
+        if (npc.stats.isDead) return;
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
 
@@ -153,6 +152,7 @@ public class NPCStateMachine : NetworkBehaviour
 
     public void Stagger()
     {
+        if (npc.stats.isDead) return;
         if (Buffs.immoveable.IsImmovable) return;
 
         npc.CastBar.StartInterrupt();
@@ -169,7 +169,7 @@ public class NPCStateMachine : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (npc.IsDead) return;
+        if (npc.stats.isDead) return;
         if (state == State.Reset) return;
 
         if (other.CompareTag("Enemy"))

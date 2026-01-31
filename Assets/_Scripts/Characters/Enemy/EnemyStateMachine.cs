@@ -162,8 +162,6 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void SetState(State newState)
     {
-        if (enemy.IsDead) return;
-
         switch (newState)
         {
             case State.Spawn: state = State.Spawn; enemySpawnState.StartState(this); break;
@@ -181,6 +179,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void Interrupt()
     {
+        if (enemy.stats.isDead) return;
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
 
@@ -190,6 +189,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void Stagger()
     {
+        if (enemy.stats.isDead) return;
         if (Buffs.immoveable.IsImmovable) return;
 
         enemy.CastBar.StartInterrupt();
@@ -206,6 +206,7 @@ public class EnemyStateMachine : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (enemy.stats.isDead) return;
         if (state == State.Reset) return;
 
         if (other.CompareTag("Player") || other.CompareTag("NPC"))

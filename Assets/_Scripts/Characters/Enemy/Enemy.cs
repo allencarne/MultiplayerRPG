@@ -30,7 +30,6 @@ public class Enemy : NetworkBehaviour
 
     [Header("Bools")]
     public bool IsDummy;
-    public bool IsDead;
     public bool IsRegen;
 
     public override void OnNetworkSpawn()
@@ -255,7 +254,6 @@ public class Enemy : NetworkBehaviour
     [ClientRpc]
     void DeathClientRpc()
     {
-        stateMachine.EnemyAnimator.Play("Death");
         stateMachine.Collider.enabled = false;
         shadowSprite.enabled = false;
         CastBar.gameObject.SetActive(false);

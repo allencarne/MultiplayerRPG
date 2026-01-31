@@ -1,5 +1,3 @@
-using System.Collections;
-using UnityEngine;
 
 public class EnemyStaggerState : EnemyState
 {
@@ -11,7 +9,8 @@ public class EnemyStaggerState : EnemyState
 
     public override void UpdateState(EnemyStateMachine owner)
     {
-        if (owner.enemy.stats.net_CurrentHP.Value <= 0) return;
+        if (!owner.IsServer) return;
+        if (owner.enemy.stats.isDead) return;
 
         if (!owner.CrowdControl.knockBack.IsKnockedBack && 
             !owner.CrowdControl.stun.IsStunned && 

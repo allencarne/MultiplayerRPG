@@ -3,59 +3,22 @@ using UnityEngine;
 
 public class DestroyOnDeath : NetworkBehaviour
 {
-    [HideInInspector] public Player player;
-    [HideInInspector] public Enemy enemy;
-    [HideInInspector] public NPC npc;
+    [HideInInspector] public CharacterStats stats;
 
     void Update()
     {
         if (!IsServer) return;
 
-        if (player != null)
+        if (stats != null && stats.isDead)
         {
-            if (player.IsDead)
+            NetworkObject net = GetComponent<NetworkObject>();
+            if (net != null)
             {
-                NetworkObject net = GetComponent<NetworkObject>();
-                if (net != null)
-                {
-                    net.Despawn(true);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
+                net.Despawn(true);
             }
-        }
-
-        if (enemy != null)
-        {
-            if (enemy.IsDead)
+            else
             {
-                NetworkObject net = GetComponent<NetworkObject>();
-                if (net != null)
-                {
-                    net.Despawn(true);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
-            }
-        }
-
-        if (npc != null)
-        {
-            if (npc.IsDead)
-            {
-                NetworkObject net = GetComponent<NetworkObject>();
-                if (net != null)
-                {
-                    net.Despawn(true);
-                }
-                else
-                {
-                    Destroy(gameObject);
-                }
+                Destroy(gameObject);
             }
         }
     }
