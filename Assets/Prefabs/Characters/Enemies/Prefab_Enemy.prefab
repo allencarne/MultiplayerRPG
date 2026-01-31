@@ -1463,6 +1463,7 @@ GameObject:
   - component: {fileID: 6402268282429907237}
   - component: {fileID: 1913103621938294649}
   - component: {fileID: 568576347084111489}
+  - component: {fileID: 5278237497746975563}
   m_Layer: 7
   m_Name: Prefab_Enemy
   m_TagString: Enemy
@@ -1838,6 +1839,20 @@ MonoBehaviour:
   knockUp: {fileID: 5435382533902370838}
   pull: {fileID: 7153349269270407564}
   interrupt: {fileID: 3498860030662666909}
+--- !u!114 &5278237497746975563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494865281095228816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c02f17521cfeb469518cfc94ecf66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  visibilityRange: 50
 --- !u!1 &4830251803286897434
 GameObject:
   m_ObjectHideFlags: 0

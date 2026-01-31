@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 5501643416197206410}
   - component: {fileID: 7706215213239804704}
   - component: {fileID: 2836685129220559817}
+  - component: {fileID: 5281205274490825886}
   m_Layer: 11
   m_Name: Prefab_Item
   m_TagString: Item
@@ -271,6 +272,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   TransitionStateInfoList: []
   m_Animator: {fileID: 7706215213239804704}
+--- !u!114 &5281205274490825886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547461493694578617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c02f17521cfeb469518cfc94ecf66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  visibilityRange: 50
 --- !u!1 &2256159048355813279
 GameObject:
   m_ObjectHideFlags: 0

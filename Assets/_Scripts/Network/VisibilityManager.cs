@@ -1,48 +1,52 @@
 using Unity.Netcode;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class VisibilityManager : NetworkBehaviour
 {
-    static List<NetworkObject> _networkObjects;
-    [SerializeField] float _visibilityRadius;
+    public float visibilityRange = 50f;
 
-    public static void AddNetworkObject(NetworkObject networkObject)
+    public override void OnNetworkSpawn()
     {
-        _networkObjects.Add(networkObject);
-    }
-
-    private void Start()
-    {
-        _networkObjects = new List<NetworkObject>();
-    }
-
-    private void FixedUpdate()
-    {
-        if (!IsServer) return;
-
-        foreach (var client in NetworkManager.Singleton.ConnectedClients)
+        if (IsServer)
         {
-            if (client.Key == NetworkManager.LocalClientId) continue;
+            NetworkObject.CheckObjectVisibility += CheckVisibility;
+            NetworkManager.NetworkTickSystem.Tick += UpdateVisibility;
+        }
+        base.OnNetworkSpawn();
+    }
 
-            foreach (NetworkObject networkObject in _networkObjects)
+    private bool CheckVisibility(ulong clientId)
+    {
+        if (!IsSpawned) return false;
+
+        var playerObject = NetworkManager.ConnectedClients[clientId].PlayerObject;
+        return Vector3.Distance(playerObject.transform.position, transform.position) <= visibilityRange;
+    }
+
+    private void UpdateVisibility()
+    {
+        foreach (var clientId in NetworkManager.ConnectedClientsIds)
+        {
+            var shouldBeVisible = CheckVisibility(clientId);
+            var isVisible = NetworkObject.IsNetworkVisibleTo(clientId);
+
+            if (shouldBeVisible != isVisible)
             {
-                Transform clientTransform = client.Value.PlayerObject.transform;
-                float distance = Vector3.Distance(clientTransform.position, networkObject.transform.position);
-                bool isVisible = distance <= _visibilityRadius;
-
-                if (networkObject.IsNetworkVisibleTo(client.Key) != isVisible)
-                {
-                    if (isVisible)
-                    {
-                        networkObject.NetworkShow(client.Key);
-                    }
-                    else
-                    {
-                        networkObject.NetworkHide(client.Key);
-                    }
-                }
+                if (shouldBeVisible)
+                    NetworkObject.NetworkShow(clientId);
+                else
+                    NetworkObject.NetworkHide(clientId);
             }
         }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            NetworkObject.CheckObjectVisibility -= CheckVisibility;
+            NetworkManager.NetworkTickSystem.Tick -= UpdateVisibility;
+        }
+        base.OnNetworkDespawn();
     }
 }

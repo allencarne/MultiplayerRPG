@@ -15094,6 +15094,7 @@ GameObject:
   - component: {fileID: 7810993573596721297}
   - component: {fileID: 8186164635521792130}
   - component: {fileID: 2276322260735253674}
+  - component: {fileID: 2666704140752994525}
   m_Layer: 11
   m_Name: Prefab_Env_Totem
   m_TagString: Untagged
@@ -15520,6 +15521,20 @@ MonoBehaviour:
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
   collectable: {fileID: 0}
   rewards: []
+--- !u!114 &2666704140752994525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571779483150174085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c02f17521cfeb469518cfc94ecf66d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  visibilityRange: 50
 --- !u!1 &9214800039164809160
 GameObject:
   m_ObjectHideFlags: 0
