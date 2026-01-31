@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class NPC : NetworkBehaviour, IInteractable
     public bool InCombat = false;
     public bool IsRegen;
     float CombatTime = 0;
+    Coroutine combatTimerCoroutine;
 
     [Header("Sprites")]
     public SpriteRenderer NPCHeadSprite;
@@ -41,13 +43,21 @@ public class NPC : NetworkBehaviour, IInteractable
 
     public override void OnNetworkSpawn()
     {
+        if (IsServer)
+        {
+            stats.net_TotalHP.Value = Data.MaxHealth;
+            stats.net_BaseHP.Value = Data.MaxHealth;
+            stats.net_CurrentHP.Value = Data.MaxHealth;
+        }
+
         stats.OnEnemyDamaged.AddListener(TargetAttacker);
         stats.OnDeath.AddListener(DeathState);
 
         stats.OnDamaged.AddListener(TakeDamage);
         stats.OnDamageDealt.AddListener(DealDamage);
 
-        Invoke("AssignHealth", 1);
+        stats.net_CurrentHP.OnValueChanged += OnHPChanged;
+        stats.net_TotalHP.OnValueChanged += OnMaxHPChanged;
     }
 
     public override void OnNetworkDespawn()
@@ -57,6 +67,14 @@ public class NPC : NetworkBehaviour, IInteractable
 
         stats.OnDamaged.RemoveListener(TakeDamage);
         stats.OnDamageDealt.RemoveListener(DealDamage);
+
+        stats.net_CurrentHP.OnValueChanged -= OnHPChanged;
+        stats.net_TotalHP.OnValueChanged -= OnMaxHPChanged;
+
+        if (combatTimerCoroutine != null)
+        {
+            StopCoroutine(combatTimerCoroutine);
+        }
     }
     private void Start()
     {
@@ -81,40 +99,45 @@ public class NPC : NetworkBehaviour, IInteractable
         stats.BaseArmor = Data.Armor;
     }
 
-    private void Update()
+    void OnHPChanged(float previousValue, float newValue)
     {
-        if (InCombat && Data.npcClass == NPCClass.Patrol)
-        {
-            CombatTime += Time.deltaTime;
+        UpdateRegeneration();
+    }
 
-            if (CombatTime >= 10)
-            {
-                InCombat = false;
-                CombatTime = 0;
+    void OnMaxHPChanged(float previousValue, float newValue)
+    {
+        UpdateRegeneration();
+    }
 
-                if (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
-                {
-                    IsRegen = true;
-                    stateMachine.Buffs.regeneration.StartRegen(1, -1);
-                }
-            }
-        }
-
-        if (!IsRegen) return;
-        if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat)
+    void UpdateRegeneration()
+    {
+        if (IsRegen && (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat))
         {
             IsRegen = false;
             stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
     }
 
-    void AssignHealth()
+    IEnumerator CombatTimer()
     {
-        if (IsServer)
+        CombatTime = 0f;
+
+        while (CombatTime < 10f)
         {
-            stats.net_TotalHP.Value = Data.MaxHealth;
-            stats.net_BaseHP.Value = Data.MaxHealth;
-            stats.net_CurrentHP.Value = Data.MaxHealth;
+            CombatTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Combat timer expired
+        InCombat = false;
+        CombatTime = 0;
+        combatTimerCoroutine = null;
+
+        // Start regen if health is not full
+        if (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
+        {
+            IsRegen = true;
+            stateMachine.Buffs.regeneration.StartRegen(1, -1);
         }
     }
 
@@ -167,8 +190,7 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         if (Data.npcClass == NPCClass.Patrol)
         {
-            InCombat = true;
-            CombatTime = 0;
+            EnterCombat();
         }
 
         if (!IsRegen) return;
@@ -180,12 +202,24 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         if (Data.npcClass == NPCClass.Patrol)
         {
-            InCombat = true;
-            CombatTime = 0;
+            EnterCombat();
         }
 
         if (!IsRegen) return;
         IsRegen = false;
         stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+    }
+
+    void EnterCombat()
+    {
+        InCombat = true;
+        CombatTime = 0;
+
+        // Restart combat timer
+        if (combatTimerCoroutine != null)
+        {
+            StopCoroutine(combatTimerCoroutine);
+        }
+        combatTimerCoroutine = StartCoroutine(CombatTimer());
     }
 }
