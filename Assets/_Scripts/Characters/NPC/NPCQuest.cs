@@ -3,13 +3,11 @@ using UnityEngine;
 public class NPCQuest : MonoBehaviour
 {
     [SerializeField] NPC npc;
-    [HideInInspector] public int QuestIndex = 0;
 
     public Quest GetAvailableQuest(PlayerQuest playerQuest)
     {
         if (npc.Data.Quests == null || npc.Data.Quests.Count == 0) return null;
 
-        Quest candidate = npc.Data.Quests[QuestIndex];
         PlayerStats stats = playerQuest.GetComponent<PlayerStats>();
 
         foreach (QuestProgress progress in playerQuest.activeQuests)
@@ -36,16 +34,29 @@ public class NPCQuest : MonoBehaviour
                     }
                 }
             }
-
-            // Available
-            if (quest == candidate && progress.state != QuestState.Available) return null;
         }
 
-        // Offer the candidate quest if requirements are met
-        if (stats.PlayerLevel.Value < candidate.LevelRequirment) return null;
-        if (!HasMetQuestRequirements(playerQuest, candidate)) return null;
+        // No active quests, find the first available quest
+        foreach (Quest quest in npc.Data.Quests)
+        {
+            // Skip if already completed
+            QuestProgress progress = playerQuest.activeQuests.Find(q => q.quest == quest);
+            if (progress != null && progress.state == QuestState.Completed) continue;
 
-        return candidate;
+            // Skip if already accepted (in progress)
+            if (progress != null) continue;
+
+            // Check level requirement
+            if (stats.PlayerLevel.Value < quest.LevelRequirment) continue;
+
+            // Check quest requirements
+            if (!HasMetQuestRequirements(playerQuest, quest)) continue;
+
+            // This quest is available!
+            return quest;
+        }
+
+        return null;
     }
 
     public bool HasMetQuestRequirements(PlayerQuest playerQuest, Quest quest)
@@ -58,13 +69,5 @@ public class NPCQuest : MonoBehaviour
             if (requiredProgress == null || requiredProgress.state != QuestState.Completed) return false;
         }
         return true;
-    }
-
-    public void IncreaseQuestIndex(Quest quest)
-    {
-        if (npc.Data.Quests.Contains(quest) && QuestIndex < npc.Data.Quests.Count - 1)
-        {
-            QuestIndex++;
-        }
     }
 }

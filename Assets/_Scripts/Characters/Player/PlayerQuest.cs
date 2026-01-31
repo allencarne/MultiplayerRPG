@@ -34,18 +34,26 @@ public class PlayerQuest : MonoBehaviour
         }
 
         if (npc.Data.Quests == null || npc.Data.Quests.Count == 0) return QuestState.None;
-        Quest candidateQuest = npc.Data.Quests[npcQuest.QuestIndex];
 
-        if (stats.PlayerLevel.Value < candidateQuest.LevelRequirment) return QuestState.Unavailable;
-        if (!npcQuest.HasMetQuestRequirements(this, candidateQuest)) return QuestState.Unavailable;
-
+        // Find the first quest that isn't completed
+        Quest nextQuest = null;
         foreach (Quest quest in npc.Data.Quests)
         {
-            bool alreadyAccepted = activeQuests.Exists(q => q.quest == quest);
-            if (!alreadyAccepted) return QuestState.Available;
+            QuestProgress progress = activeQuests.Find(q => q.quest == quest);
+            if (progress == null || progress.state != QuestState.Completed)
+            {
+                nextQuest = quest;
+                break;
+            }
         }
 
-        return QuestState.None;
+        if (nextQuest == null) return QuestState.None;
+
+        // Check if the next quest meets requirements
+        if (stats.PlayerLevel.Value < nextQuest.LevelRequirment) return QuestState.Unavailable;
+        if (!npcQuest.HasMetQuestRequirements(this, nextQuest)) return QuestState.Unavailable;
+
+        return QuestState.Available;
     }
 
     public void AcceptQuest(Quest quest)

@@ -20,7 +20,6 @@ public class NPCQuestIcon : MonoBehaviour
         if (getPlayer?.player == null) return;
         playerQuest = getPlayer.player.GetComponent<PlayerQuest>();
         playerQuest.OnQuestStateChanged.AddListener(UpdateSprite);
-        playerQuest.OnQuestTurnedIn.AddListener(npcQuest.IncreaseQuestIndex);
     }
 
     private void OnDisable()
@@ -28,7 +27,6 @@ public class NPCQuestIcon : MonoBehaviour
         if (playerQuest != null)
         {
             playerQuest.OnQuestStateChanged.RemoveListener(UpdateSprite);
-            playerQuest.OnQuestTurnedIn.RemoveListener(npcQuest.IncreaseQuestIndex);
         }
     }
 
