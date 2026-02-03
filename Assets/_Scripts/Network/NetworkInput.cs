@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class NetworkInput : NetworkBehaviour
 {
+    [SerializeField] Camera mapCam;
     [SerializeField] PlayerInputHandler playerInputHandler;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PlayerStateMachine playerStateMachine;
@@ -11,6 +12,7 @@ public class NetworkInput : NetworkBehaviour
 
     private void Awake()
     {
+        mapCam.enabled = false;
         playerInputHandler.enabled = false;
         playerInput.enabled = false;
     }
@@ -21,6 +23,7 @@ public class NetworkInput : NetworkBehaviour
 
         if (IsOwner)
         {
+            mapCam.enabled = true;
             playerInputHandler.enabled = true;
             playerInput.enabled = true;
         }

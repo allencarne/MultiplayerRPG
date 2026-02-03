@@ -24730,7 +24730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -24802,6 +24802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  mapCam: {fileID: 613767390955743458}
   playerInputHandler: {fileID: 8050150357123000786}
   playerInput: {fileID: 2155053313424514762}
   playerStateMachine: {fileID: 6475613187630994528}
@@ -24842,6 +24843,7 @@ MonoBehaviour:
     m_InternalValue: 0
   net_TotalHP:
     m_InternalValue: 0
+  isDead: 0
   BaseArmor: 0
   BaseDamage: 0
   BaseAS: 0
@@ -24970,7 +24972,6 @@ MonoBehaviour:
   playerUI: {fileID: 3299133459724338860}
   cameraPrefab: {fileID: 7864430358082734557, guid: edcf436c87c50d3479ef8cd53a243c9e, type: 3}
   playerUIRect: {fileID: 1319158235293109785}
-  IsDead: 0
   IsInteracting: 0
   CanSellItems: 0
   FirstPassiveIndex: 0
