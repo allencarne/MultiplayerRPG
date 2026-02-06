@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 8835601009179512806}
   - component: {fileID: 2067524765043138959}
   - component: {fileID: 6398607892128352890}
-  - component: {fileID: 1541276824162949217}
   - component: {fileID: 4606743405202963621}
+  - component: {fileID: 3076281976693600442}
   m_Layer: 11
   m_Name: Prefab_Effect_Seagull_WingAttack
   m_TagString: Untagged
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4114352500
+  GlobalObjectIdHash: 1291026727
   InScenePlacedSourceGlobalObjectIdHash: 3640737594
   DeferredDespawnTick: 0
   Ownership: 1
@@ -220,19 +220,6 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
---- !u!114 &1541276824162949217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8577316291707284585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestoryAfterAnimationNet
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4606743405202963621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,3 +234,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
+--- !u!114 &3076281976693600442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577316291707284585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestoryAfterAnimationNet
+  ShowTopMostFoldoutHeaderGroup: 1

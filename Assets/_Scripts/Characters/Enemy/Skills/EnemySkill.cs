@@ -260,6 +260,14 @@ public abstract class EnemySkill : NetworkBehaviour
             knockbackOnTrigger.IgnoreEnemy = true;
         }
 
+        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
+        if (stunOnTrigger != null)
+        {
+            stunOnTrigger.attacker = attacker;
+            stunOnTrigger.Duration = StunDuration;
+            stunOnTrigger.IgnoreNPC = true;
+        }
+
         SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
         if (slow != null)
         {
@@ -268,6 +276,9 @@ public abstract class EnemySkill : NetworkBehaviour
             slow.Stacks = SlowStacks;
             slow.IgnoreEnemy = true;
         }
+
+        FollowTarget target = attackInstance.GetComponent<FollowTarget>();
+        if (target != null) target.Target = transform;
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
