@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 878784667173873402, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseDamage
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 878784667173873402, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: AttackSpeed
@@ -110,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: expToGive
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseDamage
@@ -126,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: Enemy_Level
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CurrentSpeed
@@ -138,7 +138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: startingHealth
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseAttackSpeed
@@ -335,10 +335,10 @@ MonoBehaviour:
   SkillRange: 1
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 1
+  CastTime: 1.2
   ActionTime: 0
   ImpactTime: 0.1
-  RecoveryTime: 0.4
+  RecoveryTime: 0.5
   CoolDown: 0
   SlideForce: 0
   SlideDuration: 0
@@ -373,10 +373,10 @@ MonoBehaviour:
   SkillRange: 5
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 1
+  CastTime: 1.2
   ActionTime: 0.5
   ImpactTime: 0.1
-  RecoveryTime: 0.4
+  RecoveryTime: 0.5
   CoolDown: 6
   SlideForce: 0
   SlideDuration: 0
@@ -411,10 +411,10 @@ MonoBehaviour:
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 1
+  CastTime: 1.2
   ActionTime: 0
   ImpactTime: 2
-  RecoveryTime: 0.4
+  RecoveryTime: 0.5
   CoolDown: 12
   SlideForce: 0
   SlideDuration: 0

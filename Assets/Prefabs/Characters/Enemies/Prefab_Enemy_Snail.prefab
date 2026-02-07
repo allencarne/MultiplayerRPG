@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 878784667173873402, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseDamage
-      value: 1
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 878784667173873402, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: AttackSpeed
@@ -106,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: expToGive
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseDamage
@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: startingHealth
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: BaseAttackSpeed
@@ -304,7 +304,7 @@ MonoBehaviour:
   SkillRange: 0
   SkillForce: 10
   SkillDuration: 0.75
-  CastTime: 1
+  CastTime: 1.1
   ActionTime: 0
   ImpactTime: 0.1
   RecoveryTime: 0.5
@@ -342,10 +342,10 @@ MonoBehaviour:
   SkillRange: 1
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 1
+  CastTime: 1.1
   ActionTime: 0
   ImpactTime: 0.1
-  RecoveryTime: 0.4
+  RecoveryTime: 0.5
   CoolDown: 0
   SlideForce: 0
   SlideDuration: 0
@@ -380,10 +380,10 @@ MonoBehaviour:
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 5
-  CastTime: 1
+  CastTime: 1.1
   ActionTime: 0
   ImpactTime: 0.3
-  RecoveryTime: 0.4
+  RecoveryTime: 0.5
   CoolDown: 7
   SlideForce: 0
   SlideDuration: 0

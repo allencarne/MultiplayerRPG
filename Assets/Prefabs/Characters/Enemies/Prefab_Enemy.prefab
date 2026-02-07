@@ -1660,11 +1660,12 @@ MonoBehaviour:
     m_InternalValue: 0
   net_TotalHP:
     m_InternalValue: 0
+  isDead: 0
   BaseArmor: 0
-  BaseDamage: 0
-  BaseAS: 0
-  BaseCDR: 0
-  BaseSpeed: 0
+  BaseDamage: 1
+  BaseAS: 1
+  BaseCDR: 1
+  BaseSpeed: 2
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -1714,7 +1715,6 @@ MonoBehaviour:
   PatienceBar: {fileID: 724171929062541461}
   CastBar: {fileID: 7538848170769235199}
   IsDummy: 0
-  IsDead: 0
   IsRegen: 0
 --- !u!114 &8001761435941154268
 MonoBehaviour:
@@ -1747,11 +1747,11 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  wanderRadius: 0
+  wanderRadius: 5
   basicRadius: 0
   specialRadius: 0
   ultimateRadius: 0
-  deAggroRadius: 0
+  deAggroRadius: 10
   IsAttacking: 0
   isResetting: 0
   CanDash: 0
