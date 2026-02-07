@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BeakBarrage : EnemySkill
@@ -23,17 +24,31 @@ public class BeakBarrage : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(CastTime, true, false);
+        Telegraph(CastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         owner.Buffs.immoveable.StartImmovable(ImpactTime);
         //owner.Buffs.phase.StartPhase(ImpactTime);
-        owner.Buffs.protection.StartProtection(2, 5);
+        //owner.Buffs.protection.StartProtection(2, 5);
 
         Animate(owner, skillType, State.Impact);
-        Attack(owner.NetworkObject, true, false);
+        StartCoroutine(AttackPattern(owner));
+    }
+
+    IEnumerator AttackPattern(EnemyStateMachine owner)
+    {
+        Attack(owner.NetworkObject, true, true);
+        yield return new WaitForSeconds(.3f);
+
+        Attack(owner.NetworkObject, true, true);
+        yield return new WaitForSeconds(.3f);
+
+        Attack(owner.NetworkObject, true, true);
+        yield return new WaitForSeconds(.3f);
+
+        Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
