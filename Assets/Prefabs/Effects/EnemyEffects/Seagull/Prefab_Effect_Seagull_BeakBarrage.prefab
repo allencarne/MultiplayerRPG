@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3955009936671573292}
   - component: {fileID: 2888469885118173765}
   - component: {fileID: 2012812897485308412}
+  - component: {fileID: 3345292549484154291}
   m_Layer: 11
   m_Name: Prefab_Effect_Seagull_BeakBarrage
   m_TagString: Untagged
@@ -262,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
-  hitSpark_Special: {fileID: 2533958785013922184, guid: 5409ea2fbeae90649be14e1b1cc5e320, type: 3}
+  hitSpark_Special: {fileID: 8401796060878095578, guid: d96fad7aa36c17a4699ee85a668983dc, type: 3}
   attacker: {fileID: 0}
   AbilityDamage: 0
   CharacterDamage: 0
@@ -286,3 +287,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &3345292549484154291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6567741836550835310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 0}
