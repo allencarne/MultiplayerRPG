@@ -291,12 +291,11 @@ public class EnemyStateMachine : NetworkBehaviour
         Vector2 bestDirection = Vector2.zero;
 
         float distance = .5f;
-        float castOffset = 0.3f;
         int rayCount = 21;
         float coneSpread = 225;
 
         // Straight ray
-        Vector2 castOrigin = currentPos + direction * castOffset;
+        Vector2 castOrigin = currentPos + direction;
         RaycastHit2D centerRay = Physics2D.Raycast(castOrigin, direction, distance, obstacleLayerMask);
         Debug.DrawRay(castOrigin, direction * distance, centerRay ? Color.red : Color.green);
 
@@ -312,7 +311,7 @@ public class EnemyStateMachine : NetworkBehaviour
             float angleOffset = -coneSpread / 2f + angleIncrement * i;
             Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
 
-            castOrigin = currentPos + dir * castOffset;
+            castOrigin = currentPos + dir;
             RaycastHit2D hit = Physics2D.Raycast(castOrigin, dir, distance, obstacleLayerMask);
             Debug.DrawRay(castOrigin, dir * distance, hit ? Color.red : Color.green);
 
