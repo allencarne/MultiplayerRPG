@@ -164,12 +164,12 @@ public class PlayerExperience : NetworkBehaviour
         // Increase Player Level
         stats.PlayerLevel.Value++;
 
+        // Increase Player Health
+        int amount = stats.PlayerLevel.Value * 2;
+        stats.IncreaseHealth(amount);
+
         // Attribute Points
         stats.IncreaseAttribuePoints();
-
-        // Increase Player Health
-
-        // Increase Player Damage
 
         stats.GiveHeal(100, HealType.Percentage);
 
