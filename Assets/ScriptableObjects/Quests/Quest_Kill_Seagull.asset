@@ -17,14 +17,15 @@ MonoBehaviour:
   LevelRequirment: 0
   Instructions: Hello, Please kill 10 Seagull
   Deliver: Thank you
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
   Objectives:
   - type: 0
-    ObjectiveID: Enemy_1
-    Description: Kill 5 Coconuts
+    ObjectiveID: seagull
+    Description: Kill 5 Seagulls
     RequiredAmount: 5
     CurrentAmount: 0
   expReward: 3
-  goldReward: 3
+  goldReward: 1
   Starter: []
   reward: []

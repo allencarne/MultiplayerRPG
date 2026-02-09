@@ -18,7 +18,8 @@ MonoBehaviour:
   Instructions: Hello, we need feathers, Please collect 10. Feathers drop from Seagulls.
     You can find Seagulls East of town.
   Deliver: Thank you! This is very helpful.
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
   Objectives:
   - type: 1
     ObjectiveID: coll_feather
@@ -26,6 +27,6 @@ MonoBehaviour:
     RequiredAmount: 10
     CurrentAmount: 0
   expReward: 3
-  goldReward: 3
+  goldReward: 1
   Starter: []
   reward: []

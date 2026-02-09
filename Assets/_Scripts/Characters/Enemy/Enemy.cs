@@ -119,6 +119,7 @@ public class Enemy : NetworkBehaviour
 
     void Death(NetworkObject attackerID)
     {
+        if (!IsServer) return;
         if (IsDummy) return;
 
         Transform attackerPosition = attackerID.GetComponent<Transform>();
