@@ -5,6 +5,7 @@ public class PrayStatue : MonoBehaviour, IInteractable
 {
     [SerializeField] GetPlayerReference getPlayer;
 
+    [SerializeField] GameObject sparkleParticle;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] Material startMat;
     [SerializeField] Material endMat;
@@ -50,6 +51,7 @@ public class PrayStatue : MonoBehaviour, IInteractable
         {
             sprite.material = endMat;
             miniMapIcon.color = Color.white;
+            sparkleParticle.SetActive(false);
         }
         else
         {
@@ -73,6 +75,7 @@ public class PrayStatue : MonoBehaviour, IInteractable
 
         sprite.material = endMat;
         miniMapIcon.color = Color.white;
+        sparkleParticle.SetActive(false);
         stats.IncreaseAttribuePoints();
 
         PlayerQuest quest = player.GetComponentInParent<PlayerQuest>();
