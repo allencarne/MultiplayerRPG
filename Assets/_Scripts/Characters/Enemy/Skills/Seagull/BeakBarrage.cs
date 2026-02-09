@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class BeakBarrage : EnemySkill
 {
+    Coroutine attack;
+
     public override void StartSkill(EnemyStateMachine owner)
     {
         InitializeAbility(skillType, owner);
@@ -15,6 +17,20 @@ public class BeakBarrage : EnemySkill
 
         ChangeState(State.Cast, CastTime);
         CastState(owner);
+    }
+
+    public override void UpdateSkill(EnemyStateMachine owner)
+    {
+        base.UpdateSkill(owner);
+
+        if (owner.enemy.stats.isDead)
+        {
+            if (attack != null)
+            {
+                StopCoroutine(attack);
+                attack = null;
+            }
+        }
     }
 
     public override void CastState(EnemyStateMachine owner)
@@ -30,11 +46,9 @@ public class BeakBarrage : EnemySkill
     public override void ImpactState(EnemyStateMachine owner)
     {
         owner.Buffs.immoveable.StartImmovable(ImpactTime);
-        //owner.Buffs.phase.StartPhase(ImpactTime);
-        //owner.Buffs.protection.StartProtection(2, 5);
 
         Animate(owner, skillType, State.Impact);
-        StartCoroutine(AttackPattern(owner));
+        attack = StartCoroutine(AttackPattern(owner));
     }
 
     IEnumerator AttackPattern(EnemyStateMachine owner)
@@ -53,6 +67,7 @@ public class BeakBarrage : EnemySkill
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
+        attack = null;
         Animate(owner, skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(RecoveryTime);
     }
