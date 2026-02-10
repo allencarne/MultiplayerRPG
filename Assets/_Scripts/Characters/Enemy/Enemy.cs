@@ -7,10 +7,10 @@ public class Enemy : NetworkBehaviour
     [Header("Variables")]
     public string Enemy_ID;
     public string Enemy_Name;
+    [SerializeField] float startingHealth;
     public int Enemy_Level;
     public float expToGive;
     public float TotalPatience;
-    [SerializeField] float startingHealth;
 
     [Header("Components")]
     [HideInInspector] public EnemySpawner EnemySpawnerReference;

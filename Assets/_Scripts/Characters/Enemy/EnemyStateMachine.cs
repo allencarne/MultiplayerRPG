@@ -37,12 +37,14 @@ public class EnemyStateMachine : NetworkBehaviour
     public Vector2 WanderPosition { get; set; }
     public LayerMask obstacleLayerMask;
 
-    [Header("Radius")]
+    [Header("Enemy Radius")]
     [SerializeField] float wanderRadius; public float WanderRadius => wanderRadius;
+    [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
+
+    [Header("Attack Radius")]
     [SerializeField] float basicRadius; public float BasicRadius => basicRadius;
     [SerializeField] float specialRadius; public float SpecialRadius => specialRadius;
     [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
-    [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
 
     [Header("Bools")]
     public bool IsAttacking = false;

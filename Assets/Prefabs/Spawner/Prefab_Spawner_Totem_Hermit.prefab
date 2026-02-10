@@ -765,12 +765,24 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
+      propertyPath: collectable
+      value: 
+      objectReference: {fileID: 11400000, guid: f8d2cc8af0d003f4089175c91831d3e8, type: 2}
+    - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
+      propertyPath: MaxExpReward
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: MaxCoinReward
-      value: 2
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: rewards.Array.size
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
+      propertyPath: MaxCollectableReward
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: 'rewards.Array.data[0]'
@@ -803,11 +815,11 @@ PrefabInstance:
     - target: {fileID: 6256953657211280733, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: BossPrefab
       value: 
-      objectReference: {fileID: 3418841152167691189, guid: 76d425ae0536a4d46a2a4fe27b479c4f, type: 3}
+      objectReference: {fileID: 8260356855295133037, guid: cb9b3a0d9ba5a834e9cc082376ad7f6e, type: 3}
     - target: {fileID: 6256953657211280733, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: EnemyPrefab
       value: 
-      objectReference: {fileID: 8260356855295133037, guid: ba597ef2b3aada74f8bf55e7de961d75, type: 3}
+      objectReference: {fileID: 8260356855295133037, guid: 5cb626b2bb9e1be4e9bd76aed20dde34, type: 3}
     - target: {fileID: 6256953657211280733, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: SpawnPoints.Array.size
       value: 9

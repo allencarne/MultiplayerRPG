@@ -34,6 +34,7 @@ public class DamageOnTrigger : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!IsServer) return;
+        if (attacker == null) return;
 
         if (collision.CompareTag("Player") && IgnorePlayer) return;
         if (collision.CompareTag("Enemy") && IgnoreEnemy) return;

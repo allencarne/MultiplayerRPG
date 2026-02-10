@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1041965830086014714, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: CastTime
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1041965830086014714, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: slideForce
@@ -85,16 +85,20 @@ PrefabInstance:
       value: coconut_boss
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: expToGive
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: BaseDamage
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: Enemy_Name
-      value: Coconut Boss
+      value: Giant Coconut
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: Enemy_Level
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: CurrentDamage
@@ -102,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: startingHealth
-      value: 50
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1854074680622709535, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: StartingMaxHealth
@@ -110,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2267550065575331195, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: CastTime
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2267550065575331195, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: SkillDamage
@@ -118,7 +122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732233623514559249, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: basicRadius
-      value: 2.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3732233623514559249, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: specialRadius
@@ -146,7 +150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5832839822068086839, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: BaseDamage
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7043289069855478923, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: Speed
@@ -178,7 +182,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935686421332968070, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
       propertyPath: CastTime
-      value: 0.8
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935686421332968070, guid: a60f7d039957c8243944bfecc2228a55, type: 3}
+      propertyPath: SkillRange
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -945,12 +945,24 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
+      propertyPath: collectable
+      value: 
+      objectReference: {fileID: 11400000, guid: f8d2cc8af0d003f4089175c91831d3e8, type: 2}
+    - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
+      propertyPath: MaxExpReward
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: MaxCoinReward
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: rewards.Array.size
-      value: 4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
+      propertyPath: MaxCollectableReward
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5626640472344949380, guid: 2f8c9751c25f8164ab5293ed80ce78f6, type: 3}
       propertyPath: 'rewards.Array.data[0]'
