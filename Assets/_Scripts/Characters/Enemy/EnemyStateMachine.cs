@@ -251,6 +251,21 @@ public class EnemyStateMachine : NetworkBehaviour
 
     public void DespawnEnemy()
     {
+        if (!IsServer) return;
+
+        NetworkObject netObj = GetComponent<NetworkObject>();
+        if (netObj == null)
+        {
+            Debug.LogError($"[{gameObject.name}] NetworkObject is null!");
+            return;
+        }
+
+        if (!netObj.IsSpawned)
+        {
+            Debug.LogWarning($"[{gameObject.name}] Already despawned!");
+            return;
+        }
+
         GetComponent<NetworkObject>().Despawn();
     }
 
