@@ -1,16 +1,44 @@
 using UnityEngine;
 
-public class HogWild : MonoBehaviour
+public class HogWild : EnemySkill
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void StartSkill(EnemyStateMachine owner)
     {
-        
+        InitializeAbility(skillType, owner);
+
+        // Basic
+        ModifiedCastTime = CastTime / owner.enemy.stats.TotalAS;
+
+        // Aim
+        AimDirection = (owner.Target.position - transform.position).normalized;
+        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        AimRotation = Quaternion.Euler(0, 0, angle);
+        AimOffset = AimDirection.normalized * SkillRange;
+
+        ChangeState(State.Cast, ModifiedCastTime);
+        CastState(owner);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void CastState(EnemyStateMachine owner)
     {
-        
+        Animate(owner, skillType, State.Cast);
+        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
+
+        owner.enemy.CastBar.StartCast(ModifiedCastTime);
+    }
+
+    public override void ImpactState(EnemyStateMachine owner)
+    {
+        Animate(owner, skillType, State.Impact);
+
+        owner.Buffs.might.StartMight(2,10);
+        owner.Buffs.haste.StartHaste(6,10);
+    }
+
+    public override void RecoveryState(EnemyStateMachine owner)
+    {
+        Animate(owner, skillType, State.Recovery);
+        owner.enemy.CastBar.StartRecovery(RecoveryTime);
     }
 }
