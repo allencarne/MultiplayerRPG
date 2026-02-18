@@ -18,6 +18,8 @@ public class PlayerQuest : MonoBehaviour
 
     public QuestState GetQuestStateForNpc(NPC npc, NPCQuest npcQuest)
     {
+        QuestState highestState = QuestState.None;
+
         foreach (QuestProgress progress in activeQuests)
         {
             if (progress.quest.HasTalkObjective() && progress.quest.GetReceiverID() == npc.Data.NPC_ID)
@@ -30,30 +32,32 @@ public class PlayerQuest : MonoBehaviour
 
             if (!npc.Data.Quests.Contains(progress.quest)) continue;
             if (progress.state == QuestState.ReadyToTurnIn) return QuestState.ReadyToTurnIn;
-            if (progress.state == QuestState.InProgress) return QuestState.InProgress;
+            if (progress.state == QuestState.InProgress) highestState = QuestState.InProgress;
         }
 
         if (npc.Data.Quests == null || npc.Data.Quests.Count == 0) return QuestState.None;
 
-        // Find the first quest that isn't completed
-        Quest nextQuest = null;
         foreach (Quest quest in npc.Data.Quests)
         {
             QuestProgress progress = activeQuests.Find(q => q.quest == quest);
-            if (progress == null || progress.state != QuestState.Completed)
+            if (progress != null && (progress.state == QuestState.InProgress || progress.state == QuestState.Completed)) continue;
+            if (progress != null) continue;
+
+            if (stats.PlayerLevel.Value < quest.LevelRequirment)
             {
-                nextQuest = quest;
-                break;
+                if (highestState == QuestState.None) highestState = QuestState.Unavailable;
+                continue;
             }
+            if (!npcQuest.HasMetQuestRequirements(this, quest))
+            {
+                if (highestState == QuestState.None) highestState = QuestState.Unavailable;
+                continue;
+            }
+
+            return QuestState.Available;
         }
 
-        if (nextQuest == null) return QuestState.None;
-
-        // Check if the next quest meets requirements
-        if (stats.PlayerLevel.Value < nextQuest.LevelRequirment) return QuestState.Unavailable;
-        if (!npcQuest.HasMetQuestRequirements(this, nextQuest)) return QuestState.Unavailable;
-
-        return QuestState.Available;
+        return highestState;
     }
 
     public void AcceptQuest(Quest quest)
