@@ -162,7 +162,7 @@ public class PlayerQuest : MonoBehaviour
     public void TurnInQuest(Quest quest)
     {
         // Check for "Complete Quest" Quests
-        UpdateObjective(ObjectiveType.Complete, "Quest24", 1);
+        UpdateObjective(ObjectiveType.Complete, quest.QuestID, 1);
 
         QuestProgress progress = activeQuests.Find(q => q.quest == quest);
         if (progress == null || progress.state != QuestState.ReadyToTurnIn) return;
