@@ -10,7 +10,7 @@ public class UIZoom : MonoBehaviour
     string panelId;
     bool isMobile;
 
-    private void Start()
+    private void Awake()
     {
         panelId = gameObject.name;
         isMobile = Application.isMobilePlatform;
@@ -36,6 +36,11 @@ public class UIZoom : MonoBehaviour
         panelScale += Vector3.one * scaleStep;
         panelScale = ClampScale(panelScale);
         uiPanel.localScale = panelScale;
+
+        // Keep bounce animation in sync
+        UIBounceAnimation bounce = uiPanel.GetComponent<UIBounceAnimation>();
+        if (bounce != null) bounce.SetTargetScale(panelScale);
+
         SaveScale();
     }
 
@@ -44,6 +49,11 @@ public class UIZoom : MonoBehaviour
         panelScale -= Vector3.one * scaleStep;
         panelScale = ClampScale(panelScale);
         uiPanel.localScale = panelScale;
+
+        // Keep bounce animation in sync
+        UIBounceAnimation bounce = uiPanel.GetComponent<UIBounceAnimation>();
+        if (bounce != null) bounce.SetTargetScale(panelScale);
+
         SaveScale();
     }
 

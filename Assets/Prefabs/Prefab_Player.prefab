@@ -11697,6 +11697,7 @@ GameObject:
   - component: {fileID: 4910691885704601772}
   - component: {fileID: 8955394106194103569}
   - component: {fileID: 3761331875985291559}
+  - component: {fileID: 4344452407209405179}
   m_Layer: 5
   m_Name: Map Panel
   m_TagString: BlockInputUI
@@ -11793,6 +11794,43 @@ MonoBehaviour:
   stats: {fileID: 2477393547595159198}
   statueProgress: {fileID: 8761604807273754678}
   chestProgress: {fileID: 1365687197894470659}
+--- !u!114 &4344452407209405179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338428565520716670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1343341015143118681
 GameObject:
   m_ObjectHideFlags: 0
@@ -22311,6 +22349,7 @@ GameObject:
   - component: {fileID: 2516582129616135406}
   - component: {fileID: 1253802736240644455}
   - component: {fileID: 941110471386987750}
+  - component: {fileID: 2947236559399821785}
   m_Layer: 5
   m_Name: Inventory Panel
   m_TagString: BlockInputUI
@@ -22392,6 +22431,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIZoom
   uiPanel: {fileID: 1889274635943740588}
+--- !u!114 &2947236559399821785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710402741281439933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2730837978702794786
 GameObject:
   m_ObjectHideFlags: 0
@@ -23872,6 +23948,7 @@ GameObject:
   - component: {fileID: 2789411087481132271}
   - component: {fileID: 6289532942074035048}
   - component: {fileID: 7231973118244374117}
+  - component: {fileID: 5128797403199307711}
   m_Layer: 5
   m_Name: Quest Log Panel
   m_TagString: BlockInputUI
@@ -23952,6 +24029,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIZoom
   uiPanel: {fileID: 7789616266516087163}
+--- !u!114 &5128797403199307711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897232282352503098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2902787721897677385
 GameObject:
   m_ObjectHideFlags: 0
@@ -24730,7 +24844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -31460,6 +31574,7 @@ GameObject:
   - component: {fileID: 4406291574557861582}
   - component: {fileID: 1227188723809905301}
   - component: {fileID: 3746601590550515269}
+  - component: {fileID: 1156126034505402718}
   m_Layer: 5
   m_Name: Skill Panel
   m_TagString: BlockInputUI
@@ -31540,6 +31655,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIZoom
   uiPanel: {fileID: 6343043685131875728}
+--- !u!114 &1156126034505402718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3759623618371899525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3775980395716232011
 GameObject:
   m_ObjectHideFlags: 0
@@ -37463,6 +37615,7 @@ GameObject:
   - component: {fileID: 5076130802978913078}
   - component: {fileID: 3192845183727909431}
   - component: {fileID: 7420004280626087479}
+  - component: {fileID: 4299336242365162885}
   m_Layer: 5
   m_Name: Attribute Panel
   m_TagString: BlockInputUI
@@ -37573,6 +37726,43 @@ MonoBehaviour:
   totalSpeed: {fileID: 6466495554653643902}
   enduranceRecharge: {fileID: 4100379822892718973}
   totalArmor: {fileID: 6468974741238823026}
+--- !u!114 &4299336242365162885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4474952441136511288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4477180190288283484
 GameObject:
   m_ObjectHideFlags: 0
@@ -38942,6 +39132,7 @@ GameObject:
   - component: {fileID: 3685163589590153310}
   - component: {fileID: 6174343634235728616}
   - component: {fileID: 3767872230113724854}
+  - component: {fileID: 8022146039626169037}
   m_Layer: 5
   m_Name: Vendor Panel
   m_TagString: BlockInputUI
@@ -39039,6 +39230,43 @@ MonoBehaviour:
   Item_Prefab: {fileID: 3849305696696717786, guid: b45e1bdc0868e2941ad6aa5e0f79c626, type: 3}
   parent: {fileID: 7704681875088730012}
   ConfirmPanel: {fileID: 8499467916067268251}
+--- !u!114 &8022146039626169037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635469901152516042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4635998491258846844
 GameObject:
   m_ObjectHideFlags: 0
@@ -42199,6 +42427,7 @@ GameObject:
   - component: {fileID: 4941912632191269855}
   - component: {fileID: 2741064015077074988}
   - component: {fileID: 5208837189891262195}
+  - component: {fileID: 6651443264276194984}
   m_Layer: 5
   m_Name: Quest Info Panel
   m_TagString: BlockInputUI
@@ -42303,6 +42532,43 @@ MonoBehaviour:
   acceptButton: {fileID: 6312176343541463332}
   declineButton: {fileID: 8709630819177457790}
   turnInButton: {fileID: 6934822799615266759}
+--- !u!114 &6651443264276194984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5173483628460252864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5187430637045297638
 GameObject:
   m_ObjectHideFlags: 0
@@ -58365,6 +58631,7 @@ GameObject:
   - component: {fileID: 6089202607589709750}
   - component: {fileID: 6423313342117667562}
   - component: {fileID: 5986727491482036678}
+  - component: {fileID: 3879232840591540089}
   m_Layer: 5
   m_Name: Settings Panel
   m_TagString: BlockInputUI
@@ -58444,6 +58711,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIZoom
   uiPanel: {fileID: 4355675433518691262}
+--- !u!114 &3879232840591540089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7062124951171134383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7081173355007577312
 GameObject:
   m_ObjectHideFlags: 0
@@ -61013,6 +61317,7 @@ GameObject:
   - component: {fileID: 1284600139966272595}
   - component: {fileID: 8778042865515782792}
   - component: {fileID: 8577891925697777274}
+  - component: {fileID: 4009745328250721565}
   m_Layer: 5
   m_Name: Dialogue Panel
   m_TagString: BlockInputUI
@@ -61092,6 +61397,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIZoom
   uiPanel: {fileID: 5951727714234934412}
+--- !u!114 &4009745328250721565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7354151868377779039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a341ce408e9c74ba641107fcfdf21b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBounceAnimation
+  duration: 0.3
+  bounceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7356083777469311293
 GameObject:
   m_ObjectHideFlags: 0

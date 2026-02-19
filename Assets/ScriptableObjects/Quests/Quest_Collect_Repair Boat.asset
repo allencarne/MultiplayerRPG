@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Complete_Repair Ship
+  m_Name: Quest_Collect_Repair Boat
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest23
-  QuestName: Help Jensen
+  QuestID: Quest24
+  QuestName: Repair Ship
   LevelRequirment: 0
-  Instructions: My buddy Jensen is having trouble, can you go check on him and see
-    what is wrong?
+  Instructions: Hello, My ship is broken. I need a few things to repair it. Can you
+    get those for me?
   Deliver: Thank you!
-  RequiredQuests:
-  - {fileID: 11400000, guid: 48f619bcf427f4f488d5ddca317c816c, type: 2}
+  RequiredQuests: []
   Objectives:
-  - type: 4
-    ObjectiveID: Quest24
-    Description: Complete Quest "Rapair Ship"
+  - type: 1
+    ObjectiveID: coll_feather
+    Description: Collect 1 Feathers
     RequiredAmount: 1
     CurrentAmount: 0
-  expReward: 1
-  goldReward: 0
+  expReward: 3
+  goldReward: 1
   Starter: []
   reward: []
