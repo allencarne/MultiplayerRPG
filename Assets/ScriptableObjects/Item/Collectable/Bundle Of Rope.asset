@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2f745b4e39f1a4386612f9d1b53222, type: 3}
+  m_Name: Bundle Of Rope
+  m_EditorClassIdentifier: Assembly-CSharp::Collectable
+  ITEM_ID: coll_bundle_of_rope
+  Prefab: {fileID: 2079420930789189798, guid: 6b470ce501dfb354f8ae243167bdf71e, type: 3}
+  Icon: {fileID: 21300000, guid: a6e0f542eafcbca429015dec7f9cb735, type: 3}
+  ItemRarity: 0
+  SellValue: 1
+  Cost: 15
+  Description: A Bundle of Rope
+  DropChance: 100
+  IsStackable: 0
