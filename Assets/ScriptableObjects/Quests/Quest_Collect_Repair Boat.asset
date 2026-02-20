@@ -13,16 +13,32 @@ MonoBehaviour:
   m_Name: Quest_Collect_Repair Boat
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest24
-  QuestName: Repair Ship
+  QuestName: Repair Boat
   LevelRequirment: 0
-  Instructions: Hello, My ship is broken. I need a few things to repair it. Can you
-    get those for me?
+  Instructions: 'Hello, My boat is broken. I need a few things to repair it. Can
+    you get those for me?
+
+    Driftwood can be found along the shore. Resin can
+    be found from completing nearby Events. Bundle of Rope can be Purchased in the
+    main town.'
   Deliver: Thank you!
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
+  - {fileID: 11400000, guid: 48f619bcf427f4f488d5ddca317c816c, type: 2}
   Objectives:
   - type: 1
-    ObjectiveID: coll_feather
-    Description: Collect 1 Feathers
+    ObjectiveID: coll_drift_wood
+    Description: Collect 10 Drift Wood
+    RequiredAmount: 10
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_resin
+    Description: Collect 5 Resin
+    RequiredAmount: 5
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_bundle_of_rope
+    Description: Collect 1 Bundle of Rope
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 3

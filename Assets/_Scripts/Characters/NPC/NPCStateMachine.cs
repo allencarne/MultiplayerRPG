@@ -224,10 +224,10 @@ public class NPCStateMachine : NetworkBehaviour
         Vector2 direction = (targetPos - currentPos).normalized;
         Vector2 bestDirection = Vector2.zero;
 
-        float distance = .5f;
-        float castOffset = 0.3f;
+        float distance = 2f;
+        float castOffset = 0f;
         int rayCount = 21;
-        float coneSpread = 225f;
+        float coneSpread = 225;
 
         // Straight ray
         Vector2 castOrigin = currentPos + direction * castOffset;

@@ -18,7 +18,8 @@ MonoBehaviour:
   Instructions: Hello, we need Pig Tails, Please collect 10. Pig Tails drop from
     Pigs. You can find Pigs South of here.
   Deliver: Thank you! This is very helpful.
-  RequiredQuests: []
+  RequiredQuests:
+  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
   Objectives:
   - type: 1
     ObjectiveID: coll_pig_tail
