@@ -146,6 +146,11 @@ public class NPC : NetworkBehaviour, IInteractable
         PlayerQuest playerQuest = player.GetComponentInParent<PlayerQuest>();
         Quest quest = npcQuest?.GetAvailableQuest(playerQuest);
 
+        if (playerQuest != null)
+        {
+            playerQuest.UpdateObjective(ObjectiveType.Complete, Data.NPC_ID, 1);
+        }
+
         if (quest != null)
         {
             // Quest

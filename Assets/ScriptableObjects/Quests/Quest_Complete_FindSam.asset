@@ -10,24 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Sam
+  m_Name: Quest_Complete_FindSam
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest25
   QuestName: Find Sam
   LevelRequirment: 0
   Instructions: I lost Sam, I don't know where he is. Can you help me find him? He
     might be south from here.
-  Deliver: 'sdfksdfjsdkfjsd
-
-    fdskfjsldkfs
-
-    df
-
-    sdfsdfjsdf'
+  Deliver: Thank you! This is very helpful.
   RequiredQuests:
   - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
   Objectives:
-  - type: 2
+  - type: 4
     ObjectiveID: Quest_Sam
     Description: Find Sam
     RequiredAmount: 1
