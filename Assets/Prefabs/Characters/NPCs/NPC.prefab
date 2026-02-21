@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6548757134201201997}
   - component: {fileID: 2694619765784629286}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Immune
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9049458478827424549}
   - component: {fileID: 7756951678100911160}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_Incapacitate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 3652510914053340914}
   - component: {fileID: 5571914206174223953}
   - component: {fileID: 2322107646290455701}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8259295812611207585}
   - component: {fileID: 2230392837678422631}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Protection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 927537205202520496}
   - component: {fileID: 5845649023493927456}
   - component: {fileID: 4678726492327112400}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,7 +350,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2505758439760744159}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 5494851809922920127}
   - component: {fileID: 3086152856077363916}
   - component: {fileID: 2600927246846603366}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text_Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 363348553802875870}
   - component: {fileID: 5364981764065818715}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Phase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3369190569222170235}
   - component: {fileID: 5146136138087064544}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff_Bleed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -754,7 +754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4354770763499663829}
   - component: {fileID: 280722004867670086}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff_Weakness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -839,7 +839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3885566271818057079}
   - component: {fileID: 8975984412371179804}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Regeneration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -893,7 +893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8383391349651820582}
   - component: {fileID: 3624312820601236351}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_Silence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,7 +945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1795433018925676512}
   - component: {fileID: 4395231976278378374}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_Immobilize
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1061,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6888746980857083032}
+  m_Father: {fileID: 4046972822653324019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1989672119515699742
 SpriteRenderer:
@@ -1107,8 +1107,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -890941791
-  m_SortingLayer: -3
+  m_SortingLayerID: 520824563
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 1, g: 0.9751704, b: 0.2971698, a: 1}
@@ -1132,7 +1132,7 @@ GameObject:
   - component: {fileID: 3342880280822156181}
   - component: {fileID: 4159556964112890427}
   - component: {fileID: 5243379851405679647}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PatienceBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1340,7 +1340,7 @@ GameObject:
   m_Component:
   - component: {fileID: 638598615726672040}
   - component: {fileID: 267476235522507233}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff_Vulnerability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1482,7 +1482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1010793094531120679}
   - component: {fileID: 6257445900315457185}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_Stun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1538,7 +1538,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7049130724075155703}
   - component: {fileID: 6947868132366318720}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Immovable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1590,7 +1590,7 @@ GameObject:
   m_Component:
   - component: {fileID: 231811949771290982}
   - component: {fileID: 6337960835322944255}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_Pull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1691,7 +1691,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971569693706316173}
   - component: {fileID: 997002833693817929}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_KnockUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1753,7 +1753,7 @@ GameObject:
   - component: {fileID: 7073877763795675482}
   - component: {fileID: 421974525453593287}
   - component: {fileID: 7227378637623894782}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1870,7 +1870,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8606217809292854796}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buffs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1915,7 +1915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7852649611464298354}
   - component: {fileID: 5069665478107543014}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1974,7 +1974,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 650969734403615119}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StatusEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2013,7 +2013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9092088766388433590}
   - component: {fileID: 3572790814088423517}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Haste
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2066,7 +2066,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5260197921299725748}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: HighRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2102,7 +2102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3023620093211948451}
   - component: {fileID: 5421379036071635315}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: CC_Interrupt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2157,7 +2157,7 @@ GameObject:
   - component: {fileID: 2417719184495484797}
   - component: {fileID: 5480682102626345265}
   - component: {fileID: 4086757926064226918}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2427,7 +2427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9081756830655031048}
   - component: {fileID: 4595054840192329172}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_KnockBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2484,7 +2484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2991224112636547874}
   - component: {fileID: 3242486336029305453}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CC_Disarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2565,7 +2565,6 @@ Transform:
   - {fileID: 5069501753789497478}
   - {fileID: 2331417871120937631}
   - {fileID: 5123193283223242721}
-  - {fileID: 7107170319119846315}
   m_Father: {fileID: 4046972822653324019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &7447691256168071309
@@ -2876,7 +2875,7 @@ GameObject:
   - component: {fileID: 8902887826612542213}
   - component: {fileID: 2552835266526356357}
   - component: {fileID: 3437216522187718455}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CastBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3122,7 +3121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1474956278504889842}
   - component: {fileID: 2373548673805613631}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff_Impede
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3175,7 +3174,7 @@ GameObject:
   - component: {fileID: 571202428297823152}
   - component: {fileID: 5038487140706300562}
   - component: {fileID: 7971558925918986556}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: QuestIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3378,7 +3377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1575133891210499408}
   - component: {fileID: 8654056754009939617}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff_Slow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3430,7 +3429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1279263182804194801}
   - component: {fileID: 2942181595308185842}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Alacrity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3614,6 +3613,7 @@ Transform:
   - {fileID: 8057580396639689440}
   - {fileID: 5014318636546170884}
   - {fileID: 6370017162273728434}
+  - {fileID: 7107170319119846315}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &5667196409634766878
@@ -3822,6 +3822,7 @@ MonoBehaviour:
     m_InternalValue: 0
   net_TotalHP:
     m_InternalValue: 0
+  isDead: 0
   BaseArmor: 0
   BaseDamage: 0
   BaseAS: 0
@@ -3868,7 +3869,6 @@ MonoBehaviour:
   npcDialogue: {fileID: 7778428804253406039}
   PatienceBar: {fileID: 5571914206174223953}
   CastBar: {fileID: 3652510914053340914}
-  IsDead: 0
   InCombat: 0
   IsRegen: 0
   NPCHeadSprite: {fileID: 7610224285271098685}
@@ -3956,7 +3956,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npc: {fileID: 4856348772391820444}
-  QuestIndex: 0
 --- !u!114 &2030219489607158631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4108,7 +4107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8950761246537589813}
   - component: {fileID: 3867559211630701524}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Might
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4163,7 +4162,7 @@ GameObject:
   - component: {fileID: 1288456479784626189}
   - component: {fileID: 744476440821736453}
   - component: {fileID: 8866822082436301912}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text_Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4388,7 +4387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6609861775778487684}
   - component: {fileID: 3832168028774553509}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4576,7 +4575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1307576677094723874}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: LowRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4644,7 +4643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8732290578675789897}
   - component: {fileID: 293205125217867439}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuff_Exhaust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4696,7 +4695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2954756930505422432}
   - component: {fileID: 526519191180926239}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buff_Swiftness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4880,7 +4879,7 @@ GameObject:
   - component: {fileID: 4922609371449070338}
   - component: {fileID: 4633287849846640019}
   - component: {fileID: 1213457383435907860}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Back FIll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4953,7 +4952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3408060810418121356}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Debuffs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
