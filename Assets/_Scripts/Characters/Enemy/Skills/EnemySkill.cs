@@ -139,13 +139,18 @@ public abstract class EnemySkill : NetworkBehaviour
         if (isStaggered)
         {
             owner.SetState(EnemyStateMachine.State.Hurt);
-
+        }
+        else if (owner.Target == null)
+        {
+            owner.enemy.PatienceBar.Patience.Value = 0;
+            owner.IsPlayerInRange = false;
+            owner.Target = null;
+            owner.SetState(EnemyStateMachine.State.Reset);
         }
         else
         {
             owner.SetState(EnemyStateMachine.State.Idle);
         }
-
     }
 
     protected void InitializeAbility(SkillType skilltype, EnemyStateMachine owner)

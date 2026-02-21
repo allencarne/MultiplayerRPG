@@ -209,8 +209,7 @@ public class Enemy : NetworkBehaviour
             stateMachine.Target = attackerID.transform;
             stateMachine.IsPlayerInRange = true;
         }
-
-        if (stateMachine.Target != null && stateMachine.SecondTarget == null)
+        else if (stateMachine.SecondTarget == null && stateMachine.Target != attackerID.transform)
         {
             stateMachine.SecondTarget = attackerID.transform;
             stateMachine.IsPlayerInRange = true;

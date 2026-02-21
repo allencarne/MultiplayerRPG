@@ -7,7 +7,6 @@ public class EnemyResetState : EnemyState
         if (!owner.IsServer) return;
 
         owner.isResetting = true;
-
         owner.EnemyAnimator.Play("Wander");
         owner.enemy.PatienceBar.Patience.Value = 0;
 

@@ -218,10 +218,7 @@ public class EnemyStateMachine : NetworkBehaviour
                 Target = other.transform;
                 IsPlayerInRange = true;
             }
-
-            if (Target == other.transform) return;
-
-            if (SecondTarget == null && Target != null)
+            else if (SecondTarget == null && Target != other.transform)
             {
                 SecondTarget = other.transform;
             }
