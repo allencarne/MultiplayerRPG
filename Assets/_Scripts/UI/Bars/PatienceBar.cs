@@ -9,6 +9,11 @@ public class PatienceBar : NetworkBehaviour
     [SerializeField] Enemy enemy;
     [SerializeField] NPC npc;
 
+    [Header("Colors")]
+    Color lowPatienceColor = Color.yellow;
+    Color highPatienceColor = Color.orangeRed;
+    Color resettingColor = Color.red;
+
     public override void OnNetworkSpawn()
     {
         Patience.OnValueChanged += OnPatienceChanged;
@@ -27,16 +32,31 @@ public class PatienceBar : NetworkBehaviour
 
     public void UpdatePatienceBar(float patience)
     {
+        float totalPatience = 0f;
+
         if (enemy != null)
         {
-            float fillAmount = Mathf.Clamp01(patience / enemy.TotalPatience);
-            patienceBarFill.fillAmount = fillAmount;
+            totalPatience = enemy.TotalPatience;
         }
 
         if (npc != null)
         {
-            float fillAmount = Mathf.Clamp01(patience / npc.Data.TotalPatience);
-            patienceBarFill.fillAmount = fillAmount;
+            totalPatience = npc.Data.TotalPatience;
+        }
+
+        float fillAmount = Mathf.Clamp01(patience / totalPatience);
+        patienceBarFill.fillAmount = fillAmount;
+
+        // If patience is at max (1.0), we're resetting - show reset color
+        // Otherwise show gradient from yellow to red
+        if (fillAmount >= 0.99f) // Use 0.99 to account for floating point precision
+        {
+            patienceBarFill.color = resettingColor;
+        }
+        else
+        {
+            // Gradient from yellow (0%) to red (100%)
+            patienceBarFill.color = Color.Lerp(lowPatienceColor, highPatienceColor, fillAmount);
         }
     }
 }

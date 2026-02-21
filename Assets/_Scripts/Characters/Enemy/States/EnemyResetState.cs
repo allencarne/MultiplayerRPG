@@ -8,7 +8,7 @@ public class EnemyResetState : EnemyState
 
         owner.isResetting = true;
         owner.EnemyAnimator.Play("Wander");
-        owner.enemy.PatienceBar.Patience.Value = 0;
+        owner.enemy.PatienceBar.Patience.Value = owner.enemy.TotalPatience;
 
         if (owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_TotalHP.Value)
         {
@@ -24,6 +24,7 @@ public class EnemyResetState : EnemyState
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.5f)
         {
             owner.isResetting = false;
+            owner.enemy.PatienceBar.Patience.Value = 0;
             owner.EnemyRB.linearVelocity = Vector2.zero;
             owner.SetState(EnemyStateMachine.State.Idle);
         }

@@ -12,7 +12,7 @@ public class NPCResetState : NPCState
         owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
         owner.SwordAnimator.Play("Run");
 
-        owner.npc.PatienceBar.Patience.Value = 0;
+        owner.npc.PatienceBar.Patience.Value = owner.npc.Data.TotalPatience;
 
         if (owner.npc.stats.net_CurrentHP.Value < owner.npc.stats.net_TotalHP.Value)
         {
@@ -26,7 +26,7 @@ public class NPCResetState : NPCState
         if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
         {
             owner.isResetting = false;
-
+            owner.npc.PatienceBar.Patience.Value = 0;
             owner.HeadAnimator.SetFloat("Vertical", -1);
             owner.BodyAnimator.SetFloat("Vertical", -1);
 
