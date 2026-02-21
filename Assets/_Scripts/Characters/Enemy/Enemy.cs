@@ -84,6 +84,8 @@ public class Enemy : NetworkBehaviour
 
     void TakeDamage(float damage)
     {
+        if (stateMachine.isResetting) return;
+
         if (!IsRegen) return;
         IsRegen = false;
         stateMachine.Buffs.regeneration.StartRegen(-1, -1);
@@ -91,6 +93,8 @@ public class Enemy : NetworkBehaviour
 
     void DealDamage()
     {
+        if (stateMachine.isResetting) return;
+
         if (!IsRegen) return;
         IsRegen = false;
         stateMachine.Buffs.regeneration.StartRegen(-1, -1);
