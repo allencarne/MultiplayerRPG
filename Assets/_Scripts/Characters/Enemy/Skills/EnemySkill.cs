@@ -270,7 +270,7 @@ public abstract class EnemySkill : NetworkBehaviour
         {
             stunOnTrigger.attacker = attacker;
             stunOnTrigger.Duration = StunDuration;
-            stunOnTrigger.IgnoreNPC = true;
+            stunOnTrigger.IgnoreEnemy = true;
         }
 
         SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
