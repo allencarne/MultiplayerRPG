@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 722d8271219a7614a9bad9108700e150
+guid: 966a850f35e7a14488a41e37cc7bbb74
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 0.49206352, y: 0}
+    pivot: {x: 0.53333336, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 63
-      height: 64
-    spriteID: 99614ab302fc2d746ae2175cd8e9c0fd
+      width: 30
+      height: 32
+    spriteID: c0968599756a12a45bbdc64650ef2e73
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -150,17 +150,17 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: Frame_1
     originalName: 
-    pivot: {x: 0.2195122, y: -0.12280702}
+    pivot: {x: 0.42307693, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 75
-      y: 4
-      width: 41
-      height: 57
-    spriteID: c3c19eebb2a164a45a055a74a19c3633
+      x: 4
+      y: 44
+      width: 26
+      height: 32
+    spriteID: 3cf2dba3d3faed14da0629eaae7be71d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -168,20 +168,20 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 75, y: 4}
+    uvTransform: {x: 4, y: 44}
   - name: Frame_2
     originalName: 
-    pivot: {x: 0.30232558, y: -0.5609756}
+    pivot: {x: 0.35999998, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 75
-      y: 69
-      width: 43
-      height: 41
-    spriteID: 1d7b58ec88fe63741bbcbfb9538b4f07
+      x: 4
+      y: 84
+      width: 25
+      height: 32
+    spriteID: 0847897a6500e364896ba9e41ae5ac01
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -189,18 +189,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 75, y: 69}
+    uvTransform: {x: 4, y: 84}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 271702995
+      value0: 1327172293
       value1: 0
       value2: 0
       value3: 0
-    guid: 271702995
-    name: Skill_FrailSlash
+    guid: 0
+    name: Ase_Effect_FrailLunge
     layerFlags: 0
     layerType: 0
     blendMode: 0
@@ -209,49 +209,37 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
+        x: 0
         y: 0
-        width: 63
-        height: 64
-      spriteId: 99614ab302fc2d746ae2175cd8e9c0fd
+        width: 30
+        height: 32
+      spriteId: c0968599756a12a45bbdc64650ef2e73
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
-        x: 23
-        y: 7
-        width: 41
-        height: 57
-      spriteId: c3c19eebb2a164a45a055a74a19c3633
+        x: 5
+        y: 0
+        width: 26
+        height: 32
+      spriteId: 3cf2dba3d3faed14da0629eaae7be71d
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
-        x: 19
-        y: 23
-        width: 43
-        height: 41
-      spriteId: 1d7b58ec88fe63741bbcbfb9538b4f07
+        x: 7
+        y: 0
+        width: 25
+        height: 32
+      spriteId: 0847897a6500e364896ba9e41ae5ac01
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: Default
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 64}
-  previousTextureSize: {x: 128, y: 128}
+  canvasSize: {x: 32, y: 32}
+  previousTextureSize: {x: 64, y: 128}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 722d8271219a7614a9bad9108700e150
+guid: 4b82b5a231ec33849b0d6581b0b37045
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,9 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Frame_0
+  - name: Ase_Indicator_FrailLunge
     originalName: 
-    pivot: {x: 0.49206352, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 63
-      height: 64
-    spriteID: 99614ab302fc2d746ae2175cd8e9c0fd
+      width: 64
+      height: 32
+    spriteID: 01d50c04b835af349a7c4631d38f3944
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -148,110 +148,38 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: Frame_1
-    originalName: 
-    pivot: {x: 0.2195122, y: -0.12280702}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 75
-      y: 4
-      width: 41
-      height: 57
-    spriteID: c3c19eebb2a164a45a055a74a19c3633
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 75, y: 4}
-  - name: Frame_2
-    originalName: 
-    pivot: {x: 0.30232558, y: -0.5609756}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 75
-      y: 69
-      width: 43
-      height: 41
-    spriteID: 1d7b58ec88fe63741bbcbfb9538b4f07
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 75, y: 69}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 271702995
+      value0: 2463763807
       value1: 0
       value2: 0
       value3: 0
-    guid: 271702995
-    name: Skill_FrailSlash
+    guid: 0
+    name: Ase_Indicator_FrailLunge
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Frame_0
+    - name: Ase_Indicator_FrailLunge
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
+        x: 0
         y: 0
-        width: 63
-        height: 64
-      spriteId: 99614ab302fc2d746ae2175cd8e9c0fd
-    - name: Frame_1
-      frameIndex: 1
-      additiveSortOrder: 0
-      cellRect:
-        x: 23
-        y: 7
-        width: 41
-        height: 57
-      spriteId: c3c19eebb2a164a45a055a74a19c3633
-    - name: Frame_2
-      frameIndex: 2
-      additiveSortOrder: 0
-      cellRect:
-        x: 19
-        y: 23
-        width: 43
-        height: 41
-      spriteId: 1d7b58ec88fe63741bbcbfb9538b4f07
+        width: 64
+        height: 32
+      spriteId: 01d50c04b835af349a7c4631d38f3944
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
     parentIndex: -1
   tileSets: []
-  platformSettings:
-  - name: Default
-    overridden: 0
-    ignorePlatformSupport: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 64}
-  previousTextureSize: {x: 128, y: 128}
+  canvasSize: {x: 64, y: 32}
+  previousTextureSize: {x: 128, y: 64}

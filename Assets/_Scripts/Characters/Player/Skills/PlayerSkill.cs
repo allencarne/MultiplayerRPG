@@ -320,6 +320,9 @@ public abstract class PlayerSkill : NetworkBehaviour
             slow.IgnoreNPC = true;
         }
 
+        FollowTarget target = attackInstance.GetComponent<FollowTarget>();
+        if (target != null) target.Target = transform;
+
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
