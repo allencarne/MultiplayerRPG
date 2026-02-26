@@ -15,7 +15,7 @@ MonoBehaviour:
   QuestID: Quest1
   QuestName: Kill Seagull
   LevelRequirment: 0
-  Instructions: Hello, Please kill 10 Seagull
+  Instructions: Hello, Please kill 5 Seagull and collect 10 feathers
   Deliver: Thank you
   RequiredQuests:
   - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
@@ -24,6 +24,11 @@ MonoBehaviour:
     ObjectiveID: seagull
     Description: Kill 5 Seagulls
     RequiredAmount: 5
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_feather
+    Description: Collect 10 Feathers
+    RequiredAmount: 10
     CurrentAmount: 0
   expReward: 3
   goldReward: 1

@@ -15,15 +15,20 @@ MonoBehaviour:
   QuestID: Quest21
   QuestName: Kill Pigs
   LevelRequirment: 0
-  Instructions: Hello, Please kill 10 Pigs
+  Instructions: Hello, Please kill 10 Pigs and collect 15 pig tails
   Deliver: Thank you
   RequiredQuests:
   - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
   Objectives:
   - type: 0
     ObjectiveID: pig
-    Description: Kill 5 Pigs
-    RequiredAmount: 5
+    Description: Kill 10 Pigs
+    RequiredAmount: 10
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_pig_tail
+    Description: Collect 15 Pig Tails
+    RequiredAmount: 15
     CurrentAmount: 0
   expReward: 3
   goldReward: 1

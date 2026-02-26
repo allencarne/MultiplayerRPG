@@ -15,17 +15,23 @@ MonoBehaviour:
   QuestID: Quest3
   QuestName: Kill Hermits
   LevelRequirment: 0
-  Instructions: Hello, Please kill 5 Hermits
+  Instructions: Hello, Please kill 10 Hermits and collect 15 Hermit Shells
   Deliver: Thank you
   RequiredQuests:
   - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
   Objectives:
   - type: 0
     ObjectiveID: hermit
-    Description: Kill 5 Hermits
-    RequiredAmount: 5
+    Description: Kill 10 Hermits
+    RequiredAmount: 10
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_hermit_shell
+    Description: Collect 15 Hermit Shells
+    RequiredAmount: 15
     CurrentAmount: 0
   expReward: 3
   goldReward: 3
   Starter: []
-  reward: []
+  reward:
+  - {fileID: 11400000, guid: e1f324ac775035e4d8b7654270c17b25, type: 2}

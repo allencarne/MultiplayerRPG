@@ -13,22 +13,21 @@ MonoBehaviour:
   m_Name: Quest_Collect_Leafs
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest15
-  QuestName: Collect Leafs
+  QuestName: Collect Leaves
   LevelRequirment: 0
-  Instructions: Hello, we need leafs, Please collect 25. leafs drop killing enemies,
-    completing Totems, and opening chests. You can find Totems all over the place
-    and Check your map for Chest locations
+  Instructions: Hello, we need leaves, Please collect 25. Leaves drop from slaying
+    enemies, completing Totems, and opening chests. You can find Totems all over
+    the place and Check your map for Chest locations.
   Deliver: Thank you! This is very helpful.
   RequiredQuests:
-  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
+  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
   Objectives:
   - type: 1
     ObjectiveID: coll_leaf
-    Description: Collect 25 Leafs
+    Description: Collect 25 Leaves
     RequiredAmount: 25
     CurrentAmount: 0
   expReward: 3
   goldReward: 1
   Starter: []
-  reward:
-  - {fileID: 11400000, guid: e1f324ac775035e4d8b7654270c17b25, type: 2}
+  reward: []
