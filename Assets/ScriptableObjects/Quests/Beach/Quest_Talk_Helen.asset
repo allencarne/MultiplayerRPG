@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
+  m_Name: Quest_Talk_Helen
+  m_EditorClassIdentifier: Assembly-CSharp::Quest
+  QuestID: Quest29
+  QuestName: Talk to Helen
+  LevelRequirment: 0
+  Instructions: Tell Helen I'm okay, I'm not lost.
+  Deliver: Thank you very much!
+  RequiredQuests:
+  - {fileID: 11400000, guid: df1665662146e8546bc07e0078c18d18, type: 2}
+  Objectives:
+  - type: 2
+    ObjectiveID: Quest_Helen
+    Description: Talk to Helen
+    RequiredAmount: 1
+    CurrentAmount: 0
+  expReward: 1
+  goldReward: 0
+  Starter: []
+  reward: []
