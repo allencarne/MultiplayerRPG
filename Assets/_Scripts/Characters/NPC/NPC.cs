@@ -21,7 +21,7 @@ public class NPC : NetworkBehaviour, IInteractable
 
     [Header("Variables")]
     public string DisplayName => Data.NPCName;
-    Vector2 facingDirection = new Vector2(0, -1);
+    public NetworkVariable<Vector2> net_FacingDirection = new(new Vector2(0, -1),NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
     [Header("Combat")]
     public bool InCombat = false;
@@ -53,7 +53,12 @@ public class NPC : NetworkBehaviour, IInteractable
             stats.net_BaseAS.Value = Data.AttackSpeed;
             stats.net_BaseCDR.Value = Data.CoolDownRecution;
             stats.net_BaseArmor.Value = Data.Armor;
+
+            stateMachine.Initialize();
         }
+
+        ApplyFacingDirection(net_FacingDirection.Value);
+        net_FacingDirection.OnValueChanged += OnFacingDirectionChanged;
 
         stats.OnEnemyDamaged.AddListener(TargetAttacker);
         stats.OnDeath.AddListener(Death);
@@ -67,6 +72,8 @@ public class NPC : NetworkBehaviour, IInteractable
 
     public override void OnNetworkDespawn()
     {
+        net_FacingDirection.OnValueChanged -= OnFacingDirectionChanged;
+
         stats.OnEnemyDamaged.RemoveListener(TargetAttacker);
         stats.OnDeath.RemoveListener(Death);
 
@@ -92,11 +99,16 @@ public class NPC : NetworkBehaviour, IInteractable
         Material eyemat = EyeSprite.material;
         eyemat.SetColor("_NewColor", Custom.eyeColors[Data.eyeColorIndex]);
 
-        npcHead.SetEyes(facingDirection);
-        npcHead.SetHair(facingDirection);
-        npcHead.SetHelm(facingDirection);
+        npcHead.SetEyes(net_FacingDirection.Value);
+        npcHead.SetHair(net_FacingDirection.Value);
+        npcHead.SetHelm(net_FacingDirection.Value);
 
         SwordSprite.sprite = Data.Weapon;
+    }
+
+    private void Update()
+    {
+        Debug.Log(stats.net_BaseSpeed.Value);
     }
 
     void OnHPChanged(float previousValue, float newValue)
@@ -226,5 +238,27 @@ public class NPC : NetworkBehaviour, IInteractable
             StopCoroutine(combatTimerCoroutine);
         }
         combatTimerCoroutine = StartCoroutine(CombatTimer());
+    }
+
+    void OnFacingDirectionChanged(Vector2 previous, Vector2 newDir)
+    {
+        ApplyFacingDirection(newDir);
+    }
+
+    void ApplyFacingDirection(Vector2 dir)
+    {
+        stateMachine.HeadAnimator.SetFloat("Horizontal", dir.x);
+        stateMachine.HeadAnimator.SetFloat("Vertical", dir.y);
+        stateMachine.BodyAnimator.SetFloat("Horizontal", dir.x);
+        stateMachine.BodyAnimator.SetFloat("Vertical", dir.y);
+        stateMachine.ChestAnimator.SetFloat("Horizontal", dir.x);
+        stateMachine.ChestAnimator.SetFloat("Vertical", dir.y);
+        stateMachine.LegsAnimator.SetFloat("Horizontal", dir.x);
+        stateMachine.LegsAnimator.SetFloat("Vertical", dir.y);
+        stateMachine.SwordAnimator.SetFloat("Horizontal", dir.x);
+        stateMachine.SwordAnimator.SetFloat("Vertical", dir.y);
+        npcHead.SetEyes(dir);
+        npcHead.SetHair(dir);
+        npcHead.SetHelm(dir);
     }
 }

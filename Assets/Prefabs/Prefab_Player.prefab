@@ -24959,11 +24959,16 @@ MonoBehaviour:
   net_TotalHP:
     m_InternalValue: 0
   isDead: 0
-  BaseArmor: 0
-  BaseDamage: 0
-  BaseAS: 0
-  BaseCDR: 0
-  BaseSpeed: 0
+  net_BaseDamage:
+    m_InternalValue: 0
+  net_BaseArmor:
+    m_InternalValue: 0
+  net_BaseAS:
+    m_InternalValue: 0
+  net_BaseCDR:
+    m_InternalValue: 0
+  net_BaseSpeed:
+    m_InternalValue: 0
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -30204,7 +30209,7 @@ MonoBehaviour:
     damage</color> and <color=#FFFF00>stunning</color> all enemies it passes through.
   SkillPrefab: {fileID: 1324840749770008434, guid: c4ad46a8b1638414d8296e99dccfd8c4, type: 3}
   TelegraphPrefab: {fileID: 0}
-  SkillDamage: 3
+  SkillDamage: 5
   SkillRange: 0
   SkillForce: 15
   SkillDuration: 0.75
@@ -32937,7 +32942,7 @@ MonoBehaviour:
   Description: Lunge Forward and Slash
   SkillPrefab: {fileID: 2311812203192534404, guid: cb8d5254132cafa4dbda1e52dbb2b52f, type: 3}
   TelegraphPrefab: {fileID: 0}
-  SkillDamage: 3
+  SkillDamage: 5
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
@@ -43764,7 +43769,7 @@ MonoBehaviour:
     damage</color> and <color=#FFFF00>stunning</color> all enemies hit.
   SkillPrefab: {fileID: 7380043795572263007, guid: 3eded821d5430e1488ed6ffc609fbf85, type: 3}
   TelegraphPrefab: {fileID: 0}
-  SkillDamage: 3
+  SkillDamage: 5
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
@@ -62380,7 +62385,7 @@ MonoBehaviour:
     while attacking causes you to</i> <color=#FFFFFF>slide</color> <i>with the swing.</i></color>"
   SkillPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
   TelegraphPrefab: {fileID: 0}
-  SkillDamage: 1
+  SkillDamage: 0
   SkillRange: 1
   SkillForce: 0
   SkillDuration: 0

@@ -83,14 +83,17 @@ public class NPCStateMachine : NetworkBehaviour
         Ultimate,
     }
 
-    private void Start()
+    public void Initialize()
     {
-        spawnState.StartState(this);
+        if (!IsServer) return;
         StartingPosition = transform.position;
+        spawnState.StartState(this);
     }
 
     private void Update()
     {
+        if (!IsServer) return;
+
         switch (state)
         {
             case State.Spawn: spawnState.UpdateState(this); break;
@@ -108,6 +111,8 @@ public class NPCStateMachine : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsServer) return;
+
         switch (state)
         {
             case State.Spawn: spawnState.FixedUpdateState(this); break;
@@ -328,6 +333,8 @@ public class NPCStateMachine : NetworkBehaviour
 
     public void SetAnimDir(Vector2 direction)
     {
+        if (IsServer) npc.net_FacingDirection.Value = direction;
+
         HeadAnimator.SetFloat("Horizontal", direction.x);
         HeadAnimator.SetFloat("Vertical", direction.y);
 
