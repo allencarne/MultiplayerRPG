@@ -16,7 +16,7 @@ public class DummyIdleState : EnemyState
             owner.enemy.PatienceBar.Patience.Value += 1 * Time.deltaTime;
         }
 
-        if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.TotalPatience)
+        if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.Data.TotalPatience)
         {
             owner.SetState(EnemyStateMachine.State.Reset);
         }

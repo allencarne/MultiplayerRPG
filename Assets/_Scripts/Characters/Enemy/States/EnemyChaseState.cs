@@ -68,7 +68,7 @@ public class EnemyChaseState : EnemyState
 
         float distanceToTarget = Vector2.Distance(owner.transform.position, owner.Target.position);
 
-        if (distanceToTarget <= owner.UltimateRadius)
+        if (distanceToTarget <= owner.enemy.Data.UltimateRadius)
         {
             if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
             {
@@ -80,7 +80,7 @@ public class EnemyChaseState : EnemyState
             }
         }
 
-        if (distanceToTarget <= owner.SpecialRadius)
+        if (distanceToTarget <= owner.enemy.Data.SpecialRadius)
         {
             if (owner.CanSpecial && !owner.CrowdControl.silence.IsSilenced)
             {
@@ -92,7 +92,7 @@ public class EnemyChaseState : EnemyState
             }
         }
 
-        if (distanceToTarget <= owner.BasicRadius)
+        if (distanceToTarget <= owner.enemy.Data.BasicRadius)
         {
             if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
             {
@@ -109,10 +109,10 @@ public class EnemyChaseState : EnemyState
     {
         float distanceToStartingPosition = Vector2.Distance(owner.StartingPosition, owner.Target.position);
 
-        if (distanceToStartingPosition > owner.DeAggroRadius)
+        if (distanceToStartingPosition > owner.enemy.Data.DeAggroRadius)
         {
             owner.enemy.PatienceBar.Patience.Value += Time.deltaTime;
-            if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.TotalPatience)
+            if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.Data.TotalPatience)
             {
                 TransitionToReset(owner);
             }

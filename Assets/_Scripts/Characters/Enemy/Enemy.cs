@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class Enemy : NetworkBehaviour
 {
-    [Header("Variables")]
-    public string Enemy_ID;
-    public string Enemy_Name;
-    [SerializeField] float startingHealth;
-    public int Enemy_Level;
-    public float expToGive;
-    public float TotalPatience;
-
     [Header("Components")]
     [HideInInspector] public EnemySpawner EnemySpawnerReference;
     [HideInInspector] public Totem TotemReference;
     [SerializeField] GameObject expPrefab;
     [SerializeField] EnemyStateMachine stateMachine;
     public CharacterStats stats;
+    public EnemyData Data;
 
     [Header("Sprites")]
     public SpriteRenderer bodySprite;
@@ -36,9 +29,15 @@ public class Enemy : NetworkBehaviour
     {
         if (IsServer)
         {
-            stats.net_TotalHP.Value = startingHealth;
-            stats.net_BaseHP.Value = startingHealth;
-            stats.net_CurrentHP.Value = startingHealth;
+            stats.net_TotalHP.Value = Data.StartingHealth;
+            stats.net_BaseHP.Value = Data.StartingHealth;
+            stats.net_CurrentHP.Value = Data.StartingHealth;
+
+            stats.net_BaseSpeed.Value = Data.StartingSpeed;
+            stats.net_BaseDamage.Value = Data.StartingDamage;
+            stats.net_BaseAS.Value = Data.StartingAS;
+            stats.net_BaseCDR.Value = Data.StartingCDR;
+            stats.net_BaseArmor.Value = Data.StartingArmor;
         }
 
         stats.OnEnemyDamaged.AddListener(Damaged);
@@ -115,7 +114,7 @@ public class Enemy : NetworkBehaviour
         };
 
         PlayerQuest quest = attackerID.GetComponent<PlayerQuest>();
-        if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Hit, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
+        if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Hit, Data.Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
 
         TargetAttacker(attackerID);
         EventParticipate(attackerID);
@@ -130,7 +129,7 @@ public class Enemy : NetworkBehaviour
         if (attackerPosition != null) StartCoroutine(DropEXP(attackerPosition));
 
         PlayerExperience exp = attackerID.gameObject.GetComponent<PlayerExperience>();
-        if (exp) exp.IncreaseEXP(expToGive);
+        if (exp) exp.IncreaseEXP(Data.ExpToGive);
 
         ulong targetClientId = attackerID.OwnerClientId;
         ClientRpcParams rpcParams = new ClientRpcParams
@@ -142,7 +141,7 @@ public class Enemy : NetworkBehaviour
         };
 
         PlayerQuest quest = attackerID.GetComponent<PlayerQuest>();
-        if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Kill, Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
+        if (quest != null) UpdateObjectiveClientRpc(ObjectiveType.Kill, Data.Enemy_ID, 1, attackerID.NetworkObjectId, rpcParams);
 
         if (stateMachine.hasMightOnStart || stateMachine.hasSwiftnessOnStart || stateMachine.hasAlacrityOnStart || stateMachine.hasProtectionOnStart)
         {
@@ -222,7 +221,7 @@ public class Enemy : NetworkBehaviour
 
     IEnumerator DropEXP(Transform attackerPosition)
     {
-        for (int i = 0; i < expToGive; i++)
+        for (int i = 0; i < Data.ExpToGive; i++)
         {
             GameObject expObj = Instantiate(expPrefab, transform.position, transform.rotation);
             expObj.GetComponent<TravelToTarget>().target = attackerPosition;

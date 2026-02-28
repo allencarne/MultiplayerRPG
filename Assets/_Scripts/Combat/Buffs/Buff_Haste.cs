@@ -67,7 +67,7 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseSpeed * stackPercent;
+        float multiplier = stats.net_BaseSpeed.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,

@@ -1565,7 +1565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1539269538
+  GlobalObjectIdHash: 1366768421
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1661,11 +1661,16 @@ MonoBehaviour:
   net_TotalHP:
     m_InternalValue: 0
   isDead: 0
-  BaseArmor: 0
-  BaseDamage: 1
-  BaseAS: 1
-  BaseCDR: 1
-  BaseSpeed: 2
+  net_BaseDamage:
+    m_InternalValue: 0
+  net_BaseArmor:
+    m_InternalValue: 0
+  net_BaseAS:
+    m_InternalValue: 0
+  net_BaseCDR:
+    m_InternalValue: 0
+  net_BaseSpeed:
+    m_InternalValue: 0
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -1709,6 +1714,7 @@ MonoBehaviour:
   expPrefab: {fileID: 6311114248360890762, guid: dd052559657c2d44c935e05e3f870231, type: 3}
   stateMachine: {fileID: 8001761435941154268}
   stats: {fileID: 878784667173873402}
+  enemyData: {fileID: 0}
   bodySprite: {fileID: 6097983339982761849}
   shadowSprite: {fileID: 4703369267009836052}
   healthBar: {fileID: 1827727574157614942}

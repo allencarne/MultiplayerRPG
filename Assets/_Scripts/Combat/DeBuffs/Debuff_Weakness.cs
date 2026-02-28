@@ -61,7 +61,7 @@ public class Debuff_Weakness : NetworkBehaviour, IWeaknessable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseDamage * stackPercent;
+        float multiplier = stats.net_BaseDamage.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Damage,

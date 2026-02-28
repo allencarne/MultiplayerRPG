@@ -61,7 +61,7 @@ public class Debuff_Exhaust : NetworkBehaviour, IExhaustable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseAS * stackPercent;
+        float multiplier = stats.net_BaseAS.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.AttackSpeed,

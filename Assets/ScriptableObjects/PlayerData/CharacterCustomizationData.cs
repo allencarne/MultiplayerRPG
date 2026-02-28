@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharacterCustomizationData", menuName = "Scriptable Objects/Customization Data")]
+[CreateAssetMenu(fileName = "CharacterCustomizationData", menuName = "Scriptable Objects/Character/Customization Data")]
 public class CharacterCustomizationData : ScriptableObject
 {
     public Color[] skinColors;

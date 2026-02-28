@@ -64,7 +64,7 @@ public class EnemyWanderState : EnemyState
 
         for (int i = 0; i < maxAttempts; i++)
         {
-            Vector2 randomPos = owner.StartingPosition + Random.insideUnitCircle * owner.WanderRadius;
+            Vector2 randomPos = owner.StartingPosition + Random.insideUnitCircle * owner.enemy.Data.WanderRadius;
             Vector2 randomDir = (randomPos - (Vector2)transform.position);
             float distance = randomDir.magnitude;
 

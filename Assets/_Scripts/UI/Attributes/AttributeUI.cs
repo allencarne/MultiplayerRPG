@@ -52,7 +52,7 @@ public class AttributeUI : MonoBehaviour
         // Damage
         totalDamage.text = StringBuild(
             stats.TotalDamage,
-            stats.BaseDamage,
+            stats.net_BaseDamage.Value,
             stats.GetModifier(StatType.Damage, ModSource.Equipment),
             stats.GetModifier(StatType.Damage, ModSource.Buff),
             stats.GetModifier(StatType.Damage, ModSource.Debuff));
@@ -60,7 +60,7 @@ public class AttributeUI : MonoBehaviour
         // Attack Speed
         totalAttackSpeed.text = StringBuild(
             stats.TotalAS,
-            stats.BaseAS,
+            stats.net_BaseAS.Value,
             stats.GetModifier(StatType.AttackSpeed, ModSource.Equipment),
             stats.GetModifier(StatType.AttackSpeed, ModSource.Buff),
             stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff));
@@ -68,7 +68,7 @@ public class AttributeUI : MonoBehaviour
         // Cooldown Reduction (CDR)
         totalCDR.text = StringBuild(
             stats.TotalCDR,
-            stats.BaseCDR,
+            stats.net_BaseCDR.Value,
             stats.GetModifier(StatType.CoolDown, ModSource.Equipment),
             stats.GetModifier(StatType.CoolDown, ModSource.Buff),
             stats.GetModifier(StatType.CoolDown, ModSource.Debuff));
@@ -76,7 +76,7 @@ public class AttributeUI : MonoBehaviour
         // Speed
         totalSpeed.text = StringBuild(
             stats.TotalSpeed,
-            stats.BaseSpeed,
+            stats.net_BaseSpeed.Value,
             stats.GetModifier(StatType.Speed, ModSource.Equipment),
             stats.GetModifier(StatType.Speed, ModSource.Buff),
             stats.GetModifier(StatType.Speed, ModSource.Debuff));
@@ -85,7 +85,7 @@ public class AttributeUI : MonoBehaviour
         enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
 
         // Armor
-        totalArmor.text = stats.BaseArmor.ToString();
+        totalArmor.text = stats.net_BaseArmor.Value.ToString();
     }
 
     string StringBuild(float total, float value, float equipment, float buff, float debuff)

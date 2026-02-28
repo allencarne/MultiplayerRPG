@@ -61,7 +61,7 @@ public class Debuff_Impede : NetworkBehaviour, IImpedeable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseCDR * stackPercent;
+        float multiplier = stats.net_BaseCDR.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.CoolDown,

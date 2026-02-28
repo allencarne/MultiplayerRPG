@@ -8,7 +8,7 @@ public class EnemyResetState : EnemyState
 
         owner.isResetting = true;
         owner.EnemyAnimator.Play("Wander");
-        owner.enemy.PatienceBar.Patience.Value = owner.enemy.TotalPatience;
+        owner.enemy.PatienceBar.Patience.Value = owner.enemy.Data.TotalPatience;
 
         if (!owner.enemy.IsRegen &&
             owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_TotalHP.Value)

@@ -61,7 +61,7 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
     void AddStack(bool isFixed)
     {
-        float multiplier = stats.BaseSpeed * stackPercent;
+        float multiplier = stats.net_BaseSpeed.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
             statType = StatType.Speed,

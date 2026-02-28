@@ -47,6 +47,12 @@ public class NPC : NetworkBehaviour, IInteractable
             stats.net_TotalHP.Value = Data.MaxHealth;
             stats.net_BaseHP.Value = Data.MaxHealth;
             stats.net_CurrentHP.Value = Data.MaxHealth;
+
+            stats.net_BaseSpeed.Value = Data.Speed;
+            stats.net_BaseDamage.Value = Data.Damage;
+            stats.net_BaseAS.Value = Data.AttackSpeed;
+            stats.net_BaseCDR.Value = Data.CoolDownRecution;
+            stats.net_BaseArmor.Value = Data.Armor;
         }
 
         stats.OnEnemyDamaged.AddListener(TargetAttacker);
@@ -91,12 +97,6 @@ public class NPC : NetworkBehaviour, IInteractable
         npcHead.SetHelm(facingDirection);
 
         SwordSprite.sprite = Data.Weapon;
-
-        stats.BaseSpeed = Data.Speed;
-        stats.BaseDamage = Data.Damage;
-        stats.BaseAS = Data.AttackSpeed;
-        stats.BaseCDR = Data.CoolDownRecution;
-        stats.BaseArmor = Data.Armor;
     }
 
     void OnHPChanged(float previousValue, float newValue)

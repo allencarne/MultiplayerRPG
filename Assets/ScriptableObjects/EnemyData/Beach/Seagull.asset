@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa1fd1e28b21ce46a1b2a2f6cec851c, type: 3}
+  m_Name: Seagull
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  Enemy_ID: seagull
+  Enemy_Name: Seagull
+  Enemy_Level: 2
+  ExpToGive: 3
+  TotalPatience: 5
+  StartingHealth: 25
+  StartingDamage: 3
+  StartingAS: 1
+  StartingCDR: 1
+  StartingSpeed: 2
+  StartingArmor: 0
+  WanderRadius: 5
+  DeAggroRadius: 10
+  BasicRadius: 1.8
+  SpecialRadius: 4
+  UltimateRadius: 2.5

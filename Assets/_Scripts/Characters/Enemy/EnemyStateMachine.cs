@@ -37,15 +37,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public Vector2 WanderPosition { get; set; }
     public LayerMask obstacleLayerMask;
 
-    [Header("Enemy Radius")]
-    [SerializeField] float wanderRadius; public float WanderRadius => wanderRadius;
-    [SerializeField] float deAggroRadius; public float DeAggroRadius => deAggroRadius;
-
-    [Header("Attack Radius")]
-    [SerializeField] float basicRadius; public float BasicRadius => basicRadius;
-    [SerializeField] float specialRadius; public float SpecialRadius => specialRadius;
-    [SerializeField] float ultimateRadius; public float UltimateRadius => ultimateRadius;
-
     [Header("Bools")]
     public bool IsAttacking = false;
     public bool isResetting = false;
@@ -227,20 +218,20 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(StartingPosition, WanderRadius);
+        Gizmos.color = Color.darkBlue;
+        Gizmos.DrawWireSphere(StartingPosition, enemy.Data.WanderRadius);
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, BasicRadius);
-
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, SpecialRadius);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, UltimateRadius);
+        Gizmos.color = Color.gray;
+        Gizmos.DrawWireSphere(StartingPosition, enemy.Data.DeAggroRadius);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+        Gizmos.DrawWireSphere(transform.position, enemy.Data.BasicRadius);
+
+        Gizmos.color = Color.orange;
+        Gizmos.DrawWireSphere(transform.position, enemy.Data.SpecialRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, enemy.Data.UltimateRadius);
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(WanderPosition, 0.2f);

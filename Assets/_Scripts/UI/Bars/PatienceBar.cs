@@ -36,7 +36,7 @@ public class PatienceBar : NetworkBehaviour
 
         if (enemy != null)
         {
-            totalPatience = enemy.TotalPatience;
+            totalPatience = enemy.Data.TotalPatience;
         }
 
         if (npc != null)

@@ -40,8 +40,8 @@ public class StatusBar : MonoBehaviour
 
         if (enemy != null)
         {
-            nameText.text = enemy.Enemy_Name;
-            levelText.text = "Lvl: " + enemy.Enemy_Level.ToString();
+            nameText.text = enemy.Data.Enemy_Name;
+            levelText.text = "Lvl: " + enemy.Data.Enemy_Level.ToString();
         }
     }
 }
