@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7019608, g: 0.2392157, b: 0.2392157, a: 1}
+  m_Color: {r: 0.23921569, g: 0.7019608, b: 0.24553919, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3727,7 +3727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 206476993
+  GlobalObjectIdHash: 252941149
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3874,6 +3874,8 @@ MonoBehaviour:
   npcDialogue: {fileID: 7778428804253406039}
   PatienceBar: {fileID: 5571914206174223953}
   CastBar: {fileID: 3652510914053340914}
+  net_FacingDirection:
+    m_InternalValue: {x: 0, y: -1}
   InCombat: 0
   IsRegen: 0
   NPCHeadSprite: {fileID: 7610224285271098685}

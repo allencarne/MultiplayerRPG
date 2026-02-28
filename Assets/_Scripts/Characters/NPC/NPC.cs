@@ -106,11 +106,6 @@ public class NPC : NetworkBehaviour, IInteractable
         SwordSprite.sprite = Data.Weapon;
     }
 
-    private void Update()
-    {
-        Debug.Log(stats.net_BaseSpeed.Value);
-    }
-
     void OnHPChanged(float previousValue, float newValue)
     {
         UpdateRegeneration();
