@@ -10,8 +10,8 @@ public class PatienceBar : NetworkBehaviour
     [SerializeField] NPC npc;
 
     [Header("Colors")]
-    Color lowPatienceColor = Color.yellow;
-    Color highPatienceColor = Color.orangeRed;
+    Color lowPatienceColor = Color.gray;
+    Color highPatienceColor = Color.yellow;
     Color resettingColor = Color.red;
 
     public override void OnNetworkSpawn()
