@@ -105,7 +105,13 @@ public class PlayerExperience : NetworkBehaviour
 
     void OnLevelChanged(int oldValue, int newValue)
     {
-        levelText.text = stats.PlayerLevel.Value.ToString();
+        levelText.text = newValue.ToString();
+
+        if (IsOwner && oldValue > 0)
+        {
+            int amount = newValue * 2;
+            stats.IncreaseHealth(amount);
+        }
     }
 
     IEnumerator LerpXpBar()
@@ -163,10 +169,6 @@ public class PlayerExperience : NetworkBehaviour
     {
         // Increase Player Level
         stats.PlayerLevel.Value++;
-
-        // Increase Player Health
-        int amount = stats.PlayerLevel.Value * 2;
-        stats.IncreaseHealth(amount);
 
         // Attribute Points
         stats.IncreaseAttribuePoints();
