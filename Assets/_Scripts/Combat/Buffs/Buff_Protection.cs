@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -15,7 +16,6 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
     List<StatModifier> fixedModifiers = new List<StatModifier>();
     float stackPercent = 0.10f;
     int maxStacks = 9;
-    float remainingTime = 0f;
     int TotalStacks => durationModifiers.Count + fixedModifiers.Count;
 
     [Header("Components")]
@@ -23,16 +23,6 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
     [SerializeField] GameObject UI_Bar;
     [SerializeField] GameObject UI_Prefab;
     GameObject UI_Instance;
-
-    void Update()
-    {
-        if (durationModifiers.Count == 0) return;
-
-        if (Time.time >= remainingTime)
-        {
-            ExpireStack();
-        }
-    }
 
     public void StartProtection(int stacks, float duration)
     {
@@ -43,8 +33,6 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
             StartProtectionFixed(stacks);
             return;
         }
-
-        remainingTime = Time.time + duration;
 
         if (IsServer)
         {
@@ -60,11 +48,11 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
 
         for (int i = 0; i < stacksToAdd; i++)
         {
-            AddStack(false);
+            AddStack(false, duration);
         }
     }
 
-    void AddStack(bool isFixed)
+    void AddStack(bool isFixed, float duration = 0f)
     {
         float multiplier = stats.net_BaseArmor.Value * stackPercent;
         StatModifier mod = new StatModifier
@@ -81,6 +69,7 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
         else
         {
             durationModifiers.Add(mod);
+            StartCoroutine(ExpireStack(mod, duration));
         }
         stats.AddModifier(mod);
 
@@ -96,14 +85,14 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
         }
     }
 
-    void ExpireStack()
+    IEnumerator ExpireStack(StatModifier mod, float duration)
     {
-        foreach (StatModifier mod in durationModifiers)
-        {
-            stats.RemoveModifier(mod);
-        }
+        yield return new WaitForSeconds(duration);
 
-        durationModifiers.Clear();
+        if (!durationModifiers.Contains(mod)) yield break;
+
+        durationModifiers.Remove(mod);
+        stats.RemoveModifier(mod);
 
         if (IsServer)
         {

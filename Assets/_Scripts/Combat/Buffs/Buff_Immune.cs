@@ -1,10 +1,10 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Buff_Immune : NetworkBehaviour
 {
     [Header("Variables")]
-    float remainingTime = 0f;
     int activeBuffs = 0;
     bool isFixedBuffActive = false;
     public bool IsImmune;
@@ -13,16 +13,6 @@ public class Buff_Immune : NetworkBehaviour
     [SerializeField] GameObject UI_Bar;
     [SerializeField] GameObject UI_Prefab;
     GameObject UI_Instance;
-
-    void Update()
-    {
-        if (activeBuffs == 0) return;
-
-        if (Time.time >= remainingTime)
-        {
-            RemoveStack(false);
-        }
-    }
 
     public void StartImmune(float duration, bool isActive = false)
     {
@@ -34,8 +24,6 @@ public class Buff_Immune : NetworkBehaviour
             return;
         }
 
-        remainingTime = Time.time + duration;
-
         if (IsServer)
         {
             StartUIClientRPC(duration);
@@ -45,10 +33,10 @@ public class Buff_Immune : NetworkBehaviour
             StartUIServerRPC(duration);
         }
 
-        AddStack(false);
+        AddStack(false, duration);
     }
 
-    void AddStack(bool isFixed)
+    void AddStack(bool isFixed, float duration = 0f)
     {
         IsImmune = true;
 
@@ -59,6 +47,7 @@ public class Buff_Immune : NetworkBehaviour
         else
         {
             activeBuffs++;
+            StartCoroutine(ExpireStack(duration));
         }
 
         if (IsServer)
@@ -69,6 +58,12 @@ public class Buff_Immune : NetworkBehaviour
         {
             if (isFixed) StartFixedUIServerRPC();
         }
+    }
+
+    IEnumerator ExpireStack(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        RemoveStack(false);
     }
 
     void RemoveStack(bool isFixed)
