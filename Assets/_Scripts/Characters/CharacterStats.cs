@@ -57,6 +57,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
     {
         if (!IsServer) return;
+        if (isDead) return;
 
         // Calculate
         float finalDamage = CalculateFinalDamage(damage, damageType);
