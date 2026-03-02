@@ -38,7 +38,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
         }
     }
 
-    [ServerRpc]
+    [ServerRpc(InvokePermission = RpcInvokePermission.Everyone)]
     private void RequestServerRPC(float duration)
     {
         Initialize(duration);
