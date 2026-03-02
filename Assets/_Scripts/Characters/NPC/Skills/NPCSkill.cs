@@ -215,18 +215,18 @@ public abstract class NPCSkill : NetworkBehaviour
         if (circle != null)
         {
             circle.stats = gameObject.GetComponentInParent<CharacterStats>();
+            circle.Init();
 
             circle.FillSpeed = time;
-            circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
 
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
             square.stats = gameObject.GetComponentInParent<CharacterStats>();
+            square.Init();
 
             square.FillSpeed = time;
-            square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
     }
     protected void Attack()

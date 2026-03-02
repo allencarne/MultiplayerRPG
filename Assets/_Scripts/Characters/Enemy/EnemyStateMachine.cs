@@ -61,7 +61,7 @@ public class EnemyStateMachine : NetworkBehaviour
         Wander,
         Chase,
         Reset,
-        Hurt,
+        Stagger,
         Death,
         Basic,
         Special,
@@ -128,7 +128,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: enemyWanderState.UpdateState(this); break;
             case State.Chase: enemyChaseState.UpdateState(this); break;
             case State.Reset: enemyResetState.UpdateState(this); break;
-            case State.Hurt: enemyStaggerState.UpdateState(this); break;
+            case State.Stagger: enemyStaggerState.UpdateState(this); break;
             case State.Death: enemyDeathState.UpdateState(this); break;
             case State.Basic: enemyBasicAbility.UpdateSkill(this); break;
             case State.Special: enemySpecialAbility.UpdateSkill(this); break;
@@ -145,7 +145,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: enemyWanderState.FixedUpdateState(this); break;
             case State.Chase: enemyChaseState.FixedUpdateState(this); break;
             case State.Reset: enemyResetState.FixedUpdateState(this); break;
-            case State.Hurt: enemyStaggerState.FixedUpdateState(this); break;
+            case State.Stagger: enemyStaggerState.FixedUpdateState(this); break;
             case State.Death: enemyDeathState.FixedUpdateState(this); break;
             case State.Basic: enemyBasicAbility.FixedUpdateSkill(this); break;
             case State.Special: enemySpecialAbility.FixedUpdateSkill(this); break;
@@ -162,7 +162,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case State.Wander: state = State.Wander; enemyWanderState.StartState(this); break;
             case State.Chase: state = State.Chase; enemyChaseState.StartState(this); break;
             case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
-            case State.Hurt: state = State.Hurt; enemyStaggerState.StartState(this); break;
+            case State.Stagger: state = State.Stagger; enemyStaggerState.StartState(this); break;
             case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
             case State.Basic: state = State.Basic; enemyBasicAbility.StartSkill(this); break;
             case State.Special: state = State.Special; enemySpecialAbility.StartSkill(this); break;
@@ -175,6 +175,8 @@ public class EnemyStateMachine : NetworkBehaviour
         if (enemy.stats.isDead) return;
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
+
+        enemy.stats.OnInterrupted?.Invoke();
 
         enemy.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
@@ -193,7 +195,7 @@ public class EnemyStateMachine : NetworkBehaviour
         }
         else
         {
-            SetState(State.Hurt);
+            SetState(State.Stagger);
         }
     }
 

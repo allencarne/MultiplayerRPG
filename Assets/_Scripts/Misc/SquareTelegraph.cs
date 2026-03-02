@@ -7,7 +7,20 @@ public class SquareTelegraph : NetworkBehaviour
     [HideInInspector] public CharacterStats stats;
 
     [HideInInspector] public float FillSpeed;
-    [HideInInspector] public CrowdControl crowdControl;
+
+    public void Init()
+    {
+        if (stats == null) return;
+        stats.OnInterrupted.AddListener(Destroy);
+        stats.OnDeath.AddListener(Destroy);
+    }
+
+    private void OnDisable()
+    {
+        if (stats == null) return;
+        stats.OnInterrupted.RemoveListener(Destroy);
+        stats.OnDeath.RemoveListener(Destroy);
+    }
 
     private void Start()
     {
@@ -22,18 +35,6 @@ public class SquareTelegraph : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        if (crowdControl != null && crowdControl.interrupt.CanInterrupt)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        if (stats != null && stats.isDead)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         float scaleIncrement = Time.deltaTime / FillSpeed;
 
         // Grow only along the X axis
@@ -47,5 +48,10 @@ public class SquareTelegraph : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Destroy()
+    {
+        Destroy(gameObject);
     }
 }

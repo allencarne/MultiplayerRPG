@@ -33,10 +33,12 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<float> OnDamaged;
     [HideInInspector] public UnityEvent<float> OnHealed;
     [HideInInspector] public UnityEvent OnDamageDealt;
-    [HideInInspector] public UnityEvent OnDeath;
 
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
     [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDeath;
+
+    [HideInInspector] public UnityEvent OnDeath;
+    [HideInInspector] public UnityEvent OnInterrupted;
 
     public float GetModifier(StatType type, ModSource? source = null)
     {

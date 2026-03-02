@@ -5,7 +5,6 @@ public class NPCStaggerState : NPCState
     {
         if (!owner.IsServer) return;
 
-        owner.CrowdControl.interrupt.Interrupt();
         owner.BodyAnimator.Play("Stagger");
     }
 

@@ -7,25 +7,24 @@ public class CircleTelegraph : NetworkBehaviour
     [HideInInspector] public CharacterStats stats;
 
     [HideInInspector] public float FillSpeed;
-    [HideInInspector] public CrowdControl crowdControl;
+
+    public void Init()
+    {
+        if (stats == null) return;
+        stats.OnInterrupted.AddListener(Destroy);
+        stats.OnDeath.AddListener(Destroy);
+    }
+
+    private void OnDisable()
+    {
+        if (stats == null) return;
+        stats.OnInterrupted.RemoveListener(Destroy);
+        stats.OnDeath.RemoveListener(Destroy);
+    }
 
     private void Update()
     {
         if (!IsServer) return;
-
-        if (crowdControl != null)
-        {
-            if (crowdControl.interrupt.CanInterrupt)
-            {
-                Destroy(gameObject);
-            }
-        }
-
-        if (stats != null && stats.isDead)
-        {
-            Destroy(gameObject);
-            return;
-        }
 
         // Calculate the scale increment per frame to achieve the target scale in FillSpeed seconds
         float scaleIncrement = Time.deltaTime / FillSpeed;
@@ -43,5 +42,10 @@ public class CircleTelegraph : NetworkBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Destroy()
+    {
+        Destroy(gameObject);
     }
 }

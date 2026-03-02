@@ -295,6 +295,8 @@ public class PlayerStateMachine : NetworkBehaviour
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != PlayerSkill.State.Cast) return;
 
+        Stats.OnInterrupted?.Invoke();
+
         player.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }

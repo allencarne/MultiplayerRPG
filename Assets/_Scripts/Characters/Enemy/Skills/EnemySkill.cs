@@ -138,7 +138,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
         if (isStaggered)
         {
-            owner.SetState(EnemyStateMachine.State.Hurt);
+            owner.SetState(EnemyStateMachine.State.Stagger);
         }
         else if (owner.Target == null)
         {
@@ -215,18 +215,18 @@ public abstract class EnemySkill : NetworkBehaviour
         if (circle != null)
         {
             circle.stats = gameObject.GetComponentInParent<CharacterStats>();
+            circle.Init();
 
             circle.FillSpeed = time;
-            circle.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
 
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
             square.stats = gameObject.GetComponentInParent<CharacterStats>();
+            square.Init();
 
             square.FillSpeed = time;
-            square.crowdControl = gameObject.GetComponentInParent<CrowdControl>();
         }
     }
     protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)

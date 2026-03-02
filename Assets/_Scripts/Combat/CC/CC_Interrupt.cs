@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class CC_Interrupt : MonoBehaviour, IInterruptable
 {
-    public bool CanInterrupt;
-
     [SerializeField] PlayerStateMachine player;
     [SerializeField] EnemyStateMachine enemy;
     [SerializeField] NPCStateMachine npc;

@@ -5,7 +5,6 @@ public class PlayerStaggerState : PlayerState
     {
         if (!owner.IsOwner) return;
 
-        owner.CrowdControl.interrupt.Interrupt();
         owner.BodyAnimator.Play("Stagger");
     }
 

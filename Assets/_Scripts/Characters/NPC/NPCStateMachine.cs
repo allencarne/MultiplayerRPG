@@ -150,6 +150,8 @@ public class NPCStateMachine : NetworkBehaviour
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
 
+        npc.stats.OnInterrupted?.Invoke();
+
         npc.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
