@@ -13,7 +13,7 @@ public class NPCQuestIcon : MonoBehaviour
     [SerializeField] Image questIcon;
     [SerializeField] SpriteRenderer miniIcon;
     [SerializeField] Sprite[] icons;
-    [SerializeField] Sprite defaulSprite;
+    [SerializeField] Sprite[] NPCIcons;
 
     public void Initialize()
     {
@@ -34,24 +34,21 @@ public class NPCQuestIcon : MonoBehaviour
     {
         if (getPlayer?.player == null) return;
 
-        if (npc.Data.npcClass == NPCClass.Vendor)
-        {
-            miniIcon.color = Color.pink;
-            miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
-            return;
-        }
-
         if (npc.Data.npcClass == NPCClass.Guard)
         {
-            miniIcon.color = Color.purple;
-            miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+            miniIcon.sprite = NPCIcons[1];
             return;
         }
 
         if (npc.Data.npcClass == NPCClass.Patrol)
         {
-            miniIcon.color = Color.cyan;
-            miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+            miniIcon.sprite = NPCIcons[2];
+            return;
+        }
+
+        if (npc.Data.npcClass == NPCClass.Vendor)
+        {
+            miniIcon.sprite = NPCIcons[3];
             return;
         }
 
@@ -63,47 +60,34 @@ public class NPCQuestIcon : MonoBehaviour
                 questIcon.enabled = true; 
                 questIcon.sprite = icons[(int)QuestState.Unavailable];
                 miniIcon.sprite = icons[(int)QuestState.Unavailable];
-
-                miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
+
             case QuestState.Available:
                 questIcon.enabled = true; 
                 questIcon.sprite = icons[(int)QuestState.Available];
                 miniIcon.sprite = icons[(int)QuestState.Available];
-
-                miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
+
             case QuestState.InProgress:
                 questIcon.enabled = true; 
                 questIcon.sprite = icons[(int)QuestState.InProgress];
                 miniIcon.sprite = icons[(int)QuestState.InProgress];
-
-                miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
+
             case QuestState.ReadyToTurnIn:
                 questIcon.enabled = true; 
                 questIcon.sprite = icons[(int)QuestState.ReadyToTurnIn];
                 miniIcon.sprite = icons[(int)QuestState.ReadyToTurnIn];
-
-                miniIcon.color = Color.white;
-                miniIcon.transform.localScale = new Vector3(5, 5, 1);
                 break;
+
             case QuestState.Completed:
                 questIcon.enabled = false;
-                miniIcon.sprite = defaulSprite;
-
-                miniIcon.color = Color.grey;
-                miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+                miniIcon.sprite = NPCIcons[0];
                 break;
+
             case QuestState.None:
                 questIcon.enabled = false;
-                miniIcon.sprite = defaulSprite;
-
-                miniIcon.color = Color.grey;
-                miniIcon.transform.localScale = new Vector3(2.5f, 2.5f, 1);
+                miniIcon.sprite = NPCIcons[0];
                 break;
         }
     }
