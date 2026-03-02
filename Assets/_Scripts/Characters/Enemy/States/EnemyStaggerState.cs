@@ -3,7 +3,7 @@ public class EnemyStaggerState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
-        owner.CrowdControl.interrupt.Interrupt();
+        //owner.CrowdControl.interrupt.Interrupt();
         owner.EnemyAnimator.Play("Stagger");
     }
 

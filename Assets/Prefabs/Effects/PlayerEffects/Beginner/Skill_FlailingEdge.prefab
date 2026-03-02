@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 373291769583374015}
   - component: {fileID: 8153134217287385896}
   - component: {fileID: 800735646256446619}
+  - component: {fileID: 7798314849779134179}
   - component: {fileID: 3974917640860578531}
   - component: {fileID: 8048719268308897080}
   - component: {fileID: 7950179993746928805}
@@ -311,6 +312,23 @@ MonoBehaviour:
   IsBreakable: 0
   HealAmount: 0
   CanHeal: 0
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0
+--- !u!114 &7798314849779134179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7380043795572263007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba52384d264a1a48979a710e04a84bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InterruptOnTrigger
+  ShowTopMostFoldoutHeaderGroup: 1
+  attacker: {fileID: 0}
   IgnorePlayer: 0
   IgnoreEnemy: 0
   IgnoreNPC: 0
