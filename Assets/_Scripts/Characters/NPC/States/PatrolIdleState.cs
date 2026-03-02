@@ -1,19 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolIdleState : NPCState
 {
-    public List<Transform> patrolPoints;
-
     public override void StartState(NPCStateMachine owner)
     {
-        if (patrolPoints == null || patrolPoints.Count == 0)
-        {
-            Debug.LogWarning($"{owner.name} has no patrol points set!");
-            owner.SetState(NPCStateMachine.State.Idle);
-            return;
-        }
-
         owner.HeadAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
 
@@ -31,9 +21,10 @@ public class PatrolIdleState : NPCState
             return;
         }
 
-        if (Vector2.Distance(owner.transform.position, patrolPoints[owner.PatrolIndex].position) <= 0.1f)
+        Vector2 target = owner.npc.Data.waypoints[owner.PatrolIndex];
+        if (Vector2.Distance(owner.transform.position, target) <= 0.1f)
         {
-            AdvancePatrolIndex(owner);
+            AdvancePatrolIndex(owner, owner.npc.Data.waypoints.Length);
         }
     }
 
@@ -41,8 +32,7 @@ public class PatrolIdleState : NPCState
     {
         if (owner.CrowdControl.immobilize.IsImmobilized) return;
 
-        Vector2 target = patrolPoints[owner.PatrolIndex].position;
-
+        Vector2 target = owner.npc.Data.waypoints[owner.PatrolIndex];
         owner.MoveTowardsTarget(target);
 
         Vector2 rawDir = (target - (Vector2)owner.transform.position).normalized;
@@ -54,17 +44,17 @@ public class PatrolIdleState : NPCState
         owner.npc.npcHead.SetHelm(snappedDir);
     }
 
-    private void AdvancePatrolIndex(NPCStateMachine owner)
+    private void AdvancePatrolIndex(NPCStateMachine owner, int length)
     {
-        if (owner.PatrolForward)
+        if (owner.npc.Data.PatrolForward)
         {
             owner.PatrolIndex++;
-            if (owner.PatrolIndex >= patrolPoints.Count) owner.PatrolIndex = 0;
+            if (owner.PatrolIndex >= length) owner.PatrolIndex = 0;
         }
         else
         {
             owner.PatrolIndex--;
-            if (owner.PatrolIndex < 0) owner.PatrolIndex = patrolPoints.Count - 1;
+            if (owner.PatrolIndex < 0) owner.PatrolIndex = length - 1;
         }
     }
 }

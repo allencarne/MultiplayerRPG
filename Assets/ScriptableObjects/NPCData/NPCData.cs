@@ -35,10 +35,18 @@ public class NPCData : ScriptableObject
     public int LegsIndex;
     public Sprite Weapon;
 
+    [Header("Dialogue")]
+    [TextArea(3, 8)] public string[] Dialogue;
+
     [Header("Quest")]
     public List<Quest> Quests;
-    [TextArea(3, 8)] public string[] Dialogue;
+
+    [Header("Vendor")]
     public Item[] Items;
+
+    [Header("Patrol")]
+    public bool PatrolForward;
+    public Vector2[] waypoints;
 }
 
 public enum NPCClass

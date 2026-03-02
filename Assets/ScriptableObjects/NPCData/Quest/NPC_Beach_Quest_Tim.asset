@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
   NPC_ID: Quest_Tim
   NPCName: Tim
-  NPC_Level: 5
+  NPC_Level: 6
   npcClass: 0
   MaxHealth: 50
-  Damage: 1
+  Damage: 6
   Speed: 3
   AttackSpeed: 1
   CoolDownRecution: 1
@@ -32,9 +32,11 @@ MonoBehaviour:
   ChestIndex: 2
   LegsIndex: 2
   Weapon: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+  Dialogue:
+  - Hi there
   Quests:
   - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
   - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
-  Dialogue:
-  - Hi there
   Items: []
+  PatrolForward: 0
+  waypoints: []

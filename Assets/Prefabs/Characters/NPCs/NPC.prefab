@@ -2701,7 +2701,7 @@ MonoBehaviour:
   weaponType: 0
   SkillPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
   TelegraphPrefab: {fileID: 0}
-  SkillDamage: 4
+  SkillDamage: 0
   SkillRange: 1
   SkillForce: 0
   SkillDuration: 0
@@ -3517,19 +3517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4664d3665edf3b445baafeea806f1266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PatrolIdleState
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &6609849531884959819
 GameObject:
   m_ObjectHideFlags: 0
@@ -3934,7 +3921,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   PatrolIndex: 0
-  PatrolForward: 1
   Target: {fileID: 0}
   state: 0
 --- !u!114 &7778428804253406039

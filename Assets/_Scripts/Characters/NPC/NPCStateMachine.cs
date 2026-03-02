@@ -55,7 +55,6 @@ public class NPCStateMachine : NetworkBehaviour
 
     [Header("Patrol")]
     public int PatrolIndex = 0;
-    public bool PatrolForward = true;
 
     public Transform Target;
     public Transform SecondTarget { get; set; }

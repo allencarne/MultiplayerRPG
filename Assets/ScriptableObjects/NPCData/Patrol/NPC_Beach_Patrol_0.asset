@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
   NPC_ID: Patrol_0
   NPCName: Patrol
-  NPC_Level: 5
+  NPC_Level: 6
   npcClass: 3
   MaxHealth: 50
-  Damage: 1
+  Damage: 6
   Speed: 3
   AttackSpeed: 1
   CoolDownRecution: 1
@@ -32,7 +32,21 @@ MonoBehaviour:
   ChestIndex: 2
   LegsIndex: 2
   Weapon: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
-  Quests: []
   Dialogue:
   - Gatta Run!
+  Quests: []
   Items: []
+  PatrolForward: 1
+  waypoints:
+  - {x: 92, y: 3}
+  - {x: 115, y: 3}
+  - {x: 145, y: -2}
+  - {x: 174, y: 1}
+  - {x: 202, y: 13}
+  - {x: 222, y: 37}
+  - {x: 240, y: 74}
+  - {x: 204, y: 68}
+  - {x: 167, y: 66.5}
+  - {x: 142, y: 61}
+  - {x: 121.5, y: 45}
+  - {x: 105, y: 21}

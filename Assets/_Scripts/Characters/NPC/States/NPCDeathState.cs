@@ -13,7 +13,6 @@ public class NPCDeathState : NPCState
 
         // Patrol
         owner.PatrolIndex = 0;
-        owner.PatrolForward = true;
 
         owner.npc.CastBar.ResetCastBar();
         owner.RequestDisableColliderServerRpc(false);
