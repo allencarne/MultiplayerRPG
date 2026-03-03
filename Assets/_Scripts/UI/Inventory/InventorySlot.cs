@@ -23,6 +23,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         icon.color = Color.white;
 
         amountText.text = (quantity > 1) ? quantity.ToString() : "";
+
+        if (newItem is Equipment equip)
+        {
+            amountText.color = Color.green;
+            amountText.text = equip.LevelRequirement.ToString();
+        }
     }
 
     public void UseItem()
@@ -57,6 +63,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (amountText != null)
         {
+            amountText.color = Color.white;
             amountText.text = "";
         }
     }
@@ -108,12 +115,18 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             icon.sprite = slotData.item.Icon;
             icon.color = Color.white;
             amountText.text = (slotData.quantity > 1) ? slotData.quantity.ToString() : "";
+            if (slotData.item is Equipment equip)
+            {
+                amountText.color = Color.green;
+                amountText.text = equip.LevelRequirement.ToString();
+            }
         }
         else
         {
             icon.sprite = null;
             icon.color = defaultColor;
             amountText.text = "";
+            amountText.color = Color.white;
         }
     }
 }

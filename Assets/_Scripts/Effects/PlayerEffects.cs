@@ -16,16 +16,16 @@ public class PlayerEffects : NetworkBehaviour
     {
         SpawnClientRPC();
         exp.OnLevelUp.AddListener(LevelUpClientRPC);
-        ap.OnStatsApplied.AddListener(PowerUpClientRPC);
-        skillPanel.OnSkillSelected.AddListener(PowerUpClientRPC);
+        ap.OnStatsApplied.AddListener(PowerUp);
+        skillPanel.OnSkillSelected.AddListener(PowerUp);
         stats.OnAPGained.AddListener(APGainedClientRPC);
     }
 
     public override void OnNetworkDespawn()
     {
         exp.OnLevelUp.RemoveListener(LevelUpClientRPC);
-        ap.OnStatsApplied.RemoveListener(PowerUpClientRPC);
-        skillPanel.OnSkillSelected.RemoveListener(PowerUpClientRPC);
+        ap.OnStatsApplied.RemoveListener(PowerUp);
+        skillPanel.OnSkillSelected.RemoveListener(PowerUp);
         stats.OnAPGained.RemoveListener(APGainedClientRPC);
     }
 
@@ -41,11 +41,29 @@ public class PlayerEffects : NetworkBehaviour
         Instantiate(spawn_Effect, transform.position, transform.rotation);
     }
 
+    void PowerUp()
+    {
+        if (IsServer)
+        {
+            PowerUpClientRPC();
+        }
+        else
+        {
+            PowerUpServerRPC();
+        }
+    }
+
     [ClientRpc]
     void PowerUpClientRPC()
     {
         GameObject effect = Instantiate(skillSelect_Effect, transform.position, Quaternion.identity, transform);
         Destroy(effect, 1);
+    }
+
+    [ServerRpc]
+    void PowerUpServerRPC()
+    {
+        PowerUpClientRPC();
     }
 
     [ClientRpc]
