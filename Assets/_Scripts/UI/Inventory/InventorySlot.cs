@@ -14,6 +14,10 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public Image icon;
     public TextMeshProUGUI amountText;
 
+    [SerializeField] Color upgradeColor;
+    [SerializeField] Color downgradeColor;
+    [SerializeField] Color SameLevelColor;
+
     public void AddItem(Item newItem, int quantity)
     {
         slotData = new InventorySlotData(newItem, quantity);
@@ -34,21 +38,21 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
             if (equippedItem == null)
             {
-                amountText.color = Color.green;
+                amountText.color = upgradeColor;
             }
             else
             {
                 if (equip.LevelRequirement > equippedItem.LevelRequirement)
                 {
-                    amountText.color = Color.seaGreen;
+                    amountText.color = upgradeColor;
                 }
                 else if (equip.LevelRequirement < equippedItem.LevelRequirement)
                 {
-                    amountText.color = Color.gray;
+                    amountText.color = downgradeColor;
                 }
                 else
                 {
-                    amountText.color = Color.lightGray;
+                    amountText.color = SameLevelColor;
                 }
             }
         }
@@ -150,21 +154,21 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
                 if (equippedItem == null)
                 {
-                    amountText.color = Color.green;
+                    amountText.color = upgradeColor;
                 }
                 else
                 {
                     if (equip.LevelRequirement > equippedItem.LevelRequirement)
                     {
-                        amountText.color = Color.green;
+                        amountText.color = upgradeColor;
                     }
                     else if (equip.LevelRequirement < equippedItem.LevelRequirement)
                     {
-                        amountText.color = Color.gray;
+                        amountText.color = downgradeColor;
                     }
                     else
                     {
-                        amountText.color = Color.white;
+                        amountText.color = SameLevelColor;
                     }
                 }
             }

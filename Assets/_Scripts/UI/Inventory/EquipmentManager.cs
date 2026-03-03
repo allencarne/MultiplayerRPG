@@ -46,6 +46,9 @@ public class EquipmentManager : MonoBehaviour
 
         // Save new equipment
         save.SaveEquipment(newItem, slotIndex);
+
+        // Refresh UI
+        inventory.inventoryUI.UpdateUI();
     }
 
     public void UnEquip(int slotIndex)
@@ -65,6 +68,9 @@ public class EquipmentManager : MonoBehaviour
             equipmentUI.UpdateUI(null, oldItem);
             equipment.OnEquipmentChanged(null, oldItem);
             save.SaveEquipment(null, slotIndex);
+
+            // Refresh UI
+            inventory.inventoryUI.UpdateUI();
         }
     }
 
