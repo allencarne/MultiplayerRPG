@@ -22,12 +22,35 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         icon.sprite = newItem.Icon;
         icon.color = Color.white;
 
+        // Stack Text
         amountText.text = (quantity > 1) ? quantity.ToString() : "";
 
+        // Equipment Text
         if (newItem is Equipment equip)
         {
-            amountText.color = Color.green;
             amountText.text = equip.LevelRequirement.ToString();
+
+            Equipment equippedItem = equipmentManager.currentEquipment[(int)equip.equipmentType];
+
+            if (equippedItem == null)
+            {
+                amountText.color = Color.green;
+            }
+            else
+            {
+                if (equip.LevelRequirement > equippedItem.LevelRequirement)
+                {
+                    amountText.color = Color.seaGreen;
+                }
+                else if (equip.LevelRequirement < equippedItem.LevelRequirement)
+                {
+                    amountText.color = Color.gray;
+                }
+                else
+                {
+                    amountText.color = Color.lightGray;
+                }
+            }
         }
     }
 
@@ -114,11 +137,36 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             icon.sprite = slotData.item.Icon;
             icon.color = Color.white;
+
+            // Stack Text
             amountText.text = (slotData.quantity > 1) ? slotData.quantity.ToString() : "";
+
+            // Equipment Text
             if (slotData.item is Equipment equip)
             {
-                amountText.color = Color.green;
                 amountText.text = equip.LevelRequirement.ToString();
+
+                Equipment equippedItem = equipmentManager.currentEquipment[(int)equip.equipmentType];
+
+                if (equippedItem == null)
+                {
+                    amountText.color = Color.green;
+                }
+                else
+                {
+                    if (equip.LevelRequirement > equippedItem.LevelRequirement)
+                    {
+                        amountText.color = Color.green;
+                    }
+                    else if (equip.LevelRequirement < equippedItem.LevelRequirement)
+                    {
+                        amountText.color = Color.gray;
+                    }
+                    else
+                    {
+                        amountText.color = Color.white;
+                    }
+                }
             }
         }
         else
