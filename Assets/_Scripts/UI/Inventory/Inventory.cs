@@ -96,9 +96,12 @@ public class Inventory : MonoBehaviour
 
             if (equipmentManager.currentEquipment[slotIndex] == null)
             {
-                equipmentManager.Equip(equipmentItem);
-                OnItemAdded?.Invoke(newItem, quantity);
-                return true;
+                // If level check fails, fall through to add to inventory normally
+                if (equipmentManager.Equip(equipmentItem))
+                {
+                    OnItemAdded?.Invoke(newItem, quantity);
+                    return true;
+                }
             }
         }
 

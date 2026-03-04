@@ -8,12 +8,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     [HideInInspector] public EquipmentManager equipmentManager;
     [HideInInspector] public Inventory inventory;
     public InventorySlotData slotData;
-    public int slotIndex;
-    public Color defaultColor;
 
+    public int slotIndex;
     public Image icon;
+    public Image redTint;
     public TextMeshProUGUI amountText;
 
+    [SerializeField] Color defaultColor;
     [SerializeField] Color upgradeColor;
     [SerializeField] Color downgradeColor;
     [SerializeField] Color SameLevelColor;

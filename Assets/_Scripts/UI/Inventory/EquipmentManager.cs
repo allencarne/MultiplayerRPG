@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
-    [SerializeField] private ItemList itemDatabase;
+    [SerializeField] PlayerStats stats;
     [SerializeField] PlayerSave save;
-
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentUI equipmentUI;
     [SerializeField] PlayerEquipment equipment;
+
+    [SerializeField] private ItemList itemDatabase;
     public Equipment[] currentEquipment;
 
     private void Awake()
@@ -17,15 +18,19 @@ public class EquipmentManager : MonoBehaviour
         currentEquipment = new Equipment[numberOfSlots];
     }
 
-    public void Equip(Equipment newItem)
+    public bool Equip(Equipment newItem)
     {
-        int slotIndex = (int)newItem.equipmentType;
+        if (stats.PlayerLevel.Value < newItem.LevelRequirement)
+        {
+            Debug.Log($"Level {newItem.LevelRequirement} required to equip {newItem.name}.");
+            return false;
+        }
 
+        int slotIndex = (int)newItem.equipmentType;
         Equipment oldItem = null;
 
         // Remove the newItem from inventory
         int itemIndex = Array.FindIndex(inventory.items, slot => slot != null && slot.item == newItem);
-
         if (itemIndex != -1)
         {
             inventory.items[itemIndex] = null;
@@ -36,19 +41,16 @@ public class EquipmentManager : MonoBehaviour
         if (currentEquipment[slotIndex] != null)
         {
             oldItem = currentEquipment[slotIndex];
-            inventory.AddItem(oldItem, 1 ,true); // move old item back to inventory
+            inventory.AddItem(oldItem, 1 ,true);
         }
 
         equipmentUI.UpdateUI(newItem, oldItem);
         equipment.OnEquipmentChanged(newItem, oldItem);
-
         currentEquipment[slotIndex] = newItem;
-
-        // Save new equipment
         save.SaveEquipment(newItem, slotIndex);
-
-        // Refresh UI
         inventory.inventoryUI.UpdateUI();
+
+        return true;
     }
 
     public void UnEquip(int slotIndex)
