@@ -119,5 +119,7 @@ public class EquipmentManager : MonoBehaviour
                 currentEquipment[slotIndex] = null;
             }
         }
+
+        inventory.inventoryUI.UpdateUI();
     }
 }
