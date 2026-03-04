@@ -26,6 +26,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         icon.sprite = newItem.Icon;
         icon.color = Color.white;
+        redTint.enabled = IsUnderLevelRequirement(newItem);
 
         // Stack Text
         amountText.text = (quantity > 1) ? quantity.ToString() : "";
@@ -75,6 +76,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         icon.sprite = null;
         icon.enabled = true;
         icon.color = defaultColor;
+        redTint.enabled = false;
 
         ClearStacks();
     }
@@ -142,6 +144,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             icon.sprite = slotData.item.Icon;
             icon.color = Color.white;
+            redTint.enabled = IsUnderLevelRequirement(slotData.item);
 
             // Stack Text
             amountText.text = (slotData.quantity > 1) ? slotData.quantity.ToString() : "";
@@ -180,6 +183,12 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             icon.color = defaultColor;
             amountText.text = "";
             amountText.color = Color.white;
+            redTint.enabled = false;
         }
+    }
+
+    bool IsUnderLevelRequirement(Item item)
+    {
+        return item is Equipment equip && inventory.Stats.PlayerLevel.Value < equip.LevelRequirement;
     }
 }

@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] EquipmentManager equipmentManager;
     [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerQuest playerquests;
+    [SerializeField] PlayerExperience playerExperience;
     public PlayerStats Stats;
     public PlayerSave Save;
 
@@ -16,6 +17,16 @@ public class Inventory : MonoBehaviour
 
     public UnityEvent<Item, int> OnItemAdded;
     public UnityEvent OnCoinsChanged;
+
+    private void OnEnable()
+    {
+        playerExperience.OnLevelUp.AddListener(OnLevelUp);
+    }
+
+    private void OnDisable()
+    {
+        playerExperience.OnLevelUp.RemoveListener(OnLevelUp);
+    }
 
     void Awake()
     {
@@ -324,5 +335,10 @@ public class Inventory : MonoBehaviour
 
         Save.SaveStats();
         OnCoinsChanged?.Invoke();
+    }
+
+    void OnLevelUp()
+    {
+        inventoryUI.UpdateUI();
     }
 }
