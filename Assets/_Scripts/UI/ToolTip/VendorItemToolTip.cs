@@ -86,6 +86,11 @@ public class VendorItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         Destroy(tooltip);
     }
 
+    private void OnDestroy()
+    {
+        Destroy(tooltip);
+    }
+
     public void UpdateCurrencyInfo(Currency currency, Item item)
     {
         // Hide gem slots for currency
