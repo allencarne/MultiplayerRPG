@@ -50,6 +50,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
     [HideInInspector] public bool CanRoll = true;
+    public bool IsFullySpawned = false;
     public bool IsAttacking = false;
     public bool IsSliding = false;
     public bool CanBasic = true;
@@ -334,6 +335,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void BasicAbility()
     {
+        if (!IsFullySpawned) return;
         if (!CanBasic) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
@@ -354,6 +356,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void OffensiveAbility()
     {
+        if (!IsFullySpawned) return;
         if (!CanOffensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
@@ -383,6 +386,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void MobilityAbility()
     {
+        if (!IsFullySpawned) return;
         if (!CanMobility) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
@@ -412,6 +416,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void DefensiveAbility()
     {
+        if (!IsFullySpawned) return;
         if (!CanDefensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
@@ -441,6 +446,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void UtilityAbility()
     {
+        if (!IsFullySpawned) return;
         if (!CanUtility) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
@@ -470,6 +476,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void UltimateAbility()
     {
+        if (!IsFullySpawned) return;
         if (!CanUltimate) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;

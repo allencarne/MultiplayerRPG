@@ -31,6 +31,7 @@ public class PlayerSpawnState : PlayerState
     {
         yield return new WaitForSeconds(.6f);
 
+        owner.IsFullySpawned = true;
         owner.SetState(PlayerStateMachine.State.Idle);
     }
 }
