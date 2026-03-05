@@ -71,13 +71,13 @@ public class PlayerUI : MonoBehaviour
         {
             skillPanel.SetActive(false);
             UpdateSelectedUI();
-
             skillButtons.HandleAllSkills();
         }
         else
         {
             skillPanel.SetActive(true);
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(skillFirstSelected);
+            skillButtons.HandleAllSkills();
         }
     }
 
@@ -87,13 +87,13 @@ public class PlayerUI : MonoBehaviour
         {
             attributePanel.SetActive(false);
             UpdateSelectedUI();
-
             skillButtons.HandleAttributes();
         }
         else
         {
             attributePanel.SetActive(true);
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(attributeFirstSelected);
+            skillButtons.HandleAttributes();
         }
     }
 
