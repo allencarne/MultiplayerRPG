@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -240,6 +241,50 @@ public class Inventory : MonoBehaviour
         }
 
         inventoryUI.UpdateUI();
+    }
+
+    public void SortButton()
+    {
+        // Collect all non-null slots
+        List<InventorySlotData> sorted = new List<InventorySlotData>();
+        foreach (InventorySlotData slot in items)
+        {
+            if (slot != null) sorted.Add(slot);
+        }
+
+        sorted.Sort((a, b) =>
+        {
+            int categoryA = GetSortCategory(a.item);
+            int categoryB = GetSortCategory(b.item);
+
+            if (categoryA != categoryB)
+                return categoryA.CompareTo(categoryB);
+
+            // Within equipment/weapons, sort by level requirement descending
+            if (a.item is Equipment equipA && b.item is Equipment equipB)
+                return equipB.LevelRequirement.CompareTo(equipA.LevelRequirement);
+
+            // Otherwise sort alphabetically
+            return string.Compare(a.item.name, b.item.name, StringComparison.OrdinalIgnoreCase);
+        });
+
+        // Redistribute back into slots
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i] = i < sorted.Count ? sorted[i] : null;
+            Save.SaveInventory(items[i]?.item, i, items[i]?.quantity ?? 0);
+        }
+
+        inventoryUI.UpdateUI();
+    }
+
+    int GetSortCategory(Item item)
+    {
+        if (item is Equipment equip && equip.equipmentType == EquipmentType.Weapon) return 0;
+        if (item is Equipment) return 1;
+        if (item is Consumable) return 2;
+        if (item is Collectable) return 3;
+        return 4;
     }
 
     public int GetFreeSlotCount()
