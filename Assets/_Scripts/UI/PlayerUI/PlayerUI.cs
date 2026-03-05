@@ -55,6 +55,7 @@ public class PlayerUI : MonoBehaviour
         {
             inventoryPanel.SetActive(false);
             UpdateSelectedUI();
+            skillButtons.HandleInventory();
         }
         else
         {

@@ -38,5 +38,7 @@ public class InventoryUI : MonoBehaviour
                 iSlots[i].ClearSlot();
             }
         }
+
+        inventory.OnInventoryChanged?.Invoke();
     }
 }

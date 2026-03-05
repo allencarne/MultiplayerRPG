@@ -36,8 +36,8 @@ public class AttributeSkillButtons : MonoBehaviour
 
         ap.OnStatsApplied.AddListener(HandleAttributes);
         skillPanel.OnSkillSelected.AddListener(HandleAllSkills);
-        inventory.OnItemAdded.AddListener(HandleInventory);
-        exp.OnLevelUp.AddListener(HandleInventoryOnLevelUp);
+        inventory.OnInventoryChanged.AddListener(HandleInventory);
+        exp.OnLevelUp.AddListener(HandleInventory);
     }
 
     private void OnDisable()
@@ -47,8 +47,8 @@ public class AttributeSkillButtons : MonoBehaviour
 
         ap.OnStatsApplied.RemoveListener(HandleAttributes);
         skillPanel.OnSkillSelected.RemoveListener(HandleAllSkills);
-        inventory.OnItemAdded.RemoveListener(HandleInventory);
-        exp.OnLevelUp.RemoveListener(HandleInventoryOnLevelUp);
+        inventory.OnInventoryChanged.RemoveListener(HandleInventory);
+        exp.OnLevelUp.RemoveListener(HandleInventory);
     }
 
     private void Start()
@@ -75,21 +75,7 @@ public class AttributeSkillButtons : MonoBehaviour
         HandleAllSkills();
     }
 
-    void HandleInventory(Item item, int quantity)
-    {
-        bool hasUpgrade = inventory.HasEquipmentUpgrade();
-
-        if (isMobile)
-        {
-            m_inventory_Button.SetActive(hasUpgrade && !inventoryUI.activeInHierarchy);
-        }
-        else
-        {
-            inventory_Button.SetActive(hasUpgrade && !inventoryUI.activeInHierarchy);
-        }
-    }
-
-    void HandleInventoryOnLevelUp()
+    public void HandleInventory()
     {
         bool hasUpgrade = inventory.HasEquipmentUpgrade();
 

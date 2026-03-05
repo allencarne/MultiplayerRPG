@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour
     public int inventorySlots = 30;
     public InventorySlotData[] items;
 
+    public UnityEvent OnInventoryChanged;
     public UnityEvent<Item, int> OnItemAdded;
     public UnityEvent OnCoinsChanged;
 
