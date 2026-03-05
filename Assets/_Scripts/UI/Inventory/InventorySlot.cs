@@ -28,36 +28,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         icon.color = Color.white;
         redTint.enabled = IsUnderLevelRequirement(newItem);
 
-        // Stack Text
-        amountText.text = (quantity > 1) ? quantity.ToString() : "";
-
-        // Equipment Text
-        if (newItem is Equipment equip)
-        {
-            amountText.text = equip.LevelRequirement.ToString();
-
-            Equipment equippedItem = equipmentManager.currentEquipment[(int)equip.equipmentType];
-
-            if (equippedItem == null)
-            {
-                amountText.color = upgradeColor;
-            }
-            else
-            {
-                if (equip.LevelRequirement > equippedItem.LevelRequirement)
-                {
-                    amountText.color = upgradeColor;
-                }
-                else if (equip.LevelRequirement < equippedItem.LevelRequirement)
-                {
-                    amountText.color = downgradeColor;
-                }
-                else
-                {
-                    amountText.color = SameLevelColor;
-                }
-            }
-        }
+        RefreshAmountText(newItem, quantity);
     }
 
     public void UseItem()
@@ -146,36 +117,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             icon.color = Color.white;
             redTint.enabled = IsUnderLevelRequirement(slotData.item);
 
-            // Stack Text
-            amountText.text = (slotData.quantity > 1) ? slotData.quantity.ToString() : "";
-
-            // Equipment Text
-            if (slotData.item is Equipment equip)
-            {
-                amountText.text = equip.LevelRequirement.ToString();
-
-                Equipment equippedItem = equipmentManager.currentEquipment[(int)equip.equipmentType];
-
-                if (equippedItem == null)
-                {
-                    amountText.color = upgradeColor;
-                }
-                else
-                {
-                    if (equip.LevelRequirement > equippedItem.LevelRequirement)
-                    {
-                        amountText.color = upgradeColor;
-                    }
-                    else if (equip.LevelRequirement < equippedItem.LevelRequirement)
-                    {
-                        amountText.color = downgradeColor;
-                    }
-                    else
-                    {
-                        amountText.color = SameLevelColor;
-                    }
-                }
-            }
+            RefreshAmountText(slotData.item, slotData.quantity);
         }
         else
         {
@@ -190,5 +132,29 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     bool IsUnderLevelRequirement(Item item)
     {
         return item is Equipment equip && inventory.Stats.PlayerLevel.Value < equip.LevelRequirement;
+    }
+
+    void RefreshAmountText(Item item, int quantity)
+    {
+        if (item is Equipment equip)
+        {
+            amountText.text = equip.LevelRequirement.ToString();
+            amountText.color = GetEquipmentComparisonColor(equip);
+        }
+        else
+        {
+            amountText.text = (quantity > 1) ? quantity.ToString() : "";
+            amountText.color = Color.white;
+        }
+    }
+
+    Color GetEquipmentComparisonColor(Equipment equip)
+    {
+        Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType];
+
+        if (equipped == null) return upgradeColor;
+        if (equip.LevelRequirement > equipped.LevelRequirement) return upgradeColor;
+        if (equip.LevelRequirement < equipped.LevelRequirement) return downgradeColor;
+        return SameLevelColor;
     }
 }
