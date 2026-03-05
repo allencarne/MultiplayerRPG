@@ -341,4 +341,20 @@ public class Inventory : MonoBehaviour
     {
         inventoryUI.UpdateUI();
     }
+
+    public bool HasEquipmentUpgrade()
+    {
+        foreach (InventorySlotData slot in items)
+        {
+            if (slot?.item is Equipment equip)
+            {
+                if (Stats.PlayerLevel.Value < equip.LevelRequirement) continue;
+
+                Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType];
+                if (equipped == null || equip.LevelRequirement > equipped.LevelRequirement)
+                    return true;
+            }
+        }
+        return false;
+    }
 }

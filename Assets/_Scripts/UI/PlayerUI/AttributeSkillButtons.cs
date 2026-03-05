@@ -7,6 +7,7 @@ public class AttributeSkillButtons : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
     [SerializeField] SkillPanel skillPanel;
+    [SerializeField] Inventory inventory;
 
     [SerializeField] AttributePoints ap;
     [SerializeField] PlayerExperience exp;
@@ -14,14 +15,17 @@ public class AttributeSkillButtons : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject attributeUI;
     [SerializeField] GameObject skillUI;
+    [SerializeField] GameObject inventoryUI;
 
     [Header("Regular")]
     [SerializeField] GameObject attribute_Button;
     [SerializeField] GameObject skill_Button;
+    [SerializeField] GameObject inventory_Button;
 
     [Header("Mobile")]
     [SerializeField] GameObject m_attribute_Button;
     [SerializeField] GameObject m_skill_Button;
+    [SerializeField] GameObject m_inventory_Button;
 
     bool isMobile;
 
@@ -32,6 +36,8 @@ public class AttributeSkillButtons : MonoBehaviour
 
         ap.OnStatsApplied.AddListener(HandleAttributes);
         skillPanel.OnSkillSelected.AddListener(HandleAllSkills);
+        inventory.OnItemAdded.AddListener(HandleInventory);
+        exp.OnLevelUp.AddListener(HandleInventoryOnLevelUp);
     }
 
     private void OnDisable()
@@ -41,6 +47,8 @@ public class AttributeSkillButtons : MonoBehaviour
 
         ap.OnStatsApplied.RemoveListener(HandleAttributes);
         skillPanel.OnSkillSelected.RemoveListener(HandleAllSkills);
+        inventory.OnItemAdded.RemoveListener(HandleInventory);
+        exp.OnLevelUp.RemoveListener(HandleInventoryOnLevelUp);
     }
 
     private void Start()
@@ -65,6 +73,34 @@ public class AttributeSkillButtons : MonoBehaviour
     {
         HandleAttributes();
         HandleAllSkills();
+    }
+
+    void HandleInventory(Item item, int quantity)
+    {
+        bool hasUpgrade = inventory.HasEquipmentUpgrade();
+
+        if (isMobile)
+        {
+            m_inventory_Button.SetActive(hasUpgrade && !inventoryUI.activeInHierarchy);
+        }
+        else
+        {
+            inventory_Button.SetActive(hasUpgrade && !inventoryUI.activeInHierarchy);
+        }
+    }
+
+    void HandleInventoryOnLevelUp()
+    {
+        bool hasUpgrade = inventory.HasEquipmentUpgrade();
+
+        if (isMobile)
+        {
+            m_inventory_Button.SetActive(hasUpgrade && !inventoryUI.activeInHierarchy);
+        }
+        else
+        {
+            inventory_Button.SetActive(hasUpgrade && !inventoryUI.activeInHierarchy);
+        }
     }
 
     public void HandleAttributes()
@@ -151,6 +187,20 @@ public class AttributeSkillButtons : MonoBehaviour
         }
     }
 
+    public void _InventoryButton()
+    {
+        playerUI._InventoryUI();
+
+        if (inventory_Button.activeSelf)
+        {
+            inventory_Button.SetActive(false);
+        }
+        else
+        {
+            inventory_Button.SetActive(true);
+        }
+    }
+
     public void _AttributeButton_M()
     {
         playerUI._AttributeUI();
@@ -176,6 +226,20 @@ public class AttributeSkillButtons : MonoBehaviour
         else
         {
             m_skill_Button.SetActive(true);
+        }
+    }
+
+    public void _InventoryButton_M()
+    {
+        playerUI._InventoryUI();
+
+        if (m_inventory_Button.activeSelf)
+        {
+            m_inventory_Button.SetActive(false);
+        }
+        else
+        {
+            m_inventory_Button.SetActive(true);
         }
     }
 }
