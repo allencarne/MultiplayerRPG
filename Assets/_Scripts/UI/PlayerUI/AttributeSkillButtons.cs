@@ -176,15 +176,7 @@ public class AttributeSkillButtons : MonoBehaviour
     public void _InventoryButton()
     {
         playerUI._InventoryUI();
-
-        if (inventory_Button.activeSelf)
-        {
-            inventory_Button.SetActive(false);
-        }
-        else
-        {
-            inventory_Button.SetActive(true);
-        }
+        inventory_Button.SetActive(false);
     }
 
     public void _AttributeButton_M()
@@ -218,14 +210,6 @@ public class AttributeSkillButtons : MonoBehaviour
     public void _InventoryButton_M()
     {
         playerUI._InventoryUI();
-
-        if (m_inventory_Button.activeSelf)
-        {
-            m_inventory_Button.SetActive(false);
-        }
-        else
-        {
-            m_inventory_Button.SetActive(true);
-        }
+        m_inventory_Button.SetActive(false);
     }
 }

@@ -61,6 +61,7 @@ public class PlayerUI : MonoBehaviour
         {
             inventoryPanel.SetActive(true);
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(inventoryFirstSelected);
+            skillButtons.HandleInventory();
         }
     }
 
