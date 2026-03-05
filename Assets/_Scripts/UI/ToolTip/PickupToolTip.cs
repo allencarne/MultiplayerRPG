@@ -166,7 +166,7 @@ public class PickupToolTip : MonoBehaviour
         textBox.color = color;
 
         var tempColor = textBox.color;
-        tempColor.a = .50f;
+        tempColor.a = .80f;
         textBox.color = tempColor;
 
         // Convert the Color to a hex string

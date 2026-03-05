@@ -215,7 +215,7 @@ public class VendorItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         textBox.color = color;
 
         Color tempColor = textBox.color;
-        tempColor.a = .50f;
+        tempColor.a = .80f;
         textBox.color = tempColor;
 
         // Convert the Color to a hex string

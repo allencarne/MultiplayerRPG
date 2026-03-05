@@ -84,9 +84,25 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             return;
 
         InventorySlot toSlot = this;
-
         InventorySlotData fromData = fromSlot.slotData;
         InventorySlotData toData = toSlot.slotData;
+
+        // Stack if same stackable item
+        if (toData != null && fromData != null &&
+            fromData.item.IsStackable &&
+            fromData.item.name == toData.item.name)
+        {
+            toData.quantity += fromData.quantity;
+            fromSlot.slotData = null;
+            fromSlot.inventory.items[fromSlot.slotIndex] = null;
+
+            fromSlot.inventory.Save.SaveInventory(null, fromSlot.slotIndex, 0);
+            toSlot.inventory.Save.SaveInventory(toData.item, toSlot.slotIndex, toData.quantity);
+
+            fromSlot.UpdateSlotVisuals();
+            toSlot.UpdateSlotVisuals();
+            return;
+        }
 
         // Swap
         fromSlot.slotData = toData;
