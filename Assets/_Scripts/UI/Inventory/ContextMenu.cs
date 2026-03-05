@@ -106,7 +106,7 @@ public class ContextMenu : MonoBehaviour
 
         if (data == null) return;
 
-        inventory.CoinCollected(data.item.SellValue);
+        inventory.CoinCollected(data.item.SellValue * data.quantity);
         inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);
         EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
