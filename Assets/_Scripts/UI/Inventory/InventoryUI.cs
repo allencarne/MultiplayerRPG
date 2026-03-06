@@ -8,6 +8,16 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] Transform itemsParent;
     InventorySlot[] iSlots;
 
+    private void OnEnable()
+    {
+        inventory.Stats.PlayerLevel.OnValueChanged += OnPlayerLevelSynced;
+    }
+
+    private void OnDisable()
+    {
+        inventory.Stats.PlayerLevel.OnValueChanged -= OnPlayerLevelSynced;
+    }
+
     private void Awake()
     {
         iSlots = itemsParent.GetComponentsInChildren<InventorySlot>();
@@ -40,5 +50,10 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventory.OnInventoryChanged?.Invoke();
+    }
+
+    void OnPlayerLevelSynced(int oldValue, int newValue)
+    {
+        UpdateUI();
     }
 }
