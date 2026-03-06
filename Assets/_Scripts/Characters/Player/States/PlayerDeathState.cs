@@ -32,14 +32,12 @@ public class PlayerDeathState : PlayerState
     {
         yield return new WaitForSeconds(4);
 
-        owner.Stats.isDead = false;
         owner.transform.position = Vector2.zero;
 
         yield return new WaitForSeconds(1);
 
         owner.RequestRespawnServerRpc();
         owner.RequestDisableColliderServerRpc(true);
-
         owner.SetState(PlayerStateMachine.State.Spawn);
     }
 }

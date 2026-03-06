@@ -565,6 +565,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [ServerRpc]
     public void RequestRespawnServerRpc()
     {
+        Stats.isDead = false;
         Stats.GiveHeal(100, HealType.Percentage);
     }
 
