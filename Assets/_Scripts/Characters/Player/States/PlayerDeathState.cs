@@ -14,7 +14,7 @@ public class PlayerDeathState : PlayerState
         owner.IsAttacking = false;
 
         owner.player.CastBar.ResetCastBar();
-        owner.RequestDisableColliderServerRpc(false);
+        owner.RequestSetColliderServerRpc(false);
 
         StartCoroutine(Delay(owner));
     }
@@ -31,13 +31,14 @@ public class PlayerDeathState : PlayerState
     IEnumerator Delay(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(4);
-
+        owner.RequestSetSpritesServerRpc(false);
         owner.transform.position = Vector2.zero;
 
         yield return new WaitForSeconds(1);
 
         owner.RequestRespawnServerRpc();
-        owner.RequestDisableColliderServerRpc(true);
+        owner.RequestSetColliderServerRpc(true);
+        owner.RequestSetSpritesServerRpc(true);
         owner.SetState(PlayerStateMachine.State.Spawn);
     }
 }

@@ -538,26 +538,33 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void RequestDisableColliderServerRpc(bool isEnabled)
+    public void RequestSetColliderServerRpc(bool isEnabled)
     {
         Collider.enabled = isEnabled;
-
-        player.BodySprite.enabled = isEnabled;
-        player.PlayerHeadSprite.enabled = isEnabled;
-
-        player.SwordSprite.enabled = isEnabled;
-        player.AimerSprite.enabled = isEnabled;
-        ApplyColliderStateClientRpc(isEnabled);
+        ApplyColliderClientRpc(isEnabled);
     }
 
     [ClientRpc]
-    void ApplyColliderStateClientRpc(bool isEnabled)
+    void ApplyColliderClientRpc(bool isEnabled)
     {
         Collider.enabled = isEnabled;
+    }
 
+    [ServerRpc]
+    public void RequestSetSpritesServerRpc(bool isEnabled)
+    {
         player.BodySprite.enabled = isEnabled;
         player.PlayerHeadSprite.enabled = isEnabled;
+        player.SwordSprite.enabled = isEnabled;
+        player.AimerSprite.enabled = isEnabled;
+        ApplySpritesClientRpc(isEnabled);
+    }
 
+    [ClientRpc]
+    void ApplySpritesClientRpc(bool isEnabled)
+    {
+        player.BodySprite.enabled = isEnabled;
+        player.PlayerHeadSprite.enabled = isEnabled;
         player.SwordSprite.enabled = isEnabled;
         player.AimerSprite.enabled = isEnabled;
     }
