@@ -50,6 +50,18 @@ public class PlayerExperience : NetworkBehaviour
         stats.RequiredExperience.OnValueChanged += OnReqExperienceChanged;
         stats.CurrentExperience.OnValueChanged += OnExperienceChanged;
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
+
+        // Initialize UI with whatever values already exist on spawn
+        levelText.text = stats.PlayerLevel.Value.ToString();
+        experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
+
+        if (stats.RequiredExperience.Value > 0)
+        {
+            float fill = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
+            frontXpBar.fillAmount = fill;
+            backXpBar.fillAmount = fill;
+            statsInitialized = true;
+        }
     }
 
     private void OnDisable()
