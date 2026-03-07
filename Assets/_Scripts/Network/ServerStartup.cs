@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -31,14 +32,18 @@ public class ServerStartup : MonoBehaviour
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             Debug.Log("Signed in.");
 
-            // Create Relay allocation using WSS for WebGL clients
+            // Create Relay allocation
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             Debug.Log($"=== Relay Join Code: {joinCode} ===");
 
-            // Configure transport with WSS
+            // Configure transport
             UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-            RelayServerData relayData = AllocationUtils.ToRelayServerData(allocation, "wss");
+
+            // Disable websockets on server, keep dtls
+            transport.UseWebSockets = false;
+
+            RelayServerData relayData = AllocationUtils.ToRelayServerData(allocation, "dtls");
             transport.SetRelayServerData(relayData);
 
             // Create Session and store join code inside it
