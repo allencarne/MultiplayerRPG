@@ -23,11 +23,13 @@ public class ClientJoin : MonoBehaviour
     private void OnEnable()
     {
         LeaveSession.OnLeaveButton += LeaveSessionButton;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnDisconnected;
     }
 
     private void OnDisable()
     {
         LeaveSession.OnLeaveButton -= LeaveSessionButton;
+        if (NetworkManager.Singleton != null) NetworkManager.Singleton.OnClientDisconnectCallback -= OnDisconnected;
     }
 
     public async Task FindAndJoinServer()
@@ -84,18 +86,9 @@ public class ClientJoin : MonoBehaviour
     {
         if (_currentSession != null)
         {
-            try
-            {
-                await _currentSession.LeaveAsync();
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Leave session error: {e}");
-            }
-            finally
-            {
-                _currentSession = null;
-            }
+            try { await _currentSession.LeaveAsync(); }
+            catch { }
+            finally { _currentSession = null; }
         }
 
         if (NetworkManager.Singleton.IsClient)
@@ -103,6 +96,23 @@ public class ClientJoin : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
         }
 
+        SceneManager.LoadScene("CharacterSelect");
+    }
+
+    private async void OnDisconnected(ulong clientId)
+    {
+        if (clientId != NetworkManager.Singleton.LocalClientId) return;
+
+        Debug.LogWarning("Disconnected from server.");
+
+        if (_currentSession != null)
+        {
+            try { await _currentSession.LeaveAsync(); }
+            catch { }
+            finally { _currentSession = null; }
+        }
+
+        NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene("CharacterSelect");
     }
 }
