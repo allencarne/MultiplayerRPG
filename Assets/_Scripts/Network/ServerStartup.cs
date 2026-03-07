@@ -15,6 +15,7 @@ public class ServerStartup : MonoBehaviour
 {
     [SerializeField] private int maxConnections = 10;
     [SerializeField] private string sessionName = "MyRPGServer";
+    private IHostSession _session;
 
     private async void Start()
     {
@@ -55,16 +56,30 @@ public class ServerStartup : MonoBehaviour
             };
             options.SessionProperties["joinCode"] = new SessionProperty(joinCode, VisibilityPropertyOptions.Member, PropertyIndex.None);
 
-            IHostSession session = await MultiplayerService.Instance.CreateSessionAsync(options);
-            Debug.Log($"Session created: {session.Id}");
+            _session = await MultiplayerService.Instance.CreateSessionAsync(options);
+            Debug.Log($"Session created: {_session.Id}");
 
             // Start server
             NetworkManager.Singleton.StartServer();
             Debug.Log("=== Server is LIVE ===");
+
+            // Start heartbeat after server is live
+            StartCoroutine(HeartbeatSessionCoroutine(_session, 25f));
         }
         catch (System.Exception e)
         {
             Debug.LogError($"Server startup failed: {e.Message}");
+        }
+    }
+
+    private IEnumerator HeartbeatSessionCoroutine(IHostSession session, float waitTimeSeconds)
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(waitTimeSeconds);
+        while (true)
+        {
+            session.RefreshAsync();
+            Debug.Log("Session heartbeat sent.");
+            yield return delay;
         }
     }
 }
