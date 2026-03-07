@@ -101,6 +101,7 @@ public class ClientJoin : MonoBehaviour
 
     private async void OnDisconnected(ulong clientId)
     {
+        if (NetworkManager.Singleton == null) return;
         if (clientId != NetworkManager.Singleton.LocalClientId) return;
 
         Debug.LogWarning("Disconnected from server.");
@@ -112,7 +113,7 @@ public class ClientJoin : MonoBehaviour
             finally { _currentSession = null; }
         }
 
-        NetworkManager.Singleton.Shutdown();
+        if (NetworkManager.Singleton != null) NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene("CharacterSelect");
     }
 }
