@@ -78,7 +78,6 @@ public class ServerStartup : MonoBehaviour
         while (true)
         {
             session.RefreshAsync();
-            Debug.Log("Session heartbeat sent.");
             yield return delay;
         }
     }

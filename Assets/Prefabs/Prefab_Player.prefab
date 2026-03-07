@@ -24846,7 +24846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -76888,7 +76888,7 @@ GameObject:
   - component: {fileID: 5112343366199071842}
   - component: {fileID: 4220522337959917309}
   - component: {fileID: 5988605315423715083}
-  - component: {fileID: 4542961488079626768}
+  - component: {fileID: 1737899276786973204}
   m_Layer: 5
   m_Name: Leave Button
   m_TagString: Untagged
@@ -76998,8 +76998,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4542961488079626768}
-        m_TargetAssemblyTypeName: LeaveLobby, Assembly-CSharp
+      - m_Target: {fileID: 1737899276786973204}
+        m_TargetAssemblyTypeName: LeaveSession, Assembly-CSharp
         m_MethodName: LeaveButton
         m_Mode: 1
         m_Arguments:
@@ -77025,7 +77025,7 @@ MonoBehaviour:
   imageRectTransform: []
   textObjects: []
   selectedTextColor: {r: 0, g: 1, b: 0, a: 1}
---- !u!114 &4542961488079626768
+--- !u!114 &1737899276786973204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77034,9 +77034,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9150501665671937739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e249c22cbaa1f5438a72b584e741c05, type: 3}
+  m_Script: {fileID: 11500000, guid: ab972655b454b6445992313f4614cea9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LeaveLobby
+  m_EditorClassIdentifier: Assembly-CSharp::LeaveSession
 --- !u!1 &9150981071867290657
 GameObject:
   m_ObjectHideFlags: 0

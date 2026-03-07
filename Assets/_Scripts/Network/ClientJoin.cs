@@ -8,14 +8,26 @@ using Unity.Services.Relay;
 using UnityEngine;
 using System.Threading.Tasks;
 using Unity.Networking.Transport.Relay;
+using UnityEngine.SceneManagement;
 
 public class ClientJoin : MonoBehaviour
 {
     [SerializeField] GameObject playButton;
+    private ISession _currentSession;
 
     private void Start()
     {
         playButton.SetActive(true);
+    }
+
+    private void OnEnable()
+    {
+        LeaveSession.OnLeaveButton += LeaveSessionButton;
+    }
+
+    private void OnDisable()
+    {
+        LeaveSession.OnLeaveButton -= LeaveSessionButton;
     }
 
     public async Task FindAndJoinServer()
@@ -23,7 +35,10 @@ public class ClientJoin : MonoBehaviour
         try
         {
             await UnityServices.InitializeAsync();
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
             Debug.Log("Signed in.");
 
             // Find available sessions
@@ -37,10 +52,10 @@ public class ClientJoin : MonoBehaviour
             }
 
             // Join the first available session
-            ISession session = await MultiplayerService.Instance.JoinSessionByIdAsync(results.Sessions[0].Id);
+            _currentSession = await MultiplayerService.Instance.JoinSessionByIdAsync(results.Sessions[0].Id);
 
             // Read the Relay join code stored in session
-            string joinCode = session.Properties["joinCode"].Value;
+            string joinCode = _currentSession.Properties["joinCode"].Value;
             Debug.Log($"Got join code: {joinCode}");
 
             // Join Relay using WSS for WebGL
@@ -63,5 +78,31 @@ public class ClientJoin : MonoBehaviour
     public async void OnFindGameButtonClicked()
     {
         await FindAndJoinServer();
+    }
+
+    async void LeaveSessionButton()
+    {
+        if (_currentSession != null)
+        {
+            try
+            {
+                await _currentSession.LeaveAsync();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Leave session error: {e}");
+            }
+            finally
+            {
+                _currentSession = null;
+            }
+        }
+
+        if (NetworkManager.Singleton.IsClient)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
+        SceneManager.LoadScene("CharacterSelect");
     }
 }
