@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class ContextMenu : MonoBehaviour
 {
+    [SerializeField] VendorInfoPanel vendorInfoPanel;
     [SerializeField] PlayerEquipment equipment;
+
     [SerializeField] GameObject contextMenu;
     [SerializeField] InventorySlot inventorySlot;
     [SerializeField] ItemToolTip tooltip;
 
     [SerializeField] Button border_Button;
-
     [SerializeField] Button use_Button;
     [SerializeField] Button split_Button;
     [SerializeField] Button drop_Button;
@@ -102,14 +103,11 @@ public class ContextMenu : MonoBehaviour
     public void _SellButton()
     {
         InventorySlotData data = inventorySlot.slotData;
-        Inventory inventory = inventorySlot.inventory;
-
         if (data == null) return;
 
-        inventory.CoinCollected(data.item.SellValue * data.quantity);
-        inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);
-        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
         contextMenu.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
+        vendorInfoPanel.SellAttempt(inventorySlot, data.item);
     }
 
     private IEnumerator CheckSelection()
