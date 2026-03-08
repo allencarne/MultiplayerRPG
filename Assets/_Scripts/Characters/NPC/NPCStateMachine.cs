@@ -277,9 +277,9 @@ public class NPCStateMachine : NetworkBehaviour
 
     #region RPC
 
-    [ServerRpc]
-    public void RequestDisableColliderServerRpc(bool isEnabled)
+    public void SetColliderAndSprites(bool isEnabled)
     {
+        if (!IsServer) return;
         Collider.enabled = isEnabled;
         npc.SwordSprite.enabled = isEnabled;
         npc.EyeSprite.enabled = isEnabled;
@@ -294,12 +294,6 @@ public class NPCStateMachine : NetworkBehaviour
         npc.SwordSprite.enabled = isEnabled;
         npc.EyeSprite.enabled = isEnabled;
         npc.HairSprite.enabled = isEnabled;
-    }
-
-    [ServerRpc]
-    public void RequestRespawnServerRpc()
-    {
-        npc.stats.GiveHeal(100, HealType.Percentage);
     }
 
     #endregion

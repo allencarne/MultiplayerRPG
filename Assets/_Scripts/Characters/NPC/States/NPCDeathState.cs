@@ -15,7 +15,6 @@ public class NPCDeathState : NPCState
         owner.PatrolIndex = 0;
 
         owner.npc.CastBar.ResetCastBar();
-        owner.RequestDisableColliderServerRpc(false);
 
         StartCoroutine(Delay(owner));
     }
@@ -33,15 +32,13 @@ public class NPCDeathState : NPCState
     IEnumerator Delay(NPCStateMachine owner)
     {
         yield return new WaitForSeconds(4);
-
-        owner.npc.stats.isDead = false;
         owner.transform.position = owner.StartingPosition;
-
         yield return new WaitForSeconds(1);
-
-        owner.RequestRespawnServerRpc();
-        owner.RequestDisableColliderServerRpc(true);
-
+        owner.npc.stats.isDead = false;
+        owner.npc.stats.GiveHeal(100, HealType.Percentage);
+        owner.SetColliderAndSprites(false);
+        yield return null;
+        owner.SetColliderAndSprites(true);
         owner.SetState(NPCStateMachine.State.Spawn);
     }
 }
