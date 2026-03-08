@@ -19,37 +19,29 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Left)
-            return;
+        if (eventData.button != PointerEventData.InputButton.Left) return;
 
         canDrag = inventorySlot.slotData != null && inventorySlot.slotData.item != null;
 
-        if (!canDrag)
-            return;
+        if (!canDrag) return;
 
         image.raycastTarget = false;
         originalParent = image.transform.parent;
         image.transform.SetParent(rootCanvas.transform, true);
-
-        // Set background image to solid black
-        // Hide Text_Stack
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!canDrag)
-            return;
+        if (!canDrag) return;
 
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-            (RectTransform)rootCanvas.transform, eventData.position, eventData.pressEventCamera, out Vector3 worldPoint);
+        RectTransformUtility.ScreenPointToWorldPointInRectangle((RectTransform)rootCanvas.transform, eventData.position, eventData.pressEventCamera, out Vector3 worldPoint);
 
         image.transform.position = worldPoint;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!canDrag)
-            return;
+        if (!canDrag) return;
 
         image.raycastTarget = true;
         image.transform.SetParent(originalParent, true);

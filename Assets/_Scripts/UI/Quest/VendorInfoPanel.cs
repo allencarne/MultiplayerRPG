@@ -6,12 +6,16 @@ public class VendorInfoPanel : MonoBehaviour
 {
     [SerializeField] PlayerStats playerStats;
     [SerializeField] Inventory inventory;
-    Item itemToPurchase;
 
     [SerializeField] GameObject Item_Prefab;
     [SerializeField] Transform parent;
 
-    [SerializeField] GameObject ConfirmPanel;
+    [SerializeField] GameObject ConfirmPurchasePanel;
+    [SerializeField] GameObject ConfirmSellPanel;
+    Item itemToPurchase;
+
+    InventorySlot fromSlot;
+    Item itemToSell;
 
     public void CreateItem(Item item)
     {
@@ -67,22 +71,43 @@ public class VendorInfoPanel : MonoBehaviour
     public void PurchaseAttempt(Item item)
     {
         itemToPurchase = item;
-        ConfirmPanel.SetActive(true);
+        ConfirmPurchasePanel.SetActive(true);
+    }
+
+    public void SellAttempt(InventorySlot _fromSlot, Item item)
+    {
+        fromSlot = _fromSlot;
+        itemToSell = item;
+        ConfirmSellPanel.SetActive(true);
     }
 
     public void NoButton()
     {
-        ConfirmPanel.SetActive(false);
+        ConfirmPurchasePanel.SetActive(false);
         itemToPurchase = null;
+
+        ConfirmSellPanel.SetActive(false);
+        itemToSell = null;
     }
 
-    public void YesButton()
+    public void YesPurchaseButton()
     {
-        ConfirmPanel.SetActive(false);
+        ConfirmPurchasePanel.SetActive(false);
 
         inventory.CoinSpent(itemToPurchase.Cost);
         inventory.AddItem(itemToPurchase);
 
         itemToPurchase = null;
+    }
+
+    public void YesSellButton()
+    {
+        ConfirmSellPanel.SetActive(false);
+
+        InventorySlotData data = fromSlot.slotData;
+        inventory.CoinCollected(data.item.SellValue * data.quantity);
+        inventory.RemoveItemBySlot(fromSlot.slotIndex, data.quantity);
+
+        itemToSell = null;
     }
 }
