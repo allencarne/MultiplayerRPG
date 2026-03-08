@@ -17,6 +17,11 @@ public class VendorInfoPanel : MonoBehaviour
     InventorySlot fromSlot;
     Item itemToSell;
 
+    private void OnDisable()
+    {
+        NoButton();
+    }
+
     public void CreateItem(Item item)
     {
         GameObject itemUI = Instantiate(Item_Prefab, parent);
