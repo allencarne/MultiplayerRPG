@@ -75,12 +75,16 @@ public class VendorInfoPanel : MonoBehaviour
 
     public void PurchaseAttempt(Item item)
     {
+        if (ConfirmPurchasePanel.activeSelf) return;
+
         itemToPurchase = item;
         ConfirmPurchasePanel.SetActive(true);
     }
 
     public void SellAttempt(InventorySlot _fromSlot, Item item)
     {
+        if (ConfirmSellPanel.activeSelf) return;
+
         fromSlot = _fromSlot;
         itemToSell = item;
         ConfirmSellPanel.SetActive(true);
