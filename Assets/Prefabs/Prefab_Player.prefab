@@ -39665,6 +39665,7 @@ GameObject:
   - component: {fileID: 6174343634235728616}
   - component: {fileID: 3767872230113724854}
   - component: {fileID: 8022146039626169037}
+  - component: {fileID: 1003011739441739218}
   m_Layer: 5
   m_Name: Vendor Panel
   m_TagString: BlockInputUI
@@ -39799,6 +39800,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1003011739441739218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635469901152516042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d685767e0a540fc43b956164335e67c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VendorSellSlot
+  inventory: {fileID: 6762276146836678153}
 --- !u!1 &4635998491258846844
 GameObject:
   m_ObjectHideFlags: 0
