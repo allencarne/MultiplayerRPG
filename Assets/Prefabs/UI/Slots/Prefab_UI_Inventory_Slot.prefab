@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da3e14da1ca32c4db15675593d4bfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vendorInfoPanel: {fileID: 0}
   equipment: {fileID: 0}
   contextMenu: {fileID: 93466868261763712}
   inventorySlot: {fileID: 7621217806576216368}
@@ -303,6 +304,7 @@ MonoBehaviour:
   slotData:
     item: {fileID: 0}
     quantity: 0
+  drag: {fileID: 6214933936417316334}
   slotIndex: 0
   icon: {fileID: 2338067836610958808}
   redTint: {fileID: 1092773556687131733}
@@ -2820,7 +2822,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2338067836610958808}
-  inventorySlot: {fileID: 0}
+  inventorySlot: {fileID: 7621217806576216368}
+  canDrag: 0
 --- !u!1 &6982018934496033817
 GameObject:
   m_ObjectHideFlags: 0

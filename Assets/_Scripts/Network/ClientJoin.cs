@@ -41,7 +41,7 @@ public class ClientJoin : MonoBehaviour
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
-            Debug.Log("Signed in.");
+            //Debug.Log("Signed in.");
 
             // Find available sessions
             QuerySessionsOptions options = new QuerySessionsOptions();
@@ -58,7 +58,7 @@ public class ClientJoin : MonoBehaviour
 
             // Read the Relay join code stored in session
             string joinCode = _currentSession.Properties["joinCode"].Value;
-            Debug.Log($"Got join code: {joinCode}");
+            //Debug.Log($"Got join code: {joinCode}");
 
             // Join Relay using WSS for WebGL
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
@@ -67,7 +67,7 @@ public class ClientJoin : MonoBehaviour
             transport.SetRelayServerData(relayData);
 
             NetworkManager.Singleton.StartClient();
-            Debug.Log("=== Client connected! ===");
+            //Debug.Log("=== Client connected! ===");
 
             playButton.SetActive(false);
         }
@@ -104,7 +104,7 @@ public class ClientJoin : MonoBehaviour
         if (NetworkManager.Singleton == null) return;
         if (clientId != NetworkManager.Singleton.LocalClientId) return;
 
-        Debug.LogWarning("Disconnected from server.");
+        //Debug.LogWarning("Disconnected from server.");
 
         if (_currentSession != null)
         {

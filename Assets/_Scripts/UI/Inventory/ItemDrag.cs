@@ -9,7 +9,7 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private Transform originalParent;
     private Canvas rootCanvas;
-    private bool canDrag = false;
+    public bool canDrag = false;
 
     private void Awake()
     {

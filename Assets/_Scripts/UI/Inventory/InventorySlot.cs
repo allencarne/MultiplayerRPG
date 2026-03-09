@@ -73,6 +73,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         ItemDrag draggedItem = eventData.pointerDrag?.GetComponent<ItemDrag>();
         if (draggedItem == null) return;
+        if (!draggedItem.canDrag) return;
 
         InventorySlot fromSlot = draggedItem.inventorySlot;
         HandleDropFrom(fromSlot);
