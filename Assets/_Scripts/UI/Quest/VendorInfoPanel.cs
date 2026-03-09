@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class VendorInfoPanel : MonoBehaviour
@@ -12,9 +13,13 @@ public class VendorInfoPanel : MonoBehaviour
 
     [SerializeField] GameObject ConfirmPurchasePanel;
     [SerializeField] GameObject ConfirmSellPanel;
+    [SerializeField] GameObject yesPurchaseButton;
+    [SerializeField] GameObject yesSellButton;
     Item itemToPurchase;
 
     InventorySlot fromSlot;
+    int pendingSellSlotIndex;
+    int pendingSellQuantity;
     Item itemToSell;
 
     private void OnDisable()
@@ -75,19 +80,23 @@ public class VendorInfoPanel : MonoBehaviour
 
     public void PurchaseAttempt(Item item)
     {
-        if (ConfirmPurchasePanel.activeSelf) return;
+        if (ConfirmPurchasePanel.activeSelf || ConfirmSellPanel.activeSelf) return;
 
         itemToPurchase = item;
         ConfirmPurchasePanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(yesPurchaseButton);
     }
 
     public void SellAttempt(InventorySlot _fromSlot, Item item)
     {
-        if (ConfirmSellPanel.activeSelf) return;
+        if (ConfirmSellPanel.activeSelf || ConfirmPurchasePanel.activeSelf) return;
 
         fromSlot = _fromSlot;
         itemToSell = item;
+        pendingSellSlotIndex = _fromSlot.slotIndex;
+        pendingSellQuantity = _fromSlot.slotData.quantity;
         ConfirmSellPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(yesSellButton);
     }
 
     public void NoButton()
@@ -97,6 +106,7 @@ public class VendorInfoPanel : MonoBehaviour
 
         ConfirmSellPanel.SetActive(false);
         itemToSell = null;
+        fromSlot = null;
     }
 
     public void YesPurchaseButton()
@@ -105,7 +115,6 @@ public class VendorInfoPanel : MonoBehaviour
 
         inventory.CoinSpent(itemToPurchase.Cost);
         inventory.AddItem(itemToPurchase);
-
         itemToPurchase = null;
     }
 
@@ -113,10 +122,9 @@ public class VendorInfoPanel : MonoBehaviour
     {
         ConfirmSellPanel.SetActive(false);
 
-        InventorySlotData data = fromSlot.slotData;
-        inventory.CoinCollected(data.item.SellValue * data.quantity);
-        inventory.RemoveItemBySlot(fromSlot.slotIndex, data.quantity);
-
+        inventory.CoinCollected(itemToSell.SellValue * pendingSellQuantity);
+        inventory.RemoveItemBySlot(pendingSellSlotIndex, pendingSellQuantity);
         itemToSell = null;
+        fromSlot = null;
     }
 }
