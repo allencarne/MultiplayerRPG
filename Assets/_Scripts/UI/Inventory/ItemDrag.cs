@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    [SerializeField] ContextMenu contextMenu;
     public Image image;
     public InventorySlot inventorySlot;
 
@@ -20,9 +22,7 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Left) return;
-
         canDrag = inventorySlot.slotData != null && inventorySlot.slotData.item != null;
-
         if (!canDrag) return;
 
         image.raycastTarget = false;
@@ -35,7 +35,6 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         if (!canDrag) return;
 
         RectTransformUtility.ScreenPointToWorldPointInRectangle((RectTransform)rootCanvas.transform, eventData.position, eventData.pressEventCamera, out Vector3 worldPoint);
-
         image.transform.position = worldPoint;
     }
 
@@ -50,5 +49,10 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         image.transform.SetAsFirstSibling();
 
         canDrag = false;
+
+        if (eventData.pointerEnter == null || eventData.pointerEnter.CompareTag("BlockInputUI"))
+        {
+            contextMenu._DropButton();
+        }
     }
 }
