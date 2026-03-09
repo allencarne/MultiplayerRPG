@@ -122,6 +122,16 @@ public class VendorInfoPanel : MonoBehaviour
     {
         ConfirmSellPanel.SetActive(false);
 
+        // Verify item still exists at the captured slot before selling
+        InventorySlotData currentData = inventory.items[pendingSellSlotIndex];
+        if (currentData == null || currentData.item != itemToSell)
+        {
+            Debug.Log("Item no longer in inventory, cancelling sell.");
+            itemToSell = null;
+            fromSlot = null;
+            return;
+        }
+
         inventory.CoinCollected(itemToSell.SellValue * pendingSellQuantity);
         inventory.RemoveItemBySlot(pendingSellSlotIndex, pendingSellQuantity);
         itemToSell = null;
