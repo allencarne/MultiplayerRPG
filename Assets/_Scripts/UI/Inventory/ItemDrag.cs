@@ -50,9 +50,20 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
         canDrag = false;
 
-        if (eventData.pointerEnter == null || eventData.pointerEnter.CompareTag("BlockInputUI"))
+        if (eventData.pointerEnter == null || !IsOverBlockedUI(eventData.pointerEnter))
         {
             contextMenu._DropButton();
         }
+    }
+
+    bool IsOverBlockedUI(GameObject obj)
+    {
+        Transform t = obj.transform;
+        while (t != null)
+        {
+            if (t.CompareTag("BlockInputUI")) return true;
+            t = t.parent;
+        }
+        return false;
     }
 }
