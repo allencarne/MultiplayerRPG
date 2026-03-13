@@ -220,6 +220,8 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        if (enemy == null || enemy.Data == null) return;
+
         Gizmos.color = Color.darkBlue;
         Gizmos.DrawWireSphere(StartingPosition, enemy.Data.WanderRadius);
 
