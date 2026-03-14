@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DiveBite : EnemySkill
@@ -42,13 +43,20 @@ public class DiveBite : EnemySkill
         Attack(owner.NetworkObject, false, false);
         owner.Buffs.immoveable.StartImmovable(ActionTime);
         Telegraph(ActionTime, true, false);
+
+        StartCoroutine(delay(owner));
+    }
+    
+    IEnumerator delay(EnemyStateMachine owner)
+    {
+        yield return new WaitForSeconds(.33f);
+
+        owner.EnemyRB.linearVelocity = Vector2.zero;
+        owner.EnemyRB.position = targetLandingPos;
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        owner.EnemyRB.position = targetLandingPos;
-
         Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, false);
     }
