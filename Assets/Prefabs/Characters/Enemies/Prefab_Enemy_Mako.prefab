@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 797000018
+      value: 1224905706
       objectReference: {fileID: 0}
     - target: {fileID: 1327236019924439968, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: SceneMigrationSynchronization
@@ -20,13 +20,21 @@ PrefabInstance:
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1539269538
       objectReference: {fileID: 0}
+    - target: {fileID: 1631276665447126833, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631276665447126833, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3093910716406422695, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 127dc0d6fc88d7b4cb39a5603eee7dfe, type: 2}
     - target: {fileID: 4494865281095228816, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: m_Name
-      value: Prefab_Enemy_Mako Variant
+      value: Prefab_Enemy_Mako
       objectReference: {fileID: 0}
     - target: {fileID: 5006461325889791442, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: Data
@@ -77,8 +85,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
-      propertyPath: CanSpecial
+      propertyPath: CanBasic
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: CanSpecial
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanUltimate
@@ -88,6 +100,10 @@ PrefabInstance:
       propertyPath: enemyBasicAbility
       value: 
       objectReference: {fileID: 7677006820125229901}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemySpecialAbility
+      value: 
+      objectReference: {fileID: 8020018707644496661}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -95,6 +111,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7677006820125229901}
+    - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8020018707644496661}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!1 &6128920617732552236 stripped
 GameObject:
@@ -127,6 +146,44 @@ MonoBehaviour:
   ImpactTime: 0.1
   RecoveryTime: 0.6
   CoolDown: 0
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  StunDuration: 0
+--- !u!1 &6556619117047896866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 902287503365203501}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8020018707644496661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556619117047896866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd347d939a4d36c42bdf1a6558aa84fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiveBite
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 1
+  SkillPrefab: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
+  TelegraphPrefab: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
+  SkillDamage: 2
+  SkillRange: 5
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0.5
+  ActionTime: 2
+  ImpactTime: 0.1
+  RecoveryTime: 0.5
+  CoolDown: 2
   SlideForce: 0
   SlideDuration: 0
   SlowStacks: 0
