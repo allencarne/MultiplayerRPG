@@ -23,11 +23,6 @@ public class DiveBite : EnemySkill
         CastState(owner);
     }
 
-    public override void FixedUpdateSkill(EnemyStateMachine owner)
-    {
-
-    }
-
     public override void CastState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Cast);

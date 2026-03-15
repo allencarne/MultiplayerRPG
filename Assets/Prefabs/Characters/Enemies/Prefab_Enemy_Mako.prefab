@@ -90,37 +90,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanSpecial
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanUltimate
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemyBasicAbility
       value: 
-      objectReference: {fileID: 7677006820125229901}
+      objectReference: {fileID: 4820678017994551182}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: enemySpecialAbility
       value: 
       objectReference: {fileID: 8020018707644496661}
+    - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      propertyPath: enemyUltimateAbility
+      value: 
+      objectReference: {fileID: 6984594005530154524}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7677006820125229901}
+      addedObject: {fileID: 4820678017994551182}
     - targetCorrespondingSourceObject: {fileID: 6230831158410067215, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8020018707644496661}
+    - targetCorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6984594005530154524}
   m_SourcePrefab: {fileID: 100100000, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
 --- !u!1 &6128920617732552236 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6452494297670307841, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
   m_PrefabInstance: {fileID: 902287503365203501}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7677006820125229901
+--- !u!114 &4820678017994551182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,9 +136,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6128920617732552236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17090fe526c0ee145a2fed95a09b203b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c9ac680414548d4082ac1585aad42db, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SproutSlap
+  m_EditorClassIdentifier: Assembly-CSharp::DoubleChomp
   ShowTopMostFoldoutHeaderGroup: 1
   currentState: 0
   skillType: 0
@@ -176,7 +183,7 @@ MonoBehaviour:
   SkillPrefab: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
   TelegraphPrefab: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
   SkillDamage: 2
-  SkillRange: 5
+  SkillRange: 8
   SkillForce: 0
   SkillDuration: 0
   CastTime: 0.5
@@ -184,6 +191,44 @@ MonoBehaviour:
   ImpactTime: 0.1
   RecoveryTime: 0.5
   CoolDown: 2
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  StunDuration: 0
+--- !u!1 &7661598271051051384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7410363936155227989, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
+  m_PrefabInstance: {fileID: 902287503365203501}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6984594005530154524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7661598271051051384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd26f63b52a629147b51456c85260651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SandVeil
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentState: 0
+  skillType: 2
+  SkillPrefab: {fileID: 8434245056991338228, guid: 4ab269bdf049780499aa137f613bc212, type: 3}
+  TelegraphPrefab: {fileID: 5735069723720587369, guid: f94eb9f69b8eef341b68c186e36952d5, type: 3}
+  SkillDamage: 3
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 1.3
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.6
+  CoolDown: 7
   SlideForce: 0
   SlideDuration: 0
   SlowStacks: 0
