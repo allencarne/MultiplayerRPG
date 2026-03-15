@@ -22,6 +22,15 @@ public class CircleTelegraph : NetworkBehaviour
         stats.OnDeath.RemoveListener(Destroy);
     }
 
+    private void Start()
+    {
+        if (frontSprite != null)
+        {
+            // Start with scale.x = 0
+            frontSprite.transform.localScale = new Vector3(0f, frontSprite.transform.localScale.y, frontSprite.transform.localScale.z);
+        }
+    }
+
     private void Update()
     {
         if (!IsServer) return;
