@@ -22,6 +22,9 @@ public class SandVeil : EnemySkill
 
         owner.enemy.CastBar.StartCast(CastTime);
         Telegraph(CastTime, false, false);
+
+        owner.Buffs.haste.StartHaste(2,7);
+        owner.Buffs.swiftness.StartSwiftness(2,7);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
