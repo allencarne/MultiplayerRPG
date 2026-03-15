@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fa07c2b4abadbcc46befaeede1c37704
+guid: 87463e4fa670b4e48b1c2a8d36e08f22
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,6 +127,27 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
+  - name: Frame_0
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 48
+      height: 48
+    spriteID: 2d588ad3a6101de458a2522577e66a06
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
   - name: Frame_1
     originalName: 
     pivot: {x: 0.5, y: 0}
@@ -136,10 +157,10 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 4
-      width: 80
-      height: 80
-    spriteID: 0dd55a2f3e1561b4ea57ae9b33425cbb
+      y: 60
+      width: 48
+      height: 48
+    spriteID: 0538f301d77930f41bbe26b8c6b0db85
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,7 +168,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 4, y: 60}
   - name: Frame_2
     originalName: 
     pivot: {x: 0.5, y: 0}
@@ -156,32 +177,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 92
-      width: 80
-      height: 80
-    spriteID: 6333515eb5bf4bd4d8fb38602ece784f
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 92}
-  - name: Frame_0
-    originalName: 
-    pivot: {x: 0.5, y: 0}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 92
+      x: 60
       y: 4
-      width: 80
-      height: 80
-    spriteID: f78179888bfd29b4cb5a4c0f3fc05b5f
+      width: 48
+      height: 48
+    spriteID: d39e5c5703b2a1a4890c863e2cefbec7
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -189,18 +189,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 4}
+    uvTransform: {x: 60, y: 4}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 2350904308
+      value0: 2158378711
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Ase_Effect_Coconut_NutQuake
+    name: Ase_Effect_Mako_DiveBite
     layerFlags: 0
     layerType: 0
     blendMode: 0
@@ -211,27 +211,27 @@ ScriptedImporter:
       cellRect:
         x: 0
         y: 0
-        width: 80
-        height: 80
-      spriteId: 0dd55a2f3e1561b4ea57ae9b33425cbb
+        width: 48
+        height: 48
+      spriteId: 2d588ad3a6101de458a2522577e66a06
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 80
-        height: 80
-      spriteId: 6333515eb5bf4bd4d8fb38602ece784f
+        width: 48
+        height: 48
+      spriteId: 0538f301d77930f41bbe26b8c6b0db85
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 80
-        height: 80
-      spriteId: f78179888bfd29b4cb5a4c0f3fc05b5f
+        width: 48
+        height: 48
+      spriteId: d39e5c5703b2a1a4890c863e2cefbec7
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -241,5 +241,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 80, y: 80}
-  previousTextureSize: {x: 256, y: 256}
+  canvasSize: {x: 48, y: 48}
+  previousTextureSize: {x: 128, y: 128}
