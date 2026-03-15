@@ -86,11 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanBasic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanSpecial
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8001761435941154268, guid: ad3974317aefd4f4bad7018a2684c105, type: 3}
       propertyPath: CanUltimate
@@ -142,15 +142,15 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   currentState: 0
   skillType: 0
-  SkillPrefab: {fileID: 3242421747756721046, guid: eb35304c7a98442488ba17a3744808ef, type: 3}
-  TelegraphPrefab: {fileID: 6567221051315506247, guid: de323fab45461404aa3d5598b00feec0, type: 3}
+  SkillPrefab: {fileID: 2027625363286928626, guid: b548fd1e5212a624fa18a145e2fbd9f4, type: 3}
+  TelegraphPrefab: {fileID: 4363869006308676043, guid: c0578a956a5022c46a2fc142a5145e61, type: 3}
   SkillDamage: 0
   SkillRange: 1
   SkillForce: 0
   SkillDuration: 0
   CastTime: 1.3
   ActionTime: 0
-  ImpactTime: 0.1
+  ImpactTime: 0.42
   RecoveryTime: 0.6
   CoolDown: 0
   SlideForce: 0
@@ -190,7 +190,7 @@ MonoBehaviour:
   ActionTime: 2
   ImpactTime: 0.1
   RecoveryTime: 0.5
-  CoolDown: 2
+  CoolDown: 7
   SlideForce: 0
   SlideDuration: 0
   SlowStacks: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
   ActionTime: 0
   ImpactTime: 0.1
   RecoveryTime: 0.6
-  CoolDown: 7
+  CoolDown: 14
   SlideForce: 0
   SlideDuration: 0
   SlowStacks: 0

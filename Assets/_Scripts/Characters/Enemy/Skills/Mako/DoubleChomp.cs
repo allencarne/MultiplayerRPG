@@ -29,13 +29,13 @@ public class DoubleChomp : EnemySkill
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(ModifiedCastTime);
-        Telegraph(ModifiedCastTime, true, false);
+        Telegraph(ModifiedCastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Impact);
-        Attack(owner.NetworkObject, true, false);
+        Attack(owner.NetworkObject, true, true);
         attack = StartCoroutine(AttackPattern(owner));
     }
 
