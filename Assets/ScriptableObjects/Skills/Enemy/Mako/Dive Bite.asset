@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Dive Bite
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 2
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
-  SkillPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 0}
-  SkillDamage: 0
-  SkillRange: 0
+  SkillPrefab: {fileID: 8596179231798600358, guid: 2622f1257be11d346b2157187778caa7, type: 3}
+  TelegraphPrefab: {fileID: 3457138225266378111, guid: 7032a8c8429aef24daa20f3ca26f2e75, type: 3}
+  SkillDamage: 2
+  SkillRange: 8
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 0
-  ActionTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  CastTime: 0.5
+  ActionTime: 2
+  ImpactTime: 0.1
+  RecoveryTime: 0.5
+  CoolDown: 7
   HealAmount: 0
   SlideForce: 0
   SlideDuration: 0

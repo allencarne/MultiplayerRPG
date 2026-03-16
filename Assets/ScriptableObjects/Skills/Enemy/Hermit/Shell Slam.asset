@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Shell Slam
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 2
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
-  SkillPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 0}
-  SkillDamage: 0
-  SkillRange: 0
+  SkillPrefab: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
+  TelegraphPrefab: {fileID: 4672092746175665225, guid: 2ff9492f08413cb409b98bc9dfb3276a, type: 3}
+  SkillDamage: 2
+  SkillRange: 5
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 0
-  ActionTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  CastTime: 1.2
+  ActionTime: 0.5
+  ImpactTime: 0.1
+  RecoveryTime: 0.5
+  CoolDown: 6
   HealAmount: 0
   SlideForce: 0
   SlideDuration: 0

@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Sand Veil
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 5
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
-  SkillPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 0}
-  SkillDamage: 0
+  SkillPrefab: {fileID: 4297968248264240736, guid: 5a6cfc57eabe5434aae43d20705fb563, type: 3}
+  TelegraphPrefab: {fileID: 1945158657144980141, guid: 76767b74e81d35f458cbf1249cd8fe0f, type: 3}
+  SkillDamage: 3
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 0
+  CastTime: 1.3
   ActionTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.6
+  CoolDown: 14
   HealAmount: 0
   SlideForce: 0
   SlideDuration: 0
-  SlowStacks: 0
-  SlowDuration: 0
+  SlowStacks: 2
+  SlowDuration: 7
   KnockBackForce: 0
   KnockBackDuration: 0
   StunDuration: 0

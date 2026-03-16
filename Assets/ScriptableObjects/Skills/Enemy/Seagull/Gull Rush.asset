@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Gull Rush
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 2
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
-  SkillPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 0}
-  SkillDamage: 0
+  SkillPrefab: {fileID: 6660751756819716834, guid: ebabe5b5de29a2c48affed52ae598b0c, type: 3}
+  TelegraphPrefab: {fileID: 3253965014912967444, guid: ab4b629753ecad241a7f5922be7ffc26, type: 3}
+  SkillDamage: 1
   SkillRange: 0
   SkillForce: 0
-  SkillDuration: 0
-  CastTime: 0
+  SkillDuration: 1
+  CastTime: 1.2
   ActionTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  ImpactTime: 1
+  RecoveryTime: 0.6
+  CoolDown: 5
   HealAmount: 0
-  SlideForce: 0
-  SlideDuration: 0
+  SlideForce: 5
+  SlideDuration: 1
   SlowStacks: 0
   SlowDuration: 0
   KnockBackForce: 0
   KnockBackDuration: 0
-  StunDuration: 0
+  StunDuration: 2

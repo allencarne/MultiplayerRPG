@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Claw Barrage
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 5
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
-  SkillPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 0}
+  SkillPrefab: {fileID: 7296007398955822443, guid: d1bf6294d24762e4baf1aff95f39e69a, type: 3}
+  TelegraphPrefab: {fileID: 5728596397132900320, guid: cdd4378d8bd589245a2761fb81d7a9df, type: 3}
   SkillDamage: 0
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 0
+  CastTime: 1.2
   ActionTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  ImpactTime: 2
+  RecoveryTime: 0.5
+  CoolDown: 12
   HealAmount: 0
   SlideForce: 0
   SlideDuration: 0

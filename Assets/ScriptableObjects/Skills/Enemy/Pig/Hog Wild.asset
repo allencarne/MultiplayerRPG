@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Hog Wild
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 2
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
@@ -22,11 +22,11 @@ MonoBehaviour:
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
-  CastTime: 0
+  CastTime: 0.3
   ActionTime: 0
   ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  RecoveryTime: 0.3
+  CoolDown: 12
   HealAmount: 0
   SlideForce: 0
   SlideDuration: 0

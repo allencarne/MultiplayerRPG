@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Swine Slam
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
-  skillType: 0
+  skillType: 5
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
   Description: 
-  SkillPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 0}
-  SkillDamage: 0
+  SkillPrefab: {fileID: 1615620932521993913, guid: 04a5401ea6ee92d4f8cc208255fbf11e, type: 3}
+  TelegraphPrefab: {fileID: 8667298175634633931, guid: 73f152eb69b6c1c449c45d05db77729e, type: 3}
+  SkillDamage: 3
   SkillRange: 0
   SkillForce: 0
   SkillDuration: 0
   CastTime: 0
   ActionTime: 0
-  ImpactTime: 0
-  RecoveryTime: 0
-  CoolDown: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.5
+  CoolDown: 15
   HealAmount: 0
   SlideForce: 0
   SlideDuration: 0

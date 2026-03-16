@@ -34,9 +34,11 @@ public class DiveBite : EnemySkill
 
     public override void ActionState(EnemyStateMachine owner)
     {
+        owner.Buffs.immoveable.StartImmovable(ActionTime);
+        owner.Buffs.immune.StartImmune(ActionTime);
+
         Animate(owner, skillType, State.Action);
         Attack(owner.NetworkObject, false, false);
-        owner.Buffs.immoveable.StartImmovable(ActionTime);
         Telegraph(ActionTime, true, false);
 
         StartCoroutine(delay(owner));
