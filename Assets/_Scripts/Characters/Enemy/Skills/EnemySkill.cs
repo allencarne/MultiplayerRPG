@@ -255,6 +255,13 @@ public abstract class EnemySkill : NetworkBehaviour
             damageOnTrigger.IgnoreEnemy = true;
         }
 
+        InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
+        if (interruptOnTrigger != null)
+        {
+            interruptOnTrigger.attacker = attacker;
+            interruptOnTrigger.IgnoreEnemy = true;
+        }
+
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {

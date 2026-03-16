@@ -290,6 +290,14 @@ public abstract class PlayerSkill : NetworkBehaviour
             }
         }
 
+        InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
+        if (interruptOnTrigger != null)
+        {
+            interruptOnTrigger.attacker = attacker;
+            interruptOnTrigger.IgnorePlayer = true;
+            interruptOnTrigger.IgnoreNPC = true;
+        }
+
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {

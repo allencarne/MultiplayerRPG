@@ -1,6 +1,5 @@
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CC_Stun : NetworkBehaviour, IStunnable
 {
@@ -17,8 +16,6 @@ public class CC_Stun : NetworkBehaviour, IStunnable
     [SerializeField] PlayerStateMachine player;
     [SerializeField] EnemyStateMachine enemy;
     [SerializeField] NPCStateMachine npc;
-
-    //[SerializeField] Animator[] animators;
 
     private void Update()
     {
@@ -112,7 +109,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             if (stunInstance != null)
             {
-                var ui = stunInstance.GetComponent<StatusEffects>();
+                StatusEffects ui = stunInstance.GetComponent<StatusEffects>();
                 if (ui != null)
                 {
                     ui.UpdateFill(fill);

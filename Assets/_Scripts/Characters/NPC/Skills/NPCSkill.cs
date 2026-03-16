@@ -252,6 +252,13 @@ public abstract class NPCSkill : NetworkBehaviour
             damageOnTrigger.IgnorePlayer = true;
         }
 
+        InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
+        if (interruptOnTrigger != null)
+        {
+            interruptOnTrigger.attacker = attacker;
+            interruptOnTrigger.IgnoreEnemy = true;
+        }
+
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
