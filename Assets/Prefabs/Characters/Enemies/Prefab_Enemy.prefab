@@ -683,7 +683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d47ed03e633e14ebd788006876073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CC_Interrupt
-  CanInterrupt: 0
   player: {fileID: 0}
   enemy: {fileID: 8001761435941154268}
   npc: {fileID: 0}
@@ -1681,13 +1680,16 @@ MonoBehaviour:
   OnDamageDealt:
     m_PersistentCalls:
       m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
   OnEnemyDamaged:
     m_PersistentCalls:
       m_Calls: []
   OnEnemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInterrupted:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &5006461325889791442
@@ -1703,18 +1705,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  Enemy_ID: 
-  Enemy_Name: 
-  startingHealth: 0
-  Enemy_Level: 0
-  expToGive: 0
-  TotalPatience: 5
   EnemySpawnerReference: {fileID: 0}
   TotemReference: {fileID: 0}
   expPrefab: {fileID: 6311114248360890762, guid: dd052559657c2d44c935e05e3f870231, type: 3}
   stateMachine: {fileID: 8001761435941154268}
   stats: {fileID: 878784667173873402}
-  enemyData: {fileID: 0}
+  Data: {fileID: 0}
   bodySprite: {fileID: 6097983339982761849}
   shadowSprite: {fileID: 4703369267009836052}
   healthBar: {fileID: 1827727574157614942}
@@ -1753,11 +1749,6 @@ MonoBehaviour:
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8
-  wanderRadius: 5
-  deAggroRadius: 10
-  basicRadius: 0
-  specialRadius: 0
-  ultimateRadius: 0
   IsAttacking: 0
   isResetting: 0
   CanDash: 0
