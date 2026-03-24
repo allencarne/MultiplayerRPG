@@ -10,23 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Collect_LostPickAxe
+  m_Name: Quest_Kill_Mako
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest26
-  QuestName: Find Lock PickAxe
+  QuestID: Quest30
+  QuestName: Kill Mako Sharks
   LevelRequirment: 0
-  Instructions: I was attacked by mako sharks and dropped my PickAxe, can you retrieve
-    it?
-  Deliver: Thank you! This is very helpful.
+  Instructions: Hello, Please kill 15 Mako Sharks and collect 10 Fins
+  Deliver: Thank you
   RequiredQuests:
   - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
   Objectives:
+  - type: 0
+    ObjectiveID: mako
+    Description: Kill 15 Mako Sharks
+    RequiredAmount: 15
+    CurrentAmount: 0
   - type: 1
-    ObjectiveID: coll_lost_pickaxe
-    Description: Find Lock PickAxe from Mako Sharks
-    RequiredAmount: 1
+    ObjectiveID: coll_shark_fin
+    Description: Collect 10 Shark Fins
+    RequiredAmount: 10
     CurrentAmount: 0
   expReward: 3
-  goldReward: 3
+  goldReward: 1
   Starter: []
   reward: []
