@@ -121,6 +121,8 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void Update()
     {
+        if (!IsServer) return;
+
         switch (state)
         {
             case State.Spawn: enemySpawnState.UpdateState(this); break;
@@ -138,6 +140,8 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void FixedUpdate()
     {
+        if (!IsServer) return;
+
         switch (state)
         {
             case State.Spawn: enemySpawnState.FixedUpdateState(this); break;

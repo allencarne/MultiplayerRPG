@@ -48,6 +48,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
         if (!IsStunned)
         {
             IsStunned = true;
+            ApplyStun();
         }
 
         float remainingTime = stunTotalDuration - stunElapsedTime;
