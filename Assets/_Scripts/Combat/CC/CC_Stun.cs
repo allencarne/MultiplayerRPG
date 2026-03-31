@@ -62,8 +62,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
         if (isStunned)
         {
-            ApplyStun();
-
+            if (!IsServer) ApplyStun();
             if (stunInstance == null)
             {
                 stunInstance = Instantiate(cc_Stun, buffBar.transform);
@@ -121,8 +120,19 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
     void ApplyStun()
     {
-        if (player != null) player.Stagger();
-        if (enemy != null) enemy.Stagger();
-        if (npc != null) npc.Stagger();
+        if (player != null && !player.Buffs.immoveable.IsImmovable)
+        {
+            player.Stagger();
+        }
+
+        if (enemy != null && !enemy.Buffs.immoveable.IsImmovable)
+        {
+            enemy.Stagger();
+        }
+
+        if (npc != null && !npc.Buffs.immoveable.IsImmovable)
+        {
+            npc.Stagger();
+        }
     }
 }

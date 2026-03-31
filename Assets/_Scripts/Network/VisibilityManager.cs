@@ -19,7 +19,7 @@ public class VisibilityManager : NetworkBehaviour
     {
         if (!IsSpawned) return false;
 
-        var playerObject = NetworkManager.ConnectedClients[clientId].PlayerObject;
+        NetworkObject playerObject = NetworkManager.ConnectedClients[clientId].PlayerObject;
         return Vector3.Distance(playerObject.transform.position, transform.position) <= visibilityRange;
     }
 

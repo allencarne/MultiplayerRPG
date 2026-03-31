@@ -139,8 +139,10 @@ public abstract class EnemySkill : NetworkBehaviour
         if (isStaggered)
         {
             owner.SetState(EnemyStateMachine.State.Stagger);
+            return;
         }
-        else if (owner.Target == null)
+
+        if (owner.Target == null)
         {
             owner.enemy.PatienceBar.Patience.Value = 0;
             owner.IsPlayerInRange = false;
