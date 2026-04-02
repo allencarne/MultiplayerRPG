@@ -52,7 +52,21 @@ public class CC_Stun : NetworkBehaviour, IStunnable
         }
 
         float remainingTime = stunTotalDuration - stunElapsedTime;
-        BroadcastClientRPC(true, duration, remainingTime);
+
+        if (player != null && !player.Buffs.immoveable.IsImmovable)
+        {
+            BroadcastClientRPC(true, duration, remainingTime);
+        }
+
+        if (enemy != null && !enemy.Buffs.immoveable.IsImmovable)
+        {
+            BroadcastClientRPC(true, duration, remainingTime);
+        }
+
+        if (npc != null && !npc.Buffs.immoveable.IsImmovable)
+        {
+            BroadcastClientRPC(true, duration, remainingTime);
+        }
     }
 
     [ClientRpc]
