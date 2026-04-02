@@ -40,7 +40,7 @@ public class Tumble : EnemySkill
     public override void ActionState(EnemyStateMachine owner)
     {
         //owner.Buffs.phase.StartPhase(ActionTime);
-        owner.Buffs.immoveable.StartImmovable(ActionTime);
+        //owner.Buffs.immoveable.StartImmovable(ActionTime);
 
         Animate(owner, skillType, State.Impact);
     }
