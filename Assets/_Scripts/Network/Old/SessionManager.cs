@@ -38,7 +38,7 @@ public class SessionManager : MonoBehaviour
 
         if (networkManager != null)
         {
-            // Register the client disconnect callback
+            networkManager.OnClientConnectedCallback += HandleClientConnect;
             networkManager.OnClientDisconnectCallback += HandleClientDisconnect;
         }
         else
@@ -54,9 +54,9 @@ public class SessionManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Unregister the callback to avoid memory leaks
         if (networkManager != null)
         {
+            networkManager.OnClientConnectedCallback -= HandleClientConnect;
             networkManager.OnClientDisconnectCallback -= HandleClientDisconnect;
         }
 
@@ -215,6 +215,12 @@ public class SessionManager : MonoBehaviour
         {
             Debug.Log($"LeaveLobby error: {e}");
         }
+    }
+
+    private void HandleClientConnect(ulong clientId)
+    {
+        // Log the client ID to the console for debugging
+        Debug.Log($"Client with ID {clientId} has connected.");
     }
 
     private void HandleClientDisconnect(ulong clientId)
