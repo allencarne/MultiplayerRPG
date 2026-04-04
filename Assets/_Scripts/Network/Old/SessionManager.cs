@@ -219,13 +219,11 @@ public class SessionManager : MonoBehaviour
 
     private void HandleClientConnect(ulong clientId)
     {
-        // Log the client ID to the console for debugging
         Debug.Log($"Client with ID {clientId} has connected.");
     }
 
     private void HandleClientDisconnect(ulong clientId)
     {
-        // Log the client ID to the console for debugging
         Debug.Log($"Client with ID {clientId} has disconnected.");
     }
 }
