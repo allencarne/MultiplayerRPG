@@ -10,7 +10,10 @@ public class PlayerIdleState : PlayerState
         owner.ChestAnimator.Play("Idle_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Idle_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
-        owner.SwordAnimator.Play(owner.customization.WeaponAnimName + " Idle", -1, 0);
+        if (owner.Equipment.IsWeaponEquipped)
+        {
+            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Idle", -1, 0);
+        }
     }
 
     public override void UpdateState(PlayerStateMachine owner)

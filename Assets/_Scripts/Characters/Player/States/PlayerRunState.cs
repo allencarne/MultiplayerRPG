@@ -13,7 +13,7 @@ public class PlayerRunState : PlayerState
         owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
-        owner.SwordAnimator.Play("Run", -1, 0);
+        owner.WeaponAnimator.Play("Run", -1, 0);
 
         lastDirection = Vector2.zero;
         lastRawInput = Vector2.zero;
@@ -83,8 +83,8 @@ public class PlayerRunState : PlayerState
         owner.LegsAnimator.SetFloat("Horizontal", direction.x);
         owner.LegsAnimator.SetFloat("Vertical", direction.y);
 
-        owner.SwordAnimator.SetFloat("Horizontal", direction.x);
-        owner.SwordAnimator.SetFloat("Vertical", direction.y);
+        owner.WeaponAnimator.SetFloat("Horizontal", direction.x);
+        owner.WeaponAnimator.SetFloat("Vertical", direction.y);
     }
 
     Vector2 GetAnimationDirection(Vector2 input)

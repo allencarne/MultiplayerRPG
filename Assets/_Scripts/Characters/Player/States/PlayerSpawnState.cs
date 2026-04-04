@@ -12,7 +12,7 @@ public class PlayerSpawnState : PlayerState
         owner.ChestAnimator.Play("Spawn_" + owner.customization.net_ChestIndex.Value);
         owner.LegsAnimator.Play( "Spawn_" + owner.customization.net_LegsIndex.Value);
 
-        owner.SwordAnimator.Play("Spawn");
+        owner.WeaponAnimator.Play("Spawn");
 
         owner.StartCoroutine(Duration(owner));
     }

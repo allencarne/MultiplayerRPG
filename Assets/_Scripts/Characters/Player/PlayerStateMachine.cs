@@ -23,7 +23,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Animator BodyAnimator;
     public Animator ChestAnimator;
     public Animator LegsAnimator;
-    public Animator SwordAnimator;
+    public Animator WeaponAnimator;
 
     [Header("Scrips")]
     public Player player;
@@ -101,7 +101,7 @@ public class PlayerStateMachine : NetworkBehaviour
         playerSpawnState.StartState(this);
         PlayerHeadAnimator.SetFloat("Vertical", -1);
         BodyAnimator.SetFloat("Vertical", -1);
-        SwordAnimator.SetFloat("Vertical", -1);
+        WeaponAnimator.SetFloat("Vertical", -1);
     }
 
     public void SkillsOnSpawn()
@@ -618,8 +618,8 @@ public class PlayerStateMachine : NetworkBehaviour
         LegsAnimator.SetFloat("Horizontal", direction.x);
         LegsAnimator.SetFloat("Vertical", direction.y);
 
-        SwordAnimator.SetFloat("Horizontal", direction.x);
-        SwordAnimator.SetFloat("Vertical", direction.y);
+        WeaponAnimator.SetFloat("Horizontal", direction.x);
+        WeaponAnimator.SetFloat("Vertical", direction.y);
     }
 
     #endregion

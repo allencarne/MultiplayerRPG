@@ -4491,7 +4491,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3854534209944906044, guid: 311c07a23cb7f094fb6ddf5dcf0f976f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4499,7 +4499,7 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &599776711134826537
@@ -4584,7 +4584,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1764236443355810784, guid: 6439d8b0c1c5540438549e00462f23fe, type: 3}
+  m_Sprite: {fileID: 9213962798777526176, guid: 1eefff1ce65e8df4ca14c06d67330a9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -25115,7 +25115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -25403,7 +25403,7 @@ MonoBehaviour:
   BodyAnimator: {fileID: 8282777624565145663}
   ChestAnimator: {fileID: 1947832283679940003}
   LegsAnimator: {fileID: 3756110123265388196}
-  SwordAnimator: {fileID: 1012001254419383665}
+  WeaponAnimator: {fileID: 1012001254419383665}
   player: {fileID: 841304983140234989}
   Stats: {fileID: 2477393547595159198}
   playerHead: {fileID: 8195993090240432214}
@@ -25535,7 +25535,7 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
-  WeaponAnimName: 
+  WeaponAnimType: 0
 --- !u!114 &7139024652526368089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55402,7 +55402,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3854534209944906044, guid: 311c07a23cb7f094fb6ddf5dcf0f976f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -55410,7 +55410,7 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!95 &1012001254419383665
