@@ -21,7 +21,8 @@ public class NPCIdleState : NPCState
         owner.ChestAnimator.Play("Idle_" + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play("Idle_" + owner.npc.Data.LegsIndex);
 
-        owner.SwordAnimator.Play("Idle");
+        // Add Idle Index
+        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Idle");
     }
 
     public override void UpdateState(NPCStateMachine owner)

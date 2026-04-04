@@ -24,10 +24,7 @@ public class PlayerCustomization : NetworkBehaviour
     public SpriteRenderer bodySprite;
 
     [Header("Weapons")]
-    public SpriteRenderer Sword;
-    public SpriteRenderer Staff;
-    public SpriteRenderer Bow;
-    public SpriteRenderer Dagger;
+    public SpriteRenderer WeaponSprite;
 
     [Header("Index")]
     public NetworkVariable<int> net_HairIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
@@ -37,6 +34,7 @@ public class PlayerCustomization : NetworkBehaviour
     public NetworkVariable<int> net_EyeIndex = new NetworkVariable<int>(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<Vector2> net_FacingDirection = new NetworkVariable<Vector2>(new Vector2(0, -1), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<FixedString64Bytes> net_EquippedWeaponId = new NetworkVariable<FixedString64Bytes>(writePerm: NetworkVariableWritePermission.Server);
+    public string WeaponAnimName;
 
     public override void OnNetworkSpawn()
     {
@@ -156,10 +154,7 @@ public class PlayerCustomization : NetworkBehaviour
 
     public void UpdateWeaponVisuals(FixedString64Bytes weaponId)
     {
-        Sword.enabled = false;
-        Staff.enabled = false;
-        Bow.enabled = false;
-        Dagger.enabled = false;
+        WeaponSprite.enabled = false;
 
         if (string.IsNullOrEmpty(weaponId.ToString())) return;
         Item baseItem = itemList.GetItemById(weaponId);
@@ -168,20 +163,24 @@ public class PlayerCustomization : NetworkBehaviour
         switch (weapon.weaponType)
         {
             case WeaponType.Sword:
-                Sword.enabled = true;
-                Sword.sprite = weapon.weaponSprite;
+                WeaponSprite.enabled = true;
+                WeaponSprite.sprite = weapon.weaponSprite;
+                WeaponAnimName = weapon.weaponType.ToString();
                 break;
             case WeaponType.Staff:
-                Staff.enabled = true;
-                Staff.sprite = weapon.weaponSprite;
+                WeaponSprite.enabled = true;
+                WeaponSprite.sprite = weapon.weaponSprite;
+                WeaponAnimName = weapon.weaponType.ToString();
                 break;
             case WeaponType.Bow:
-                Bow.enabled = true;
-                Bow.sprite = weapon.weaponSprite;
+                WeaponSprite.enabled = true;
+                WeaponSprite.sprite = weapon.weaponSprite;
+                WeaponAnimName = weapon.weaponType.ToString();
                 break;
             case WeaponType.Dagger:
-                Dagger.enabled = true;
-                Dagger.sprite = weapon.weaponSprite;
+                WeaponSprite.enabled = true;
+                WeaponSprite.sprite = weapon.weaponSprite;
+                WeaponAnimName = weapon.weaponType.ToString();
                 break;
         }
     }

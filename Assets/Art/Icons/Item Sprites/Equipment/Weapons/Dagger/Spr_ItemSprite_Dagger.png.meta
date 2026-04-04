@@ -1,22 +1,25 @@
 fileFormatVersion: 2
-guid: cc31b2defcc8d5f49aaed4e48b93f7ab
+guid: 311c07a23cb7f094fb6ddf5dcf0f976f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6271732383389665246
-    second: Spr_ItemSprite_Staff_0
+      213: -431213998660924384
+    second: Spr_ItemSprite_Dagger_0
   - first:
-      213: 1109337615057530714
-    second: Spr_ItemSprite_Staff_1
+      213: 4844127022925126580
+    second: Spr_ItemSprite_Dagger_1
   - first:
-      213: -7965746800504433962
-    second: Spr_ItemSprite_Staff_2
+      213: -5438280574809536899
+    second: Spr_ItemSprite_Dagger_2
   - first:
-      213: 8777992391397586351
-    second: Spr_ItemSprite_Staff_3
+      213: -1853273018599804418
+    second: Spr_ItemSprite_Dagger_3
   - first:
-      213: 1077843806205139407
-    second: Spr_ItemSprite_Staff_4
+      213: 7176287218621636484
+    second: Spr_ItemSprite_Dagger_4
+  - first:
+      213: 3854534209944906044
+    second: Spr_ItemSprite_Dagger_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +52,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -63,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -87,7 +90,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,111 +128,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spr_ItemSprite_Staff_0
+      name: Spr_ItemSprite_Dagger_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 32
-        height: 32
+        x: 12
+        y: 12
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ed74146af5ba90750800000000000000
-      internalID: 6271732383389665246
+      spriteID: 02cc3a32725040af0800000000000000
+      internalID: -431213998660924384
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_ItemSprite_Staff_1
+      name: Spr_ItemSprite_Dagger_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
+        x: 44
+        y: 12
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a5fab71fea8256f00800000000000000
-      internalID: 1109337615057530714
+      spriteID: 4bb9250bcdbc93340800000000000000
+      internalID: 4844127022925126580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_ItemSprite_Staff_2
+      name: Spr_ItemSprite_Dagger_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
+        x: 76
+        y: 12
+        width: 10
+        height: 9
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6d29a314d7bf37190800000000000000
-      internalID: -7965746800504433962
+      spriteID: d76029561a85784b0800000000000000
+      internalID: -5438280574809536899
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_ItemSprite_Staff_3
+      name: Spr_ItemSprite_Dagger_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
+        x: 108
+        y: 12
+        width: 9
+        height: 9
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa5b55a7291b1d970800000000000000
-      internalID: 8777992391397586351
+      spriteID: ef1fa86320ad746e0800000000000000
+      internalID: -1853273018599804418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_ItemSprite_Staff_4
+      name: Spr_ItemSprite_Dagger_4
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
+        x: 140
+        y: 12
+        width: 10
+        height: 10
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc956382b3545fe00800000000000000
-      internalID: 1077843806205139407
+      spriteID: 48f5e18243b479360800000000000000
+      internalID: 7176287218621636484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_ItemSprite_Dagger_5
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 12
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c396b56117e0e7530800000000000000
+      internalID: 3854534209944906044
       vertices: []
       indices: 
       edges: []
@@ -238,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fb8f0da128b3b1640a509af27f8b502c
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -246,15 +271,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      Spr_ItemSprite_Staff_0: 6271732383389665246
-      Spr_ItemSprite_Staff_1: 1109337615057530714
-      Spr_ItemSprite_Staff_2: -7965746800504433962
-      Spr_ItemSprite_Staff_3: 8777992391397586351
-      Spr_ItemSprite_Staff_4: 1077843806205139407
+      Spr_ItemSprite_Dagger_0: -431213998660924384
+      Spr_ItemSprite_Dagger_1: 4844127022925126580
+      Spr_ItemSprite_Dagger_2: -5438280574809536899
+      Spr_ItemSprite_Dagger_3: -1853273018599804418
+      Spr_ItemSprite_Dagger_4: 7176287218621636484
+      Spr_ItemSprite_Dagger_5: 3854534209944906044
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
