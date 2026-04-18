@@ -13,7 +13,10 @@ public class PlayerRunState : PlayerState
         owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
-        owner.WeaponAnimator.Play("Run", -1, 0);
+        if (owner.Equipment.IsWeaponEquipped)
+        {
+            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Run", -1, 0);
+        }
 
         lastDirection = Vector2.zero;
         lastRawInput = Vector2.zero;

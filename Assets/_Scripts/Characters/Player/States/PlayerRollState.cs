@@ -48,9 +48,12 @@ public class PlayerRollState : PlayerState
         owner.BodyAnimator.SetFloat("Vertical", facingDirection.y);
         owner.BodyAnimator.Play("Roll");
 
-        owner.WeaponAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.WeaponAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.WeaponAnimator.Play("Roll");
+        if (owner.Equipment.IsWeaponEquipped)
+        {
+            owner.WeaponAnimator.SetFloat("Horizontal", facingDirection.x);
+            owner.WeaponAnimator.SetFloat("Vertical", facingDirection.y);
+            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Roll");
+        }
 
         owner.ChestAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.ChestAnimator.SetFloat("Vertical", facingDirection.y);
