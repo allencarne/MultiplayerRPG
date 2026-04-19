@@ -10,7 +10,17 @@ public class PlayerDeathState : PlayerState
         owner.Buffs.PurgeAllDebuffs();
         owner.DeBuffs.CleanseAllDebuffs();
 
+        owner.PlayerHeadAnimator.Play("Death");
         owner.BodyAnimator.Play("Death");
+
+        //owner.ChestAnimator.Play("Death_" + owner.customization.net_ChestIndex.Value, -1, 0);
+        //owner.LegsAnimator.Play("Death_" + owner.customization.net_LegsIndex.Value, -1, 0);
+
+        if (owner.Equipment.IsWeaponEquipped)
+        {
+            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Death", -1, 0);
+        }
+
         owner.IsAttacking = false;
 
         owner.player.CastBar.ResetCastBar();
