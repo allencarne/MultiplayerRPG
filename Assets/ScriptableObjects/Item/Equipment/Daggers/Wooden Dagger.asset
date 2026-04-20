@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
+  m_Name: Wooden Dagger
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  ITEM_ID: dagger_wooden
+  Prefab: {fileID: 5768946182864856029, guid: 292f49e22cecdcf40bfe042702f8b4af, type: 3}
+  Icon: {fileID: 21300000, guid: 2ab8107df27eb194c9191d0be0693bf4, type: 3}
+  ItemRarity: 0
+  SellValue: 1
+  Cost: 1
+  Description: 
+  DropChance: 0
+  IsStackable: 0
+  AnimationIndex: 0
+  LevelRequirement: 0
+  equipmentType: 5
+  ClassRequirement: 5
+  modifiers:
+  - value: 1
+    statType: 0
+    source: 0
+  weaponSprite: {fileID: -431213998660924384, guid: 311c07a23cb7f094fb6ddf5dcf0f976f, type: 3}
+  weaponType: 3

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
+  m_Name: Wooden Bow
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  ITEM_ID: bow_wooden
+  Prefab: {fileID: 1516595219366365531, guid: 319a713e66c6ace4da60c3d31896af0e, type: 3}
+  Icon: {fileID: 21300000, guid: ae0cb53ca4f15e643a7b62ee0c1fafaf, type: 3}
+  ItemRarity: 0
+  SellValue: 1
+  Cost: 1
+  Description: 
+  DropChance: 0
+  IsStackable: 0
+  AnimationIndex: 0
+  LevelRequirement: 0
+  equipmentType: 5
+  ClassRequirement: 4
+  modifiers:
+  - value: 1
+    statType: 0
+    source: 0
+  weaponSprite: {fileID: -3701230632525560514, guid: 2ddd9db25df8da048b2490d8f7cdb0e9, type: 3}
+  weaponType: 2
