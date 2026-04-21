@@ -73,6 +73,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-7976283962128181668
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Dagger Empower
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: d21cdfa582871f844862e6209aaed18e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-7954143205879788818
 AnimatorState:
   serializedVersion: 6
@@ -370,6 +396,32 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 1
+--- !u!1102 &-4384955855261402100
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Staff Empower
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: ae2220607b58b6049b3307bfe3722b3c, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-3693996281603259501
 AnimatorState:
   serializedVersion: 6
@@ -417,6 +469,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: a781abda26a61924797aab835eda3351, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-3168119985356381779
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Bow Empower
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 6432691b82b49b24c91bcb6fc046cb46, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -533,16 +611,16 @@ AnimatorStateMachine:
     m_Position: {x: -270, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4222914107083441395}
-    m_Position: {x: -270, y: -210, z: 0}
+    m_Position: {x: -270, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5005652964384688413}
-    m_Position: {x: -270, y: -250, z: 0}
+    m_Position: {x: -270, y: -320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1077923411052138227}
-    m_Position: {x: -270, y: -290, z: 0}
+    m_Position: {x: -270, y: -360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 681484625659429194}
-    m_Position: {x: -270, y: 0, z: 0}
+    m_Position: {x: -270, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5554739036454489627}
     m_Position: {x: 30, y: 150, z: 0}
@@ -560,55 +638,67 @@ AnimatorStateMachine:
     m_Position: {x: -70, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4655443344531785332}
-    m_Position: {x: -70, y: 0, z: 0}
+    m_Position: {x: -70, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5230119003504136889}
     m_Position: {x: 130, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6881712593058559863}
-    m_Position: {x: 130, y: 0, z: 0}
+    m_Position: {x: 130, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5629494485100065229}
     m_Position: {x: 330, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8856218894723255154}
-    m_Position: {x: 330, y: 0, z: 0}
+    m_Position: {x: 330, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6842764392009252352}
-    m_Position: {x: -270, y: -140, z: 0}
+    m_Position: {x: -270, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5792717291097543288}
-    m_Position: {x: -70, y: -140, z: 0}
+    m_Position: {x: -70, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8000702709061682745}
-    m_Position: {x: 130, y: -140, z: 0}
+    m_Position: {x: 130, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3628355581417146237}
-    m_Position: {x: 330, y: -140, z: 0}
+    m_Position: {x: 330, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3693996281603259501}
-    m_Position: {x: -270, y: -40, z: 0}
+    m_Position: {x: -270, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5129610698429588603}
-    m_Position: {x: -70, y: -40, z: 0}
+    m_Position: {x: -70, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7824772676872008931}
-    m_Position: {x: 130, y: -40, z: 0}
+    m_Position: {x: 130, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 841797356087064535}
-    m_Position: {x: 330, y: -40, z: 0}
+    m_Position: {x: 330, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8089500236813855704}
-    m_Position: {x: -270, y: -100, z: 0}
+    m_Position: {x: -270, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8781264629239429861}
-    m_Position: {x: -70, y: -100, z: 0}
+    m_Position: {x: -70, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2914071512696501502}
-    m_Position: {x: 130, y: -100, z: 0}
+    m_Position: {x: 130, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5365324640085987244}
-    m_Position: {x: 330, y: -100, z: 0}
+    m_Position: {x: 330, y: -180, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8034896410073755831}
+    m_Position: {x: -270, y: -120, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3168119985356381779}
+    m_Position: {x: 130, y: -120, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4384955855261402100}
+    m_Position: {x: -70, y: -120, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7976283962128181668}
+    m_Position: {x: 330, y: -120, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1769,6 +1859,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 8753115688006849397}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &8034896410073755831
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sword Empower
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: ee98e2ec209bd5745abb75fb342589a3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
