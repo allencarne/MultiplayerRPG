@@ -222,13 +222,17 @@ public abstract class PlayerSkill : NetworkBehaviour
             case State.Done: _state = "Done"; break;
         }
 
-        //owner.PlayerHeadAnimator.Play("Attack");
-        owner.BodyAnimator.Play(_weapon + " " + _skill + " " + _state);
+        owner.PlayerHeadAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
+        owner.BodyAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
 
-        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_ChestIndex.Value);
-        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + _state + " " + owner.customization.net_LegsIndex.Value);
+        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + owner.customization.net_ChestIndex.Value);
+        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + owner.customization.net_LegsIndex.Value);
 
-        owner.WeaponAnimator.Play(_weapon + " " + _skill + " " + _state);
+        owner.WeaponAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
+
+        owner.playerHead.SetEyes(AimDirection);
+        owner.playerHead.SetHair(AimDirection);
+        owner.playerHead.SetHelm(AimDirection);
     }
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
