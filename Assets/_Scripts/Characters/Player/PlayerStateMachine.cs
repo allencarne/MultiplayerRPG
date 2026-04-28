@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -620,6 +621,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         WeaponAnimator.SetFloat("Horizontal", direction.x);
         WeaponAnimator.SetFloat("Vertical", direction.y);
+
+        customization.net_FacingDirection.Value = direction;
+        playerHead.SetEyes(direction);
+        playerHead.SetHair(direction);
+        playerHead.SetHelm(direction);
     }
 
     #endregion
