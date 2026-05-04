@@ -6,9 +6,6 @@ public class FrailSlash : PlayerSkill
     {
         InitializeAbility(skillType, owner);
 
-        // Cast Time - Basic Attack Only
-        ModifiedCastTime = CastTime / owner.Stats.TotalAS;
-
         // Aim
         AimDirection = owner.Aimer.right;
         AimRotation = owner.Aimer.rotation;
@@ -54,6 +51,6 @@ public class FrailSlash : PlayerSkill
     public override void RecoveryState(PlayerStateMachine owner)
     {
         Animate(owner, weaponType, skillType, State.Recovery);
-        owner.player.CastBar.StartRecovery(RecoveryTime);
+        owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
     }
 }

@@ -56,6 +56,7 @@ public abstract class PlayerSkill : NetworkBehaviour
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
     [HideInInspector] protected float ModifiedCastTime;
+    [HideInInspector] protected float ModifiedRecoveryTime;
 
     [Header("Aim")]
     [HideInInspector] protected Vector2 SpawnPosition;
@@ -129,7 +130,16 @@ public abstract class PlayerSkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-                ChangeState(State.Recovery, RecoveryTime);
+
+                if (skillType == SkillType.Basic)
+                {
+                    ChangeState(State.Recovery, ModifiedRecoveryTime);
+                }
+                else
+                {
+                    ChangeState(State.Recovery, RecoveryTime);
+                }
+
                 break;
 
             case State.Recovery:
@@ -163,8 +173,13 @@ public abstract class PlayerSkill : NetworkBehaviour
     {
         owner.CurrentSkill = this;
 
-        if (skilltype == SkillType.Basic) IsBasic = true;
-
+        if (skilltype == SkillType.Basic)
+        {
+            IsBasic = true;
+            ModifiedCastTime = CastTime / owner.Stats.TotalAS;
+            ModifiedRecoveryTime = RecoveryTime / owner.Stats.TotalAS;
+        }
+            
         AttackerDamage = owner.Stats.TotalDamage;
 
         owner.PlayerRB.linearVelocity = Vector2.zero;
