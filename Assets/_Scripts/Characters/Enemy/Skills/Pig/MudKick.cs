@@ -6,9 +6,6 @@ public class MudKick : EnemySkill
     {
         InitializeAbility(skillType, owner);
 
-        // Basic
-        ModifiedCastTime = CastTime / owner.enemy.stats.TotalAS;
-
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;

@@ -130,7 +130,6 @@ public abstract class PlayerSkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-
                 if (skillType == SkillType.Basic)
                 {
                     ChangeState(State.Recovery, ModifiedRecoveryTime);
@@ -139,7 +138,6 @@ public abstract class PlayerSkill : NetworkBehaviour
                 {
                     ChangeState(State.Recovery, RecoveryTime);
                 }
-
                 break;
 
             case State.Recovery:

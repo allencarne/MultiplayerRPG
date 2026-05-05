@@ -46,6 +46,7 @@ public abstract class EnemySkill : NetworkBehaviour
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
     [HideInInspector] protected float ModifiedCastTime;
+    [HideInInspector] protected float ModifiedRecoveryTime;
 
     [Header("Aim")]
     [HideInInspector] protected Vector2 SpawnPosition;
@@ -117,7 +118,14 @@ public abstract class EnemySkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-                ChangeState(State.Recovery, RecoveryTime);
+                if (skillType == SkillType.Basic)
+                {
+                    ChangeState(State.Recovery, ModifiedRecoveryTime);
+                }
+                else
+                {
+                    ChangeState(State.Recovery, RecoveryTime);
+                }
                 break;
 
             case State.Recovery:
@@ -158,6 +166,13 @@ public abstract class EnemySkill : NetworkBehaviour
     protected void InitializeAbility(SkillType skilltype, EnemyStateMachine owner)
     {
         owner.CurrentSkill = this;
+
+        if (skilltype == SkillType.Basic)
+        {
+            //IsBasic = true;
+            ModifiedCastTime = CastTime / owner.enemy.stats.TotalAS;
+            ModifiedRecoveryTime = RecoveryTime / owner.enemy.stats.TotalAS;
+        }
 
         owner.EnemyRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;

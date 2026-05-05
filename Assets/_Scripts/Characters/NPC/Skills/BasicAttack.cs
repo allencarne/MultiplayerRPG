@@ -6,9 +6,6 @@ public class BasicAttack : NPCSkill
     {
         InitializeAbility(skillType, owner);
 
-        // Basic
-        ModifiedCastTime = CastTime / owner.npc.stats.TotalAS;
-
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
