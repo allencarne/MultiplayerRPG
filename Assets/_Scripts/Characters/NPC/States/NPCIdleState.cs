@@ -15,14 +15,14 @@ public class NPCIdleState : NPCState
 
 
 
-        owner.HeadAnimator.Play("Idle");
-        owner.BodyAnimator.Play("Idle");
+        owner.HeadAnimator.Play("Idle", -1, 0);
+        owner.BodyAnimator.Play("Idle", -1, 0);
 
-        owner.ChestAnimator.Play("Idle_" + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play("Idle_" + owner.npc.Data.LegsIndex);
+        owner.ChestAnimator.Play("Idle_" + owner.npc.Data.ChestIndex, -1, 0);
+        owner.LegsAnimator.Play("Idle_" + owner.npc.Data.LegsIndex, -1, 0);
 
         // Add Idle Index
-        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Idle");
+        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Idle", -1, 0);
     }
 
     public override void UpdateState(NPCStateMachine owner)

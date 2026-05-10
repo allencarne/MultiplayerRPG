@@ -10,7 +10,7 @@ public class NPCResetState : NPCState
         owner.BodyAnimator.Play("Run");
         owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
         owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
-        owner.SwordAnimator.Play("Run");
+        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
 
         owner.npc.PatienceBar.Patience.Value = owner.npc.Data.TotalPatience;
 
