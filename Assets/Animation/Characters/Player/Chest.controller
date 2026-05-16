@@ -643,6 +643,32 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 1
+--- !u!1102 &1444717346761384832
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Empower_2
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 6eb2963f9f78ab540b9f9272be29e690, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1713840755168024666
 AnimatorState:
   serializedVersion: 6
@@ -908,6 +934,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &4196481376548748968
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Empower_1
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: be926d89ad581ea45a3e807fafa2ea43, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &4512200522180756314
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1071,31 +1123,31 @@ AnimatorStateMachine:
     m_Position: {x: -120, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -703302416321295038}
-    m_Position: {x: -120, y: -140, z: 0}
+    m_Position: {x: -120, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7664105470114628356}
-    m_Position: {x: -120, y: -180, z: 0}
+    m_Position: {x: -120, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4038283399704810565}
-    m_Position: {x: -120, y: -220, z: 0}
+    m_Position: {x: -120, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2150554649320133910}
-    m_Position: {x: 90, y: -140, z: 0}
+    m_Position: {x: 90, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6958663192091375889}
-    m_Position: {x: 300, y: -140, z: 0}
+    m_Position: {x: 300, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4245870168034226337}
-    m_Position: {x: 90, y: -180, z: 0}
+    m_Position: {x: 90, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4711663802455400459}
-    m_Position: {x: 90, y: -220, z: 0}
+    m_Position: {x: 90, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3048117263403030233}
-    m_Position: {x: 300, y: -180, z: 0}
+    m_Position: {x: 300, y: -210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8058318006888397430}
-    m_Position: {x: 300, y: -220, z: 0}
+    m_Position: {x: 300, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4832119330134413488}
     m_Position: {x: -120, y: -10, z: 0}
@@ -1114,6 +1166,15 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1903249688746283255}
     m_Position: {x: 300, y: -50, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6527424883685006252}
+    m_Position: {x: -120, y: -110, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4196481376548748968}
+    m_Position: {x: 90, y: -110, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1444717346761384832}
+    m_Position: {x: 300, y: -110, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1171,6 +1232,32 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 1
+--- !u!1102 &6527424883685006252
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Empower_0
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!206 &6747429412655494982
 BlendTree:
   m_ObjectHideFlags: 1
