@@ -13,8 +13,8 @@ public class PlayerDeathState : PlayerState
         owner.PlayerHeadAnimator.Play("Death");
         owner.BodyAnimator.Play("Death");
 
-        //owner.ChestAnimator.Play("Death_" + owner.customization.net_ChestIndex.Value, -1, 0);
-        //owner.LegsAnimator.Play("Death_" + owner.customization.net_LegsIndex.Value, -1, 0);
+        owner.ChestAnimator.Play("Death_" + owner.customization.net_ChestIndex.Value);
+        owner.LegsAnimator.Play("Death_" + owner.customization.net_LegsIndex.Value);
 
         if (owner.Equipment.IsWeaponEquipped)
         {
