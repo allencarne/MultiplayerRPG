@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88ed5c39fbb82424b885c91364367fe2, type: 3}
-  m_Name: NPC_Beach_Quest_Tim
+  m_Name: NPC_Beach_Quest_Ulani
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
-  NPC_ID: Quest_Tim
-  NPCName: Tim
+  NPC_ID: Quest_Ulani
+  NPCName: Ulani
   NPC_Level: 6
   npcClass: 0
   MaxHealth: 50
@@ -23,20 +23,23 @@ MonoBehaviour:
   CoolDownRecution: 1
   Armor: 0
   TotalPatience: 5
-  skinColorIndex: 5
-  hairStyleIndex: 1
-  hairColorIndex: 1
-  eyeStyleIndex: 1
-  eyeColorIndex: 1
+  skinColorIndex: 4
+  hairStyleIndex: 15
+  hairColorIndex: 5
+  eyeStyleIndex: 10
+  eyeColorIndex: 9
   HelmIndex: 2
   ChestIndex: 2
   LegsIndex: 2
   Weapon: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+  WeaponType: 0
   Dialogue:
   - Hi there
   Quests:
-  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
-  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
+  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
+  - {fileID: 11400000, guid: e0d69c559f6b6eb46b526b9a852a3234, type: 2}
+  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
+  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
   Items: []
   PatrolForward: 0
   waypoints: []

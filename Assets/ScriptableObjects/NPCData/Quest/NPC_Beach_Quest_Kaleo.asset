@@ -10,33 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88ed5c39fbb82424b885c91364367fe2, type: 3}
-  m_Name: NPC_Beach_Quest_Tony
+  m_Name: NPC_Beach_Quest_Kaleo
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
-  NPC_ID: Quest_Tony
-  NPCName: Tony
-  NPC_Level: 9
+  NPC_ID: Quest_Kaleo
+  NPCName: Kaleo
+  NPC_Level: 6
   npcClass: 0
-  MaxHealth: 98
-  Damage: 10
+  MaxHealth: 50
+  Damage: 6
   Speed: 3
   AttackSpeed: 1
   CoolDownRecution: 1
   Armor: 0
   TotalPatience: 5
-  skinColorIndex: 5
-  hairStyleIndex: 1
-  hairColorIndex: 1
-  eyeStyleIndex: 1
-  eyeColorIndex: 1
+  skinColorIndex: 4
+  hairStyleIndex: 11
+  hairColorIndex: 2
+  eyeStyleIndex: 3
+  eyeColorIndex: 0
   HelmIndex: 2
   ChestIndex: 2
   LegsIndex: 2
   Weapon: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+  WeaponType: 0
   Dialogue:
   - Hi there
   Quests:
-  - {fileID: 11400000, guid: 9c3ff16b6dd915745b2cce355f9078f3, type: 2}
-  - {fileID: 11400000, guid: 468c9b2ee3131484f8280a7474d489e9, type: 2}
+  - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
+  - {fileID: 11400000, guid: f76be8ac36c52ea4798bf96615afc505, type: 2}
   Items: []
   PatrolForward: 0
   waypoints: []

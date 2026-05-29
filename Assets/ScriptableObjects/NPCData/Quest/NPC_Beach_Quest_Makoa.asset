@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88ed5c39fbb82424b885c91364367fe2, type: 3}
-  m_Name: NPC_Beach_Quest_Sam
+  m_Name: NPC_Beach_Quest_Makoa
   m_EditorClassIdentifier: Assembly-CSharp::NPCData
-  NPC_ID: Quest_Sam
-  NPCName: Sam
+  NPC_ID: Quest_Makoa
+  NPCName: Makoa
   NPC_Level: 9
   npcClass: 0
   MaxHealth: 98
@@ -23,19 +23,20 @@ MonoBehaviour:
   CoolDownRecution: 1
   Armor: 0
   TotalPatience: 5
-  skinColorIndex: 5
-  hairStyleIndex: 1
-  hairColorIndex: 1
-  eyeStyleIndex: 1
-  eyeColorIndex: 1
+  skinColorIndex: 3
+  hairStyleIndex: 15
+  hairColorIndex: 5
+  eyeStyleIndex: 2
+  eyeColorIndex: 6
   HelmIndex: 2
   ChestIndex: 2
   LegsIndex: 2
   Weapon: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+  WeaponType: 0
   Dialogue:
   - Hi there
   Quests:
-  - {fileID: 11400000, guid: 8b87ba8c4f6a83442a333b30c20273c6, type: 2}
+  - {fileID: 11400000, guid: 526e3b4d8a48634418a4aae2a0c162ff, type: 2}
   Items: []
   PatrolForward: 0
   waypoints: []
