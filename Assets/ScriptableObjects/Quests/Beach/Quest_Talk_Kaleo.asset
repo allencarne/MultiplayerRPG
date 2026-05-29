@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Frank
+  m_Name: Quest_Talk_Kaleo
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest12
-  QuestName: Talk To Frank
+  QuestID: Quest2
+  QuestName: Talk To Kaleo
   LevelRequirment: 0
-  Instructions: Speak To Frank, He's Located East of Here, In a small town.
+  Instructions: Speak To Kaleo
   Deliver: 'sdfksdfjsdkfjsd
 
     fdskfjsldkfs
@@ -24,12 +24,11 @@ MonoBehaviour:
 
     sdfsdfjsdf'
   RequiredQuests:
-  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
-  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
+  - {fileID: 11400000, guid: 2136c86e551181e4d9f65996291c02ed, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Frank
-    Description: Talk To Frank
+    ObjectiveID: Quest_Kaleo
+    Description: Talk To Kaleo
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

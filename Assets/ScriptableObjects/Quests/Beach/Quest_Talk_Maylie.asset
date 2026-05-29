@@ -10,27 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Jake
+  m_Name: Quest_Talk_Maylie
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest18
-  QuestName: Talk To Jake
+  QuestID: Quest29
+  QuestName: Talk to Maylie
   LevelRequirment: 0
-  Instructions: Speak To Jake
-  Deliver: 'sdfksdfjsdkfjsd
-
-    fdskfjsldkfs
-
-    df
-
-    sdfsdfjsdf'
+  Instructions: Tell Maylie I'm okay, I'm not lost.
+  Deliver: Thank you very much!
   RequiredQuests:
-  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
-  - {fileID: 11400000, guid: b8b600f8498fdf348a841363397d42b5, type: 2}
-  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
+  - {fileID: 11400000, guid: df1665662146e8546bc07e0078c18d18, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Jake
-    Description: Talk To Jake
+    ObjectiveID: Quest_Maylie
+    Description: Talk to Maylie
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

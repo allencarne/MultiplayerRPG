@@ -10,27 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Tony
+  m_Name: Quest_Talk_Kahu
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest19
-  QuestName: Talk To Tony
+  QuestID: Quest27
+  QuestName: Help Kahu
   LevelRequirment: 0
-  Instructions: Speak To Tony
-  Deliver: 'sdfksdfjsdkfjsd
-
-    fdskfjsldkfs
-
-    df
-
-    sdfsdfjsdf'
+  Instructions: My buddy Kahu is having trouble with his boat, can you go check on
+    him and see what is wrong? He's just north of here
+  Deliver: Thanks!
   RequiredQuests:
-  - {fileID: 11400000, guid: 688bfbfc2fcf1b14bb2d4901138890f7, type: 2}
-  - {fileID: 11400000, guid: 42501dfdac7198449b0abcac02cef4b7, type: 2}
-  - {fileID: 11400000, guid: 8b87ba8c4f6a83442a333b30c20273c6, type: 2}
+  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Tony
-    Description: Talk To Tony
+    ObjectiveID: Quest_Kahu
+    Description: Talk to Kahu
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

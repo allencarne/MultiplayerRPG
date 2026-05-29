@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Von
+  m_Name: Quest_Talk_Elue
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest10
-  QuestName: Help The Chef
+  QuestID: Quest11
+  QuestName: Talk To Elue
   LevelRequirment: 0
-  Instructions: Speak To Von, He's located on the east side of town.
+  Instructions: Talk To Elue. I last seen him east of town. Follow the south road.
   Deliver: 'sdfksdfjsdkfjsd
 
     fdskfjsldkfs
@@ -24,11 +24,11 @@ MonoBehaviour:
 
     sdfsdfjsdf'
   RequiredQuests:
-  - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
+  - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Von
-    Description: Talk To Von
+    ObjectiveID: Quest_Elue
+    Description: Find Elue
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

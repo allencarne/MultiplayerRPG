@@ -10,20 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Sam
+  m_Name: Quest_Talk_Kai
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest28
-  QuestName: Find Sam
+  QuestID: Quest19
+  QuestName: Talk To Kai
   LevelRequirment: 0
-  Instructions: I lost Sam, I don't know where he is. I last seen him playing with
-    the pigs. Can you help me find him?
-  Deliver: Thank you very much!
+  Instructions: Speak To Kai
+  Deliver: 'sdfksdfjsdkfjsd
+
+    fdskfjsldkfs
+
+    df
+
+    sdfsdfjsdf'
   RequiredQuests:
-  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
+  - {fileID: 11400000, guid: 688bfbfc2fcf1b14bb2d4901138890f7, type: 2}
+  - {fileID: 11400000, guid: 42501dfdac7198449b0abcac02cef4b7, type: 2}
+  - {fileID: 11400000, guid: 8b87ba8c4f6a83442a333b30c20273c6, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Sam
-    Description: Find Sam
+    ObjectiveID: Quest_Kai
+    Description: Talk To Kai
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1
