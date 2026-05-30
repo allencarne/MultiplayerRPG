@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: Quest_Hit_Dummy
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest0
-  QuestName: Hit Training Dummy
+  QuestName: Washed Up
   LevelRequirment: 0
-  Instructions: Welcome to the island! We are in need of strong individuals who aren't
-    afraid to fight! Take this weapon and show us what you've got! There are some
-    training dummies to the east.
-  Deliver: Nice work, That was very Impressive!
+  Instructions: You wash up on a beach and you're already on your feet? Ha! I can
+    tell just by looking at you.. you're a fighter! Here, take this. It's not much,
+    but let's see what you can do with it. There are <color=orange>training dummies</color>
+    to the <color=green>east</color>. Go show me your swing!
+  Deliver: I knew it! I knew the moment I saw you. You're exactly what this island
+    needs. Rest for a moment, I need to think about what comes next.
   RequiredQuests: []
   Objectives:
   - type: 3
     ObjectiveID: dummy
-    Description: Training Dummy Hit
+    Description: Hit the <color=orange>training dummies</color> to the <color=green>east</color>
     RequiredAmount: 5
     CurrentAmount: 0
   expReward: 1
