@@ -10,6 +10,7 @@ public class CharacterSelect : MonoBehaviour
     [SerializeField] CharacterCustomizationData customizationData;
 
     [Header("Character 1")]
+    [SerializeField] GameObject playerPreview1;
     [SerializeField] TextMeshProUGUI Character1NameText;
     [SerializeField] Image head1;
     [SerializeField] Image body1;
@@ -19,6 +20,7 @@ public class CharacterSelect : MonoBehaviour
     [SerializeField] GameObject statPreview1;
 
     [Header("Character 2")]
+    [SerializeField] GameObject playerPreview2;
     [SerializeField] TextMeshProUGUI Character2NameText;
     [SerializeField] Image head2;
     [SerializeField] Image body2;
@@ -28,6 +30,7 @@ public class CharacterSelect : MonoBehaviour
     [SerializeField] GameObject statPreview2;
 
     [Header("Character 3")]
+    [SerializeField] GameObject playerPreview3;
     [SerializeField] TextMeshProUGUI Character3NameText;
     [SerializeField] Image head3;
     [SerializeField] Image body3;
@@ -45,6 +48,9 @@ public class CharacterSelect : MonoBehaviour
         if (!character1Exists && !character2Exists && !character3Exists)
         {
             CharacterCreatorPanel.SetActive(true);
+            playerPreview1.SetActive(false);
+            playerPreview2.SetActive(false);
+            playerPreview3.SetActive(false);
         }
 
         deleteButton1.gameObject.SetActive(false);
@@ -195,6 +201,9 @@ public class CharacterSelect : MonoBehaviour
         {
             characterCreator.ResetCreatorUI();
             CharacterCreatorPanel.SetActive(true);
+            playerPreview1.SetActive(false);
+            playerPreview2.SetActive(false);
+            playerPreview3.SetActive(false);
         }
 
         deleteButton1.gameObject.SetActive(false);
@@ -215,6 +224,9 @@ public class CharacterSelect : MonoBehaviour
         {
             characterCreator.ResetCreatorUI();
             CharacterCreatorPanel.SetActive(true);
+            playerPreview1.SetActive(false);
+            playerPreview2.SetActive(false);
+            playerPreview3.SetActive(false);
         }
 
         deleteButton2.gameObject.SetActive(false);
@@ -235,6 +247,9 @@ public class CharacterSelect : MonoBehaviour
         {
             characterCreator.ResetCreatorUI();
             CharacterCreatorPanel.SetActive(true);
+            playerPreview1.SetActive(false);
+            playerPreview2.SetActive(false);
+            playerPreview3.SetActive(false);
         }
 
         deleteButton3.gameObject.SetActive(false);
