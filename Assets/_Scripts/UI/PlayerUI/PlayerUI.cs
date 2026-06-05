@@ -194,8 +194,6 @@ public class PlayerUI : MonoBehaviour
         {
             questInfoPanel.SetActive(true);
             questInfoPanel.transform.SetAsLastSibling();
-
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questInfoFirstSelected);
         }
     }
 

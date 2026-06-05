@@ -112,8 +112,8 @@ public class PlayerInteract : NetworkBehaviour
     public void OpenQuestUI(Quest quest, NPC npc)
     {
         interactText.enabled = false;
-        questInfoPanel.UpdateQuestInfo(npc, quest);
         playerUI._QuestInfoUI();
+        questInfoPanel.UpdateQuestInfo(npc, quest);
     }
 
     public void OpenShopUI(NPCData data)

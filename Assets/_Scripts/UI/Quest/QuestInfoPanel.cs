@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -52,13 +53,13 @@ public class QuestInfoPanel : MonoBehaviour
         {
             questInfo.text = quest.Instructions;
             acceptButton.gameObject.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(acceptButton.gameObject);
+            StartCoroutine(SelectNextFrame(acceptButton.gameObject));
         }
         else if (progress.state == QuestState.ReadyToTurnIn)
         {
             questInfo.text = quest.Deliver;
             turnInButton.gameObject.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(turnInButton.gameObject);
+            StartCoroutine(SelectNextFrame(turnInButton.gameObject));
         }
         else if (progress.state == QuestState.InProgress)
         {
@@ -71,9 +72,15 @@ public class QuestInfoPanel : MonoBehaviour
             {
                 questInfo.text = quest.Deliver;
                 turnInButton.gameObject.SetActive(true);
-                EventSystem.current.SetSelectedGameObject(turnInButton.gameObject);
+                StartCoroutine(SelectNextFrame(turnInButton.gameObject));
             }
         }
+    }
+
+    IEnumerator SelectNextFrame(GameObject target)
+    {
+        yield return null;
+        EventSystem.current.SetSelectedGameObject(target);
     }
 
     void ClearList()
