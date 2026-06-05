@@ -54,12 +54,14 @@ public class PlayerUI : MonoBehaviour
         if (inventoryPanel.activeSelf)
         {
             inventoryPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
             skillButtons.HandleInventory();
         }
         else
         {
             inventoryPanel.SetActive(true);
+            inventoryPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(inventoryFirstSelected);
             skillButtons.HandleInventory();
         }
@@ -70,12 +72,14 @@ public class PlayerUI : MonoBehaviour
         if (skillPanel.activeSelf)
         {
             skillPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
             skillButtons.HandleAllSkills();
         }
         else
         {
             skillPanel.SetActive(true);
+            skillPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(skillFirstSelected);
             skillButtons.HandleAllSkills();
         }
@@ -86,12 +90,14 @@ public class PlayerUI : MonoBehaviour
         if (attributePanel.activeSelf)
         {
             attributePanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
             skillButtons.HandleAttributes();
         }
         else
         {
             attributePanel.SetActive(true);
+            attributePanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(attributeFirstSelected);
             skillButtons.HandleAttributes();
         }
@@ -102,11 +108,13 @@ public class PlayerUI : MonoBehaviour
         if (questLogPanel.activeSelf)
         {
             questLogPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
         }
         else
         {
             questLogPanel.SetActive(true);
+            questLogPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questLogFirstSelected);
         }
     }
@@ -116,11 +124,13 @@ public class PlayerUI : MonoBehaviour
         if (settingsPanel.activeSelf)
         {
             settingsPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
         }
         else
         {
             settingsPanel.SetActive(true);
+            settingsPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(settingsfirstselected);
         }
     }
@@ -130,11 +140,13 @@ public class PlayerUI : MonoBehaviour
         if (interactPanel.activeSelf)
         {
             interactPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
         }
         else
         {
             interactPanel.SetActive(true);
+            interactPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(interactfirstSelected);
         }
     }
@@ -144,11 +156,13 @@ public class PlayerUI : MonoBehaviour
         if (questInfoPanel.activeSelf)
         {
             questInfoPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
         }
         else
         {
             questInfoPanel.SetActive(true);
+            questInfoPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(questInfoFirstSelected);
         }
     }
@@ -158,11 +172,13 @@ public class PlayerUI : MonoBehaviour
         if (vendorPanel.activeSelf)
         {
             vendorPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
         }
         else
         {
             vendorPanel.SetActive(true);
+            vendorPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(vendorFirstSelected);
         }
     }
@@ -172,11 +188,13 @@ public class PlayerUI : MonoBehaviour
         if (mapPanel.activeSelf)
         {
             mapPanel.SetActive(false);
-            UpdateSelectedUI();
+            //UpdateSelectedUI();
         }
         else
         {
             mapPanel.SetActive(true);
+            mapPanel.transform.SetAsLastSibling();
+
             if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(mapFirstSelected);
         }
     }
@@ -188,8 +206,7 @@ public class PlayerUI : MonoBehaviour
 
     void UpdateSelectedUI()
     {
-        if (!UsingGamepad())
-            return;
+        if (!UsingGamepad()) return;
 
         if (inventoryPanel.activeSelf)
             EventSystem.current.SetSelectedGameObject(inventoryFirstSelected);
