@@ -6,6 +6,7 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField] PlayerInput playerInput;
     [SerializeField] AttributeSkillButtons skillButtons;
+    [SerializeField] PlayerInteract playerInteract;
 
     [Header("FirstSelected")]
     [SerializeField] GameObject inventoryFirstSelected;
@@ -126,15 +127,15 @@ public class PlayerUI : MonoBehaviour
 
         if (topmostPanel != null)
         {
-            topmostPanel.SetActive(false);
-
-            // Handle any side effects for panels that need them
-            if (topmostPanel == inventoryPanel || topmostPanel == skillPanel)
-                skillButtons.HandleInventory();
-            else if (topmostPanel == attributePanel)
-                skillButtons.HandleAttributes();
-
-            return;
+            if (topmostPanel == inventoryPanel) { _InventoryUI(); return; }
+            if (topmostPanel == skillPanel) { _SkillUI(); return; }
+            if (topmostPanel == attributePanel) { _AttributeUI(); return; }
+            if (topmostPanel == questLogPanel) { _QuestLogUI(); return; }
+            if (topmostPanel == settingsPanel) { settingsPanel.SetActive(false); return; }
+            if (topmostPanel == interactPanel) { _InteractUI(); return; }
+            if (topmostPanel == questInfoPanel) { _QuestInfoUI(); return; }
+            if (topmostPanel == vendorPanel) { _VendorUI(); return; }
+            if (topmostPanel == mapPanel) { _MapUI(); return; }
         }
 
         settingsPanel.SetActive(true);
@@ -169,6 +170,7 @@ public class PlayerUI : MonoBehaviour
         if (interactPanel.activeSelf)
         {
             interactPanel.SetActive(false);
+            playerInteract.CloseUI();
             //UpdateSelectedUI();
         }
         else
@@ -185,6 +187,7 @@ public class PlayerUI : MonoBehaviour
         if (questInfoPanel.activeSelf)
         {
             questInfoPanel.SetActive(false);
+            playerInteract.CloseUI();
             //UpdateSelectedUI();
         }
         else
@@ -201,6 +204,7 @@ public class PlayerUI : MonoBehaviour
         if (vendorPanel.activeSelf)
         {
             vendorPanel.SetActive(false);
+            playerInteract.CloseUI();
             //UpdateSelectedUI();
         }
         else
