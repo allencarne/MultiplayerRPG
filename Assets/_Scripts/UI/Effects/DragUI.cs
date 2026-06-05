@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragUI : MonoBehaviour, IDragHandler
+public class DragUI : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     [SerializeField] RectTransform rect;
     [SerializeField] Canvas canvas;
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // Bring the UI element to the front when clicked
+        rect.gameObject.transform.SetAsLastSibling();
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
