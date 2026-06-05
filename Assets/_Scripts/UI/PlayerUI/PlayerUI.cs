@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -194,7 +195,14 @@ public class PlayerUI : MonoBehaviour
         {
             questInfoPanel.SetActive(true);
             questInfoPanel.transform.SetAsLastSibling();
+            StartCoroutine(SelectNextFrame(questInfoFirstSelected));
         }
+    }
+
+    IEnumerator SelectNextFrame(GameObject target)
+    {
+        yield return null;
+        EventSystem.current.SetSelectedGameObject(target);
     }
 
     public void _VendorUI()

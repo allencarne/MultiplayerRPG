@@ -27,7 +27,6 @@ public class QuestInfoPanel : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] Button acceptButton;
     [SerializeField] Button declineButton;
-    [SerializeField] Button turnInButton;
 
     Quest currentQuest;
     NPC currentNPC;
@@ -46,20 +45,15 @@ public class QuestInfoPanel : MonoBehaviour
         GetRewards(quest);
         GetObjectives(quest);
 
-        acceptButton.gameObject.SetActive(false);
-        turnInButton.gameObject.SetActive(false);
-
         if (progress == null)
         {
             questInfo.text = quest.Instructions;
-            acceptButton.gameObject.SetActive(true);
-            StartCoroutine(SelectNextFrame(acceptButton.gameObject));
+            acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Accept";
         }
         else if (progress.state == QuestState.ReadyToTurnIn)
         {
             questInfo.text = quest.Deliver;
-            turnInButton.gameObject.SetActive(true);
-            StartCoroutine(SelectNextFrame(turnInButton.gameObject));
+            acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Turn In";
         }
         else if (progress.state == QuestState.InProgress)
         {
@@ -71,16 +65,9 @@ public class QuestInfoPanel : MonoBehaviour
             if (hasTalkObjectiveForThisNPC)
             {
                 questInfo.text = quest.Deliver;
-                turnInButton.gameObject.SetActive(true);
-                StartCoroutine(SelectNextFrame(turnInButton.gameObject));
+                acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Turn In";
             }
         }
-    }
-
-    IEnumerator SelectNextFrame(GameObject target)
-    {
-        yield return null;
-        EventSystem.current.SetSelectedGameObject(target);
     }
 
     void ClearList()
@@ -118,6 +105,20 @@ public class QuestInfoPanel : MonoBehaviour
 
     public void AcceptButton()
     {
+        QuestProgress progress = playerquests.activeQuests.Find(q => q.quest == currentQuest);
+
+        if (progress == null)
+        {
+            AcceptQuest();
+        }
+        else
+        {
+            TurnInQuest();
+        }
+    }
+
+    void AcceptQuest()
+    {
         int avaliableSlots = inventory.GetFreeSlotCount();
         int starterSlots = currentQuest.Starter.Count();
 
@@ -130,7 +131,7 @@ public class QuestInfoPanel : MonoBehaviour
         playerquests.AcceptQuest(currentQuest);
     }
 
-    public void TurnInButton()
+    void TurnInQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
         int rewardSlots = currentQuest.reward.Count();
