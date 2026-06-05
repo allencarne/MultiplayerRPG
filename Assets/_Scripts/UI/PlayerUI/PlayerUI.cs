@@ -121,18 +121,47 @@ public class PlayerUI : MonoBehaviour
 
     public void _SettingsUI()
     {
-        if (settingsPanel.activeSelf)
-        {
-            settingsPanel.SetActive(false);
-            //UpdateSelectedUI();
-        }
-        else
-        {
-            settingsPanel.SetActive(true);
-            settingsPanel.transform.SetAsLastSibling();
+        // Find the last active panel child (topmost visually)
+        GameObject topmostPanel = GetTopmostActivePanel();
 
-            if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(settingsfirstselected);
+        if (topmostPanel != null)
+        {
+            topmostPanel.SetActive(false);
+
+            // Handle any side effects for panels that need them
+            if (topmostPanel == inventoryPanel || topmostPanel == skillPanel)
+                skillButtons.HandleInventory();
+            else if (topmostPanel == attributePanel)
+                skillButtons.HandleAttributes();
+
+            return;
         }
+
+        settingsPanel.SetActive(true);
+        settingsPanel.transform.SetAsLastSibling();
+        if (UsingGamepad()) EventSystem.current.SetSelectedGameObject(settingsfirstselected);
+    }
+
+    private GameObject GetTopmostActivePanel()
+    {
+
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (!IsManagedPanel(child)) continue;
+            if (child.activeSelf) return child;
+        }
+
+        return null;
+    }
+
+    private bool IsManagedPanel(GameObject obj)
+    {
+        return obj == inventoryPanel || obj == skillPanel ||
+               obj == attributePanel || obj == questLogPanel ||
+               obj == settingsPanel || obj == interactPanel ||
+               obj == questInfoPanel || obj == vendorPanel ||
+               obj == mapPanel;
     }
 
     public void _InteractUI()
@@ -202,29 +231,5 @@ public class PlayerUI : MonoBehaviour
     private bool UsingGamepad()
     {
         return playerInput != null && playerInput.currentControlScheme == "Gamepad";
-    }
-
-    void UpdateSelectedUI()
-    {
-        if (!UsingGamepad()) return;
-
-        if (inventoryPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(inventoryFirstSelected);
-        else if (skillPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(skillFirstSelected);
-        else if (attributePanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(attributeFirstSelected);
-        else if (questLogPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(questLogFirstSelected);
-        else if (settingsPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(settingsfirstselected);
-        else if (interactPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(interactfirstSelected);
-        else if (questInfoPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(questInfoFirstSelected);
-        else if (mapPanel.activeSelf)
-            EventSystem.current.SetSelectedGameObject(mapFirstSelected);
-        else
-            EventSystem.current.SetSelectedGameObject(null);
     }
 }
