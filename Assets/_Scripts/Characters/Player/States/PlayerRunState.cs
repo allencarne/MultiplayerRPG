@@ -58,7 +58,7 @@ public class PlayerRunState : PlayerState
 
         if (movement != Vector2.zero)
         {
-            Vector2 animDirection = GetAnimationDirection(moveInput);
+            Vector2 animDirection = GetAnimationDirection(moveInput, UsingGamepad(owner));
 
             if (animDirection != lastDirection)
             {
@@ -90,12 +90,28 @@ public class PlayerRunState : PlayerState
         owner.WeaponAnimator.SetFloat("Vertical", direction.y);
     }
 
-    Vector2 GetAnimationDirection(Vector2 input)
+    Vector2 GetAnimationDirection(Vector2 input, bool isGamepad)
     {
-        // Horizontal takes priority when both axes are held (W+D, S+D → Right | W+A, S+A → Left)
-        if (input.x != 0)
-            return new Vector2(Mathf.Sign(input.x), 0);
+        if (isGamepad)
+        {
+            // Standard 4-direction: whichever axis is dominant wins
+            if (Mathf.Abs(input.x) >= Mathf.Abs(input.y))
+                return new Vector2(Mathf.Sign(input.x), 0);
+            else
+                return new Vector2(0, Mathf.Sign(input.y));
+        }
         else
-            return new Vector2(0, Mathf.Sign(input.y));
+        {
+            // Keyboard: horizontal takes priority when both axes are held
+            if (input.x != 0)
+                return new Vector2(Mathf.Sign(input.x), 0);
+            else
+                return new Vector2(0, Mathf.Sign(input.y));
+        }
+    }
+
+    private bool UsingGamepad(PlayerStateMachine owner)
+    {
+        return owner.playerInput != null && owner.playerInput.currentControlScheme == "Gamepad";
     }
 }

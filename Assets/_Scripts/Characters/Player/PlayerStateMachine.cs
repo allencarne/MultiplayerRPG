@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -42,6 +43,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Collider2D Collider;
     public Rigidbody2D PlayerRB;
     public Transform Aimer;
+    public PlayerInput playerInput;
 
     [Header("Status Effects")]
     public CrowdControl CrowdControl;

@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerRollState : PlayerState
@@ -18,50 +17,67 @@ public class PlayerRollState : PlayerState
 
         // Roll
         owner.StartCoroutine(Duration(owner));
+
+        // Get input
         Vector2 moveInput = owner.Input.MoveInput.normalized;
+
+        // If no input, roll in the direction we are facing
         if (moveInput == Vector2.zero)
         {
+            // Get direction from animator (last direction we were moving)
             float _x = owner.BodyAnimator.GetFloat("Horizontal");
             float _y = owner.BodyAnimator.GetFloat("Vertical");
             Vector2 _newDir = new Vector2(_x, _y);
+
+            // Add Force
             owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
+
+            // Snap direction and set head sprites
             facingDirection = owner.SnapDirection(_newDir);
             owner.playerHead.SetEyes(facingDirection);
             owner.playerHead.SetHair(facingDirection);
             owner.playerHead.SetHelm(facingDirection);
         }
+        // Roll in the direction of input
         else
         {
+            // Add Force
             owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
+
+            // Snap direction and set head sprites
             facingDirection = owner.SnapDirection(moveInput);
-            owner.playerHead.SetEyes(moveInput);
-            owner.playerHead.SetHair(moveInput);
-            owner.playerHead.SetHelm(moveInput);
+            owner.playerHead.SetEyes(facingDirection);
+            owner.playerHead.SetHair(facingDirection);
+            owner.playerHead.SetHelm(facingDirection);
         }
 
-        // Animate
+        // Head
         owner.PlayerHeadAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.PlayerHeadAnimator.SetFloat("Vertical", facingDirection.y);
         owner.PlayerHeadAnimator.Play("Roll");
 
+        // Body
         owner.BodyAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.BodyAnimator.SetFloat("Vertical", facingDirection.y);
         owner.BodyAnimator.Play("Roll");
 
+        // Chest
+        owner.ChestAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.ChestAnimator.SetFloat("Vertical", facingDirection.y);
+        owner.ChestAnimator.Play("Roll_" + owner.customization.net_ChestIndex.Value);
+
+        // Legs
+        owner.LegsAnimator.SetFloat("Horizontal", facingDirection.x);
+        owner.LegsAnimator.SetFloat("Vertical", facingDirection.y);
+        owner.LegsAnimator.Play("Roll_" + owner.customization.net_LegsIndex.Value);
+
+        // Weapon
         if (owner.Equipment.IsWeaponEquipped)
         {
             owner.WeaponAnimator.SetFloat("Horizontal", facingDirection.x);
             owner.WeaponAnimator.SetFloat("Vertical", facingDirection.y);
             owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Roll");
         }
-
-        owner.ChestAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.ChestAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.ChestAnimator.Play("Roll_" + owner.customization.net_ChestIndex.Value);
-
-        owner.LegsAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.LegsAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.LegsAnimator.Play("Roll_" + owner.customization.net_LegsIndex.Value);
     }
 
     public override void UpdateState(PlayerStateMachine owner)
