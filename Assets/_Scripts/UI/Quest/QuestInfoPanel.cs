@@ -43,7 +43,7 @@ public class QuestInfoPanel : MonoBehaviour
 
         ClearList();
         GetRewards(quest);
-        GetObjectives(quest);
+        GetObjectives(quest, progress);
 
         if (progress == null)
         {
@@ -93,13 +93,26 @@ public class QuestInfoPanel : MonoBehaviour
         }
     }
 
-    void GetObjectives(Quest quest)
+    void GetObjectives(Quest quest, QuestProgress progress)
     {
         foreach (QuestObjective objective in quest.Objectives)
         {
             GameObject objectiveText = Instantiate(objectiveUI_Text, objectiveListUI.transform);
             TextMeshProUGUI text = objectiveText.GetComponent<TextMeshProUGUI>();
-            if (text != null) text.text = objective.Description;
+
+            if (text != null)
+            {
+                bool isCompleted = progress != null && progress.objectives.Exists(o => o.ObjectiveID == objective.ObjectiveID && o.IsCompleted);
+
+                if (isCompleted)
+                {
+                    text.text = $"<s>{objective.Description}</s>";
+                }
+                else
+                {
+                    text.text = objective.Description;
+                }
+            }
         }
     }
 
