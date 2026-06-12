@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
+  m_Name: Quest8_Complete_Totem
+  m_EditorClassIdentifier: Assembly-CSharp::Quest
+  QuestID: Quest8
+  QuestName: Trial of the Island
+  LevelRequirment: 0
+  Instructions: Now we see what you're truly made of. Across this island stand ancient
+    totems, each one a test left behind by those who came before us. Find one, face
+    what it brings, and come back standing. That's all I ask.
+  Deliver: You're still standing. Good. Most people avoid the totems, they'd rather
+    not find out what they're capable of. You didn't hesitate. Remember that feeling.
+  RequiredQuests:
+  - {fileID: 11400000, guid: cce273a202dbc0c48ba8ae7301fc4a03, type: 2}
+  Objectives:
+  - type: 4
+    ObjectiveID: Totem
+    Description: Find a totem on the island and complete its challenge
+    RequiredAmount: 1
+    CurrentAmount: 0
+  expReward: 2
+  goldReward: 0
+  Starter: []
+  reward: []
