@@ -14,8 +14,11 @@ public class NPCQuest : MonoBehaviour
         {
             Quest quest = progress.quest;
 
-            // Turn In Talk Quest 
+            // Skip if this quest isn't from this NPC
             if (progress.state == QuestState.InProgress && quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
+
+            // Ready To TurnIn Talk Quests should be prioritized over other quests, even if they aren't from this NPC
+            if (progress.state == QuestState.ReadyToTurnIn && quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
 
             // Skip if this quest doesn't belong to this NPC
             if (!npc.Data.Quests.Contains(quest)) continue;
@@ -52,7 +55,7 @@ public class NPCQuest : MonoBehaviour
             // Check quest requirements
             if (!HasMetQuestRequirements(playerQuest, quest)) continue;
 
-            // This quest is available!
+            // This quest is available
             return quest;
         }
 

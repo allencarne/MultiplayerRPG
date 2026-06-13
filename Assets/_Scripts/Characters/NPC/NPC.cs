@@ -155,6 +155,13 @@ public class NPC : NetworkBehaviour, IInteractable
 
         if (playerQuest != null)
         {
+            // Update talk objective if player has quest with talk objective for this NPC
+            playerQuest.UpdateObjective(ObjectiveType.Complete, Data.NPC_ID, 1);
+
+            // Update talk objective if player has quest with talk objective for this NPC
+            playerQuest.UpdateObjective(ObjectiveType.Talk, Data.NPC_ID, 1);
+
+            // Update complete objective if player has quest with complete objective for this NPC
             playerQuest.UpdateObjective(ObjectiveType.Complete, Data.NPC_ID, 1);
         }
 
