@@ -47,21 +47,25 @@ public class QuestInfoPanel : MonoBehaviour
 
         if (progress == null)
         {
+            // If the quest is not yet accepted, show the "Accept" button
             questInfo.text = quest.Instructions;
             acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Accept";
         }
         else if (progress.state == QuestState.ReadyToTurnIn)
         {
+            // If the quest is ready to turn in, show the "Turn In" button
             questInfo.text = quest.Deliver;
             acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Turn In";
         }
         else if (progress.state == QuestState.InProgress)
         {
+            // Check if there is a talk objective for this NPC that is not yet completed
             bool hasTalkObjectiveForThisNPC = progress.objectives.Exists(obj =>
                 obj.type == ObjectiveType.Talk &&
                 obj.ObjectiveID == npc.Data.NPC_ID &&
                 !obj.IsCompleted);
 
+            // If the quest is in progress and has a talk objective for this NPC, show the "Turn In" button
             if (hasTalkObjectiveForThisNPC)
             {
                 questInfo.text = quest.Deliver;
@@ -102,14 +106,17 @@ public class QuestInfoPanel : MonoBehaviour
 
             if (text != null)
             {
+                // Check if the objective is completed based on the quest progress
                 bool isCompleted = progress != null && progress.objectives.Exists(o => o.ObjectiveID == objective.ObjectiveID && o.IsCompleted);
 
                 if (isCompleted)
                 {
+                    // If the objective is completed, display it with strikethrough
                     text.text = $"<s>{objective.Description}</s>";
                 }
                 else
                 {
+                    // If the objective is not completed, display it normally
                     text.text = objective.Description;
                 }
             }
