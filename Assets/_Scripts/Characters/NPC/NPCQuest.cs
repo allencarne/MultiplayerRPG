@@ -14,17 +14,23 @@ public class NPCQuest : MonoBehaviour
         {
             Quest quest = progress.quest;
 
-            // Skip if this quest isn't from this NPC
-            if (progress.state == QuestState.InProgress && quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
-
-            // Ready To TurnIn Talk Quests should be prioritized over other quests, even if they aren't from this NPC
-            if (progress.state == QuestState.ReadyToTurnIn && quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
-
-            // Skip if this quest doesn't belong to this NPC
-            if (!npc.Data.Quests.Contains(quest)) continue;
-
-            // Ready To TurnIn
-            if (progress.state == QuestState.ReadyToTurnIn) return quest;
+            // If the quest is ReadyToTurnIn, allow turn-in only at the correct NPC:
+            if (progress.state == QuestState.ReadyToTurnIn)
+            {
+                if (quest.HasTalkObjective())
+                {
+                    // For talk quests the receiver must match this NPC
+                    if (quest.GetReceiverID() == npc.Data.NPC_ID) return quest;
+                    // Otherwise do not return it here
+                    continue;
+                }
+                else
+                {
+                    // For non-talk quests, allow turn-in only at the NPC that lists the quest
+                    if (npc.Data.Quests.Contains(quest)) return quest;
+                    continue;
+                }
+            }
 
             // In-progress Talk Quests
             if (progress.state == QuestState.InProgress)

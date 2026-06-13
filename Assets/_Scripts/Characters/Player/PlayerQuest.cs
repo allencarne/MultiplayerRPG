@@ -22,7 +22,13 @@ public class PlayerQuest : MonoBehaviour
 
         foreach (QuestProgress progress in activeQuests)
         {
-            if (progress.quest.HasTalkObjective() && progress.quest.GetReceiverID() == npc.Data.NPC_ID)
+            if (progress == null) continue;
+
+            Quest quest = progress.quest;
+            if (quest == null) continue;
+
+            // If this is a talk quest and this NPC is the receiver, prefer ReadyToTurnIn
+            if (quest.HasTalkObjective() && quest.GetReceiverID() == npc.Data.NPC_ID)
             {
                 if (progress.state == QuestState.InProgress || progress.state == QuestState.ReadyToTurnIn)
                 {
@@ -30,11 +36,52 @@ public class PlayerQuest : MonoBehaviour
                 }
             }
 
-            if (!npc.Data.Quests.Contains(progress.quest)) continue;
+            // If the quest is ReadyToTurnIn...
+            if (progress.state == QuestState.ReadyToTurnIn)
+            {
+                // For talk quests: only allow turn-in at the receiver.
+                if (quest.HasTalkObjective())
+                {
+                    string receiverId = quest.GetReceiverID();
+                    // If this NPC is the receiver, show ReadyToTurnIn (handled above),
+                    // otherwise if this NPC is the original giver, keep it as InProgress visually.
+                    if (!string.IsNullOrEmpty(receiverId) && receiverId != npc.Data.NPC_ID)
+                    {
+                        // If this NPC is the original giver for the quest, report InProgress so the giver
+                        // doesn't appear as ReadyToTurnIn after the player has spoken to the receiver.
+                        if (npc.Data.Quests != null && npc.Data.Quests.Contains(quest))
+                        {
+                            highestState = QuestState.InProgress;
+                            continue;
+                        }
+
+                        // Not the receiver and not the giver: skip showing ReadyToTurnIn here.
+                        continue;
+                    }
+
+                    // If receiverId equals this NPC (should already have returned above), but keep safe:
+                    if (receiverId == npc.Data.NPC_ID) return QuestState.ReadyToTurnIn;
+                }
+
+                // Non-talk quests: allow ReadyToTurnIn only if this NPC lists the quest (quest-giver)
+                if (npc.Data.Quests != null && npc.Data.Quests.Contains(quest))
+                {
+                    return QuestState.ReadyToTurnIn;
+                }
+            }
+
+            // If this NPC offers the quest and it's in-progress, mark InProgress
+            if (!npc.Data.Quests.Contains(progress.quest))
+            {
+                // skip if quest not offered by this NPC
+                continue;
+            }
+
             if (progress.state == QuestState.ReadyToTurnIn) return QuestState.ReadyToTurnIn;
             if (progress.state == QuestState.InProgress) highestState = QuestState.InProgress;
         }
 
+        // If NPC has quests available, search for available ones
         if (npc.Data.Quests == null || npc.Data.Quests.Count == 0) return QuestState.None;
 
         foreach (Quest quest in npc.Data.Quests)

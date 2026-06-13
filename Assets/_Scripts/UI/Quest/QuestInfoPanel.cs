@@ -47,29 +47,49 @@ public class QuestInfoPanel : MonoBehaviour
 
         if (progress == null)
         {
-            // If the quest is not yet accepted, show the "Accept" button
             questInfo.text = quest.Instructions;
             acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Accept";
         }
-        else if (progress.state == QuestState.ReadyToTurnIn)
+        else
         {
-            // If the quest is ready to turn in, show the "Turn In" button
-            questInfo.text = quest.Deliver;
-            acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Turn In";
-        }
-        else if (progress.state == QuestState.InProgress)
-        {
-            // Check if there is a talk objective for this NPC that is not yet completed
-            bool hasTalkObjectiveForThisNPC = progress.objectives.Exists(obj =>
-                obj.type == ObjectiveType.Talk &&
-                obj.ObjectiveID == npc.Data.NPC_ID &&
-                !obj.IsCompleted);
+            bool canTurnInHere = false;
 
-            // If the quest is in progress and has a talk objective for this NPC, show the "Turn In" button
-            if (hasTalkObjectiveForThisNPC)
+            if (progress.state == QuestState.ReadyToTurnIn)
+            {
+                if (currentQuest.HasTalkObjective())
+                {
+                    canTurnInHere = currentQuest.GetReceiverID() == npc.Data.NPC_ID;
+                }
+                else
+                {
+                    canTurnInHere = npc.Data.Quests != null && npc.Data.Quests.Contains(currentQuest);
+                }
+            }
+
+            // Also show Turn In at receiver if talk objective still InProgress AND target is this NPC
+            if (!canTurnInHere && progress.state == QuestState.InProgress)
+            {
+                bool hasTalkObjectiveForThisNPC = progress.objectives.Exists(obj =>
+                    obj.type == ObjectiveType.Talk &&
+                    obj.ObjectiveID == npc.Data.NPC_ID &&
+                    !obj.IsCompleted);
+
+                if (hasTalkObjectiveForThisNPC)
+                {
+                    canTurnInHere = true;
+                }
+            }
+
+            if (canTurnInHere)
             {
                 questInfo.text = quest.Deliver;
                 acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Turn In";
+            }
+            else
+            {
+                // Default display
+                questInfo.text = quest.Instructions;
+                acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Accept";
             }
         }
     }
