@@ -6,7 +6,9 @@ public class VendorItem : MonoBehaviour
 {
     [SerializeField] Image background;
     [SerializeField] TextMeshProUGUI priceText;
-    [SerializeField] Color color; 
+    [SerializeField] Color color;
+
+    [SerializeField] Image redTint;
 
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] public Inventory inventory;
@@ -23,6 +25,11 @@ public class VendorItem : MonoBehaviour
         {
             inventory.OnCoinsChanged.AddListener(UpdateUI);
         }
+
+        if (playerStats != null)
+        {
+            playerStats.PlayerLevel.OnValueChanged += OnPlayerLevelChanged;
+        }
     }
 
     private void OnDisable()
@@ -31,6 +38,16 @@ public class VendorItem : MonoBehaviour
         {
             inventory.OnCoinsChanged.RemoveListener(UpdateUI);
         }
+
+        if (playerStats != null)
+        {
+            playerStats.PlayerLevel.OnValueChanged -= OnPlayerLevelChanged;
+        }
+    }
+
+    void OnPlayerLevelChanged(int oldVal, int newVal)
+    {
+        UpdateUI();
     }
 
     void UpdateUI()
@@ -48,6 +65,19 @@ public class VendorItem : MonoBehaviour
         {
             background.color = color;
             priceText.color = Color.black;
+        }
+
+        // Level requirement visuals (new)
+        bool isUnderLevel = false;
+        switch (item)
+        {
+            case Equipment equip:
+                isUnderLevel = playerStats.PlayerLevel.Value < equip.LevelRequirement;
+                break;
+        }
+        if (redTint != null)
+        {
+            redTint.enabled = isUnderLevel;
         }
     }
 
