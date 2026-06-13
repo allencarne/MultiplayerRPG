@@ -24,6 +24,11 @@ public class PlayerSave : NetworkBehaviour
     [Header("UI")]
     [SerializeField] TextMeshProUGUI saveText;
 
+    [Header("Quest")]
+    [SerializeField] PlayerQuest playerQuest;
+    [SerializeField] Quest[] questDatabase;
+
+
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -48,8 +53,12 @@ public class PlayerSave : NetworkBehaviour
             equipment.LoadEquipment();
             exp.Initialize();
             stateMachine.SkillsOnSpawn();
+            LoadQuests();
 
             statsInitialized = true;
+
+            playerQuest.OnQuestStateChanged.AddListener(SaveQuests);
+            playerQuest.OnQuestTurnedIn.AddListener(SaveQuestsOnTurnIn);
         }
         else
         {
@@ -89,6 +98,9 @@ public class PlayerSave : NetworkBehaviour
         ap.OnStatsApplied.RemoveListener(SaveStats);
         exp.OnEXP.RemoveListener(SaveStats);
         skillPanel.OnSkillSelected.RemoveListener(SaveStats);
+
+        playerQuest.OnQuestStateChanged.RemoveListener(SaveQuests);
+        playerQuest.OnQuestTurnedIn.RemoveListener(SaveQuestsOnTurnIn);
     }
 
     [ServerRpc]
@@ -343,5 +355,104 @@ public class PlayerSave : NetworkBehaviour
         saveText.text = "Save";
         yield return new WaitForSeconds(1);
         saveText.text = "";
+    }
+
+    public void SaveQuests()
+    {
+        Debug.Log("Saving quests...");
+
+        if (!IsOwner) return;
+        if (playerQuest == null) return;
+
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
+        string prefix = $"Character{slot}_";
+
+        foreach (QuestProgress progress in playerQuest.activeQuests)
+        {
+            // Only save quests that are in progress or completed, not failed or turned in
+            if (progress == null || progress.quest == null) continue;
+
+            //Base key for this quest
+            string questKeyBase = $"{prefix}{progress.quest.QuestID}";
+
+            // Save the quest state (InProgress, Completed, etc.)
+            PlayerPrefs.SetInt($"{questKeyBase}_State", (int)progress.state);
+
+            foreach (QuestObjective obj in progress.objectives)
+            {
+                // Save current amount for each objective, using a key that includes the objective ID
+                if (obj == null) continue;
+                PlayerPrefs.SetInt($"{questKeyBase}_Obj_{obj.ObjectiveID}", obj.CurrentAmount);
+            }
+        }
+
+        PlayerPrefs.Save();
+    }
+
+    void SaveQuestsOnTurnIn(Quest q)
+    {
+        Debug.Log("Saving Quest on Turn In...");
+
+        SaveQuests();
+    }
+
+    void LoadQuests()
+    {
+        if (!IsOwner) return;
+        if (playerQuest == null) return;
+        if (questDatabase == null || questDatabase.Length == 0) return;
+
+        Debug.Log("Loading quests...");
+
+        int slot = PlayerPrefs.GetInt("SelectedCharacter");
+        string prefix = $"Character{slot}_";
+
+        foreach (Quest quest in questDatabase)
+        {
+            if (quest == null) continue;
+
+            string questKeyBase = $"{prefix}{quest.QuestID}";
+            string stateKey = $"{questKeyBase}_State";
+
+            // If there's no saved state for this quest, skip it (means it wasn't accepted or progressed yet)
+            if (!PlayerPrefs.HasKey(stateKey)) continue;
+
+            // Get saved state, default to InProgress if somehow missing (shouldn't happen since we check HasKey)
+            int savedStateInt = PlayerPrefs.GetInt(stateKey, (int)QuestState.InProgress);
+            QuestState savedState = (QuestState)savedStateInt;
+
+            // If quest not yet accepted, accept it to reconstruct progress
+            QuestProgress existing = playerQuest.activeQuests.Find(qp => qp.quest == quest);
+            if (existing == null)
+            {
+                playerQuest.AcceptQuest(quest);
+            }
+
+            // Now update progress values from saved data
+            QuestProgress progress = playerQuest.activeQuests.Find(qp => qp.quest == quest);
+            if (progress == null) continue;
+
+            // Restore each objective current amount
+            foreach (QuestObjective obj in progress.objectives)
+            {
+                string objKey = $"{questKeyBase}_Obj_{obj.ObjectiveID}";
+                if (PlayerPrefs.HasKey(objKey))
+                {
+                    int savedAmount = PlayerPrefs.GetInt(objKey, 0);
+                    obj.CurrentAmount = Mathf.Min(savedAmount, obj.RequiredAmount);
+                }
+            }
+
+            // Restore saved state
+            progress.state = savedState;
+
+            // Ensure completion flags are consistent
+            progress.CheckCompletion();
+
+            Debug.Log($"Loaded quest {quest.QuestID} state={progress.state} for slot {slot}");
+        }
+
+        // Notify listeners so UI and other systems update
+        playerQuest.OnQuestStateChanged?.Invoke();
     }
 }
