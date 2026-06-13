@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Complete_Repair Boat
+  m_Name: Quest23_Collect_LostPickAxe
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest23
-  QuestName: Help Jensen
+  QuestName: Find Lock PickAxe
   LevelRequirment: 0
-  Instructions: My buddy Jensen is having trouble, can you go check on him and see
-    what is wrong?
-  Deliver: Thank you!
+  Instructions: I was attacked by mako sharks and dropped my PickAxe, can you retrieve
+    it?
+  Deliver: Thank you! This is very helpful.
   RequiredQuests:
-  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
+  - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
   Objectives:
-  - type: 4
-    ObjectiveID: Quest24
-    Description: Complete Quest "Rapair Boat"
+  - type: 1
+    ObjectiveID: coll_lost_pickaxe
+    Description: Find Lock PickAxe from Mako Sharks
     RequiredAmount: 1
     CurrentAmount: 0
-  expReward: 1
-  goldReward: 0
+  expReward: 3
+  goldReward: 3
   Starter: []
   reward: []

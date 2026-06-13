@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Luana
+  m_Name: Quest24_Complete_Totem 2
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest28
-  QuestName: Find Luana
+  QuestID: Quest24
+  QuestName: Complete 2 Totems
   LevelRequirment: 0
-  Instructions: I lost Luana, I don't know where he is. I last seen him playing with
-    the pigs. Can you help me find him?
-  Deliver: Thank you very much!
+  Instructions: Locate 2 totems and complete it's event
+  Deliver: Good Job!
   RequiredQuests:
-  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
+  - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
   Objectives:
-  - type: 2
-    ObjectiveID: Quest_Luana
-    Description: Find Luana
-    RequiredAmount: 1
+  - type: 4
+    ObjectiveID: Totem
+    Description: Complete 2 Totem Events
+    RequiredAmount: 2
     CurrentAmount: 0
-  expReward: 1
-  goldReward: 0
+  expReward: 3
+  goldReward: 3
   Starter: []
   reward: []

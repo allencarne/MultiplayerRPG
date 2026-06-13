@@ -15,16 +15,16 @@ MonoBehaviour:
   QuestID: Quest2
   QuestName: Kaleo's Trial
   LevelRequirment: 0
-  Instructions: See those vicious coconuts <color=green>surrounding out village</color>?
-    If Keo sent you, they should be no problem. <color=orange>Defeat 3 coconuts</color>
-    and return back to me. Unless.. you're too scared.
+  Instructions: See those vicious <color=#fff59d>Coconuts surrounding our village</color>?
+    If Keo sent you, they should be no problem. <color=#fff59d>Defeat 3 coconuts</color>
+    and return back to me... If you're brave enough!
   Deliver: Wait.. you actually did it? Maybe Keo was right about you.
   RequiredQuests:
   - {fileID: 11400000, guid: 9fccd38173ed7eb4cbfd6dc8ddc85bfe, type: 2}
   Objectives:
   - type: 0
     ObjectiveID: coconut
-    Description: <color=orange>Defeat 3 coconuts</color>
+    Description: '<color=#fff59d>Defeat 3 coconuts</color> near the village '
     RequiredAmount: 3
     CurrentAmount: 0
   expReward: 2

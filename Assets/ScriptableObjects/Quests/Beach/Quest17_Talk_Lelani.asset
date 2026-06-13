@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Ulani
+  m_Name: Quest17_Talk_Lelani
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest12
-  QuestName: Talk To Ulani
+  QuestID: Quest17
+  QuestName: Talk To Lelani
   LevelRequirment: 0
-  Instructions: Speak To Ulani, He's Located East of Here, In a small town.
+  Instructions: Speak To Lelani
   Deliver: 'sdfksdfjsdkfjsd
 
     fdskfjsldkfs
@@ -24,12 +24,13 @@ MonoBehaviour:
 
     sdfsdfjsdf'
   RequiredQuests:
-  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
-  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
+  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
+  - {fileID: 11400000, guid: b8b600f8498fdf348a841363397d42b5, type: 2}
+  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Ulani
-    Description: Talk To Ulani
+    ObjectiveID: Quest_Lelani
+    Description: Talk To Lelani in the town south of here
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

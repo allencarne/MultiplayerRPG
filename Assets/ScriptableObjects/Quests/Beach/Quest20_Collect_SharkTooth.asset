@@ -10,24 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Collect_Leafs
+  m_Name: Quest20_Collect_SharkTooth
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest15
-  QuestName: Collect Leaves
+  QuestID: Quest20
+  QuestName: Find Shark Teeth
   LevelRequirment: 0
-  Instructions: Hello, we need leaves, Please collect 25. Leaves drop from slaying
-    enemies, completing Totems, and opening chests. You can find Totems all over
-    the place and Check your map for Chest locations.
+  Instructions: Hello, we need Shark Teeth, please find some and bring them to me.
+    You can locate them along the shore. Try searching North and South of the town.
   Deliver: Thank you! This is very helpful.
   RequiredQuests:
-  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
+  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
   Objectives:
   - type: 1
-    ObjectiveID: coll_leaf
-    Description: Collect 25 Leaves
-    RequiredAmount: 25
+    ObjectiveID: coll_shark_tooth
+    Description: Collect 5 Shark Teeth South of Town
+    RequiredAmount: 5
     CurrentAmount: 0
-  expReward: 5
-  goldReward: 2
+  expReward: 3
+  goldReward: 3
   Starter: []
   reward: []

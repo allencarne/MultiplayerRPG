@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Kahu
+  m_Name: Quest19_Talk_Luana
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest27
-  QuestName: Help Kahu
+  QuestID: Quest19
+  QuestName: Find Luana
   LevelRequirment: 0
-  Instructions: My buddy Kahu is having trouble with his boat, can you go check on
-    him and see what is wrong? He's just north of here
-  Deliver: Thanks!
+  Instructions: I lost Luana, I don't know where she is. I last seen her playing
+    with the pigs. Can you help me find her?
+  Deliver: Thank you very much!
   RequiredQuests:
-  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
+  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Kahu
-    Description: Talk to Kahu
+    ObjectiveID: Quest_Luana
+    Description: Find Luana South of Town
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

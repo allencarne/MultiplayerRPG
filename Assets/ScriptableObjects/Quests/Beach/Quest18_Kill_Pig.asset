@@ -10,30 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Lelani
+  m_Name: Quest18_Kill_Pig
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest18
-  QuestName: Talk To Lelani
+  QuestName: Kill Pigs
   LevelRequirment: 0
-  Instructions: Speak To Lelani
-  Deliver: 'sdfksdfjsdkfjsd
-
-    fdskfjsldkfs
-
-    df
-
-    sdfsdfjsdf'
+  Instructions: Hello, Please kill 15 Pigs and collect 10 pig tails
+  Deliver: Thank you
   RequiredQuests:
-  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
-  - {fileID: 11400000, guid: b8b600f8498fdf348a841363397d42b5, type: 2}
-  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
+  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
   Objectives:
-  - type: 2
-    ObjectiveID: Quest_Lelani
-    Description: Talk To Lelani
-    RequiredAmount: 1
+  - type: 0
+    ObjectiveID: pig
+    Description: Kill 15 Pigs
+    RequiredAmount: 15
     CurrentAmount: 0
-  expReward: 1
-  goldReward: 0
+  - type: 1
+    ObjectiveID: coll_pig_tail
+    Description: Collect 10 Pig Tails
+    RequiredAmount: 10
+    CurrentAmount: 0
+  expReward: 3
+  goldReward: 1
   Starter: []
   reward: []

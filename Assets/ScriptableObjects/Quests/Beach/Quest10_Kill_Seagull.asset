@@ -10,23 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Collect_SharkTooth
+  m_Name: Quest10_Kill_Seagull
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest8
-  QuestName: Find Shark Teeth
+  QuestID: Quest10
+  QuestName: Kill Seagull
   LevelRequirment: 0
-  Instructions: Hello, we need Shark Teeth, please find some and bring them to me.
-    You can locate them along the shore. Try searching North and South of the town.
-  Deliver: Thank you! This is very helpful.
+  Instructions: Hello, Please kill 5 Seagull and collect 10 feathers
+  Deliver: Thank you
   RequiredQuests:
-  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
+  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
   Objectives:
-  - type: 1
-    ObjectiveID: coll_shark_tooth
-    Description: Collect 5 Shark Teeth
+  - type: 0
+    ObjectiveID: seagull
+    Description: Kill 5 Seagulls
     RequiredAmount: 5
     CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_feather
+    Description: Collect 10 Feathers
+    RequiredAmount: 10
+    CurrentAmount: 0
   expReward: 3
-  goldReward: 3
+  goldReward: 1
   Starter: []
   reward: []

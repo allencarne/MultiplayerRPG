@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Talk_Elue
+  m_Name: Quest12_Talk_Ulani
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest11
-  QuestName: Talk To Elue
+  QuestID: Quest12
+  QuestName: Talk To Ulani
   LevelRequirment: 0
-  Instructions: Talk To Elue. I last seen him east of town. Follow the south road.
+  Instructions: Speak To Ulani, He's Located East of Here, In a small town.
   Deliver: 'sdfksdfjsdkfjsd
 
     fdskfjsldkfs
@@ -24,11 +24,12 @@ MonoBehaviour:
 
     sdfsdfjsdf'
   RequiredQuests:
-  - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
+  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
+  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
   Objectives:
   - type: 2
-    ObjectiveID: Quest_Elue
-    Description: Find Elue
+    ObjectiveID: Quest_Ulani
+    Description: Follow the path North to find Ulani
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1

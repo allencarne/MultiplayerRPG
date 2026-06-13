@@ -10,20 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Complete_Totem 2
+  m_Name: Quest13_Kill_Hermits
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest16
-  QuestName: Complete 2 Totems
+  QuestID: Quest13
+  QuestName: Kill Hermits
   LevelRequirment: 0
-  Instructions: Locate 2 totems and complete it's event
-  Deliver: Good Job!
+  Instructions: Hello, Please kill 15 Hermits and collect 10 Hermit Shells
+  Deliver: Thank you
   RequiredQuests:
-  - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
+  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
   Objectives:
-  - type: 4
-    ObjectiveID: Totem
-    Description: Complete 2 Totem Events
-    RequiredAmount: 2
+  - type: 0
+    ObjectiveID: hermit
+    Description: Kill 15 Hermits
+    RequiredAmount: 15
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: coll_hermit_shell
+    Description: Collect 10 Hermit Shells
+    RequiredAmount: 10
     CurrentAmount: 0
   expReward: 3
   goldReward: 3

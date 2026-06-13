@@ -10,27 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Kill_Pig
+  m_Name: Quest16_Collect_WoodenStake
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest21
-  QuestName: Kill Pigs
-  LevelRequirment: 0
-  Instructions: Hello, Please kill 15 Pigs and collect 10 pig tails
-  Deliver: Thank you
-  RequiredQuests:
-  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
+  QuestID: Quest16
+  QuestName: Purchase Wooden Stake
+  LevelRequirment: 5
+  Instructions: As you travel further, enemies will get stronger. The Vendor over
+    there has some weapons for sale. Try buying a Wooden Stake.
+  Deliver: Thank you! This is very helpful.
+  RequiredQuests: []
   Objectives:
-  - type: 0
-    ObjectiveID: pig
-    Description: Kill 15 Pigs
-    RequiredAmount: 15
-    CurrentAmount: 0
   - type: 1
-    ObjectiveID: coll_pig_tail
-    Description: Collect 10 Pig Tails
-    RequiredAmount: 10
+    ObjectiveID: sword_wooden_stake
+    Description: Purchase Wooden Stake
+    RequiredAmount: 1
     CurrentAmount: 0
   expReward: 3
-  goldReward: 1
+  goldReward: 3
   Starter: []
   reward: []

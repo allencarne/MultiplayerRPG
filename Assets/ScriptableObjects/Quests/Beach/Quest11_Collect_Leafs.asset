@@ -10,27 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
-  m_Name: Quest_Kill_Seagull
+  m_Name: Quest11_Collect_Leafs
   m_EditorClassIdentifier: Assembly-CSharp::Quest
-  QuestID: Quest1
-  QuestName: Kill Seagull
+  QuestID: Quest11
+  QuestName: Collect Leaves
   LevelRequirment: 0
-  Instructions: Hello, Please kill 5 Seagull and collect 10 feathers
-  Deliver: Thank you
+  Instructions: Hello, we need leaves, Please collect 25. Leaves drop from slaying
+    enemies, completing Totems, and opening chests. You can find Totems all over
+    the place and Check your map for Chest locations.
+  Deliver: Thank you! This is very helpful.
   RequiredQuests:
   - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
   Objectives:
-  - type: 0
-    ObjectiveID: seagull
-    Description: Kill 5 Seagulls
-    RequiredAmount: 5
-    CurrentAmount: 0
   - type: 1
-    ObjectiveID: coll_feather
-    Description: Collect 10 Feathers
-    RequiredAmount: 10
+    ObjectiveID: coll_leaf
+    Description: Collect 25 Leaves
+    RequiredAmount: 25
     CurrentAmount: 0
-  expReward: 3
-  goldReward: 1
+  expReward: 5
+  goldReward: 2
   Starter: []
   reward: []

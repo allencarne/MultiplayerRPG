@@ -15,16 +15,16 @@ MonoBehaviour:
   QuestID: Quest1
   QuestName: Meet Kaleo
   LevelRequirment: 0
-  Instructions: There's someone in town you need to meet. <color=orange>Kaleo</color>,
-    he's a good frined of mine. <color=green>Follow this path east</color> until
-    you see him. Tell him Keo sent you, he'll know what that means.
-  Deliver: Kao sent... you? How did you even get on this island?
+  Instructions: There's someone in town you need to meet. Kaleo, he's a good frined
+    of mine. <color=#fff59d> Follow this path</color> <color=#fff59d>east</color>
+    until you see him. Tell him Keo sent you, he'll know what that means.
+  Deliver: Keo sent... you? How did you even get on this island?
   RequiredQuests:
   - {fileID: 11400000, guid: 2136c86e551181e4d9f65996291c02ed, type: 2}
   Objectives:
   - type: 2
     ObjectiveID: Quest_Kaleo
-    Description: <color=green>Follow the path</color> to town and find <color=orange>Kaleo</color>
+    Description: <color=#fff59d>Follow the path east</color> and find Kaleo
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1
