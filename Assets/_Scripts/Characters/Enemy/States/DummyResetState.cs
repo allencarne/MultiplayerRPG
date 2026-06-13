@@ -5,6 +5,8 @@ public class DummyResetState : EnemyState
 {
     public override void StartState(EnemyStateMachine owner)
     {
+        Debug.Log("Entered Dummy Reset State");
+
         owner.Collider.enabled = false;
         owner.EnemyAnimator.Play("Reset");
 
