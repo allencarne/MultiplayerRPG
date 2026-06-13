@@ -26,4 +26,7 @@ public class EnemyData : ScriptableObject
     public float BasicRadius;
     public float SpecialRadius;
     public float UltimateRadius;
+
+    [Header("Drops")]
+    public Item[] DroppableItems;
 }

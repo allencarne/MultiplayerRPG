@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class EnemyDrops : MonoBehaviour
 {
-    [SerializeField] Item[] droppableItems;
+    [SerializeField] EnemyData enemyData;
 
     public void DropItem()
     {
-        if (droppableItems.Length == 0) return;
+        if (enemyData.DroppableItems.Length == 0) return;
 
-        foreach (Item item in droppableItems)
+        foreach (Item item in enemyData.DroppableItems)
         {
             if (Random.Range(0f, 100f) < item.DropChance)
             {
