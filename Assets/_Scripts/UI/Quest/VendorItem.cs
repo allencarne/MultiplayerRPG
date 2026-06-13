@@ -67,18 +67,13 @@ public class VendorItem : MonoBehaviour
             priceText.color = Color.black;
         }
 
-        // Level requirement visuals (new)
-        bool isUnderLevel = false;
-        switch (item)
-        {
-            case Equipment equip:
-                isUnderLevel = playerStats.PlayerLevel.Value < equip.LevelRequirement;
-                break;
-        }
-        if (redTint != null)
-        {
-            redTint.enabled = isUnderLevel;
-        }
+        // Red Tint for items that are above the player's level requirement
+        redTint.enabled = IsUnderLevelRequirement(item);
+    }
+
+    bool IsUnderLevelRequirement(Item item)
+    {
+        return item is Equipment equip && inventory.Stats.PlayerLevel.Value < equip.LevelRequirement;
     }
 
     public void AttemptToPurchase()
