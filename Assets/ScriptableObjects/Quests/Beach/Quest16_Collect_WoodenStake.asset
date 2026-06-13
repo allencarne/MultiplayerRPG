@@ -13,16 +13,26 @@ MonoBehaviour:
   m_Name: Quest16_Collect_WoodenStake
   m_EditorClassIdentifier: Assembly-CSharp::Quest
   QuestID: Quest16
-  QuestName: Purchase Wooden Stake
+  QuestName: Purchase Equipment
   LevelRequirment: 5
   Instructions: As you travel further, enemies will get stronger. The Vendor over
-    there has some weapons for sale. Try buying a Wooden Stake.
-  Deliver: Thank you! This is very helpful.
+    there has some Equipment for sale. Purchase Equipment to increse your power.
+  Deliver: Nice! You look stronger!
   RequiredQuests: []
   Objectives:
   - type: 1
-    ObjectiveID: sword_wooden_stake
-    Description: Purchase Wooden Stake
+    ObjectiveID: eq_leaf_headband
+    Description: Purchase Leaf Headband
+    RequiredAmount: 1
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: eq_leaf_armband
+    Description: Purchase Leaf Armband
+    RequiredAmount: 1
+    CurrentAmount: 0
+  - type: 1
+    ObjectiveID: eq_leaf_skirt
+    Description: Purchase Leaf Skirt
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 3
