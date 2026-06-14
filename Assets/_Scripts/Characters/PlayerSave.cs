@@ -8,6 +8,7 @@ public class PlayerSave : NetworkBehaviour
 {
     [Header("Data")]
     [SerializeField] CharacterCustomizationData customizationData;
+    [SerializeField] QuestList questList;
     bool statsInitialized;
 
     [Header("References")]
@@ -20,14 +21,10 @@ public class PlayerSave : NetworkBehaviour
     [SerializeField] AttributePoints ap;
     [SerializeField] PlayerExperience exp;
     [SerializeField] SkillPanel skillPanel;
+    [SerializeField] PlayerQuest playerQuest;
 
     [Header("UI")]
     [SerializeField] TextMeshProUGUI saveText;
-
-    [Header("Quest")]
-    [SerializeField] PlayerQuest playerQuest;
-    [SerializeField] Quest[] questDatabase;
-
 
     private void Awake()
     {
@@ -359,8 +356,6 @@ public class PlayerSave : NetworkBehaviour
 
     public void SaveQuests()
     {
-        Debug.Log("Saving quests...");
-
         if (!IsOwner) return;
         if (playerQuest == null) return;
 
@@ -391,8 +386,6 @@ public class PlayerSave : NetworkBehaviour
 
     void SaveQuestsOnTurnIn(Quest q)
     {
-        Debug.Log("Saving Quest on Turn In...");
-
         SaveQuests();
     }
 
@@ -400,14 +393,12 @@ public class PlayerSave : NetworkBehaviour
     {
         if (!IsOwner) return;
         if (playerQuest == null) return;
-        if (questDatabase == null || questDatabase.Length == 0) return;
-
-        Debug.Log("Loading quests...");
+        if (questList.QuestDatabase == null || questList.QuestDatabase.Length == 0) return;
 
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
         string prefix = $"Character{slot}_";
 
-        foreach (Quest quest in questDatabase)
+        foreach (Quest quest in questList.QuestDatabase)
         {
             if (quest == null) continue;
 
@@ -423,10 +414,7 @@ public class PlayerSave : NetworkBehaviour
 
             // If quest not yet accepted, accept it to reconstruct progress
             QuestProgress existing = playerQuest.activeQuests.Find(qp => qp.quest == quest);
-            if (existing == null)
-            {
-                playerQuest.AcceptQuest(quest);
-            }
+            if (existing == null) playerQuest.AcceptQuest(quest, false);
 
             // Now update progress values from saved data
             QuestProgress progress = playerQuest.activeQuests.Find(qp => qp.quest == quest);
@@ -448,8 +436,6 @@ public class PlayerSave : NetworkBehaviour
 
             // Ensure completion flags are consistent
             progress.CheckCompletion();
-
-            Debug.Log($"Loaded quest {quest.QuestID} state={progress.state} for slot {slot}");
         }
 
         // Notify listeners so UI and other systems update

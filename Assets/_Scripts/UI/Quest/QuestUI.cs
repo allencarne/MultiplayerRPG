@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class QuestUI : MonoBehaviour
 {
     [Header("Quests")]
-    [SerializeField] Quest[] allQuests;
+    [SerializeField] QuestList questList;
 
     [Header("Player")]
     [SerializeField] PlayerStats stats;
@@ -44,7 +44,7 @@ public class QuestUI : MonoBehaviour
 
     private void Start()
     {
-        if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
+        if (questList.QuestDatabase.Length > 0) ShowQuestDetails(questList.QuestDatabase[0]);
         GetQuestList();
     }
 
@@ -60,12 +60,12 @@ public class QuestUI : MonoBehaviour
     {
         ClearQuestList();
         GetQuestList();
-        if (allQuests.Length > 0) ShowQuestDetails(allQuests[0]);
+        if (questList.QuestDatabase.Length > 0) ShowQuestDetails(questList.QuestDatabase[0]);
     }
 
     private void GetQuestList()
     {
-        foreach (Quest quest in allQuests)
+        foreach (Quest quest in questList.QuestDatabase)
         {
             GameObject listItem = Instantiate(questUI_Button, questListUI.transform);
             SetQuestListItemText(listItem, quest);

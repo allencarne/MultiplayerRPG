@@ -107,17 +107,16 @@ public class PlayerQuest : MonoBehaviour
         return highestState;
     }
 
-    public void AcceptQuest(Quest quest)
+    public void AcceptQuest(Quest quest, bool giveStarters = true)
     {
         if (activeQuests.Exists(q => q.quest == quest)) return;
 
         QuestProgress progress = new QuestProgress(quest);
-        foreach (Item item in quest.Starter) inventory.AddItem(item);
-        activeQuests.Add(progress);
+        if (giveStarters) foreach (Item item in quest.Starter) inventory.AddItem(item);
 
+        activeQuests.Add(progress);
         CheckInventoryForQuestItems(progress);
         CheckObjectProgress();
-
         OnQuestStateChanged?.Invoke();
     }
 

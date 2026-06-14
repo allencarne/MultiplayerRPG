@@ -7,14 +7,17 @@ public class WorldMapLog : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI statueProgress;
     [SerializeField] TextMeshProUGUI chestProgress;
+    [SerializeField] TextMeshProUGUI questProgress;
 
     int maxBeachStatue = 5;
     int maxBeachChests = 9;
+    [SerializeField] QuestList questList;
 
     private void OnEnable()
     {
         UpdateChestProgress();
         UpdateStatueProgress();
+        UpdateQuestProgress();
     }
 
     void UpdateChestProgress()
@@ -53,5 +56,26 @@ public class WorldMapLog : MonoBehaviour
     {
         string status = PlayerPrefs.GetString($"Character{characterNumber}_{area}_{type}_{index}", "Incomplete");
         return status == "Completed";
+    }
+
+    void UpdateQuestProgress()
+    {
+        int characterNumber = stats.net_CharacterSlot.Value;
+        string prefix = $"Character{characterNumber}_";
+        int completedQuests = 0;
+
+        foreach (Quest quest in questList.QuestDatabase)
+        {
+            if (quest == null) continue;
+
+            string stateKey = $"{prefix}{quest.QuestID}_State";
+            if (!PlayerPrefs.HasKey(stateKey)) continue;
+
+            QuestState state = (QuestState)PlayerPrefs.GetInt(stateKey);
+            if (state == QuestState.Completed)
+                completedQuests++;
+        }
+
+        questProgress.text = $"{completedQuests}/{questList.QuestDatabase.Length}";
     }
 }

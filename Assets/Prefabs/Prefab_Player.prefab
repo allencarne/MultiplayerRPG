@@ -9596,7 +9596,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5183728640319016475}
   m_HandleRect: {fileID: 4479369050945406339}
   m_Direction: 2
-  m_Value: 0.50000006
+  m_Value: 0.49999997
   m_Size: 0.38043886
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11788,6 +11788,8 @@ MonoBehaviour:
   stats: {fileID: 2477393547595159198}
   statueProgress: {fileID: 8761604807273754678}
   chestProgress: {fileID: 1365687197894470659}
+  questProgress: {fileID: 2079252280167216720}
+  questList: {fileID: 11400000, guid: 2e44e0570e805a44fac3f5916a89717d, type: 2}
 --- !u!114 &4344452407209405179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24966,7 +24968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -25561,37 +25563,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSave
   ShowTopMostFoldoutHeaderGroup: 1
   customizationData: {fileID: 11400000, guid: 9d1122df602f64146b1dfdbfd02b18b5, type: 2}
+  questList: {fileID: 11400000, guid: 2e44e0570e805a44fac3f5916a89717d, type: 2}
   ap: {fileID: 5950257301322909682}
   exp: {fileID: 6940644233207828720}
   skillPanel: {fileID: 640528868884370920}
-  saveText: {fileID: 2229989780815055974}
   playerQuest: {fileID: 2815023884702440214}
-  questDatabase:
-  - {fileID: 11400000, guid: 2136c86e551181e4d9f65996291c02ed, type: 2}
-  - {fileID: 11400000, guid: 9fccd38173ed7eb4cbfd6dc8ddc85bfe, type: 2}
-  - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
-  - {fileID: 11400000, guid: f76be8ac36c52ea4798bf96615afc505, type: 2}
-  - {fileID: 11400000, guid: 7558749bf1bcbcf4f8b9eaffce3df71f, type: 2}
-  - {fileID: 11400000, guid: 316b64ab897aaba46bc69c1fd9d9d261, type: 2}
-  - {fileID: 11400000, guid: 43804a6b192d4a847a46772877a7939c, type: 2}
-  - {fileID: 11400000, guid: cce273a202dbc0c48ba8ae7301fc4a03, type: 2}
-  - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
-  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
-  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
-  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
-  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
-  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
-  - {fileID: 11400000, guid: e0d69c559f6b6eb46b526b9a852a3234, type: 2}
-  - {fileID: 11400000, guid: b8b600f8498fdf348a841363397d42b5, type: 2}
-  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
-  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
-  - {fileID: 11400000, guid: 688bfbfc2fcf1b14bb2d4901138890f7, type: 2}
-  - {fileID: 11400000, guid: df1665662146e8546bc07e0078c18d18, type: 2}
-  - {fileID: 11400000, guid: 42501dfdac7198449b0abcac02cef4b7, type: 2}
-  - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
-  - {fileID: 11400000, guid: 9c3ff16b6dd915745b2cce355f9078f3, type: 2}
-  - {fileID: 11400000, guid: 526e3b4d8a48634418a4aae2a0c162ff, type: 2}
-  - {fileID: 11400000, guid: 468c9b2ee3131484f8280a7474d489e9, type: 2}
+  saveText: {fileID: 2229989780815055974}
 --- !u!114 &1521853271822668813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26057,32 +26034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60e98f12385d604cb0e3726df22a71f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allQuests:
-  - {fileID: 11400000, guid: 2136c86e551181e4d9f65996291c02ed, type: 2}
-  - {fileID: 11400000, guid: 9fccd38173ed7eb4cbfd6dc8ddc85bfe, type: 2}
-  - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
-  - {fileID: 11400000, guid: f76be8ac36c52ea4798bf96615afc505, type: 2}
-  - {fileID: 11400000, guid: 7558749bf1bcbcf4f8b9eaffce3df71f, type: 2}
-  - {fileID: 11400000, guid: 316b64ab897aaba46bc69c1fd9d9d261, type: 2}
-  - {fileID: 11400000, guid: 43804a6b192d4a847a46772877a7939c, type: 2}
-  - {fileID: 11400000, guid: cce273a202dbc0c48ba8ae7301fc4a03, type: 2}
-  - {fileID: 11400000, guid: 8129a3f7b88065042a04d98128738174, type: 2}
-  - {fileID: 11400000, guid: 008bdb8f6b01d4a46a19064c588b7b96, type: 2}
-  - {fileID: 11400000, guid: eaf33b0c68f9615419be316666fa7336, type: 2}
-  - {fileID: 11400000, guid: becde2817da551a41b72715cafd0aef8, type: 2}
-  - {fileID: 11400000, guid: 3bf600814f0d47d48949c2d2cf773ace, type: 2}
-  - {fileID: 11400000, guid: 700e38c95dad9ee4485c307b20219ab1, type: 2}
-  - {fileID: 11400000, guid: e0d69c559f6b6eb46b526b9a852a3234, type: 2}
-  - {fileID: 11400000, guid: b8b600f8498fdf348a841363397d42b5, type: 2}
-  - {fileID: 11400000, guid: 993e9cbf22ea059438d12f71ccb7080f, type: 2}
-  - {fileID: 11400000, guid: fa97b9880b2c5444fbedb1aff1c3fe3e, type: 2}
-  - {fileID: 11400000, guid: 688bfbfc2fcf1b14bb2d4901138890f7, type: 2}
-  - {fileID: 11400000, guid: df1665662146e8546bc07e0078c18d18, type: 2}
-  - {fileID: 11400000, guid: 42501dfdac7198449b0abcac02cef4b7, type: 2}
-  - {fileID: 11400000, guid: 01683ba1021c115408ad347a402aadc4, type: 2}
-  - {fileID: 11400000, guid: 9c3ff16b6dd915745b2cce355f9078f3, type: 2}
-  - {fileID: 11400000, guid: 526e3b4d8a48634418a4aae2a0c162ff, type: 2}
-  - {fileID: 11400000, guid: 468c9b2ee3131484f8280a7474d489e9, type: 2}
+  questList: {fileID: 11400000, guid: 2e44e0570e805a44fac3f5916a89717d, type: 2}
   stats: {fileID: 2477393547595159198}
   exp: {fileID: 6940644233207828720}
   playerQuest: {fileID: 2815023884702440214}
@@ -53870,7 +53822,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5569800870057215691}
   m_HandleRect: {fileID: 4586026586345028743}
   m_Direction: 0
-  m_Value: 0.49999994
+  m_Value: 0.49999997
   m_Size: 0.37653124
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -75786,7 +75738,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4790396418291599027}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.30978057}
+  m_AnchorMin: {x: 0, y: 0.30978054}
   m_AnchorMax: {x: 1, y: 0.6902194}
   m_AnchoredPosition: {x: 0, y: 0.00002670288}
   m_SizeDelta: {x: 0, y: 0.000049591}
