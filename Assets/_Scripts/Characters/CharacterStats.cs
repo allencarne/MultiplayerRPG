@@ -311,7 +311,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     #endregion
 
     #region AttackSpeed
-    public void IncreaseAttackSpeed(int amount)
+    public void IncreaseAttackSpeed(float amount)
     {
         if (IsServer)
         {
@@ -324,12 +324,12 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ServerRpc]
-    void IncreaseAttackSpeedServerRPC(int amount)
+    void IncreaseAttackSpeedServerRPC(float amount)
     {
         net_BaseAS.Value += amount;
     }
 
-    public void DecreaseAttackSpeed(int amount)
+    public void DecreaseAttackSpeed(float amount)
     {
         if (IsServer)
         {
@@ -342,14 +342,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ServerRpc]
-    void DecreaseAttackSpeedServerRPC(int amount)
+    void DecreaseAttackSpeedServerRPC(float amount)
     {
         net_BaseAS.Value -= amount;
     }
     #endregion
 
     #region CoolDownReduction
-    public void IncreaseCoolDownReduction(int amount)
+    public void IncreaseCoolDownReduction(float amount)
     {
         if (IsServer)
         {
@@ -362,12 +362,12 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ServerRpc]
-    void IncreaseCoolDownReductionServerRPC(int amount)
+    void IncreaseCoolDownReductionServerRPC(float amount)
     {
         net_BaseCDR.Value += amount;
     }
 
-    public void DecreaseCoolDownReduction(int amount)
+    public void DecreaseCoolDownReduction(float amount)
     {
         if (IsServer)
         {
@@ -380,7 +380,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     }
 
     [ServerRpc]
-    void DecreaseCoolDownReductionServerRPC(int amount)
+    void DecreaseCoolDownReductionServerRPC(float amount)
     {
         net_BaseCDR.Value -= amount;
     }

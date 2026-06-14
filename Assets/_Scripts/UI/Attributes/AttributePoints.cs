@@ -157,8 +157,8 @@ public class AttributePoints : MonoBehaviour
     {
         stats.IncreaseHealth(healthToAdd);
         stats.IncreaseDamage(damageToAdd);
-        stats.IncreaseAttackSpeed(asToAdd);
-        stats.IncreaseCoolDownReduction(cdrToAdd);
+        stats.IncreaseAttackSpeed(asToAdd * 0.1f);
+        stats.IncreaseCoolDownReduction(cdrToAdd * 0.1f);
         stats.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;
