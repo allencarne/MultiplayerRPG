@@ -24966,7 +24966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -30593,7 +30593,7 @@ MonoBehaviour:
   SlowDuration: 0
   KnockBackForce: 0
   KnockBackDuration: 0
-  stunDuration: 2
+  stunDuration: 1
 --- !u!1 &3546575589674978377
 GameObject:
   m_ObjectHideFlags: 0
@@ -33585,7 +33585,8 @@ MonoBehaviour:
   weaponType: 0
   SkillIcon: {fileID: 21300000, guid: 1c84fd2f56587d8469d58824b35e044b, type: 3}
   IndicatorPrefab: {fileID: 2010481928104178119, guid: 93b8e9f1746b11f4cb2f0d1019b09e69, type: 3}
-  Description: Lunge Forward and Slash
+  Description: <color=#FFFFFF>Lunge forward</color>, dealing <color=#FF0000>moderate
+    damage</color> and <color=#FFFF00>stunning</color> all enemies passed through.
   SkillPrefab: {fileID: 2311812203192534404, guid: cb8d5254132cafa4dbda1e52dbb2b52f, type: 3}
   TelegraphPrefab: {fileID: 0}
   SkillDamage: 5
@@ -33604,7 +33605,7 @@ MonoBehaviour:
   SlowDuration: 0
   KnockBackForce: 0
   KnockBackDuration: 0
-  stunDuration: 0
+  stunDuration: 0.5
 --- !u!1 &3861705577896081238
 GameObject:
   m_ObjectHideFlags: 0
@@ -44501,7 +44502,7 @@ MonoBehaviour:
   SlowDuration: 0
   KnockBackForce: 0
   KnockBackDuration: 0
-  stunDuration: 2
+  stunDuration: 1
 --- !u!1 &5281159861049052430
 GameObject:
   m_ObjectHideFlags: 0
