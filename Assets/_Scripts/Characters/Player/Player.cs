@@ -50,6 +50,7 @@ public class Player : NetworkBehaviour
     {
         if (IsOwner) PlayerCamera();
         stats.OnDeath.AddListener(DeathClientRPC);
+        stats.OnCharacterDeath.AddListener(ClearTarget);
         InCombat.OnValueChanged += OnCombatStateChanged;
 
         if (IsOwner)
@@ -68,6 +69,7 @@ public class Player : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         stats.OnDeath.RemoveListener(DeathClientRPC);
+        stats.OnCharacterDeath.RemoveListener(ClearTarget);
         InCombat.OnValueChanged -= OnCombatStateChanged;
 
         if (IsOwner)
@@ -164,6 +166,25 @@ public class Player : NetworkBehaviour
         // Timer expired, exit combat
         InCombat.Value = false;
         combatTimerCoroutine = null;
+    }
+
+    void ClearTarget(NetworkObject attackerID)
+    {
+        EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
+        if (enemy != null)
+        {
+            if (enemy.SecondTarget != null)
+            {
+                enemy.Target = enemy.SecondTarget;
+                enemy.SecondTarget = null;
+                enemy.IsPlayerInRange = true;
+            }
+            else
+            {
+                enemy.Target = null;
+                enemy.IsPlayerInRange = false;
+            }
+        }
     }
 
     void HandleRegeneration(bool inCombat)

@@ -222,18 +222,20 @@ public class Enemy : NetworkBehaviour
 
     void ClearTarget(NetworkObject attackerID)
     {
-        if (attackerID != NetworkObject) return;
-
-        if (stateMachine.SecondTarget != null)
+        EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
+        if (enemy != null)
         {
-            stateMachine.Target = stateMachine.SecondTarget;
-            stateMachine.SecondTarget = null;
-            stateMachine.IsPlayerInRange = true;
-        }
-        else
-        {
-            stateMachine.Target = null;
-            stateMachine.IsPlayerInRange = false;
+            if (enemy.SecondTarget != null)
+            {
+                enemy.Target = enemy.SecondTarget;
+                enemy.SecondTarget = null;
+                enemy.IsPlayerInRange = true;
+            }
+            else
+            {
+                enemy.Target = null;
+                enemy.IsPlayerInRange = false;
+            }
         }
     }
 
