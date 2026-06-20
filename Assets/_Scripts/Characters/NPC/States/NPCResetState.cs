@@ -14,6 +14,10 @@ public class NPCResetState : NPCState
 
         owner.npc.PatienceBar.Patience.Value = owner.npc.Data.TotalPatience;
 
+        owner.IsEnemyInRange = false;
+        owner.Target = null;
+        owner.SecondTarget = null;
+
         if (owner.npc.stats.net_CurrentHP.Value < owner.npc.stats.net_TotalHP.Value)
         {
             owner.npc.IsRegen = true;

@@ -40,8 +40,8 @@ public class Enemy : NetworkBehaviour
             stats.net_BaseArmor.Value = Data.StartingArmor;
         }
 
-        stats.OnEnemyDamaged.AddListener(Damaged);
-        stats.OnEnemyDeath.AddListener(Death);
+        stats.OnCharacterDamaged.AddListener(Damaged);
+        stats.OnCharacterDeath.AddListener(Death);
 
         stats.OnDamaged.AddListener(TakeDamage);
         stats.OnDamageDealt.AddListener(DealDamage);
@@ -52,8 +52,8 @@ public class Enemy : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        stats.OnEnemyDamaged.RemoveListener(Damaged);
-        stats.OnEnemyDeath.RemoveListener(Death);
+        stats.OnCharacterDamaged.RemoveListener(Damaged);
+        stats.OnCharacterDeath.RemoveListener(Death);
 
         stats.OnDamaged.RemoveListener(TakeDamage);
         stats.OnDamageDealt.RemoveListener(DealDamage);
@@ -157,6 +157,7 @@ public class Enemy : NetworkBehaviour
 
         EventDeath(attackerID);
         NPCEventParticipation(attackerID);
+        ClearTarget(attackerID);
 
         DeathClientRpc();
         stateMachine.SetState(EnemyStateMachine.State.Death);
@@ -216,6 +217,23 @@ public class Enemy : NetworkBehaviour
         {
             stateMachine.SecondTarget = attackerID.transform;
             stateMachine.IsPlayerInRange = true;
+        }
+    }
+
+    void ClearTarget(NetworkObject attackerID)
+    {
+        if (attackerID != NetworkObject) return;
+
+        if (stateMachine.SecondTarget != null)
+        {
+            stateMachine.Target = stateMachine.SecondTarget;
+            stateMachine.SecondTarget = null;
+            stateMachine.IsPlayerInRange = true;
+        }
+        else
+        {
+            stateMachine.Target = null;
+            stateMachine.IsPlayerInRange = false;
         }
     }
 

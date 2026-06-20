@@ -23,7 +23,6 @@ public class EnemyDeathState : EnemyState
     IEnumerator Delay(EnemyStateMachine owner)
     {
         yield return new WaitForSeconds(.8f);
-
         owner.DespawnEnemy();
     }
 

@@ -60,8 +60,9 @@ public class NPC : NetworkBehaviour, IInteractable
         ApplyFacingDirection(net_FacingDirection.Value);
         net_FacingDirection.OnValueChanged += OnFacingDirectionChanged;
 
-        stats.OnEnemyDamaged.AddListener(TargetAttacker);
+        stats.OnCharacterDamaged.AddListener(TargetAttacker);
         stats.OnDeath.AddListener(Death);
+        stats.OnCharacterDeath.AddListener(ClearTarget);
 
         stats.OnDamaged.AddListener(TakeDamage);
         stats.OnDamageDealt.AddListener(DealDamage);
@@ -74,8 +75,9 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         net_FacingDirection.OnValueChanged -= OnFacingDirectionChanged;
 
-        stats.OnEnemyDamaged.RemoveListener(TargetAttacker);
+        stats.OnCharacterDamaged.RemoveListener(TargetAttacker);
         stats.OnDeath.RemoveListener(Death);
+        stats.OnCharacterDeath.RemoveListener(ClearTarget);
 
         stats.OnDamaged.RemoveListener(TakeDamage);
         stats.OnDamageDealt.RemoveListener(DealDamage);
@@ -209,6 +211,12 @@ public class NPC : NetworkBehaviour, IInteractable
             stateMachine.SecondTarget = attackerID.transform;
             stateMachine.IsEnemyInRange = true;
         }
+    }
+
+    void ClearTarget(NetworkObject attackerID)
+    {
+        NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
+        if (npc != null) npc.Target = null;
     }
 
     void TakeDamage(float damage)

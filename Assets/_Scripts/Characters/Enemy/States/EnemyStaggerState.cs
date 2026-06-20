@@ -18,9 +18,6 @@ public class EnemyStaggerState : EnemyState
         {
             if (owner.isResetting)
             {
-                owner.enemy.PatienceBar.Patience.Value = 0;
-                owner.IsPlayerInRange = false;
-                owner.Target = null;
                 owner.SetState(EnemyStateMachine.State.Reset);
             }
             else

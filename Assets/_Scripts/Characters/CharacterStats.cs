@@ -34,8 +34,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<float> OnHealed;
     [HideInInspector] public UnityEvent OnDamageDealt;
 
-    [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDamaged;
-    [HideInInspector] public UnityEvent<NetworkObject> OnEnemyDeath;
+    [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDamaged;
+    [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDeath;
 
     [HideInInspector] public UnityEvent OnDeath;
     [HideInInspector] public UnityEvent OnInterrupted;
@@ -70,7 +70,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         // Feedback
         OnDamaged?.Invoke(roundedDamage);
-        OnEnemyDamaged?.Invoke(attackerID);
+        OnCharacterDamaged?.Invoke(attackerID);
 
         CharacterStats attackerStats = attackerID.GetComponent<CharacterStats>();
         if (attackerStats != null)
@@ -81,32 +81,9 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (net_CurrentHP.Value <= 0)
         {
             isDead = true;
-            ClearTarget(attackerID);
             OnDeath?.Invoke();
-            OnEnemyDeath?.Invoke(attackerID);
+            OnCharacterDeath?.Invoke(attackerID);
         }
-    }
-
-    void ClearTarget(NetworkObject attackerID)
-    {
-        EnemyStateMachine enemy = attackerID.GetComponent<EnemyStateMachine>();
-        if (enemy != null)
-        {
-            if (enemy.SecondTarget != null)
-            {
-                enemy.Target = enemy.SecondTarget;
-                enemy.SecondTarget = null;
-                enemy.IsPlayerInRange = true;
-            }
-            else
-            {
-                enemy.Target = null;
-                enemy.IsPlayerInRange = false;
-            }
-        }
-
-        NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
-        if (npc != null) npc.Target = null;
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
