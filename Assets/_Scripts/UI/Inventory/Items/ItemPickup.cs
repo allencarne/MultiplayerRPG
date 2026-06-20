@@ -34,7 +34,7 @@ public class ItemPickup : NetworkBehaviour
 
     private void Start()
     {
-        if (Manager == null)
+        if (IsServer && Manager == null)
         {
             StartCoroutine(DespawnDelay(180));
         }
@@ -44,11 +44,6 @@ public class ItemPickup : NetworkBehaviour
     {
         if (_hasBeenPickedUp) return;
         _hasBeenPickedUp = true;
-
-        if (Manager != null)
-        {
-            Manager.AddPosition(SpawnPoint);
-        }
 
         // Add Item to Inventory if we have enough space
         bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value);
@@ -158,10 +153,9 @@ public class ItemPickup : NetworkBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        gameObject.SetActive(false);
-
         if (IsServer)
         {
+            if (Manager != null) Manager.AddPosition(SpawnPoint);
             NetworkObject.Despawn(true);
         }
         else
@@ -173,6 +167,7 @@ public class ItemPickup : NetworkBehaviour
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     void DespawnServerRPC()
     {
+        if (Manager != null) Manager.AddPosition(SpawnPoint);
         NetworkObject.Despawn(true);
     }
 }
