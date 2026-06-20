@@ -2,14 +2,14 @@
 
 public class PlayerRunState : PlayerState
 {
+    // We track the last non-zero direction to know which way to face when we stop moving
     private Vector2 lastDirection = Vector2.zero;
-    private Vector2 lastRawInput = Vector2.zero;
 
     public override void StartState(PlayerStateMachine owner)
     {
+        // Play run animation on all animators
         owner.PlayerHeadAnimator.Play("Run", -1, 0);
         owner.BodyAnimator.Play("Run", -1, 0);
-
         owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
         owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
@@ -18,8 +18,8 @@ public class PlayerRunState : PlayerState
             owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Run", -1, 0);
         }
 
+        // Set last direction to zero so we update it immediately on the first frame
         lastDirection = Vector2.zero;
-        lastRawInput = Vector2.zero;
     }
 
     public override void UpdateState(PlayerStateMachine owner)
@@ -33,7 +33,7 @@ public class PlayerRunState : PlayerState
         owner.UtilityAbility();
         owner.UltimateAbility();
 
-        // Leave if we are Immobilized
+        // If we become immobilized, stop moving and switch to idle
         if (owner.CrowdControl.immobilize.IsImmobilized)
         {
             owner.SetState(PlayerStateMachine.State.Idle);
@@ -44,7 +44,7 @@ public class PlayerRunState : PlayerState
     {
         HandleMovement(owner, owner.Input.MoveInput);
 
-        // Leave if no move input
+        // If we stop giving movement input, switch to idle but keep facing the same direction
         if (owner.Input.MoveInput == Vector2.zero)
         {
             owner.SetState(PlayerStateMachine.State.Idle);
@@ -53,13 +53,19 @@ public class PlayerRunState : PlayerState
 
     void HandleMovement(PlayerStateMachine owner, Vector2 moveInput)
     {
+        // Normalize input to prevent faster diagonal movement, then multiply by speed
         Vector2 movement = moveInput.normalized * owner.Stats.TotalSpeed;
+
+        // Apply movement to Rigidbody
         owner.PlayerRB.linearVelocity = movement;
 
+        // If we're moving, determine which direction to face for animation and update animators and facing direction
         if (movement != Vector2.zero)
         {
+            // Get the animation direction based on input and control scheme
             Vector2 animDirection = GetAnimationDirection(moveInput, UsingGamepad(owner));
 
+            // If the animation direction has changed, update animators and facing direction
             if (animDirection != lastDirection)
             {
                 UpdateAllAnimators(owner, animDirection);
@@ -69,8 +75,6 @@ public class PlayerRunState : PlayerState
                 owner.playerHead.SetHair(animDirection);
                 owner.playerHead.SetHelm(animDirection);
             }
-
-            lastRawInput = moveInput;
         }
     }
 
@@ -80,12 +84,10 @@ public class PlayerRunState : PlayerState
         owner.PlayerHeadAnimator.SetFloat("Vertical", direction.y);
         owner.BodyAnimator.SetFloat("Horizontal", direction.x);
         owner.BodyAnimator.SetFloat("Vertical", direction.y);
-
         owner.ChestAnimator.SetFloat("Horizontal", direction.x);
         owner.ChestAnimator.SetFloat("Vertical", direction.y);
         owner.LegsAnimator.SetFloat("Horizontal", direction.x);
         owner.LegsAnimator.SetFloat("Vertical", direction.y);
-
         owner.WeaponAnimator.SetFloat("Horizontal", direction.x);
         owner.WeaponAnimator.SetFloat("Vertical", direction.y);
     }

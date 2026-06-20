@@ -8,6 +8,7 @@ public class CharacterSelect : MonoBehaviour
     [SerializeField] CharacterCreator characterCreator;
     [SerializeField] GameObject CharacterCreatorPanel;
     [SerializeField] CharacterCustomizationData customizationData;
+    [SerializeField] QuestList questList;
 
     [Header("Character 1")]
     [SerializeField] GameObject playerPreview1;
@@ -290,14 +291,35 @@ public class CharacterSelect : MonoBehaviour
             PlayerPrefs.DeleteKey(key);
         }
 
+        // Delete inventory slots
         for (int i = 0; i < 30; i++)
         {
             PlayerPrefs.DeleteKey($"Character{slot}_InventorySlot_{i}");
         }
 
+        // Delete equipment slots
         for (int i = 0; i < 8; i++)
         {
             PlayerPrefs.DeleteKey($"Character{slot}_EquipmentSlot_{i}");
+        }
+
+        foreach (Quest quest in questList.QuestDatabase)
+        {
+            if (quest == null) continue;
+
+            string questKeyBase = $"Character{slot}_{quest.QuestID}";
+            string stateKey = $"{questKeyBase}_State";
+
+            if (!PlayerPrefs.HasKey(stateKey)) continue;
+
+            PlayerPrefs.DeleteKey(stateKey);
+
+            foreach (QuestObjective obj in quest.Objectives)
+            {
+                if (obj == null) continue;
+
+                PlayerPrefs.DeleteKey($"{questKeyBase}_Obj_{obj.ObjectiveID}");
+            }
         }
     }
 }
