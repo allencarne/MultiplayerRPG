@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class PlayerSkill : NetworkBehaviour
 {
+    [SerializeField] SkillData skillData;
+
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
     public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }

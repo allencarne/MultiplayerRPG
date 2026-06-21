@@ -19,6 +19,16 @@ public class NPCChaseState : NPCState
     {
         if (!owner.IsServer) return;
 
+        if (owner.Target != null)
+        {
+            CharacterStats stats = owner.Target.GetComponent<CharacterStats>();
+            if (stats != null && stats.isDead)
+            {
+                TransitionToReset(owner);
+                return;
+            }
+        }
+
         if (owner.Target == null)
         {
             TransitionToReset(owner);

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
+  m_Name: Fury
+  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  weaponType: 0
+  skillType: 0
+  SkillIcon: {fileID: 21300000, guid: e6d9b95ecafca5849a0e333453e95028, type: 3}
+  IndicatorPrefab: {fileID: 0}
+  Description: "Landing a <color=#FFFFFF>basic attack</color> generates <color=#00FF00>+5
+    Fury</color>.  \nAs Fury builds, you gain stacks of <color=#00FF00>Swiftness</color>,
+    increasing your <color=#00FF00>attack speed</color> based on your current Fury
+    (<color=#FFFFFF>maximum 5 stacks</color>).  \nFury begins to <color=#B000F0>decay
+    after 8 seconds</color> without landing a <color=#FFFFFF>basic attack</color>."
+  SkillPrefab: {fileID: 0}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 0
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0
+  ActionTime: 0
+  ImpactTime: 0
+  RecoveryTime: 0
+  CoolDown: 0
+  HealAmount: 0
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  StunDuration: 0

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
+  m_Name: Frail Lunge
+  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  weaponType: 0
+  skillType: 1
+  SkillIcon: {fileID: 21300000, guid: 1c84fd2f56587d8469d58824b35e044b, type: 3}
+  IndicatorPrefab: {fileID: 2010481928104178119, guid: 93b8e9f1746b11f4cb2f0d1019b09e69, type: 3}
+  Description: <color=#FFFFFF>Lunge forward</color>, dealing <color=#FF0000>moderate
+    damage</color> and <color=#FFFF00>stunning</color> all enemies passed through.
+  SkillPrefab: {fileID: 2311812203192534404, guid: cb8d5254132cafa4dbda1e52dbb2b52f, type: 3}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 5
+  SkillRange: 0
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 0.1
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.1
+  CoolDown: 5
+  HealAmount: 0
+  SlideForce: 25
+  SlideDuration: 0.1
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 0
+  KnockBackDuration: 0
+  StunDuration: 0.5
