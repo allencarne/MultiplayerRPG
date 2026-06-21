@@ -4,13 +4,13 @@ public class BasicAttack : NPCSkill
 {
     public override void StartSkill(NPCStateMachine owner)
     {
-        InitializeAbility(skillType, owner);
+        InitializeAbility(skillData.skillType, owner);
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * SkillRange;
+        AimOffset = AimDirection.normalized * skillData.SkillRange;
 
         // Animation Direction
         Vector2 snappedDirection = owner.SnapDirection(AimDirection);
@@ -22,13 +22,13 @@ public class BasicAttack : NPCSkill
 
     public override void CastState(NPCStateMachine owner)
     {
-        Animate(owner, weaponType, skillType, State.Cast);
+        Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
         owner.npc.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(NPCStateMachine owner)
     {
-        Animate(owner, weaponType, skillType, State.Impact);
+        Animate(owner, skillData.weaponType, skillData.skillType, State.Impact);
 
         if (owner.IsServer)
         {
@@ -42,7 +42,7 @@ public class BasicAttack : NPCSkill
 
     public override void RecoveryState(NPCStateMachine owner)
     {
-        Animate(owner, weaponType, skillType, State.Recovery);
-        owner.npc.CastBar.StartRecovery(RecoveryTime);
+        Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
+        owner.npc.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

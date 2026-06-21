@@ -37,7 +37,7 @@ public class NPCStateMachine : NetworkBehaviour
     public bool isResetting = false;
     public bool IsSliding = false;
     public bool CanBasic = true;
-    public bool CanSpecial = false;
+    public bool CanMobility = false;
     public bool CanUltimate = false;
 
     [Header("Variables")]

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
+  m_Name: Basic Attack
+  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  weaponType: 0
+  skillType: 0
+  SkillIcon: {fileID: 21300000, guid: 8753af9cf5ebdf945be31052a1c614f1, type: 3}
+  IndicatorPrefab: {fileID: 0}
+  Description: 
+  SkillPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
+  TelegraphPrefab: {fileID: 0}
+  SkillDamage: 0
+  SkillRange: 1
+  SkillForce: 0
+  SkillDuration: 0
+  CastTime: 1
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.3
+  CoolDown: 0
+  HealAmount: 0
+  SlideForce: 0
+  SlideDuration: 0
+  SlowStacks: 0
+  SlowDuration: 0
+  KnockBackForce: 5
+  KnockBackDuration: 0.3
+  StunDuration: 0

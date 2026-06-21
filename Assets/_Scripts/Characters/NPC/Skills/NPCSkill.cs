@@ -4,39 +4,10 @@ using UnityEngine;
 
 public abstract class NPCSkill : NetworkBehaviour
 {
+    public SkillData skillData;
+
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
-    public enum SkillType { Basic, Special, Ultimate }
-    public SkillType skillType;
-    public enum WeaponType { Sword, Staff, Bow, Dagger }
-    public WeaponType weaponType;
-
-    [Header("Prefab")]
-    [SerializeField] protected GameObject SkillPrefab;
-    [SerializeField] protected GameObject TelegraphPrefab;
-
-    [Header("Stats")]
-    [SerializeField] protected float SkillDamage;
-    [SerializeField] protected float SkillRange;
-    [SerializeField] protected float SkillForce;
-    [SerializeField] protected float SkillDuration;
-
-    [Header("Time")]
-    [SerializeField] protected float CastTime;
-    [SerializeField] protected float ActionTime;
-    [SerializeField] protected float ImpactTime;
-    [SerializeField] protected float RecoveryTime;
-
-    [Header("CoolDown")]
-    [SerializeField] protected float CoolDown;
-
-    [Header("Knockback")]
-    [SerializeField] protected float KnockBackForce;
-    [SerializeField] protected float KnockBackDuration;
-
-    [Header("Slow")]
-    [SerializeField] protected int SlowStacks;
-    [SerializeField] protected float SlowDuration;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -91,29 +62,29 @@ public abstract class NPCSkill : NetworkBehaviour
                 if (hasAction)
                 {
                     ActionState(owner);
-                    ChangeState(State.Action, ActionTime);
+                    ChangeState(State.Action, skillData.ActionTime);
                 }
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, ImpactTime);
+                    ChangeState(State.Impact, skillData.ImpactTime);
                 }
                 break;
 
             case State.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, ImpactTime);
+                ChangeState(State.Impact, skillData.ImpactTime);
                 break;
 
             case State.Impact:
                 RecoveryState(owner);
-                if (skillType == SkillType.Basic)
+                if (skillData.skillType == SkillData.SkillType.Basic)
                 {
                     ChangeState(State.Recovery, ModifiedRecoveryTime);
                 }
                 else
                 {
-                    ChangeState(State.Recovery, RecoveryTime);
+                    ChangeState(State.Recovery, skillData.RecoveryTime);
                 }
                 break;
 
@@ -145,15 +116,15 @@ public abstract class NPCSkill : NetworkBehaviour
 
     }
 
-    protected void InitializeAbility(SkillType skilltype, NPCStateMachine owner)
+    protected void InitializeAbility(SkillData.SkillType skilltype, NPCStateMachine owner)
     {
         owner.CurrentSkill = this;
 
-        if (skilltype == SkillType.Basic)
+        if (skilltype == SkillData.SkillType.Basic)
         {
             //IsBasic = true;
-            ModifiedCastTime = CastTime / owner.npc.stats.TotalAS;
-            ModifiedRecoveryTime = RecoveryTime / owner.npc.stats.TotalAS;
+            ModifiedCastTime = skillData.CastTime / owner.npc.stats.TotalAS;
+            ModifiedRecoveryTime = skillData.RecoveryTime / owner.npc.stats.TotalAS;
         }
 
         AttackerDamage = owner.npc.stats.TotalDamage;
@@ -161,9 +132,9 @@ public abstract class NPCSkill : NetworkBehaviour
         owner.NpcRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
-        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
+        StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
     }
-    IEnumerator CoolDownn(SkillType type, float coolDown, NPCStateMachine owner)
+    IEnumerator CoolDownn(SkillData.SkillType type, float coolDown, NPCStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.npc.stats.TotalCDR;
 
@@ -171,12 +142,12 @@ public abstract class NPCSkill : NetworkBehaviour
 
         switch (type)
         {
-            case SkillType.Basic: owner.CanBasic = true; break;
-            case SkillType.Special: owner.CanSpecial = true; break;
-            case SkillType.Ultimate: owner.CanUltimate = true; break;
+            case SkillData.SkillType.Basic: owner.CanBasic = true; break;
+            case SkillData.SkillType.Mobility: owner.CanMobility = true; break;
+            case SkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(NPCStateMachine owner, WeaponType weapon, SkillType skill, State state)
+    protected void Animate(NPCStateMachine owner, WeaponType weapon, SkillData.SkillType skill, State state)
     {
         string _weapon = "";
         string _skill = "";
@@ -192,9 +163,9 @@ public abstract class NPCSkill : NetworkBehaviour
 
         switch (skill)
         {
-            case SkillType.Basic: _skill = "Basic"; break;
-            case SkillType.Special: _skill = "Special"; break;
-            case SkillType.Ultimate: _skill = "Ultimate"; break;
+            case SkillData.SkillType.Basic: _skill = "Basic"; break;
+            case SkillData.SkillType.Mobility: _skill = "Mobility"; break;
+            case SkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
         }
 
         switch (state)
@@ -217,12 +188,12 @@ public abstract class NPCSkill : NetworkBehaviour
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
-        if (TelegraphPrefab == null) return; 
+        if (skillData.TelegraphPrefab == null) return; 
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
-        GameObject attackInstance = Instantiate(TelegraphPrefab, position, rotation);
+        GameObject attackInstance = Instantiate(skillData.TelegraphPrefab, position, rotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -248,21 +219,21 @@ public abstract class NPCSkill : NetworkBehaviour
     {
         NetworkObject attacker = GetComponentInParent<NetworkObject>();
 
-        GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
+        GameObject attackInstance = Instantiate(skillData.SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
-            attackRB.AddForce(AimDirection * SkillForce, ForceMode2D.Impulse);
+            attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
         }
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
+            damageOnTrigger.AbilityDamage = AttackerDamage + skillData.SkillDamage;
             damageOnTrigger.IgnoreNPC = true;
             damageOnTrigger.IgnorePlayer = true;
         }
@@ -278,8 +249,8 @@ public abstract class NPCSkill : NetworkBehaviour
         if (knockbackOnTrigger != null)
         {
             knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = KnockBackForce;
-            knockbackOnTrigger.Duration = KnockBackDuration;
+            knockbackOnTrigger.Amount = skillData.KnockBackForce;
+            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
             knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreNPC = true;
             knockbackOnTrigger.IgnorePlayer = true;
@@ -289,8 +260,8 @@ public abstract class NPCSkill : NetworkBehaviour
         if (slow != null)
         {
             slow.attacker = attacker;
-            slow.Duration = SlowDuration;
-            slow.Stacks = SlowStacks;
+            slow.Duration = skillData.SlowDuration;
+            slow.Stacks = skillData.SlowStacks;
             slow.IgnoreNPC = true;
             slow.IgnorePlayer = true;
         }
@@ -299,7 +270,7 @@ public abstract class NPCSkill : NetworkBehaviour
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
     }
 
     [ServerRpc]
