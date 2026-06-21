@@ -9,7 +9,7 @@ public class FrailSlash : PlayerSkill
         // Aim
         AimDirection = owner.Aimer.right;
         AimRotation = owner.Aimer.rotation;
-        AimOffset = AimDirection.normalized * SkillRange;
+        AimOffset = AimDirection.normalized * skillData.SkillRange;
 
         // Animation Direction
         Vector2 snappedDirection = owner.SnapDirection(AimDirection);
@@ -23,8 +23,8 @@ public class FrailSlash : PlayerSkill
     {
         if (!owner.IsSliding) return;
 
-        owner.PlayerRB.linearVelocity = AimDirection * SlideForce;
-        StartCoroutine(owner.SlideDuration(AimDirection, SlideForce, SlideDuration));
+        owner.PlayerRB.linearVelocity = AimDirection * skillData.SlideForce;
+        StartCoroutine(owner.SlideDuration(AimDirection, skillData.SlideForce, skillData.SlideDuration));
     }
 
     public override void CastState(PlayerStateMachine owner)

@@ -22,7 +22,7 @@ public class SecondWind : PlayerSkill
 
     private IEnumerator CoolDownTime()
     {
-        yield return new WaitForSeconds(CoolDown);
+        yield return new WaitForSeconds(skillData.CoolDown);
         isOnCooldown = false;
     }
 }

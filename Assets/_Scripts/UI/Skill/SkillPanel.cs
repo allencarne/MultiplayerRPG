@@ -179,7 +179,7 @@ public class SkillPanel : MonoBehaviour
     {
         if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
 
-        if (abilities[index].SkillIcon != null) icon.sprite = abilities[index].SkillIcon;
+        if (abilities[index].skillData.SkillIcon != null) icon.sprite = abilities[index].skillData.SkillIcon;
 
         SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
         if (tooltip != null) tooltip.SetAbility(abilities[index]);

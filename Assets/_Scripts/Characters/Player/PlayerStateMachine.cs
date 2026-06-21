@@ -368,7 +368,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsOffensiveHeld)
         {
-            InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
+            InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].skillData.IndicatorPrefab, "Offensive");
         }
         else
         {
@@ -398,7 +398,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsMobilityHeld)
         {
-            InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
+            InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].skillData.IndicatorPrefab, "Mobility");
         }
         else
         {
@@ -428,7 +428,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsDefensiveHeld)
         {
-            InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
+            InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].skillData.IndicatorPrefab, "Defensive");
         }
         else
         {
@@ -458,7 +458,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUtilityHeld)
         {
-            InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
+            InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].skillData.IndicatorPrefab, "Utility");
         }
         else
         {
@@ -488,7 +488,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUltimateHeld)
         {
-            InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
+            InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].skillData.IndicatorPrefab, "Ultimate");
         }
         else
         {

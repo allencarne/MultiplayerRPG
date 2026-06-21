@@ -9,13 +9,13 @@ public class VitalCleave : PlayerSkill
         // Aim
         AimDirection = owner.Aimer.right;
         AimRotation = owner.Aimer.rotation;
-        AimOffset = AimDirection.normalized * SkillRange;
+        AimOffset = AimDirection.normalized * skillData.SkillRange;
 
         // Animation Direction
         Vector2 snappedDirection = owner.SnapDirection(AimDirection);
         owner.SetAnimDir(snappedDirection);
 
-        ChangeState(State.Cast, CastTime);
+        ChangeState(State.Cast, skillData.CastTime);
         CastState(owner);
     }
 
@@ -23,15 +23,15 @@ public class VitalCleave : PlayerSkill
     {
         if (!owner.IsSliding) return;
 
-        owner.PlayerRB.linearVelocity = AimDirection * SlideForce;
-        StartCoroutine(owner.SlideDuration(AimDirection, SlideForce, SlideDuration));
+        owner.PlayerRB.linearVelocity = AimDirection * skillData.SlideForce;
+        StartCoroutine(owner.SlideDuration(AimDirection, skillData.SlideForce, skillData.SlideDuration));
     }
 
     public override void CastState(PlayerStateMachine owner)
     {
         owner.StartSlide(false);
         Animate(owner, weaponType, SkillType.Basic, State.Cast);
-        owner.player.CastBar.StartCast(CastTime);
+        owner.player.CastBar.StartCast(skillData.CastTime);
     }
 
     public override void ImpactState(PlayerStateMachine owner)
@@ -52,6 +52,6 @@ public class VitalCleave : PlayerSkill
     public override void RecoveryState(PlayerStateMachine owner)
     {
         Animate(owner, weaponType, SkillType.Basic, State.Recovery);
-        owner.player.CastBar.StartRecovery(RecoveryTime);
+        owner.player.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

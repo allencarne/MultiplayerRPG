@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerSkill : NetworkBehaviour
 {
-    [SerializeField] SkillData skillData;
+    public SkillData skillData;
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
@@ -12,48 +12,6 @@ public abstract class PlayerSkill : NetworkBehaviour
     public SkillType skillType;
     public enum WeaponType { Sword, Staff, Bow, Dagger }
     public WeaponType weaponType;
-
-    [Header("UI")]
-    public Sprite SkillIcon;
-    public GameObject IndicatorPrefab;
-    [TextArea] public string Description;
-
-    [Header("Prefab")]
-    [SerializeField] protected GameObject SkillPrefab;
-    [SerializeField] protected GameObject TelegraphPrefab;
-
-    [Header("Stats")]
-    [SerializeField] protected float SkillDamage;
-    [SerializeField] protected float SkillRange;
-    [SerializeField] protected float SkillForce;
-    [SerializeField] protected float SkillDuration;
-
-    [Header("Time")]
-    [SerializeField] protected float CastTime;
-    [SerializeField] protected float ActionTime;
-    [SerializeField] protected float ImpactTime;
-    [SerializeField] protected float RecoveryTime;
-
-    [Header("CoolDown")]
-    public float CoolDown;
-
-    [Header("Heal")]
-    [SerializeField] protected int HealAmount;
-
-    [Header("Slide")]
-    [SerializeField] protected int SlideForce;
-    [SerializeField] protected float SlideDuration;
-
-    [Header("Slow")]
-    [SerializeField] protected int SlowStacks;
-    [SerializeField] protected float SlowDuration;
-
-    [Header("Knockback")]
-    [SerializeField] protected float KnockBackForce;
-    [SerializeField] protected float KnockBackDuration;
-
-    [Header("Stun")]
-    [SerializeField] protected float stunDuration;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -77,7 +35,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (currentState == State.Done) return;
 
         StateTimer -= Time.deltaTime;
-        if (ActionTime > 0)
+        if (skillData.ActionTime > 0)
         {
             if (StateTimer <= 0f) StateTransition(owner, true);
         }
@@ -116,18 +74,18 @@ public abstract class PlayerSkill : NetworkBehaviour
                 if (hasAction)
                 {
                     ActionState(owner);
-                    ChangeState(State.Action, ActionTime);
+                    ChangeState(State.Action, skillData.ActionTime);
                 }
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, ImpactTime);
+                    ChangeState(State.Impact, skillData.ImpactTime);
                 }
                 break;
 
             case State.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, ImpactTime);
+                ChangeState(State.Impact, skillData.ImpactTime);
                 break;
 
             case State.Impact:
@@ -138,7 +96,7 @@ public abstract class PlayerSkill : NetworkBehaviour
                 }
                 else
                 {
-                    ChangeState(State.Recovery, RecoveryTime);
+                    ChangeState(State.Recovery, skillData.RecoveryTime);
                 }
                 break;
 
@@ -176,8 +134,8 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (skilltype == SkillType.Basic)
         {
             IsBasic = true;
-            ModifiedCastTime = CastTime / owner.Stats.TotalAS;
-            ModifiedRecoveryTime = RecoveryTime / owner.Stats.TotalAS;
+            ModifiedCastTime = skillData.CastTime / owner.Stats.TotalAS;
+            ModifiedRecoveryTime = skillData.RecoveryTime / owner.Stats.TotalAS;
         }
             
         AttackerDamage = owner.Stats.TotalDamage;
@@ -185,7 +143,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         owner.PlayerRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
-        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
+        StartCoroutine(CoolDownn(skillType, skillData.CoolDown, owner));
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
     {
@@ -248,12 +206,12 @@ public abstract class PlayerSkill : NetworkBehaviour
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
-        if (TelegraphPrefab == null) return;
+        if (skillData.TelegraphPrefab == null) return;
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
-        GameObject attackInstance = Instantiate(TelegraphPrefab, position, rotation);
+        GameObject attackInstance = Instantiate(skillData.TelegraphPrefab, position, rotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
@@ -279,14 +237,14 @@ public abstract class PlayerSkill : NetworkBehaviour
     {
         NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[attackerID].PlayerObject;
 
-        GameObject attackInstance = Instantiate(SkillPrefab, SpawnPosition + AimOffset, AimRotation);
+        GameObject attackInstance = Instantiate(skillData.SkillPrefab, SpawnPosition + AimOffset, AimRotation);
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
 
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
-            attackRB.AddForce(AimDirection * SkillForce, ForceMode2D.Impulse);
+            attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
         }
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
@@ -294,13 +252,13 @@ public abstract class PlayerSkill : NetworkBehaviour
         {
             damageOnTrigger.CanGenerateFury = IsBasic;
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = AttackerDamage + SkillDamage;
+            damageOnTrigger.AbilityDamage = AttackerDamage + skillData.SkillDamage;
             damageOnTrigger.IgnorePlayer = true;
             damageOnTrigger.IgnoreNPC = true;
 
-            if (HealAmount > 0)
+            if (skillData.HealAmount > 0)
             {
-                damageOnTrigger.HealAmount = HealAmount;
+                damageOnTrigger.HealAmount = skillData.HealAmount;
                 damageOnTrigger.CanHeal = true; 
             }
         }
@@ -317,8 +275,8 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (knockbackOnTrigger != null)
         {
             knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = KnockBackForce;
-            knockbackOnTrigger.Duration = KnockBackDuration;
+            knockbackOnTrigger.Amount = skillData.KnockBackForce;
+            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
             knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnorePlayer = true;
             knockbackOnTrigger.IgnoreNPC = true;
@@ -328,7 +286,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (stunOnTrigger != null)
         {
             stunOnTrigger.attacker = attacker;
-            stunOnTrigger.Duration = stunDuration;
+            stunOnTrigger.Duration = skillData.StunDuration;
             stunOnTrigger.IgnorePlayer = true;
             stunOnTrigger.IgnoreNPC = true;
         }
@@ -337,8 +295,8 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (slow != null)
         {
             slow.attacker = attacker;
-            slow.Duration = SlowDuration;
-            slow.Stacks = SlowStacks;
+            slow.Duration = skillData.SlowDuration;
+            slow.Stacks = skillData.SlowStacks;
             slow.IgnorePlayer = true;
             slow.IgnoreNPC = true;
         }
@@ -350,7 +308,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
     }
 
     [ServerRpc]
