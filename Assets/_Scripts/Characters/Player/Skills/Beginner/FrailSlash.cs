@@ -4,7 +4,7 @@ public class FrailSlash : PlayerSkill
 {
     public override void StartSkill(PlayerStateMachine owner)
     {
-        InitializeAbility(skillType, owner);
+        InitializeAbility(skillData.skillType, owner);
 
         // Aim
         AimDirection = owner.Aimer.right;
@@ -30,13 +30,13 @@ public class FrailSlash : PlayerSkill
     public override void CastState(PlayerStateMachine owner)
     {
         owner.StartSlide(true);
-        Animate(owner, weaponType, skillType, State.Cast);
+        Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
         owner.player.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(PlayerStateMachine owner)
     {
-        Animate(owner, weaponType, skillType, State.Impact);
+        Animate(owner, skillData.weaponType, skillData.skillType, State.Impact);
 
         if (owner.IsServer)
         {
@@ -50,7 +50,7 @@ public class FrailSlash : PlayerSkill
 
     public override void RecoveryState(PlayerStateMachine owner)
     {
-        Animate(owner, weaponType, skillType, State.Recovery);
+        Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
         owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewSkillData", menuName = "Scriptable Objects/New Skill")]
 public class SkillData : ScriptableObject
 {
-    public enum WeaponType { Sword, Staff, Bow, Dagger }
     public WeaponType weaponType;
 
     public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }

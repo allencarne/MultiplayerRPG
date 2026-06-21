@@ -4,7 +4,7 @@ public class VitalCleave : PlayerSkill
 {
     public override void StartSkill(PlayerStateMachine owner)
     {
-        InitializeAbility(skillType, owner);
+        InitializeAbility(skillData.skillType, owner);
 
         // Aim
         AimDirection = owner.Aimer.right;
@@ -30,14 +30,14 @@ public class VitalCleave : PlayerSkill
     public override void CastState(PlayerStateMachine owner)
     {
         owner.StartSlide(false);
-        Animate(owner, weaponType, SkillType.Basic, State.Cast);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Cast);
         owner.player.CastBar.StartCast(skillData.CastTime);
     }
 
     public override void ImpactState(PlayerStateMachine owner)
     {
         SpawnPosition = owner.transform.position;
-        Animate(owner, weaponType, SkillType.Basic, State.Impact);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Impact);
 
         if (owner.IsServer)
         {
@@ -51,7 +51,7 @@ public class VitalCleave : PlayerSkill
 
     public override void RecoveryState(PlayerStateMachine owner)
     {
-        Animate(owner, weaponType, SkillType.Basic, State.Recovery);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
         owner.player.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

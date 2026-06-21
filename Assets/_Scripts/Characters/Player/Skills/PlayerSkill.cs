@@ -8,10 +8,6 @@ public abstract class PlayerSkill : NetworkBehaviour
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
-    public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }
-    public SkillType skillType;
-    public enum WeaponType { Sword, Staff, Bow, Dagger }
-    public WeaponType weaponType;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -90,7 +86,7 @@ public abstract class PlayerSkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-                if (skillType == SkillType.Basic)
+                if (skillData.skillType == SkillData.SkillType.Basic)
                 {
                     ChangeState(State.Recovery, ModifiedRecoveryTime);
                 }
@@ -127,11 +123,11 @@ public abstract class PlayerSkill : NetworkBehaviour
         }
     }
 
-    protected void InitializeAbility(SkillType skilltype, PlayerStateMachine owner)
+    protected void InitializeAbility(SkillData.SkillType skilltype, PlayerStateMachine owner)
     {
         owner.CurrentSkill = this;
 
-        if (skilltype == SkillType.Basic)
+        if (skilltype == SkillData.SkillType.Basic)
         {
             IsBasic = true;
             ModifiedCastTime = skillData.CastTime / owner.Stats.TotalAS;
@@ -143,26 +139,26 @@ public abstract class PlayerSkill : NetworkBehaviour
         owner.PlayerRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
-        StartCoroutine(CoolDownn(skillType, skillData.CoolDown, owner));
+        StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
     }
-    IEnumerator CoolDownn(SkillType type, float coolDown, PlayerStateMachine owner)
+    IEnumerator CoolDownn(SkillData.SkillType type, float coolDown, PlayerStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.Stats.TotalCDR;
-        owner.coolDownTracker.SkillCoolDown(skillType, modifiedCooldown);
+        owner.coolDownTracker.SkillCoolDown(skillData.skillType, modifiedCooldown);
 
         yield return new WaitForSeconds(modifiedCooldown);
 
         switch (type)
         {
-            case SkillType.Basic: owner.CanBasic = true; break;
-            case SkillType.Offensive: owner.CanOffensive = true; break;
-            case SkillType.Mobility: owner.CanMobility = true; break;
-            case SkillType.Defensive: owner.CanDefensive = true; break;
-            case SkillType.Utility: owner.CanUtility = true; break;
-            case SkillType.Ultimate: owner.CanUltimate = true; break;
+            case SkillData.SkillType.Basic: owner.CanBasic = true; break;
+            case SkillData.SkillType.Offensive: owner.CanOffensive = true; break;
+            case SkillData.SkillType.Mobility: owner.CanMobility = true; break;
+            case SkillData.SkillType.Defensive: owner.CanDefensive = true; break;
+            case SkillData.SkillType.Utility: owner.CanUtility = true; break;
+            case SkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(PlayerStateMachine owner, WeaponType weapon, SkillType type, State state)
+    protected void Animate(PlayerStateMachine owner, WeaponType weapon, SkillData.SkillType type, State state)
     {
         string _weapon = "";
         string _skill = "";
@@ -178,12 +174,12 @@ public abstract class PlayerSkill : NetworkBehaviour
 
         switch (type)
         {
-            case SkillType.Basic: _skill = "Basic"; break;
-            case SkillType.Offensive: _skill = "Offensive"; break;
-            case SkillType.Mobility: _skill = "Mobility"; break;
-            case SkillType.Defensive: _skill = "Defensive"; break;
-            case SkillType.Utility: _skill = "Utility"; break;
-            case SkillType.Ultimate: _skill = "Ultimate"; break;
+            case SkillData.SkillType.Basic: _skill = "Basic"; break;
+            case SkillData.SkillType.Offensive: _skill = "Offensive"; break;
+            case SkillData.SkillType.Mobility: _skill = "Mobility"; break;
+            case SkillData.SkillType.Defensive: _skill = "Defensive"; break;
+            case SkillData.SkillType.Utility: _skill = "Utility"; break;
+            case SkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
         }
 
         switch (state)
