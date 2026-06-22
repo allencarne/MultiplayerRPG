@@ -4,7 +4,7 @@ public class SproutSlap : EnemySkill
 {
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillType, owner);
+        InitializeAbility(skillData.skillType, owner);
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
@@ -18,7 +18,7 @@ public class SproutSlap : EnemySkill
 
     public override void CastState(EnemyStateMachine owner)
     {
-        Animate(owner, skillType, State.Cast);
+        Animate(owner, skillData.skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -28,13 +28,13 @@ public class SproutSlap : EnemySkill
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        Animate(owner, skillType, State.Impact);
+        Animate(owner, skillData.skillType, State.Impact);
         Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        Animate(owner, skillType, State.Recovery);
+        Animate(owner, skillData.skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

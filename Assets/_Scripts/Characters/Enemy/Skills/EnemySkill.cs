@@ -8,8 +8,6 @@ public abstract class EnemySkill : NetworkBehaviour
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
-    public enum SkillType { Basic, Special, Ultimate }
-    public SkillType skillType;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -86,7 +84,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-                if (skillType == SkillType.Basic)
+                if (skillData.skillType == SkillData.SkillType.Basic)
                 {
                     ChangeState(State.Recovery, ModifiedRecoveryTime);
                 }
@@ -131,11 +129,11 @@ public abstract class EnemySkill : NetworkBehaviour
         }
     }
 
-    protected void InitializeAbility(SkillType skilltype, EnemyStateMachine owner)
+    protected void InitializeAbility(SkillData.SkillType skilltype, EnemyStateMachine owner)
     {
         owner.CurrentSkill = this;
 
-        if (skilltype == SkillType.Basic)
+        if (skilltype == SkillData.SkillType.Basic)
         {
             //IsBasic = true;
             ModifiedCastTime = skillData.CastTime / owner.enemy.stats.TotalAS;
@@ -145,9 +143,9 @@ public abstract class EnemySkill : NetworkBehaviour
         owner.EnemyRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
-        StartCoroutine(CoolDownn(skillType, skillData.CoolDown, owner));
+        StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
     }
-    IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
+    IEnumerator CoolDownn(SkillData.SkillType type, float coolDown, EnemyStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.enemy.stats.TotalCDR;
 
@@ -155,21 +153,21 @@ public abstract class EnemySkill : NetworkBehaviour
 
         switch (type)
         {
-            case SkillType.Basic: owner.CanBasic = true; break;
-            case SkillType.Special: owner.CanSpecial = true; break;
-            case SkillType.Ultimate: owner.CanUltimate = true; break;
+            case SkillData.SkillType.Basic: owner.CanBasic = true; break;
+            case SkillData.SkillType.Mobility: owner.CanSpecial = true; break;
+            case SkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(EnemyStateMachine owner, SkillType type, State state)
+    protected void Animate(EnemyStateMachine owner, SkillData.SkillType type, State state)
     {
         string animationType = "";
         string animationState = "";
 
         switch (type)
         {
-            case SkillType.Basic: animationType = "Basic"; break;
-            case SkillType.Special: animationType = "Special"; break;
-            case SkillType.Ultimate: animationType = "Ultimate"; break;
+            case SkillData.SkillType.Basic: animationType = "Basic"; break;
+            case SkillData.SkillType.Mobility: animationType = "Special"; break;
+            case SkillData.SkillType.Ultimate: animationType = "Ultimate"; break;
         }
 
         switch (state)

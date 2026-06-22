@@ -7,7 +7,7 @@ public class BeakBarrage : EnemySkill
 
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillType, owner);
+        InitializeAbility(skillData.skillType, owner);
 
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
@@ -35,7 +35,7 @@ public class BeakBarrage : EnemySkill
 
     public override void CastState(EnemyStateMachine owner)
     {
-        Animate(owner, skillType, State.Cast);
+        Animate(owner, skillData.skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
@@ -47,7 +47,7 @@ public class BeakBarrage : EnemySkill
     {
         owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
 
-        Animate(owner, skillType, State.Impact);
+        Animate(owner, skillData.skillType, State.Impact);
         attack = StartCoroutine(AttackPattern(owner));
     }
 
@@ -68,7 +68,7 @@ public class BeakBarrage : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         attack = null;
-        Animate(owner, skillType, State.Recovery);
+        Animate(owner, skillData.skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }
