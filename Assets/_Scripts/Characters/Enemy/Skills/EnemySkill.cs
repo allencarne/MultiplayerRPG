@@ -4,44 +4,12 @@ using UnityEngine;
 
 public abstract class EnemySkill : NetworkBehaviour
 {
+    public SkillData skillData;
+
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
     public enum SkillType { Basic, Special, Ultimate }
     public SkillType skillType;
-
-    [Header("Prefab")]
-    [SerializeField] protected GameObject SkillPrefab;
-    [SerializeField] protected GameObject TelegraphPrefab;
-
-    [Header("Stats")]
-    [SerializeField] protected float SkillDamage;
-    [SerializeField] protected float SkillRange;
-    [SerializeField] protected float SkillForce;
-    [SerializeField] protected float SkillDuration;
-
-    [Header("Time")]
-    [SerializeField] protected float CastTime;
-    [SerializeField] protected float ActionTime;
-    [SerializeField] protected float ImpactTime;
-    [SerializeField] protected float RecoveryTime;
-
-    [Header("CoolDown")]
-    [SerializeField] protected float CoolDown;
-
-    [Header("Slide")]
-    [SerializeField] protected int SlideForce;
-    [SerializeField] protected float SlideDuration;
-
-    [Header("Slow")]
-    [SerializeField] protected int SlowStacks;
-    [SerializeField] protected float SlowDuration;
-
-    [Header("Knockback")]
-    [SerializeField] protected float KnockBackForce;
-    [SerializeField] protected float KnockBackDuration;
-
-    [Header("Stun")]
-    [SerializeField] protected float StunDuration;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -63,7 +31,7 @@ public abstract class EnemySkill : NetworkBehaviour
         if (currentState == State.Done) return;
 
         StateTimer -= Time.deltaTime;
-        if (ActionTime > 0)
+        if (skillData.ActionTime > 0)
         {
             if (StateTimer <= 0f) StateTransition(owner, true);
         }
@@ -102,18 +70,18 @@ public abstract class EnemySkill : NetworkBehaviour
                 if (hasAction)
                 {
                     ActionState(owner);
-                    ChangeState(State.Action, ActionTime);
+                    ChangeState(State.Action, skillData.ActionTime);
                 }
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, ImpactTime);
+                    ChangeState(State.Impact, skillData.ImpactTime);
                 }
                 break;
 
             case State.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, ImpactTime);
+                ChangeState(State.Impact, skillData.ImpactTime);
                 break;
 
             case State.Impact:
@@ -124,7 +92,7 @@ public abstract class EnemySkill : NetworkBehaviour
                 }
                 else
                 {
-                    ChangeState(State.Recovery, RecoveryTime);
+                    ChangeState(State.Recovery, skillData.RecoveryTime);
                 }
                 break;
 
@@ -170,14 +138,14 @@ public abstract class EnemySkill : NetworkBehaviour
         if (skilltype == SkillType.Basic)
         {
             //IsBasic = true;
-            ModifiedCastTime = CastTime / owner.enemy.stats.TotalAS;
-            ModifiedRecoveryTime = RecoveryTime / owner.enemy.stats.TotalAS;
+            ModifiedCastTime = skillData.CastTime / owner.enemy.stats.TotalAS;
+            ModifiedRecoveryTime = skillData.RecoveryTime / owner.enemy.stats.TotalAS;
         }
 
         owner.EnemyRB.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
-        StartCoroutine(CoolDownn(skillType, CoolDown, owner));
+        StartCoroutine(CoolDownn(skillType, skillData.CoolDown, owner));
     }
     IEnumerator CoolDownn(SkillType type, float coolDown, EnemyStateMachine owner)
     {
@@ -218,12 +186,12 @@ public abstract class EnemySkill : NetworkBehaviour
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
-        if (TelegraphPrefab == null) return;
+        if (skillData.TelegraphPrefab == null) return;
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
-        GameObject attackInstance = Instantiate(TelegraphPrefab, position, rotation);
+        GameObject attackInstance = Instantiate(skillData.TelegraphPrefab, position, rotation);
         attackInstance.transform.localScale *= transform.lossyScale.x;
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
@@ -251,7 +219,7 @@ public abstract class EnemySkill : NetworkBehaviour
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
-        GameObject attackInstance = Instantiate(SkillPrefab, position, rotation);
+        GameObject attackInstance = Instantiate(skillData.SkillPrefab, position, rotation);
         attackInstance.transform.localScale *= transform.lossyScale.x;
         NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
         attackNetObj.Spawn();
@@ -261,14 +229,14 @@ public abstract class EnemySkill : NetworkBehaviour
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
-            attackRB.AddForce(AimDirection * SkillForce, ForceMode2D.Impulse);
+            attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
         }
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
             damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = enemy.stats.TotalDamage + SkillDamage;
+            damageOnTrigger.AbilityDamage = enemy.stats.TotalDamage + skillData.SkillDamage;
             damageOnTrigger.IgnoreEnemy = true;
         }
 
@@ -283,8 +251,8 @@ public abstract class EnemySkill : NetworkBehaviour
         if (knockbackOnTrigger != null)
         {
             knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = KnockBackForce;
-            knockbackOnTrigger.Duration = KnockBackDuration;
+            knockbackOnTrigger.Amount = skillData.KnockBackForce;
+            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
             knockbackOnTrigger.Direction = AimDirection.normalized;
             knockbackOnTrigger.IgnoreEnemy = true;
         }
@@ -293,7 +261,7 @@ public abstract class EnemySkill : NetworkBehaviour
         if (stunOnTrigger != null)
         {
             stunOnTrigger.attacker = attacker;
-            stunOnTrigger.Duration = StunDuration;
+            stunOnTrigger.Duration = skillData.StunDuration;
             stunOnTrigger.IgnoreEnemy = true;
         }
 
@@ -301,8 +269,8 @@ public abstract class EnemySkill : NetworkBehaviour
         if (slow != null)
         {
             slow.attacker = attacker;
-            slow.Duration = SlowDuration;
-            slow.Stacks = SlowStacks;
+            slow.Duration = skillData.SlowDuration;
+            slow.Stacks = skillData.SlowStacks;
             slow.IgnoreEnemy = true;
         }
 
@@ -313,6 +281,6 @@ public abstract class EnemySkill : NetworkBehaviour
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(SkillDuration));
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
     }
 }

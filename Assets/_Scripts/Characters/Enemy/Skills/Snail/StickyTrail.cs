@@ -13,9 +13,9 @@ public class StickyTrail : EnemySkill
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * SkillRange;
+        AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(State.Cast, CastTime);
+        ChangeState(State.Cast, skillData.CastTime);
         CastState(owner);
     }
 
@@ -33,14 +33,14 @@ public class StickyTrail : EnemySkill
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(CastTime, true, true);
+        owner.enemy.CastBar.StartCast(skillData.CastTime);
+        Telegraph(skillData.CastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         //owner.Buffs.phase.StartPhase(ImpactTime);
-        owner.Buffs.immoveable.StartImmovable(ImpactTime);
+        owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
 
         Animate(owner, skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
@@ -49,6 +49,6 @@ public class StickyTrail : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime);
+        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

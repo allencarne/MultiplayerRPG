@@ -13,7 +13,7 @@ public class DoubleChomp : EnemySkill
         AimDirection = (owner.Target.position - transform.position).normalized;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * SkillRange;
+        AimOffset = AimDirection.normalized * skillData.SkillRange;
 
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
@@ -40,7 +40,7 @@ public class DoubleChomp : EnemySkill
     {
         attack = null;
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime);
+        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 
     public override void UpdateSkill(EnemyStateMachine owner)

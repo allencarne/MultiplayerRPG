@@ -9,7 +9,7 @@ public class NutQuake : EnemySkill
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
 
-        ChangeState(State.Cast, CastTime);
+        ChangeState(State.Cast, skillData.CastTime);
         CastState(owner);
     }
 
@@ -19,8 +19,8 @@ public class NutQuake : EnemySkill
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(CastTime + ActionTime, false, false);
+        owner.enemy.CastBar.StartCast(skillData.CastTime);
+        Telegraph(skillData.CastTime + skillData.ActionTime, false, false);
     }
 
     public override void ActionState(EnemyStateMachine owner)
@@ -37,6 +37,6 @@ public class NutQuake : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime);
+        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

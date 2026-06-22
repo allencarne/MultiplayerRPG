@@ -12,14 +12,14 @@ public class DiveBite : EnemySkill
         // Clamp landing position to skill range
         Vector2 targetPos = owner.Target.position;
         Vector2 direction = (targetPos - SpawnPosition).normalized;
-        float clampedDistance = Mathf.Min(Vector2.Distance(targetPos, SpawnPosition), SkillRange);
+        float clampedDistance = Mathf.Min(Vector2.Distance(targetPos, SpawnPosition), skillData.SkillRange);
 
         targetLandingPos = SpawnPosition + direction * clampedDistance;
         AimDirection = direction;
         AimOffset = targetLandingPos - SpawnPosition; // Used by Telegraph/Attack with useOffset = true
         AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg);
 
-        ChangeState(State.Cast, CastTime);
+        ChangeState(State.Cast, skillData.CastTime);
         CastState(owner);
     }
 
@@ -28,18 +28,18 @@ public class DiveBite : EnemySkill
         Animate(owner, skillType, State.Cast);
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
-        owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(CastTime, false, true);
+        owner.enemy.CastBar.StartCast(skillData.CastTime);
+        Telegraph(skillData.CastTime, false, true);
     }
 
     public override void ActionState(EnemyStateMachine owner)
     {
-        owner.Buffs.immoveable.StartImmovable(ActionTime);
-        owner.Buffs.immune.StartImmune(ActionTime);
+        owner.Buffs.immoveable.StartImmovable(skillData.ActionTime);
+        owner.Buffs.immune.StartImmune(skillData.ActionTime);
 
         Animate(owner, skillType, State.Action);
         Attack(owner.NetworkObject, false, false);
-        Telegraph(ActionTime, true, false);
+        Telegraph(skillData.ActionTime, true, false);
 
         StartCoroutine(delay(owner));
     }
@@ -61,6 +61,6 @@ public class DiveBite : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime);
+        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

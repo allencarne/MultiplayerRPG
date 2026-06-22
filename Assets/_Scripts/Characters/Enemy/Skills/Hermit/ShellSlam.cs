@@ -13,14 +13,14 @@ public class ShellSlam : EnemySkill
         Vector2 targetPos = owner.Target.position;
         Vector2 direction = (targetPos - SpawnPosition).normalized;
         float distance = Vector2.Distance(targetPos, SpawnPosition);
-        float clampedDistance = Mathf.Min(distance, SkillRange);
+        float clampedDistance = Mathf.Min(distance, skillData.SkillRange);
         targetLandingPos = SpawnPosition + direction * clampedDistance;
         AimDirection = direction;
         AimOffset = targetLandingPos - SpawnPosition;
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
 
-        ChangeState(State.Cast, CastTime);
+        ChangeState(State.Cast, skillData.CastTime);
         CastState(owner);
     }
 
@@ -29,7 +29,7 @@ public class ShellSlam : EnemySkill
         if (currentState == State.Action)
         {
             dashTimer += Time.fixedDeltaTime;
-            float t = Mathf.Clamp01(dashTimer / ActionTime);
+            float t = Mathf.Clamp01(dashTimer / skillData.ActionTime);
 
             Vector2 newPos = Vector2.Lerp(SpawnPosition, targetLandingPos, t);
             owner.EnemyRB.MovePosition(newPos);
@@ -47,15 +47,15 @@ public class ShellSlam : EnemySkill
         owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(CastTime);
-        Telegraph(CastTime + ActionTime, true, true);
+        owner.enemy.CastBar.StartCast(skillData.CastTime);
+        Telegraph(skillData.CastTime + skillData.ActionTime, true, true);
     }
 
     public override void ActionState(EnemyStateMachine owner)
     {
         dashTimer = 0f;
         //owner.Buffs.phase.StartPhase(ActionTime);
-        owner.Buffs.immoveable.StartImmovable(ActionTime);
+        owner.Buffs.immoveable.StartImmovable(skillData.ActionTime);
 
         Animate(owner, skillType, State.Action);
     }
@@ -69,6 +69,6 @@ public class ShellSlam : EnemySkill
     public override void RecoveryState(EnemyStateMachine owner)
     {
         Animate(owner, skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(RecoveryTime);
+        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }
