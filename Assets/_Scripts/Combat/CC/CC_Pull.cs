@@ -77,6 +77,8 @@ public class CC_Pull : NetworkBehaviour, IPullable
 
             localPullElapsed = 0f;
             localPullTotal = remainingTime;
+
+            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -87,6 +89,11 @@ public class CC_Pull : NetworkBehaviour, IPullable
 
             localPullElapsed = 0f;
             localPullTotal = 0f;
+
+            if (!crowdControl.IsCrowdControlled)
+            {
+                crowdControl.OnStaggerEnd?.Invoke();
+            }
         }
     }
 

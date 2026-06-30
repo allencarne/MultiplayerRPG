@@ -85,6 +85,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
             localKnockUpElapsed = 0f;
             localKnockUpTotal = remainingTime;
 
+            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -95,6 +96,11 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
             localKnockUpElapsed = 0f;
             localKnockUpTotal = 0f;
+
+            if (!crowdControl.IsCrowdControlled)
+            {
+                crowdControl.OnStaggerEnd?.Invoke();
+            }
 
             for (int i = 0; i < parts.Length; i++)
             {

@@ -77,6 +77,8 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
             localKnockBackElapsed = 0f;
             localKnockBackTotal = remainingTime;
+
+            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -87,6 +89,11 @@ public class CC_KnockBack : NetworkBehaviour, IKnockbackable
 
             localKnockBackElapsed = 0f;
             localKnockBackTotal = 0f;
+
+            if (!crowdControl.IsCrowdControlled)
+            {
+                crowdControl.OnStaggerEnd?.Invoke();
+            }
         }
     }
 
