@@ -9,8 +9,8 @@ public class PlayerSpawnState : PlayerState
         owner.PlayerHeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
 
-        owner.ChestAnimator.Play("Spawn_" + owner.customization.net_ChestIndex.Value);
-        owner.LegsAnimator.Play( "Spawn_" + owner.customization.net_LegsIndex.Value);
+        owner.ChestAnimator.Play("Spawn");
+        owner.LegsAnimator.Play( "Spawn");
 
         owner.WeaponAnimator.Play("Spawn");
 

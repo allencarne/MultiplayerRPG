@@ -20,8 +20,8 @@ public class NPCSpawnState : NPCState
         owner.HeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
 
-        owner.ChestAnimator.Play("Spawn_" + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play("Spawn_" + owner.npc.Data.LegsIndex);
+        owner.ChestAnimator.Play("Spawn");
+        owner.LegsAnimator.Play("Spawn");
 
         owner.SwordAnimator.Play("Spawn");
 

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class SpriteFlash : NetworkBehaviour
 {
-    [SerializeField] SpriteRenderer headSprite;
-    [SerializeField] SpriteRenderer bodySprite;
-
     [SerializeField] PlayerStats playerStats;
     [SerializeField] CharacterStats stats;
+    [SerializeField] CrowdControl crowdControl;
+
+    [SerializeField] SpriteRenderer headSprite;
+    [SerializeField] SpriteRenderer bodySprite;
 
     [SerializeField] Material defaultMaterial;
     [SerializeField] Material flashRedMaterial;
@@ -20,17 +21,23 @@ public class SpriteFlash : NetworkBehaviour
     {
         stats.OnDamaged.AddListener(FlashRedClientRPC);
         stats.OnHealed.AddListener(FlashGreenClientRPC);
+        crowdControl.OnStagger.AddListener(FlashWhite);
+        crowdControl.OnStaggerEnd.AddListener(FlashWhiteEnd);
     }
 
     public override void OnNetworkDespawn()
     {
         stats.OnDamaged.RemoveListener(FlashRedClientRPC);
         stats.OnHealed.RemoveListener(FlashGreenClientRPC);
+        crowdControl.OnStagger.RemoveListener(FlashWhite);
+        crowdControl.OnStaggerEnd.RemoveListener(FlashWhiteEnd);
     }
 
     [ClientRpc]
     public void FlashRedClientRPC(float amount)
     {
+        if (crowdControl.IsCrowdControlled) return;
+
         if (flashRoutine != null) StopCoroutine(flashRoutine);
         flashRoutine = StartCoroutine(FlashRed());
     }
@@ -38,31 +45,12 @@ public class SpriteFlash : NetworkBehaviour
     IEnumerator FlashRed()
     {
         headSprite.material = flashRedMaterial;
-        headSprite.color = Color.white;
-
         bodySprite.material = flashRedMaterial;
-        bodySprite.color = Color.white;
+
         yield return new WaitForSeconds(0.05f);
 
         headSprite.material = defaultMaterial;
-        headSprite.color = playerStats.net_bodyColor.Value;
-
         bodySprite.material = defaultMaterial;
-        bodySprite.color = playerStats.net_bodyColor.Value;
-        yield return new WaitForSeconds(0.05f);
-
-        headSprite.material = flashRedMaterial;
-        headSprite.color = Color.white;
-
-        bodySprite.material = flashRedMaterial;
-        bodySprite.color = Color.white;
-        yield return new WaitForSeconds(0.05f);
-
-        headSprite.material = defaultMaterial;
-        headSprite.color = playerStats.net_bodyColor.Value;
-
-        bodySprite.material = defaultMaterial;
-        bodySprite.color = playerStats.net_bodyColor.Value;
 
         flashRoutine = null;
     }
@@ -70,6 +58,8 @@ public class SpriteFlash : NetworkBehaviour
     [ClientRpc]
     public void FlashGreenClientRPC(float amount)
     {
+        if (crowdControl.IsCrowdControlled) return;
+
         if (flashRoutine != null) StopCoroutine(flashRoutine);
         flashRoutine = StartCoroutine(FlashGreen());
     }
@@ -77,32 +67,25 @@ public class SpriteFlash : NetworkBehaviour
     IEnumerator FlashGreen()
     {
         headSprite.material = flashGreenMaterial;
-        headSprite.color = Color.white;
-
         bodySprite.material = flashGreenMaterial;
-        bodySprite.color = Color.white;
+
         yield return new WaitForSeconds(0.05f);
 
         headSprite.material = defaultMaterial;
-        headSprite.color = playerStats.net_bodyColor.Value;
-
         bodySprite.material = defaultMaterial;
-        bodySprite.color = playerStats.net_bodyColor.Value;
-        yield return new WaitForSeconds(0.05f);
-
-        headSprite.material = flashGreenMaterial;
-        headSprite.color = Color.white;
-
-        bodySprite.material = flashGreenMaterial;
-        bodySprite.color = Color.white;
-        yield return new WaitForSeconds(0.05f);
-
-        headSprite.material = defaultMaterial;
-        headSprite.color = playerStats.net_bodyColor.Value;
-
-        bodySprite.material = defaultMaterial;
-        bodySprite.color = playerStats.net_bodyColor.Value;
 
         flashRoutine = null;
+    }
+
+    void FlashWhite()
+    {
+        headSprite.color = Color.white;
+        bodySprite.color = Color.white;
+    }
+
+    void FlashWhiteEnd()
+    {
+        headSprite.color = playerStats.net_bodyColor.Value;
+        bodySprite.color = playerStats.net_bodyColor.Value;
     }
 }

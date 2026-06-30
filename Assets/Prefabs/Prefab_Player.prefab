@@ -25632,6 +25632,12 @@ MonoBehaviour:
   knockUp: {fileID: 7837662349585901939}
   pull: {fileID: 5736713197127442165}
   interrupt: {fileID: 667601083996839834}
+  OnStagger:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStaggerEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4032564356350004549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65395,10 +65401,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteFlash
   ShowTopMostFoldoutHeaderGroup: 1
-  headSprite: {fileID: 3197860205849077885}
-  bodySprite: {fileID: 7867530632741787033}
   playerStats: {fileID: 2477393547595159198}
   stats: {fileID: 2477393547595159198}
+  crowdControl: {fileID: 6004191219924147057}
+  headSprite: {fileID: 3197860205849077885}
+  bodySprite: {fileID: 7867530632741787033}
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   flashRedMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
   flashGreenMaterial: {fileID: 2100000, guid: 59ade6f9dc58335478bc47459e1532a0, type: 2}

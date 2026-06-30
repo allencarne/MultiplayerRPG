@@ -5,7 +5,17 @@ public class NPCStaggerState : NPCState
     {
         if (!owner.IsServer) return;
 
-        owner.BodyAnimator.Play("Stagger");
+        // Stop all animations
+        owner.HeadAnimator.speed = 0;
+        owner.BodyAnimator.speed = 0;
+        owner.ChestAnimator.speed = 0;
+        owner.LegsAnimator.speed = 0;
+        owner.SwordAnimator.speed = 0;
+
+        // Player Spawn Animation to Hide Clothes
+        owner.ChestAnimator.Play("Spawn");
+        owner.LegsAnimator.Play("Spawn");
+        owner.SwordAnimator.Play(owner.npc.Data.WeaponType + " Idle", -1, 0);
     }
 
     public override void UpdateState(NPCStateMachine owner)
@@ -13,11 +23,14 @@ public class NPCStaggerState : NPCState
         if (!owner.IsServer) return;
         if (owner.npc.stats.isDead) return;
 
-        if (!owner.CrowdControl.knockBack.IsKnockedBack &&
-            !owner.CrowdControl.stun.IsStunned &&
-            !owner.CrowdControl.knockUp.IsKnockedUp &&
-            !owner.CrowdControl.pull.IsPulled)
+        if (!owner.CrowdControl.IsCrowdControlled)
         {
+            owner.HeadAnimator.speed = 1;
+            owner.BodyAnimator.speed = 1;
+            owner.ChestAnimator.speed = 1;
+            owner.LegsAnimator.speed = 1;
+            owner.SwordAnimator.speed = 1;
+
             if (owner.isResetting)
             {
                 owner.SetState(NPCStateMachine.State.Reset);

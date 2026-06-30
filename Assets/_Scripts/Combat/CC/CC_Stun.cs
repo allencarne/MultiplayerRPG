@@ -84,6 +84,8 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = remainingTime;
+
+            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -94,6 +96,11 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = 0f;
+
+            if (!crowdControl.IsCrowdControlled)
+            {
+                crowdControl.OnStaggerEnd?.Invoke();
+            }
         }
     }
 
