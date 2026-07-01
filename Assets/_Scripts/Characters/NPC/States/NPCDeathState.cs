@@ -5,17 +5,34 @@ public class NPCDeathState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        // Prevents attacking while dead
+        owner.IsAttacking = false;
+
+        // Clear all buffs and debuffs
         owner.Buffs.PurgeAllDebuffs();
         owner.DeBuffs.CleanseAllDebuffs();
 
+        // Play death animation
+        owner.HeadAnimator.Play("Death");
         owner.BodyAnimator.Play("Death");
-        owner.IsAttacking = false;
+        owner.ChestAnimator.Play("Death_" + owner.npc.Data.ChestIndex);
+        owner.LegsAnimator.Play("Death_" + owner.npc.Data.LegsIndex);
+        owner.SwordAnimator.Play(owner.npc.Data.WeaponType + " Death");
 
-        // Patrol
+        // Face Down
+        owner.HeadAnimator.SetFloat("Horizontal", 1);
+        Vector2 dir = new Vector2(1, 0);
+        owner.npc.npcHead.SetEyes(dir);
+        owner.npc.npcHead.SetHair(dir);
+        owner.npc.npcHead.SetHelm(dir);
+
+        // Reset Patrol Index
         owner.PatrolIndex = 0;
 
+        // Reset Cast Bar
         owner.npc.CastBar.ResetCastBar();
 
+        // Start the respawn delay coroutine
         StartCoroutine(Delay(owner));
     }
 

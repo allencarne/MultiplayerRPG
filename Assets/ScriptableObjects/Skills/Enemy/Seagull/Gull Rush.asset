@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
   m_Name: Gull Rush
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  weaponType: 0
   skillType: 2
   SkillIcon: {fileID: 0}
   IndicatorPrefab: {fileID: 0}
@@ -34,4 +35,4 @@ MonoBehaviour:
   SlowDuration: 0
   KnockBackForce: 0
   KnockBackDuration: 0
-  StunDuration: 2
+  StunDuration: 0.5
