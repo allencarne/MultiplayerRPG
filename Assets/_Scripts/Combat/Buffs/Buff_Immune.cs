@@ -7,7 +7,8 @@ public class Buff_Immune : NetworkBehaviour
     [Header("Variables")]
     int activeBuffs = 0;
     bool isFixedBuffActive = false;
-    public bool IsImmune;
+    //public bool IsImmune;
+    public NetworkVariable<bool> net_IsImmune = new(writePerm: NetworkVariableWritePermission.Owner);
 
     [Header("Components")]
     [SerializeField] GameObject UI_Bar;
@@ -38,7 +39,7 @@ public class Buff_Immune : NetworkBehaviour
 
     void AddStack(bool isFixed, float duration = 0f)
     {
-        IsImmune = true;
+        net_IsImmune.Value = true;
 
         if (isFixed)
         {
@@ -79,7 +80,7 @@ public class Buff_Immune : NetworkBehaviour
 
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
-            IsImmune = false;
+            net_IsImmune.Value = false;
 
             if (IsServer)
             {
