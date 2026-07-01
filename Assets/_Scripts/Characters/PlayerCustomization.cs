@@ -57,16 +57,14 @@ public class PlayerCustomization : NetworkBehaviour
         net_ChestIndex.OnValueChanged += OnEquipmentChanged;
         net_LegsIndex.OnValueChanged += OnEquipmentChanged;
 
-        net_HairIndex.OnValueChanged += OnHairIndexChanged;
-        net_EyeIndex.OnValueChanged += OnEyeIndexChanged;
-        net_HeadIndex.OnValueChanged += OnHelmIndexChanged;
+        net_HairIndex.OnValueChanged += OnAppearanceIndexChanged;
+        net_EyeIndex.OnValueChanged += OnAppearanceIndexChanged;
+        net_HeadIndex.OnValueChanged += OnAppearanceIndexChanged;
 
         net_FacingDirection.OnValueChanged += OnFacingDirectionChanged;
         net_EquippedWeaponId.OnValueChanged += OnWeaponChanged;
 
-        playerHead.SetHair(net_FacingDirection.Value);
-        playerHead.SetEyes(net_FacingDirection.Value);
-        playerHead.SetHelm(net_FacingDirection.Value);
+        playerHead.SetHead(net_FacingDirection.Value);
         UpdateWeaponVisuals(net_EquippedWeaponId.Value);
     }
 
@@ -82,9 +80,9 @@ public class PlayerCustomization : NetworkBehaviour
         net_ChestIndex.OnValueChanged -= OnEquipmentChanged;
         net_LegsIndex.OnValueChanged -= OnEquipmentChanged;
 
-        net_HairIndex.OnValueChanged -= OnHairIndexChanged;
-        net_EyeIndex.OnValueChanged -= OnEyeIndexChanged;
-        net_HeadIndex.OnValueChanged -= OnHelmIndexChanged;
+        net_HairIndex.OnValueChanged -= OnAppearanceIndexChanged;
+        net_EyeIndex.OnValueChanged -= OnAppearanceIndexChanged;
+        net_HeadIndex.OnValueChanged -= OnAppearanceIndexChanged;
 
         net_FacingDirection.OnValueChanged -= OnFacingDirectionChanged;
         net_EquippedWeaponId.OnValueChanged -= OnWeaponChanged;
@@ -134,26 +132,14 @@ public class PlayerCustomization : NetworkBehaviour
         stateMachine.SetState(PlayerStateMachine.State.Idle);
     }
 
-    void OnHairIndexChanged(int oldValue, int newValue)
+    void OnAppearanceIndexChanged(int oldValue, int newValue)
     {
-        playerHead.SetHair(net_FacingDirection.Value);
-    }
-
-    void OnEyeIndexChanged(int oldValue, int newValue)
-    {
-        playerHead.SetEyes(net_FacingDirection.Value);
-    }
-
-    void OnHelmIndexChanged(int oldValue, int newValue)
-    {
-        playerHead.SetHelm(net_FacingDirection.Value);
+        playerHead.SetHead(net_FacingDirection.Value);
     }
 
     void OnFacingDirectionChanged(Vector2 oldDirection, Vector2 newDirection)
     {
-        playerHead.SetHair(newDirection);
-        playerHead.SetEyes(newDirection);
-        playerHead.SetHelm(newDirection);
+        playerHead.SetHead(newDirection);
     }
 
     void OnWeaponChanged(FixedString64Bytes oldId, FixedString64Bytes newId)

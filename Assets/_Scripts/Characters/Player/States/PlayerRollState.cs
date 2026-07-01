@@ -34,9 +34,7 @@ public class PlayerRollState : PlayerState
 
             // Snap direction and set head sprites
             facingDirection = owner.SnapDirection(_newDir);
-            owner.playerHead.SetEyes(facingDirection);
-            owner.playerHead.SetHair(facingDirection);
-            owner.playerHead.SetHelm(facingDirection);
+            owner.playerHead.SetHead(facingDirection);
         }
         // Roll in the direction of input
         else
@@ -46,9 +44,7 @@ public class PlayerRollState : PlayerState
 
             // Snap direction and set head sprites
             facingDirection = owner.SnapDirection(moveInput);
-            owner.playerHead.SetEyes(facingDirection);
-            owner.playerHead.SetHair(facingDirection);
-            owner.playerHead.SetHelm(facingDirection);
+            owner.playerHead.SetHead(facingDirection);
         }
 
         // Head

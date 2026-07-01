@@ -620,9 +620,7 @@ public class PlayerStateMachine : NetworkBehaviour
         WeaponAnimator.SetFloat("Vertical", direction.y);
 
         customization.net_FacingDirection.Value = direction;
-        playerHead.SetEyes(direction);
-        playerHead.SetHair(direction);
-        playerHead.SetHelm(direction);
+        playerHead.SetHead(direction);
     }
 
     #endregion

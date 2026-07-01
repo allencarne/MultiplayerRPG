@@ -5,7 +5,16 @@ public class PlayerHead : MonoBehaviour
     [SerializeField] CharacterCustomizationData data;
     [SerializeField] PlayerCustomization custom;
 
-    public void SetEyes(Vector2 direction)
+    public void SetHead(Vector2 direction)
+    {
+        //custom.net_FacingDirection.Value = direction;
+
+        SetEyes(direction);
+        SetHair(direction);
+        SetHelm(direction);
+    }
+
+    void SetEyes(Vector2 direction)
     {
         int dirIndex;
 
@@ -17,7 +26,7 @@ public class PlayerHead : MonoBehaviour
         custom.eyesSprite.sprite = data.eyes[custom.net_EyeIndex.Value].sprites[dirIndex];
     }
 
-    public void SetHair(Vector2 direction)
+    void SetHair(Vector2 direction)
     {
         int dirIndex;
 
@@ -29,7 +38,7 @@ public class PlayerHead : MonoBehaviour
         custom.hairSprite.sprite = data.hairs[custom.net_HairIndex.Value].sprites[dirIndex];
     }
 
-    public void SetHelm(Vector2 direction)
+    void SetHelm(Vector2 direction)
     {
         int dirIndex;
 

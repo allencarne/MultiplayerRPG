@@ -70,10 +70,9 @@ public class PlayerRunState : PlayerState
             {
                 UpdateAllAnimators(owner, animDirection);
                 lastDirection = animDirection;
+
                 owner.customization.net_FacingDirection.Value = animDirection;
-                owner.playerHead.SetEyes(animDirection);
-                owner.playerHead.SetHair(animDirection);
-                owner.playerHead.SetHelm(animDirection);
+                owner.playerHead.SetHead(animDirection);
             }
         }
     }
