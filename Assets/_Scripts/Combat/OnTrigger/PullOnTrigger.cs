@@ -26,7 +26,7 @@ public class PullOnTrigger : NetworkBehaviour
 
         // Skip Immovable
         Buffs buffs = collision.GetComponent<Buffs>();
-        if (buffs != null && buffs.immoveable.IsImmovable) return;
+        if (buffs != null && buffs.immoveable.net_IsImmovable.Value) return;
 
         // Pull
         IPullable pullable = collision.GetComponentInChildren<IPullable>();

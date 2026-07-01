@@ -7,7 +7,8 @@ public class Buff_Immoveable : NetworkBehaviour
     [Header("Variables")]
     int activeBuffs = 0;
     bool isFixedBuffActive = false;
-    public bool IsImmovable;
+    //public bool IsImmovable;
+    public NetworkVariable<bool> net_IsImmovable = new(writePerm: NetworkVariableWritePermission.Owner);
 
     [Header("Components")]
     [SerializeField] GameObject UI_Bar;
@@ -38,7 +39,7 @@ public class Buff_Immoveable : NetworkBehaviour
 
     void AddStack(bool isFixed, float duration = 0f)
     {
-        IsImmovable = true;
+        net_IsImmovable.Value = true;
 
         if (isFixed)
         {
@@ -79,7 +80,7 @@ public class Buff_Immoveable : NetworkBehaviour
 
         if (activeBuffs == 0 && isFixedBuffActive == false)
         {
-            IsImmovable = false;
+            net_IsImmovable.Value = false;
 
             if (IsServer)
             {

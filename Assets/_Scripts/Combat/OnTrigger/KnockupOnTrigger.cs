@@ -24,7 +24,7 @@ public class KnockupOnTrigger : NetworkBehaviour
 
         // Skip Immovable
         Buffs buffs = collision.GetComponent<Buffs>();
-        if (buffs != null && buffs.immoveable.IsImmovable) return;
+        if (buffs != null && buffs.immoveable.net_IsImmovable.Value) return;
 
         // KnockUp
         IKnockupable knockupable = collision.GetComponentInChildren<IKnockupable>();
