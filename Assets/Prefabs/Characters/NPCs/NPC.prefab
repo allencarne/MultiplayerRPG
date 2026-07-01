@@ -49,7 +49,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  IsImmune: 0
+  net_IsImmune:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   UI_Bar: {fileID: 8452951922686297947}
   UI_Prefab: {fileID: 5676604873850875984, guid: 42ade8d608b1f514fbc2034a014c49be, type: 3}
 --- !u!1 &159350695722282100
@@ -1584,7 +1588,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  IsImmovable: 0
+  net_IsImmovable:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   UI_Bar: {fileID: 8452951922686297947}
   UI_Prefab: {fileID: 1074361865954493798, guid: 487569e36a7eb3b45a5cb41b21397fdb, type: 3}
 --- !u!1 &3377768599964520693
@@ -2650,10 +2658,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteFlashNPC
   ShowTopMostFoldoutHeaderGroup: 1
-  headSprite: {fileID: 7610224285271098685}
-  bodySprite: {fileID: 1579145827163279184}
   npc: {fileID: 4856348772391820444}
   stats: {fileID: 6038468416201059741}
+  crowdControl: {fileID: 3730166254070588288}
+  headSprite: {fileID: 7610224285271098685}
+  bodySprite: {fileID: 1579145827163279184}
   defaultMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   flashRedMaterial: {fileID: 2100000, guid: 380138571ac8c034286bbc1924bf5c84, type: 2}
   flashGreenMaterial: {fileID: 2100000, guid: 59ade6f9dc58335478bc47459e1532a0, type: 2}
@@ -2720,23 +2729,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   skillData: {fileID: 11400000, guid: 65daea72bba082a408a7bd04ebf6ad9d, type: 2}
   currentState: 0
-  skillType: 0
-  weaponType: 0
-  SkillPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  TelegraphPrefab: {fileID: 0}
-  SkillDamage: 0
-  SkillRange: 1
-  SkillForce: 0
-  SkillDuration: 0
-  CastTime: 1
-  ActionTime: 0
-  ImpactTime: 0.1
-  RecoveryTime: 0.3
-  CoolDown: 0
-  KnockBackForce: 5
-  KnockBackDuration: 0.3
-  SlowStacks: 0
-  SlowDuration: 0
 --- !u!1 &5351845163029906857
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,7 +3758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 206476993
+  GlobalObjectIdHash: 252941149
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3991,7 +3983,7 @@ MonoBehaviour:
   isResetting: 0
   IsSliding: 0
   CanBasic: 1
-  CanSpecial: 0
+  CanMobility: 0
   CanUltimate: 0
   StartingPosition: {x: 0, y: 0}
   BasicRadius: 3
@@ -4162,6 +4154,12 @@ MonoBehaviour:
   knockUp: {fileID: 997002833693817929}
   pull: {fileID: 6337960835322944255}
   interrupt: {fileID: 5421379036071635315}
+  OnStagger:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStaggerEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3420725605647731624
 MonoBehaviour:
   m_ObjectHideFlags: 0

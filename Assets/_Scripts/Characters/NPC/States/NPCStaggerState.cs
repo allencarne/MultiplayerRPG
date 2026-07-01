@@ -15,22 +15,25 @@ public class NPCStaggerState : NPCState
         // Player Spawn Animation to Hide Clothes
         owner.ChestAnimator.Play("Spawn");
         owner.LegsAnimator.Play("Spawn");
-        owner.SwordAnimator.Play(owner.npc.Data.WeaponType + " Idle", -1, 0);
     }
 
     public override void UpdateState(NPCStateMachine owner)
     {
+        // Check if the owner is the server and if the NPC is dead
         if (!owner.IsServer) return;
         if (owner.npc.stats.isDead) return;
 
+        // Check if the NPC is no longer crowd controlled
         if (!owner.CrowdControl.IsCrowdControlled)
         {
+            // Resume all animations
             owner.HeadAnimator.speed = 1;
             owner.BodyAnimator.speed = 1;
             owner.ChestAnimator.speed = 1;
             owner.LegsAnimator.speed = 1;
             owner.SwordAnimator.speed = 1;
 
+            //Transition to the appropriate state based on whether the NPC is resetting or not
             if (owner.isResetting)
             {
                 owner.SetState(NPCStateMachine.State.Reset);
