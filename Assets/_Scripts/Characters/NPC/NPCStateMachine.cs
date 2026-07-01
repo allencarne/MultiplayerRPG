@@ -159,7 +159,6 @@ public class NPCStateMachine : NetworkBehaviour
     public void Stagger()
     {
         if (npc.stats.isDead) return;
-        if (Buffs.immoveable.IsImmovable) return;
 
         npc.CastBar.StartInterrupt();
 

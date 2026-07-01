@@ -22,6 +22,10 @@ public class StunOnTrigger : NetworkBehaviour
         NetworkObject objectThatWasHit = collision.GetComponent<NetworkObject>();
         if (objectThatWasHit != null && objectThatWasHit == attacker) return;
 
+        // Skip Immovable
+        Buffs buffs = collision.GetComponent<Buffs>();
+        if (buffs != null && buffs.immoveable.IsImmovable) return;
+
         // Stun
         IStunnable stunnable = collision.GetComponentInChildren<IStunnable>();
         if (stunnable != null) stunnable.StartStun(Duration);

@@ -307,7 +307,6 @@ public class PlayerStateMachine : NetworkBehaviour
     public void Stagger()
     {
         if (Stats.isDead) return;
-        if (Buffs.immoveable.IsImmovable) return;
 
         player.CastBar.StartInterrupt();
 

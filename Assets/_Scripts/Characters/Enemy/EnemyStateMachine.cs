@@ -189,7 +189,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public void Stagger()
     {
         if (enemy.stats.isDead) return;
-        if (Buffs.immoveable.IsImmovable) return;
 
         enemy.CastBar.StartInterrupt();
 
