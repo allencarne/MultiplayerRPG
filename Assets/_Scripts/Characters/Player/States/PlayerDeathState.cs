@@ -7,25 +7,31 @@ public class PlayerDeathState : PlayerState
     {
         if (!owner.IsOwner) return;
 
+        // Prevents attacking while dead
+        owner.IsAttacking = false;
+
+        // Clear all buffs and debuffs
         owner.Buffs.PurgeAllDebuffs();
         owner.DeBuffs.CleanseAllDebuffs();
 
+        // Play death animation
         owner.PlayerHeadAnimator.Play("Death");
         owner.BodyAnimator.Play("Death");
-
         owner.ChestAnimator.Play("Death_" + owner.customization.net_ChestIndex.Value);
         owner.LegsAnimator.Play("Death_" + owner.customization.net_LegsIndex.Value);
+        if (owner.Equipment.IsWeaponEquipped) owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Death", -1, 0);
 
-        if (owner.Equipment.IsWeaponEquipped)
-        {
-            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Death", -1, 0);
-        }
+        // Face Down
+        owner.PlayerHeadAnimator.SetFloat("Horizontal", 1);
+        owner.customization.net_FacingDirection.Value = new Vector2(1, 0);
 
-        owner.IsAttacking = false;
-
+        // Reset the cast bar
         owner.player.CastBar.ResetCastBar();
+
+        // Disable the collider to prevent interactions while dead
         owner.RequestSetColliderServerRpc(false);
 
+        // Start the respawn delay coroutine
         StartCoroutine(Delay(owner));
     }
 

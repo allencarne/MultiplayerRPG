@@ -101,9 +101,6 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!IsOwner) return;
 
         playerSpawnState.StartState(this);
-        PlayerHeadAnimator.SetFloat("Vertical", -1);
-        BodyAnimator.SetFloat("Vertical", -1);
-        WeaponAnimator.SetFloat("Vertical", -1);
     }
 
     public void SkillsOnSpawn()

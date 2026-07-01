@@ -6,13 +6,21 @@ public class PlayerSpawnState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
+        // Play spawn animation
         owner.PlayerHeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
-
         owner.ChestAnimator.Play("Spawn");
         owner.LegsAnimator.Play( "Spawn");
-
         owner.WeaponAnimator.Play("Spawn");
+
+        // Face Down
+        owner.PlayerHeadAnimator.SetFloat("Vertical", -1);
+        owner.customization.net_FacingDirection.Value = new Vector2(0, -1);
+
+        owner.BodyAnimator.SetFloat("Vertical", -1);
+        owner.ChestAnimator.SetFloat("Vertical", -1);
+        owner.LegsAnimator.SetFloat("Vertical", -1);
+        owner.WeaponAnimator.SetFloat("Vertical", -1);
 
         owner.StartCoroutine(Duration(owner));
     }
