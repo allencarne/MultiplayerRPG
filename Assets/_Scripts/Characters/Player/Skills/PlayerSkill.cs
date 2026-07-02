@@ -119,7 +119,7 @@ public abstract class PlayerSkill : NetworkBehaviour
         }
         else
         {
-            owner.SetState(PlayerStateMachine.State.Idle);
+            if (owner.IsFullySpawned) owner.SetState(PlayerStateMachine.State.Idle);
         }
     }
 

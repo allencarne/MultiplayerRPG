@@ -203,6 +203,7 @@ public class PlayerStateMachine : NetworkBehaviour
     private void Update()
     {
         if (!IsSpawned) return;
+        if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
 
         switch (state)
@@ -242,6 +243,7 @@ public class PlayerStateMachine : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsSpawned) return;
+        if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
 
         switch (state)

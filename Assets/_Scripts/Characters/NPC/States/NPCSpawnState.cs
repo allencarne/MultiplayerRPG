@@ -23,7 +23,7 @@ public class NPCSpawnState : NPCState
         owner.ChestAnimator.Play("Spawn");
         owner.LegsAnimator.Play("Spawn");
 
-        owner.SwordAnimator.Play("Spawn");
+        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Spawn");
 
         owner.StartCoroutine(Duration(owner));
     }
