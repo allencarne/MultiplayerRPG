@@ -37,8 +37,7 @@ public class PlayerSpawnState : PlayerState
 
     IEnumerator Duration(PlayerStateMachine owner)
     {
-        yield return new WaitForSeconds(.3f);
-
+        yield return new WaitForSeconds(.2f);
         owner.IsFullySpawned = true;
         owner.SetState(PlayerStateMachine.State.Idle);
     }

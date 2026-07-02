@@ -5,26 +5,26 @@ public class NPCSpawnState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        // Clear Targets
         owner.Target = null;
+        owner.SecondTarget = null;
         owner.IsEnemyInRange = false;
 
-        owner.HeadAnimator.SetFloat("Vertical", -1);
-        owner.BodyAnimator.SetFloat("Vertical", -1);
-
-        owner.ChestAnimator.SetFloat("Vertical", -1);
-        owner.LegsAnimator.SetFloat("Vertical", -1);
-
-        owner.SwordAnimator.SetFloat("Vertical", -1);
-
-
+        // Play Spawn Animation
         owner.HeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
-
         owner.ChestAnimator.Play("Spawn");
         owner.LegsAnimator.Play("Spawn");
-
         owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Spawn");
 
+        // Face Down
+        owner.HeadAnimator.SetFloat("Vertical", -1);
+        owner.BodyAnimator.SetFloat("Vertical", -1);
+        owner.ChestAnimator.SetFloat("Vertical", -1);
+        owner.LegsAnimator.SetFloat("Vertical", -1);
+        owner.SwordAnimator.SetFloat("Vertical", -1);
+
+        // Start Duration Coroutine
         owner.StartCoroutine(Duration(owner));
     }
 
@@ -40,7 +40,7 @@ public class NPCSpawnState : NPCState
 
     IEnumerator Duration(NPCStateMachine owner)
     {
-        yield return new WaitForSeconds(.6f);
+        yield return new WaitForSeconds(.2f);
         owner.SetState(NPCStateMachine.State.Idle);
     }
 }
