@@ -6,6 +6,9 @@ public class PlayerSpawnState : PlayerState
 {
     public override void StartState(PlayerStateMachine owner)
     {
+        // Spawn Event
+        owner.OnSpawn?.Invoke();
+
         // Play spawn animation
         owner.PlayerHeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");

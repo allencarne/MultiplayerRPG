@@ -32,6 +32,9 @@ public class NPCDeathState : NPCState
         // Reset Cast Bar
         owner.npc.CastBar.ResetCastBar();
 
+        // Disable colliders and sprites
+        owner.SetColliderAndSprites(false);
+
         // Start the respawn delay coroutine
         StartCoroutine(Delay(owner));
     }
@@ -48,14 +51,19 @@ public class NPCDeathState : NPCState
 
     IEnumerator Delay(NPCStateMachine owner)
     {
-        yield return new WaitForSeconds(4);
-        owner.transform.position = owner.StartingPosition;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5);
+
+        // Reset the NPC's health and status
         owner.npc.stats.isDead = false;
         owner.npc.stats.GiveHeal(100, HealType.Percentage);
-        owner.SetColliderAndSprites(false);
-        yield return null;
+
+        // Enable colliders and sprites
         owner.SetColliderAndSprites(true);
+
+        // Reset position to starting position
+        owner.transform.position = owner.StartingPosition;
+
+        // Reset the NPC's state to Spawn
         owner.SetState(NPCStateMachine.State.Spawn);
     }
 }

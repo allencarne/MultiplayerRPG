@@ -3,19 +3,20 @@ using UnityEngine;
 
 public class NPCEffects : NetworkBehaviour
 {
+    [SerializeField] NPCStateMachine stateMachine;
     [SerializeField] CharacterStats stats;
     [SerializeField] GameObject death_Effect;
     [SerializeField] GameObject spawn_Effect;
 
-    public override void OnNetworkSpawn()
+    private void OnEnable()
     {
-        SpawnClientRPC();
-
+        stateMachine.OnSpawn.AddListener(SpawnClientRPC);
         stats.OnDeath.AddListener(DeathClientRPC);
     }
 
-    public override void OnNetworkDespawn()
+    private void OnDisable()
     {
+        stateMachine.OnSpawn.RemoveListener(SpawnClientRPC);
         stats.OnDeath.RemoveListener(DeathClientRPC);
     }
 

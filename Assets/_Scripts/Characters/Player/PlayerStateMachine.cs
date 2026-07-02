@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : NetworkBehaviour
@@ -67,6 +68,8 @@ public class PlayerStateMachine : NetworkBehaviour
     string indicatorType = null;
     GameObject indicator;
     ItemPickup currentItem;
+
+    [HideInInspector] public UnityEvent OnSpawn;
 
     public enum State
     {
@@ -548,25 +551,6 @@ public class PlayerStateMachine : NetworkBehaviour
     void ApplyColliderClientRpc(bool isEnabled)
     {
         Collider.enabled = isEnabled;
-    }
-
-    [ServerRpc]
-    public void RequestSetSpritesServerRpc(bool isEnabled)
-    {
-        player.BodySprite.enabled = isEnabled;
-        player.PlayerHeadSprite.enabled = isEnabled;
-        player.SwordSprite.enabled = isEnabled;
-        player.AimerSprite.enabled = isEnabled;
-        ApplySpritesClientRpc(isEnabled);
-    }
-
-    [ClientRpc]
-    void ApplySpritesClientRpc(bool isEnabled)
-    {
-        player.BodySprite.enabled = isEnabled;
-        player.PlayerHeadSprite.enabled = isEnabled;
-        player.SwordSprite.enabled = isEnabled;
-        player.AimerSprite.enabled = isEnabled;
     }
 
     [ServerRpc]

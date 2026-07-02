@@ -5,6 +5,9 @@ public class NPCSpawnState : NPCState
 {
     public override void StartState(NPCStateMachine owner)
     {
+        // Spawn Event
+        owner.OnSpawn?.Invoke();
+
         // Clear Targets
         owner.Target = null;
         owner.SecondTarget = null;

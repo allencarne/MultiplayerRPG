@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NPCStateMachine : NetworkBehaviour
 {
@@ -58,6 +59,8 @@ public class NPCStateMachine : NetworkBehaviour
 
     public Transform Target;
     public Transform SecondTarget { get; set; }
+
+    [HideInInspector] public UnityEvent OnSpawn;
 
     public enum State
     {
@@ -280,9 +283,6 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (!IsServer) return;
         Collider.enabled = isEnabled;
-        npc.SwordSprite.enabled = isEnabled;
-        npc.EyeSprite.enabled = isEnabled;
-        npc.HairSprite.enabled = isEnabled;
         ApplyColliderStateClientRpc(isEnabled);
     }
 
@@ -290,9 +290,6 @@ public class NPCStateMachine : NetworkBehaviour
     void ApplyColliderStateClientRpc(bool isEnabled)
     {
         Collider.enabled = isEnabled;
-        npc.SwordSprite.enabled = isEnabled;
-        npc.EyeSprite.enabled = isEnabled;
-        npc.HairSprite.enabled = isEnabled;
     }
 
     #endregion

@@ -2679,6 +2679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCEffects
   ShowTopMostFoldoutHeaderGroup: 1
+  stateMachine: {fileID: 7580783204941348460}
   stats: {fileID: 6038468416201059741}
   death_Effect: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
@@ -3758,7 +3759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 252941149
+  GlobalObjectIdHash: 206476993
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3996,6 +3997,9 @@ MonoBehaviour:
     m_Bits: 8
   PatrolIndex: 0
   Target: {fileID: 0}
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls: []
   state: 0
 --- !u!114 &7778428804253406039
 MonoBehaviour:

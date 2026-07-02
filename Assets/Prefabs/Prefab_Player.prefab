@@ -25273,8 +25273,13 @@ MonoBehaviour:
   input: {fileID: 8050150357123000786}
   save: {fileID: 5710798942256160764}
   PlayerInventory: {fileID: 6762276146836678153}
-  PlayerHeadSprite: {fileID: 3197860205849077885}
+  HeadSprite: {fileID: 3197860205849077885}
+  HairSprite: {fileID: 5842310051357039372}
+  EyeSprite: {fileID: 2958234180723573605}
+  HelmSprite: {fileID: 7221895631771997066}
   BodySprite: {fileID: 7867530632741787033}
+  ChestSprite: {fileID: 2701045428929882957}
+  LegsSprite: {fileID: 5215574884419571335}
   SwordSprite: {fileID: 5543647698223086082}
   ShadowSprite: {fileID: 6137828857873210559}
   AimerSprite: {fileID: 6230546296620156252}
@@ -25356,6 +25361,9 @@ MonoBehaviour:
   CanDefensive: 1
   CanUtility: 1
   CanUltimate: 1
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls: []
   state: 0
 --- !u!114 &5248151491556837222
 MonoBehaviour:
@@ -65434,6 +65442,7 @@ MonoBehaviour:
   exp: {fileID: 6940644233207828720}
   ap: {fileID: 5950257301322909682}
   skillPanel: {fileID: 640528868884370920}
+  stateMachine: {fileID: 6475613187630994528}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
   levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}

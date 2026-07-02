@@ -47,14 +47,14 @@ public class PlayerDeathState : PlayerState
     IEnumerator Delay(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(4);
-        owner.RequestSetSpritesServerRpc(false);
-        owner.transform.position = Vector2.zero;
+        //owner.RequestSetSpritesServerRpc(false);
 
         yield return new WaitForSeconds(1);
 
         owner.RequestRespawnServerRpc();
         owner.RequestSetColliderServerRpc(true);
-        owner.RequestSetSpritesServerRpc(true);
+        //owner.RequestSetSpritesServerRpc(true);
+        owner.transform.position = Vector2.zero;
         owner.SetState(PlayerStateMachine.State.Spawn);
     }
 }

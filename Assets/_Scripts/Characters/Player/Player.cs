@@ -18,13 +18,6 @@ public class Player : NetworkBehaviour
     [SerializeField] PlayerSave save;
     public Inventory PlayerInventory;
 
-    [Header("Sprites")]
-    public SpriteRenderer PlayerHeadSprite;
-    public SpriteRenderer BodySprite;
-    public SpriteRenderer SwordSprite;
-    public SpriteRenderer ShadowSprite;
-    public SpriteRenderer AimerSprite;
-
     [Header("UI")]
     public CastBar CastBar;
     public Image[] playerImages;
