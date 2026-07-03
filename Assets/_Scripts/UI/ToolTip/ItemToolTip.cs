@@ -7,220 +7,72 @@ using UnityEngine.UI;
 public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler, ICancelHandler
 {
     [SerializeField] Player player;
-    [SerializeField] GameObject tooltip;
-    [SerializeField] GameObject contextMenu;
-
     [SerializeField] InventorySlot inventorySlot;
     [SerializeField] EquipmentSlot equipment;
 
-    [SerializeField] ItemRarityInfo riarityInfo;
-    [SerializeField] GameObject gemSlotsImage;
-
-    [SerializeField] Image itemIcon;
-    [SerializeField] Image textBox;
-
-    [SerializeField] TextMeshProUGUI itemName_Text;
-    [SerializeField] TextMeshProUGUI itemInfo_Text;
-
+    [Header("Context Menu")]
+    [SerializeField] GameObject contextMenu;
     [SerializeField] GameObject button_Use;
     [SerializeField] GameObject button_Split;
     [SerializeField] GameObject button_Drop;
     [SerializeField] GameObject button_Sell;
 
-    public void UpdateCurrencyInfo(Currency currency, Item item)
+    private void OnDisable()
     {
-        // Hide gem slots for currency
-        gemSlotsImage.SetActive(false);
-
-        // Sprite
-        itemIcon.sprite = currency.Icon;
-
-        // Name
-        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
-
-        // Description
-        itemInfo_Text.text = item.Description;
+        //tooltip.SetActive(false);
+        player.HideToolTip();
     }
 
-    public void UpdateCollectableInfo(Collectable collectable, Item item)
+    private InventorySlotData GetCurrentItem()
     {
-        // Hide gem slots for currency
-        gemSlotsImage.SetActive(false);
-
-        // Sprite
-        itemIcon.sprite = collectable.Icon;
-
-        // Name
-        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
-
-        // Description
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine(item.Description);
-        sb.AppendLine($"{collectable.SellValue}<sprite index=0>");
-
-        // Update text
-        itemInfo_Text.text = sb.ToString();
-    }
-
-    public void UpdateEquipmentInfo(Equipment equipment, Item item)
-    {
-        // Show gem slots for equipment
-        gemSlotsImage.SetActive(true);
-
-        // Sprite
-        itemIcon.sprite = equipment.Icon;
-
-        // Name
-        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
-
-        // Build text info
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine();
-
-        // Loop through each stat modifier
-        foreach (StatModifier mod in equipment.modifiers)
+        if (inventorySlot != null &&
+            inventorySlot.slotData != null &&
+            inventorySlot.slotData.item != null)
         {
-            sb.AppendLine($"+{mod.value} {mod.statType}");
+            return inventorySlot.slotData;
         }
 
-        sb.AppendLine();
-
-        // Add additional info
-        sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(), equipment.ItemRarity));
-        sb.AppendLine($"{equipment.equipmentType}");
-        sb.AppendLine($"Required Level: {equipment.LevelRequirement}");
-        sb.AppendLine($"Required Class: {equipment.ClassRequirement}");
-        sb.AppendLine($"{equipment.SellValue}<sprite index=0>");
-
-        // Update text
-        itemInfo_Text.text = sb.ToString();
-    }
-
-    public void UpdateWeaponInfo(Weapon weapon, Item item)
-    {
-        // Show gem slots for weapons
-        gemSlotsImage.SetActive(true);
-
-        // Sprite
-        itemIcon.sprite = weapon.Icon;
-
-        // Name
-        itemName_Text.text = FormatNameWithRarity(item.name.Replace("(Clone)", "").Trim(), item.ItemRarity);
-
-        // Build text info
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine();
-
-        // Loop through each stat modifier
-        foreach (StatModifier mod in weapon.modifiers)
+        if (equipment != null &&
+            equipment.SlotData != null &&
+            equipment.SlotData.item != null)
         {
-            sb.AppendLine($"+{mod.value} {mod.statType}");
+            return equipment.SlotData;
         }
 
-        sb.AppendLine();
-
-        // Add additional info
-        sb.AppendLine(FormatNameWithRarity(weapon.ItemRarity.ToString(), weapon.ItemRarity));
-        sb.AppendLine($"{weapon.weaponType}");
-        sb.AppendLine($"Required Level: {weapon.LevelRequirement}");
-        sb.AppendLine($"Required Class: {weapon.ClassRequirement}");
-        sb.AppendLine($"{weapon.SellValue}<sprite index=0>");
-
-        // Update text
-        itemInfo_Text.text = sb.ToString();
-    }
-
-    private string FormatNameWithRarity(string name, ItemRarity rarity)
-    {
-        // Retrieve the appropriate color from the ItemRarityInfo
-        Color color = rarity switch
-        {
-            ItemRarity.Common => riarityInfo.CommonColor,
-            ItemRarity.Uncommon => riarityInfo.UnCommonColor,
-            ItemRarity.Rare => riarityInfo.RareColor,
-            ItemRarity.Epic => riarityInfo.EpicColor,
-            ItemRarity.Exotic => riarityInfo.ExoticColor,
-            ItemRarity.Mythic => riarityInfo.MythicColor,
-            ItemRarity.Legendary => riarityInfo.LegendaryColor,
-            _ => Color.white // Default to white
-        };
-
-        // Assign Box Color
-        textBox.color = color;
-
-        Color tempColor = textBox.color;
-        tempColor.a = .80f;
-        textBox.color = tempColor;
-
-        // Convert the Color to a hex string
-        string colorHex = UnityEngine.ColorUtility.ToHtmlStringRGB(color);
-
-        // Format the name with the appropriate color using rich text
-        return $"<color=#{colorHex}><b>{name}</b></color>";
+        return null;
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        Item item = GetCurrentItem();
+        InventorySlotData item = GetCurrentItem();
         if (item == null) return;
 
-        switch (item)
-        {
-            case Currency currency:
-                UpdateCurrencyInfo(currency, item);
-                break;
+        player.ShowToolTip(item);
 
-            case Collectable collectable:
-                UpdateCollectableInfo(collectable, item);
-                break;
-
-            case Weapon weapon:
-                UpdateWeaponInfo(weapon, item);
-                break;
-
-            case Equipment equip:
-                UpdateEquipmentInfo(equip, item);
-                break;
-        }
-
-
-        tooltip.SetActive(true);
         if (contextMenu != null && contextMenu.activeSelf)
         {
-            tooltip.SetActive(false);
+            //tooltip.SetActive(false);
+            player.HideToolTip();
         }
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        tooltip.SetActive(false);
-    }
-
-    private Item GetCurrentItem()
-    {
-        if (inventorySlot != null && inventorySlot.slotData != null)
-            return inventorySlot.slotData.item;
-
-        if (equipment != null && equipment.SlotData != null)
-            return equipment.SlotData.item;
-
-        return null;
-    }
-
-    private void OnDisable()
-    {
-        tooltip.SetActive(false);
+        //tooltip.SetActive(false);
+        player.HideToolTip();
     }
 
     public void OnSubmit(BaseEventData eventData)
     {
-        tooltip.SetActive(false);
+        //tooltip.SetActive(false);
+        player.HideToolTip();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         // Left and Right Click Disables Tooltip
-        tooltip.SetActive(false);
+        //tooltip.SetActive(false);
+        player.HideToolTip();
 
         // Equipment doesn't have an Inventory Slot
         if (inventorySlot == null) return;
@@ -272,7 +124,8 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
 
     public void OnCancel(BaseEventData eventData)
     {
-        tooltip.SetActive(false);
+        //tooltip.SetActive(false);
+        player.HideToolTip();
         if (inventorySlot == null) return;
         if (contextMenu == null) return;
 

@@ -235,6 +235,7 @@ public class Player : NetworkBehaviour
     public void ShowToolTip(InventorySlotData data)
     {
         toolTipPanel.SetActive(true);
+        toolTipPanel.transform.SetAsLastSibling();
         toolTip.GetData(data);
         toolTip.UpdateToolTip();
     }
