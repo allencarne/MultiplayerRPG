@@ -7,30 +7,25 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
     public int index;
     [SerializeField] EquipmentManager equipmentManager;
     public Image icon;
-    public Item Item;
+    public InventorySlotData SlotData;
 
-    public void AddItem(Item newItem)
+    public void AddItem(InventorySlotData data)
     {
-        Item = newItem;
-
-        icon.sprite = Item.Icon;
+        SlotData = data;
+        icon.sprite = data.item.Icon;
         icon.enabled = true;
     }
 
     public void ClearSlot()
     {
-        Item = null;
-
+        SlotData = null;
         icon.sprite = null;
         icon.enabled = false;
     }
 
     public void UseItem()
     {
-        if (Item != null)
-        {
-            equipmentManager.UnEquip(index);
-        }
+        if (SlotData != null) equipmentManager.UnEquip(index);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -45,7 +40,7 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
         // Only accept equipment that belongs to this slot type
         if (fromSlot.slotData.item is Equipment equip && (int)equip.equipmentType == index)
         {
-            equipmentManager.Equip(equip);
+            equipmentManager.Equip(fromSlot.slotData);
         }
     }
 }

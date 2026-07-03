@@ -19,17 +19,20 @@ public class PlayerEquipment : NetworkBehaviour
         save = GetComponent<PlayerSave>();
     }
 
-    public void OnEquipmentChanged(Equipment newItem, Equipment oldItem, bool applyModifiers = true)
+    public void OnEquipmentChanged(InventorySlotData newSlot, InventorySlotData oldSlot, bool applyModifiers = true)
     {
+        Equipment newItem = newSlot?.item as Equipment;
+        Equipment oldItem = oldSlot?.item as Equipment;
+
         if (newItem != null)
         {
             if (applyModifiers)
             {
-                if (oldItem != null)
+                if (oldSlot != null)
                 {
-                    foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
+                    foreach (StatModifier mod in oldSlot.modifiers) ApplyModifier(mod, false);
                 }
-                foreach (StatModifier mod in newItem.modifiers) ApplyModifier(mod, true);
+                foreach (StatModifier mod in newSlot.modifiers) ApplyModifier(mod, true);
             }
 
             if (newItem is Weapon newWeapon)
@@ -52,7 +55,7 @@ public class PlayerEquipment : NetworkBehaviour
         {
             if (applyModifiers)
             {
-                foreach (StatModifier mod in oldItem.modifiers) ApplyModifier(mod, false);
+                foreach (StatModifier mod in oldSlot.modifiers) ApplyModifier(mod, false);
             }
 
             if (oldItem is Weapon oldWeapon)

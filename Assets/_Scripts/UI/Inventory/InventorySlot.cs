@@ -32,7 +32,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (slotData?.item != null)
         {
-            slotData.item.Use(inventory, equipmentManager);
+            slotData.item.Use(inventory, equipmentManager, slotData);
         }
     }
 
@@ -162,7 +162,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     Color GetEquipmentComparisonColor(Equipment equip)
     {
-        Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType];
+        Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType]?.item as Equipment;
 
         if (equipped == null) return upgradeColor;
         if (equip.LevelRequirement > equipped.LevelRequirement) return upgradeColor;

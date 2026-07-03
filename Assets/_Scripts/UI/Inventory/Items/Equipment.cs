@@ -15,10 +15,9 @@ public class Equipment : Item
     [Header("Modifiers")]
     public List<StatModifier> modifiers = new List<StatModifier>();
 
-    public override void Use(Inventory _inventory, EquipmentManager _equipmentManager)
+    public override void Use(Inventory _inventory, EquipmentManager _equipmentManager, InventorySlotData slotData)
     {
-        _equipmentManager.Equip(this);
-
+        _equipmentManager.Equip(slotData);
         RemoveFromInventory(_inventory);
     }
 }

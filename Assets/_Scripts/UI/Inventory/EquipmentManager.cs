@@ -10,16 +10,19 @@ public class EquipmentManager : MonoBehaviour
     [SerializeField] PlayerEquipment equipment;
 
     [SerializeField] private ItemList itemDatabase;
-    public Equipment[] currentEquipment;
+    public InventorySlotData[] currentEquipment;
 
     private void Awake()
     {
-        int numberOfSlots = System.Enum.GetNames(typeof(EquipmentType)).Length;
-        currentEquipment = new Equipment[numberOfSlots];
+        int numberOfSlots = Enum.GetNames(typeof(EquipmentType)).Length;
+        currentEquipment = new InventorySlotData[numberOfSlots];
     }
 
-    public bool Equip(Equipment newItem)
+    public bool Equip(InventorySlotData newSlot)
     {
+        Equipment newItem = newSlot.item as Equipment;
+        if (newItem == null) return false;
+
         if (stats.PlayerLevel.Value < newItem.LevelRequirement)
         {
             Debug.Log($"Level {newItem.LevelRequirement} required to equip {newItem.name}.");
@@ -27,26 +30,23 @@ public class EquipmentManager : MonoBehaviour
         }
 
         int slotIndex = (int)newItem.equipmentType;
-        Equipment oldItem = null;
+        InventorySlotData oldSlot = currentEquipment[slotIndex];
 
-        // Remove the newItem from inventory
-        int itemIndex = Array.FindIndex(inventory.items, slot => slot != null && slot.item == newItem);
+        int itemIndex = Array.IndexOf(inventory.items, newSlot);
         if (itemIndex != -1)
         {
             inventory.items[itemIndex] = null;
             save.SaveInventory(null, itemIndex, 0);
         }
 
-        // If there is already a piece of equipment in the slot
-        if (currentEquipment[slotIndex] != null)
+        if (oldSlot != null)
         {
-            oldItem = currentEquipment[slotIndex];
-            inventory.AddItem(oldItem, 1, oldItem.ItemRarity, oldItem.ItemQuality, oldItem.modifiers, true);
+            inventory.AddItem(oldSlot.item, oldSlot.quantity, oldSlot.rarity, oldSlot.quality, oldSlot.modifiers, true);
         }
 
-        equipmentUI.UpdateUI(newItem, oldItem);
-        equipment.OnEquipmentChanged(newItem, oldItem);
-        currentEquipment[slotIndex] = newItem;
+        equipmentUI.UpdateUI(newSlot, oldSlot);
+        equipment.OnEquipmentChanged(newSlot, oldSlot);
+        currentEquipment[slotIndex] = newSlot;
         save.SaveEquipment(newItem, slotIndex);
         inventory.inventoryUI.UpdateUI();
 
@@ -55,25 +55,21 @@ public class EquipmentManager : MonoBehaviour
 
     public void UnEquip(int slotIndex)
     {
-        if (currentEquipment[slotIndex] != null)
+        InventorySlotData oldSlot = currentEquipment[slotIndex];
+        if (oldSlot == null) return;
+
+        bool added = inventory.AddItem(oldSlot.item, oldSlot.quantity, oldSlot.rarity, oldSlot.quality, oldSlot.modifiers, true);
+        if (!added)
         {
-            Equipment oldItem = currentEquipment[slotIndex];
-            bool added = inventory.AddItem(oldItem, 1, oldItem.ItemRarity, oldItem.ItemQuality, oldItem.modifiers, true);
-
-            if (!added)
-            {
-                Debug.Log($"Inventory full — could not unequip {oldItem.name}.");
-                return;
-            }
-
-            currentEquipment[slotIndex] = null;
-            equipmentUI.UpdateUI(null, oldItem);
-            equipment.OnEquipmentChanged(null, oldItem);
-            save.SaveEquipment(null, slotIndex);
-
-            // Refresh UI
-            inventory.inventoryUI.UpdateUI();
+            Debug.Log($"Inventory full — could not unequip {oldSlot.item.name}.");
+            return;
         }
+
+        currentEquipment[slotIndex] = null;
+        equipmentUI.UpdateUI(null, oldSlot);
+        equipment.OnEquipmentChanged(null, oldSlot);
+        save.SaveEquipment(null, slotIndex);
+        inventory.inventoryUI.UpdateUI();
     }
 
     public void UnequipAll()
@@ -102,12 +98,12 @@ public class EquipmentManager : MonoBehaviour
 
                 if (baseItem is Equipment equipmentTemplate)
                 {
-                    Equipment newItem = Instantiate(equipmentTemplate);
-                    Equipment oldItem = currentEquipment[slotIndex];
+                    InventorySlotData newSlot = new InventorySlotData(equipmentTemplate, 1, equipmentTemplate.ItemRarity, equipmentTemplate.ItemQuality, equipmentTemplate.modifiers);
 
-                    currentEquipment[slotIndex] = newItem;
-                    equipmentUI.UpdateUI(newItem, oldItem);
-                    equipment.OnEquipmentChanged(newItem, oldItem, true);
+                    InventorySlotData oldSlot = currentEquipment[slotIndex];
+                    currentEquipment[slotIndex] = newSlot;
+                    equipmentUI.UpdateUI(newSlot, oldSlot);
+                    equipment.OnEquipmentChanged(newSlot, oldSlot, true);
                 }
                 else
                 {

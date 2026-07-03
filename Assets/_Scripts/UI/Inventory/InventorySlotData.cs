@@ -16,6 +16,6 @@ public class InventorySlotData
         this.quantity = quantity;
         this.rarity = rarity;
         this.quality = quality;
-        this.modifiers = modifiers;
+        this.modifiers = modifiers ?? new List<StatModifier>();
     }
 }

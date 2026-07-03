@@ -42,13 +42,13 @@ public class Inventory : MonoBehaviour
             CheckIfItemIsForQuest(newItem, quantity);
             return true;
         }
-        /*
-        if (TryAutoEquip(newItem, quantity))
+
+        if (TryAutoEquip(newItem, quantity, rarity, quality, modifiers))
         {
             CheckIfItemIsForQuest(newItem, quantity);
             return true;
         }
-        */
+
         if (TryStackItem(newItem, quantity))
         {
             CheckIfItemIsForQuest(newItem, quantity);
@@ -112,22 +112,31 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    bool TryAutoEquip(Item newItem, int quantity)
+    bool TryAutoEquip(Item newItem, int quantity, ItemRarity rarity, ItemQuality quality, List<StatModifier> modifiers = null)
     {
-        // Check if the new item is an Equipment item
         if (newItem is Equipment equipmentItem)
         {
             // slotIndex corresponds to the EquipmentType enum value
             int slotIndex = (int)equipmentItem.equipmentType;
 
-            if (equipmentManager.currentEquipment[slotIndex] == null)
+            if (equipmentManager != null && equipmentManager.currentEquipment != null && slotIndex >= 0 && slotIndex < equipmentManager.currentEquipment.Length)
             {
-                // If level check fails, fall through to add to inventory normally
-                if (equipmentManager.Equip(equipmentItem))
+                if (equipmentManager.currentEquipment[slotIndex] == null)
                 {
-                    OnItemAdded?.Invoke(newItem, quantity);
-                    return true;
+                    // construct a slot instance using the runtime data so Equip can handle dynamic modifiers/rarity/quality
+                    InventorySlotData newSlot = new InventorySlotData(equipmentItem, quantity, rarity, quality, modifiers);
+
+                    // Equip expects InventorySlotData (see EquipmentManager.cs)
+                    if (equipmentManager.Equip(newSlot))
+                    {
+                        OnItemAdded?.Invoke(equipmentItem, quantity);
+                        return true;
+                    }
                 }
+            }
+            else
+            {
+                Debug.LogWarning("EquipmentManager or its currentEquipment array is null or slotIndex out of range in TryAutoEquip.");
             }
         }
 
@@ -303,7 +312,7 @@ public class Inventory : MonoBehaviour
     public int GetFreeSlotCount()
     {
         int free = 0;
-        foreach (var slot in items)
+        foreach (InventorySlotData slot in items)
         {
             if (slot == null)
                 free++;
@@ -409,7 +418,7 @@ public class Inventory : MonoBehaviour
             {
                 if (Stats.PlayerLevel.Value < equip.LevelRequirement) continue;
 
-                Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType];
+                Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType]?.item as Equipment;
                 if (equipped == null || equip.LevelRequirement > equipped.LevelRequirement)
                     return true;
             }

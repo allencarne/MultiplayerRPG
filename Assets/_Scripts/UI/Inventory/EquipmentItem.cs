@@ -7,12 +7,12 @@ public class EquipmentItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] GameObject EquipmentPanel; // The Equipment Panel
     [SerializeField] GameObject InventoryPanel; // The Inventory Panel
 
-    [SerializeField] EquipmentSlot equipmentSlot; // The Equipment Slot reference
+    [SerializeField] InventorySlotData equipmentSlot; // The Equipment Slot reference
     [SerializeField] GameObject toolTip; // Tooltip GameObject
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (toolTip != null && equipmentSlot.Item != null)
+        if (toolTip != null && equipmentSlot.item != null)
         {
             // Ensure InventoryPanel is above EquipmentPanel in the hierarchy
             SwapPanelsOrder();

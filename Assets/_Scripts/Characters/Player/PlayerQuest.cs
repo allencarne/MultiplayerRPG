@@ -177,9 +177,9 @@ public class PlayerQuest : MonoBehaviour
         // returns how much of a specific Equipment item we have. Example: 1 Legendary Sword
 
         int total = 0;
-        foreach (Equipment equippedItem in equipment.currentEquipment)
+        foreach (InventorySlotData equippedItem in equipment.currentEquipment)
         {
-            if (equippedItem != null && equippedItem.ITEM_ID == itemID)
+            if (equippedItem != null && equippedItem.item.ITEM_ID == itemID)
             {
                 total++;
             }

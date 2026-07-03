@@ -18,20 +18,16 @@ public class EquipmentUI : MonoBehaviour
         }
     }
 
-    public void UpdateUI(Equipment newItem, Equipment oldItem)
+    public void UpdateUI(InventorySlotData newSlot, InventorySlotData oldSlot)
     {
+        Equipment newItem = newSlot?.item as Equipment;
+        Equipment oldItem = oldSlot?.item as Equipment;
         EquipmentType equipmentType = (newItem != null) ? newItem.equipmentType : oldItem.equipmentType;
 
         if (equipmentSlots.TryGetValue(equipmentType, out EquipmentSlot slot))
         {
-            if (newItem != null)
-            {
-                slot.AddItem(newItem);
-            }
-            else
-            {
-                slot.ClearSlot();
-            }
+            if (newSlot != null) slot.AddItem(newSlot);
+            else slot.ClearSlot();
         }
         else
         {

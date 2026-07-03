@@ -148,7 +148,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         // Assign Box Color
         textBox.color = color;
 
-        var tempColor = textBox.color;
+        Color tempColor = textBox.color;
         tempColor.a = .80f;
         textBox.color = tempColor;
 
@@ -201,8 +201,8 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         if (inventorySlot != null && inventorySlot.slotData != null)
             return inventorySlot.slotData.item;
 
-        if (equipment != null && equipment.Item != null)
-            return equipment.Item;
+        if (equipment != null && equipment.SlotData != null)
+            return equipment.SlotData.item;
 
         return null;
     }

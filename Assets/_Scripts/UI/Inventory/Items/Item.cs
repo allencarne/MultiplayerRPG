@@ -33,7 +33,7 @@ public class Item : ScriptableObject
     // quality level of the item, affecting its effectiveness and value
     public ItemQuality ItemQuality;
 
-    public virtual void Use(Inventory _inventory, EquipmentManager _equipmentManager)
+    public virtual void Use(Inventory _inventory, EquipmentManager _equipmentManager, InventorySlotData slotData)
     {
 
     }
