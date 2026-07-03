@@ -1,8 +1,9 @@
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
 public class ItemPickup : NetworkBehaviour
 {
@@ -21,12 +22,31 @@ public class ItemPickup : NetworkBehaviour
     public NetworkVariable<int> Quantity = new NetworkVariable<int>(1,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public ItemRarity ItemRarity;
     public ItemQuality ItemQuality;
+    public List<StatModifier> RolledModifiers = new List<StatModifier>();
     bool _hasBeenPickedUp = false;
 
     public override void OnNetworkSpawn()
     {
         Quantity.OnValueChanged += OnQuantityChanged;
         UpdateQuantityUI(Quantity.Value);
+
+        // Testing how I can assign mods, rarities, and qualities
+        if (Item is Equipment equipment)
+        {
+            ItemRarity = ItemRarity.Epic;
+            ItemQuality = ItemQuality.Excellent;
+
+            RolledModifiers = new List<StatModifier>
+            {
+                new StatModifier { statType = StatType.Damage, value = 5, source = ModSource.Equipment },
+                new StatModifier { statType = StatType.AttackSpeed, value = 3, source = ModSource.Equipment }
+            };
+        }
+        else
+        {
+            ItemRarity = Item.ItemRarity;
+            ItemQuality = Item.ItemQuality;
+        }
     }
 
     public override void OnNetworkDespawn()
@@ -40,10 +60,6 @@ public class ItemPickup : NetworkBehaviour
         {
             StartCoroutine(DespawnDelay(180));
         }
-
-        // Assign Random Item Rarity
-        ItemRarity = ItemRarity.Epic;
-        ItemQuality = ItemQuality.Excellent;
     }
 
     public void PickUp(Player player)

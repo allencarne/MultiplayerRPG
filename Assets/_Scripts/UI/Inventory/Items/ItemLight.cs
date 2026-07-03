@@ -12,7 +12,7 @@ public class ItemLight : MonoBehaviour
 
     private void Start()
     {
-        switch (item.Item.ItemRarity)
+        switch (item.ItemRarity)
         {
             case ItemRarity.Common:
                 itemLight.color = info.CommonColor;

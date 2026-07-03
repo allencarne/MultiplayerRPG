@@ -51,7 +51,7 @@ public class PickupToolTip : MonoBehaviour
         itemIcon.sprite = currency.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.ItemRarity);
 
         // Description
         itemInfo_Text.text = itemPickup.Item.Description;
@@ -66,7 +66,7 @@ public class PickupToolTip : MonoBehaviour
         itemIcon.sprite = collectable.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.ItemRarity);
 
         // Description
         StringBuilder sb = new StringBuilder();
@@ -86,14 +86,14 @@ public class PickupToolTip : MonoBehaviour
         itemIcon.sprite = equipment.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.ItemRarity);
 
         // Build text info
         StringBuilder sb = new StringBuilder();
         sb.AppendLine();
 
         // Loop through each stat modifier
-        foreach (var mod in equipment.modifiers)
+        foreach (StatModifier mod in itemPickup.RolledModifiers)
         {
             sb.AppendLine($"+{mod.value} {mod.statType}");
         }
@@ -101,7 +101,7 @@ public class PickupToolTip : MonoBehaviour
         sb.AppendLine();
 
         // Add additional info
-        sb.AppendLine(FormatNameWithRarity(equipment.ItemRarity.ToString(), equipment.ItemRarity));
+        sb.AppendLine(FormatNameWithRarity(itemPickup.ItemRarity.ToString(), itemPickup.ItemRarity));
         sb.AppendLine($"{equipment.equipmentType}");
         sb.AppendLine($"Required Level: {equipment.LevelRequirement}");
         sb.AppendLine($"Required Class: {equipment.ClassRequirement}");
@@ -120,14 +120,14 @@ public class PickupToolTip : MonoBehaviour
         itemIcon.sprite = weapon.Icon;
 
         // Name
-        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.Item.ItemRarity);
+        itemName_Text.text = FormatNameWithRarity(itemPickup.Item.name, itemPickup.ItemRarity);
 
         // Build text info
         StringBuilder sb = new StringBuilder();
         sb.AppendLine();
 
         // Loop through each stat modifier
-        foreach (var mod in weapon.modifiers)
+        foreach (StatModifier mod in itemPickup.RolledModifiers)
         {
             sb.AppendLine($"+{mod.value} {mod.statType}");
         }
@@ -135,7 +135,7 @@ public class PickupToolTip : MonoBehaviour
         sb.AppendLine();
 
         // Add additional info
-        sb.AppendLine(FormatNameWithRarity(weapon.ItemRarity.ToString(), weapon.ItemRarity));
+        sb.AppendLine(FormatNameWithRarity(itemPickup.ItemRarity.ToString(), itemPickup.ItemRarity));
         sb.AppendLine($"{weapon.weaponType}");
         sb.AppendLine($"Required Level: {weapon.LevelRequirement}");
         sb.AppendLine($"Required Class: {weapon.ClassRequirement}");
