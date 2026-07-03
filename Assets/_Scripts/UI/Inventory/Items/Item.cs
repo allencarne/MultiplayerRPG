@@ -48,12 +48,10 @@ public enum ItemRarity
 {
     Common,
     Uncommon,
-    Fine,
     Rare,
     Epic,
     Exotic,
     Mythic,
-    Ascended,
     Legendary
 }
 
