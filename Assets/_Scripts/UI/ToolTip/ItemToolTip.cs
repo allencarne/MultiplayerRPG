@@ -78,7 +78,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         sb.AppendLine();
 
         // Loop through each stat modifier
-        foreach (var mod in equipment.modifiers)
+        foreach (StatModifier mod in equipment.modifiers)
         {
             sb.AppendLine($"+{mod.value} {mod.statType}");
         }
@@ -112,7 +112,7 @@ public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISub
         sb.AppendLine();
 
         // Loop through each stat modifier
-        foreach (var mod in weapon.modifiers)
+        foreach (StatModifier mod in weapon.modifiers)
         {
             sb.AppendLine($"+{mod.value} {mod.statType}");
         }

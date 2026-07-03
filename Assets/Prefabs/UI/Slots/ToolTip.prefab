@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a7e5dba80d7d56342a29299dc86b0390, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 5708962119657607696}
   - component: {fileID: 2536947321850461653}
   - component: {fileID: 6209469689319609623}
+  - component: {fileID: 934992788189751158}
   m_Layer: 0
   m_Name: ToolTip
   m_TagString: Untagged
@@ -399,6 +400,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!114 &934992788189751158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2566949134188032327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb216f4e84352e4584c93a4bff9aae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolTip
+  riarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
+  tooltip: {fileID: 5788906937164468348}
+  itemIcon: {fileID: 8453445984704772114}
+  textBox: {fileID: 2653663347791454159}
+  itemName_Text: {fileID: 7987964288533236527}
+  itemInfo_Text: {fileID: 5844107959076386291}
 --- !u!1 &4015099282728373303
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: <color=#5A3D8F><b>Tattered Shirt</b></color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 64b1527cde20f7f489b8a1bd1796606a, type: 2}
   m_sharedMaterial: {fileID: 7455084302828543054, guid: 64b1527cde20f7f489b8a1bd1796606a, type: 2}
@@ -811,7 +830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
+  m_Color: {r: 0.3529412, g: 0.2392157, b: 0.56078434, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1070,7 +1089,26 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: '+5 Damage
+
+    +3 AttackSpeed
+
+
+
+    <color=#5A3D8F><b>Epic</b></color>
+
+    <color=#FFD764><b>Excellent</b></color>
+
+    Chest
+
+    Required
+    Level: 1
+
+    Required Class: None
+
+    2<sprite index=0>
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: adbe7056c31aa9f41971e5c69d90924a, type: 2}
   m_sharedMaterial: {fileID: -521119184550597445, guid: adbe7056c31aa9f41971e5c69d90924a, type: 2}

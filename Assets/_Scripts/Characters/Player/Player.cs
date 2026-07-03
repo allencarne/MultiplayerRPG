@@ -18,6 +18,10 @@ public class Player : NetworkBehaviour
     [SerializeField] PlayerSave save;
     public Inventory PlayerInventory;
 
+    [Header("ToolTip")]
+    [SerializeField] GameObject toolTipPanel;
+    [SerializeField] ToolTip toolTip;
+
     [Header("UI")]
     public CastBar CastBar;
     public Image[] playerImages;
@@ -226,5 +230,17 @@ public class Player : NetworkBehaviour
             IsRegen = false;
             stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
+    }
+
+    public void ShowToolTip(InventorySlotData data)
+    {
+        toolTipPanel.SetActive(true);
+        toolTip.GetData(data);
+        toolTip.UpdateToolTip();
+    }
+
+    public void HideToolTip()
+    {
+        toolTipPanel.SetActive(false);
     }
 }

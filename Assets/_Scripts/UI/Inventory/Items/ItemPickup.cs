@@ -10,7 +10,6 @@ public class ItemPickup : NetworkBehaviour
     [HideInInspector] public SpawnItem Manager;
     [HideInInspector] public Transform SpawnPoint;
 
-    [SerializeField] GameObject toolTip;
     [SerializeField] TextMeshProUGUI pickupText;
     [SerializeField] TextMeshProUGUI quantityText;
 
@@ -24,6 +23,7 @@ public class ItemPickup : NetworkBehaviour
     public ItemQuality ItemQuality;
     public List<StatModifier> RolledModifiers = new List<StatModifier>();
     bool _hasBeenPickedUp = false;
+
 
     public override void OnNetworkSpawn()
     {
@@ -91,7 +91,8 @@ public class ItemPickup : NetworkBehaviour
         playerInput = player.GetComponent<PlayerInput>();
         if (playerInput == null) return;
 
-        toolTip.SetActive(true);
+        player.ShowToolTip(new InventorySlotData(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers));
+
         UpdatePickupText();
     }
 
@@ -102,7 +103,7 @@ public class ItemPickup : NetworkBehaviour
         Player player = collision.GetComponent<Player>();
         if (!player || !player.IsLocalPlayer) return;
 
-        toolTip.SetActive(false);
+        player.HideToolTip();
         pickupText.text = "";
     }
 
@@ -137,7 +138,7 @@ public class ItemPickup : NetworkBehaviour
 
     private void PlayPickupEffect()
     {
-        toolTip.SetActive(false);
+        //player.HideToolTip();
         animator.Play("Anim_Item_Pickup");
 
         Collider2D collider = GetComponent<Collider2D>();
