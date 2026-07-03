@@ -35,20 +35,20 @@ public class Inventory : MonoBehaviour
         items = new InventorySlotData[inventorySlots];
     }
 
-    public bool AddItem(Item newItem, int quantity = 1, ItemRarity rarity = ItemRarity.Uncommon, ItemQuality quality = ItemQuality.Normal, bool isUnEquip = false)
+    public bool AddItem(Item newItem, int quantity = 1, ItemRarity rarity = ItemRarity.Uncommon, ItemQuality quality = ItemQuality.Normal, List<StatModifier> modifiers = null, bool isUnEquip = false)
     {
         if (TryCollectCurrency(newItem, quantity))
         {
             CheckIfItemIsForQuest(newItem, quantity);
             return true;
         }
-
+        /*
         if (TryAutoEquip(newItem, quantity))
         {
             CheckIfItemIsForQuest(newItem, quantity);
             return true;
         }
-
+        */
         if (TryStackItem(newItem, quantity))
         {
             CheckIfItemIsForQuest(newItem, quantity);
@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour
         }
 
         // Place item in empty slot
-        items[emptySlotIndex] = new InventorySlotData(newItem, quantity, rarity, quality);
+        items[emptySlotIndex] = new InventorySlotData(newItem, quantity, rarity, quality, modifiers);
 
         // Update the UI to reflect the new item
         inventoryUI.UpdateUI();
@@ -114,8 +114,10 @@ public class Inventory : MonoBehaviour
 
     bool TryAutoEquip(Item newItem, int quantity)
     {
+        // Check if the new item is an Equipment item
         if (newItem is Equipment equipmentItem)
         {
+            // slotIndex corresponds to the EquipmentType enum value
             int slotIndex = (int)equipmentItem.equipmentType;
 
             if (equipmentManager.currentEquipment[slotIndex] == null)

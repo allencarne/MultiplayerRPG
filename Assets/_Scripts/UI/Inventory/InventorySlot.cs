@@ -19,16 +19,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     [SerializeField] Color downgradeColor;
     [SerializeField] Color SameLevelColor;
 
-    public void AddItem(Item newItem, int quantity)
+    public void AddItem(InventorySlotData data)
     {
-        slotData = new InventorySlotData(newItem, quantity, newItem.ItemRarity, newItem.ItemQuality);
-        inventory.items[slotIndex] = slotData;
-
-        icon.sprite = newItem.Icon;
+        slotData = data;
+        icon.sprite = data.item.Icon;
         icon.color = Color.white;
-        redTint.enabled = IsUnderLevelRequirement(newItem);
-
-        RefreshAmountText(newItem, quantity);
+        redTint.enabled = IsUnderLevelRequirement(data.item);
+        RefreshAmountText(data.item, data.quantity);
     }
 
     public void UseItem()

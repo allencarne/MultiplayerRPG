@@ -68,7 +68,7 @@ public class ItemPickup : NetworkBehaviour
         _hasBeenPickedUp = true;
 
         // Add Item to Inventory if we have enough space
-        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value, ItemRarity, ItemQuality);
+        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers);
 
         // Destroy item if it was collected
         if (wasPickedUp)

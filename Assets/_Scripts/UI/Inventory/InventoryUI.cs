@@ -22,25 +22,31 @@ public class InventoryUI : MonoBehaviour
     {
         iSlots = itemsParent.GetComponentsInChildren<InventorySlot>();
 
+        // Initialize each inventory slot with its index and reference to the inventory
         for (int i = 0; i < iSlots.Length; i++)
         {
+            // Set the slot index for each inventory slot
             iSlots[i].slotIndex = i;
+
+            // Set the reference to the inventory for each inventory slot
             iSlots[i].inventory = inventory;
         }
     }
 
     public void UpdateUI()
     {
+        // Update the coin text with the current coin count and a coin icon
         CoinText.text = $"{inventory.Stats.Coins}<sprite index=0>";
 
-        // Loop through all inventory slots
+        // Update each inventory slot with the corresponding item from the inventory
         for (int i = 0; i < iSlots.Length; i++)
         {
-            // If there's an item in the corresponding slot
+
+            // Check if the inventory has an item for this slot
             if (i < inventory.items.Length && inventory.items[i] != null)
             {
                 // Add the item to the slot
-                iSlots[i].AddItem(inventory.items[i]?.item, inventory.items[i]?.quantity ?? 0);
+                iSlots[i].AddItem(inventory.items[i]);
             }
             else
             {
@@ -49,6 +55,7 @@ public class InventoryUI : MonoBehaviour
             }
         }
 
+        // Invoke the OnInventoryChanged event to notify any listeners that the inventory has changed
         inventory.OnInventoryChanged?.Invoke();
     }
 
