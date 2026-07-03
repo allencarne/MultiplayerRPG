@@ -40,6 +40,10 @@ public class ItemPickup : NetworkBehaviour
         {
             StartCoroutine(DespawnDelay(180));
         }
+
+        // Assign Random Item Rarity
+        ItemRarity = ItemRarity.Epic;
+        ItemQuality = ItemQuality.Excellent;
     }
 
     public void PickUp(Player player)
