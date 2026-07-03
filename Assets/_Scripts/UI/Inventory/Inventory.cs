@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour
         items = new InventorySlotData[inventorySlots];
     }
 
-    public bool AddItem(Item newItem, int quantity = 1, bool isUnEquip = false)
+    public bool AddItem(Item newItem, int quantity = 1, ItemRarity rarity = ItemRarity.Uncommon, ItemQuality quality = ItemQuality.Normal, bool isUnEquip = false)
     {
         if (TryCollectCurrency(newItem, quantity))
         {
@@ -55,8 +55,10 @@ public class Inventory : MonoBehaviour
             return true;
         }
 
-        // Find empty slot
+        // Find the first empty slot in the inventory
         int emptySlotIndex = Array.FindIndex(items, x => x == null);
+
+        // If no empty slot is found, the inventory is full
         if (emptySlotIndex == -1)
         {
             Debug.Log("Inventory full");
@@ -64,12 +66,21 @@ public class Inventory : MonoBehaviour
         }
 
         // Place item in empty slot
-        items[emptySlotIndex] = new InventorySlotData(newItem, quantity);
+        items[emptySlotIndex] = new InventorySlotData(newItem, quantity, rarity, quality);
+
+        // Update the UI to reflect the new item
         inventoryUI.UpdateUI();
+
+        // Invoke the OnItemAdded event if the item was not unequipped
         if (!isUnEquip) OnItemAdded?.Invoke(newItem, quantity);
+
+        // Save the inventory state
         Save.SaveInventory(newItem, emptySlotIndex, quantity);
 
+        // Check if the item is related to any active quests
         CheckIfItemIsForQuest(newItem, quantity);
+
+        // return true to indicate the item was successfully added
         return true;
     }
 
@@ -176,7 +187,7 @@ public class Inventory : MonoBehaviour
                     Item template = itemDatabase.GetItemByName(itemName);
                     if (template != null)
                     {
-                        items[i] = new InventorySlotData(template, quantity);
+                        items[i] = new InventorySlotData(template, quantity, template.ItemRarity, template.ItemQuality);
                     }
                     else
                     {
@@ -203,7 +214,7 @@ public class Inventory : MonoBehaviour
     {
         if (items[targetSlot] == null)
         {
-            items[targetSlot] = new InventorySlotData(item, quantity);
+            items[targetSlot] = new InventorySlotData(item, quantity, item.ItemRarity, item.ItemQuality);
             Save.SaveInventory(item, targetSlot, quantity);
             return true;
         }
@@ -225,7 +236,7 @@ public class Inventory : MonoBehaviour
                 if (targetSlot == null)
                     continue;
 
-                if (targetSlot.item.name == sourceSlot.item.name)
+                if (targetSlot.item.name == sourceSlot.item.name && targetSlot.rarity == sourceSlot.rarity && targetSlot.quality == sourceSlot.quality)
                 {
                     // Combine quantity into source
                     sourceSlot.quantity += targetSlot.quantity;

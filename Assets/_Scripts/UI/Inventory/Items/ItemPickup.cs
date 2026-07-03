@@ -19,6 +19,8 @@ public class ItemPickup : NetworkBehaviour
 
     public Item Item;
     public NetworkVariable<int> Quantity = new NetworkVariable<int>(1,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    public ItemRarity ItemRarity;
+    public ItemQuality ItemQuality;
     bool _hasBeenPickedUp = false;
 
     public override void OnNetworkSpawn()
@@ -46,7 +48,7 @@ public class ItemPickup : NetworkBehaviour
         _hasBeenPickedUp = true;
 
         // Add Item to Inventory if we have enough space
-        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value);
+        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value, ItemRarity, ItemQuality);
 
         // Destroy item if it was collected
         if (wasPickedUp)

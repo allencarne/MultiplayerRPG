@@ -21,7 +21,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void AddItem(Item newItem, int quantity)
     {
-        slotData = new InventorySlotData(newItem, quantity);
+        slotData = new InventorySlotData(newItem, quantity, newItem.ItemRarity, newItem.ItemQuality);
         inventory.items[slotIndex] = slotData;
 
         icon.sprite = newItem.Icon;
@@ -89,9 +89,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         InventorySlotData toData = toSlot.slotData;
 
         // Stack if same stackable item
-        if (toData != null && fromData != null &&
-            fromData.item.IsStackable &&
-            fromData.item.name == toData.item.name)
+        if (toData != null && fromData != null && fromData.item.IsStackable && fromData.item.name == toData.item.name && fromData.rarity == toData.rarity && fromData.quality == toData.quality)
         {
             toData.quantity += fromData.quantity;
             fromSlot.slotData = null;
