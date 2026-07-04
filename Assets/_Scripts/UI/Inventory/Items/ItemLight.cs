@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ItemLight : MonoBehaviour
 {
+    [SerializeField] ItemStatGenerator generator;
     [SerializeField] ItemPickup item;
     [SerializeField] ItemRarityInfo info;
     [SerializeField] SpriteRenderer itemLight;
@@ -12,7 +13,7 @@ public class ItemLight : MonoBehaviour
 
     private void Start()
     {
-        switch (item.ItemRarity)
+        switch (generator.Item.ItemRarity)
         {
             case ItemRarity.Common:
                 itemLight.color = info.CommonColor;

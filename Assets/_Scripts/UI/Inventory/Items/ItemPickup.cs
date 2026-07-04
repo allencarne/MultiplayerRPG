@@ -18,48 +18,18 @@ public class ItemPickup : NetworkBehaviour
     [SerializeField] Animator animator;
     PlayerInput playerInput;
 
-    public Item Item;
-    public NetworkVariable<int> Quantity = new NetworkVariable<int>(1,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
-    public ItemRarity ItemRarity;
-    public ItemQuality ItemQuality;
-    public List<StatModifier> RolledModifiers = new List<StatModifier>();
     bool _hasBeenPickedUp = false;
 
 
     public override void OnNetworkSpawn()
     {
-        Quantity.OnValueChanged += OnQuantityChanged;
-        UpdateQuantityUI(Quantity.Value);
-
-        // Server should generate stats once for new spawned loot.
-        if (IsServer)
-        {
-            // If an Equipment item and we haven't already rolled modifiers, roll now
-            if (Item is Equipment)
-            {
-                // Only roll if no modifiers exist (prevents re-rolls when item is re-created from saved data)
-                if (RolledModifiers == null || RolledModifiers.Count == 0)
-                {
-                    InventorySlotData temp = new InventorySlotData(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers);
-                    generator.EnsureRolled(temp);
-
-                    // apply back to this pickup's networked fields so they replicate
-                    ItemRarity = temp.rarity;
-                    ItemQuality = temp.quality;
-                    RolledModifiers = temp.modifiers;
-                }
-            }
-            else
-            {
-                ItemRarity = Item.ItemRarity;
-                ItemQuality = Item.ItemQuality;
-            }
-        }
+        generator.Quantity.OnValueChanged += OnQuantityChanged;
+        UpdateQuantityUI(generator.Quantity.Value);
     }
 
     public override void OnNetworkDespawn()
     {
-        Quantity.OnValueChanged -= OnQuantityChanged;
+        generator.Quantity.OnValueChanged -= OnQuantityChanged;
     }
 
     private void Start()
@@ -76,7 +46,7 @@ public class ItemPickup : NetworkBehaviour
         _hasBeenPickedUp = true;
 
         // Add Item to Inventory if we have enough space
-        bool wasPickedUp = player.PlayerInventory.AddItem(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers);
+        bool wasPickedUp = player.PlayerInventory.AddItem(generator.Item, generator.Quantity.Value, generator.ItemRarity, generator.ItemQuality, generator.RolledModifiers);
 
         // Destroy item if it was collected
         if (wasPickedUp)
@@ -99,7 +69,7 @@ public class ItemPickup : NetworkBehaviour
         playerInput = player.GetComponent<PlayerInput>();
         if (playerInput == null) return;
 
-        player.ShowToolTip(new InventorySlotData(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers));
+        player.ShowToolTip(new InventorySlotData(generator.Item, generator.Quantity.Value, generator.ItemRarity, generator.ItemQuality, generator.RolledModifiers));
 
         UpdatePickupText();
     }
@@ -119,7 +89,7 @@ public class ItemPickup : NetworkBehaviour
     {
         if (playerInput == null || pickupAction == null)
         {
-            pickupText.text = $"Press Interact to pick up {Item.name}";
+            pickupText.text = $"Press Interact to pick up {generator.Item.name}";
             return;
         }
 
@@ -127,7 +97,7 @@ public class ItemPickup : NetworkBehaviour
         int bindingIndex = GetBindingIndexForCurrentScheme(controlScheme);
 
         string bindName = pickupAction.action.GetBindingDisplayString(bindingIndex);
-        pickupText.text = $"Press <color=#00FF00>{bindName}</color> to pick up <color=#00FF00><b>{Item.name}</b></color>";
+        pickupText.text = $"Press <color=#00FF00>{bindName}</color> to pick up <color=#00FF00><b>{generator.Item.name}</b></color>";
     }
 
     private int GetBindingIndexForCurrentScheme(string scheme)

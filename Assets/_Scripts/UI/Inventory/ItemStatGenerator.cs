@@ -1,8 +1,49 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ItemStatGenerator : MonoBehaviour
+public class ItemStatGenerator : NetworkBehaviour
 {
+    public Item Item;
+    public ItemRarity ItemRarity;
+    public ItemQuality ItemQuality;
+    public List<StatModifier> RolledModifiers = new List<StatModifier>();
+    public NetworkVariable<int> Quantity = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    public override void OnNetworkSpawn()
+    {
+        // Roll Stats for this item
+        RollStats();
+    }
+
+    public void RollStats()
+    {
+        if (!IsServer) return;
+        if (Item == null) return;
+
+        // If it's equipment, ensure modifiers are rolled.
+        if (Item is Equipment)
+        {
+            // Create a temp slot representing the pickup current state
+            InventorySlotData temp = new InventorySlotData(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers);
+
+            // EnsureRolled will no-op if already rolled
+            EnsureRolled(temp);
+
+            // Apply rolled results back onto the pickup (these fields will be serialized if done before Spawn)
+            ItemRarity = temp.rarity;
+            ItemQuality = temp.quality;
+            RolledModifiers = temp.modifiers;
+        }
+        else
+        {
+            // Ensure non-equipment items have defaults set
+            if (ItemRarity == 0) ItemRarity = Item.ItemRarity;
+            if (ItemQuality == 0) ItemQuality = Item.ItemQuality;
+        }
+    }
+
+
     // Ensure the InventorySlotData has been rolled. No-op if already rolled.
     public void EnsureRolled(InventorySlotData slot)
     {

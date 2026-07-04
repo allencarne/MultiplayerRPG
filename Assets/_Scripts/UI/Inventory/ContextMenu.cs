@@ -88,7 +88,7 @@ public class ContextMenu : MonoBehaviour
             GameObject dropped = Instantiate(data.item.Prefab, inventory.Save.transform.position, Quaternion.identity);
             NetworkObject netObj = dropped.GetComponent<NetworkObject>();
             netObj.Spawn();
-            dropped.GetComponent<ItemPickup>().Quantity.Value = data.quantity;
+            dropped.GetComponent<ItemStatGenerator>().Quantity.Value = data.quantity;
         }
         else
         {
