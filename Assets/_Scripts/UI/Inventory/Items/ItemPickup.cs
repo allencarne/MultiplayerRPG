@@ -9,6 +9,7 @@ public class ItemPickup : NetworkBehaviour
 {
     [HideInInspector] public SpawnItem Manager;
     [HideInInspector] public Transform SpawnPoint;
+    [SerializeField] ItemStatGenerator generator;
 
     [SerializeField] TextMeshProUGUI pickupText;
     [SerializeField] TextMeshProUGUI quantityText;
@@ -30,22 +31,29 @@ public class ItemPickup : NetworkBehaviour
         Quantity.OnValueChanged += OnQuantityChanged;
         UpdateQuantityUI(Quantity.Value);
 
-        // Testing how I can assign mods, rarities, and qualities
-        if (Item is Equipment equipment)
+        // Server should generate stats once for new spawned loot.
+        if (IsServer)
         {
-            ItemRarity = ItemRarity.Epic;
-            ItemQuality = ItemQuality.Excellent;
-
-            RolledModifiers = new List<StatModifier>
+            // If an Equipment item and we haven't already rolled modifiers, roll now
+            if (Item is Equipment)
             {
-                new StatModifier { statType = StatType.Damage, value = 5, source = ModSource.Equipment },
-                new StatModifier { statType = StatType.AttackSpeed, value = 3, source = ModSource.Equipment }
-            };
-        }
-        else
-        {
-            ItemRarity = Item.ItemRarity;
-            ItemQuality = Item.ItemQuality;
+                // Only roll if no modifiers exist (prevents re-rolls when item is re-created from saved data)
+                if (RolledModifiers == null || RolledModifiers.Count == 0)
+                {
+                    InventorySlotData temp = new InventorySlotData(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers);
+                    generator.EnsureRolled(temp);
+
+                    // apply back to this pickup's networked fields so they replicate
+                    ItemRarity = temp.rarity;
+                    ItemQuality = temp.quality;
+                    RolledModifiers = temp.modifiers;
+                }
+            }
+            else
+            {
+                ItemRarity = Item.ItemRarity;
+                ItemQuality = Item.ItemQuality;
+            }
         }
     }
 

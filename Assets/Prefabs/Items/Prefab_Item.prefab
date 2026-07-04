@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7706215213239804704}
   - component: {fileID: 2836685129220559817}
   - component: {fileID: 5281205274490825886}
+  - component: {fileID: 8452547495575956694}
   m_Layer: 11
   m_Name: Prefab_Item
   m_TagString: Item
@@ -86,6 +87,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Manager: {fileID: 0}
   SpawnPoint: {fileID: 0}
+  generator: {fileID: 8452547495575956694}
   pickupText: {fileID: 4063149634110822450}
   quantityText: {fileID: 7277684807732516392}
   pickupAction: {fileID: 2230270691135496196, guid: f36af2b903c723a49acbb25b0649b21c, type: 3}
@@ -222,6 +224,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
   ShowTopMostFoldoutHeaderGroup: 1
   visibilityRange: 50
+--- !u!114 &8452547495575956694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547461493694578617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bcf29c0ce7d1434ea08cf9fcd9750d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemStatGenerator
 --- !u!1 &2544567047471856696
 GameObject:
   m_ObjectHideFlags: 0
