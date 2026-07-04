@@ -111,7 +111,7 @@ public class ItemPickup : NetworkBehaviour
     {
         if (playerInput == null || pickupAction == null)
         {
-            pickupText.text = "Press Interact";
+            pickupText.text = $"Press Interact to pick up {Item.name}";
             return;
         }
 
@@ -119,7 +119,7 @@ public class ItemPickup : NetworkBehaviour
         int bindingIndex = GetBindingIndexForCurrentScheme(controlScheme);
 
         string bindName = pickupAction.action.GetBindingDisplayString(bindingIndex);
-        pickupText.text = $"Press <color=#00FF00>{bindName}</color> to pick up";
+        pickupText.text = $"Press <color=#00FF00>{bindName}</color> to pick up <color=#00FF00><b>{Item.name}</b></color>";
     }
 
     private int GetBindingIndexForCurrentScheme(string scheme)
