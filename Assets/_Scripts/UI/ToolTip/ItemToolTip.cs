@@ -1,8 +1,5 @@
 using UnityEngine;
-using TMPro;
-using System.Text;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class ItemToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler, ICancelHandler
 {

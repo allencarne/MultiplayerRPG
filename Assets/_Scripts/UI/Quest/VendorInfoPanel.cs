@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class VendorInfoPanel : MonoBehaviour
 {
+    [SerializeField] Player player;
     [SerializeField] PlayerStats playerStats;
     [SerializeField] Inventory inventory;
 
@@ -27,7 +28,7 @@ public class VendorInfoPanel : MonoBehaviour
         NoButton();
     }
 
-    public void CreateItem(Item item)
+    public void CreateItem(InventorySlotData data)
     {
         GameObject itemUI = Instantiate(Item_Prefab, parent);
         itemUI.transform.localPosition = Vector3.zero;
@@ -35,13 +36,13 @@ public class VendorInfoPanel : MonoBehaviour
         VendorItem vendorItem = itemUI.GetComponent<VendorItem>();
         if (vendorItem != null)
         {
-            vendorItem.Init(playerStats,inventory,item);
+            vendorItem.Init(playerStats,inventory, data);
         }
 
         VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
         if (toolTip != null)
         {
-            toolTip.Init(item);
+            toolTip.Init(player, data);
         }
 
         Transform iconTransform = itemUI.transform.Find("Icon");
@@ -51,7 +52,7 @@ public class VendorInfoPanel : MonoBehaviour
             if (icon != null)
             {
                 icon.color = Color.white;
-                icon.sprite = item.Icon;
+                icon.sprite = data.item.Icon;
             }
         }
 
@@ -59,14 +60,14 @@ public class VendorInfoPanel : MonoBehaviour
         if (nameTransform != null)
         {
             TextMeshProUGUI nameText = nameTransform.GetComponent<TextMeshProUGUI>();
-            if (nameText != null) nameText.text = item.name;
+            if (nameText != null) nameText.text = data.item.name;
         }
 
         Transform priceTransform = itemUI.transform.Find("Text_Price");
         if (priceTransform != null)
         {
             TextMeshProUGUI priceText = priceTransform.GetComponent<TextMeshProUGUI>();
-            if (priceText != null) priceText.text = item.Cost.ToString()+ " <sprite index=0>";
+            if (priceText != null) priceText.text = data.item.Cost.ToString()+ " <sprite index=0>";
         }
     }
 

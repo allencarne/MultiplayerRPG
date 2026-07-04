@@ -121,7 +121,7 @@ public class PlayerInteract : NetworkBehaviour
         player.CanSellItems = true;
         interactText.enabled = false;
 
-        foreach (Item item in data.Items)
+        foreach (InventorySlotData item in data.SlotData)
         {
             vendorInfoPanel.CreateItem(item);
         }

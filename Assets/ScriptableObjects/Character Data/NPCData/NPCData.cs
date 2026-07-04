@@ -43,7 +43,7 @@ public class NPCData : ScriptableObject
     public List<Quest> Quests;
 
     [Header("Vendor")]
-    public Item[] Items;
+    public InventorySlotData[] SlotData;
 
     [Header("Patrol")]
     public bool PatrolForward;

@@ -180,7 +180,7 @@ public class NPC : NetworkBehaviour, IInteractable
             return;
         }
 
-        if (Data.Items != null && Data.Items.Length != 0)
+        if (Data.SlotData != null && Data.SlotData.Length != 0)
         {
             player.OpenShopUI(Data);
             return;

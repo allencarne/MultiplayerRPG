@@ -32,7 +32,14 @@ MonoBehaviour:
   ChestIndex: 2
   LegsIndex: 2
   Weapon: {fileID: 2686459474808464878, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
-  Quests: []
+  WeaponType: 0
   Dialogue: []
-  Items:
-  - {fileID: 11400000, guid: 45a7f4d5d0fb1724686efed122dfd75d, type: 2}
+  Quests: []
+  SlotData:
+  - item: {fileID: 11400000, guid: 45a7f4d5d0fb1724686efed122dfd75d, type: 2}
+    quantity: 1
+    rarity: 0
+    quality: 0
+    modifiers: []
+  PatrolForward: 0
+  waypoints: []

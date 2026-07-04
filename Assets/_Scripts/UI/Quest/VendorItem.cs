@@ -12,13 +12,13 @@ public class VendorItem : MonoBehaviour
 
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] public Inventory inventory;
-    [HideInInspector] public Item item;
+    [HideInInspector] public InventorySlotData slotData;
 
-    public void Init(PlayerStats _stats, Inventory _inventory, Item _item)
+    public void Init(PlayerStats _stats, Inventory _inventory, InventorySlotData data)
     {
         playerStats = _stats;
         inventory = _inventory;
-        item = _item;
+        slotData = data;
 
         UpdateUI();
         if (inventory != null)
@@ -53,10 +53,10 @@ public class VendorItem : MonoBehaviour
     void UpdateUI()
     {
         if (playerStats == null) return;
-        if (item == null) return;
+        if (slotData.item == null) return;
         if (inventory == null) return;
 
-        if (playerStats.Coins < item.Cost)
+        if (playerStats.Coins < slotData.item.Cost)
         {
             background.color = Color.gray;
             priceText.color = Color.red;
@@ -68,7 +68,7 @@ public class VendorItem : MonoBehaviour
         }
 
         // Red Tint for items that are above the player's level requirement
-        redTint.enabled = IsUnderLevelRequirement(item);
+        redTint.enabled = IsUnderLevelRequirement(slotData.item);
     }
 
     bool IsUnderLevelRequirement(Item item)
@@ -80,9 +80,9 @@ public class VendorItem : MonoBehaviour
     {
         if (playerStats == null) return;
         if (inventory == null) return;
-        if (item == null) return;
+        if (slotData.item == null) return;
 
-        if (playerStats.Coins >= item.Cost)
+        if (playerStats.Coins >= slotData.item.Cost)
         {
             int avaliableSlots = inventory.GetFreeSlotCount();
 
@@ -91,7 +91,7 @@ public class VendorItem : MonoBehaviour
                 VendorInfoPanel panel = GetComponentInParent<VendorInfoPanel>();
                 if (panel != null)
                 {
-                    panel.PurchaseAttempt(item);
+                    panel.PurchaseAttempt(slotData.item);
                 }
             }
             else
