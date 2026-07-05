@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] EquipmentManager equipmentManager;
-    [SerializeField] ItemList itemDatabase;
     [SerializeField] PlayerQuest playerquests;
     [SerializeField] PlayerExperience playerExperience;
+    public ItemList itemDatabase;
     public PlayerStats Stats;
     public PlayerSave Save;
 
@@ -192,114 +192,6 @@ public class Inventory : MonoBehaviour
         }
 
         // Update the UI to reflect the removal of the item
-        inventoryUI.UpdateUI();
-    }
-
-    public void LoadInventory()
-    {
-        // prefix for the PlayerPrefs keys based on the selected character
-        string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
-
-        // for each inventory slot, check if there's a saved item and load it
-        for (int i = 0; i < inventorySlots; i++)
-        {
-            // Construct the PlayerPrefs key for this slot
-            string key = $"{prefix}InventorySlot_{i}";
-
-            // Check if there's a saved item for this slot
-            if (PlayerPrefs.HasKey(key))
-            {
-                // Retrieve the saved string for this slot
-                string saved = PlayerPrefs.GetString(key);
-
-                // Split the saved string into parts: item name and quantity
-                string[] parts = saved.Split('|');
-
-                // Validate the parts and parse the quantity
-                if (parts.Length >= 2 && !string.IsNullOrWhiteSpace(parts[0]) && int.TryParse(parts[1], out int quantity))
-                {
-                    // Retrieve the item name from the saved string
-                    string itemName = parts[0];
-
-                    // Get the item template from the item database using the item name
-                    Item template = itemDatabase.GetItemByName(itemName);
-
-                    // If the template is found, create a new InventorySlotData for this slot
-                    if (template != null)
-                    {
-                        // Create a new InventorySlotData for this slot using the template and saved quantity
-                        ItemRarity rarity = template.ItemRarity;
-                        ItemQuality quality = template.ItemQuality;
-                        List<StatModifier> modifiers = new List<StatModifier>();
-
-                        // If the saved string contains rarity and quality, parse them
-                        if (parts.Length >= 4)
-                        {
-                            // parse enums by name or numeric fallback
-                            if (!Enum.TryParse(parts[2], out rarity))
-                            {
-                                if (int.TryParse(parts[2], out int rInt)) rarity = (ItemRarity)rInt;
-                            }
-                            if (!Enum.TryParse(parts[3], out quality))
-                            {
-                                if (int.TryParse(parts[3], out int qInt)) quality = (ItemQuality)qInt;
-                            }
-                        }
-
-                        // If the saved string contains modifiers, parse them
-                        if (parts.Length >= 5 && !string.IsNullOrEmpty(parts[4]))
-                        {
-                            string modsPart = parts[4];
-                            string[] modEntries = modsPart.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                            // Parse each modifier entry and create StatModifier instances
-                            foreach (string me in modEntries)
-                            {
-                                string[] modParts = me.Split(',');
-                                if (modParts.Length == 3 &&
-                                    float.TryParse(modParts[0], out float val) &&
-                                    int.TryParse(modParts[1], out int statInt) &&
-                                    int.TryParse(modParts[2], out int srcInt))
-                                {
-                                    StatModifier m = new StatModifier
-                                    {
-                                        value = val,
-                                        statType = (StatType)statInt,
-                                        source = (ModSource)srcInt
-                                    };
-                                    modifiers.Add(m);
-                                }
-                            }
-                        }
-
-                        items[i] = new InventorySlotData(template, quantity, rarity, quality, modifiers);
-                    }
-                    else
-                    {
-                        // If the template is not found, log a warning and clear the slot
-                        Debug.LogWarning($"Item '{itemName}' not found in ItemDatabase.");
-
-                        // Force clear the slot if the item is invalid
-                        items[i] = null;
-                    }
-                }
-                else
-                {
-                    // If the saved string is malformed, log a warning and clear the slot
-                    Debug.LogWarning($"Malformed inventory string for key: {key}");
-
-                    // Force clear the slot if the saved string is invalid
-                    items[i] = null;
-                }
-            }
-            else
-            {
-                // If there's no saved item for this slot, ensure the slot is null
-                items[i] = null;
-            }
-        }
-
-        // Update the inventory UI after loading all items
         inventoryUI.UpdateUI();
     }
 
