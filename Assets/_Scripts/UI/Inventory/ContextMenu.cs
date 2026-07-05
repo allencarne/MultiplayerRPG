@@ -64,7 +64,7 @@ public class ContextMenu : MonoBehaviour
         // Update current slot with remaining amount
         data.quantity = remainingAmount;
         inventory.items[inventorySlot.slotIndex] = data;
-        inventory.Save.SaveInventory(data.item, inventorySlot.slotIndex, remainingAmount);
+        inventory.Save.SaveInventory(data, inventorySlot.slotIndex);
 
         // Place split amount into empty slot
         inventory.AddItemToSlot(data.item, splitAmount, targetSlot);

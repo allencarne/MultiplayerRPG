@@ -36,7 +36,7 @@ public class EquipmentManager : MonoBehaviour
         if (itemIndex != -1)
         {
             inventory.items[itemIndex] = null;
-            save.SaveInventory(null, itemIndex, 0);
+            save.SaveInventory(null, itemIndex);
         }
 
         if (oldSlot != null)
