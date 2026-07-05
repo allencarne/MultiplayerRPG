@@ -5,16 +5,10 @@ using UnityEngine;
 public class ItemStatGenerator : NetworkBehaviour
 {
     public Item Item;
-    public ItemRarity ItemRarity;
-    public ItemQuality ItemQuality;
+    public NetworkVariable<int> net_Quantity = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public NetworkVariable<ItemRarity> net_ItemRarity = new NetworkVariable<ItemRarity>(ItemRarity.Common, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
+    public NetworkVariable<ItemQuality> net_ItemQuality = new NetworkVariable<ItemQuality>(ItemQuality.Normal, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public List<StatModifier> RolledModifiers = new List<StatModifier>();
-    public NetworkVariable<int> Quantity = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
-    public override void OnNetworkSpawn()
-    {
-        // Roll Stats for this item
-        RollStats();
-    }
 
     public void RollStats()
     {
@@ -25,21 +19,21 @@ public class ItemStatGenerator : NetworkBehaviour
         if (Item is Equipment)
         {
             // Create a temp slot representing the pickup current state
-            InventorySlotData temp = new InventorySlotData(Item, Quantity.Value, ItemRarity, ItemQuality, RolledModifiers);
+            InventorySlotData temp = new InventorySlotData(Item, net_Quantity.Value, net_ItemRarity.Value, net_ItemQuality.Value, RolledModifiers);
 
             // EnsureRolled will no-op if already rolled
             EnsureRolled(temp);
 
             // Apply rolled results back onto the pickup (these fields will be serialized if done before Spawn)
-            ItemRarity = temp.rarity;
-            ItemQuality = temp.quality;
+            net_ItemRarity.Value = temp.rarity;
+            net_ItemQuality.Value = temp.quality;
             RolledModifiers = temp.modifiers;
         }
         else
         {
             // Ensure non-equipment items have defaults set
-            if (ItemRarity == 0) ItemRarity = Item.ItemRarity;
-            if (ItemQuality == 0) ItemQuality = Item.ItemQuality;
+            if (net_ItemRarity.Value == 0) net_ItemRarity.Value = Item.ItemRarity;
+            if (net_ItemQuality.Value == 0) net_ItemQuality.Value = Item.ItemQuality;
         }
     }
 

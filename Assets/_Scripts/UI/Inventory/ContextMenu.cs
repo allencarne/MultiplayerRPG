@@ -86,9 +86,16 @@ public class ContextMenu : MonoBehaviour
         if (equipment.IsServer)
         {
             GameObject dropped = Instantiate(data.item.Prefab, inventory.Save.transform.position, Quaternion.identity);
+            ItemStatGenerator gen = dropped.GetComponent<ItemStatGenerator>();
+
+            gen.Item = data.item;
+            gen.net_Quantity.Value = data.quantity;
+            gen.net_ItemRarity.Value = data.rarity;
+            gen.net_ItemQuality.Value = data.quality;
+            gen.RolledModifiers = data.modifiers;
+
             NetworkObject netObj = dropped.GetComponent<NetworkObject>();
             netObj.Spawn();
-            dropped.GetComponent<ItemStatGenerator>().Quantity.Value = data.quantity;
         }
         else
         {

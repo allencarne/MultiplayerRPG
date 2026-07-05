@@ -23,13 +23,13 @@ public class ItemPickup : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        generator.Quantity.OnValueChanged += OnQuantityChanged;
-        UpdateQuantityUI(generator.Quantity.Value);
+        generator.net_Quantity.OnValueChanged += OnQuantityChanged;
+        UpdateQuantityUI(generator.net_Quantity.Value);
     }
 
     public override void OnNetworkDespawn()
     {
-        generator.Quantity.OnValueChanged -= OnQuantityChanged;
+        generator.net_Quantity.OnValueChanged -= OnQuantityChanged;
     }
 
     private void Start()
@@ -46,7 +46,7 @@ public class ItemPickup : NetworkBehaviour
         _hasBeenPickedUp = true;
 
         // Add Item to Inventory if we have enough space
-        InventorySlotData item = new InventorySlotData(generator.Item, generator.Quantity.Value, generator.ItemRarity, generator.ItemQuality, generator.RolledModifiers);
+        InventorySlotData item = new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.RolledModifiers);
 
         bool wasPickedUp = player.PlayerInventory.AddItem(item);
 
@@ -71,7 +71,7 @@ public class ItemPickup : NetworkBehaviour
         playerInput = player.GetComponent<PlayerInput>();
         if (playerInput == null) return;
 
-        player.ShowToolTip(new InventorySlotData(generator.Item, generator.Quantity.Value, generator.ItemRarity, generator.ItemQuality, generator.RolledModifiers));
+        player.ShowToolTip(new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.RolledModifiers));
 
         UpdatePickupText();
     }

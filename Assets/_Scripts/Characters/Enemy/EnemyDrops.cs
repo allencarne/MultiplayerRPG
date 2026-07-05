@@ -17,6 +17,7 @@ public class EnemyDrops : MonoBehaviour
                 GameObject drop = Instantiate(item.Prefab, randomPoint, Quaternion.identity);
                 NetworkObject netItem = drop.GetComponent<NetworkObject>();
                 netItem.Spawn();
+                drop.GetComponent<ItemStatGenerator>().RollStats();
             }
         }
     }

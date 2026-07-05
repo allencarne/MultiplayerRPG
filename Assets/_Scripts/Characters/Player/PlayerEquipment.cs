@@ -178,6 +178,6 @@ public class PlayerEquipment : NetworkBehaviour
         GameObject dropped = Instantiate(item.Prefab, dropPosition, Quaternion.identity);
         NetworkObject netObj = dropped.GetComponent<NetworkObject>();
         netObj.Spawn();
-        dropped.GetComponent<ItemStatGenerator>().Quantity.Value = quantity;
+        dropped.GetComponent<ItemStatGenerator>().net_Quantity.Value = quantity;
     }
 }
