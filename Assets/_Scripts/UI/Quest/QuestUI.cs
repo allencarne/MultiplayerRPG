@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -186,14 +187,14 @@ public class QuestUI : MonoBehaviour
 
     void GetRewards(Quest quest)
     {
-        foreach (Item reward in quest.reward)
+        foreach (InventorySlotData reward in quest.RewardItems)
         {
             GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
             Image image = itmeUI.GetComponent<Image>();
             if (image != null)
             {
-                image.sprite = reward.Icon;
+                image.sprite = reward.item.Icon;
             }
         }
     }

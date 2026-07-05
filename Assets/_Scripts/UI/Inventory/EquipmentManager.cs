@@ -41,7 +41,7 @@ public class EquipmentManager : MonoBehaviour
 
         if (oldSlot != null)
         {
-            inventory.AddItem(oldSlot.item, oldSlot.quantity, oldSlot.rarity, oldSlot.quality, oldSlot.modifiers, true);
+            inventory.AddItem(oldSlot, true);
         }
 
         equipmentUI.UpdateUI(newSlot, oldSlot);
@@ -58,7 +58,7 @@ public class EquipmentManager : MonoBehaviour
         InventorySlotData oldSlot = currentEquipment[slotIndex];
         if (oldSlot == null) return;
 
-        bool added = inventory.AddItem(oldSlot.item, oldSlot.quantity, oldSlot.rarity, oldSlot.quality, oldSlot.modifiers, true);
+        bool added = inventory.AddItem(oldSlot, true);
         if (!added)
         {
             Debug.Log($"Inventory full — could not unequip {oldSlot.item.name}.");

@@ -18,16 +18,16 @@ public class TotemRewards : NetworkBehaviour
     public void CoinRewardsClientRpc(int amount, ClientRpcParams rpcParams)
     {
         Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
-
-        inv.AddItem(coin, amount);
+        InventorySlotData coinReward = new InventorySlotData(coin, amount, ItemRarity.Common, ItemQuality.Normal);
+        inv.AddItem(coinReward);
     }
 
     [ClientRpc]
     public void CollectableRewardsClientRpc(int amount, ClientRpcParams rpcParams)
     {
         Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
-
-        inv.AddItem(collectable, amount);
+        InventorySlotData collectableReward = new InventorySlotData(collectable, amount, ItemRarity.Common, ItemQuality.Normal);
+        inv.AddItem(collectableReward);
     }
 
     [ClientRpc]
@@ -39,7 +39,8 @@ public class TotemRewards : NetworkBehaviour
         {
             if (Random.Range(0f, 100f) < reward.DropChance)
             {
-                inv.AddItem(reward);
+                InventorySlotData _reward = new InventorySlotData(reward, 1, ItemRarity.Common, ItemQuality.Normal);
+                inv.AddItem(_reward);
             }
         }
     }

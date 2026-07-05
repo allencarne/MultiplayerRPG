@@ -131,7 +131,8 @@ public class LootChest : NetworkBehaviour, IInteractable
             {
                 float coinAmount = coinReward * (1f + (stats.PlayerLevel.Value * 0.15f));
                 int roundedCoin = Mathf.RoundToInt(coinAmount);
-                inventory.AddItem(coin, roundedCoin);
+                InventorySlotData coinReward_ = new InventorySlotData(coin, roundedCoin, ItemRarity.Common, ItemQuality.Normal);
+                inventory.AddItem(coinReward_);
             }
         }
     }
@@ -147,7 +148,9 @@ public class LootChest : NetworkBehaviour, IInteractable
             {
                 float collectableAmount = collectableReward * (1f + (stats.PlayerLevel.Value * 0.15f));
                 int roundedAmount = Mathf.RoundToInt(collectableAmount);
-                inventory.AddItem(collectable, roundedAmount);
+
+                InventorySlotData collectable_ = new InventorySlotData(collectable, roundedAmount, ItemRarity.Common, ItemQuality.Normal);
+                inventory.AddItem(collectable_);
             }
         }
     }
@@ -161,7 +164,8 @@ public class LootChest : NetworkBehaviour, IInteractable
                 if (getPlayer.player != null)
                 {
                     Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
-                    if (inventory != null) inventory.AddItem(reward);
+                    InventorySlotData reward_ = new InventorySlotData(reward, 1, ItemRarity.Common, ItemQuality.Normal);
+                    if (inventory != null) inventory.AddItem(reward_);
                 }
             }
         }

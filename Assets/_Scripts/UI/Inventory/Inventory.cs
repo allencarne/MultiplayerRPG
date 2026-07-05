@@ -35,23 +35,26 @@ public class Inventory : MonoBehaviour
         items = new InventorySlotData[inventorySlots];
     }
 
-    public bool AddItem(Item newItem, int quantity = 1, ItemRarity rarity = ItemRarity.Uncommon, ItemQuality quality = ItemQuality.Normal, List<StatModifier> modifiers = null, bool isUnEquip = false)
+    public bool AddItem(InventorySlotData slotData, bool isUnEquip = false)
     {
-        if (TryCollectCurrency(newItem, quantity))
+        // Validate the input slotData and its item before proceeding
+        if (slotData == null || slotData.item == null) return false;
+
+        if (TryCollectCurrency(slotData.item, slotData.quantity))
         {
-            CheckIfItemIsForQuest(newItem, quantity);
+            CheckIfItemIsForQuest(slotData.item, slotData.quantity);
             return true;
         }
 
-        if (TryAutoEquip(newItem, quantity, rarity, quality, modifiers))
+        if (TryAutoEquip(slotData.item, slotData.quantity, slotData.rarity, slotData.quality, slotData.modifiers))
         {
-            CheckIfItemIsForQuest(newItem, quantity);
+            CheckIfItemIsForQuest(slotData.item, slotData.quantity);
             return true;
         }
 
-        if (TryStackItem(newItem, quantity))
+        if (TryStackItem(slotData.item, slotData.quantity))
         {
-            CheckIfItemIsForQuest(newItem, quantity);
+            CheckIfItemIsForQuest(slotData.item, slotData.quantity);
             return true;
         }
 
@@ -66,19 +69,19 @@ public class Inventory : MonoBehaviour
         }
 
         // Place item in empty slot
-        items[emptySlotIndex] = new InventorySlotData(newItem, quantity, rarity, quality, modifiers);
+        items[emptySlotIndex] = new InventorySlotData(slotData.item, slotData.quantity, slotData.rarity, slotData.quality, slotData.modifiers);
 
         // Update the UI to reflect the new item
         inventoryUI.UpdateUI();
 
         // Invoke the OnItemAdded event if the item was not unequipped
-        if (!isUnEquip) OnItemAdded?.Invoke(newItem, quantity);
+        if (!isUnEquip) OnItemAdded?.Invoke(slotData.item, slotData.quantity);
 
         // Save the inventory state using the slot data
         Save.SaveInventory(items[emptySlotIndex], emptySlotIndex);
 
         // Check if the item is related to any active quests
-        CheckIfItemIsForQuest(newItem, quantity);
+        CheckIfItemIsForQuest(slotData.item, slotData.quantity);
 
         // return true to indicate the item was successfully added
         return true;

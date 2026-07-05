@@ -109,11 +109,11 @@ public class QuestInfoPanel : MonoBehaviour
 
     void GetRewards(Quest quest)
     {
-        foreach (Item reward in quest.reward)
+        foreach (InventorySlotData reward in quest.RewardItems)
         {
             GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
             Image image = itmeUI.GetComponent<Image>();
-            if (image != null) image.sprite = reward.Icon;
+            if (image != null) image.sprite = reward.item.Icon;
         }
     }
 
@@ -160,7 +160,7 @@ public class QuestInfoPanel : MonoBehaviour
     void AcceptQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
-        int starterSlots = currentQuest.Starter.Count();
+        int starterSlots = currentQuest.StarterItems.Count();
 
         if (avaliableSlots < starterSlots)
         {
@@ -174,7 +174,7 @@ public class QuestInfoPanel : MonoBehaviour
     void TurnInQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
-        int rewardSlots = currentQuest.reward.Count();
+        int rewardSlots = currentQuest.RewardItems.Count();
 
         if (avaliableSlots < rewardSlots)
         {

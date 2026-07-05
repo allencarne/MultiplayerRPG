@@ -30,8 +30,31 @@ MonoBehaviour:
     CurrentAmount: 0
   expReward: 1
   goldReward: 0
-  Starter:
-  - {fileID: 11400000, guid: f526a9de7f301414298f892e39924b5a, type: 2}
-  - {fileID: 11400000, guid: 85a16d84b40bb2e46b2d79510b9724a3, type: 2}
-  - {fileID: 11400000, guid: 95603b398c485eb4ba56911e9dcc2714, type: 2}
+  Starter: []
   reward: []
+  StarterItems:
+  - item: {fileID: 11400000, guid: f526a9de7f301414298f892e39924b5a, type: 2}
+    quantity: 1
+    rarity: 0
+    quality: 0
+    modifiers:
+    - value: 1
+      statType: 0
+      source: 0
+  - item: {fileID: 11400000, guid: 85a16d84b40bb2e46b2d79510b9724a3, type: 2}
+    quantity: 1
+    rarity: 0
+    quality: 0
+    modifiers:
+    - value: 1
+      statType: 1
+      source: 0
+  - item: {fileID: 11400000, guid: 95603b398c485eb4ba56911e9dcc2714, type: 2}
+    quantity: 1
+    rarity: 0
+    quality: 0
+    modifiers:
+    - value: 1
+      statType: 1
+      source: 0
+  RewardItems: []

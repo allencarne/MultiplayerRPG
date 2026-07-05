@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class VendorInfoPanel : MonoBehaviour
 {
@@ -115,7 +116,9 @@ public class VendorInfoPanel : MonoBehaviour
         ConfirmPurchasePanel.SetActive(false);
 
         inventory.CoinSpent(itemToPurchase.Cost);
-        inventory.AddItem(itemToPurchase);
+
+        InventorySlotData itemToPurchase_ = new InventorySlotData(itemToPurchase, 1, ItemRarity.Common, ItemQuality.Normal);
+        inventory.AddItem(itemToPurchase_);
         itemToPurchase = null;
     }
 
