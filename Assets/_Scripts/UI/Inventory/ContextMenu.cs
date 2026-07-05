@@ -99,7 +99,7 @@ public class ContextMenu : MonoBehaviour
         }
         else
         {
-            equipment.DropItemServerRPC(data.item.ITEM_ID, data.quantity,inventory.Save.transform.position);
+            equipment.DropItemServerRPC(data.item.ITEM_ID, data.quantity, data.rarity, data.quality, inventory.Save.transform.position);
         }
 
         inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);
