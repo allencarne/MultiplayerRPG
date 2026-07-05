@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -315,9 +317,11 @@ public class PlayerSave : NetworkBehaviour
 
     public void SaveInventory(Item item, int slotIndex, int quantity, bool saveImmediately = true)
     {
+        // Save the inventory slot for the currently selected character
         string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
         string key = $"{prefix}InventorySlot_{slotIndex}";
 
+        //  If the item is null or quantity is zero, delete the key to clear the slot
         if (item == null || quantity <= 0)
         {
             PlayerPrefs.DeleteKey(key);
@@ -325,16 +329,67 @@ public class PlayerSave : NetworkBehaviour
             return;
         }
 
-        string value = item.name.Replace("(Clone)", "").Trim() + "|" + quantity;
+        // Get the InventorySlotData for the specified slot index
+        InventorySlotData slotData = null;
+
+        // Ensure inventory and items array are not null and slotIndex is within bounds
+        if (inventory != null && slotIndex >= 0 && inventory.items != null && slotIndex < inventory.items.Length)
+        {
+            // Get the InventorySlotData for the specified slot index
+            slotData = inventory.items[slotIndex];
+        }
+
+        // baseName is the name of the item without "(Clone)" and trimmed of whitespace
+        string baseName = item.name.Replace("(Clone)", "").Trim();
+        int qty = quantity;
+
+        // Get the rarity and quality from the item, defaulting to Common and Normal if item is null
+        ItemRarity rarity = item != null ? item.ItemRarity : ItemRarity.Common;
+        ItemQuality quality = item != null ? item.ItemQuality : ItemQuality.Normal;
+
+        // Create a new list of StatModifier to hold the modifiers for this item
+        List<StatModifier> modifiers = new List<StatModifier>();
+
+        // If slotData is not null, get the rarity, quality, and modifiers from it
+        if (slotData != null)
+        {
+            rarity = slotData.rarity;
+            quality = slotData.quality;
+            modifiers = slotData.modifiers ?? new List<StatModifier>();
+        }
+
+        // Build a string representation of the modifiers
+        StringBuilder modsSb = new StringBuilder();
+
+        // Loop through the modifiers and append their values to the StringBuilder
+        for (int i = 0; i < modifiers.Count; i++)
+        {
+            StatModifier m = modifiers[i];
+            modsSb.Append(m.value)
+                  .Append(',')
+                  .Append((int)m.statType)
+                  .Append(',')
+                  .Append((int)m.source);
+            if (i < modifiers.Count - 1) modsSb.Append(';');
+        }
+
+        // Save the value to PlayerPrefs in the format "ItemName|Quantity|Rarity|Quality|Modifiers"
+        string value = $"{baseName}|{qty}|{rarity}|{quality}|{modsSb}";
+
+        // Save the value to PlayerPrefs
         PlayerPrefs.SetString(key, value);
+
+        // Save immediately if specified
         if (saveImmediately) PlayerPrefs.Save();
     }
 
     public void SaveEquipment(Item item, int slotIndex)
     {
+        // Save the equipment slot for the currently selected character
         string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
         string key = $"{prefix}EquipmentSlot_{slotIndex}";
 
+        // If the item is null, delete the key to clear the slot
         if (item == null)
         {
             PlayerPrefs.DeleteKey(key);
@@ -342,8 +397,13 @@ public class PlayerSave : NetworkBehaviour
             return;
         }
 
+        // Save the item name in the format "ItemName"
         string baseName = item.name.Replace("(Clone)", "").Trim();
+
+        // Save the value to PlayerPrefs
         PlayerPrefs.SetString(key, baseName);
+
+        // Save immediately
         PlayerPrefs.Save();
     }
 
