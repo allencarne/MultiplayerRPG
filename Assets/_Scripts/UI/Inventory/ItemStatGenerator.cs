@@ -8,7 +8,7 @@ public class ItemStatGenerator : NetworkBehaviour
     public NetworkVariable<int> net_Quantity = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<ItemRarity> net_ItemRarity = new NetworkVariable<ItemRarity>(ItemRarity.Common, NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
     public NetworkVariable<ItemQuality> net_ItemQuality = new NetworkVariable<ItemQuality>(ItemQuality.Normal, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    public List<StatModifier> RolledModifiers = new List<StatModifier>();
+    public NetworkList<StatModifier> net_RolledModifiers = new NetworkList<StatModifier>();
 
     public void RollStats()
     {
@@ -19,7 +19,7 @@ public class ItemStatGenerator : NetworkBehaviour
         if (Item is Equipment)
         {
             // Create a temp slot representing the pickup current state
-            InventorySlotData temp = new InventorySlotData(Item, net_Quantity.Value, net_ItemRarity.Value, net_ItemQuality.Value, RolledModifiers);
+            InventorySlotData temp = new InventorySlotData(Item, net_Quantity.Value, net_ItemRarity.Value, net_ItemQuality.Value, GetRolledModifiers());
 
             // EnsureRolled will no-op if already rolled
             EnsureRolled(temp);
@@ -27,7 +27,7 @@ public class ItemStatGenerator : NetworkBehaviour
             // Apply rolled results back onto the pickup (these fields will be serialized if done before Spawn)
             net_ItemRarity.Value = temp.rarity;
             net_ItemQuality.Value = temp.quality;
-            RolledModifiers = temp.modifiers;
+            SetRolledModifiers(temp.modifiers);
         }
         else
         {
@@ -73,5 +73,29 @@ public class ItemStatGenerator : NetworkBehaviour
         baseValue += (int)slot.rarity * 4;
         baseValue += (int)slot.quality;
         return baseValue;
+    }
+
+    // Server-only: replace the synced modifier list.
+    public void SetRolledModifiers(List<StatModifier> mods)
+    {
+        if (!IsServer) return;
+
+        net_RolledModifiers.Clear();
+        if (mods == null) return;
+        foreach (StatModifier mod in mods) net_RolledModifiers.Add(mod);
+    }
+
+    // Safe to call on either server or client — just reads the synced list.
+    public List<StatModifier> GetRolledModifiers()
+    {
+        List<StatModifier> mods = new List<StatModifier>(net_RolledModifiers.Count);
+        foreach (StatModifier mod in net_RolledModifiers) mods.Add(mod);
+        return mods;
+    }
+
+    public override void OnDestroy()
+    {
+        net_RolledModifiers.Dispose(); // NetworkList holds native memory that must be released
+        base.OnDestroy();
     }
 }

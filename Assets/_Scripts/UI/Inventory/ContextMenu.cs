@@ -89,17 +89,18 @@ public class ContextMenu : MonoBehaviour
             ItemStatGenerator gen = dropped.GetComponent<ItemStatGenerator>();
 
             gen.Item = data.item;
-            gen.net_Quantity.Value = data.quantity;
             gen.net_ItemRarity.Value = data.rarity;
             gen.net_ItemQuality.Value = data.quality;
-            gen.RolledModifiers = data.modifiers;
 
             NetworkObject netObj = dropped.GetComponent<NetworkObject>();
             netObj.Spawn();
+
+            gen.net_Quantity.Value = data.quantity;
+            gen.SetRolledModifiers(data.modifiers);
         }
         else
         {
-            equipment.DropItemServerRPC(data.item.ITEM_ID, data.quantity, data.rarity, data.quality, inventory.Save.transform.position);
+            equipment.DropItemServerRPC(data.item.ITEM_ID, data.quantity, data.rarity, data.quality, data.modifiers.ToArray(), inventory.Save.transform.position);
         }
 
         inventory.RemoveItemBySlot(inventorySlot.slotIndex, data.quantity);

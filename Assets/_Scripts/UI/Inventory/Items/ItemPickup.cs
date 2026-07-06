@@ -46,7 +46,7 @@ public class ItemPickup : NetworkBehaviour
         _hasBeenPickedUp = true;
 
         // Add Item to Inventory if we have enough space
-        InventorySlotData item = new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.RolledModifiers);
+        InventorySlotData item = new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.GetRolledModifiers());
 
         bool wasPickedUp = player.PlayerInventory.AddItem(item);
 
@@ -71,7 +71,7 @@ public class ItemPickup : NetworkBehaviour
         playerInput = player.GetComponent<PlayerInput>();
         if (playerInput == null) return;
 
-        player.ShowToolTip(new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.RolledModifiers));
+        player.ShowToolTip(new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.GetRolledModifiers()));
 
         UpdatePickupText();
     }
