@@ -18,6 +18,21 @@ public class ItemStatGenerator : NetworkBehaviour
     [Range(0.01f, 0.99f)]
     float qualityDecayFactor = 0.5f;
 
+    [Header("Stat Line Roll Weighting")]
+    [Range(0.1f, 0.9f)]
+    float statLineDecayMin = 0.35f;
+    [Range(0.1f, 0.9f)]
+    float statLineDecayMax = 0.75f;
+
+    public override void OnDestroy()
+    {
+        // Release the NetworkList when this object is destroyed
+        net_RolledModifiers.Dispose();
+
+        // Let NetworkBehaviour clean itself up
+        base.OnDestroy();
+    }
+
     public void RollStats()
     {
         // Only the server is allowed to generate item stats
@@ -79,10 +94,7 @@ public class ItemStatGenerator : NetworkBehaviour
         int budget = ComputeBudget(slot);
 
         // Create the item's rolled modifiers.
-        slot.modifiers = new List<StatModifier>
-        {
-            new StatModifier { statType = StatType.Damage, value = budget, source = ModSource.Equipment }
-        };
+        slot.modifiers = RollModifiers(equipment, budget);
 
         // Log the generated result for debugging
         Debug.Log($"ItemStatGenerator: Rolled {slot.item.name} budget={budget} mods={slot.modifiers.Count}");
@@ -140,15 +152,6 @@ public class ItemStatGenerator : NetworkBehaviour
         return mods;
     }
 
-    public override void OnDestroy()
-    {
-        // Release the NetworkList when this object is destroyed
-        net_RolledModifiers.Dispose();
-
-        // Let NetworkBehaviour clean itself up
-        base.OnDestroy();
-    }
-
     int GetMaxRarityIndexForLevel(int level)
     {
         // Determine the highest rarity that can appear at this level
@@ -157,6 +160,171 @@ public class ItemStatGenerator : NetworkBehaviour
         if (level <= 55) return (int)ItemRarity.Epic;
         if (level <= 75) return (int)ItemRarity.Exotic;
         return (int)ItemRarity.Legendary;
+    }
+
+    int GetStatLineCountForLevel(int itemLevel)
+    {
+        // How many stat lines an item gets, based purely on its level
+        if (itemLevel <= 15) return 1;
+        if (itemLevel <= 35) return 2;
+        if (itemLevel <= 55) return 3;
+        return 4; // 60-80
+    }
+
+    StatType GetPrimaryStatType(EquipmentType type)
+    {
+        // Determine the primary stat based on the equipment slot.
+        switch (type)
+        {
+            // Defensive equipment primarily grants Health.
+            case EquipmentType.Head:
+            case EquipmentType.Chest:
+            case EquipmentType.Legs:
+            case EquipmentType.Neck:
+            case EquipmentType.Shoulder:
+                return StatType.Health;
+
+            // Offensive equipment primarily grants Damage.
+            case EquipmentType.Finger:
+            case EquipmentType.Weapon:
+            case EquipmentType.Back:
+                return StatType.Damage;
+
+            // Fallback in case a new equipment type hasn't been assigned yet.
+            default:
+                Debug.LogWarning($"No primary stat mapping for {type}, defaulting to Damage.");
+                return StatType.Damage;
+        }
+    }
+
+    void Shuffle<T>(List<T> list)
+    {
+        // Walk backward through the list
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            // Pick a random element from the unshuffled portion
+            int j = Random.Range(0, i + 1);
+
+            // Swap the current element with the randomly selected one
+            (list[i], list[j]) = (list[j], list[i]);
+        }
+    }
+
+    int[] SplitBudget(int budget, int lineCount)
+    {
+        // If there's only one stat line, it receives the entire budget
+        if (lineCount <= 1) return new int[] { budget };
+
+        // Randomly choose a decay value so each item distributes stats a little differently
+        float decay = Random.Range(statLineDecayMin, statLineDecayMax);
+
+        // Store the weight assigned to each stat line
+        float[] weights = new float[lineCount];
+
+        // Running total of all weights
+        float totalWeight = 0f;
+
+        // Calculate each weight
+        for (int i = 0; i < lineCount; i++)
+        {
+            // Each successive stat line receives less weight than the previous one
+            weights[i] = Mathf.Pow(decay, i);
+
+            // Add this weight into the total
+            totalWeight += weights[i];
+        }
+
+        // Store the final budget assigned to each stat line
+        int[] amounts = new int[lineCount];
+
+        // Keep track of how many budget points have been assigned
+        int assigned = 0;
+
+        // Convert each weight into an integer amount
+        for (int i = 0; i < lineCount; i++)
+        {
+            // Give this stat line its proportional share of the total budget
+            amounts[i] = Mathf.FloorToInt((weights[i] / totalWeight) * budget);
+
+            // Keep track of the total assigned so far
+            assigned += amounts[i];
+        }
+
+        // Determine how many points were lost due to rounding
+        int remainder = budget - assigned;
+
+        // Start redistributing from the largest stat line
+        int index = 0;
+
+        // Continue until every budget point has been assigned
+        while (remainder > 0)
+        {
+            // Give one extra point to the current stat line
+            amounts[index]++;
+
+            // One less point remains to distribute
+            remainder--;
+
+            // Move to the next stat line, looping back to the start if necessary
+            index = (index + 1) % lineCount;
+        }
+
+        // Return the completed budget split
+        return amounts;
+    }
+
+    List<StatModifier> RollModifiers(Equipment equipment, int budget)
+    {
+        // Determine how many stat lines this item should have based on its level
+        int lineCount = GetStatLineCountForLevel(equipment.LevelRequirement);
+
+        // Determine the item's primary stat based on its equipment slot
+        StatType primaryType = GetPrimaryStatType(equipment.equipmentType);
+
+        // Create a pool containing every possible stat type
+        List<StatType> remainingPool = new List<StatType> { StatType.Damage, StatType.Health, StatType.AttackSpeed, StatType.CoolDown };
+
+        // Remove the primary stat so it can't be selected twice
+        remainingPool.Remove(primaryType);
+
+        // Randomize the remaining stat types
+        Shuffle(remainingPool);
+
+        // Start the chosen stat list with the guaranteed primary stat
+        List<StatType> chosenTypes = new List<StatType> { primaryType };
+
+        // Fill the remaining stat lines using the shuffled pool
+        for (int i = 0; i < lineCount - 1 && i < remainingPool.Count; i++)
+        {
+            // Add one random secondary stat
+            chosenTypes.Add(remainingPool[i]);
+        }
+
+        // Divide the total budget across all chosen stat lines
+        // The first entry (primary stat) will always receive the largest share
+        int[] amounts = SplitBudget(budget, chosenTypes.Count);
+
+        // Create the final list of stat modifiers.
+        List<StatModifier> modifiers = new List<StatModifier>();
+
+        // Pair each stat type with its allocated budget
+        for (int i = 0; i < chosenTypes.Count; i++)
+        {
+            modifiers.Add(new StatModifier
+            {
+                // Which stat this modifier affects
+                statType = chosenTypes[i],
+
+                // How many points this stat receives
+                value = amounts[i],
+
+                // Mark this modifier as coming from equipment
+                source = ModSource.Equipment
+            });
+        }
+
+        // Return the completed modifier list
+        return modifiers;
     }
 
     int GetBaseOffsetForLevel(int itemLevel)
