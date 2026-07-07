@@ -14,169 +14,219 @@ public class ItemStatGenerator : NetworkBehaviour
 
     [Header("Roll Weighting")]
     [Range(0.01f, 0.99f)]
-    float rarityDecayFactor = 0.35f; // lower = rarer items are much rarer
+    float rarityDecayFactor = 0.35f;
     [Range(0.01f, 0.99f)]
     float qualityDecayFactor = 0.5f;
 
     public void RollStats()
     {
+        // Only the server is allowed to generate item stats
         if (!IsServer) return;
+
+        // Don't continue if there isn't an item assigned
         if (Item == null) return;
 
-        // If it's equipment, ensure modifiers are rolled.
+        // Equipment is randomly rolled
         if (Item is Equipment)
         {
-            // Create a temp slot representing the pickup current state
+            // Create a temporary item slot using the item's current data
+            // This lets us modify everything in one place before writing it back
             InventorySlotData temp = new InventorySlotData(Item, net_Quantity.Value, net_ItemRarity.Value, net_ItemQuality.Value, GetRolledModifiers());
 
-            // EnsureRolled will no-op if already rolled
+            // If the item hasn't already been rolled, generate it's stats
             EnsureRolled(temp);
 
-            // Apply rolled results back onto the pickup (these fields will be serialized if done before Spawn)
+            // Copy the generated values back into the network variables
             net_ItemRarity.Value = temp.rarity;
             net_ItemQuality.Value = temp.quality;
+
+            // Copy the generated modifiers into the NetworkList
             SetRolledModifiers(temp.modifiers);
         }
         else
         {
-            // Ensure non-equipment items have defaults set
+            // Non-equipment items don't roll random stats
+
+            // If no rarity has been assigned yet, use the item's default rarity
             if (net_ItemRarity.Value == 0) net_ItemRarity.Value = Item.ItemRarity;
+
+            // If no quality has been assigned yet, use the item's default quality
             if (net_ItemQuality.Value == 0) net_ItemQuality.Value = Item.ItemQuality;
         }
     }
 
     void EnsureRolled(InventorySlotData slot)
     {
-        // Ensure the InventorySlotData has been rolled. No-op if already rolled.
-
+        // Safety check
         if (slot == null) return;
-        if (slot.modifiers != null && slot.modifiers.Count > 0) return; // already rolled
 
+        // If modifiers already exist, this item has already been rolled
+        if (slot.modifiers != null && slot.modifiers.Count > 0) return;
+
+        // Convert the item into Equipment
         Equipment equipment = slot.item as Equipment;
+
+        // If it isn't equipment, there's nothing to roll
         if (equipment == null) return;
 
+        // Randomly determine the rarity based on item level
         slot.rarity = RollRarity(equipment.LevelRequirement);
 
-        // Ensure quality defaults from template
+        // If no quality exists yet, use the item's default quality
         if (slot.quality == 0) slot.quality = slot.item.ItemQuality;
 
-        // Compute budget (replace with your formula)
+        // Calculate the total stat budget for this item
         int budget = ComputeBudget(slot);
 
-        // Store budget so it persists / can be saved
-        // (You may prefer a seed instead for deterministic re-rolls)
-        // slot.Budget = budget; // add Budget to InventorySlotData if desired
-
-        // Simple placeholder roll - replace with your mod selection logic
+        // Create the item's rolled modifiers.
         slot.modifiers = new List<StatModifier>
         {
             new StatModifier { statType = StatType.Damage, value = budget, source = ModSource.Equipment }
         };
 
+        // Log the generated result for debugging
         Debug.Log($"ItemStatGenerator: Rolled {slot.item.name} budget={budget} mods={slot.modifiers.Count}");
     }
 
     int ComputeBudget(InventorySlotData slot)
     {
-        // Equipment is the only Item subtype with a level requirement.
+        // Convert the item into Equipment
         Equipment equipment = slot.item as Equipment;
+
+        // Prevent invalid items from continuing
         if (equipment == null)
         {
             Debug.LogWarning($"ComputeBudget called on non-equipment item: {slot.item?.name}");
             return 1;
         }
 
+        // Calculate how much budget exists from all previous level tiers
         int baseOffset = GetBaseOffsetForLevel(equipment.LevelRequirement);
+
+        // Each rarity increases the budget by 4
         int rarityOffset = (int)slot.rarity * 4;
+
+        // Each quality increases the budget by 1
         int qualityOffset = (int)slot.quality;
 
+        // Final budget
         return baseOffset + rarityOffset + qualityOffset + 1;
     }
 
     public void SetRolledModifiers(List<StatModifier> mods)
     {
-        // Server-only: replace the synced modifier list.
+        // Only the server can modify NetworkLists
         if (!IsServer) return;
 
+        // Remove any previous modifiers
         net_RolledModifiers.Clear();
+
+        // Nothing to copy
         if (mods == null) return;
+
+        // Copy each modifier into the NetworkList
         foreach (StatModifier mod in mods) net_RolledModifiers.Add(mod);
     }
 
     public List<StatModifier> GetRolledModifiers()
     {
-        // Safe to call on either server or client — just reads the synced list.
-
+        // Create a normal List with the same capacity
         List<StatModifier> mods = new List<StatModifier>(net_RolledModifiers.Count);
+
+        // Copy every modifier from the NetworkList
         foreach (StatModifier mod in net_RolledModifiers) mods.Add(mod);
+
+        // Return a standard List instead of the NetworkList
         return mods;
     }
 
     public override void OnDestroy()
     {
-        // NetworkList holds native memory that must be released
+        // Release the NetworkList when this object is destroyed
         net_RolledModifiers.Dispose();
+
+        // Let NetworkBehaviour clean itself up
         base.OnDestroy();
     }
 
     int GetMaxRarityIndexForLevel(int level)
     {
-        // Returns the HIGHEST rarity index unlocked at the given level.
-        // Because the enum order matches the unlock order, we can just return the enum value.
-
-        if (level <= 15) return (int)ItemRarity.Uncommon;  // 1
-        if (level <= 35) return (int)ItemRarity.Rare;       // 2
-        if (level <= 55) return (int)ItemRarity.Epic;       // 3
-        if (level <= 75) return (int)ItemRarity.Exotic;     // 4
-        return (int)ItemRarity.Legendary;                   // 7 (level 80 endgame)
+        // Determine the highest rarity that can appear at this level
+        if (level <= 15) return (int)ItemRarity.Uncommon;
+        if (level <= 35) return (int)ItemRarity.Rare;
+        if (level <= 55) return (int)ItemRarity.Epic;
+        if (level <= 75) return (int)ItemRarity.Exotic;
+        return (int)ItemRarity.Legendary;
     }
 
     int GetBaseOffsetForLevel(int itemLevel)
     {
-        // Sums up how many budget points were "used up" by every level bracket
-        // BEFORE this one. This is the only genuinely cumulative part of the formula.
-
+        // Start with no accumulated budget
         int offset = 0;
+
+        // Walk through every level breakpoint
         foreach (int breakpoint in LevelBreakpoints)
         {
-            if (breakpoint >= itemLevel) break; // stop once we reach the item's own level
+            // Stop once we've reached the current item's level
+            if (breakpoint >= itemLevel) break;
 
-            int rarityCountAtThisLevel = GetMaxRarityIndexForLevel(breakpoint) + 1; // +1 because index is 0-based
-            offset += rarityCountAtThisLevel * 4; // 4 quality steps per rarity
+            // Determine how many rarities exist at this level
+            int rarityCountAtThisLevel = GetMaxRarityIndexForLevel(breakpoint) + 1;
+
+            // Each rarity has four quality levels
+            // Add every possible budget from this level tier
+            offset += rarityCountAtThisLevel * 4;
         }
         return offset;
     }
 
     int WeightedRandomIndex(int optionCount, float decayFactor)
     {
+        // If there's only one option, always return it
         if (optionCount <= 1) return 0;
 
-        // Build raw weights: 1, decay, decay^2, decay^3...
+        // Store each option's weight
         float[] weights = new float[optionCount];
+
+        // Sum of all weights
         float totalWeight = 0f;
+
+        // Calculate weights
         for (int i = 0; i < optionCount; i++)
         {
+            // Each option becomes less likely than the previous
             weights[i] = Mathf.Pow(decayFactor, i);
+
+            // Keep track of the total weight
             totalWeight += weights[i];
         }
 
-        // Roll a point somewhere in the total weight, then walk the cumulative sum
-        // until we find which "bucket" it landed in.
+        // Roll somewhere within the total weight
         float roll = Random.Range(0f, totalWeight);
+
+        // Running total while searching
         float cumulative = 0f;
+
+        // Find which weight the roll landed inside
         for (int i = 0; i < optionCount; i++)
         {
             cumulative += weights[i];
             if (roll <= cumulative) return i;
         }
 
-        return optionCount - 1; // fallback, shouldn't hit due to float rounding
+        // Fallback in case of floating point rounding
+        return optionCount - 1;
     }
 
     ItemRarity RollRarity(int itemLevel)
     {
+        // Determine the highest rarity this level can roll
         int maxRarityIndex = GetMaxRarityIndexForLevel(itemLevel);
-        int rolledIndex = WeightedRandomIndex(maxRarityIndex + 1, rarityDecayFactor); // +1 because it's an option COUNT, not an index
+
+        // Randomly choose one using weighted odds
+        int rolledIndex = WeightedRandomIndex(maxRarityIndex + 1, rarityDecayFactor);
+
+        // Convert the integer back into the ItemRarity enum
         return (ItemRarity)rolledIndex;
     }
 
