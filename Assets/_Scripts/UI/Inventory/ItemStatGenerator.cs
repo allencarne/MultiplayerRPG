@@ -12,6 +12,12 @@ public class ItemStatGenerator : NetworkBehaviour
 
     int[] LevelBreakpoints = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 };
 
+    [Header("Roll Weighting")]
+    [Range(0.01f, 0.99f)]
+    float rarityDecayFactor = 0.35f; // lower = rarer items are much rarer
+    [Range(0.01f, 0.99f)]
+    float qualityDecayFactor = 0.5f;
+
     public void RollStats()
     {
         if (!IsServer) return;
@@ -46,8 +52,12 @@ public class ItemStatGenerator : NetworkBehaviour
         if (slot == null) return;
         if (slot.modifiers != null && slot.modifiers.Count > 0) return; // already rolled
 
-        // Ensure rarity/quality defaults from template
-        if (slot.rarity == 0) slot.rarity = slot.item.ItemRarity;
+        Equipment equipment = slot.item as Equipment;
+        if (equipment == null) return;
+
+        slot.rarity = RollRarity(equipment.LevelRequirement);
+
+        // Ensure quality defaults from template
         if (slot.quality == 0) slot.quality = slot.item.ItemQuality;
 
         // Compute budget (replace with your formula)
@@ -60,7 +70,7 @@ public class ItemStatGenerator : NetworkBehaviour
         // Simple placeholder roll - replace with your mod selection logic
         slot.modifiers = new List<StatModifier>
         {
-            new StatModifier { statType = StatType.Damage, value = Mathf.Max(1, budget / 2), source = ModSource.Equipment }
+            new StatModifier { statType = StatType.Damage, value = budget, source = ModSource.Equipment }
         };
 
         Debug.Log($"ItemStatGenerator: Rolled {slot.item.name} budget={budget} mods={slot.modifiers.Count}");
@@ -135,6 +145,39 @@ public class ItemStatGenerator : NetworkBehaviour
             offset += rarityCountAtThisLevel * 4; // 4 quality steps per rarity
         }
         return offset;
+    }
+
+    int WeightedRandomIndex(int optionCount, float decayFactor)
+    {
+        if (optionCount <= 1) return 0;
+
+        // Build raw weights: 1, decay, decay^2, decay^3...
+        float[] weights = new float[optionCount];
+        float totalWeight = 0f;
+        for (int i = 0; i < optionCount; i++)
+        {
+            weights[i] = Mathf.Pow(decayFactor, i);
+            totalWeight += weights[i];
+        }
+
+        // Roll a point somewhere in the total weight, then walk the cumulative sum
+        // until we find which "bucket" it landed in.
+        float roll = Random.Range(0f, totalWeight);
+        float cumulative = 0f;
+        for (int i = 0; i < optionCount; i++)
+        {
+            cumulative += weights[i];
+            if (roll <= cumulative) return i;
+        }
+
+        return optionCount - 1; // fallback, shouldn't hit due to float rounding
+    }
+
+    ItemRarity RollRarity(int itemLevel)
+    {
+        int maxRarityIndex = GetMaxRarityIndexForLevel(itemLevel);
+        int rolledIndex = WeightedRandomIndex(maxRarityIndex + 1, rarityDecayFactor); // +1 because it's an option COUNT, not an index
+        return (ItemRarity)rolledIndex;
     }
 
 }
