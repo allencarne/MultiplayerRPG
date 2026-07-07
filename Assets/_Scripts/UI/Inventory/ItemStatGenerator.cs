@@ -10,6 +10,8 @@ public class ItemStatGenerator : NetworkBehaviour
     public NetworkVariable<ItemQuality> net_ItemQuality = new NetworkVariable<ItemQuality>(ItemQuality.Normal, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkList<StatModifier> net_RolledModifiers = new NetworkList<StatModifier>();
 
+    int[] LevelBreakpoints = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 };
+
     public void RollStats()
     {
         if (!IsServer) return;
@@ -37,10 +39,10 @@ public class ItemStatGenerator : NetworkBehaviour
         }
     }
 
-
-    // Ensure the InventorySlotData has been rolled. No-op if already rolled.
-    public void EnsureRolled(InventorySlotData slot)
+    void EnsureRolled(InventorySlotData slot)
     {
+        // Ensure the InventorySlotData has been rolled. No-op if already rolled.
+
         if (slot == null) return;
         if (slot.modifiers != null && slot.modifiers.Count > 0) return; // already rolled
 
@@ -66,18 +68,24 @@ public class ItemStatGenerator : NetworkBehaviour
 
     int ComputeBudget(InventorySlotData slot)
     {
-        // Placeholder: use your level/rarity/quality table. Example starting point:
-        // map rarity/quality to offsets and compose with item level requirement.
-        // Return an deterministically derived integer budget.
-        int baseValue = 1;
-        baseValue += (int)slot.rarity * 4;
-        baseValue += (int)slot.quality;
-        return baseValue;
+        // Equipment is the only Item subtype with a level requirement.
+        Equipment equipment = slot.item as Equipment;
+        if (equipment == null)
+        {
+            Debug.LogWarning($"ComputeBudget called on non-equipment item: {slot.item?.name}");
+            return 1;
+        }
+
+        int baseOffset = GetBaseOffsetForLevel(equipment.LevelRequirement);
+        int rarityOffset = (int)slot.rarity * 4;
+        int qualityOffset = (int)slot.quality;
+
+        return baseOffset + rarityOffset + qualityOffset + 1;
     }
 
-    // Server-only: replace the synced modifier list.
     public void SetRolledModifiers(List<StatModifier> mods)
     {
+        // Server-only: replace the synced modifier list.
         if (!IsServer) return;
 
         net_RolledModifiers.Clear();
@@ -85,9 +93,10 @@ public class ItemStatGenerator : NetworkBehaviour
         foreach (StatModifier mod in mods) net_RolledModifiers.Add(mod);
     }
 
-    // Safe to call on either server or client — just reads the synced list.
     public List<StatModifier> GetRolledModifiers()
     {
+        // Safe to call on either server or client — just reads the synced list.
+
         List<StatModifier> mods = new List<StatModifier>(net_RolledModifiers.Count);
         foreach (StatModifier mod in net_RolledModifiers) mods.Add(mod);
         return mods;
@@ -95,7 +104,37 @@ public class ItemStatGenerator : NetworkBehaviour
 
     public override void OnDestroy()
     {
-        net_RolledModifiers.Dispose(); // NetworkList holds native memory that must be released
+        // NetworkList holds native memory that must be released
+        net_RolledModifiers.Dispose();
         base.OnDestroy();
     }
+
+    int GetMaxRarityIndexForLevel(int level)
+    {
+        // Returns the HIGHEST rarity index unlocked at the given level.
+        // Because the enum order matches the unlock order, we can just return the enum value.
+
+        if (level <= 15) return (int)ItemRarity.Uncommon;  // 1
+        if (level <= 35) return (int)ItemRarity.Rare;       // 2
+        if (level <= 55) return (int)ItemRarity.Epic;       // 3
+        if (level <= 75) return (int)ItemRarity.Exotic;     // 4
+        return (int)ItemRarity.Legendary;                   // 7 (level 80 endgame)
+    }
+
+    int GetBaseOffsetForLevel(int itemLevel)
+    {
+        // Sums up how many budget points were "used up" by every level bracket
+        // BEFORE this one. This is the only genuinely cumulative part of the formula.
+
+        int offset = 0;
+        foreach (int breakpoint in LevelBreakpoints)
+        {
+            if (breakpoint >= itemLevel) break; // stop once we reach the item's own level
+
+            int rarityCountAtThisLevel = GetMaxRarityIndexForLevel(breakpoint) + 1; // +1 because index is 0-based
+            offset += rarityCountAtThisLevel * 4; // 4 quality steps per rarity
+        }
+        return offset;
+    }
+
 }

@@ -52,6 +52,7 @@ public enum ItemRarity
     Epic,
     Exotic,
     Mythic,
+    Ascended,
     Legendary
 }
 
