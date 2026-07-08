@@ -4,23 +4,37 @@ using UnityEngine.UI;
 
 public class EquipmentSlot : MonoBehaviour, IDropHandler
 {
-    public int index;
+    // References
     [SerializeField] EquipmentManager equipmentManager;
-    public Image icon;
     public InventorySlotData SlotData;
+
+    // UI
+    public Image itemIcon;
+    public Image itemBackground;
+
+    // Value
+    public int index;
 
     public void AddItem(InventorySlotData data)
     {
         SlotData = data;
-        icon.sprite = data.item.Icon;
-        icon.enabled = true;
+
+        itemIcon.sprite = data.item.Icon;
+        itemIcon.enabled = true;
+
+        itemBackground.color = data.item.GetRarityColor(data.rarity);
+        itemBackground.enabled = true;
     }
 
     public void ClearSlot()
     {
         SlotData = null;
-        icon.sprite = null;
-        icon.enabled = false;
+
+        itemIcon.sprite = null;
+        itemIcon.enabled = false;
+
+        itemBackground.color = Color.white;
+        itemBackground.enabled = false;
     }
 
     public void UseItem()
