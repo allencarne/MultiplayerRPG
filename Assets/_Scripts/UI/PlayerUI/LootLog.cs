@@ -17,21 +17,24 @@ public class LootLog : MonoBehaviour
         inventory.OnItemAdded.RemoveListener(AddLoot);
     }
 
-    void AddLoot(Item item, int quantity)
+    void AddLoot(InventorySlotData slotData)
     {
         GameObject loot = Instantiate(prefab_Loot, transform);
 
-        GetSprite(item, loot);
-        GetName(item, loot);
-        GetStack(quantity, loot);
+        GetSprite(slotData, loot);
+        GetName(slotData.item, loot);
+        GetStack(slotData.quantity, loot);
 
         Destroy(loot, 5);
     }
 
-    void GetSprite(Item item, GameObject loot)
+    void GetSprite(InventorySlotData slotData, GameObject loot)
     {
-        Image icon = loot.GetComponentInChildren<Image>();
-        if (icon != null) icon.sprite = item.Icon;
+        Image icon = loot.transform.Find("ItemIcon").GetComponent<Image>();
+        if (icon != null) icon.sprite = slotData.item.Icon;
+
+        Image background = loot.transform.Find("ItemBackground").GetComponent<Image>();
+        if (background != null) background.color = slotData.item.GetRarityColor(slotData.rarity);
     }
 
     void GetName(Item item, GameObject loot)

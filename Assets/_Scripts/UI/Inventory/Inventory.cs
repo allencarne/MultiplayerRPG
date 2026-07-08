@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
     public InventorySlotData[] items;
 
     public UnityEvent OnInventoryChanged;
-    public UnityEvent<Item, int> OnItemAdded;
+    public UnityEvent<InventorySlotData> OnItemAdded;
     public UnityEvent OnCoinsChanged;
 
     private void OnEnable()
@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
         // Validate the input slotData and its item before proceeding
         if (slotData == null || slotData.item == null) return false;
 
-        if (TryCollectCurrency(slotData.item, slotData.quantity))
+        if (TryCollectCurrency(slotData))
         {
             CheckIfItemIsForQuest(slotData.item, slotData.quantity);
             return true;
@@ -52,7 +52,7 @@ public class Inventory : MonoBehaviour
             return true;
         }
 
-        if (TryStackItem(slotData.item, slotData.quantity))
+        if (TryStackItem(slotData))
         {
             CheckIfItemIsForQuest(slotData.item, slotData.quantity);
             return true;
@@ -75,7 +75,7 @@ public class Inventory : MonoBehaviour
         inventoryUI.UpdateUI();
 
         // Invoke the OnItemAdded event if the item was not unequipped
-        if (!isUnEquip) OnItemAdded?.Invoke(slotData.item, slotData.quantity);
+        if (!isUnEquip) OnItemAdded?.Invoke(slotData);
 
         // Save the inventory state using the slot data
         Save.SaveInventory(items[emptySlotIndex], emptySlotIndex);
@@ -104,12 +104,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    bool TryCollectCurrency(Item newItem, int quantity)
+    bool TryCollectCurrency(InventorySlotData slotData)
     {
-        if (newItem is Currency)
+        if (slotData.item is Currency)
         {
-            OnItemAdded?.Invoke(newItem, quantity);
-            CoinCollected(quantity); return true;
+            OnItemAdded?.Invoke(slotData);
+            CoinCollected(slotData.quantity); return true;
         }
 
         return false;
@@ -132,7 +132,7 @@ public class Inventory : MonoBehaviour
                     // Equip expects InventorySlotData (see EquipmentManager.cs)
                     if (equipmentManager.Equip(newSlot))
                     {
-                        OnItemAdded?.Invoke(equipmentItem, quantity);
+                        OnItemAdded?.Invoke(newSlot);
                         return true;
                     }
                 }
@@ -146,25 +146,25 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    bool TryStackItem(Item newItem, int quantity)
+    bool TryStackItem(InventorySlotData slotData)
     {
         // Check if the item is stackable
-        if (newItem.IsStackable)
+        if (slotData.item.IsStackable)
         {
             // Find the index of an existing stack of the same item
-            int existingIndex = Array.FindIndex(items, x => x != null && x.item.name == newItem.name);
+            int existingIndex = Array.FindIndex(items, x => x != null && x.item.name == slotData.item.name);
 
             // If an existing stack is found, increase its quantity
             if (existingIndex != -1)
             {
                 // Increase the quantity of the existing stack
-                items[existingIndex].quantity += quantity;
+                items[existingIndex].quantity += slotData.quantity;
 
                 // Update the UI to reflect the new quantity
                 inventoryUI.UpdateUI();
 
                 // Invoke the OnItemAdded event to notify listeners of the quantity change
-                OnItemAdded?.Invoke(newItem, quantity);
+                OnItemAdded?.Invoke(slotData);
 
                 // Save the updated inventory state for the existing stack
                 Save.SaveInventory(items[existingIndex], existingIndex);
