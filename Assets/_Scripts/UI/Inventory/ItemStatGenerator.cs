@@ -97,7 +97,7 @@ public class ItemStatGenerator : NetworkBehaviour
         slot.modifiers = RollModifiers(equipment, budget);
 
         // Log the generated result for debugging
-        Debug.Log($"ItemStatGenerator: Rolled {slot.item.name} budget={budget} mods={slot.modifiers.Count}");
+        //Debug.Log($"ItemStatGenerator: Rolled {slot.item.name} budget={budget} mods={slot.modifiers.Count}");
     }
 
     int ComputeBudget(InventorySlotData slot)

@@ -10,7 +10,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public InventorySlotData slotData;
 
     public int slotIndex;
-    public Image icon;
+    public Image itemIcon;
+    public Image itemBackground;
     public Image redTint;
     public TextMeshProUGUI amountText;
 
@@ -22,9 +23,18 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public void AddItem(InventorySlotData data)
     {
         slotData = data;
-        icon.sprite = data.item.Icon;
-        icon.color = Color.white;
+
+        // Set Item Icon
+        itemIcon.sprite = data.item.Icon;
+        itemIcon.enabled = true;
+
+        // Set Item Background color based on rarity
+        itemBackground.color = data.item.GetRarityColor(data.rarity);
+
+        // Set Red Tint if we are Under Level
         redTint.enabled = IsUnderLevelRequirement(data.item);
+
+        // Displays Item Quantity
         RefreshAmountText(data.item, data.quantity);
     }
 
@@ -41,9 +51,11 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         slotData = null;
         inventory.items[slotIndex] = null;
 
-        icon.sprite = null;
-        icon.enabled = true;
-        icon.color = defaultColor;
+        itemIcon.sprite = null;
+        itemIcon.enabled = false;
+
+        itemBackground.color = defaultColor;
+
         redTint.enabled = false;
 
         ClearStacks();
@@ -118,16 +130,25 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (slotData != null)
         {
-            icon.sprite = slotData.item.Icon;
-            icon.color = Color.white;
+            // Set Item Icon
+            itemIcon.sprite = slotData.item.Icon;
+            itemIcon.enabled = true;
+
+            // Set Item Background color based on rarity
+            itemBackground.color = slotData.item.GetRarityColor(slotData.rarity);
+
+            // Set Red Tint if we are under level
             redTint.enabled = IsUnderLevelRequirement(slotData.item);
 
+            // Display Item Quantity
             RefreshAmountText(slotData.item, slotData.quantity);
         }
         else
         {
-            icon.sprite = null;
-            icon.color = defaultColor;
+            itemIcon.sprite = null;
+            itemIcon.enabled = false;
+
+            itemBackground.color = defaultColor;
             amountText.text = "";
             amountText.color = Color.white;
             redTint.enabled = false;

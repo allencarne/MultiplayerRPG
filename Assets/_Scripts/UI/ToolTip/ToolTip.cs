@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -8,11 +7,11 @@ public class ToolTip : MonoBehaviour
 {
     [Header("Data")]
     InventorySlotData data;
-    [SerializeField] ItemRarityInfo riarityInfo;
 
     [Header("UI")]
     [SerializeField] GameObject tooltip;
     [SerializeField] Image itemIcon;
+    [SerializeField] Image itemBackground;
     [SerializeField] Image textBox;
     [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
@@ -29,6 +28,9 @@ public class ToolTip : MonoBehaviour
         // Sprite
         itemIcon.sprite = data.item.Icon;
 
+        // Set Background Color
+        itemBackground.color = data.item.GetRarityColor(data.rarity);
+
         // Name
         itemName_Text.text = FormatNameWithRarity(data.item.name, data.rarity);
 
@@ -38,19 +40,8 @@ public class ToolTip : MonoBehaviour
 
     string FormatNameWithRarity(string name, ItemRarity rarity)
     {
-        // Retrieve the appropriate color from the ItemRarityInfo
-        Color color = rarity switch
-        {
-            ItemRarity.Common => riarityInfo.CommonColor,
-            ItemRarity.Uncommon => riarityInfo.UnCommonColor,
-            ItemRarity.Rare => riarityInfo.RareColor,
-            ItemRarity.Epic => riarityInfo.EpicColor,
-            ItemRarity.Exotic => riarityInfo.ExoticColor,
-            ItemRarity.Mythic => riarityInfo.MythicColor,
-            ItemRarity.Ascended => riarityInfo.AscendedColor,
-            ItemRarity.Legendary => riarityInfo.LegendaryColor,
-            _ => Color.white // Default to white
-        };
+        // Get Rarity Color
+        Color color = data.item.GetRarityColor(rarity);
 
         // Assign Box Color
         textBox.color = color;

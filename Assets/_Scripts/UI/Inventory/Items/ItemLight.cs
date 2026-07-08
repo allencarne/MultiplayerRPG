@@ -2,13 +2,16 @@ using UnityEngine;
 
 public class ItemLight : MonoBehaviour
 {
+    // Item
     [SerializeField] ItemStatGenerator generator;
     [SerializeField] ItemPickup item;
-    [SerializeField] ItemRarityInfo info;
+
+    // Light
     [SerializeField] SpriteRenderer itemLight;
     [SerializeField] SpriteRenderer itemLight2;
     [SerializeField] ParticleSystem particles;
 
+    // Icon
     [SerializeField] SpriteRenderer mapIcon;
 
     private void OnEnable()
@@ -33,18 +36,8 @@ public class ItemLight : MonoBehaviour
 
     private void ApplyRarityVisuals(ItemRarity rarity)
     {
-        Color color = rarity switch
-        {
-            ItemRarity.Common => info.CommonColor,
-            ItemRarity.Uncommon => info.UnCommonColor,
-            ItemRarity.Rare => info.RareColor,
-            ItemRarity.Epic => info.EpicColor,
-            ItemRarity.Exotic => info.ExoticColor,
-            ItemRarity.Mythic => info.MythicColor,
-            ItemRarity.Ascended => info.AscendedColor,
-            ItemRarity.Legendary => info.LegendaryColor,
-            _ => Color.white
-        };
+        // Get Rarity Color
+        Color color = generator.Item.GetRarityColor(generator.net_ItemRarity.Value);
 
         itemLight.color = color;
         itemLight2.color = color;

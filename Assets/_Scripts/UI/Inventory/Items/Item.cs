@@ -33,6 +33,8 @@ public class Item : ScriptableObject
     // quality level of the item, affecting its effectiveness and value
     public ItemQuality ItemQuality;
 
+    public ItemRarityInfo rarityInfo;
+
     public virtual void Use(Inventory _inventory, EquipmentManager _equipmentManager, InventorySlotData slotData)
     {
 
@@ -41,6 +43,23 @@ public class Item : ScriptableObject
     public void RemoveFromInventory(Inventory _inventory)
     {
         _inventory.RemoveItem(this);
+    }
+
+    public Color GetRarityColor(ItemRarity rarity)
+    {
+        Color color = Color.white;
+        switch (rarity)
+        {
+            case ItemRarity.Common: color = rarityInfo.CommonColor; break;
+            case ItemRarity.Uncommon: color = rarityInfo.UnCommonColor; break;
+            case ItemRarity.Rare: color = rarityInfo.RareColor; break;
+            case ItemRarity.Epic: color = rarityInfo.EpicColor; break;
+            case ItemRarity.Exotic: color = rarityInfo.ExoticColor; break;
+            case ItemRarity.Mythic: color = rarityInfo.MythicColor; break;
+            case ItemRarity.Ascended: color = rarityInfo.AscendedColor; break;
+            case ItemRarity.Legendary: color = rarityInfo.LegendaryColor; break;
+        }
+        return color;
     }
 }
 
