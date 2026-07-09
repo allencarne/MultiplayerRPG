@@ -10,29 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
-  m_Name: Rare Sword
-  m_EditorClassIdentifier: 
-  ITEM_ID: sword_rare
-  Prefab: {fileID: 1015328809373746146, guid: 1132c6acddec8d148be32f745b0212df, type: 3}
-  Icon: {fileID: 21300000, guid: b3e37b24e1e15894b914b5cf79826b8c, type: 3}
+  m_Name: Wooden Twig
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  ITEM_ID: sword_twig
+  Prefab: {fileID: 2280291271625936438, guid: 9dc5af09a034f56418b81ef4ac2c7d58, type: 3}
+  Icon: {fileID: 21300000, guid: c12c2ce6663f1ef4ea765fbb98ca732d, type: 3}
   Description: 
   SellValue: 1
-  Cost: 2
+  Cost: 1
   DropChance: 100
   IsStackable: 0
   ItemRarity: 0
   ItemQuality: 0
   rarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
   AnimationIndex: 0
-  LevelRequirement: 20
+  LevelRequirement: 1
   equipmentType: 5
   ClassRequirement: 0
   modifiers:
-  - value: 6
+  - value: 1
     statType: 0
     source: 0
-  - value: 5
-    statType: 1
-    source: 0
-  weaponSprite: {fileID: 9119308523244215010, guid: fb34605aa53f1864baa88b2fedd25291, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 8c8c3805baad86045b497fb1be6850ea, type: 3}
   weaponType: 0
