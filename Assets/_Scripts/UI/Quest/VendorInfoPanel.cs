@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class VendorInfoPanel : MonoBehaviour
 {
@@ -46,7 +45,7 @@ public class VendorInfoPanel : MonoBehaviour
             toolTip.Init(player, data);
         }
 
-        Transform iconTransform = itemUI.transform.Find("Icon");
+        Transform iconTransform = itemUI.transform.Find("ItemIcon");
         if (iconTransform != null)
         {
             Image icon = iconTransform.GetComponent<Image>();
@@ -54,6 +53,16 @@ public class VendorInfoPanel : MonoBehaviour
             {
                 icon.color = Color.white;
                 icon.sprite = data.item.Icon;
+            }
+        }
+
+        Transform backgroundTransform = itemUI.transform.Find("ItemBackground");
+        if (backgroundTransform != null)
+        {
+            Image background = backgroundTransform.GetComponent<Image>();
+            if (background != null)
+            {
+                background.color = data.item.GetRarityColor(data.rarity);
             }
         }
 
