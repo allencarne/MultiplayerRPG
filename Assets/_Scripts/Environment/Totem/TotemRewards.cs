@@ -4,6 +4,7 @@ using UnityEngine;
 public class TotemRewards : NetworkBehaviour
 {
     [SerializeField] Totem totem;
+    [SerializeField] ItemStatRules rules;
 
     [Header("Rewards")]
     public int MaxCoinReward;

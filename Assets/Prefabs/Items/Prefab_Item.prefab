@@ -106,7 +106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 8452547495575956694}
   item: {fileID: 341095749576895448}
-  info: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
   itemLight: {fileID: 5783476084693654395}
   itemLight2: {fileID: 4479327934737389547}
   particles: {fileID: 2071990404671103138}
@@ -230,14 +229,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemStatGenerator
   ShowTopMostFoldoutHeaderGroup: 1
   Item: {fileID: 0}
-  ItemRarity: 0
-  ItemQuality: 0
-  RolledModifiers: []
-  Quantity:
+  rules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
+  net_Quantity:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 1
+  net_ItemRarity:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  net_ItemQuality:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  net_RolledModifiers:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
 --- !u!1 &2544567047471856696
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2352316078
+  GlobalObjectIdHash: 2613277448
   InScenePlacedSourceGlobalObjectIdHash: 2352316078
   DeferredDespawnTick: 0
   Ownership: 1
@@ -93,9 +93,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TotemRewards
   ShowTopMostFoldoutHeaderGroup: 1
-  Coins: 0
+  totem: {fileID: 0}
+  rules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
   MaxCoinReward: 0
+  MaxCollectableReward: 0
+  MaxExpReward: 0
   coin: {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+  collectable: {fileID: 0}
   rewards: []
 --- !u!1 &2576204421746689490
 GameObject:
@@ -131,6 +135,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4001613571473648481
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -176,6 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: -890941791
   m_SortingLayer: -3
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 1, g: 0.52445924, b: 0, a: 1}
   m_FlipX: 0
@@ -185,5 +191,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
