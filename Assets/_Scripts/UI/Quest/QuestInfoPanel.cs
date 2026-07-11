@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class QuestInfoPanel : MonoBehaviour
@@ -111,9 +109,34 @@ public class QuestInfoPanel : MonoBehaviour
     {
         foreach (InventorySlotData reward in quest.RewardItems)
         {
-            GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
-            Image image = itmeUI.GetComponent<Image>();
-            if (image != null) image.sprite = reward.item.Icon;
+            GameObject itemUI = Instantiate(rewardUI_Item, rewardListUI.transform);
+
+            VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
+            if (toolTip != null)
+            {
+                toolTip.Init(player, reward);
+            }
+
+            Transform iconTransform = itemUI.transform.Find("ItemIcon");
+            if (iconTransform != null)
+            {
+                Image icon = iconTransform.GetComponent<Image>();
+                if (icon != null)
+                {
+                    icon.color = Color.white;
+                    icon.sprite = reward.item.Icon;
+                }
+            }
+
+            Transform backgroundTransform = itemUI.transform.Find("ItemBackground");
+            if (backgroundTransform != null)
+            {
+                Image background = backgroundTransform.GetComponent<Image>();
+                if (background != null)
+                {
+                    background.color = reward.item.GetRarityColor(reward.rarity);
+                }
+            }
         }
     }
 

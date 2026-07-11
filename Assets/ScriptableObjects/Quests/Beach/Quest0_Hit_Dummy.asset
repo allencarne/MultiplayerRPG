@@ -30,8 +30,6 @@ MonoBehaviour:
     CurrentAmount: 0
   expReward: 1
   goldReward: 0
-  Starter: []
-  reward: []
   StarterItems:
   - item: {fileID: 11400000, guid: f526a9de7f301414298f892e39924b5a, type: 2}
     quantity: 1
@@ -57,4 +55,12 @@ MonoBehaviour:
     - value: 1
       statType: 1
       source: 0
-  RewardItems: []
+  RewardItems:
+  - item: {fileID: 11400000, guid: 764f1db1e2ac0d041b607c12c3d7c3fd, type: 2}
+    quantity: 1
+    rarity: 7
+    quality: 0
+    modifiers:
+    - value: 1
+      statType: 0
+      source: 0

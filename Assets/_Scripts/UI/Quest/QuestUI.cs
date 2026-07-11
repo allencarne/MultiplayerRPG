@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +8,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] QuestList questList;
 
     [Header("Player")]
+    [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
     [SerializeField] PlayerExperience exp;
     [SerializeField] PlayerQuest playerQuest;
@@ -189,12 +189,33 @@ public class QuestUI : MonoBehaviour
     {
         foreach (InventorySlotData reward in quest.RewardItems)
         {
-            GameObject itmeUI = Instantiate(rewardUI_Item, rewardListUI.transform);
+            GameObject itemUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
-            Image image = itmeUI.GetComponent<Image>();
-            if (image != null)
+            VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
+            if (toolTip != null)
             {
-                image.sprite = reward.item.Icon;
+                toolTip.Init(player, reward);
+            }
+
+            Transform iconTransform = itemUI.transform.Find("ItemIcon");
+            if (iconTransform != null)
+            {
+                Image icon = iconTransform.GetComponent<Image>();
+                if (icon != null)
+                {
+                    icon.color = Color.white;
+                    icon.sprite = reward.item.Icon;
+                }
+            }
+
+            Transform backgroundTransform = itemUI.transform.Find("ItemBackground");
+            if (backgroundTransform != null)
+            {
+                Image background = backgroundTransform.GetComponent<Image>();
+                if (background != null)
+                {
+                    background.color = reward.item.GetRarityColor(reward.rarity);
+                }
             }
         }
     }
