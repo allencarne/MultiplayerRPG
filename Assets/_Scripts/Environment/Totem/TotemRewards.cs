@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -31,19 +32,35 @@ public class TotemRewards : NetworkBehaviour
         inv.AddItem(collectableReward);
     }
 
-    [ClientRpc]
-    public void ItemRewardsClientRpc(ClientRpcParams rpcParams)
+    public void ItemRewards(ClientRpcParams rpcParams)
     {
-        Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
+        if (!IsServer) return;
 
-        foreach (Item reward in rewards)
+        for (int i = 0; i < rewards.Length; i++)
         {
+            Item reward = rewards[i];
             if (Random.Range(0f, 100f) < reward.DropChance)
             {
-                InventorySlotData _reward = new InventorySlotData(reward, 1, ItemRarity.Common, ItemQuality.Normal);
-                inv.AddItem(_reward);
+                InventorySlotData slot = new InventorySlotData(reward, 1, ItemRarity.Common, ItemQuality.Normal);
+
+                // Only equipment needs rolled rarity/quality/modifiers
+                if (reward is Equipment)
+                {
+                    rules.RollStats(slot);
+                }
+
+                GiveItemRewardClientRpc(i, slot.quantity, slot.rarity, slot.quality, slot.modifiers.ToArray(), rpcParams);
             }
         }
+    }
+
+    [ClientRpc]
+    void GiveItemRewardClientRpc(int rewardIndex, int quantity, ItemRarity rarity, ItemQuality quality, StatModifier[] modifiers, ClientRpcParams rpcParams)
+    {
+        Item item = rewards[rewardIndex];
+        Inventory inv = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponentInChildren<Inventory>();
+        InventorySlotData slot = new InventorySlotData(item, quantity, rarity, quality, new List<StatModifier>(modifiers));
+        inv.AddItem(slot);
     }
 
     public void ExperienceRewards(Player player)

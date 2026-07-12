@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -124,7 +123,7 @@ public class Totem : NetworkBehaviour, IInteractable
             Manager.Rewards.QuestParticipationClientRPC(NetEventName.Value.ToString(), rpcParams);
             Manager.Rewards.CoinRewardsClientRpc(roundedCoin, rpcParams);
             Manager.Rewards.CollectableRewardsClientRpc(roundedAmount, rpcParams);
-            Manager.Rewards.ItemRewardsClientRpc(rpcParams);
+            Manager.Rewards.ItemRewards(rpcParams);
 
             Manager.Rewards.ExperienceRewards(player);
         }

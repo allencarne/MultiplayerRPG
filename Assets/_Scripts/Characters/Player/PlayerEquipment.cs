@@ -180,12 +180,12 @@ public class PlayerEquipment : NetworkBehaviour
         ItemStatGenerator gen = dropped.GetComponent<ItemStatGenerator>();
 
         gen.Item = item;
-        gen.net_ItemRarity.Value = rarity;
-        gen.net_ItemQuality.Value = quality;
 
         NetworkObject netObj = dropped.GetComponent<NetworkObject>();
         netObj.Spawn();
 
+        gen.net_ItemRarity.Value = rarity;
+        gen.net_ItemQuality.Value = quality;
         gen.net_Quantity.Value = quantity;
         gen.SetRolledModifiers(new List<StatModifier>(modifiers));
     }

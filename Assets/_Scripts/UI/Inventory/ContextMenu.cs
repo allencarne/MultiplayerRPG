@@ -89,12 +89,12 @@ public class ContextMenu : MonoBehaviour
             ItemStatGenerator gen = dropped.GetComponent<ItemStatGenerator>();
 
             gen.Item = data.item;
-            gen.net_ItemRarity.Value = data.rarity;
-            gen.net_ItemQuality.Value = data.quality;
 
             NetworkObject netObj = dropped.GetComponent<NetworkObject>();
             netObj.Spawn();
 
+            gen.net_ItemRarity.Value = data.rarity;
+            gen.net_ItemQuality.Value = data.quality;
             gen.net_Quantity.Value = data.quantity;
             gen.SetRolledModifiers(data.modifiers);
         }
