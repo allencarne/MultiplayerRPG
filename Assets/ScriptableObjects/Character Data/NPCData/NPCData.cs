@@ -43,7 +43,6 @@ public class NPCData : ScriptableObject
     public List<Quest> Quests;
 
     [Header("Vendor")]
-    [SerializeField] ItemStatRules rules;
     public Item[] VendorItems;
     public InventorySlotData[] SlotData;
 

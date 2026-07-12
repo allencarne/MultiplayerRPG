@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
 
 public class ItemStatGenerator : NetworkBehaviour
 {
     public Item Item;
-    [SerializeField] ItemStatRules rules;
-
     public NetworkVariable<int> net_Quantity = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<ItemRarity> net_ItemRarity = new NetworkVariable<ItemRarity>(ItemRarity.Common, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public NetworkVariable<ItemQuality> net_ItemQuality = new NetworkVariable<ItemQuality>(ItemQuality.Normal, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -37,7 +34,7 @@ public class ItemStatGenerator : NetworkBehaviour
             InventorySlotData temp = new InventorySlotData(Item, net_Quantity.Value, net_ItemRarity.Value, net_ItemQuality.Value, GetRolledModifiers());
 
             // Hand the actual rolling off to the shared rules asset
-            rules.RollStats(temp);
+            Item.ItemStatRules.RollStats(temp);
 
             // Copy the generated values back into the network variables
             net_ItemRarity.Value = temp.rarity;
