@@ -109,7 +109,7 @@ public class QuestInfoPanel : MonoBehaviour
     {
         foreach (InventorySlotData reward in quest.RewardItems)
         {
-            InventorySlotData rolledReward = reward.item.ItemStatRules.BuildRewardSlot(reward);
+            InventorySlotData rolledReward = reward.item.ItemStatRules.BuildFixedItem(reward);
 
             GameObject itemUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 

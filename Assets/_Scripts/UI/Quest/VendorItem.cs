@@ -91,7 +91,7 @@ public class VendorItem : MonoBehaviour
                 VendorInfoPanel panel = GetComponentInParent<VendorInfoPanel>();
                 if (panel != null)
                 {
-                    panel.PurchaseAttempt(slotData.item);
+                    panel.PurchaseAttempt(slotData);
                 }
             }
             else

@@ -123,7 +123,8 @@ public class PlayerInteract : NetworkBehaviour
 
         foreach (InventorySlotData item in data.SlotData)
         {
-            vendorInfoPanel.CreateItem(item);
+            InventorySlotData rolledItem = item.item.ItemStatRules.BuildFixedItem(item);
+            vendorInfoPanel.CreateItem(rolledItem);
         }
 
         playerUI._VendorUI();

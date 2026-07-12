@@ -230,7 +230,7 @@ public class PlayerQuest : MonoBehaviour
 
         foreach (InventorySlotData reward in quest.RewardItems)
         {
-            InventorySlotData rewardSlot = reward.item.ItemStatRules.BuildRewardSlot(reward);
+            InventorySlotData rewardSlot = reward.item.ItemStatRules.BuildFixedItem(reward);
             inventory.AddItem(rewardSlot);
         }
 

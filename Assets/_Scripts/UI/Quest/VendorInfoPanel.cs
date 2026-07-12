@@ -16,7 +16,7 @@ public class VendorInfoPanel : MonoBehaviour
     [SerializeField] GameObject ConfirmSellPanel;
     [SerializeField] GameObject yesPurchaseButton;
     [SerializeField] GameObject yesSellButton;
-    Item itemToPurchase;
+    InventorySlotData itemToPurchase;
 
     InventorySlot fromSlot;
     int pendingSellSlotIndex;
@@ -89,11 +89,11 @@ public class VendorInfoPanel : MonoBehaviour
         }
     }
 
-    public void PurchaseAttempt(Item item)
+    public void PurchaseAttempt(InventorySlotData data)
     {
         if (ConfirmPurchasePanel.activeSelf || ConfirmSellPanel.activeSelf) return;
 
-        itemToPurchase = item;
+        itemToPurchase = data;
         ConfirmPurchasePanel.SetActive(true);
         EventSystem.current.SetSelectedGameObject(yesPurchaseButton);
     }
@@ -124,10 +124,10 @@ public class VendorInfoPanel : MonoBehaviour
     {
         ConfirmPurchasePanel.SetActive(false);
 
-        inventory.CoinSpent(itemToPurchase.Cost);
+        inventory.CoinSpent(itemToPurchase.item.Cost);
 
-        InventorySlotData itemToPurchase_ = new InventorySlotData(itemToPurchase, 1, ItemRarity.Common, ItemQuality.Normal);
-        inventory.AddItem(itemToPurchase_);
+        InventorySlotData purchased = new InventorySlotData(itemToPurchase.item, itemToPurchase.quantity, itemToPurchase.rarity, itemToPurchase.quality, itemToPurchase.modifiers);
+        inventory.AddItem(purchased);
         itemToPurchase = null;
     }
 

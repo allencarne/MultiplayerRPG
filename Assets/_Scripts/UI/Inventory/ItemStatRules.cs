@@ -50,7 +50,7 @@ public class ItemStatRules : ScriptableObject
         slot.modifiers = RollModifiers(equipment, budget, decay, randomizeSecondaryOrder: true);
     }
 
-    public InventorySlotData BuildRewardSlot(InventorySlotData template)
+    public InventorySlotData BuildFixedItem(InventorySlotData template)
     {
         if (template == null) return null;
 
@@ -61,7 +61,7 @@ public class ItemStatRules : ScriptableObject
         return slot;
     }
 
-    public void RollFixedStats(InventorySlotData slot)
+    void RollFixedStats(InventorySlotData slot)
     {
         // Safety Check
         if (slot == null) return;
