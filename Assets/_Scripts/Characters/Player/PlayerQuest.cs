@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using WebSocketSharp;
 
 public class PlayerQuest : MonoBehaviour
 {
@@ -230,7 +228,12 @@ public class PlayerQuest : MonoBehaviour
         // Remove collected items from inventory
         RemoveQuestItems(progress);
 
-        foreach (InventorySlotData item in quest.RewardItems) inventory.AddItem(item);
+        foreach (InventorySlotData reward in quest.RewardItems)
+        {
+            InventorySlotData rewardSlot = reward.item.ItemStatRules.BuildRewardSlot(reward);
+            inventory.AddItem(rewardSlot);
+        }
+
         InventorySlotData coinReward = new InventorySlotData(coin, quest.goldReward,ItemRarity.Common, ItemQuality.Normal);
         if (quest.goldReward > 0) inventory.AddItem(coinReward);
         if (experience != null) experience.IncreaseEXP(quest.expReward);

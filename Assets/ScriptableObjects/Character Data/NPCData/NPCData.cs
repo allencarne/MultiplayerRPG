@@ -43,11 +43,29 @@ public class NPCData : ScriptableObject
     public List<Quest> Quests;
 
     [Header("Vendor")]
+    [SerializeField] ItemStatRules rules;
+    public Item[] VendorItems;
     public InventorySlotData[] SlotData;
 
     [Header("Patrol")]
     public bool PatrolForward;
     public Vector2[] waypoints;
+
+    public List<InventorySlotData> GetVendorInventory()
+    {
+        List<InventorySlotData> slots = new List<InventorySlotData>();
+
+        foreach (Item item in VendorItems)
+        {
+            InventorySlotData slot = new InventorySlotData(item, 1, ItemRarity.Common, ItemQuality.Normal);
+
+            if (item is Equipment) rules.RollFixedStats(slot);
+
+            slots.Add(slot);
+        }
+
+        return slots;
+    }
 }
 
 public enum NPCClass

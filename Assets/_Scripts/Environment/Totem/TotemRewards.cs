@@ -5,7 +5,6 @@ using UnityEngine;
 public class TotemRewards : NetworkBehaviour
 {
     [SerializeField] Totem totem;
-    [SerializeField] ItemStatRules rules;
 
     [Header("Rewards")]
     public int MaxCoinReward;
@@ -46,7 +45,7 @@ public class TotemRewards : NetworkBehaviour
                 // Only equipment needs rolled rarity/quality/modifiers
                 if (reward is Equipment)
                 {
-                    rules.RollStats(slot);
+                    reward.ItemStatRules.RollStats(slot);
                 }
 
                 GiveItemRewardClientRpc(i, slot.quantity, slot.rarity, slot.quality, slot.modifiers.ToArray(), rpcParams);

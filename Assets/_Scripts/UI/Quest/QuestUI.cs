@@ -189,12 +189,14 @@ public class QuestUI : MonoBehaviour
     {
         foreach (InventorySlotData reward in quest.RewardItems)
         {
+            InventorySlotData rolledReward = reward.item.ItemStatRules.BuildRewardSlot(reward);
+
             GameObject itemUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
             VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
             if (toolTip != null)
             {
-                toolTip.Init(player, reward);
+                toolTip.Init(player, rolledReward);
             }
 
             Transform iconTransform = itemUI.transform.Find("ItemIcon");

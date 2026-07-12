@@ -18,6 +18,10 @@ public class ItemStatRules : ScriptableObject
     [Range(0.1f, 0.9f)]
     public float statLineDecayMax = 0.75f;
 
+    [Header("Standard (Non-Random) Roll Weighting")]
+    [Range(0.1f, 0.9f)]
+    public float standardStatLineDecay = 0.5f;
+
     public void RollStats(InventorySlotData slot)
     {
         // Safety Check
@@ -42,7 +46,40 @@ public class ItemStatRules : ScriptableObject
         int budget = ComputeBudget(slot);
 
         // Create the item's rolled modifiers
-        slot.modifiers = RollModifiers(equipment, budget);
+        float decay = Random.Range(statLineDecayMin, statLineDecayMax);
+        slot.modifiers = RollModifiers(equipment, budget, decay, randomizeSecondaryOrder: true);
+    }
+
+    public InventorySlotData BuildRewardSlot(InventorySlotData template)
+    {
+        if (template == null) return null;
+
+        InventorySlotData slot = new InventorySlotData(template.item, template.quantity, template.rarity, template.quality);
+
+        if (template.item is Equipment) RollFixedStats(slot);
+
+        return slot;
+    }
+
+    public void RollFixedStats(InventorySlotData slot)
+    {
+        // Safety Check
+        if (slot == null) return;
+
+        // If modifiers already exist, this item has already been rolled
+        if (slot.modifiers != null && slot.modifiers.Count > 0) return;
+
+        // Convert the item to Equipment
+        Equipment equipment = slot.item as Equipment;
+
+        // If it isn't equipment, there's nothing to roll
+        if (equipment == null) return;
+
+        // Calculate the total stat budget for this item
+        int budget = ComputeBudget(slot);
+
+        // Create the item's rolled modifiers
+        slot.modifiers = RollModifiers(equipment, budget, standardStatLineDecay, randomizeSecondaryOrder: false);
     }
 
     int ComputeBudget(InventorySlotData slot)
@@ -124,13 +161,10 @@ public class ItemStatRules : ScriptableObject
         }
     }
 
-    int[] SplitBudget(int budget, int lineCount)
+    int[] SplitBudget(int budget, int lineCount, float decay)
     {
         // If there's only one stat line, it receive the entire budget
         if (lineCount <= 1) return new int[] { budget };
-
-        // Randomly choose a decay value so each item distribues stats a little differently
-        float decay = Random.Range(statLineDecayMin, statLineDecayMax);
 
         // Store the weight assigned to each stat line
         float[] weights = new float[lineCount];
@@ -187,7 +221,7 @@ public class ItemStatRules : ScriptableObject
         return amounts;
     }
 
-    List<StatModifier> RollModifiers(Equipment equipment, int budget)
+    List<StatModifier> RollModifiers(Equipment equipment, int budget, float decay, bool randomizeSecondaryOrder)
     {
         // Determine how many stat lines this item should have based on its level
         int lineCount = GetStatLineCountForLevel(equipment.LevelRequirement);
@@ -202,7 +236,7 @@ public class ItemStatRules : ScriptableObject
         remainingPool.Remove(primaryType);
 
         // Randomize the remaining stat types
-        Shuffle(remainingPool);
+        if (randomizeSecondaryOrder) Shuffle(remainingPool);
 
         // Start the chosen stat list with the guaranteed primary stat
         List<StatType> chosenTypes = new List<StatType> { primaryType };
@@ -216,7 +250,7 @@ public class ItemStatRules : ScriptableObject
 
         // Divide the total budget across all chosen stat lines
         // The first entry (primary stat) will always receive the largest share
-        int[] amounts = SplitBudget(budget, chosenTypes.Count);
+        int[] amounts = SplitBudget(budget, chosenTypes.Count, decay);
 
         // Create the final list of stat modifiers.
         List<StatModifier> modifiers = new List<StatModifier>();

@@ -34,6 +34,7 @@ public class Item : ScriptableObject
     public ItemQuality ItemQuality;
 
     public ItemRarityInfo rarityInfo;
+    public ItemStatRules ItemStatRules;
 
     public virtual void Use(Inventory _inventory, EquipmentManager _equipmentManager, InventorySlotData slotData)
     {
