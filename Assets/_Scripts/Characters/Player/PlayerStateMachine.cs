@@ -62,12 +62,10 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanDefensive = true;
     public bool CanUtility = true;
     public bool CanUltimate = true;
-    bool canPickup = true;
 
     [Header("Indicator")]
     string indicatorType = null;
     GameObject indicator;
-    ItemPickup currentItem;
 
     [HideInInspector] public UnityEvent OnSpawn;
 
@@ -239,8 +237,6 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
         }
-
-        PickupInput();
     }
 
     private void FixedUpdate()
@@ -505,39 +501,6 @@ public class PlayerStateMachine : NetworkBehaviour
         Input.HasBufferedUltimateInput = false;
         state = State.Ultimate;
         skills.ultimateAbilities[player.UltimateIndex].StartSkill(this);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Item"))
-        {
-            currentItem = collision.GetComponent<ItemPickup>();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Item"))
-        {
-            currentItem = null;
-        }
-    }
-
-    void PickupInput()
-    {
-        if (currentItem != null && Input.PickupInput && canPickup)
-        {
-            canPickup = false;
-            currentItem.PickUp(player);
-            currentItem = null;
-            StartCoroutine(PickupCoolDown());
-        }
-    }
-
-    IEnumerator PickupCoolDown()
-    {
-        yield return new WaitForSeconds(.2f);
-        canPickup = true;
     }
 
     [ServerRpc]

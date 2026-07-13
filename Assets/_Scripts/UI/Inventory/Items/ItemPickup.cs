@@ -2,7 +2,6 @@ using System.Collections;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ItemPickup : NetworkBehaviour
 {
@@ -10,15 +9,12 @@ public class ItemPickup : NetworkBehaviour
     [HideInInspector] public Transform SpawnPoint;
     [SerializeField] ItemStatGenerator generator;
 
-    [SerializeField] TextMeshProUGUI pickupText;
     [SerializeField] TextMeshProUGUI quantityText;
-
-    [SerializeField] InputActionReference pickupAction;
     [SerializeField] Animator animator;
-    PlayerInput playerInput;
 
+    public event System.Action<ItemPickup> Despawned;
+    public Item Item => generator.Item;
     bool _hasBeenPickedUp = false;
-
 
     public override void OnNetworkSpawn()
     {
@@ -29,13 +25,15 @@ public class ItemPickup : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         generator.net_Quantity.OnValueChanged -= OnQuantityChanged;
+        Despawned?.Invoke(this);
     }
 
     private void Start()
     {
         if (IsServer && Manager == null)
         {
-            StartCoroutine(DespawnDelay(180));
+            // Despawn the Item if not picked up
+            StartCoroutine(DespawnOverTime(180));
         }
     }
 
@@ -44,12 +42,8 @@ public class ItemPickup : NetworkBehaviour
         if (_hasBeenPickedUp) return;
         _hasBeenPickedUp = true;
 
-        // Add Item to Inventory if we have enough space
-        InventorySlotData item = new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.GetRolledModifiers());
+        bool wasPickedUp = player.PlayerInventory.AddItem(GetSlotData());
 
-        bool wasPickedUp = player.PlayerInventory.AddItem(item);
-
-        // Destroy item if it was collected
         if (wasPickedUp)
         {
             PlayPickupEffect();
@@ -60,64 +54,8 @@ public class ItemPickup : NetworkBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!collision.CompareTag("Player")) return;
-
-        Player player = collision.GetComponent<Player>();
-        if (!player || !player.IsLocalPlayer) return;
-
-        playerInput = player.GetComponent<PlayerInput>();
-        if (playerInput == null) return;
-
-        player.ShowToolTip(new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.GetRolledModifiers()));
-
-        UpdatePickupText();
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (!collision.CompareTag("Player")) return;
-
-        Player player = collision.GetComponent<Player>();
-        if (!player || !player.IsLocalPlayer) return;
-
-        player.HideToolTip();
-        pickupText.text = "";
-    }
-
-    private void UpdatePickupText()
-    {
-        if (playerInput == null || pickupAction == null)
-        {
-            pickupText.text = $"Press Interact to pick up {generator.Item.name}";
-            return;
-        }
-
-        string controlScheme = playerInput.currentControlScheme;
-        int bindingIndex = GetBindingIndexForCurrentScheme(controlScheme);
-
-        string bindName = pickupAction.action.GetBindingDisplayString(bindingIndex);
-        pickupText.text = $"Press <color=#00FF00>{bindName}</color> to pick up <color=#00FF00><b>{generator.Item.name}</b></color>";
-    }
-
-    private int GetBindingIndexForCurrentScheme(string scheme)
-    {
-        for (int i = 0; i < pickupAction.action.bindings.Count; i++)
-        {
-            InputBinding binding = pickupAction.action.bindings[i];
-            if (binding.groups.Contains(scheme))
-            {
-                return i;
-            }
-        }
-
-        return 0; // Fallback
-    }
-
     private void PlayPickupEffect()
     {
-        //player.HideToolTip();
         animator.Play("Anim_Item_Pickup");
 
         Collider2D collider = GetComponent<Collider2D>();
@@ -125,7 +63,7 @@ public class ItemPickup : NetworkBehaviour
 
         if (!IsServer) PlayPickupAnimationServerRpc();
 
-        StartCoroutine(DespawnDelay(.6f));
+        StartCoroutine(DespawnOverTime(.6f));
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
@@ -151,7 +89,7 @@ public class ItemPickup : NetworkBehaviour
         }
     }
 
-    IEnumerator DespawnDelay(float time)
+    IEnumerator DespawnOverTime(float time)
     {
         yield return new WaitForSeconds(time);
 
@@ -171,5 +109,10 @@ public class ItemPickup : NetworkBehaviour
     {
         if (Manager != null) Manager.AddPosition(SpawnPoint);
         NetworkObject.Despawn(true);
+    }
+
+    public InventorySlotData GetSlotData()
+    {
+        return new InventorySlotData(generator.Item, generator.net_Quantity.Value, generator.net_ItemRarity.Value, generator.net_ItemQuality.Value, generator.GetRolledModifiers());
     }
 }
