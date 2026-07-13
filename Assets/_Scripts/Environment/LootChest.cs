@@ -163,8 +163,10 @@ public class LootChest : NetworkBehaviour, IInteractable
             {
                 if (getPlayer.player != null)
                 {
-                    Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
                     InventorySlotData reward_ = new InventorySlotData(reward, 1, ItemRarity.Common, ItemQuality.Normal);
+                    if (reward is Equipment) reward.ItemStatRules.RollStats(reward_);
+
+                    Inventory inventory = getPlayer.player.GetComponentInChildren<Inventory>();
                     if (inventory != null) inventory.AddItem(reward_);
                 }
             }
