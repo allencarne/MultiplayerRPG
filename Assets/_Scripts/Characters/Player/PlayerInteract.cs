@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,7 +29,9 @@ public class PlayerInteract : NetworkBehaviour
     [SerializeField] QuestInfoPanel questInfoPanel;
     [SerializeField] VendorInfoPanel vendorInfoPanel;
 
-    IInteractable currentInteractable;
+    readonly List<IInteractable> interactablesInRange = new List<IInteractable>();
+
+    IInteractable currentTarget;
     bool hasInteracted = false;
 
     public override void OnNetworkSpawn()
@@ -44,29 +47,15 @@ public class PlayerInteract : NetworkBehaviour
     private void Start()
     {
         interactText.enabled = false;
-        UpdateInteractText(null);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
     {
         if (!player.IsLocalPlayer) return;
 
-        IInteractable interactable = collision.GetComponent<IInteractable>();
-        if (interactable == null) return;
+        RefreshTarget();
 
-        UpdateInteractText(interactable.DisplayName);
-
-        currentInteractable = interactable;
-        interactText.enabled = true;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (!player.IsLocalPlayer) return;
-        if (currentInteractable == null) return;
-
-        IInteractable interactable = collision.GetComponent<IInteractable>();
-        if (interactable == null) return;
+        if (currentTarget == null) return;
 
         // Interact
         if (input.InteractInput)
@@ -75,10 +64,11 @@ public class PlayerInteract : NetworkBehaviour
             player.IsInteracting = true;
             interactText.enabled = false;
             hasInteracted = true;
-            currentInteractable.Interact(this);
+            currentTarget.Interact(this);
         }
 
-        // Re-Interact
+        // Re-Interact - re-show the prompt once whatever UI we opened has closed,
+        // as long as we're still standing near the same target
         if (!player.IsInteracting && hasInteracted)
         {
             interactText.enabled = true;
@@ -86,18 +76,71 @@ public class PlayerInteract : NetworkBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!player.IsLocalPlayer) return;
+
+        IInteractable interactable = collision.GetComponent<IInteractable>();
+        if (interactable == null || interactablesInRange.Contains(interactable)) return;
+
+        interactablesInRange.Add(interactable);
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!player.IsLocalPlayer) return; 
+        if (!player.IsLocalPlayer) return;
 
-        IInteractable interactable = collision.GetComponent<IInteractable>(); 
-        if (interactable == null) return; 
-        if (interactable == currentInteractable)
+        IInteractable interactable = collision.GetComponent<IInteractable>();
+        if (interactable == null) return;
+
+        interactablesInRange.Remove(interactable);
+
+        if (currentTarget == interactable)
         {
+            SetTarget(null);
+
+            // Preserve old exit behavior: close any open UI tied to this interactable
             CloseUI();
             questPanel.SetActive(false);
             dialoguePanel.SetActive(false);
             vendorPanel.SetActive(false);
+        }
+    }
+
+    void RefreshTarget()
+    {
+        IInteractable closest = null;
+        float closestDist = float.MaxValue;
+
+        foreach (IInteractable interactable in interactablesInRange)
+        {
+            // IInteractable doesn't expose a Transform directly, but every
+            // implementation is a MonoBehaviour, so we can get one via Component
+            Transform t = ((Component)interactable).transform;
+            float dist = (t.position - transform.position).sqrMagnitude;
+
+            if (dist < closestDist)
+            {
+                closestDist = dist;
+                closest = interactable;
+            }
+        }
+
+        if (closest != currentTarget) SetTarget(closest);
+    }
+
+    void SetTarget(IInteractable target)
+    {
+        currentTarget = target;
+
+        if (currentTarget == null)
+        {
+            interactText.enabled = false;
+        }
+        else
+        {
+            UpdateInteractText(currentTarget.DisplayName);
+            interactText.enabled = true;
         }
     }
 
@@ -159,10 +202,7 @@ public class PlayerInteract : NetworkBehaviour
         for (int i = 0; i < interactAction.action.bindings.Count; i++)
         {
             InputBinding binding = interactAction.action.bindings[i];
-            if (binding.groups.Contains(scheme))
-            {
-                return i;
-            }
+            if (binding.groups.Contains(scheme)) return i;
         }
 
         return 0;
