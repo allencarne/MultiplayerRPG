@@ -27,6 +27,9 @@ public class Item : ScriptableObject
     // Indicates whether multiple instances of the item can be stacked in the inventory
     public bool IsStackable;
 
+    // Item Category
+    public ItemCategory ItemCategory;
+
     // rarity level of the item, affecting its desirability and potential power
     public ItemRarity ItemRarity;
 
@@ -62,6 +65,15 @@ public class Item : ScriptableObject
         }
         return color;
     }
+}
+
+public enum ItemCategory
+{
+    Weapon,
+    Equipment,
+    Consumable,
+    Collectable,
+    Currency
 }
 
 public enum ItemRarity

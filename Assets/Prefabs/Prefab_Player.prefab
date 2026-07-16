@@ -25252,7 +25252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -26148,19 +26148,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c9f24e1e4413d4081c9ad08c33e2e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerExperience: {fileID: 6940644233207828720}
   equipmentManager: {fileID: 6787697978767703092}
   playerquests: {fileID: 2815023884702440214}
-  playerExperience: {fileID: 6940644233207828720}
-  itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
+  items: []
+  inventoryUI: {fileID: 4184313615137920459}
   Stats: {fileID: 2477393547595159198}
   Save: {fileID: 5710798942256160764}
-  inventoryUI: {fileID: 4184313615137920459}
+  sortSettings: {fileID: 0}
+  itemDatabase: {fileID: 11400000, guid: 520cf4546b8007942bc675509cc658dd, type: 2}
   inventorySlots: 30
-  items: []
-  OnInventoryChanged:
+  OnItemAdded:
     m_PersistentCalls:
       m_Calls: []
-  OnItemAdded:
+  OnInventoryChanged:
     m_PersistentCalls:
       m_Calls: []
   OnCoinsChanged:

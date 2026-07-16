@@ -5,19 +5,23 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
+    // References
+    [SerializeField] PlayerExperience playerExperience;
     [SerializeField] EquipmentManager equipmentManager;
     [SerializeField] PlayerQuest playerquests;
-    [SerializeField] PlayerExperience playerExperience;
-    public ItemList itemDatabase;
+    public InventorySlotData[] items;
+    public InventoryUI inventoryUI;
     public PlayerStats Stats;
     public PlayerSave Save;
 
-    public InventoryUI inventoryUI;
+    // Data
+    public InventorySortSettings sortSettings;
+    public ItemList itemDatabase;
     public int inventorySlots = 30;
-    public InventorySlotData[] items;
 
-    public UnityEvent OnInventoryChanged;
+    // Events
     public UnityEvent<InventorySlotData> OnItemAdded;
+    public UnityEvent OnInventoryChanged;
     public UnityEvent OnCoinsChanged;
 
     private void OnEnable()
@@ -262,53 +266,84 @@ public class Inventory : MonoBehaviour
         // Create a list of non-null inventory slots for sorting
         List<InventorySlotData> sorted = new List<InventorySlotData>();
 
-        // Add non-null slots to the sorted list
         foreach (InventorySlotData slot in items)
         {
-            // Only add non-null slots to the sorted list
             if (slot != null) sorted.Add(slot);
         }
 
-        // Sort the list based on the defined criteria
-        sorted.Sort((a, b) =>
-        {
-            // Sort by category first (weapons, equipment, consumables, collectables)
-            int categoryA = GetSortCategory(a.item);
-            int categoryB = GetSortCategory(b.item);
-
-            // If categories are different, sort by category
-            if (categoryA != categoryB)
-                return categoryA.CompareTo(categoryB);
-
-            // If both items are equipment, sort by level requirement (descending)
-            if (a.item is Equipment equipA && b.item is Equipment equipB)
-                return equipB.LevelRequirement.CompareTo(equipA.LevelRequirement);
-
-            // If both items are consumables, sort by quantity (descending)
-            return string.Compare(a.item.name, b.item.name, StringComparison.OrdinalIgnoreCase);
-        });
+        sorted.Sort(CompareInventorySlots);
 
         // Update the inventory slots with the sorted items and save the state
         for (int i = 0; i < items.Length; i++)
         {
-            // Assign the sorted item to the inventory slot or null if there are no more sorted items
             items[i] = i < sorted.Count ? sorted[i] : null;
-
-            // save the updated inventory state for each slot after sorting
             Save.SaveInventory(items[i], i);
         }
 
-        // Update the inventory UI after sorting items
         inventoryUI.UpdateUI();
     }
 
-    int GetSortCategory(Item item)
+    /// <summary>
+    /// Sort priority: Category -> Subtype (WeaponType/EquipmentType) -> Rarity (desc)
+    /// -> Quality (desc) -> ClassRequirement -> LevelRequirement (desc) -> Name.
+    /// </summary>
+    int CompareInventorySlots(InventorySlotData a, InventorySlotData b)
     {
-        if (item is Equipment equip && equip.equipmentType == EquipmentType.Weapon) return 0;
-        if (item is Equipment) return 1;
-        if (item is Consumable) return 2;
-        if (item is Collectable) return 3;
-        return 4;
+        // 1. Category: Weapon > Equipment > Consumable > Collectable
+        int categoryCompare = a.item.ItemCategory.CompareTo(b.item.ItemCategory);
+        if (categoryCompare != 0) return categoryCompare;
+
+        // 2. Subtype within category (WeaponType for weapons, EquipmentType for other equipment)
+        int subtypeCompare = CompareSubtype(a.item, b.item);
+        if (subtypeCompare != 0) return subtypeCompare;
+
+        // 3. Rarity - higher enum value (e.g. Legendary) sorts first
+        int rarityCompare = b.rarity.CompareTo(a.rarity);
+        if (rarityCompare != 0) return rarityCompare;
+
+        // 4. Quality - higher enum value (e.g. Excellent) sorts first
+        int qualityCompare = b.quality.CompareTo(a.quality);
+        if (qualityCompare != 0) return qualityCompare;
+
+        // 5. ClassRequirement - tiebreaker, grouped by enum order
+        int classCompare = CompareClassRequirement(a.item, b.item);
+        if (classCompare != 0) return classCompare;
+
+        // 6. LevelRequirement - higher requirement sorts first
+        int levelCompare = CompareLevelRequirement(a.item, b.item);
+        if (levelCompare != 0) return levelCompare;
+
+        // 7. Alphabetical fallback for total ordering / stability
+        return string.Compare(a.item.name, b.item.name, StringComparison.OrdinalIgnoreCase);
+    }
+
+    int CompareSubtype(Item a, Item b)
+    {
+        // Both items are guaranteed to share a Category at this point,
+        // so if one is a Weapon, both are.
+        if (a is Weapon weaponA && b is Weapon weaponB)
+            return weaponA.weaponType.CompareTo(weaponB.weaponType);
+
+        if (a is Equipment equipA && b is Equipment equipB)
+            return equipA.equipmentType.CompareTo(equipB.equipmentType);
+
+        return 0;
+    }
+
+    int CompareClassRequirement(Item a, Item b)
+    {
+        if (a is Equipment equipA && b is Equipment equipB)
+            return equipA.ClassRequirement.CompareTo(equipB.ClassRequirement);
+
+        return 0;
+    }
+
+    int CompareLevelRequirement(Item a, Item b)
+    {
+        if (a is Equipment equipA && b is Equipment equipB)
+            return equipB.LevelRequirement.CompareTo(equipA.LevelRequirement);
+
+        return 0;
     }
 
     public int GetFreeSlotCount()
