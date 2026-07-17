@@ -15,7 +15,6 @@ public class Inventory : MonoBehaviour
     public PlayerSave Save;
 
     // Data
-    public InventorySortSettings sortSettings;
     public ItemList itemDatabase;
     public int inventorySlots = 30;
 
