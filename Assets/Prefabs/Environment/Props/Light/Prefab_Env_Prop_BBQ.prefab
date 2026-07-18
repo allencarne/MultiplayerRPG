@@ -134,6 +134,7 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!70 &7474039876790056556
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -4929,7 +4930,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &151843305633987630
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4975,6 +4976,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5006,7 +5008,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &5990171055030247570
 GameObject:
   m_ObjectHideFlags: 0
@@ -5017,7 +5018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7737149324710587996}
   - component: {fileID: 583514490433297911}
-  - component: {fileID: 8635903782112580053}
+  - component: {fileID: 138607644900147178}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -5042,6 +5043,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &583514490433297911
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5087,6 +5089,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -4006055367084998547, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5096,30 +5099,28 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &8635903782112580053
-Animator:
-  serializedVersion: 7
+--- !u!114 &138607644900147178
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5990171055030247570}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0a9724524dc0ae049bc9a796e63c3acc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b48594cdef6994086e32e49b553aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimateSprite
+  spriteRenderer: {fileID: 583514490433297911}
+  sprites:
+  - {fileID: -4006055367084998547, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
+  - {fileID: 7645294005939269253, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
+  - {fileID: 1835309745111231695, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
+  - {fileID: -5513040785779535353, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
+  - {fileID: 1190133455265081531, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
+  - {fileID: -8079443922704994659, guid: c855c8d6a579d1a4f8306e78b491826a, type: 3}
+  loopRate: 0.12
 --- !u!1 &6910226982788992698
 GameObject:
   m_ObjectHideFlags: 0
@@ -5154,6 +5155,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6682633374011993686
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5199,6 +5201,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.25490198}
   m_FlipX: 0
@@ -5208,7 +5211,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!1 &7444039205991488340
 GameObject:
@@ -5220,7 +5222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868038636007766635}
   - component: {fileID: 5008739180637569248}
-  - component: {fileID: 110146401840266792}
+  - component: {fileID: 3893098051536915096}
   m_Layer: 0
   m_Name: Food
   m_TagString: Untagged
@@ -5245,6 +5247,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5008739180637569248
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5290,6 +5293,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -6376590345726294574, guid: c4e79f02c1f401e4abd36d81ceb900ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5299,27 +5303,23 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &110146401840266792
-Animator:
-  serializedVersion: 7
+--- !u!114 &3893098051536915096
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7444039205991488340}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 62d1be0530f28b647b7fa9e54208c038, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b48594cdef6994086e32e49b553aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimateSprite
+  spriteRenderer: {fileID: 5008739180637569248}
+  sprites:
+  - {fileID: -6376590345726294574, guid: c4e79f02c1f401e4abd36d81ceb900ad, type: 3}
+  - {fileID: 856531139, guid: c4e79f02c1f401e4abd36d81ceb900ad, type: 3}
+  - {fileID: -738701467, guid: c4e79f02c1f401e4abd36d81ceb900ad, type: 3}
+  - {fileID: 1492355234, guid: c4e79f02c1f401e4abd36d81ceb900ad, type: 3}
+  loopRate: 1
