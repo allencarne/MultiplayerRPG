@@ -117,7 +117,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -151,7 +151,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 96
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -181,7 +181,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 96
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -207,7 +207,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 96
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -237,7 +237,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 80
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -267,7 +267,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 80
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -292,8 +292,30 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_6
       rect:
         serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42670e13c8f8dc04e99c14d545fe5769
+      internalID: 634557690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Tiles_Beach_Cliffs_7
+      rect:
+        serializedVersion: 2
         x: 48
-        y: 80
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -308,18 +330,18 @@ TextureImporter:
         - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
-      spriteID: 42670e13c8f8dc04e99c14d545fe5769
-      internalID: 634557690
+      spriteID: 742c58c88b2d2b44483e47c7a2911149
+      internalID: -1183307315
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_7
+      name: Spr_Tiles_Beach_Cliffs_8
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -332,35 +354,6 @@ TextureImporter:
         - {x: 7, y: 8}
         - {x: 7, y: -2}
         - {x: 2, y: -7}
-        - {x: -2, y: -7}
-        - {x: -7, y: -2}
-        - {x: -7, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: -8}
-        - {x: 8, y: -8}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 742c58c88b2d2b44483e47c7a2911149
-      internalID: -1183307315
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_8
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 64
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: -7}
         - {x: -2, y: -7}
         - {x: -7, y: -2}
         - {x: -7, y: 8}
@@ -379,8 +372,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 16
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -390,7 +383,10 @@ TextureImporter:
       outline: []
       physicsShape:
       - - {x: 8, y: -7}
-        - {x: -8, y: -7}
+        - {x: -2, y: -7}
+        - {x: -7, y: -2}
+        - {x: -7, y: 8}
+        - {x: -8, y: 8}
         - {x: -8, y: -8}
         - {x: 8, y: -8}
       tessellationDetail: 0
@@ -405,8 +401,34 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_10
       rect:
         serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17285ff34fa646142bc73d9fed0b76e4
+      internalID: 200250373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spr_Tiles_Beach_Cliffs_11
+      rect:
+        serializedVersion: 2
         x: 48
-        y: 64
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -424,28 +446,6 @@ TextureImporter:
         - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
-      spriteID: 17285ff34fa646142bc73d9fed0b76e4
-      internalID: 200250373
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_11
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
       spriteID: a63133043fb60924fa4ea35a2a233ebb
       internalID: 1317447272
       vertices: []
@@ -456,8 +456,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_12
       rect:
         serializedVersion: 2
-        x: 16
-        y: 48
+        x: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -465,7 +465,25 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 2}
+        - {x: 2, y: 8}
+        - {x: -2, y: 8}
+        - {x: -8, y: 2}
+        - {x: -8, y: -8}
+        - {x: 0, y: -8}
+        - {x: 0, y: -7}
+        - {x: -2, y: -7}
+        - {x: -7, y: -2}
+        - {x: -7, y: 2}
+        - {x: -2, y: 7}
+        - {x: 2, y: 7}
+        - {x: 7, y: 2}
+        - {x: 7, y: -2}
+        - {x: 2, y: -7}
+        - {x: 0, y: -7}
+        - {x: 0, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: 46d283c3ed4f30044a5dfc22b915ec1a
@@ -478,8 +496,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 48
+        x: 16
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -487,7 +505,18 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: -7}
+        - {x: -2, y: -7}
+        - {x: -6, y: -2}
+        - {x: -6, y: 2}
+        - {x: -2, y: 7}
+        - {x: 8, y: 7}
+        - {x: 8, y: 8}
+        - {x: -2, y: 8}
+        - {x: -8, y: 2}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: f16ddaca56b843e42b8e5c75277694a7
@@ -500,8 +529,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_14
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
+        x: 32
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -509,7 +538,15 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 8}
+        - {x: -8, y: 8}
+        - {x: -8, y: 7}
+        - {x: 8, y: 7}
+      - - {x: 8, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: 5d130cacadd69f142af434821d2fe816
@@ -522,8 +559,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_15
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 48
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -532,14 +569,17 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -1}
-        - {x: 8, y: 8}
+      - - {x: 8, y: 2}
+        - {x: 2, y: 8}
         - {x: -8, y: 8}
-        - {x: -8, y: -1}
-        - {x: -5, y: -6}
-        - {x: -2, y: -8}
-        - {x: 2, y: -8}
-        - {x: 5, y: -6}
+        - {x: -8, y: 7}
+        - {x: 2, y: 7}
+        - {x: 6, y: 2}
+        - {x: 6, y: -2}
+        - {x: 2, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: 6df4590338362aa42b27afb05d7a32c8
@@ -552,8 +592,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_16
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
+        x: 0
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -562,13 +602,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: 8}
+      - - {x: 4, y: -7}
+        - {x: 6, y: -5}
+        - {x: 8, y: 0}
+        - {x: 8, y: 8}
         - {x: -8, y: 8}
-        - {x: -8, y: -1}
+        - {x: -8, y: 0}
         - {x: -6, y: -5}
         - {x: -4, y: -7}
         - {x: -2, y: -8}
-        - {x: 8, y: -8}
+        - {x: 2, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: ff414b82234886c40ae5c6cc4055a40b
@@ -581,8 +624,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_17
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 16
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -590,7 +633,14 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 8}
+        - {x: -8, y: 8}
+        - {x: -8, y: 0}
+        - {x: -6, y: -5}
+        - {x: -4, y: -7}
+        - {x: -2, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: 4ee2c749ef0f71d46ac0c6afaa3e8ead
@@ -603,8 +653,8 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_18
       rect:
         serializedVersion: 2
-        x: 48
-        y: 32
+        x: 32
+        y: 0
         width: 16
         height: 16
       alignment: 0
@@ -612,14 +662,7 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape:
-      - - {x: 4, y: -7}
-        - {x: 6, y: -5}
-        - {x: 8, y: -1}
-        - {x: 8, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: -8}
-        - {x: 2, y: -8}
+      physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 1db3d4678e8f5aa46b050806e2f9d715
@@ -632,143 +675,7 @@ TextureImporter:
       name: Spr_Tiles_Beach_Cliffs_19
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 2}
-        - {x: 2, y: 8}
-        - {x: -2, y: 8}
-        - {x: -8, y: 2}
-        - {x: -8, y: -8}
-        - {x: 0, y: -8}
-        - {x: 0, y: -7}
-        - {x: -2, y: -7}
-        - {x: -7, y: -2}
-        - {x: -7, y: 2}
-        - {x: -2, y: 7}
-        - {x: 2, y: 7}
-        - {x: 7, y: 2}
-        - {x: 7, y: -2}
-        - {x: 2, y: -7}
-        - {x: 0, y: -7}
-        - {x: 0, y: -8}
-        - {x: 8, y: -8}
-      tessellationDetail: 0
-      bones: []
-      spriteID: e00c6d3ca80b2f64780106e085401753
-      internalID: -1383339561
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_20
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: -7}
-        - {x: -2, y: -7}
-        - {x: -7, y: -2}
-        - {x: -7, y: 2}
-        - {x: -2, y: 7}
-        - {x: 8, y: 7}
-        - {x: 8, y: 8}
-        - {x: -2, y: 8}
-        - {x: -8, y: 2}
-        - {x: -8, y: -8}
-        - {x: 8, y: -8}
-      tessellationDetail: 0
-      bones: []
-      spriteID: a773b09b726289a4fa4d494d63cc7891
-      internalID: 135812624
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_21
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: 7}
-        - {x: 8, y: 7}
-      - - {x: 8, y: -7}
-        - {x: -8, y: -7}
-        - {x: -8, y: -8}
-        - {x: 8, y: -8}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 84942714c4800cf4dbc3d648b9825825
-      internalID: 1151616014
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_22
-      rect:
-        serializedVersion: 2
         x: 48
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape:
-      - - {x: 8, y: 2}
-        - {x: 2, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: 7}
-        - {x: 2, y: 7}
-        - {x: 7, y: 2}
-        - {x: 7, y: -2}
-        - {x: 2, y: -7}
-        - {x: -8, y: -7}
-        - {x: -8, y: -8}
-        - {x: 8, y: -8}
-      tessellationDetail: 0
-      bones: []
-      spriteID: ba205ecdef6a1264ca843e68dbfd90b5
-      internalID: 362226880
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spr_Tiles_Beach_Cliffs_23
-      rect:
-        serializedVersion: 2
-        x: 32
         y: 0
         width: 16
         height: 16
@@ -778,18 +685,17 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 8, y: -1}
+      - - {x: 4, y: -7}
+        - {x: 6, y: -5}
+        - {x: 8, y: 0}
         - {x: 8, y: 8}
         - {x: -8, y: 8}
-        - {x: -8, y: -1}
-        - {x: -5, y: -6}
-        - {x: -2, y: -8}
+        - {x: -8, y: -8}
         - {x: 2, y: -8}
-        - {x: 5, y: -6}
       tessellationDetail: 0
       bones: []
-      spriteID: 45eb57ed2644cb24c8b7279668989e0c
-      internalID: 450496892
+      spriteID: e00c6d3ca80b2f64780106e085401753
+      internalID: -1383339561
       vertices: []
       indices: 
       edges: []
@@ -823,10 +729,6 @@ TextureImporter:
       Spr_Tiles_Beach_Cliffs_18: 2112458549
       Spr_Tiles_Beach_Cliffs_19: -1383339561
       Spr_Tiles_Beach_Cliffs_2: 1006742933
-      Spr_Tiles_Beach_Cliffs_20: 135812624
-      Spr_Tiles_Beach_Cliffs_21: 1151616014
-      Spr_Tiles_Beach_Cliffs_22: 362226880
-      Spr_Tiles_Beach_Cliffs_23: 450496892
       Spr_Tiles_Beach_Cliffs_3: 535342820
       Spr_Tiles_Beach_Cliffs_4: -72231839
       Spr_Tiles_Beach_Cliffs_5: -1709148645
