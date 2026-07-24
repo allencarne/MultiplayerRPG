@@ -47,7 +47,6 @@ public class NPCData : ScriptableObject
     public InventorySlotData[] SlotData;
 
     [Header("Patrol")]
-    public bool PatrolForward;
     public Vector2[] waypoints;
 }
 
