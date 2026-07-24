@@ -88,9 +88,7 @@ MonoBehaviour:
   Manager: {fileID: 0}
   SpawnPoint: {fileID: 0}
   generator: {fileID: 8452547495575956694}
-  pickupText: {fileID: 4063149634110822450}
   quantityText: {fileID: 7277684807732516392}
-  pickupAction: {fileID: 2230270691135496196, guid: f36af2b903c723a49acbb25b0649b21c, type: 3}
   animator: {fileID: 7706215213239804704}
 --- !u!114 &3106013714945513383
 MonoBehaviour:
@@ -229,7 +227,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemStatGenerator
   ShowTopMostFoldoutHeaderGroup: 1
   Item: {fileID: 0}
-  rules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
   net_Quantity:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -307,7 +304,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
