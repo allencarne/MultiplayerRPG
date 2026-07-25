@@ -9,7 +9,7 @@ public class WorldMapLog : MonoBehaviour
     [SerializeField] TextMeshProUGUI chestProgress;
     [SerializeField] TextMeshProUGUI questProgress;
 
-    int maxBeachStatue = 5;
+    int maxBeachStatue = 4;
     int maxBeachChests = 9;
     [SerializeField] QuestList questList;
 
