@@ -10,6 +10,7 @@ public class WorldMap : MonoBehaviour
     [SerializeField] RawImage map;
     [SerializeField] GameObject miniMap;
     [SerializeField] GameObject miniMap_m;
+    public MiniMap minimap;
 
     [SerializeField] RenderTexture worldMapRenderTexture;
     [SerializeField] RenderTexture miniMapRenderTexture;
@@ -53,6 +54,8 @@ public class WorldMap : MonoBehaviour
         mapCamera.transform.position = worldMapCameraPosition;
         mapCamera.orthographicSize = worldMapZoom;
 
+        minimap.canvas.enabled = true;
+
         CenterOnPlayer();
     }
 
@@ -67,7 +70,21 @@ public class WorldMap : MonoBehaviour
         mapCamera.transform.position = cameraPosition;
         mapCamera.orthographicSize = cameraZoom;
 
+        minimap.canvas.enabled = false;
+
         mapCamera.transform.localPosition = new Vector3(0, 0, -10);
+    }
+
+    public void ShowMapText()
+    {
+        if (minimap.canvas.enabled)
+        {
+            minimap.canvas.enabled = false;
+        }
+        else
+        {
+            minimap.canvas.enabled = true;
+        }
     }
 
     public void SetZoom50()

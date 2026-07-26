@@ -11,6 +11,13 @@ public class MiniMap : MonoBehaviour
     float minZoom = 11.25f;
     float maxZoom = 60f;
     private int steps = 4;
+    public Canvas canvas;
+
+    private void Awake()
+    {
+        canvas = GameObject.Find("Canvas_WorldSpace").GetComponent<Canvas>();
+        canvas.enabled = false;
+    }
 
     private void Start()
     {

@@ -55,7 +55,7 @@ public class Totem : NetworkBehaviour, IInteractable
         Transform player = networkObject.GetComponent<Transform>();
         if (player != null)
         {
-            int random = Random.Range(0, 3);
+            int random = Random.Range(0, 1);
 
             switch (random)
             {
@@ -64,12 +64,12 @@ public class Totem : NetworkBehaviour, IInteractable
                     SwarmEvent.StartEvent(player);
                     break;
                 case 1: 
-                    CurrentEvent = CollectEvent; 
-                    CollectEvent.StartEvent(player); 
+                    //CurrentEvent = CollectEvent; 
+                    //CollectEvent.StartEvent(player); 
                     break;
                 case 2: 
-                    CurrentEvent = BossEvent; 
-                    BossEvent.StartEvent(player); 
+                    //CurrentEvent = BossEvent; 
+                    //BossEvent.StartEvent(player); 
                     break;
             }
 
