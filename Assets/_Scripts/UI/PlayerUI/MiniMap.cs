@@ -15,6 +15,8 @@ public class MiniMap : MonoBehaviour
 
     private void Awake()
     {
+        // Grabs the WorldSpace Canvas that controls the Map Location Text
+        // This references is used in WorldMap, so it can hide/show UI
         canvas = GameObject.Find("Canvas_WorldSpace").GetComponent<Canvas>();
         canvas.enabled = false;
     }

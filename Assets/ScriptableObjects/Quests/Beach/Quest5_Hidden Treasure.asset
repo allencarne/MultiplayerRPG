@@ -15,20 +15,21 @@ MonoBehaviour:
   QuestID: Quest5
   QuestName: Hidden Treasure
   LevelRequirment: 0
-  Instructions: I want to return the favor. I heard there was treasure chest near
-    the rocks north east of here. If you find it, you can keep what's inside. Go
-    take a look!
-  Deliver: You found it! See, I knew it was worth checking. There's more to this
-    island than meets the eye, remember that.
+  Instructions: One of the best aspects of being an adventurer is finding treasure.
+    I hear there is <b><color=#81d4fa>treasure chest</color></b> near the rocks <b>south
+    east</b> of here. If you find it, you can keep what's inside. Go take a look!
+  Deliver: You found it! Remember to keep an eye out, there is treasure all over
+    the island!
   RequiredQuests:
   - {fileID: 11400000, guid: 7558749bf1bcbcf4f8b9eaffce3df71f, type: 2}
   Objectives:
   - type: 4
     ObjectiveID: Loot Chest
-    Description: Search for the hidden treasure chest to the north east
+    Description: Search for the hidden <b><color=#81d4fa>treasure chest</color></b>
+      to the <b>south east</b>
     RequiredAmount: 1
     CurrentAmount: 0
   expReward: 1
   goldReward: 0
-  Starter: []
-  reward: []
+  StarterItems: []
+  RewardItems: []

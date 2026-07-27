@@ -15,21 +15,20 @@ MonoBehaviour:
   QuestID: Quest3
   QuestName: Fresh Delivery
   LevelRequirment: 0
-  Instructions: 'There''s a woman who runs the food hut named Aluna. I completely
-    forgot to get her the supplies she asked for. Do you mind heading over there
-    and seeing what she needs? '
-  Deliver: Welcome, I'm Aluna. I'd offer you something to eat but I'm a little short
-    on ingredients at the moment. You didn't happen to pass any coconuts on the way
-    here, did you?
+  Instructions: Before I send you any farther, check in with <b>Aluna</b>. They run
+    the food hut in town.
+  Deliver: Welcome, I'm <b>Aluna</b>. I'd offer you something to eat but I'm a little
+    short on ingredients at the moment. You didn't happen to pass any <b><color=#f69988>Coconuts</color></b>
+    on the way here, did you?
   RequiredQuests:
   - {fileID: 11400000, guid: e13a4678440c2c442a64765e23419be4, type: 2}
   Objectives:
   - type: 2
     ObjectiveID: Quest_Aluna
-    Description: Head into town and find Aluna at the food hut
+    Description: Find <b>Aluna</b> in the food hut.
     RequiredAmount: 1
     CurrentAmount: 0
-  expReward: 1
+  expReward: 2
   goldReward: 0
-  Starter: []
-  reward: []
+  StarterItems: []
+  RewardItems: []

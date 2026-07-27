@@ -15,20 +15,21 @@ MonoBehaviour:
   QuestID: Quest0
   QuestName: Washed Up
   LevelRequirment: 0
-  Instructions: You wash up on a beach and you're already on your feet? Ha! I can
-    tell just by looking at you.. you're a fighter! Here, take this. It's not much,
-    but let's see what you can do with it. There are <color=#fff59d>training dummies</color>
-    to the <color=#fff59d>east</color>. Go show me your swing!
-  Deliver: I knew it! I knew the moment I saw you. You're exactly what this island
-    needs. Rest for a moment, I need to think about what comes next.
+  Instructions: Welcome adventurer! You made it to <b><color=#fff59d>Mako Island</color></b>.
+    If you're here then I'm assuming you are a recruit to become a <b>Guardian</b>.
+    I see you lost your equipment on your way here. Take this, it isn't much but
+    it will get you started. Show me you have what it takes! See those <b><color=#f69988>Training
+    Dummies</color></b> over there? Go! show me your swing.
+  Deliver: That was quite impressive considering what you are using for a weapon..
+    imagine what you could do with a sword!
   RequiredQuests: []
   Objectives:
   - type: 3
     ObjectiveID: dummy
-    Description: Hit the <color=#fff59d>training dummies</color> to the <color=#fff59d>east</color>
+    Description: Hit the <b><color=#f69988>Training Dummies</color></b> to the east
     RequiredAmount: 5
     CurrentAmount: 0
-  expReward: 1
+  expReward: 3
   goldReward: 0
   StarterItems:
   - item: {fileID: 11400000, guid: f526a9de7f301414298f892e39924b5a, type: 2}
