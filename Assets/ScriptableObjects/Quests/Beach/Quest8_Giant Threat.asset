@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
+  m_Name: Quest8_Giant Threat
+  m_EditorClassIdentifier: Assembly-CSharp::Quest
+  QuestID: Quest8
+  QuestName: Giant Threat
+  LevelRequirment: 0
+  Instructions: This will be the biggest challenege you have faced up to this point.
+    I believe you are ready. Just south of here is where a Giant Coconut is located.
+    Prove to me you can overcome this challenge.
+  Deliver: Excellent, you are showing great promise. Get even stronger and you will
+    be able to defeat any enemy you come across!
+  RequiredQuests:
+  - {fileID: 11400000, guid: cce273a202dbc0c48ba8ae7301fc4a03, type: 2}
+  Objectives:
+  - type: 0
+    ObjectiveID: giant_coconut
+    Description: Travel south and defeat a Giant Coconut
+    RequiredAmount: 1
+    CurrentAmount: 0
+  expReward: 1
+  goldReward: 0
+  StarterItems: []
+  RewardItems: []

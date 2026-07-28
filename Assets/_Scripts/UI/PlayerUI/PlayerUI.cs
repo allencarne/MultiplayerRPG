@@ -19,6 +19,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] GameObject interactfirstSelected;
     [SerializeField] GameObject questInfoFirstSelected;
     [SerializeField] GameObject vendorFirstSelected;
+    [SerializeField] GameObject upgradefirstselected;
     [SerializeField] GameObject mapFirstSelected;
 
     [Header("Panel")]
@@ -31,6 +32,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] GameObject interactPanel;
     [SerializeField] GameObject questInfoPanel;
     [SerializeField] GameObject vendorPanel;
+    [SerializeField] GameObject upgradePanel;
     [SerializeField] GameObject mapPanel;
 
     [Header("HUD")]
@@ -180,6 +182,21 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
+    public void _UpgradeUI()
+    {
+        if (upgradePanel.activeSelf)
+        {
+            upgradePanel.SetActive(false);
+            playerInteract.CloseUI();
+        }
+        else
+        {
+            upgradePanel.SetActive(true);
+            upgradePanel.transform.SetAsLastSibling();
+            if (UsingGamepad()) StartCoroutine(SelectNextFrame(upgradefirstselected));
+        }
+    }
+
     public void _MapUI()
     {
         if (mapPanel.activeSelf)
@@ -201,7 +218,6 @@ public class PlayerUI : MonoBehaviour
 
     private GameObject GetTopmostActivePanel()
     {
-
         for (int i = transform.childCount - 1; i >= 0; i--)
         {
             GameObject child = transform.GetChild(i).gameObject;
@@ -218,7 +234,7 @@ public class PlayerUI : MonoBehaviour
                obj == attributePanel || obj == questLogPanel ||
                obj == settingsPanel || obj == interactPanel ||
                obj == questInfoPanel || obj == vendorPanel ||
-               obj == mapPanel;
+               obj == upgradePanel || obj == mapPanel;
     }
 
     IEnumerator SelectNextFrame(GameObject target)

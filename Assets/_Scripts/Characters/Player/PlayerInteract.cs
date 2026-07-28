@@ -25,6 +25,7 @@ public class PlayerInteract : NetworkBehaviour
     [SerializeField] GameObject questPanel;
     [SerializeField] GameObject dialoguePanel;
     [SerializeField] GameObject vendorPanel;
+    [SerializeField] GameObject upgradePanel;
 
     [SerializeField] QuestInfoPanel questInfoPanel;
     [SerializeField] VendorInfoPanel vendorInfoPanel;
@@ -104,6 +105,7 @@ public class PlayerInteract : NetworkBehaviour
             questPanel.SetActive(false);
             dialoguePanel.SetActive(false);
             vendorPanel.SetActive(false);
+            upgradePanel.SetActive(false);
         }
     }
 
@@ -173,9 +175,14 @@ public class PlayerInteract : NetworkBehaviour
         playerUI._VendorUI();
     }
 
+    public void OpenUpgradeUI()
+    {
+
+    }
+
     public void CloseUI()
     {
-        // Called From: QuestPanel, Decline Button, Turn-In Button, Dialogue Panel
+        // Called From: Dialogue Panel, QuestPanel, VendorPanel, UpgradePanel
         interactText.enabled = false;
         player.CanSellItems = false;
         player.IsInteracting = false;
