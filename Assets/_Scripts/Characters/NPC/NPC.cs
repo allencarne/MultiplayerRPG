@@ -186,6 +186,12 @@ public class NPC : NetworkBehaviour, IInteractable
             return;
         }
 
+        if (Data.npcClass == NPCClass.Refiner)
+        {
+            player.OpenUpgradeUI();
+            return;
+        }
+
         // Dialogue
         player.OpenDialogueUI(Data.NPCName, npcDialogue);
     }

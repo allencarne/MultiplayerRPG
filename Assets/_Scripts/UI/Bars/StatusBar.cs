@@ -32,6 +32,10 @@ public class StatusBar : MonoBehaviour
                     nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
                     break;
                 case NPCClass.Villager:
+                    nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
+                    break;
+                case NPCClass.Refiner:
+                    nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
                     break;
             }
 

@@ -56,7 +56,8 @@ public enum NPCClass
     Vendor,
     Guard,
     Patrol,
-    Villager
+    Villager,
+    Refiner
 }
 
 public enum NPCWeaponType

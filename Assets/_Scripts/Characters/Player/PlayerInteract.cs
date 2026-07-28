@@ -177,7 +177,8 @@ public class PlayerInteract : NetworkBehaviour
 
     public void OpenUpgradeUI()
     {
-
+        interactText.enabled = false;
+        playerUI._UpgradeUI();
     }
 
     public void CloseUI()
