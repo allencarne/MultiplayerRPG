@@ -9,6 +9,8 @@ public class UpgradeUI : MonoBehaviour
 
     [SerializeField] Image image_background;
     [SerializeField] Image image_icon;
+
+    [SerializeField] Image image_coinIcon;
     [SerializeField] Image image_collectableIcon;
 
     [SerializeField] TextMeshProUGUI text_name;
@@ -94,7 +96,12 @@ public class UpgradeUI : MonoBehaviour
         text_name.color = Color.grey;
         image_background.color = Color.white;
         text_description.text = "";
-        text_available.text = "Upgrades Available: 0";
+        text_available.text = "";
+
+        image_coinIcon.gameObject.SetActive(false);
+        image_collectableIcon.gameObject.SetActive(false);
+        text_coinCost.text = "";
+        text_collectableCost.text = "";
 
         foreach (TextMeshProUGUI statLine in text_statLines)
         {
@@ -107,11 +114,35 @@ public class UpgradeUI : MonoBehaviour
 
     public void IncreaseStat(int index)
     {
-
+        // Increase stat by 1
+        //slot.upgradeSlotData.modifiers[index].value += 1;
     }
 
     public void DecreaseStat(int index)
     {
+        // Decrease stat by 1
+        //slot.upgradeSlotData.modifiers[index].value -= 1;
+    }
 
+    public void AssignCost(InventorySlotData slotData)
+    {
+        // Get the Coin and Collectable Cost
+        slot.CalculateCost(slotData);
+
+        // Set Coin Cost Text
+        text_coinCost.text = $"Coins: {slot.coinCost}";
+
+        // Set Collectable Cost Text
+        text_collectableCost.text = $"Collectable: {slot.collectableCost}";
+
+        image_coinIcon.gameObject.SetActive(true);
+        image_collectableIcon.gameObject.SetActive(true);
+
+        int avaliableUpgrades = 0;
+
+        // Check if we have enough coins and collectables
+
+
+        text_available.text = $"Upgrades Available: {avaliableUpgrades}";
     }
 }
