@@ -33,6 +33,13 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
 
 
         upgradeUI.AssignIcon(fromSlot.slotData);
+        upgradeUI.AssignName(fromSlot.slotData);
+        upgradeUI.AssignStats(fromSlot.slotData);
         upgradeUI.AssignData(fromSlot.slotData);
+    }
+
+    public void ClearSlot()
+    {
+        upgradeSlotData = null;
     }
 }
