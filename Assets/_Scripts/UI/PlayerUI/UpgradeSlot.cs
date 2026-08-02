@@ -1,12 +1,20 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UpgradeSlot : MonoBehaviour, IDropHandler
 {
+    // Reference
+    [SerializeField] Inventory inventory;
     [SerializeField] UpgradeUI upgradeUI;
-    public InventorySlotData upgradeSlotData;
-    public int coinCost;
-    public int collectableCost;
+    public Item[] collectables;
+
+    [HideInInspector] public InventorySlotData upgradeSlotData;
+    [HideInInspector] public Item currentCollectable;
+    [HideInInspector] public int coinCost;
+    [HideInInspector] public int collectableCost;
+
+    int[] LevelBreakpoints = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 };
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -26,7 +34,7 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         if (fromSlot == null) return;
 
         // Return if not Equipment or Weapon
-        if (fromSlot.slotData.item.ItemCategory != ItemCategory.Equipment || fromSlot.slotData.item.ItemCategory != ItemCategory.Weapon)
+        if (fromSlot.slotData.item.ItemCategory != ItemCategory.Equipment && fromSlot.slotData.item.ItemCategory != ItemCategory.Weapon) return;
 
         // Assign Upgrade Slot
         upgradeSlotData = fromSlot.slotData;
@@ -44,80 +52,29 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
     public void ClearSlot()
     {
         upgradeSlotData = null;
+        currentCollectable = null;
     }
 
-    public void CalculateCost(InventorySlotData slotData)
+    public void CalculateCost(int level, ItemQuality quality)
     {
-        // calculate item cost based on the required level and Quality
-        Equipment equipment = (Equipment)slotData.item;
+        int baseCoinCost = 5;
+        int baseCollectableCost = 3;
 
-        switch (equipment.LevelRequirement)
-        {
-            case 1:
-                switch (equipment.ItemQuality)
-                {
-                    case ItemQuality.Normal:
-                        coinCost = 5;
-                        collectableCost = 3;
-                        break;
-                    case ItemQuality.Good:
-                        coinCost = 6;
-                        collectableCost = 4;
-                        break;
-                    case ItemQuality.Great:
-                        coinCost = 7;
-                        collectableCost = 5;
-                        break;
-                    case ItemQuality.Excellent:
-                        coinCost = 8;
-                        collectableCost = 6;
-                        break;
-                }
-                break;
+        // Convert the level requirement into a "tier index"
+        int tierIndex = Array.IndexOf(LevelBreakpoints, level);
 
-            case 5:
-                switch (equipment.ItemQuality)
-                {
-                    case ItemQuality.Normal:
-                        coinCost = 9;
-                        collectableCost = 7;
-                        break;
-                    case ItemQuality.Good:
-                        coinCost = 10;
-                        collectableCost = 8;
-                        break;
-                    case ItemQuality.Great:
-                        coinCost = 11;
-                        collectableCost = 9;
-                        break;
-                    case ItemQuality.Excellent:
-                        coinCost = 12;
-                        collectableCost = 10;
-                        break;
-                }
-                break;
+        // Cast quality as an int
+        int qualityIndex = (int)quality;
 
-            case 10:
-                switch (equipment.ItemQuality)
-                {
-                    case ItemQuality.Normal:
-                        coinCost = 13;
-                        collectableCost = 11;
-                        break;
-                    case ItemQuality.Good:
-                        coinCost = 14;
-                        collectableCost = 12;
-                        break;
-                    case ItemQuality.Great:
-                        coinCost = 15;
-                        collectableCost = 13;
-                        break;
-                    case ItemQuality.Excellent:
-                        coinCost = 16;
-                        collectableCost = 14;
-                        break;
-                }
-                break;
-        }
+        // Combine tier + quality into ONE overall progression number
+        int overallStep = (tierIndex * Enum.GetNames(typeof(ItemQuality)).Length) + qualityIndex;
+
+        // Derive coinCost / collectableCost from overallStep with a formula instead of a literal number per case.
+        coinCost = baseCoinCost + overallStep;
+        collectableCost = baseCollectableCost + overallStep;
+
+        // Figure out which collectable this tier uses
+        int value = tierIndex / 2;
+        currentCollectable = collectables[value];
     }
 }

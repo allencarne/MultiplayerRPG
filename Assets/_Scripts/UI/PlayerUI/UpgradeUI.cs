@@ -5,20 +5,25 @@ using UnityEngine.UI;
 
 public class UpgradeUI : MonoBehaviour
 {
+    // References
     [SerializeField] UpgradeSlot slot;
+    [SerializeField] PlayerStats playerStats;
+    [SerializeField] Inventory inventory;
 
+    // Slot
     [SerializeField] Image image_background;
     [SerializeField] Image image_icon;
 
+    // Currency
     [SerializeField] Image image_coinIcon;
     [SerializeField] Image image_collectableIcon;
 
+    // Text
     [SerializeField] TextMeshProUGUI text_name;
     [SerializeField] TextMeshProUGUI text_description;
     [SerializeField] TextMeshProUGUI text_available;
     [SerializeField] TextMeshProUGUI text_coinCost;
     [SerializeField] TextMeshProUGUI text_collectableCost;
-
     [SerializeField] TextMeshProUGUI[] text_statLines;
 
     public void AssignIcon(InventorySlotData slotData)
@@ -48,6 +53,58 @@ public class UpgradeUI : MonoBehaviour
     public void AssignData(InventorySlotData slotData)
     {
         text_description.text = FormatDescription(slotData);
+    }
+
+    public void AssignCost(InventorySlotData slotData)
+    {
+        // Cast Item as Equipment
+        Equipment equipment = (Equipment)slotData.item;
+
+        // Assign the Coin and Collectable Cost
+        slot.CalculateCost(equipment.LevelRequirement, equipment.ItemQuality);
+
+        // Set Coin Cost Text
+        text_coinCost.text = $"Coins: {slot.coinCost}";
+
+        // Set Collectable Cost Text
+        text_collectableCost.text = $"Collectable: {slot.collectableCost}";
+
+        image_coinIcon.gameObject.SetActive(true);
+        image_collectableIcon.gameObject.SetActive(true);
+
+        CalculateAvaliableUpgrades(slotData);
+    }
+
+    void CalculateAvaliableUpgrades(InventorySlotData slotData)
+    {
+        int avaliableUpgrades = 0;
+
+        // Check if we have enough coins
+        if (playerStats.Coins < slot.coinCost)
+        {
+            // not enough coins
+            text_coinCost.color = Color.red;
+        }
+        else
+        {
+            // enough coins
+            text_coinCost.color = Color.white;
+        }
+
+        // Check if we have enough collectable
+        int collectableAmount = inventory.GetItemQuantity(slot.currentCollectable.ITEM_ID);
+        if (collectableAmount < slot.collectableCost)
+        {
+            // not enough collectable
+            text_collectableCost.color = Color.red;
+        }
+        else
+        {
+            // enough collectable
+            text_collectableCost.color = Color.white;
+        }
+
+        text_available.text = $"Upgrades Available: {avaliableUpgrades}";
     }
 
     string FormatDescription(InventorySlotData slotData)
@@ -89,29 +146,6 @@ public class UpgradeUI : MonoBehaviour
         return $"<color=#{hex}><b>{quality}</b></color>";
     }
 
-    public void CloseUpgradeUI()
-    {
-        image_icon.sprite = null;
-        text_name.text = "Drop Equuipment to Upgrade";
-        text_name.color = Color.grey;
-        image_background.color = Color.white;
-        text_description.text = "";
-        text_available.text = "";
-
-        image_coinIcon.gameObject.SetActive(false);
-        image_collectableIcon.gameObject.SetActive(false);
-        text_coinCost.text = "";
-        text_collectableCost.text = "";
-
-        foreach (TextMeshProUGUI statLine in text_statLines)
-        {
-            statLine.text = "";
-            statLine.transform.parent.gameObject.SetActive(false);
-        }
-
-        slot.ClearSlot();
-    }
-
     public void IncreaseStat(int index)
     {
         // Increase stat by 1
@@ -124,25 +158,30 @@ public class UpgradeUI : MonoBehaviour
         //slot.upgradeSlotData.modifiers[index].value -= 1;
     }
 
-    public void AssignCost(InventorySlotData slotData)
+    public void CloseUpgradeUI()
     {
-        // Get the Coin and Collectable Cost
-        slot.CalculateCost(slotData);
+        image_icon.sprite = null;
+        text_name.text = "Drop Equuipment to Upgrade";
+        text_name.color = Color.grey;
+        image_background.color = Color.white;
+        text_description.text = "";
+        text_available.text = "";
 
-        // Set Coin Cost Text
-        text_coinCost.text = $"Coins: {slot.coinCost}";
+        image_coinIcon.gameObject.SetActive(false);
+        image_collectableIcon.gameObject.SetActive(false);
 
-        // Set Collectable Cost Text
-        text_collectableCost.text = $"Collectable: {slot.collectableCost}";
+        text_coinCost.text = "";
+        text_coinCost.color = Color.white;
 
-        image_coinIcon.gameObject.SetActive(true);
-        image_collectableIcon.gameObject.SetActive(true);
+        text_collectableCost.text = "";
+        text_collectableCost.color = Color.white;
 
-        int avaliableUpgrades = 0;
+        foreach (TextMeshProUGUI statLine in text_statLines)
+        {
+            statLine.text = "";
+            statLine.transform.parent.gameObject.SetActive(false);
+        }
 
-        // Check if we have enough coins and collectables
-
-
-        text_available.text = $"Upgrades Available: {avaliableUpgrades}";
+        slot.ClearSlot();
     }
 }

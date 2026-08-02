@@ -10965,6 +10965,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeUI
   slot: {fileID: 8910697217345389669}
+  playerStats: {fileID: 2477393547595159198}
+  inventory: {fileID: 6762276146836678153}
   image_background: {fileID: 3966031734484402122}
   image_icon: {fileID: 1136016108709956457}
   image_coinIcon: {fileID: 4016180534190903576}
@@ -33950,13 +33952,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ab723c4c3270f41b0cafc9107cf88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeSlot
+  inventory: {fileID: 6762276146836678153}
+  upgradeUI: {fileID: 7984517721417219688}
+  collectables:
+  - {fileID: 11400000, guid: f8d2cc8af0d003f4089175c91831d3e8, type: 2}
+  - {fileID: 11400000, guid: d20c197e1b2e1274182e19a59e15a27b, type: 2}
   upgradeSlotData:
     item: {fileID: 0}
     quantity: 0
     rarity: 0
     quality: 0
     modifiers: []
-  upgradeUI: {fileID: 7984517721417219688}
+  currentCollectable: {fileID: 0}
+  coinCost: 0
+  collectableCost: 0
 --- !u!1 &3660885095793205187
 GameObject:
   m_ObjectHideFlags: 0

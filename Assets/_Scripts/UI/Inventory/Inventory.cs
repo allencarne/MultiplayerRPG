@@ -410,6 +410,23 @@ public class Inventory : MonoBehaviour
         NotifyQuestSystemItemRemoved(itemID, quantityToRemove);
     }
 
+    public int GetItemQuantity(string itemID)
+    {
+        int amountOfThisItem = 0;
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null && items[i].item.ITEM_ID == itemID)
+            {
+                int quantity = items[i].quantity;
+
+                amountOfThisItem += quantity;
+            }
+        }
+
+        return amountOfThisItem;
+    }
+
     public void RemoveItemBySlot(int slotIndex, int quantityToRemove = -1)
     {
         // Validate the slot index and check if the slot is not null
