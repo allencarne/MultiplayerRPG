@@ -14,6 +14,7 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
     [HideInInspector] public int coinCost;
     [HideInInspector] public int collectableCost;
 
+    int fromInventorySlotIndex = -1;
     int[] LevelBreakpoints = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 };
 
     public void OnDrop(PointerEventData eventData)
@@ -38,21 +39,34 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
 
         // Assign Upgrade Slot
         upgradeSlotData = fromSlot.slotData;
-
-        // Remove Equipment from Inventory
+        fromInventorySlotIndex = fromSlot.slotIndex;
 
         // Set UI
-        upgradeUI.AssignIcon(fromSlot.slotData);
-        upgradeUI.AssignName(fromSlot.slotData);
-        upgradeUI.AssignStats(fromSlot.slotData);
-        upgradeUI.AssignData(fromSlot.slotData);
-        upgradeUI.AssignCost(fromSlot.slotData);
+        upgradeUI.AssignIcon(upgradeSlotData);
+        upgradeUI.AssignName(upgradeSlotData);
+        upgradeUI.AssignStats(upgradeSlotData);
+        upgradeUI.AssignData(upgradeSlotData);
+        upgradeUI.AssignCost(upgradeSlotData);
+
+        // Remove Equipment from Inventory while it's checked out for upgrading
+        inventory.RemoveItemBySlot(fromInventorySlotIndex);
     }
 
     public void ClearSlot()
     {
         upgradeSlotData = null;
         currentCollectable = null;
+        fromInventorySlotIndex = -1;
+    }
+
+    public void ReturnItemAndClear()
+    {
+        if (upgradeSlotData != null)
+        {
+            inventory.AddItem(upgradeSlotData);
+        }
+
+        ClearSlot();
     }
 
     public void CalculateCost(int level, ItemQuality quality)

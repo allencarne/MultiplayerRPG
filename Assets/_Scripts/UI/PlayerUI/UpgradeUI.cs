@@ -26,6 +26,9 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI text_collectableCost;
     [SerializeField] TextMeshProUGUI[] text_statLines;
 
+    // Stat
+    int[] statToAdd = new int[3];
+
     public void AssignIcon(InventorySlotData slotData)
     {
         image_icon.sprite = slotData.item.Icon;
@@ -149,13 +152,42 @@ public class UpgradeUI : MonoBehaviour
     public void IncreaseStat(int index)
     {
         // Increase stat by 1
-        //slot.upgradeSlotData.modifiers[index].value += 1;
+        statToAdd[index] += 1;
+
+        // Update UI
+        StatModifier modifier = slot.upgradeSlotData.modifiers[index];
+        text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
     }
 
     public void DecreaseStat(int index)
     {
         // Decrease stat by 1
-        //slot.upgradeSlotData.modifiers[index].value -= 1;
+        statToAdd[index] -= 1;
+
+        // Update UI
+        StatModifier modifier = slot.upgradeSlotData.modifiers[index];
+        text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
+    }
+
+    public void ApplyButton()
+    {
+        // Spend Resources
+
+        // Increase Quality
+
+        // Apply Stat Points
+        for (int i = 0; i < statToAdd.Length; i++)
+        {
+            if (i < slot.upgradeSlotData.modifiers.Count)
+            {
+                StatModifier modifier = slot.upgradeSlotData.modifiers[i];
+                modifier.value += statToAdd[i];
+                slot.upgradeSlotData.modifiers[i] = modifier;
+            }
+        }
+
+        // Return Item and reset the panel
+        slot.ReturnItemAndClear();
     }
 
     public void CloseUpgradeUI()
