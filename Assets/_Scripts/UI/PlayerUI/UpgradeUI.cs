@@ -26,6 +26,11 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI text_collectableCost;
     [SerializeField] TextMeshProUGUI[] text_statLines;
 
+    // Buttons
+    [SerializeField] Button[] button_statPlus;
+    [SerializeField] Button[] button_statMinus;
+    [SerializeField] Button button_apply;
+
     // Stat
     int[] statToAdd = new int[3];
 
@@ -78,20 +83,36 @@ public class UpgradeUI : MonoBehaviour
         CalculateAvaliableUpgrades(slotData);
     }
 
+    public void AssignButtons(InventorySlotData slotData)
+    {
+        // Hide Minus Buttons - so we cannot decrease points before adding them
+        for (int i = 0; i < button_statMinus.Length; i++)
+        {
+            button_statMinus[i].gameObject.SetActive(false);
+        }
+
+        // Hide Apply Button
+        button_apply.gameObject.SetActive(false);
+    }
+
     void CalculateAvaliableUpgrades(InventorySlotData slotData)
     {
         int avaliableUpgrades = 0;
+        bool enoughCoins = false;
+        bool enouchCollectables = false;
 
         // Check if we have enough coins
         if (playerStats.Coins < slot.coinCost)
         {
             // not enough coins
             text_coinCost.color = Color.red;
+            enoughCoins = false;
         }
         else
         {
             // enough coins
             text_coinCost.color = Color.white;
+            enoughCoins = true;
         }
 
         // Check if we have enough collectable
@@ -100,11 +121,19 @@ public class UpgradeUI : MonoBehaviour
         {
             // not enough collectable
             text_collectableCost.color = Color.red;
+            enouchCollectables = false;
         }
         else
         {
             // enough collectable
             text_collectableCost.color = Color.white;
+            enouchCollectables = true;
+
+        }
+
+        if (enoughCoins && enouchCollectables)
+        {
+            // Enable Plus Button for avaliable stats
         }
 
         text_available.text = $"Upgrades Available: {avaliableUpgrades}";
@@ -157,6 +186,14 @@ public class UpgradeUI : MonoBehaviour
         // Update UI
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
         text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
+
+        // Enable Apply Button
+        button_apply.gameObject.SetActive(true);
+
+        // Enable Minue Button
+        button_statMinus[index].gameObject.SetActive(true);
+
+        // Hide Plus button if we cannot upgrade any further
     }
 
     public void DecreaseStat(int index)
@@ -167,13 +204,15 @@ public class UpgradeUI : MonoBehaviour
         // Update UI
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
         text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
+
+        // If we decreaes enough - disable the plus
     }
 
     public void ApplyButton()
     {
-        // Spend Resources
+        // Spend Resources - worry about later
 
-        // Increase Quality
+        // Increase Quality - worry about later
 
         // Apply Stat Points
         for (int i = 0; i < statToAdd.Length; i++)
@@ -192,6 +231,8 @@ public class UpgradeUI : MonoBehaviour
 
     public void CloseUpgradeUI()
     {
+        slot.ReturnItemAndClear();
+
         image_icon.sprite = null;
         text_name.text = "Drop Equuipment to Upgrade";
         text_name.color = Color.grey;
