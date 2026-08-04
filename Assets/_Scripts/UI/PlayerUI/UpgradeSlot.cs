@@ -48,6 +48,7 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         upgradeUI.AssignData(upgradeSlotData);
         upgradeUI.AssignCost(upgradeSlotData);
         upgradeUI.AssignButtons(upgradeSlotData);
+        upgradeUI.RefreshUpgradeButtons();
 
         // Remove Equipment from Inventory while it's checked out for upgrading
         inventory.RemoveItemBySlot(fromInventorySlotIndex);

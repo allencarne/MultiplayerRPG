@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -79,13 +80,11 @@ public class UpgradeUI : MonoBehaviour
 
         image_coinIcon.gameObject.SetActive(true);
         image_collectableIcon.gameObject.SetActive(true);
-
-        CalculateAvaliableUpgrades(slotData);
     }
 
     public void AssignButtons(InventorySlotData slotData)
     {
-        // Hide Minus Buttons - so we cannot decrease points before adding them
+        // Hide Minus buttons - so we cannot decrease points before adding them
         for (int i = 0; i < button_statMinus.Length; i++)
         {
             button_statMinus[i].gameObject.SetActive(false);
@@ -93,50 +92,92 @@ public class UpgradeUI : MonoBehaviour
 
         // Hide Apply Button
         button_apply.gameObject.SetActive(false);
+
+        // Hide Plus Buttons - Enable as needed
+        for (int i = 0; i < button_statPlus.Length; i++)
+        {
+            if (i < slot.upgradeSlotData.modifiers.Count)
+            {
+                button_statPlus[i].gameObject.SetActive(true);
+            }
+        }
     }
 
-    void CalculateAvaliableUpgrades(InventorySlotData slotData)
+    void CheckAffordability()
     {
-        int avaliableUpgrades = 0;
-        bool enoughCoins = false;
-        bool enouchCollectables = false;
+        text_coinCost.color = HasEnoughCoins() ? Color.white : Color.red;
+        text_collectableCost.color = HasEnoughCollectables() ? Color.white : Color.red;
+    }
 
-        // Check if we have enough coins
-        if (playerStats.Coins < slot.coinCost)
-        {
-            // not enough coins
-            text_coinCost.color = Color.red;
-            enoughCoins = false;
-        }
-        else
-        {
-            // enough coins
-            text_coinCost.color = Color.white;
-            enoughCoins = true;
-        }
+    bool HasEnoughCoins()
+    {
+        return playerStats.Coins >= slot.coinCost;
+    }
 
-        // Check if we have enough collectable
+    bool HasEnoughCollectables()
+    {
         int collectableAmount = inventory.GetItemQuantity(slot.currentCollectable.ITEM_ID);
-        if (collectableAmount < slot.collectableCost)
-        {
-            // not enough collectable
-            text_collectableCost.color = Color.red;
-            enouchCollectables = false;
-        }
-        else
-        {
-            // enough collectable
-            text_collectableCost.color = Color.white;
-            enouchCollectables = true;
+        return collectableAmount >= slot.collectableCost;
+    }
 
-        }
+    int GetTotalStagedSteps()
+    {
+        int total = 0;
 
-        if (enoughCoins && enouchCollectables)
+        // Loop through every stat to add
+        for (int i = 0; i < statToAdd.Length; i++)
         {
-            // Enable Plus Button for avaliable stats
+            // add to the total
+            total += statToAdd[i];
         }
 
-        text_available.text = $"Upgrades Available: {avaliableUpgrades}";
+        // return the total stats to add
+        return total;
+    }
+
+    public void RefreshUpgradeButtons()
+    {
+        // Cast Item as Equipment
+        Equipment equipment = (Equipment)slot.upgradeSlotData.item;
+
+        // 1. Figure out the simulated quality index: the item's REAL quality
+        int simulatedQualityIndex = (int)slot.upgradeSlotData.quality + GetTotalStagedSteps();
+
+        // 2. Ceiling check FIRST, before touching cost at all:
+        if (simulatedQualityIndex >= Enum.GetNames(typeof(ItemQuality)).Length -1)
+        {
+            // Hide every plus button
+            for (int i = 0; i < button_statPlus.Length; i++)
+            {
+                button_statPlus[i].gameObject.SetActive(false);
+            }
+
+            // Apply Button
+            button_apply.gameObject.SetActive(GetTotalStagedSteps() > 0);
+
+            return;
+        }
+
+        // 3. Not at ceiling - NOW it's safe to ask "what would the next step cost."
+        slot.CalculateCost(equipment.LevelRequirement, (ItemQuality)simulatedQualityIndex);
+
+        text_coinCost.text = $"Coins: {slot.coinCost}";
+        text_collectableCost.text = $"Collectable: {slot.collectableCost}";
+        CheckAffordability();
+
+        // 4 & 5. Only show a plus button if this stat line actually exists on
+        //    the item AND the next step is affordable - both conditions required.
+        bool canStageAnother = HasEnoughCoins() && HasEnoughCollectables();
+
+        for (int i = 0; i < button_statPlus.Length; i++)
+        {
+            bool hasModifier = i < slot.upgradeSlotData.modifiers.Count;
+            button_statPlus[i].gameObject.SetActive(hasModifier && canStageAnother);
+        }
+
+        // 6. Apply is independent of affordability - staged progress should stay
+        //    visible/applicable even if the player can't afford to go further.
+        button_apply.gameObject.SetActive(GetTotalStagedSteps() > 0);
     }
 
     string FormatDescription(InventorySlotData slotData)
@@ -144,7 +185,6 @@ public class UpgradeUI : MonoBehaviour
         StringBuilder sb = new();
         sb.AppendLine(FormatNameWithRarity(slotData));
         sb.AppendLine(FormatNameWithQuality(slotData.quality));
-
         return sb.ToString();
     }
 
@@ -187,13 +227,10 @@ public class UpgradeUI : MonoBehaviour
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
         text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
 
-        // Enable Apply Button
-        button_apply.gameObject.SetActive(true);
-
-        // Enable Minue Button
+        // Button
         button_statMinus[index].gameObject.SetActive(true);
 
-        // Hide Plus button if we cannot upgrade any further
+        RefreshUpgradeButtons();
     }
 
     public void DecreaseStat(int index)
@@ -205,14 +242,23 @@ public class UpgradeUI : MonoBehaviour
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
         text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
 
-        // If we decreaes enough - disable the plus
+        // Button
+        if (statToAdd[index] <= 0)
+        {
+            button_statMinus[index].gameObject.SetActive(false);
+        }
+
+        RefreshUpgradeButtons();
     }
 
     public void ApplyButton()
     {
-        // Spend Resources - worry about later
+        // Spend Resources
+        //inventory.CoinSpent(pendingCoinTotal);
+        //inventory.RemoveItemByID(currentCollectable.ITEM_ID, pendingCollectableTotal);
 
-        // Increase Quality - worry about later
+        // Increase Quality
+        slot.upgradeSlotData.quality = (ItemQuality)((int)slot.upgradeSlotData.quality + GetTotalStagedSteps());
 
         // Apply Stat Points
         for (int i = 0; i < statToAdd.Length; i++)
