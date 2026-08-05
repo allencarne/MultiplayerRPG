@@ -42,16 +42,19 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         fromInventorySlotIndex = fromSlot.slotIndex;
 
         // Set UI
-        upgradeUI.AssignIcon(upgradeSlotData);
-        upgradeUI.AssignName(upgradeSlotData);
-        upgradeUI.AssignStats(upgradeSlotData);
-        upgradeUI.AssignData(upgradeSlotData);
-        upgradeUI.AssignCost(upgradeSlotData);
-        upgradeUI.AssignButtons(upgradeSlotData);
-        upgradeUI.RefreshUpgradeButtons();
+        UpdateUI();
 
         // Remove Equipment from Inventory while it's checked out for upgrading
         inventory.RemoveItemBySlot(fromInventorySlotIndex);
+    }
+
+    public void UpdateUI()
+    {
+        upgradeUI.AssignIconUI(upgradeSlotData);
+        upgradeUI.AssignNameUI(upgradeSlotData);
+        upgradeUI.AssignStatsUI(upgradeSlotData);
+        upgradeUI.AssignDataUI(upgradeSlotData);
+        upgradeUI.AssignButtonsUI(upgradeSlotData);
     }
 
     public void ClearSlot()
