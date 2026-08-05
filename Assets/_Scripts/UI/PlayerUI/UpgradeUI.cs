@@ -45,7 +45,7 @@ public class UpgradeUI : MonoBehaviour
 
     public void AssignNameUI(InventorySlotData slotData)
     {
-        text_name.text = FormatNameWithRarity(slotData);
+        text_name.text = FormatNameWithRarity(slotData, slotData.item.name);
     }
 
     public void AssignStatsUI(InventorySlotData slotData)
@@ -230,12 +230,12 @@ public class UpgradeUI : MonoBehaviour
     string FormatDescription(InventorySlotData slotData, ItemQuality quality)
     {
         StringBuilder sb = new();
-        sb.AppendLine(FormatNameWithRarity(slotData));
+        sb.AppendLine(FormatNameWithRarity(slotData, slotData.rarity.ToString()));
         sb.AppendLine(FormatNameWithQuality(quality));
         return sb.ToString();
     }
 
-    string FormatNameWithRarity(InventorySlotData slotData)
+    string FormatNameWithRarity(InventorySlotData slotData, string name)
     {
         // Get Rarity Color
         Color color = slotData.item.GetRarityColor(slotData.rarity);
@@ -244,7 +244,7 @@ public class UpgradeUI : MonoBehaviour
         string colorHex = ColorUtility.ToHtmlStringRGB(color);
 
         // Format the name with the appropriate color using rich text
-        return $"<color=#{colorHex}><b>{slotData.item.name}</b></color>";
+        return $"<color=#{colorHex}><b>{name}</b></color>";
     }
 
     string FormatNameWithQuality(ItemQuality quality)
