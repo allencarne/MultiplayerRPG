@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,7 +63,7 @@ public class UpgradeUI : MonoBehaviour
 
     public void AssignDataUI(InventorySlotData slotData)
     {
-        text_description.text = FormatDescription(slotData);
+        text_description.text = FormatDescription(slotData, slotData.quality);
     }
 
     public void AssignButtonsUI(InventorySlotData slotData)
@@ -126,7 +125,10 @@ public class UpgradeUI : MonoBehaviour
         int stagedSteps = GetTotalStagedSteps();
 
         // Determine what quality the item WOULD become if applied.
-        int simulatedQuality = (int)slot.upgradeSlotData.quality + stagedSteps;
+        int simulatedQuality = Mathf.Min((int)slot.upgradeSlotData.quality + stagedSteps,Enum.GetNames(typeof(ItemQuality)).Length - 1);
+
+        // Update the description to reflect the simulated quality
+        text_description.text = FormatDescription(slot.upgradeSlotData, (ItemQuality)simulatedQuality);
 
         // Calculate the TOTAL pending cost
         CalculatePendingCosts();
@@ -147,7 +149,10 @@ public class UpgradeUI : MonoBehaviour
             // Show Plus buttons for every stat line.
             for (int i = 0; i < button_statPlus.Length; i++)
             {
+                // hasModifier checks if the current index has a corresponding modifier in the upgradeSlotData. If it does, the plus button can be shown based on max quality.
                 bool hasModifier = i < slot.upgradeSlotData.modifiers.Count;
+
+                // Show the plus button if there is a modifier and we haven't reached max quality.
                 button_statPlus[i].gameObject.SetActive(hasModifier && !reachedMaxQuality);
 
                 // No staged upgrades means NO minus buttons.
@@ -222,11 +227,11 @@ public class UpgradeUI : MonoBehaviour
         slot.CalculateCost(equipment.LevelRequirement, quality);
     }
 
-    string FormatDescription(InventorySlotData slotData)
+    string FormatDescription(InventorySlotData slotData, ItemQuality quality)
     {
         StringBuilder sb = new();
         sb.AppendLine(FormatNameWithRarity(slotData));
-        sb.AppendLine(FormatNameWithQuality(slotData.quality));
+        sb.AppendLine(FormatNameWithQuality(quality));
         return sb.ToString();
     }
 

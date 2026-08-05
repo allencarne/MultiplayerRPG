@@ -37,6 +37,9 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         // Return if not Equipment or Weapon
         if (fromSlot.slotData.item.ItemCategory != ItemCategory.Equipment && fromSlot.slotData.item.ItemCategory != ItemCategory.Weapon) return;
 
+        // If another item is already being upgraded, return it to the player's inventory first.
+        if (upgradeSlotData != null) ReturnItemAndClear();
+
         // Assign Upgrade Slot
         upgradeSlotData = fromSlot.slotData;
         fromInventorySlotIndex = fromSlot.slotIndex;
@@ -98,5 +101,14 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         // Figure out which collectable this tier uses
         int value = tierIndex / 2;
         currentCollectable = collectables[value];
+    }
+
+    private void OnApplicationQuit()
+    {
+        // If the player quits while an item is in the upgrade slot, return it to their inventory
+        if (upgradeSlotData != null)
+        {
+            ReturnItemAndClear();
+        }
     }
 }
