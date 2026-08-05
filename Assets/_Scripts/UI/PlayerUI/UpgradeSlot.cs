@@ -41,6 +41,9 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         upgradeSlotData = fromSlot.slotData;
         fromInventorySlotIndex = fromSlot.slotIndex;
 
+        // Start fresh for this item
+        upgradeUI.ResetUpgradeState();
+
         // Set UI
         UpdateUI();
 
@@ -54,7 +57,7 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         upgradeUI.AssignNameUI(upgradeSlotData);
         upgradeUI.AssignStatsUI(upgradeSlotData);
         upgradeUI.AssignDataUI(upgradeSlotData);
-        upgradeUI.AssignButtonsUI(upgradeSlotData);
+        upgradeUI.RefreshUpgradeButtons();
     }
 
     public void ClearSlot()

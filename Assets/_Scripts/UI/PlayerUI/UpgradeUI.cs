@@ -141,13 +141,17 @@ public class UpgradeUI : MonoBehaviour
 
             button_apply.gameObject.SetActive(false);
 
+            // Check if we reached max quality
+            bool reachedMaxQuality = simulatedQuality >= Enum.GetNames(typeof(ItemQuality)).Length - 1;
+
             // Show Plus buttons for every stat line.
             for (int i = 0; i < button_statPlus.Length; i++)
             {
-                bool hasModifier =
-                    i < slot.upgradeSlotData.modifiers.Count;
+                bool hasModifier = i < slot.upgradeSlotData.modifiers.Count;
+                button_statPlus[i].gameObject.SetActive(hasModifier && !reachedMaxQuality);
 
-                button_statPlus[i].gameObject.SetActive(hasModifier);
+                // No staged upgrades means NO minus buttons.
+                button_statMinus[i].gameObject.SetActive(false);
             }
 
             return;
@@ -166,15 +170,18 @@ public class UpgradeUI : MonoBehaviour
 
         // Only visible if the player can afford
         button_apply.gameObject.SetActive(canAfford);
-        
+
         // Check if we reached max quality
-        bool reachedMaxQuality = simulatedQuality >= Enum.GetNames(typeof(ItemQuality)).Length - 1;
+        bool maxQualityReached = simulatedQuality >= Enum.GetNames(typeof(ItemQuality)).Length - 1;
 
         // Handle Plus Buttons
         for (int i = 0; i < button_statPlus.Length; i++)
         {
+            // hasModifier checks if the current index has a corresponding modifier in the upgradeSlotData. If it does, the plus button can be shown based on affordability and max quality.
             bool hasModifier = i < slot.upgradeSlotData.modifiers.Count;
-            button_statPlus[i].gameObject.SetActive(hasModifier && canAfford && !reachedMaxQuality);
+
+            // show/hide the plus button based on affordability and max quality
+            button_statPlus[i].gameObject.SetActive(hasModifier && canAfford && !maxQualityReached);
         }
 
         // Handle Minus Buttons
@@ -255,6 +262,9 @@ public class UpgradeUI : MonoBehaviour
 
     public void IncreaseStat(int index)
     {
+        int simulatedQuality = (int)slot.upgradeSlotData.quality + GetTotalStagedSteps();
+        if (simulatedQuality >= Enum.GetNames(typeof(ItemQuality)).Length - 1) return;
+
         // Increase stat by 1
         statToAdd[index] += 1;
 
@@ -306,8 +316,18 @@ public class UpgradeUI : MonoBehaviour
             }
         }
 
+        // Clear Staged Stats
+        ResetUpgradeState();
+
         // Update UI
         slot.UpdateUI();
+    }
+
+    public void ResetUpgradeState()
+    {
+        Array.Clear(statToAdd, 0, statToAdd.Length);
+        pendingCoinTotal = 0;
+        pendingCollectableTotal = 0;
     }
 
     public void CloseUpgradeUI()
@@ -330,10 +350,7 @@ public class UpgradeUI : MonoBehaviour
         text_collectableCost.text = "";
         text_collectableCost.color = Color.white;
 
-        for (int i = 0;i < statToAdd.Length;i++)
-        {
-            statToAdd[i] = 0;
-        }
+        ResetUpgradeState();
 
         foreach (TextMeshProUGUI statLine in text_statLines)
         {

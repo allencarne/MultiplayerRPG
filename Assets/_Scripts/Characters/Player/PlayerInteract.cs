@@ -29,6 +29,7 @@ public class PlayerInteract : NetworkBehaviour
 
     [SerializeField] QuestInfoPanel questInfoPanel;
     [SerializeField] VendorInfoPanel vendorInfoPanel;
+    [SerializeField] UpgradeUI upgradeInfoPanel;
 
     readonly List<IInteractable> interactablesInRange = new List<IInteractable>();
 
@@ -189,6 +190,7 @@ public class PlayerInteract : NetworkBehaviour
         player.IsInteracting = false;
         hasInteracted = true;
         vendorInfoPanel.RemoveItems();
+        upgradeInfoPanel.CloseUpgradeUI();
     }
 
     private void UpdateInteractText(string name)
