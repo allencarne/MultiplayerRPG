@@ -10,6 +10,7 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] UpgradeSlot slot;
     [SerializeField] PlayerStats playerStats;
     [SerializeField] Inventory inventory;
+    [SerializeField] PlayerQuest quest;
 
     // Slot
     [SerializeField] Image image_background;
@@ -326,6 +327,9 @@ public class UpgradeUI : MonoBehaviour
 
         // Update UI
         slot.UpdateUI();
+
+        // Notify Quest System that the Equipment has been upgraded
+        quest.UpdateObjective(ObjectiveType.Complete, "Upgrade");
     }
 
     public void ResetUpgradeState()
