@@ -59,7 +59,6 @@ public class ItemDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         // Put the item visual back into its original inventory slot
         itemVisual.SetParent(originalParent, true);
 
-
         // Restore its normal scale in case any parent scaling affected it
         itemVisual.localScale = Vector3.one;
 

@@ -8,6 +8,7 @@ public class ContextMenu : MonoBehaviour
 {
     [SerializeField] VendorInfoPanel vendorInfoPanel;
     [SerializeField] PlayerEquipment equipment;
+    [SerializeField] UpgradeSlot upgradeSlot;
 
     [SerializeField] GameObject contextMenu;
     [SerializeField] InventorySlot inventorySlot;
@@ -18,6 +19,7 @@ public class ContextMenu : MonoBehaviour
     [SerializeField] Button split_Button;
     [SerializeField] Button drop_Button;
     [SerializeField] Button sell_Button;
+    [SerializeField] Button upgrade_Button;
 
     private void OnEnable()
     {
@@ -118,6 +120,17 @@ public class ContextMenu : MonoBehaviour
         vendorInfoPanel.SellAttempt(inventorySlot, data.item);
     }
 
+    public void _UpgradeButton()
+    {
+        InventorySlotData data = inventorySlot.slotData;
+        if (data == null) return;
+
+        contextMenu.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(border_Button.gameObject);
+
+        if (upgradeSlot != null) upgradeSlot.UpgradeAttempt(inventorySlot);
+    }
+
     private IEnumerator CheckSelection()
     {
         while (contextMenu.activeSelf)
@@ -129,6 +142,7 @@ public class ContextMenu : MonoBehaviour
                 current == split_Button.gameObject ||
                 current == drop_Button.gameObject ||
                 current == sell_Button.gameObject ||
+                current == upgrade_Button.gameObject ||
                 current == border_Button.gameObject;
 
             if (!isValid)

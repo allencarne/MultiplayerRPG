@@ -14,6 +14,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public Image itemIcon;
     public Image itemBackground;
     public Image redTint;
+    public Image image_QualityBorder;
     public TextMeshProUGUI amountText;
 
     [SerializeField] Color defaultColor;
@@ -33,8 +34,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         // Make sure the icon is visible
         itemIcon.enabled = true;
 
+        // Display the quality border
+        image_QualityBorder.enabled = true;
+
         // Set the background color based on the item's rarity
         itemBackground.color = data.item.GetRarityColor(data.rarity);
+
+        // Set the quality border color based on the item's quality
+        image_QualityBorder.color = data.item.GetQualityColor(data.quality);
 
         // Show a red tint if the player is too low level to use this item
         redTint.enabled = IsUnderLevelRequirement(data.item);
@@ -74,6 +81,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
         // Restore the empty slot background color
         itemBackground.color = defaultColor;
+
+        // Hide the quality border
+        image_QualityBorder.enabled = false;
 
         // Hide the red tint
         redTint.enabled = false;

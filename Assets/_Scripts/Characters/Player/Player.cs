@@ -31,6 +31,7 @@ public class Player : NetworkBehaviour
 
     public bool IsInteracting = false;
     public bool CanSellItems = false;
+    public bool CanUpgradeItems = false;
 
     [Header("Ability Indexes")]
     public int FirstPassiveIndex = 0;

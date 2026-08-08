@@ -178,6 +178,7 @@ public class PlayerInteract : NetworkBehaviour
 
     public void OpenUpgradeUI()
     {
+        player.CanUpgradeItems = true;
         interactText.enabled = false;
         playerUI._UpgradeUI();
     }
@@ -187,6 +188,7 @@ public class PlayerInteract : NetworkBehaviour
         // Called From: Dialogue Panel, QuestPanel, VendorPanel, UpgradePanel
         interactText.enabled = false;
         player.CanSellItems = false;
+        player.CanUpgradeItems = false;
         player.IsInteracting = false;
         hasInteracted = true;
         vendorInfoPanel.RemoveItems();

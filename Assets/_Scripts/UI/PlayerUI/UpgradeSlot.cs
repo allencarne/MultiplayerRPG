@@ -54,6 +54,32 @@ public class UpgradeSlot : MonoBehaviour, IDropHandler
         inventory.RemoveItemBySlot(fromInventorySlotIndex);
     }
 
+    public void UpgradeAttempt(InventorySlot fromSlot)
+    {
+        // Return if slot is empty
+        if (fromSlot == null) return;
+        if (fromSlot.slotData == null) return;
+
+        // Return if not Equipment or Weapon
+        if (fromSlot.slotData.item.ItemCategory != ItemCategory.Equipment && fromSlot.slotData.item.ItemCategory != ItemCategory.Weapon) return;
+
+        // If another item is already being upgraded, return it to the player's inventory first.
+        if (upgradeSlotData != null) ReturnItemAndClear();
+
+        // Assign Upgrade Slot
+        upgradeSlotData = fromSlot.slotData;
+        fromInventorySlotIndex = fromSlot.slotIndex;
+
+        // Start fresh for this item
+        upgradeUI.ResetUpgradeState();
+
+        // Set UI
+        UpdateUI();
+
+        // Remove Equipment from Inventory while it's checked out for upgrading
+        inventory.RemoveItemBySlot(fromInventorySlotIndex);
+    }
+
     public void UpdateUI()
     {
         upgradeUI.AssignIconUI(upgradeSlotData);

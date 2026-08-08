@@ -11,6 +11,7 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
     // UI
     public Image itemIcon;
     public Image itemBackground;
+    public Image image_QualityBorder;
 
     // Value
     public int index;
@@ -24,6 +25,9 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
 
         itemBackground.color = data.item.GetRarityColor(data.rarity);
         itemBackground.enabled = true;
+
+        image_QualityBorder.enabled = true;
+        image_QualityBorder.color = data.item.GetQualityColor(data.quality);
     }
 
     public void ClearSlot()
@@ -35,6 +39,8 @@ public class EquipmentSlot : MonoBehaviour, IDropHandler
 
         itemBackground.color = Color.white;
         itemBackground.enabled = false;
+
+        image_QualityBorder.enabled = false;
     }
 
     public void UseItem()
