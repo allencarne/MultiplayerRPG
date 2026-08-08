@@ -15,6 +15,7 @@ public class UpgradeUI : MonoBehaviour
     // Slot
     [SerializeField] Image image_background;
     [SerializeField] Image image_icon;
+    [SerializeField] Image image_QualityBorder;
 
     // Currency
     [SerializeField] Image image_coinIcon;
@@ -232,7 +233,7 @@ public class UpgradeUI : MonoBehaviour
     {
         StringBuilder sb = new();
         sb.AppendLine(FormatNameWithRarity(slotData, slotData.rarity.ToString()));
-        sb.AppendLine(FormatNameWithQuality(quality));
+        sb.AppendLine(FormatNameWithQuality(slotData, quality));
         return sb.ToString();
     }
 
@@ -248,16 +249,14 @@ public class UpgradeUI : MonoBehaviour
         return $"<color=#{colorHex}><b>{name}</b></color>";
     }
 
-    string FormatNameWithQuality(ItemQuality quality)
+    string FormatNameWithQuality(InventorySlotData slotData, ItemQuality quality)
     {
-        Color color = quality switch
-        {
-            ItemQuality.Normal => Color.white,
-            ItemQuality.Good => new Color32(120, 200, 120, 255),
-            ItemQuality.Great => new Color32(100, 170, 255, 255),
-            ItemQuality.Excellent => new Color32(255, 215, 100, 255),
-            _ => Color.white
-        };
+        // Get Quality Color
+        Color color = slotData.item.GetQualityColor(quality);
+
+        // Set Quality Border
+        image_QualityBorder.enabled = true;
+        image_QualityBorder.color = color;
 
         // Convert the Color to a hex string
         string hex = ColorUtility.ToHtmlStringRGB(color);
@@ -358,6 +357,8 @@ public class UpgradeUI : MonoBehaviour
 
         text_collectableCost.text = "";
         text_collectableCost.color = Color.white;
+
+        image_QualityBorder.enabled = false;
 
         ResetUpgradeState();
 
