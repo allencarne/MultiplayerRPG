@@ -13,7 +13,7 @@ public class EnemyDrops : MonoBehaviour
         {
             if (Random.Range(0f, 100f) < item.DropChance)
             {
-                Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * 1;
+                Vector2 randomPoint = (Vector2)transform.position + Random.insideUnitCircle * 1.5f;
                 GameObject drop = Instantiate(item.Prefab, randomPoint, Quaternion.identity);
                 NetworkObject netItem = drop.GetComponent<NetworkObject>();
                 netItem.Spawn();

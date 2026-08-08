@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58209c6e5a952e54b90c6c0dde0b23dc, type: 3}
+  m_Name: Quest14_Eventful Day
+  m_EditorClassIdentifier: Assembly-CSharp::Quest
+  QuestID: Quest14
+  QuestName: Eventful Day
+  LevelRequirment: 0
+  Instructions: As you explore you will come across Totems, Interacting with one
+    will start a random event you must complete within a short amount of time. Find
+    one, complete the challened and return to me. I want to know how it goes!
+  Deliver: You're still standing! Way to go Adventurer!
+  RequiredQuests:
+  - {fileID: 11400000, guid: 259a2ff34f2c4284b8567717f67bca5c, type: 2}
+  Objectives:
+  - type: 4
+    ObjectiveID: Totem
+    Description: Find a Totem and complete it's challenge.
+    RequiredAmount: 1
+    CurrentAmount: 0
+  expReward: 15
+  goldReward: 5
+  StarterItems: []
+  RewardItems: []
