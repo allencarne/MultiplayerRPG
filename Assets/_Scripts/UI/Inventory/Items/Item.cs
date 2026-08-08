@@ -37,6 +37,7 @@ public class Item : ScriptableObject
     public ItemQuality ItemQuality;
 
     public ItemRarityInfo rarityInfo;
+    public ItemQualityInfo qualityInfo;
     public ItemStatRules ItemStatRules;
 
     public virtual void Use(Inventory _inventory, EquipmentManager _equipmentManager, InventorySlotData slotData)
@@ -62,6 +63,19 @@ public class Item : ScriptableObject
             case ItemRarity.Mythic: color = rarityInfo.MythicColor; break;
             case ItemRarity.Ascended: color = rarityInfo.AscendedColor; break;
             case ItemRarity.Legendary: color = rarityInfo.LegendaryColor; break;
+        }
+        return color;
+    }
+
+    public Color GetQualityColor(ItemQuality quality)
+    {
+        Color color = Color.white;
+        switch (quality)
+        {
+            case ItemQuality.Normal: color = qualityInfo.NormalColor; break;
+            case ItemQuality.Good: color = qualityInfo.GoodColor; break;
+            case ItemQuality.Great: color = qualityInfo.GreatColor; break;
+            case ItemQuality.Excellent: color = qualityInfo.ExcellentColor; break;
         }
         return color;
     }

@@ -13,6 +13,7 @@ public class ToolTip : MonoBehaviour
     [SerializeField] Image itemIcon;
     [SerializeField] Image itemBackground;
     [SerializeField] Image textBox;
+    [SerializeField] Image image_QualityBorder;
     [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
 
@@ -59,17 +60,16 @@ public class ToolTip : MonoBehaviour
 
     string FormatNameWithQuality(ItemQuality quality)
     {
-        Color color = quality switch
-        {
-            ItemQuality.Normal => Color.white,
-            ItemQuality.Good => new Color32(120, 200, 120, 255),
-            ItemQuality.Great => new Color32(100, 170, 255, 255),
-            ItemQuality.Excellent => new Color32(255, 215, 100, 255),
-            _ => Color.white
-        };
+        // Get Quality Color
+        Color color = data.item.GetQualityColor(quality);
 
+        // Assign Border Color
+        image_QualityBorder.color = color;
+
+        // Convert the Color to a hex string
         string hex = ColorUtility.ToHtmlStringRGB(color);
 
+        // Format the quality with the appropriate color using rich text
         return $"<color=#{hex}><b>{quality}</b></color>";
     }
 
