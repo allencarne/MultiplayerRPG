@@ -4,11 +4,12 @@ using UnityEngine.UI;
 
 public class VendorItem : MonoBehaviour
 {
-    [SerializeField] Image background;
     [SerializeField] TextMeshProUGUI priceText;
     [SerializeField] Color color;
 
+    [SerializeField] Image background;
     [SerializeField] Image redTint;
+    [SerializeField] Image image_QualityBorder;
 
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] public Inventory inventory;
@@ -69,6 +70,9 @@ public class VendorItem : MonoBehaviour
 
         // Red Tint for items that are above the player's level requirement
         redTint.enabled = IsUnderLevelRequirement(slotData.item);
+
+        // Set Quality Border
+        image_QualityBorder.color = slotData.item.GetQualityColor(slotData.quality);
     }
 
     bool IsUnderLevelRequirement(Item item)
