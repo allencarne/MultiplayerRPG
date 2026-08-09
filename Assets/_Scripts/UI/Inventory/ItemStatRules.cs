@@ -43,7 +43,7 @@ public class ItemStatRules : ScriptableObject
         if (slot.quality == 0) slot.quality = slot.item.ItemQuality;
 
         // Calculate the total stat budget for this item
-        int budget = ComputeBudget(slot);
+        int budget = GetBudget(slot);
 
         // Create the item's rolled modifiers
         float decay = Random.Range(statLineDecayMin, statLineDecayMax);
@@ -76,13 +76,13 @@ public class ItemStatRules : ScriptableObject
         if (equipment == null) return;
 
         // Calculate the total stat budget for this item
-        int budget = ComputeBudget(slot);
+        int budget = GetBudget(slot);
 
         // Create the item's rolled modifiers
         slot.modifiers = RollModifiers(equipment, budget, standardStatLineDecay, randomizeSecondaryOrder: false);
     }
 
-    int ComputeBudget(InventorySlotData slot)
+    int GetBudget(InventorySlotData slot)
     {
         // Convert the item into Equipment
         Equipment equipment = slot.item as Equipment;
@@ -344,5 +344,13 @@ public class ItemStatRules : ScriptableObject
 
         // Convert the integer back into the ItemRarity enum
         return (ItemRarity)rolledIndex;
+    }
+
+    public int CompareBudget(InventorySlotData item, InventorySlotData equipped)
+    {
+        int itemBudget = GetBudget(item);
+        int equippedBudget = GetBudget(equipped);
+
+        return itemBudget.CompareTo(equippedBudget);
     }
 }

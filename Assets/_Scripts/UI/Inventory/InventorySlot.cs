@@ -267,16 +267,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     Color GetEquipmentComparisonColor(Equipment equip)
     {
         // Get the currently equipped item for this equipment slot
-        Equipment equipped = equipmentManager.currentEquipment[(int)equip.equipmentType]?.item as Equipment;
+        InventorySlotData equippedData = equipmentManager.currentEquipment[(int)equip.equipmentType];
 
         // Nothing equipped means this item is automatically an upgrade
-        if (equipped == null) return upgradeColor;
+        if (equippedData?.item is not Equipment equipped) return upgradeColor;
 
-        // Higher level than equipped
-        if (equip.LevelRequirement > equipped.LevelRequirement) return upgradeColor;
+        int comparison = equip.ItemStatRules.CompareBudget(slotData,equippedData);
 
-        // Lower level than equipped
-        if (equip.LevelRequirement < equipped.LevelRequirement) return downgradeColor;
+        if (comparison > 0) return upgradeColor;
+
+        if (comparison < 0) return downgradeColor;
 
         // Same level as equipped
         return SameLevelColor;
