@@ -8,8 +8,8 @@ public class VendorItem : MonoBehaviour
     [SerializeField] Color color;
 
     [SerializeField] Image background;
-    [SerializeField] Image redTint;
     [SerializeField] Image image_QualityBorder;
+    [SerializeField] Image image_ItemIcon;
 
     [HideInInspector] public PlayerStats playerStats;
     [HideInInspector] public Inventory inventory;
@@ -68,8 +68,15 @@ public class VendorItem : MonoBehaviour
             priceText.color = Color.black;
         }
 
-        // Red Tint for items that are above the player's level requirement
-        redTint.enabled = IsUnderLevelRequirement(slotData.item);
+        image_ItemIcon.color = Color.white;
+        image_ItemIcon.sprite = slotData.item.Icon;
+
+        // Red Tint
+        bool _isUnderLvl = IsUnderLevelRequirement(slotData.item);
+        if (_isUnderLvl)
+        {
+            image_ItemIcon.color = Color.red;
+        }
 
         // Set Quality Border
         image_QualityBorder.color = slotData.item.GetQualityColor(slotData.quality);

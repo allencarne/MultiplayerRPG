@@ -45,17 +45,6 @@ public class VendorInfoPanel : MonoBehaviour
             toolTip.Init(player, data);
         }
 
-        Transform iconTransform = itemUI.transform.Find("ItemIcon");
-        if (iconTransform != null)
-        {
-            Image icon = iconTransform.GetComponent<Image>();
-            if (icon != null)
-            {
-                icon.color = Color.white;
-                icon.sprite = data.item.Icon;
-            }
-        }
-
         Transform backgroundTransform = itemUI.transform.Find("ItemBackground");
         if (backgroundTransform != null)
         {

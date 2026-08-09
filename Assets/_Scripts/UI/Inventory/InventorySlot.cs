@@ -13,7 +13,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     public int slotIndex;
     public Image itemIcon;
     public Image itemBackground;
-    public Image redTint;
     public Image image_QualityBorder;
     public TextMeshProUGUI amountText;
 
@@ -44,7 +43,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         image_QualityBorder.color = data.item.GetQualityColor(data.quality);
 
         // Show a red tint if the player is too low level to use this item
-        redTint.enabled = IsUnderLevelRequirement(data.item);
+        bool _isUnderLvl = IsUnderLevelRequirement(data.item);
+        if (_isUnderLvl) itemIcon.color = Color.red;
 
         // Update the text shown in the bottom corner of the slot.
         // (Level requirement for equipment, stack count for consumables.)
@@ -86,7 +86,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         image_QualityBorder.enabled = false;
 
         // Hide the red tint
-        redTint.enabled = false;
+        itemIcon.color = Color.white;
 
         // Clear the amount/level text
         ClearStacks();
@@ -197,8 +197,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             // Set Item Background color based on rarity
             itemBackground.color = slotData.item.GetRarityColor(slotData.rarity);
 
-            // Show or hide the red tint depending on the player's level
-            redTint.enabled = IsUnderLevelRequirement(slotData.item);
+            // Show a red tint if the player is too low level to use this item
+            bool _isUnderLvl = IsUnderLevelRequirement(slotData.item);
+            if (_isUnderLvl) itemIcon.color = Color.red;
 
             // Update the amount/level text
             RefreshAmountText(slotData.item, slotData.quantity);
@@ -221,7 +222,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             amountText.color = Color.white;
 
             // Hide the level restriction tint
-            redTint.enabled = false;
+            itemIcon.color = Color.white;
         }
     }
 
