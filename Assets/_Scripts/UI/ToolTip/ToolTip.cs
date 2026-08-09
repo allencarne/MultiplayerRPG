@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ToolTip : MonoBehaviour
 {
+    [SerializeField] PlayerStats stats;
+
     [Header("Data")]
     InventorySlotData data;
 
@@ -16,6 +18,22 @@ public class ToolTip : MonoBehaviour
     [SerializeField] Image image_QualityBorder;
     [SerializeField] TextMeshProUGUI itemName_Text;
     [SerializeField] TextMeshProUGUI itemInfo_Text;
+
+    private void OnEnable()
+    {
+        if (stats != null)
+        {
+            stats.PlayerLevel.OnValueChanged += OnPlayerLevelChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (stats != null)
+        {
+            stats.PlayerLevel.OnValueChanged -= OnPlayerLevelChanged;
+        }
+    }
 
     public void GetData(InventorySlotData slotData)
     {
@@ -37,6 +55,9 @@ public class ToolTip : MonoBehaviour
 
         // Description
         itemInfo_Text.text = FormatDescription(data);
+
+        // Check Level Requirement
+        itemIcon.color = IsUnderLevelRequirement(data.item) ? Color.red : Color.white;
     }
 
     string FormatNameWithRarity(string name, ItemRarity rarity)
@@ -106,13 +127,42 @@ public class ToolTip : MonoBehaviour
                 {
                     sb.AppendLine(equipment.equipmentType.ToString());
                 }
-                    
-                sb.AppendLine($"Required Level: {equipment.LevelRequirement}");
-                sb.AppendLine($"Required Class: {equipment.ClassRequirement}");
+
+                bool underLevel = stats.PlayerLevel.Value < equipment.LevelRequirement;
+                string levelColor = underLevel ? "red" : "white";
+
+                bool wrongClass = IsWrongClass(equipment);
+                string classColor = wrongClass ? "red" : "white";
+
+
+                sb.AppendLine($"<color={levelColor}>Required Level: {equipment.LevelRequirement}</color>");
+                sb.AppendLine($"<color={classColor}>Required Class: {equipment.ClassRequirement}</color>");
                 sb.AppendLine($"{equipment.SellValue}<sprite index=0>");
                 break;
         }
 
         return sb.ToString();
+    }
+
+    void OnPlayerLevelChanged(int oldVal, int newVal)
+    {
+        UpdateToolTip();
+    }
+
+    bool IsUnderLevelRequirement(Item item)
+    {
+        return item is Equipment equip && stats.PlayerLevel.Value < equip.LevelRequirement;
+    }
+
+    bool IsWrongClass(Item item)
+    {
+        // Check if the item is an Equipment
+        if (item is not Equipment equipment) return false;
+
+        // Check if the equipment has a class requirement
+        if (equipment.ClassRequirement == ClassRequirement.None) return false;
+
+        // Check if the player's class matches the equipment's class requirement
+        return stats.playerClass.ToString() != equipment.ClassRequirement.ToString();
     }
 }

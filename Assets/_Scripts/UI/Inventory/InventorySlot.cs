@@ -43,8 +43,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         image_QualityBorder.color = data.item.GetQualityColor(data.quality);
 
         // Show a red tint if the player is too low level to use this item
-        bool _isUnderLvl = IsUnderLevelRequirement(data.item);
-        if (_isUnderLvl) itemIcon.color = Color.red;
+        itemIcon.color = IsUnderLevelRequirement(slotData.item) ? Color.red : Color.white;
 
         // Update the text shown in the bottom corner of the slot.
         // (Level requirement for equipment, stack count for consumables.)
@@ -197,9 +196,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             // Set Item Background color based on rarity
             itemBackground.color = slotData.item.GetRarityColor(slotData.rarity);
 
-            // Show a red tint if the player is too low level to use this item
-            bool _isUnderLvl = IsUnderLevelRequirement(slotData.item);
-            if (_isUnderLvl) itemIcon.color = Color.red;
+            // Set the correct icon tint
+            itemIcon.color = IsUnderLevelRequirement(slotData.item) ? Color.red : Color.white;
 
             // Update the amount/level text
             RefreshAmountText(slotData.item, slotData.quantity);
