@@ -71,20 +71,20 @@ public class VendorItem : MonoBehaviour
         image_ItemIcon.color = Color.white;
         image_ItemIcon.sprite = slotData.item.Icon;
 
-        // Red Tint
-        bool _isUnderLvl = IsUnderLevelRequirement(slotData.item);
-        if (_isUnderLvl)
+        // Show a red tint if the player is too low level to use this item
+        if (slotData.item is Equipment equipment)
         {
-            image_ItemIcon.color = Color.red;
+            // Show a red tint if the player is too low level to use this item
+            image_ItemIcon.color = equipment.CanPlayerUse(playerStats) ? Color.white : Color.red;
+        }
+        else
+        {
+            // Non-equipment items are always usable, so no red tint
+            image_ItemIcon.color = Color.white;
         }
 
         // Set Quality Border
         image_QualityBorder.color = slotData.item.GetQualityColor(slotData.quality);
-    }
-
-    bool IsUnderLevelRequirement(Item item)
-    {
-        return item is Equipment equip && inventory.Stats.PlayerLevel.Value < equip.LevelRequirement;
     }
 
     public void AttemptToPurchase()

@@ -43,7 +43,16 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         image_QualityBorder.color = data.item.GetQualityColor(data.quality);
 
         // Show a red tint if the player is too low level to use this item
-        itemIcon.color = IsUnderLevelRequirement(slotData.item) ? Color.red : Color.white;
+        if (data.item is Equipment equipment)
+        {
+            // Show a red tint if the player is too low level to use this item
+            itemIcon.color = equipment.CanPlayerUse(inventory.Stats) ? Color.white : Color.red;
+        }
+        else
+        {
+            // Non-equipment items are always usable, so no red tint
+            itemIcon.color = Color.white;
+        }
 
         // Update the text shown in the bottom corner of the slot.
         // (Level requirement for equipment, stack count for consumables.)
@@ -196,8 +205,17 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             // Set Item Background color based on rarity
             itemBackground.color = slotData.item.GetRarityColor(slotData.rarity);
 
-            // Set the correct icon tint
-            itemIcon.color = IsUnderLevelRequirement(slotData.item) ? Color.red : Color.white;
+            // Show a red tint if the player is too low level to use this item
+            if (slotData.item is Equipment equipment)
+            {
+                // Show a red tint if the player is too low level to use this item
+                itemIcon.color = equipment.CanPlayerUse(inventory.Stats) ? Color.white : Color.red;
+            }
+            else
+            {
+                // Non-equipment items are always usable, so no red tint
+                itemIcon.color = Color.white;
+            }
 
             // Update the amount/level text
             RefreshAmountText(slotData.item, slotData.quantity);
@@ -222,11 +240,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             // Hide the level restriction tint
             itemIcon.color = Color.white;
         }
-    }
-
-    bool IsUnderLevelRequirement(Item item)
-    {
-        return item is Equipment equip && inventory.Stats.PlayerLevel.Value < equip.LevelRequirement;
     }
 
     void RefreshAmountText(Item item, int quantity)

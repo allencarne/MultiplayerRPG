@@ -20,6 +20,23 @@ public class Equipment : Item
         _equipmentManager.Equip(slotData);
         RemoveFromInventory(_inventory);
     }
+
+    public bool IsUnderLevelRequirement(PlayerStats stats)
+    {
+        return stats.PlayerLevel.Value < LevelRequirement;
+    }
+
+    public bool IsWrongClass(PlayerStats stats)
+    {
+        if (ClassRequirement == ClassRequirement.None) return false;
+
+        return stats.playerClass.ToString() != ClassRequirement.ToString();
+    }
+
+    public bool CanPlayerUse(PlayerStats stats)
+    {
+        return !IsUnderLevelRequirement(stats) && !IsWrongClass(stats);
+    }
 }
 
 public enum EquipmentType

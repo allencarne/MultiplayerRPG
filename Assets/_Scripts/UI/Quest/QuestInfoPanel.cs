@@ -8,6 +8,7 @@ public class QuestInfoPanel : MonoBehaviour
     [SerializeField] PlayerQuest playerquests;
     [SerializeField] Player player;
     [SerializeField] Inventory inventory;
+    [SerializeField] PlayerStats playerStats;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
@@ -28,6 +29,16 @@ public class QuestInfoPanel : MonoBehaviour
 
     Quest currentQuest;
     NPC currentNPC;
+
+    private void OnEnable()
+    {
+        playerStats.PlayerLevel.OnValueChanged += OnPlayerLevelChanged;
+    }
+
+    private void OnDisable()
+    {
+        playerStats.PlayerLevel.OnValueChanged -= OnPlayerLevelChanged;
+    }
 
     public void UpdateQuestInfo(NPC npc, Quest quest)
     {
@@ -110,7 +121,6 @@ public class QuestInfoPanel : MonoBehaviour
         foreach (InventorySlotData reward in quest.RewardItems)
         {
             InventorySlotData rolledReward = reward.item.ItemStatRules.BuildFixedItem(reward);
-
             GameObject itemUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
             VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
@@ -125,7 +135,6 @@ public class QuestInfoPanel : MonoBehaviour
                 Image icon = iconTransform.GetComponent<Image>();
                 if (icon != null)
                 {
-                    icon.color = Color.white;
                     icon.sprite = reward.item.Icon;
                 }
             }
@@ -139,6 +148,8 @@ public class QuestInfoPanel : MonoBehaviour
                     background.color = reward.item.GetRarityColor(reward.rarity);
                 }
             }
+
+            RefreshRewardRequirements();
         }
     }
 
@@ -224,5 +235,46 @@ public class QuestInfoPanel : MonoBehaviour
         if (isTalkQuest) playerquests.UpdateObjective(ObjectiveType.Talk, currentNPC.Data.NPC_ID);
 
         playerquests.TurnInQuest(currentQuest);
+    }
+
+    void OnPlayerLevelChanged(int oldValue, int newValue)
+    {
+        RefreshRewardRequirements();
+    }
+
+    void RefreshRewardRequirements()
+    {
+        // If there is no current quest, we cannot refresh the reward requirements
+        if (currentQuest == null) return;
+
+        // Loop through each reward item and update its icon color based on whether the player can use it
+        foreach (InventorySlotData reward in currentQuest.RewardItems)
+        {
+            // Loop through each child of the rewardListUI to find the corresponding UI element for this reward
+            foreach (Transform child in rewardListUI.transform)
+            {
+                Transform iconTransform = child.Find("ItemIcon");
+                if (iconTransform == null) continue;
+
+                Image icon = iconTransform.GetComponent<Image>();
+                if (icon == null) continue;
+
+                // Get the reward's data from the tooltip
+                VendorItemToolTip toolTip = child.GetComponentInChildren<VendorItemToolTip>();
+                if (toolTip == null) continue;
+
+                // Check if the item in the tooltip matches the current reward
+                if (reward.item is Equipment equipment)
+                {
+                    // Show a red tint if the player is too low level to use this item
+                    icon.color = equipment.CanPlayerUse(playerStats) ? Color.white : Color.red;
+                }
+                else
+                {
+                    // Non-equipment items are always usable, so no red tint
+                    icon.color = Color.white;
+                }
+            }
+        }
     }
 }

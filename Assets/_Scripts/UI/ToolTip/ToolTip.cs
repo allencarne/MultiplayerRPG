@@ -56,8 +56,17 @@ public class ToolTip : MonoBehaviour
         // Description
         itemInfo_Text.text = FormatDescription(data);
 
-        // Check Level Requirement
-        itemIcon.color = IsUnderLevelRequirement(data.item) ? Color.red : Color.white;
+        // Show a red tint if the player is too low level to use this item
+        if (data.item is Equipment equipment)
+        {
+            // Show a red tint if the player is too low level to use this item
+            itemIcon.color = equipment.CanPlayerUse(stats) ? Color.white : Color.red;
+        }
+        else
+        {
+            // Non-equipment items are always usable, so no red tint
+            itemIcon.color = Color.white;
+        }
     }
 
     string FormatNameWithRarity(string name, ItemRarity rarity)
@@ -128,10 +137,10 @@ public class ToolTip : MonoBehaviour
                     sb.AppendLine(equipment.equipmentType.ToString());
                 }
 
-                bool underLevel = stats.PlayerLevel.Value < equipment.LevelRequirement;
+                bool underLevel = equipment.IsUnderLevelRequirement(stats);
                 string levelColor = underLevel ? "red" : "white";
 
-                bool wrongClass = IsWrongClass(equipment);
+                bool wrongClass = equipment.IsWrongClass(stats);
                 string classColor = wrongClass ? "red" : "white";
 
 
@@ -147,22 +156,5 @@ public class ToolTip : MonoBehaviour
     void OnPlayerLevelChanged(int oldVal, int newVal)
     {
         UpdateToolTip();
-    }
-
-    bool IsUnderLevelRequirement(Item item)
-    {
-        return item is Equipment equip && stats.PlayerLevel.Value < equip.LevelRequirement;
-    }
-
-    bool IsWrongClass(Item item)
-    {
-        // Check if the item is an Equipment
-        if (item is not Equipment equipment) return false;
-
-        // Check if the equipment has a class requirement
-        if (equipment.ClassRequirement == ClassRequirement.None) return false;
-
-        // Check if the player's class matches the equipment's class requirement
-        return stats.playerClass.ToString() != equipment.ClassRequirement.ToString();
     }
 }

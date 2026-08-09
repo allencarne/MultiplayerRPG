@@ -85,8 +85,7 @@ public class QuestUI : MonoBehaviour
         if (spriteTransform != null)
         {
             Image iconImage = spriteTransform.GetComponent<Image>();
-            if (iconImage != null)
-                SetQuestIcon(iconImage, quest);
+            if (iconImage != null) SetQuestIcon(iconImage, quest);
         }
         else
         {
@@ -97,8 +96,7 @@ public class QuestUI : MonoBehaviour
     private void SetupQuestButton(GameObject listItem, Quest quest)
     {
         QuestButtonHandler handler = listItem.GetComponent<QuestButtonHandler>();
-        if (handler != null)
-            handler.Setup(quest, this);
+        if (handler != null) handler.Setup(quest, this);
     }
 
     private void SetQuestIcon(Image iconImage, Quest quest)
@@ -205,8 +203,19 @@ public class QuestUI : MonoBehaviour
                 Image icon = iconTransform.GetComponent<Image>();
                 if (icon != null)
                 {
-                    icon.color = Color.white;
                     icon.sprite = reward.item.Icon;
+
+                    // Check if the item in the tooltip matches the current reward
+                    if (reward.item is Equipment equipment)
+                    {
+                        // Show a red tint if the player is too low level to use this item
+                        icon.color = equipment.CanPlayerUse(stats) ? Color.white : Color.red;
+                    }
+                    else
+                    {
+                        // Non-equipment items are always usable, so no red tint
+                        icon.color = Color.white;
+                    }
                 }
             }
 
