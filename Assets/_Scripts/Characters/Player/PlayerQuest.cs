@@ -111,7 +111,15 @@ public class PlayerQuest : MonoBehaviour
         if (activeQuests.Exists(q => q.quest == quest)) return;
 
         QuestProgress progress = new QuestProgress(quest);
-        if (giveStarters) foreach (InventorySlotData item in quest.StarterItems) inventory.AddItem(item);
+
+        if (giveStarters)
+        {
+            foreach (InventorySlotData starter in quest.StarterItems)
+            {
+                InventorySlotData starterSlot = starter.item.ItemStatRules.BuildFixedItem(starter);
+                inventory.AddItem(starterSlot);
+            }
+        }
 
         activeQuests.Add(progress);
         CheckInventoryForQuestItems(progress);

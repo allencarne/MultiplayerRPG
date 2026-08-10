@@ -29,6 +29,15 @@ public class EquipmentManager : MonoBehaviour
             return false;
         }
 
+        if (stats.playerClass.ToString() != newItem.ClassRequirement.ToString())
+        {
+            if (newItem.ClassRequirement != ClassRequirement.None)
+            {
+                Debug.Log($"Class {newItem.ClassRequirement} required to equip {newItem.name}.");
+                return false;
+            }
+        }
+
         int slotIndex = (int)newItem.equipmentType;
         InventorySlotData oldSlot = currentEquipment[slotIndex];
 
