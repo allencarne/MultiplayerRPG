@@ -202,8 +202,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             // Ensure the icon is visible
             itemIcon.enabled = true;
 
+            // Display the quality border
+            image_QualityBorder.enabled = true;
+
             // Set Item Background color based on rarity
             itemBackground.color = slotData.item.GetRarityColor(slotData.rarity);
+
+            // Set the quality border color based on the item's quality
+            image_QualityBorder.color = slotData.item.GetQualityColor(slotData.quality);
 
             // Show a red tint if the player is too low level to use this item
             if (slotData.item is Equipment equipment)
@@ -227,6 +233,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
             // Hide the icon image
             itemIcon.enabled = false;
+
+            // Display the quality border
+            image_QualityBorder.enabled = false;
 
             // Restore the default empty background
             itemBackground.color = defaultColor;
