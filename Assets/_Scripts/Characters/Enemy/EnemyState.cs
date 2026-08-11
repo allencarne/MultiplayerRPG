@@ -1,21 +1,16 @@
 using UnityEngine;
 
-public abstract class EnemyState : MonoBehaviour
+public abstract class EnemyState
 {
     protected EnemyStateMachine owner;
 
-    public virtual void StartState(EnemyStateMachine owner)
+    protected EnemyState(EnemyStateMachine owner)
     {
-
+        this.owner = owner;
     }
 
-    public virtual void UpdateState(EnemyStateMachine owner)
-    {
-
-    }
-
-    public virtual void FixedUpdateState(EnemyStateMachine owner)
-    {
-
-    }
+    public virtual void EnterState() { }
+    public virtual void ExitState() { }
+    public virtual void UpdateState() { }
+    public virtual void FixedUpdateState() { }
 }

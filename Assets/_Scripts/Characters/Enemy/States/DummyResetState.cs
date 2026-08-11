@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class DummyResetState : EnemyState
 {
-    public override void StartState(EnemyStateMachine owner)
+    public DummyResetState(EnemyStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
+        owner.isResetting = true;
         owner.Collider.enabled = false;
         owner.EnemyAnimator.Play("Reset");
 
         float missingHealth = owner.enemy.stats.net_BaseHP.Value - owner.enemy.stats.net_CurrentHP.Value;
         owner.enemy.stats.GiveHeal(missingHealth, HealType.Flat);
 
-        StartCoroutine(Delay(owner));
+        owner.StartCoroutine(Delay(owner));
     }
 
     IEnumerator Delay(EnemyStateMachine owner)
@@ -20,22 +23,13 @@ public class DummyResetState : EnemyState
 
         if (owner.IsServer)
         {
+            owner.isResetting = false;
             owner.enemy.PatienceBar.Patience.Value = 0;
             owner.EnemyRB.linearVelocity = Vector3.zero;
             owner.EnemyRB.position = owner.StartingPosition;
             owner.Collider.enabled = true;
 
-            owner.SetState(EnemyStateMachine.State.Spawn);
+            owner.SetState(new EnemySpawnState(owner));
         }
-    }
-
-    public override void UpdateState(EnemyStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateState(EnemyStateMachine owner)
-    {
-
     }
 }

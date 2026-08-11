@@ -160,7 +160,7 @@ public class Enemy : NetworkBehaviour
         ClearTarget(attackerID);
 
         DeathClientRpc();
-        stateMachine.SetState(EnemyStateMachine.State.Death);
+        stateMachine.SetState(new EnemyDeathState(stateMachine));
     }
 
     void EventDeath(NetworkObject attackerID)
@@ -206,7 +206,7 @@ public class Enemy : NetworkBehaviour
 
     void TargetAttacker(NetworkObject attackerID)
     {
-        if (stateMachine.state == EnemyStateMachine.State.Reset) return;
+        if (stateMachine.state is EnemyResetState) return;
 
         if (stateMachine.Target == null)
         {

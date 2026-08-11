@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class DummyIdleState : EnemyState
 {
-    public override void StartState(EnemyStateMachine owner)
+    public DummyIdleState(EnemyStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         owner.EnemyAnimator.Play("Idle");
     }
 
-    public override void UpdateState(EnemyStateMachine owner)
+    public override void UpdateState()
     {
         if (!owner.IsServer) return;
 
@@ -24,12 +26,7 @@ public class DummyIdleState : EnemyState
 
         if (owner.enemy.PatienceBar.Patience.Value >= owner.enemy.Data.TotalPatience)
         {
-            owner.SetState(EnemyStateMachine.State.Reset);
+            owner.SetState(new DummyResetState(owner));
         }
-    }
-
-    public override void FixedUpdateState(EnemyStateMachine owner)
-    {
-
     }
 }

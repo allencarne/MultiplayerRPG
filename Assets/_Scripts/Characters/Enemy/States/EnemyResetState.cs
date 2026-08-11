@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class EnemyResetState : EnemyState
 {
-    public override void StartState(EnemyStateMachine owner)
+    public EnemyResetState(EnemyStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         if (!owner.IsServer) return;
 
@@ -22,20 +24,20 @@ public class EnemyResetState : EnemyState
         }
     }
 
-    public override void UpdateState(EnemyStateMachine owner)
+    public override void UpdateState()
     {
         if (!owner.IsServer) return;
 
-        if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.5f)
+        if (Vector2.Distance(owner.transform.position, owner.StartingPosition) <= 0.5f)
         {
             owner.isResetting = false;
             owner.enemy.PatienceBar.Patience.Value = 0;
             owner.EnemyRB.linearVelocity = Vector2.zero;
-            owner.SetState(EnemyStateMachine.State.Idle);
+            owner.SetState(new EnemyIdleState(owner));
         }
     }
 
-    public override void FixedUpdateState(EnemyStateMachine owner)
+    public override void FixedUpdateState()
     {
         if (!owner.IsServer) return;
 

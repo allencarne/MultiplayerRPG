@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
+    public EnemyChaseState(EnemyStateMachine owner) : base(owner) { }
+
     float updateInterval = .5f;
     float updateTime;
 
@@ -10,7 +12,7 @@ public class EnemyChaseState : EnemyState
     bool canSpecialAttack;
     bool canUltimateAttack;
 
-    public override void StartState(EnemyStateMachine owner)
+    public override void EnterState()
     {
         if (!owner.IsServer) return;
 
@@ -24,7 +26,7 @@ public class EnemyChaseState : EnemyState
         // Roll for one attack to be true
     }
 
-    public override void UpdateState(EnemyStateMachine owner)
+    public override void UpdateState()
     {
         if (!owner.IsServer) return;
 
@@ -48,7 +50,7 @@ public class EnemyChaseState : EnemyState
         HandleDeAggro(owner);
     }
 
-    public override void FixedUpdateState(EnemyStateMachine owner)
+    public override void FixedUpdateState()
     {
         if (!owner.IsServer || !owner.Target) return;
 
@@ -69,7 +71,7 @@ public class EnemyChaseState : EnemyState
         owner.enemy.PatienceBar.Patience.Value = 0;
         owner.IsPlayerInRange = false;
         owner.Target = null;
-        owner.SetState(EnemyStateMachine.State.Reset);
+        owner.SetState(new EnemyResetState(owner));
     }
 
     public void HandleAttack(EnemyStateMachine owner)
@@ -84,8 +86,7 @@ public class EnemyChaseState : EnemyState
             {
                 owner.IsAttacking = true;
                 owner.CanUltimate = false;
-
-                owner.SetState(EnemyStateMachine.State.Ultimate);
+                owner.SetSkill(EnemyStateMachine.SkillType.Ultimate);
                 return;
             }
         }
@@ -96,8 +97,7 @@ public class EnemyChaseState : EnemyState
             {
                 owner.IsAttacking = true;
                 owner.CanSpecial = false;
-
-                owner.SetState(EnemyStateMachine.State.Special);
+                owner.SetSkill(EnemyStateMachine.SkillType.Special);
                 return;
             }
         }
@@ -108,8 +108,7 @@ public class EnemyChaseState : EnemyState
             {
                 owner.IsAttacking = true;
                 owner.CanBasic = false;
-
-                owner.SetState(EnemyStateMachine.State.Basic);
+                owner.SetSkill(EnemyStateMachine.SkillType.Basic);
                 return;
             }
         }

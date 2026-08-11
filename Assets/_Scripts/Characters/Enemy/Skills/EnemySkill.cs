@@ -112,7 +112,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
         if (isStaggered)
         {
-            owner.SetState(EnemyStateMachine.State.Stagger);
+            owner.SetState(new EnemyStaggerState(owner));
             return;
         }
 
@@ -121,11 +121,11 @@ public abstract class EnemySkill : NetworkBehaviour
             owner.enemy.PatienceBar.Patience.Value = 0;
             owner.IsPlayerInRange = false;
             owner.Target = null;
-            owner.SetState(EnemyStateMachine.State.Reset);
+            owner.SetState(new EnemyResetState(owner));
         }
         else
         {
-            owner.SetState(EnemyStateMachine.State.Idle);
+            owner.SetState(new EnemyIdleState(owner));
         }
     }
 

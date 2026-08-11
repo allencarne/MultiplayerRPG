@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class EnemyDeathState : EnemyState
 {
-    public override void StartState(EnemyStateMachine owner)
+    public EnemyDeathState(EnemyStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         owner.EnemyAnimator.Play("Death");
 
@@ -17,22 +19,11 @@ public class EnemyDeathState : EnemyState
             owner.enemy.EnemySpawnerReference.DecreaseEnemyCount();
         }
 
-        StartCoroutine(Delay(owner));
+        owner.StartCoroutine(Delay(owner));
     }
-
     IEnumerator Delay(EnemyStateMachine owner)
     {
         yield return new WaitForSeconds(.8f);
         owner.DespawnEnemy();
-    }
-
-    public override void UpdateState(EnemyStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateState(EnemyStateMachine owner)
-    {
-
     }
 }

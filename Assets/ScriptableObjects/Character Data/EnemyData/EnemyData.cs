@@ -6,6 +6,7 @@ public class EnemyData : ScriptableObject
     public string Enemy_ID;
     public string Enemy_Name;
     public int Enemy_Level;
+    public EnemyType Enemy_Type;
 
     public float ExpToGive;
     public float TotalPatience;
@@ -29,4 +30,10 @@ public class EnemyData : ScriptableObject
 
     [Header("Drops")]
     public Item[] DroppableItems;
+}
+
+public enum EnemyType
+{
+    Enemy,
+    Dummy
 }

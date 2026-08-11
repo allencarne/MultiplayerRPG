@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class EnemyIdleState : EnemyState
 {
+    public EnemyIdleState(EnemyStateMachine owner) : base(owner) { }
+
     float idleTime = 0;
 
-    public override void StartState(EnemyStateMachine owner)
+    public override void EnterState()
     {
         owner.EnemyAnimator.Play("Idle");
+
+        if (owner.enemy.Data.Enemy_Type == EnemyType.Dummy)
+        {
+            Debug.Log("Dummy in EnemyIdleState");
+        }
     }
 
-    public override void UpdateState(EnemyStateMachine owner)
+    public override void UpdateState()
     {
         if (!owner.IsServer) return;
 
@@ -25,7 +32,7 @@ public class EnemyIdleState : EnemyState
             if (Random.value < wanderProbability)
             {
                 idleTime = 0;
-                owner.SetState(EnemyStateMachine.State.Wander);
+                owner.SetState(new EnemyWanderState(owner));
             }
 
             // Reset Idle
@@ -38,12 +45,7 @@ public class EnemyIdleState : EnemyState
         {
             owner.AttemptsCount = 0;
             idleTime = 0f;
-            owner.SetState(EnemyStateMachine.State.Chase);
+            owner.SetState(new EnemyChaseState(owner));
         }
-    }
-
-    public override void FixedUpdateState(EnemyStateMachine owner)
-    {
-
     }
 }

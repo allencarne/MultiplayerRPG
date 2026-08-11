@@ -4,13 +4,7 @@ using Unity.Netcode;
 public class EnemyStateMachine : NetworkBehaviour
 {
     [Header("States")]
-    [SerializeField] EnemyState enemySpawnState;
-    [SerializeField] EnemyState enemyIdleState;
-    [SerializeField] EnemyState enemyWanderState;
-    [SerializeField] EnemyState enemyChaseState;
-    [SerializeField] EnemyState enemyResetState;
-    [SerializeField] EnemyState enemyStaggerState;
-    [SerializeField] EnemyState enemyDeathState;
+    public EnemyState state;
 
     [Header("Skills")]
     [SerializeField] EnemySkill enemyBasicAbility;
@@ -54,22 +48,6 @@ public class EnemyStateMachine : NetworkBehaviour
     public Transform Target { get; set; }
     public Transform SecondTarget { get; set; }
 
-    public enum State
-    {
-        Spawn,
-        Idle,
-        Wander,
-        Chase,
-        Reset,
-        Stagger,
-        Death,
-        Basic,
-        Special,
-        Ultimate,
-    }
-
-    public State state = State.Spawn;
-
     public enum SkillType 
     { 
         Basic,
@@ -87,7 +65,8 @@ public class EnemyStateMachine : NetworkBehaviour
 
     private void Start()
     {
-        enemySpawnState.StartState(this);
+        SetState(new EnemySpawnState(this));
+
         StartingPosition = transform.position;
 
         int randomNumber = Random.Range(0, 100);
@@ -122,56 +101,34 @@ public class EnemyStateMachine : NetworkBehaviour
     private void Update()
     {
         if (!IsServer) return;
-
-        switch (state)
-        {
-            case State.Spawn: enemySpawnState.UpdateState(this); break;
-            case State.Idle: enemyIdleState.UpdateState(this); break;
-            case State.Wander: enemyWanderState.UpdateState(this); break;
-            case State.Chase: enemyChaseState.UpdateState(this); break;
-            case State.Reset: enemyResetState.UpdateState(this); break;
-            case State.Stagger: enemyStaggerState.UpdateState(this); break;
-            case State.Death: enemyDeathState.UpdateState(this); break;
-            case State.Basic: enemyBasicAbility.UpdateSkill(this); break;
-            case State.Special: enemySpecialAbility.UpdateSkill(this); break;
-            case State.Ultimate: enemyUltimateAbility.UpdateSkill(this); break;
-        }
+        if (CurrentSkill == null) state.UpdateState();
+        if (CurrentSkill != null) CurrentSkill.UpdateSkill(this);
     }
 
     private void FixedUpdate()
     {
         if (!IsServer) return;
-
-        switch (state)
-        {
-            case State.Spawn: enemySpawnState.FixedUpdateState(this); break;
-            case State.Idle: enemyIdleState.FixedUpdateState(this); break;
-            case State.Wander: enemyWanderState.FixedUpdateState(this); break;
-            case State.Chase: enemyChaseState.FixedUpdateState(this); break;
-            case State.Reset: enemyResetState.FixedUpdateState(this); break;
-            case State.Stagger: enemyStaggerState.FixedUpdateState(this); break;
-            case State.Death: enemyDeathState.FixedUpdateState(this); break;
-            case State.Basic: enemyBasicAbility.FixedUpdateSkill(this); break;
-            case State.Special: enemySpecialAbility.FixedUpdateSkill(this); break;
-            case State.Ultimate: enemyUltimateAbility.FixedUpdateSkill(this); break;
-        }
+        if (CurrentSkill == null) state.FixedUpdateState();
+        if (CurrentSkill != null) CurrentSkill.FixedUpdateSkill(this);
     }
 
-    public void SetState(State newState)
+    public void SetState(EnemyState newState)
     {
-        switch (newState)
+        state?.ExitState();
+        state = newState;
+        state.EnterState();
+    }
+
+    public void SetSkill(SkillType newSkill)
+    {
+        switch (newSkill)
         {
-            case State.Spawn: state = State.Spawn; enemySpawnState.StartState(this); break;
-            case State.Idle: state = State.Idle; enemyIdleState.StartState(this); break;
-            case State.Wander: state = State.Wander; enemyWanderState.StartState(this); break;
-            case State.Chase: state = State.Chase; enemyChaseState.StartState(this); break;
-            case State.Reset: state = State.Reset; enemyResetState.StartState(this); break;
-            case State.Stagger: state = State.Stagger; enemyStaggerState.StartState(this); break;
-            case State.Death: state = State.Death; enemyDeathState.StartState(this); break;
-            case State.Basic: state = State.Basic; enemyBasicAbility.StartSkill(this); break;
-            case State.Special: state = State.Special; enemySpecialAbility.StartSkill(this); break;
-            case State.Ultimate: state = State.Ultimate; enemyUltimateAbility.StartSkill(this); break;
+            case SkillType.Basic: CurrentSkill = enemyBasicAbility; break;
+            case SkillType.Special: CurrentSkill = enemySpecialAbility; break;
+            case SkillType.Ultimate: CurrentSkill = enemyUltimateAbility; break;
         }
+
+        CurrentSkill.StartSkill(this);
     }
 
     public void Interrupt()
@@ -198,14 +155,42 @@ public class EnemyStateMachine : NetworkBehaviour
         }
         else
         {
-            SetState(State.Stagger);
+            SetState(new EnemyStaggerState(this));
+        }
+    }
+
+    public void TransitionToIdle()
+    {
+        switch (enemy.Data.Enemy_Type)
+        {
+            case EnemyType.Enemy:
+                SetState(new EnemyIdleState(this));
+                break;
+
+            case EnemyType.Dummy:
+                SetState(new DummyIdleState(this));
+                break;
+        }
+    }
+
+    public void TransitionToReset()
+    {
+        switch (enemy.Data.Enemy_Type)
+        {
+            case EnemyType.Enemy:
+                SetState(new EnemyResetState(this));
+                break;
+
+            case EnemyType.Dummy:
+                SetState(new DummyResetState(this));
+                break;
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (enemy.stats.isDead) return;
-        if (state == State.Reset) return;
+        if (state is EnemyResetState) return;
 
         if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {

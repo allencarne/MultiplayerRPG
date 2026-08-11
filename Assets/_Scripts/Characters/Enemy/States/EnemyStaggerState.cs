@@ -1,34 +1,32 @@
 
 public class EnemyStaggerState : EnemyState
 {
-    public override void StartState(EnemyStateMachine owner)
+    public EnemyStaggerState(EnemyStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         owner.EnemyAnimator.Play("Stagger");
     }
 
-    public override void UpdateState(EnemyStateMachine owner)
+    public override void UpdateState()
     {
         if (!owner.IsServer) return;
         if (owner.enemy.stats.isDead) return;
 
-        if (!owner.CrowdControl.knockBack.IsKnockedBack && 
-            !owner.CrowdControl.stun.IsStunned && 
-            !owner.CrowdControl.knockUp.IsKnockedUp && 
+        if (!owner.CrowdControl.knockBack.IsKnockedBack &&
+            !owner.CrowdControl.stun.IsStunned &&
+            !owner.CrowdControl.knockUp.IsKnockedUp &&
             !owner.CrowdControl.pull.IsPulled)
         {
             if (owner.isResetting)
             {
-                owner.SetState(EnemyStateMachine.State.Reset);
+                owner.TransitionToReset();
             }
             else
             {
-                owner.SetState(EnemyStateMachine.State.Idle);
+
+                owner.TransitionToIdle();
             }
         }
-    }
-
-    public override void FixedUpdateState(EnemyStateMachine owner)
-    {
-
     }
 }
