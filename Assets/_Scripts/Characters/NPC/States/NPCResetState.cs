@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class NPCResetState : NPCState
 {
-    public override void StartState(NPCStateMachine owner)
+    public NPCResetState(NPCStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         owner.isResetting = true;
 
@@ -25,9 +27,9 @@ public class NPCResetState : NPCState
         }
     }
 
-    public override void UpdateState(NPCStateMachine owner)
+    public override void UpdateState()
     {
-        if (Vector2.Distance(transform.position, owner.StartingPosition) <= 0.1f)
+        if (Vector2.Distance(owner.transform.position, owner.StartingPosition) <= 0.1f)
         {
             owner.isResetting = false;
             owner.npc.PatienceBar.Patience.Value = 0;
@@ -40,11 +42,11 @@ public class NPCResetState : NPCState
             owner.SwordAnimator.SetFloat("Vertical", -1);
 
             owner.NpcRB.linearVelocity = Vector2.zero;
-            owner.SetState(NPCStateMachine.State.Idle);
+            owner.TransitionToIdle();
         }
     }
 
-    public override void FixedUpdateState(NPCStateMachine owner)
+    public override void FixedUpdateState()
     {
         owner.MoveTowardsTarget(owner.StartingPosition);
 

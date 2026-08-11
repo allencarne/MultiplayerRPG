@@ -1,26 +1,16 @@
 using UnityEngine;
 
-public abstract class NPCState : MonoBehaviour
+public abstract class NPCState
 {
     protected NPCStateMachine owner;
 
-    public virtual void StartState(NPCStateMachine owner)
+    protected NPCState(NPCStateMachine owner)
     {
-
+        this.owner = owner;
     }
 
-    public virtual void UpdateState(NPCStateMachine owner)
-    {
-
-    }
-
-    public virtual void FixedUpdateState(NPCStateMachine owner)
-    {
-
-    }
-
-    public virtual void Impact(NPCStateMachine owner)
-    {
-
-    }
+    public virtual void EnterState() { }
+    public virtual void ExitState() { }
+    public virtual void UpdateState() { }
+    public virtual void FixedUpdateState() { }
 }

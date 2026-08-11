@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class PatrolIdleState : NPCState
 {
+    public PatrolIdleState(NPCStateMachine owner) : base(owner) { }
+
     bool isPatrollingForward;
 
-    public override void StartState(NPCStateMachine owner)
+    public override void EnterState()
     {
         owner.HeadAnimator.Play("Run");
         owner.BodyAnimator.Play("Run");
@@ -13,13 +15,13 @@ public class PatrolIdleState : NPCState
         owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
     }
 
-    public override void UpdateState(NPCStateMachine owner)
+    public override void UpdateState()
     {
         // Check if an enemy is in range
         if (owner.IsEnemyInRange)
         {
             // If it is, then enter the chase state
-            owner.SetState(NPCStateMachine.State.Chase);
+            owner.TransitionToChase();
             return;
         }
 
@@ -34,7 +36,7 @@ public class PatrolIdleState : NPCState
         }
     }
 
-    public override void FixedUpdateState(NPCStateMachine owner)
+    public override void FixedUpdateState()
     {
         if (owner.CrowdControl.immobilize.IsImmobilized) return;
 

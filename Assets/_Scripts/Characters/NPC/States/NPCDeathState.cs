@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class NPCDeathState : NPCState
 {
-    public override void StartState(NPCStateMachine owner)
+    public NPCDeathState(NPCStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         // Prevents attacking while dead
         owner.IsAttacking = false;
@@ -36,17 +38,7 @@ public class NPCDeathState : NPCState
         owner.SetColliderAndSprites(false);
 
         // Start the respawn delay coroutine
-        StartCoroutine(Delay(owner));
-    }
-
-    public override void UpdateState(NPCStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateState(NPCStateMachine owner)
-    {
-
+        owner.StartCoroutine(Delay(owner));
     }
 
     IEnumerator Delay(NPCStateMachine owner)
@@ -64,6 +56,6 @@ public class NPCDeathState : NPCState
         owner.transform.position = owner.StartingPosition;
 
         // Reset the NPC's state to Spawn
-        owner.SetState(NPCStateMachine.State.Spawn);
+        owner.SetState(new NPCSpawnState(owner));
     }
 }

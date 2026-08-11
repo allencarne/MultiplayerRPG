@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class NPCChaseState : NPCState
 {
-    public override void StartState(NPCStateMachine owner)
+    public NPCChaseState(NPCStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         if (!owner.IsServer) return;
 
@@ -15,7 +17,7 @@ public class NPCChaseState : NPCState
         owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
     }
 
-    public override void UpdateState(NPCStateMachine owner)
+    public override void UpdateState()
     {
         if (!owner.IsServer) return;
 
@@ -39,7 +41,7 @@ public class NPCChaseState : NPCState
         HandleDeAggro(owner);
     }
 
-    public override void FixedUpdateState(NPCStateMachine owner)
+    public override void FixedUpdateState()
     {
         if (!owner.IsServer) return;
 
@@ -62,7 +64,7 @@ public class NPCChaseState : NPCState
         owner.npc.PatienceBar.Patience.Value = 0;
         owner.IsEnemyInRange = false;
         owner.Target = null;
-        owner.SetState(NPCStateMachine.State.Reset);
+        owner.SetState(new NPCResetState(owner));
     }
 
     public void HandleDeAggro(NPCStateMachine owner)
@@ -87,7 +89,7 @@ public class NPCChaseState : NPCState
     {
         if (owner.IsAttacking) return;
 
-        float distanceToTarget = Vector2.Distance(transform.position, owner.Target.position);
+        float distanceToTarget = Vector2.Distance(owner.transform.position, owner.Target.position);
 
         if (distanceToTarget <= owner.BasicRadius)
         {
@@ -96,7 +98,7 @@ public class NPCChaseState : NPCState
                 owner.IsAttacking = true;
                 owner.CanBasic = false;
 
-                owner.SetState(NPCStateMachine.State.Basic);
+                owner.SetSkill(NPCStateMachine.SkillType.Basic);
                 return;
             }
         }

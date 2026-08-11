@@ -198,12 +198,12 @@ public class NPC : NetworkBehaviour, IInteractable
 
     void Death()
     {
-        stateMachine.SetState(NPCStateMachine.State.Death);
+        stateMachine.SetState(new NPCDeathState(stateMachine));
     }
 
     void TargetAttacker(NetworkObject attackerID)
     {
-        if (stateMachine.state == NPCStateMachine.State.Reset) return;
+        if (stateMachine.state is NPCResetState) return;
         if (!attackerID.gameObject.CompareTag("Enemy")) return;
 
         if (stateMachine.Target == null)

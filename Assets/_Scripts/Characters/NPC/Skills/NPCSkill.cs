@@ -106,12 +106,12 @@ public abstract class NPCSkill : NetworkBehaviour
 
         if (isStaggered)
         {
-            owner.SetState(NPCStateMachine.State.Stagger);
+            owner.SetState(new NPCStaggerState(owner));
 
         }
         else
         {
-            owner.SetState(NPCStateMachine.State.Idle);
+            owner.TransitionToIdle();
         }
 
     }

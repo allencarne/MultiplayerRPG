@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class NPCSpawnState : NPCState
 {
-    public override void StartState(NPCStateMachine owner)
+    public NPCSpawnState(NPCStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         // Spawn Event
         owner.OnSpawn?.Invoke();
@@ -31,19 +33,9 @@ public class NPCSpawnState : NPCState
         owner.StartCoroutine(Duration(owner));
     }
 
-    public override void UpdateState(NPCStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateState(NPCStateMachine owner)
-    {
-
-    }
-
     IEnumerator Duration(NPCStateMachine owner)
     {
         yield return new WaitForSeconds(.2f);
-        owner.SetState(NPCStateMachine.State.Idle);
+        owner.TransitionToIdle();
     }
 }

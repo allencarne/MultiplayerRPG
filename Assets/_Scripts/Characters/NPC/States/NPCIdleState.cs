@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class NPCIdleState : NPCState
 {
-    public override void StartState(NPCStateMachine owner)
+    public NPCIdleState(NPCStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         // Face Down
-        Vector2 dir = new Vector2 (0, -1);
+        Vector2 dir = new Vector2(0, -1);
         owner.SetAnimDir(dir);
         owner.npc.npcHead.SetEyes(dir);
         owner.npc.npcHead.SetHair(dir);
@@ -19,16 +21,11 @@ public class NPCIdleState : NPCState
         owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Idle", -1, 0);
     }
 
-    public override void UpdateState(NPCStateMachine owner)
+    public override void UpdateState()
     {
         if (owner.IsEnemyInRange)
         {
-            owner.SetState(NPCStateMachine.State.Chase);
+            owner.SetState(new NPCChaseState(owner));
         }
-    }
-
-    public override void FixedUpdateState(NPCStateMachine owner)
-    {
-
     }
 }

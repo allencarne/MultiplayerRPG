@@ -6,13 +6,7 @@ using UnityEngine.Events;
 public class NPCStateMachine : NetworkBehaviour
 {
     [Header("States")]
-    [SerializeField] NPCState spawnState;
-    [SerializeField] NPCState idleState;
-    [SerializeField] NPCState wanderState;
-    [SerializeField] NPCState chaseState;
-    [SerializeField] NPCState resetState;
-    [SerializeField] NPCState StaggerState;
-    [SerializeField] NPCState deathState;
+    public NPCState state;
 
     [Header("Skills")]
     [SerializeField] NPCSkill basicSkill;
@@ -62,22 +56,6 @@ public class NPCStateMachine : NetworkBehaviour
 
     [HideInInspector] public UnityEvent OnSpawn;
 
-    public enum State
-    {
-        Spawn,
-        Idle,
-        Wander,
-        Chase,
-        Reset,
-        Stagger,
-        Death,
-        Basic,
-        Special,
-        Ultimate,
-    }
-
-    public State state = State.Spawn;
-
     public enum SkillType
     {
         Basic,
@@ -89,62 +67,40 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (!IsServer) return;
         StartingPosition = transform.position;
-        spawnState.StartState(this);
+        SetState(new NPCSpawnState(this));
     }
 
     private void Update()
     {
         if (!IsServer) return;
-
-        switch (state)
-        {
-            case State.Spawn: spawnState.UpdateState(this); break;
-            case State.Idle: idleState.UpdateState(this); break;
-            case State.Wander: wanderState.UpdateState(this); break;
-            case State.Chase: chaseState.UpdateState(this); break;
-            case State.Reset: resetState.UpdateState(this); break;
-            case State.Stagger: StaggerState.UpdateState(this); break;
-            case State.Death: deathState.UpdateState(this); break;
-            case State.Basic: basicSkill.UpdateSkill(this); break;
-            case State.Special: specialSkill.UpdateSkill(this); break;
-            case State.Ultimate: ultimateSkill.UpdateSkill(this); break;
-        }
+        if (CurrentSkill == null) state.UpdateState();
+        if (CurrentSkill != null) CurrentSkill.UpdateSkill(this);
     }
 
     private void FixedUpdate()
     {
         if (!IsServer) return;
-
-        switch (state)
-        {
-            case State.Spawn: spawnState.FixedUpdateState(this); break;
-            case State.Idle: idleState.FixedUpdateState(this); break;
-            case State.Wander: wanderState.FixedUpdateState(this); break;
-            case State.Chase: chaseState.FixedUpdateState(this); break;
-            case State.Reset: resetState.FixedUpdateState(this); break;
-            case State.Stagger: StaggerState.FixedUpdateState(this); break;
-            case State.Death: deathState.FixedUpdateState(this); break;
-            case State.Basic: basicSkill.FixedUpdateSkill(this); break;
-            case State.Special: specialSkill.FixedUpdateSkill(this); break;
-            case State.Ultimate: ultimateSkill.FixedUpdateSkill(this); break;
-        }
+        if (CurrentSkill == null) state.FixedUpdateState();
+        if (CurrentSkill != null) CurrentSkill.FixedUpdateSkill(this);
     }
 
-    public void SetState(State newState)
+    public void SetState(NPCState newState)
     {
-        switch (newState)
+        state?.ExitState();
+        state = newState;
+        state.EnterState();
+    }
+
+    public void SetSkill(SkillType newSkill)
+    {
+        switch (newSkill)
         {
-            case State.Spawn: state = State.Spawn; spawnState.StartState(this); break;
-            case State.Idle: state = State.Idle; idleState.StartState(this); break;
-            case State.Wander: state = State.Wander; wanderState.StartState(this); break;
-            case State.Chase: state = State.Chase; chaseState.StartState(this); break;
-            case State.Reset: state = State.Reset; resetState.StartState(this); break;
-            case State.Stagger: state = State.Stagger; StaggerState.StartState(this); break;
-            case State.Death: state = State.Death; deathState.StartState(this); break;
-            case State.Basic: state = State.Basic; basicSkill.StartSkill(this); break;
-            case State.Special: state = State.Special; specialSkill.StartSkill(this); break;
-            case State.Ultimate: state = State.Ultimate; ultimateSkill.StartSkill(this); break;
+            case SkillType.Basic: CurrentSkill = basicSkill; break;
+            case SkillType.Special: CurrentSkill = specialSkill; break;
+            case SkillType.Ultimate: CurrentSkill = ultimateSkill; break;
         }
+
+        CurrentSkill.StartSkill(this);
     }
 
     public void Interrupt()
@@ -171,14 +127,38 @@ public class NPCStateMachine : NetworkBehaviour
         }
         else
         {
-            SetState(State.Stagger);
+            SetState(new NPCStaggerState(this));
+        }
+    }
+
+    public void TransitionToIdle()
+    {
+        if (npc.Data.npcClass == NPCClass.Patrol)
+        {
+            SetState(new PatrolIdleState(this));
+        }
+        else
+        {
+            SetState(new NPCIdleState(this));
+        }
+    }
+
+    public void TransitionToChase()
+    {
+        if (npc.Data.npcClass == NPCClass.Patrol)
+        {
+            SetState(new PatrolChaseState(this));
+        }
+        else
+        {
+            SetState(new NPCChaseState(this));
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (npc.stats.isDead) return;
-        if (state == State.Reset) return;
+        if (state is NPCResetState) return;
 
         if (other.CompareTag("Enemy"))
         {
