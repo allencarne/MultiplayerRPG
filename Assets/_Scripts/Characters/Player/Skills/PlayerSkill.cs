@@ -114,12 +114,12 @@ public abstract class PlayerSkill : NetworkBehaviour
 
         if (isStaggered)
         {
-            owner.SetState(PlayerStateMachine.State.Stagger);
+            owner.SetState(new PlayerStaggerState(owner));
 
         }
         else
         {
-            if (owner.IsFullySpawned) owner.SetState(PlayerStateMachine.State.Idle);
+            if (owner.IsFullySpawned) owner.SetState(new PlayerIdleState(owner));
         }
     }
 

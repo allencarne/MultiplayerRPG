@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerState
 {
-    public override void StartState(PlayerStateMachine owner)
+    public PlayerIdleState(PlayerStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         // Set animator parameters to match the player's facing direction
         owner.PlayerHeadAnimator.Play("Idle", -1, 0);
@@ -12,7 +14,7 @@ public class PlayerIdleState : PlayerState
         if (owner.Equipment.IsWeaponEquipped) owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Idle", -1, 0);
     }
 
-    public override void UpdateState(PlayerStateMachine owner)
+    public override void UpdateState()
     {
         owner.Roll();
         owner.BasicAbility();
@@ -23,14 +25,14 @@ public class PlayerIdleState : PlayerState
         owner.UltimateAbility();
     }
 
-    public override void FixedUpdateState(PlayerStateMachine owner)
+    public override void FixedUpdateState()
     {
         // Transition to Move State
         if (owner.Input.MoveInput != Vector2.zero)
         {
             if (!owner.CrowdControl.immobilize.IsImmobilized)
             {
-                owner.SetState(PlayerStateMachine.State.Run);
+                owner.SetState(new PlayerRunState(owner));
             }
         }
     }

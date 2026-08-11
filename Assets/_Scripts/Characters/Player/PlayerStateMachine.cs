@@ -7,12 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerStateMachine : NetworkBehaviour
 {
     [Header("States")]
-    [SerializeField] PlayerSpawnState playerSpawnState;
-    [SerializeField] PlayerIdleState playerIdleState;
-    [SerializeField] PlayerRunState playerRunState;
-    [SerializeField] PlayerRollState playerRollState;
-    [SerializeField] PlayerStaggerState PlayerStaggerState;
-    [SerializeField] PlayerDeathState playerDeathState;
+    private PlayerState state;
 
     [Header("Skills")]
     [HideInInspector] public PlayerSkill CurrentSkill;
@@ -69,24 +64,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [HideInInspector] public UnityEvent OnSpawn;
 
-    public enum State
-    {
-        Spawn,
-        Idle,
-        Run,
-        Roll,
-        Stagger,
-        Death,
-        Basic,
-        Offensive,
-        Mobility,
-        Defensive,
-        Ultility,
-        Ultimate,
-    }
-
-    public State state = State.Spawn;
-
     public enum SkillType
     {
         Basic,
@@ -100,8 +77,14 @@ public class PlayerStateMachine : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+        SetState(new PlayerSpawnState(this));
+    }
 
-        playerSpawnState.StartState(this);
+    public void SetState(PlayerState newState)
+    {
+        state?.ExitState();
+        state = newState;
+        state.EnterState();
     }
 
     public void SkillsOnSpawn()
@@ -207,21 +190,8 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
 
-        switch (state)
-        {
-            case State.Spawn: playerSpawnState.UpdateState(this); break;
-            case State.Idle: playerIdleState.UpdateState(this); break;
-            case State.Run: playerRunState.UpdateState(this); break;
-            case State.Roll: playerRollState.UpdateState(this); break;
-            case State.Stagger: PlayerStaggerState.UpdateState(this); break;
-            case State.Death: playerDeathState.UpdateState(this); break;
-            case State.Basic: skills.basicAbilities[player.BasicIndex].UpdateSkill(this); break;
-            case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].UpdateSkill(this); break;
-            case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].UpdateSkill(this); break;
-            case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].UpdateSkill(this); break;
-            case State.Ultility: skills.utilityAbilities[player.UtilityIndex].UpdateSkill(this); break;
-            case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].UpdateSkill(this); break;
-        }
+        if (CurrentSkill == null) state.UpdateState();
+        if (CurrentSkill != null) CurrentSkill.UpdateSkill(this);
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
@@ -245,21 +215,8 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
 
-        switch (state)
-        {
-            case State.Spawn: playerSpawnState.FixedUpdateState(this); break;
-            case State.Idle: playerIdleState.FixedUpdateState(this); break;
-            case State.Run: playerRunState.FixedUpdateState(this); break;
-            case State.Roll: playerRollState.FixedUpdateState(this); break;
-            case State.Stagger: PlayerStaggerState.FixedUpdateState(this); break;
-            case State.Death: playerDeathState.FixedUpdateState(this); break;
-            case State.Basic: skills.basicAbilities[player.BasicIndex].FixedUpdateSkill(this); break;
-            case State.Offensive: skills.offensiveAbilities[player.OffensiveIndex].FixedUpdateSkill(this); break;
-            case State.Mobility: skills.mobilityAbilities[player.MobilityIndex].FixedUpdateSkill(this); break;
-            case State.Defensive: skills.defensiveAbilities[player.DefensiveIndex].FixedUpdateSkill(this); break;
-            case State.Ultility: skills.utilityAbilities[player.UtilityIndex].FixedUpdateSkill(this); break;
-            case State.Ultimate: skills.ultimateAbilities[player.UltimateIndex].FixedUpdateSkill(this); break;
-        }
+        if (CurrentSkill == null) state.FixedUpdateState();
+        if (CurrentSkill != null) CurrentSkill.FixedUpdateSkill(this);
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
@@ -274,19 +231,6 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
         {
             skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
-        }
-    }
-
-    public void SetState(State newState)
-    {
-        switch (newState)
-        {
-            case State.Spawn: state = State.Spawn; playerSpawnState.StartState(this); break;
-            case State.Idle: state = State.Idle; playerIdleState.StartState(this); break;
-            case State.Run: state = State.Run; playerRunState.StartState(this); break;
-            case State.Roll: state = State.Roll; playerRollState.StartState(this); break;
-            case State.Stagger: state = State.Stagger; PlayerStaggerState.StartState(this); break;
-            case State.Death: state = State.Death; playerDeathState.StartState(this); break;
         }
     }
 
@@ -314,7 +258,7 @@ public class PlayerStateMachine : NetworkBehaviour
         }
         else
         {
-            SetState(State.Stagger);
+            SetState(new PlayerStaggerState(this));
         }
     }
 
@@ -327,7 +271,7 @@ public class PlayerStateMachine : NetworkBehaviour
         {
             if (Stats.Endurance.Value >= 50)
             {
-                SetState(State.Roll);
+                SetState(new PlayerRollState(this));
             }
         }
     }
@@ -348,7 +292,6 @@ public class PlayerStateMachine : NetworkBehaviour
             CanBasic = false;
 
             DestroyAllIndicators();
-            state = State.Basic;
             skills.basicAbilities[player.BasicIndex].StartSkill(this);
         }
     }
@@ -379,7 +322,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
-        state = State.Offensive;
         skills.offensiveAbilities[player.OffensiveIndex].StartSkill(this);
     }
 
@@ -409,7 +351,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
-        state = State.Mobility;
         skills.mobilityAbilities[player.MobilityIndex].StartSkill(this);
     }
 
@@ -439,7 +380,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
-        state = State.Defensive;
         skills.defensiveAbilities[player.DefensiveIndex].StartSkill(this);
     }
 
@@ -469,7 +409,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
-        state = State.Ultility;
         skills.utilityAbilities[player.UtilityIndex].StartSkill(this);
     }
 
@@ -499,7 +438,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
-        state = State.Ultimate;
         skills.ultimateAbilities[player.UltimateIndex].StartSkill(this);
     }
 

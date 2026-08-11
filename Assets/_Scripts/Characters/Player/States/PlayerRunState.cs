@@ -2,10 +2,12 @@
 
 public class PlayerRunState : PlayerState
 {
+    public PlayerRunState(PlayerStateMachine owner) : base(owner) { }
+
     // We track the last non-zero direction to know which way to face when we stop moving
     private Vector2 lastDirection = Vector2.zero;
 
-    public override void StartState(PlayerStateMachine owner)
+    public override void EnterState()
     {
         // Play run animation on all animators
         owner.PlayerHeadAnimator.Play("Run", -1, 0);
@@ -22,7 +24,7 @@ public class PlayerRunState : PlayerState
         lastDirection = Vector2.zero;
     }
 
-    public override void UpdateState(PlayerStateMachine owner)
+    public override void UpdateState()
     {
         // Transitions
         owner.Roll();
@@ -36,18 +38,18 @@ public class PlayerRunState : PlayerState
         // If we become immobilized, stop moving and switch to idle
         if (owner.CrowdControl.immobilize.IsImmobilized)
         {
-            owner.SetState(PlayerStateMachine.State.Idle);
+            owner.SetState(new PlayerIdleState(owner));
         }
     }
 
-    public override void FixedUpdateState(PlayerStateMachine owner)
+    public override void FixedUpdateState()
     {
         HandleMovement(owner, owner.Input.MoveInput);
 
         // If we stop giving movement input, switch to idle but keep facing the same direction
         if (owner.Input.MoveInput == Vector2.zero)
         {
-            owner.SetState(PlayerStateMachine.State.Idle);
+            owner.SetState(new PlayerIdleState(owner));
         }
     }
 

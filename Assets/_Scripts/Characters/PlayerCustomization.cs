@@ -129,7 +129,7 @@ public class PlayerCustomization : NetworkBehaviour
 
     void OnEquipmentChanged(int oldValue, int newValue)
     {
-        if (stateMachine.IsFullySpawned) stateMachine.SetState(PlayerStateMachine.State.Idle);
+        if (stateMachine.IsFullySpawned) stateMachine.SetState(new PlayerIdleState(stateMachine));
     }
 
     void OnAppearanceIndexChanged(int oldValue, int newValue)

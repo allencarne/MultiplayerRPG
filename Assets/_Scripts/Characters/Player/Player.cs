@@ -102,7 +102,7 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     void DeathClientRPC()
     {
-        stateMachine.SetState(PlayerStateMachine.State.Death);
+        stateMachine.SetState(new PlayerDeathState(stateMachine));
     }
 
     void TakeDamage(float damage)

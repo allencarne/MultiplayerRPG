@@ -1,10 +1,14 @@
-using UnityEngine;
-
-public abstract class PlayerState: MonoBehaviour
+public abstract class PlayerState
 {
-    public abstract void StartState(PlayerStateMachine owner);
+    protected PlayerStateMachine owner;
 
-    public abstract void UpdateState(PlayerStateMachine owner);
+    protected PlayerState(PlayerStateMachine owner)
+    {
+        this.owner = owner;
+    }
 
-    public abstract void FixedUpdateState(PlayerStateMachine owner);
+    public virtual void EnterState() { }
+    public virtual void ExitState() { }
+    public virtual void UpdateState() { }
+    public virtual void FixedUpdateState() { }
 }

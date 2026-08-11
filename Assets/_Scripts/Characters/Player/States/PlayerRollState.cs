@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class PlayerRollState : PlayerState
 {
+    public PlayerRollState(PlayerStateMachine owner) : base(owner) { }
+
     Vector2 facingDirection;
     float rollDuration = .6f;
 
-    public override void StartState(PlayerStateMachine owner)
+    public override void EnterState()
     {
         // Buffs
         owner.Buffs.immune.StartImmune(rollDuration);
@@ -36,8 +38,7 @@ public class PlayerRollState : PlayerState
             facingDirection = owner.SnapDirection(_newDir);
             owner.playerHead.SetHead(facingDirection);
         }
-        // Roll in the direction of input
-        else
+        else // Roll in the direction of input
         {
             // Add Force
             owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
@@ -76,20 +77,10 @@ public class PlayerRollState : PlayerState
         }
     }
 
-    public override void UpdateState(PlayerStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateState(PlayerStateMachine owner)
-    {
-
-    }
-
     IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(rollDuration);
         owner.PlayerRB.linearVelocity = Vector2.zero;
-        owner.SetState(PlayerStateMachine.State.Idle);
+        owner.SetState(new PlayerIdleState(owner));
     }
 }

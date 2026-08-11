@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerSpawnState : PlayerState
 {
-    public override void StartState(PlayerStateMachine owner)
+    public PlayerSpawnState(PlayerStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         // Spawn Event
         owner.OnSpawn?.Invoke();
@@ -13,7 +15,7 @@ public class PlayerSpawnState : PlayerState
         owner.PlayerHeadAnimator.Play("Spawn");
         owner.BodyAnimator.Play("Spawn");
         owner.ChestAnimator.Play("Spawn");
-        owner.LegsAnimator.Play( "Spawn");
+        owner.LegsAnimator.Play("Spawn");
         owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Spawn");
 
         // Face Down
@@ -28,20 +30,10 @@ public class PlayerSpawnState : PlayerState
         owner.StartCoroutine(Duration(owner));
     }
 
-    public override void UpdateState(PlayerStateMachine owner)
-    {
-
-    }
-
-    public override void FixedUpdateState(PlayerStateMachine owner)
-    {
-
-    }
-
     IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(.2f);
         owner.IsFullySpawned = true;
-        owner.SetState(PlayerStateMachine.State.Idle);
+        owner.SetState(new PlayerIdleState(owner));
     }
 }

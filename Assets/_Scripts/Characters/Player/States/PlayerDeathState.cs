@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class PlayerDeathState : PlayerState
 {
-    public override void StartState(PlayerStateMachine owner)
+    public PlayerDeathState(PlayerStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         if (!owner.IsOwner) return;
 
@@ -32,29 +34,16 @@ public class PlayerDeathState : PlayerState
         owner.RequestSetColliderServerRpc(false);
 
         // Start the respawn delay coroutine
-        StartCoroutine(Delay(owner));
-    }
-
-    public override void FixedUpdateState(PlayerStateMachine owner)
-    {
-
-    }
-    public override void UpdateState(PlayerStateMachine owner)
-    {
-
+        owner.StartCoroutine(Delay(owner));
     }
 
     IEnumerator Delay(PlayerStateMachine owner)
     {
-        yield return new WaitForSeconds(4);
-        //owner.RequestSetSpritesServerRpc(false);
-
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5);
 
         owner.RequestRespawnServerRpc();
         owner.RequestSetColliderServerRpc(true);
-        //owner.RequestSetSpritesServerRpc(true);
         owner.transform.position = Vector2.zero;
-        owner.SetState(PlayerStateMachine.State.Spawn);
+        owner.SetState(new PlayerSpawnState(owner));
     }
 }

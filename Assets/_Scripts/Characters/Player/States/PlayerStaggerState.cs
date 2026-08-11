@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerStaggerState : PlayerState
 {
-    public override void StartState(PlayerStateMachine owner)
+    public PlayerStaggerState(PlayerStateMachine owner) : base(owner) { }
+
+    public override void EnterState()
     {
         if (!owner.IsOwner) return;
 
@@ -20,7 +22,7 @@ public class PlayerStaggerState : PlayerState
         owner.LegsAnimator.Play("Spawn");
     }
 
-    public override void UpdateState(PlayerStateMachine owner)
+    public override void UpdateState()
     {
         // Check if the player is the owner and not dead
         if (!owner.IsOwner) return;
@@ -37,12 +39,7 @@ public class PlayerStaggerState : PlayerState
             owner.WeaponAnimator.speed = 1;
 
             // Transition to Idle state
-            owner.SetState(PlayerStateMachine.State.Idle);
+            owner.SetState(new PlayerIdleState(owner));
         }
-    }
-
-    public override void FixedUpdateState(PlayerStateMachine owner)
-    {
-
     }
 }
