@@ -73,15 +73,13 @@ public class NPCStateMachine : NetworkBehaviour
     private void Update()
     {
         if (!IsServer) return;
-        if (CurrentSkill == null) state.UpdateState();
-        if (CurrentSkill != null) CurrentSkill.UpdateSkill(this);
+        state.UpdateState();
     }
 
     private void FixedUpdate()
     {
         if (!IsServer) return;
-        if (CurrentSkill == null) state.FixedUpdateState();
-        if (CurrentSkill != null) CurrentSkill.FixedUpdateSkill(this);
+        state.FixedUpdateState();
     }
 
     public void SetState(NPCState newState)
@@ -100,7 +98,7 @@ public class NPCStateMachine : NetworkBehaviour
             case SkillType.Ultimate: CurrentSkill = ultimateSkill; break;
         }
 
-        CurrentSkill.StartSkill(this);
+        SetState(new NPCAttackState(this, CurrentSkill));
     }
 
     public void Interrupt()
