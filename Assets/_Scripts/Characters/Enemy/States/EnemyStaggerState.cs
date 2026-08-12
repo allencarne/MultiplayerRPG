@@ -13,10 +13,7 @@ public class EnemyStaggerState : EnemyState
         if (!owner.IsServer) return;
         if (owner.enemy.stats.isDead) return;
 
-        if (!owner.CrowdControl.knockBack.IsKnockedBack &&
-            !owner.CrowdControl.stun.IsStunned &&
-            !owner.CrowdControl.knockUp.IsKnockedUp &&
-            !owner.CrowdControl.pull.IsPulled)
+        if (!owner.CrowdControl.IsCrowdControlled)
         {
             if (owner.isResetting)
             {

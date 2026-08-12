@@ -101,15 +101,13 @@ public class EnemyStateMachine : NetworkBehaviour
     private void Update()
     {
         if (!IsServer) return;
-        if (CurrentSkill == null) state.UpdateState();
-        if (CurrentSkill != null) CurrentSkill.UpdateSkill(this);
+        state.UpdateState();
     }
 
     private void FixedUpdate()
     {
         if (!IsServer) return;
-        if (CurrentSkill == null) state.FixedUpdateState();
-        if (CurrentSkill != null) CurrentSkill.FixedUpdateSkill(this);
+        state.FixedUpdateState();
     }
 
     public void SetState(EnemyState newState)
@@ -128,7 +126,7 @@ public class EnemyStateMachine : NetworkBehaviour
             case SkillType.Ultimate: CurrentSkill = enemyUltimateAbility; break;
         }
 
-        CurrentSkill.StartSkill(this);
+        SetState(new EnemyAttackState(this, CurrentSkill));
     }
 
     public void Interrupt()

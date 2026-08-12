@@ -43,13 +43,13 @@ public class SetSkillPanel : MonoBehaviour
     private void OnEnable()
     {
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
-        skillPanel.OnSkillSelected.AddListener(SetSkills);
+        skillPanel.OnSkillSelected.AddListener(SetClassSkills);
     }
 
     private void OnDisable()
     {
         stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
-        skillPanel.OnSkillSelected.RemoveListener(SetSkills);
+        skillPanel.OnSkillSelected.RemoveListener(SetClassSkills);
     }
 
     private void Awake()
@@ -60,10 +60,10 @@ public class SetSkillPanel : MonoBehaviour
         ArcherPanel.SetActive(false);
         RoguePanel.SetActive(false);
 
-        SetSkills();
+        SetClassSkills();
     }
 
-    public void SetSkills()
+    public void SetClassSkills()
     {
         switch (stats.playerClass)
         {

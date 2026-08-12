@@ -64,16 +64,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [HideInInspector] public UnityEvent OnSpawn;
 
-    public enum SkillType
-    {
-        Basic,
-        Offensive,
-        Mobility,
-        Defensive,
-        Utility,
-        Ultimate,
-    }
-
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
@@ -89,7 +79,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void SkillsOnSpawn()
     {
-        setSkills.SetSkills();
+        setSkills.SetClassSkills();
         if (skills == null) return;
 
         switch (Stats.playerClass)
@@ -190,8 +180,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
 
-        if (CurrentSkill == null) state.UpdateState();
-        if (CurrentSkill != null) CurrentSkill.UpdateSkill(this);
+        state.UpdateState();
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
@@ -215,8 +204,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
 
-        if (CurrentSkill == null) state.FixedUpdateState();
-        if (CurrentSkill != null) CurrentSkill.FixedUpdateSkill(this);
+        state.FixedUpdateState();
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
@@ -292,7 +280,7 @@ public class PlayerStateMachine : NetworkBehaviour
             CanBasic = false;
 
             DestroyAllIndicators();
-            skills.basicAbilities[player.BasicIndex].StartSkill(this);
+            SetState(new PlayerAttackState(this, skills.basicAbilities[player.BasicIndex]));
         }
     }
 
@@ -322,7 +310,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
-        skills.offensiveAbilities[player.OffensiveIndex].StartSkill(this);
+        SetState(new PlayerAttackState(this, skills.offensiveAbilities[player.OffensiveIndex]));
     }
 
     public void MobilityAbility()
@@ -351,7 +339,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
-        skills.mobilityAbilities[player.MobilityIndex].StartSkill(this);
+        SetState(new PlayerAttackState(this, skills.mobilityAbilities[player.MobilityIndex]));
     }
 
     public void DefensiveAbility()
@@ -380,7 +368,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
-        skills.defensiveAbilities[player.DefensiveIndex].StartSkill(this);
+        SetState(new PlayerAttackState(this, skills.defensiveAbilities[player.DefensiveIndex]));
     }
 
     public void UtilityAbility()
@@ -409,7 +397,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
-        skills.utilityAbilities[player.UtilityIndex].StartSkill(this);
+        SetState(new PlayerAttackState(this, skills.utilityAbilities[player.UtilityIndex]));
     }
 
     public void UltimateAbility()
@@ -438,7 +426,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
-        skills.ultimateAbilities[player.UltimateIndex].StartSkill(this);
+        SetState(new PlayerAttackState(this, skills.ultimateAbilities[player.UltimateIndex]));
     }
 
     [ServerRpc]
