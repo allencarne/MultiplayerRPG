@@ -52,15 +52,9 @@ public class SkillData : ScriptableObject
     [Header("Stun")]
     public float StunDuration;
 
-    [Header("SpawnEffects")]
-    public SpawnEffect[] OnCast_Spawn;
-    public SpawnEffect[] OnAction_Spawn;
-    public SpawnEffect[] OnImpact_Spawn;
-    public SpawnEffect[] OnRecovery_Spawn;
-
-    [Header("ApplyEffects")]
-    public ApplyEffect[] OnCast_Apply;
-    public ApplyEffect[] OnAction_Apply;
-    public ApplyEffect[] OnImpact_Apply;
-    public ApplyEffect[] OnRecovery_Apply;
+    [Header("Effects")]
+    public SkillEffect[] OnCastEffects;
+    public SkillEffect[] OnActionEffects;
+    public SkillEffect[] OnImpactEffects;
+    public SkillEffect[] OnRecoveryEffects;
 }
