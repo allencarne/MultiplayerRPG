@@ -56,10 +56,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         return value;
     }
 
-    public void TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
+    public float TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
     {
-        if (!IsServer) return;
-        if (isDead) return;
+        if (!IsServer) return 0f;
+        if (isDead) return 0f;
 
         // Calculate
         float finalDamage = CalculateFinalDamage(damage, damageType);
@@ -84,6 +84,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
             OnDeath?.Invoke();
             OnCharacterDeath?.Invoke(attackerID);
         }
+
+        return roundedDamage;
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)

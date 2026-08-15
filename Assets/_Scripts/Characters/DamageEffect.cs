@@ -5,31 +5,29 @@ using UnityEngine;
 public class DamageEffect : ApplyEffect
 {
     public float Damage;
-    // Add Variable for DamageType
+    public DamageType DamageType;
+
+    [Header("On successful hit, apply these to the attacker")]
+    public SkillEffect[] OnDamageDealtEffects;
 
     protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
     {
-        Debug.Log("Damage");
-
         // Get Damageable Component
         IDamageable damageable = target.GetComponent<IDamageable>();
-
-        // Return if we cannot damage
         if (damageable == null) return;
 
         // Find the Attacker's NetworkObject
         NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[ctx.AttackerId].PlayerObject;
 
         // Apply Damage to the Attacker
-        damageable.TakeDamage(ctx.AttackerDamage + Damage, DamageType.Flat, attacker, target.transform.position);
+        float dealt = damageable.TakeDamage(ctx.AttackerDamage + Damage, DamageType, attacker, target.transform.position);
 
-        // Fury to be removed later
-        /*
-        if (CanGenerateFury)
+        if (OnDamageDealtEffects != null && OnDamageDealtEffects.Length > 0)
         {
-            Fury fury = attacker.GetComponentInChildren<Fury>();
-            if (fury != null) fury.FuryClientRPC(attacker);
+            SkillContext selfCtx = ctx;
+            selfCtx.Target = null;
+            selfCtx.LastDamageDealt = dealt;
+            foreach (SkillEffect effect in OnDamageDealtEffects) effect.Execute(owner, selfCtx);
         }
-        */
     }
 }

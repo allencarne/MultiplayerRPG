@@ -17,6 +17,7 @@ public struct SkillContext : INetworkSerializable
     public int EffectIndex;
 
     public NetworkObject Target;
+    public float LastDamageDealt;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
