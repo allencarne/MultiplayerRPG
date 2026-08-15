@@ -12,6 +12,10 @@ public class Fury : PlayerSkill
     Coroutine idleCoroutine;
     [SerializeField] PlayerStateMachine stateMachine;
 
+    public Fury(SkillData data) : base(data)
+    {
+    }
+
     public override void StartSkill(PlayerStateMachine owner)
     {
 
@@ -24,7 +28,7 @@ public class Fury : PlayerSkill
         {
             if (attackerObject.IsOwner)
             {
-                if (IsServer)
+                if (stateMachine.IsServer)
                 {
                     ApplyFury();
                 }
@@ -35,10 +39,10 @@ public class Fury : PlayerSkill
 
                 if (idleCoroutine != null)
                 {
-                    StopCoroutine(idleCoroutine);
+                    stateMachine.StopCoroutine(idleCoroutine);
                 }
 
-                idleCoroutine = StartCoroutine(IdleFuryDecay());
+                idleCoroutine = stateMachine.StartCoroutine(IdleFuryDecay());
             }
         }
     }
@@ -62,7 +66,7 @@ public class Fury : PlayerSkill
 
         while (stateMachine.Stats.Fury.Value > 0)
         {
-            if (IsServer)
+            if (stateMachine.IsServer)
             {
                 stateMachine.Stats.Fury.Value -= furyFallOff;
                 int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
@@ -98,7 +102,7 @@ public class Fury : PlayerSkill
     [ClientRpc]
     void ApplyBuffClientRpc(int newStacks)
     {
-        if (!IsOwner) return;
+        if (!stateMachine.IsOwner) return;
 
         int delta = newStacks - furyHasteStacks;
         if (delta != 0)

@@ -10,6 +10,7 @@ public class ApplyEffect : SkillEffect
 
     public override void Execute(PlayerStateMachine owner, SkillContext ctx)
     {
+        Debug.Log("Execute Apply Effect");
         // owner.ApplyEffect(this, ctx) — dispatch by Effect kind, apply to self
     }
 }

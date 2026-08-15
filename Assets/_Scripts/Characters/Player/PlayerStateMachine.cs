@@ -3,11 +3,13 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
     [Header("States")]
     private PlayerState state;
+    public SkillEffect[] effects;
 
     [Header("Skills")]
     [HideInInspector] public PlayerSkill CurrentSkill;
@@ -184,17 +186,17 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
-            skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
+            //skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
         }
 
         if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
         {
-            skills.secondPassive[player.SecondPassiveIndex].UpdateSkill(this);
+            //skills.secondPassive[player.SecondPassiveIndex].UpdateSkill(this);
         }
 
         if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
         {
-            skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
+            //skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
         }
     }
 
@@ -208,17 +210,17 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
         {
-            skills.firstPassive[player.FirstPassiveIndex].FixedUpdateSkill(this);
+            //skills.firstPassive[player.FirstPassiveIndex].FixedUpdateSkill(this);
         }
 
         if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
         {
-            skills.secondPassive[player.SecondPassiveIndex].FixedUpdateSkill(this);
+            //skills.secondPassive[player.SecondPassiveIndex].FixedUpdateSkill(this);
         }
 
         if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
         {
-            skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
+            //skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
         }
     }
 
@@ -280,7 +282,8 @@ public class PlayerStateMachine : NetworkBehaviour
             CanBasic = false;
 
             DestroyAllIndicators();
-            SetState(new PlayerAttackState(this, skills.basicAbilities[player.BasicIndex]));
+            PlayerSkill skill = new PlayerSkill(skills.basicAbilities[player.BasicIndex]);
+            SetState(new PlayerAttackState(this, skill));
         }
     }
 
@@ -296,7 +299,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsOffensiveHeld)
         {
-            InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].skillData.IndicatorPrefab, "Offensive");
+            InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
         }
         else
         {
@@ -310,7 +313,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
-        SetState(new PlayerAttackState(this, skills.offensiveAbilities[player.OffensiveIndex]));
+
+        PlayerSkill skill = new PlayerSkill(skills.offensiveAbilities[player.OffensiveIndex]);
+        SetState(new PlayerAttackState(this, skill));
     }
 
     public void MobilityAbility()
@@ -325,7 +330,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsMobilityHeld)
         {
-            InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].skillData.IndicatorPrefab, "Mobility");
+            InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
         }
         else
         {
@@ -339,7 +344,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
-        SetState(new PlayerAttackState(this, skills.mobilityAbilities[player.MobilityIndex]));
+
+        PlayerSkill skill = new PlayerSkill(skills.mobilityAbilities[player.MobilityIndex]);
+        SetState(new PlayerAttackState(this, skill));
     }
 
     public void DefensiveAbility()
@@ -354,7 +361,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsDefensiveHeld)
         {
-            InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].skillData.IndicatorPrefab, "Defensive");
+            InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
         }
         else
         {
@@ -368,7 +375,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
-        SetState(new PlayerAttackState(this, skills.defensiveAbilities[player.DefensiveIndex]));
+
+        PlayerSkill skill = new PlayerSkill(skills.defensiveAbilities[player.DefensiveIndex]);
+        SetState(new PlayerAttackState(this, skill));
     }
 
     public void UtilityAbility()
@@ -383,7 +392,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUtilityHeld)
         {
-            InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].skillData.IndicatorPrefab, "Utility");
+            InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
         }
         else
         {
@@ -397,7 +406,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
-        SetState(new PlayerAttackState(this, skills.utilityAbilities[player.UtilityIndex]));
+
+        PlayerSkill skill = new PlayerSkill(skills.utilityAbilities[player.UtilityIndex]);
+        SetState(new PlayerAttackState(this, skill));
     }
 
     public void UltimateAbility()
@@ -412,7 +423,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUltimateHeld)
         {
-            InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].skillData.IndicatorPrefab, "Ultimate");
+            InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
         }
         else
         {
@@ -426,7 +437,9 @@ public class PlayerStateMachine : NetworkBehaviour
 
         DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
-        SetState(new PlayerAttackState(this, skills.ultimateAbilities[player.UltimateIndex]));
+
+        PlayerSkill skill = new PlayerSkill(skills.ultimateAbilities[player.UltimateIndex]);
+        SetState(new PlayerAttackState(this, skill));
     }
 
     [ServerRpc]
@@ -576,4 +589,141 @@ public class PlayerStateMachine : NetworkBehaviour
 
     #endregion
 
+    public void RequestAttack(SkillContext context, SpawnEffect effect)
+    {
+        if (IsServer)
+        {
+            Attack(context, effect);
+        }
+        else
+        {
+            AttackServerRpc(context, effect.EffectID);
+        }
+    }
+
+    public void Attack(SkillContext context, SpawnEffect effect)
+    {
+        NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[context.AttackerId].PlayerObject;
+
+        GameObject attackInstance = Instantiate(effect.Prefab, context.SpawnPosition + context.AimOffset, context.AimRotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+        attackNetObj.Spawn();
+
+        Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
+        if (attackRB != null)
+        {
+            attackRB.AddForce(context.AimDirection * effect.Force, ForceMode2D.Impulse);
+        }
+
+        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
+        if (damageOnTrigger != null)
+        {
+            damageOnTrigger.CanGenerateFury = context.IsBasic;
+            damageOnTrigger.attacker = attacker;
+            damageOnTrigger.AbilityDamage = context.AttackerDamage + effect.Damage;
+            damageOnTrigger.IgnorePlayer = true;
+            damageOnTrigger.IgnoreNPC = true;
+
+            /*
+            if (CurrentSkill.skillData.HealAmount > 0)
+            {
+                damageOnTrigger.HealAmount = skillData.HealAmount;
+                damageOnTrigger.CanHeal = true;
+            }
+            */
+        }
+
+        /*
+        InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
+        if (interruptOnTrigger != null)
+        {
+            interruptOnTrigger.attacker = attacker;
+            interruptOnTrigger.IgnorePlayer = true;
+            interruptOnTrigger.IgnoreNPC = true;
+        }
+
+        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
+        if (knockbackOnTrigger != null)
+        {
+            knockbackOnTrigger.attacker = attacker;
+            knockbackOnTrigger.Amount = skillData.KnockBackForce;
+            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
+            knockbackOnTrigger.Direction = context.AimDirection.normalized;
+            knockbackOnTrigger.IgnorePlayer = true;
+            knockbackOnTrigger.IgnoreNPC = true;
+        }
+
+        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
+        if (stunOnTrigger != null)
+        {
+            stunOnTrigger.attacker = attacker;
+            stunOnTrigger.Duration = skillData.StunDuration;
+            stunOnTrigger.IgnorePlayer = true;
+            stunOnTrigger.IgnoreNPC = true;
+        }
+
+        SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
+        if (slow != null)
+        {
+            slow.attacker = attacker;
+            slow.Duration = skillData.SlowDuration;
+            slow.Stacks = skillData.SlowStacks;
+            slow.IgnorePlayer = true;
+            slow.IgnoreNPC = true;
+        }
+        */
+
+        FollowTarget target = attackInstance.GetComponent<FollowTarget>();
+        if (target != null) target.Target = transform;
+
+        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
+        if (death != null) death.stats = GetComponentInParent<CharacterStats>();
+
+        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(effect.Duration));
+    }
+
+    
+    [ServerRpc]
+    public void AttackServerRpc(SkillContext context, int effectID)
+    {
+        //context.AttackerId = rpcParams.Receive.SenderClientId;
+
+        // Use effectID to look up effect
+
+        SkillEffect effect = effects[effectID];
+
+        Attack(context, (SpawnEffect)effect);
+    }
+    
+
+    public void Telegraph(float time, bool useOffset, bool useRotation)
+    {
+        if (CurrentSkill.skillData.TelegraphPrefab == null) return;
+
+        Vector2 position = useOffset ? CurrentSkill.context.SpawnPosition + CurrentSkill.context.AimOffset : CurrentSkill.context.SpawnPosition;
+        Quaternion rotation = useRotation ? CurrentSkill.context.AimRotation : Quaternion.identity;
+
+        GameObject attackInstance = Instantiate(CurrentSkill.skillData.TelegraphPrefab, position, rotation);
+        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
+        attackNetObj.Spawn();
+
+        CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
+        if (circle != null)
+        {
+            circle.stats = gameObject.GetComponentInParent<CharacterStats>();
+            circle.Init();
+
+            circle.FillSpeed = time;
+        }
+
+        SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
+        if (square != null)
+        {
+            square.stats = gameObject.GetComponentInParent<CharacterStats>();
+            square.Init();
+
+            square.FillSpeed = time;
+        }
+    }
 }

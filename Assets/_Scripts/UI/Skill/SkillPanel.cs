@@ -9,15 +9,15 @@ public class SkillPanel : MonoBehaviour
     [SerializeField] PlayerStateMachine stateMachine;
 
     [Header("Skills")]
-    public PlayerSkill[] firstPassive;
-    public PlayerSkill[] secondPassive;
-    public PlayerSkill[] thirdPassive;
-    public PlayerSkill[] basicAbilities;
-    public PlayerSkill[] offensiveAbilities;
-    public PlayerSkill[] mobilityAbilities;
-    public PlayerSkill[] defensiveAbilities;
-    public PlayerSkill[] utilityAbilities;
-    public PlayerSkill[] ultimateAbilities;
+    public SkillData[] firstPassive;
+    public SkillData[] secondPassive;
+    public SkillData[] thirdPassive;
+    public SkillData[] basicAbilities;
+    public SkillData[] offensiveAbilities;
+    public SkillData[] mobilityAbilities;
+    public SkillData[] defensiveAbilities;
+    public SkillData[] utilityAbilities;
+    public SkillData[] ultimateAbilities;
 
     public int passive1Req = 0;
     public int basicReq = 0;
@@ -175,14 +175,14 @@ public class SkillPanel : MonoBehaviour
         BlueBorder(player.UltimateIndex, icon_Ultimate0, icon_Ultimate1, icon_Ultimate2);
     }
 
-    private void AssignIcon(Image icon, PlayerSkill[] abilities, int index)
+    private void AssignIcon(Image icon, SkillData[] abilities, int index)
     {
         if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
 
-        if (abilities[index].skillData.SkillIcon != null) icon.sprite = abilities[index].skillData.SkillIcon;
+        if (abilities[index].SkillIcon != null) icon.sprite = abilities[index].SkillIcon;
 
-        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
-        if (tooltip != null) tooltip.SetAbility(abilities[index]);
+        //SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
+        //if (tooltip != null) tooltip.SetAbility(abilities[index]);
     }
 
     void BlueBorder(int index, Image zero, Image one, Image two)
@@ -224,7 +224,7 @@ public class SkillPanel : MonoBehaviour
         OnSkillSelected?.Invoke();
 
         BlueBorder(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
-        firstPassive[index].StartSkill(stateMachine);
+        //firstPassive[index].StartSkill(stateMachine);
     }
 
     public void SecondPassiveButton(int index)
@@ -234,7 +234,7 @@ public class SkillPanel : MonoBehaviour
 
         BlueBorder(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
 
-        secondPassive[index].StartSkill(stateMachine);
+        //secondPassive[index].StartSkill(stateMachine);
     }
 
     public void ThirdPassiveButton(int index)
@@ -244,7 +244,7 @@ public class SkillPanel : MonoBehaviour
 
         BlueBorder(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
 
-        thirdPassive[index].StartSkill(stateMachine);
+        //thirdPassive[index].StartSkill(stateMachine);
     }
 
     public void BasicButton(int index)

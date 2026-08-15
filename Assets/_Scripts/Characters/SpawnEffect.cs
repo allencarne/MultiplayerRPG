@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnEffect: SkillEffect
 {
     public GameObject Prefab;
+    public float Damage;
     public int Amount = 1;
     public float Force;
     public float Duration;
@@ -12,11 +13,19 @@ public class SpawnEffect: SkillEffect
     public int RepeatAmount = 1;
     public float RepeatRate;
 
+    public bool IgnorePlayer;
+    public bool IgnoreEnemy;
+    public bool IgnoreNPC;
+
     [Header("What this spawned thing does when it hits something")]
     public SkillEffect[] OnTriggerEffects;   // <- comes back to this below
 
     public override void Execute(PlayerStateMachine owner, SkillContext ctx)
     {
+        Debug.Log("Execute Spawn Effect");
+
+        owner.RequestAttack(ctx, this);
+
         if (RepeatAmount <= 1) SpawnBurst(owner, ctx);
         else owner.StartCoroutine(RepeatSpawn(owner, ctx));
     }

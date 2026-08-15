@@ -102,7 +102,7 @@ public class SetSkillPanel : MonoBehaviour
             for (int i = 0; i < skillBar_Basic.Length; i++)
             {
                 skillBar_Basic[i].color = Color.white;
-                skillBar_Basic[i].sprite = skills.basicAbilities[player.BasicIndex].skillData.SkillIcon;
+                skillBar_Basic[i].sprite = skills.basicAbilities[player.BasicIndex].SkillIcon;
             }
         }
 
@@ -111,7 +111,7 @@ public class SetSkillPanel : MonoBehaviour
             for (int i = 0; i < skillBar_Basic.Length; i++)
             {
                 skillBar_Offensive[i].color = Color.white;
-                skillBar_Offensive[i].sprite = skills.offensiveAbilities[player.OffensiveIndex].skillData.SkillIcon;
+                skillBar_Offensive[i].sprite = skills.offensiveAbilities[player.OffensiveIndex].SkillIcon;
             }
         }
 
@@ -120,7 +120,7 @@ public class SetSkillPanel : MonoBehaviour
             for (int i = 0; i < skillBar_Basic.Length; i++)
             {
                 skillBar_Mobility[i].color = Color.white;
-                skillBar_Mobility[i].sprite = skills.mobilityAbilities[player.MobilityIndex].skillData.SkillIcon;
+                skillBar_Mobility[i].sprite = skills.mobilityAbilities[player.MobilityIndex].SkillIcon;
             }
         }
 
@@ -129,7 +129,7 @@ public class SetSkillPanel : MonoBehaviour
             for (int i = 0; i < skillBar_Basic.Length; i++)
             {
                 skillBar_Defensive[i].color = Color.white;
-                skillBar_Defensive[i].sprite = skills.defensiveAbilities[player.DefensiveIndex].skillData.SkillIcon;
+                skillBar_Defensive[i].sprite = skills.defensiveAbilities[player.DefensiveIndex].SkillIcon;
             }
         }
 
@@ -138,7 +138,7 @@ public class SetSkillPanel : MonoBehaviour
             for (int i = 0; i < skillBar_Basic.Length; i++)
             {
                 skillBar_Utility[i].color = Color.white;
-                skillBar_Utility[i].sprite = skills.utilityAbilities[player.UtilityIndex].skillData.SkillIcon;
+                skillBar_Utility[i].sprite = skills.utilityAbilities[player.UtilityIndex].SkillIcon;
             }
         }
 
@@ -147,7 +147,7 @@ public class SetSkillPanel : MonoBehaviour
             for (int i = 0; i < skillBar_Basic.Length; i++)
             {
                 skillBar_Ultimate[i].color = Color.white;
-                skillBar_Ultimate[i].sprite = skills.ultimateAbilities[player.UltimateIndex].skillData.SkillIcon;
+                skillBar_Ultimate[i].sprite = skills.ultimateAbilities[player.UltimateIndex].SkillIcon;
             }
         }
     }

@@ -39,14 +39,9 @@ MonoBehaviour:
   KnockBackForce: 0
   KnockBackDuration: 0
   StunDuration: 0
-  OnCast_Spawn: []
-  OnAction_Spawn: []
-  OnImpact_Spawn: []
-  OnRecovery_Spawn: []
-  OnCast_Apply: []
-  OnAction_Apply: []
-  OnImpact_Apply: []
-  OnRecovery_Apply: []
-  references:
-    version: 2
-    RefIds: []
+  OnCastEffects:
+  - {fileID: 11400000, guid: 8618e479ba2493d41b1bb9426654c8f7, type: 2}
+  OnActionEffects: []
+  OnImpactEffects:
+  - {fileID: 11400000, guid: 5899a033b2f5d814cbf6840dcd1d8aa7, type: 2}
+  OnRecoveryEffects: []

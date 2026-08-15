@@ -5,6 +5,10 @@ public class SecondWind : PlayerSkill
 {
     bool isOnCooldown = false;
 
+    public SecondWind(SkillData data) : base(data)
+    {
+    }
+
     public override void UpdateSkill(PlayerStateMachine owner)
     {
         if (!owner.IsOwner) return;
