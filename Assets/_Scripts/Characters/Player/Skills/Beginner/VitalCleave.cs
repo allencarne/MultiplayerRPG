@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class VitalCleave : PlayerSkill
 {
-    public VitalCleave(SkillData data) : base(data)
+    public VitalCleave(SkillData data, int index) : base(data, index)
     {
     }
 

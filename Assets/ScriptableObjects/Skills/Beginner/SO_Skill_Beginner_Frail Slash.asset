@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 276b1abb89a5a8142a3512d66d12467c, type: 3}
-  m_Name: Frail Slash
+  m_Name: SO_Skill_Beginner_Frail Slash
   m_EditorClassIdentifier: Assembly-CSharp::SkillData
   weaponType: 0
   skillType: 0
@@ -39,8 +39,7 @@ MonoBehaviour:
   KnockBackForce: 0
   KnockBackDuration: 0
   StunDuration: 0
-  OnCastEffects:
-  - {fileID: 11400000, guid: 8618e479ba2493d41b1bb9426654c8f7, type: 2}
+  OnCastEffects: []
   OnActionEffects: []
   OnImpactEffects:
   - {fileID: 11400000, guid: 5899a033b2f5d814cbf6840dcd1d8aa7, type: 2}

@@ -57,4 +57,13 @@ public class SkillData : ScriptableObject
     public SkillEffect[] OnActionEffects;
     public SkillEffect[] OnImpactEffects;
     public SkillEffect[] OnRecoveryEffects;
+
+    public SkillEffect[] GetEffects(PlayerSkill.State phase) => phase switch
+    {
+        PlayerSkill.State.Cast => OnCastEffects,
+        PlayerSkill.State.Action => OnActionEffects,
+        PlayerSkill.State.Impact => OnImpactEffects,
+        PlayerSkill.State.Recovery => OnRecoveryEffects,
+        _ => null
+    };
 }

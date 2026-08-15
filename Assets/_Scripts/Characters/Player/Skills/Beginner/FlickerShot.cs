@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FlickerShot : PlayerSkill
 {
-    public FlickerShot(SkillData data) : base(data)
+    public FlickerShot(SkillData data, int index) : base(data, index)
     {
     }
 

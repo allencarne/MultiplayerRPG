@@ -9,7 +9,6 @@ public class PlayerStateMachine : NetworkBehaviour
 {
     [Header("States")]
     private PlayerState state;
-    public SkillEffect[] effects;
 
     [Header("Skills")]
     [HideInInspector] public PlayerSkill CurrentSkill;
@@ -282,7 +281,7 @@ public class PlayerStateMachine : NetworkBehaviour
             CanBasic = false;
 
             DestroyAllIndicators();
-            PlayerSkill skill = new PlayerSkill(skills.basicAbilities[player.BasicIndex]);
+            PlayerSkill skill = new PlayerSkill(skills.basicAbilities[player.BasicIndex], player.BasicIndex);
             SetState(new PlayerAttackState(this, skill));
         }
     }
@@ -314,7 +313,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
 
-        PlayerSkill skill = new PlayerSkill(skills.offensiveAbilities[player.OffensiveIndex]);
+        PlayerSkill skill = new PlayerSkill(skills.offensiveAbilities[player.OffensiveIndex], player.OffensiveIndex);
         SetState(new PlayerAttackState(this, skill));
     }
 
@@ -345,7 +344,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
 
-        PlayerSkill skill = new PlayerSkill(skills.mobilityAbilities[player.MobilityIndex]);
+        PlayerSkill skill = new PlayerSkill(skills.mobilityAbilities[player.MobilityIndex], player.MobilityIndex);
         SetState(new PlayerAttackState(this, skill));
     }
 
@@ -376,7 +375,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
 
-        PlayerSkill skill = new PlayerSkill(skills.defensiveAbilities[player.DefensiveIndex]);
+        PlayerSkill skill = new PlayerSkill(skills.defensiveAbilities[player.DefensiveIndex], player.DefensiveIndex);
         SetState(new PlayerAttackState(this, skill));
     }
 
@@ -407,7 +406,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
 
-        PlayerSkill skill = new PlayerSkill(skills.utilityAbilities[player.UtilityIndex]);
+        PlayerSkill skill = new PlayerSkill(skills.utilityAbilities[player.UtilityIndex], player.UtilityIndex);
         SetState(new PlayerAttackState(this, skill));
     }
 
@@ -438,7 +437,7 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
 
-        PlayerSkill skill = new PlayerSkill(skills.ultimateAbilities[player.UltimateIndex]);
+        PlayerSkill skill = new PlayerSkill(skills.ultimateAbilities[player.UltimateIndex], player.UltimateIndex);
         SetState(new PlayerAttackState(this, skill));
     }
 
@@ -597,7 +596,7 @@ public class PlayerStateMachine : NetworkBehaviour
         }
         else
         {
-            AttackServerRpc(context, effect.EffectID);
+            AttackServerRpc(context);
         }
     }
 
@@ -615,6 +614,10 @@ public class PlayerStateMachine : NetworkBehaviour
             attackRB.AddForce(context.AimDirection * effect.Force, ForceMode2D.Impulse);
         }
 
+        SkillEffectRelay relay = attackInstance.GetComponent<SkillEffectRelay>();
+        if (relay != null) relay.Initialize(this, context, effect.OnTriggerEffects, effect.IgnorePlayer, effect.IgnoreEnemy, effect.IgnoreNPC);
+
+        /*
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
@@ -624,16 +627,14 @@ public class PlayerStateMachine : NetworkBehaviour
             damageOnTrigger.IgnorePlayer = true;
             damageOnTrigger.IgnoreNPC = true;
 
-            /*
+
             if (CurrentSkill.skillData.HealAmount > 0)
             {
                 damageOnTrigger.HealAmount = skillData.HealAmount;
                 damageOnTrigger.CanHeal = true;
             }
-            */
         }
 
-        /*
         InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
         if (interruptOnTrigger != null)
         {
@@ -685,17 +686,24 @@ public class PlayerStateMachine : NetworkBehaviour
 
     
     [ServerRpc]
-    public void AttackServerRpc(SkillContext context, int effectID)
+    public void AttackServerRpc(SkillContext context)
     {
-        //context.AttackerId = rpcParams.Receive.SenderClientId;
-
-        // Use effectID to look up effect
-
-        SkillEffect effect = effects[effectID];
-
-        Attack(context, (SpawnEffect)effect);
+        SkillData data = ResolveSkillData(context.SkillType, context.SkillIndex);
+        SkillEffect[] phaseEffects = data.GetEffects(context.Phase); // small switch, see below
+        SpawnEffect effect = (SpawnEffect)phaseEffects[context.EffectIndex];
+        Attack(context, effect);
     }
-    
+
+    SkillData ResolveSkillData(SkillData.SkillType type, int index) => type switch
+    {
+        SkillData.SkillType.Basic => skills.basicAbilities[index],
+        SkillData.SkillType.Offensive => skills.offensiveAbilities[index],
+        SkillData.SkillType.Mobility => skills.mobilityAbilities[index],
+        SkillData.SkillType.Defensive => skills.defensiveAbilities[index],
+        SkillData.SkillType.Utility => skills.utilityAbilities[index],
+        SkillData.SkillType.Ultimate => skills.ultimateAbilities[index],
+        _ => null
+    };
 
     public void Telegraph(float time, bool useOffset, bool useRotation)
     {

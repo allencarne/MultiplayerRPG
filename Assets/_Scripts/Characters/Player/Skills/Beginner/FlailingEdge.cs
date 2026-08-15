@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FlailingEdge : PlayerSkill
 {
-    public FlailingEdge(SkillData data) : base(data)
+    public FlailingEdge(SkillData data, int index) : base(data, index)
     {
     }
 

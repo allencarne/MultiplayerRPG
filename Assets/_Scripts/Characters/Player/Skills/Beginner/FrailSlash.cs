@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FrailSlash : PlayerSkill
 {
-    public FrailSlash(SkillData data) : base(data)
+    public FrailSlash(SkillData data, int index) : base(data, index)
     {
     }
 

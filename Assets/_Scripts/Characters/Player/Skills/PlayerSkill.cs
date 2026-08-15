@@ -1,16 +1,17 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSkill
 {
-    public PlayerSkill(SkillData data)
+    public SkillData skillData;
+    int skillIndex;
+    public SkillContext context;
+
+    public PlayerSkill(SkillData data, int index)
     {
         skillData = data;
+        skillIndex = index;
     }
-
-    public SkillData skillData;
-    public SkillContext context;
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
@@ -33,7 +34,9 @@ public class PlayerSkill
             AimOffset = ((Vector2)owner.Aimer.right).normalized * skillData.SkillRange,
             AttackerDamage = owner.Stats.TotalDamage,
             IsBasic = IsBasicAttack(),
-            AttackerId = owner.OwnerClientId
+            AttackerId = owner.OwnerClientId,
+            SkillType = skillData.skillType,
+            SkillIndex = skillIndex
         };
 
         if (IsBasicAttack())
@@ -79,24 +82,24 @@ public class PlayerSkill
     {
         Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
         owner.player.CastBar.StartCast(ModifiedCastTime);
-        RunEffects(skillData.OnCastEffects, owner);
+        RunEffects(skillData.OnCastEffects, owner, State.Cast);
     }
     public virtual void ActionState(PlayerStateMachine owner)
     {
         if (skillData.ActionTime <= 0) return;
         Animate(owner, skillData.weaponType, skillData.skillType, State.Action);
-        RunEffects(skillData.OnActionEffects, owner);
+        RunEffects(skillData.OnActionEffects, owner, State.Action);
     }
     public virtual void ImpactState(PlayerStateMachine owner)
     {
         Animate(owner, skillData.weaponType, skillData.skillType, State.Impact);
-        RunEffects(skillData.OnImpactEffects, owner);
+        RunEffects(skillData.OnImpactEffects, owner, State.Impact);
     }
     public virtual void RecoveryState(PlayerStateMachine owner)
     {
         Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
         owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
-        RunEffects(skillData.OnRecoveryEffects, owner);
+        RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
     }
     public void DoneState(bool isStaggered, PlayerStateMachine owner)
     {
@@ -219,12 +222,16 @@ public class PlayerSkill
         owner.WeaponAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
     }
 
-    void RunEffects(SkillEffect[] effects, PlayerStateMachine owner)
+    void RunEffects(SkillEffect[] effects, PlayerStateMachine owner, State phase)
     {
         if (effects == null) return;
-        foreach (SkillEffect effect in effects)
+
+        for (int i = 0; i < effects.Length; i++)
         {
-            effect.Execute(owner, context);
+            SkillContext effectCtx = context;
+            effectCtx.Phase = phase;
+            effectCtx.EffectIndex = i;
+            effects[i].Execute(owner, effectCtx);
         }
     }
 

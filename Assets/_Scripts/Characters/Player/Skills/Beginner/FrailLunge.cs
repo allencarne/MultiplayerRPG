@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FrailLunge : PlayerSkill
 {
-    public FrailLunge(SkillData data) : base(data)
+    public FrailLunge(SkillData data, int index) : base(data, index)
     {
     }
 

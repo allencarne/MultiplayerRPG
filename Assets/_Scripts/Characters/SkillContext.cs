@@ -11,6 +11,13 @@ public struct SkillContext : INetworkSerializable
     public bool IsBasic;
     public ulong AttackerId;
 
+    public SkillData.SkillType SkillType;
+    public int SkillIndex;
+    public PlayerSkill.State Phase;
+    public int EffectIndex;
+
+    public NetworkObject Target;
+
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref SpawnPosition);
@@ -20,5 +27,10 @@ public struct SkillContext : INetworkSerializable
         serializer.SerializeValue(ref AttackerDamage);
         serializer.SerializeValue(ref IsBasic);
         serializer.SerializeValue(ref AttackerId);
+
+        serializer.SerializeValue(ref SkillType);
+        serializer.SerializeValue(ref SkillIndex);
+        serializer.SerializeValue(ref Phase);
+        serializer.SerializeValue(ref EffectIndex);
     }
 }

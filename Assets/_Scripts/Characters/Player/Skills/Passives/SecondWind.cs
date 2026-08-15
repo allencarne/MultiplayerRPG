@@ -5,7 +5,7 @@ public class SecondWind : PlayerSkill
 {
     bool isOnCooldown = false;
 
-    public SecondWind(SkillData data) : base(data)
+    public SecondWind(SkillData data, int index) : base(data, index)
     {
     }
 
