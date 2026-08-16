@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using static DebuffEffect;
 
 public class Debuff_Bleed : NetworkBehaviour
 {
@@ -161,6 +162,8 @@ public class Debuff_Bleed : NetworkBehaviour
     [ClientRpc]
     void StartUIClientRPC(float duration)
     {
+        if (UI_Bar == null || !UI_Bar.activeInHierarchy) return;
+
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
