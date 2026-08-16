@@ -28,9 +28,6 @@ public class DamageEffect : ApplyEffect
             CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();
             if (attackerStats != null && attackerStats.TotalVamp > 0f)
             {
-                Debug.Log(dealt + " Dealt");
-                Debug.Log(attackerStats.TotalVamp + " Vamp");
-
                 float healAmount = dealt * (attackerStats.TotalVamp / 100f);
                 attackerStats.GiveHeal(healAmount, HealType.Flat);
             }

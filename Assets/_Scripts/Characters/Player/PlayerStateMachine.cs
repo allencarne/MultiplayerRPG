@@ -558,7 +558,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (IsServer)
         {
-            Attack(context, effect);
+            Attack(ResolveServerContext(context), effect);
         }
         else
         {
@@ -654,13 +654,21 @@ public class PlayerStateMachine : NetworkBehaviour
     [ServerRpc]
     public void AttackServerRpc(SkillContext context)
     {
-        SkillData data = ResolveSkillData(context.SkillType, context.SkillIndex);
-        SkillEffect[] phaseEffects = data.GetEffects(context.Phase); // small switch, see below
+        // Build Context
+        context.AttackerId = OwnerClientId;
+        context.IsBasic = context.SkillType == SkillData.SkillType.Basic;
+        context.AttackerDamage = Stats.TotalDamage;
+
+        SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+        context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
+        context.AimOffset = context.AimDirection.normalized * data.SkillRange;
+
+        SkillEffect[] phaseEffects = data.GetEffects(context.Phase);
         SpawnEffect effect = (SpawnEffect)phaseEffects[context.EffectIndex];
         Attack(context, effect);
     }
 
-    SkillData ResolveSkillData(SkillData.SkillType type, int index) => type switch
+    SkillData GetSkillData(SkillData.SkillType type, int index) => type switch
     {
         SkillData.SkillType.Basic => skills.basicAbilities[index],
         SkillData.SkillType.Offensive => skills.offensiveAbilities[index],
@@ -670,6 +678,17 @@ public class PlayerStateMachine : NetworkBehaviour
         SkillData.SkillType.Ultimate => skills.ultimateAbilities[index],
         _ => null
     };
+
+    public SkillContext ResolveServerContext(SkillContext context)
+    {
+        context.AttackerId = OwnerClientId;
+        context.IsBasic = context.SkillType == SkillData.SkillType.Basic;
+        context.AttackerDamage = Stats.TotalDamage;
+        SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+        context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
+        context.AimOffset = context.AimDirection.normalized * data.SkillRange;
+        return context;
+    }
 
     public void Telegraph(float time, bool useOffset, bool useRotation)
     {
