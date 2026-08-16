@@ -16,11 +16,19 @@ public class SpawnEffect: SkillEffect
     public bool IgnoreEnemy;
     public bool IgnoreNPC;
 
+    public bool UseCurrentPosition;
+
     [Header("What this spawned thing does when it hits something")]
     public SkillEffect[] OnTriggerEffects;
 
     public override void Execute(PlayerStateMachine owner, SkillContext ctx)
     {
+        if (UseCurrentPosition)
+        {
+            ctx.SpawnPosition = owner.transform.position;
+            ctx.AimOffset = ctx.AimDirection.normalized * ctx.AimOffset.magnitude;
+        }
+
         // Temporary
         Debug.Log("Execute Spawn Effect: " + ctx.Phase);
         owner.RequestAttack(ctx, this);

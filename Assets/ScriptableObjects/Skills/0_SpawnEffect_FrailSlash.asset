@@ -15,7 +15,7 @@ MonoBehaviour:
   EffectID: 0
   Prefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
   Amount: 1
-  Force: 10
+  Force: 0
   Duration: 3
   SpreadAngle: 0
   RepeatAmount: 1
@@ -23,5 +23,6 @@ MonoBehaviour:
   IgnorePlayer: 1
   IgnoreEnemy: 0
   IgnoreNPC: 1
+  UseCurrentPosition: 1
   OnTriggerEffects:
   - {fileID: 11400000, guid: 9eae32a701555eb4d9b4c038190ad6e8, type: 2}

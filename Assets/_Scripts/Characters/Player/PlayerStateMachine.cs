@@ -45,13 +45,13 @@ public class PlayerStateMachine : NetworkBehaviour
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
+    public Mobility Mobility;
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
     [HideInInspector] public bool CanRoll = true;
     public bool IsFullySpawned = false;
     public bool IsAttacking = false;
-    public bool IsSliding = false;
     public bool CanBasic = true;
     public bool CanOffensive = true;
     public bool CanMobility = true;
@@ -550,40 +550,6 @@ public class PlayerStateMachine : NetworkBehaviour
         DestroyIndicator("Defensive");
         DestroyIndicator("Utility");
         DestroyIndicator("Ultimate");
-    }
-
-    #endregion
-
-    #region Slide
-
-    public void StartSlide(bool requireMoveInput)
-    {
-        if (!requireMoveInput || Input.MoveInput != Vector2.zero)
-        {
-            IsSliding = true;
-        }
-        else
-        {
-            PlayerRB.linearVelocity = Vector2.zero;
-        }
-    }
-
-    public IEnumerator SlideDuration(Vector2 aimDirection, float slideForce, float slideDuration)
-    {
-        float elapsed = 0f;
-        Vector2 startVelocity = aimDirection * slideForce;
-
-        while (elapsed < slideDuration)
-        {
-            float t = elapsed / slideDuration;
-            PlayerRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
-
-            elapsed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        PlayerRB.linearVelocity = Vector2.zero;
-        IsSliding = false;
     }
 
     #endregion
