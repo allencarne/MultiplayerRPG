@@ -271,6 +271,7 @@ public class CharacterSelect : MonoBehaviour
         $"{slot}MaxEndurance",
         $"{slot}EnduranceRecharge",
         $"{slot}Speed",
+        $"{slot}Vamp",
         $"{slot}Damage",
         $"{slot}AttackSpeed",
         $"{slot}CDR",

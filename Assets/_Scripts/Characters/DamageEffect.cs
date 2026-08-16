@@ -22,6 +22,20 @@ public class DamageEffect : ApplyEffect
         // Apply Damage to the Attacker
         float dealt = damageable.TakeDamage(ctx.AttackerDamage + Damage, DamageType, attacker, target.transform.position);
 
+        // Apply Vamp (Life Steal)
+        if (ctx.IsBasic)
+        {
+            CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();
+            if (attackerStats != null && attackerStats.TotalVamp > 0f)
+            {
+                Debug.Log(dealt + " Dealt");
+                Debug.Log(attackerStats.TotalVamp + " Vamp");
+
+                float healAmount = dealt * (attackerStats.TotalVamp / 100f);
+                attackerStats.GiveHeal(healAmount, HealType.Flat);
+            }
+        }
+
         if (OnDamageDealtEffects != null && OnDamageDealtEffects.Length > 0)
         {
             SkillContext selfCtx = ctx;

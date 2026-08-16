@@ -29,7 +29,8 @@ public enum StatType
     AttackSpeed,
     CoolDown,
     Speed,
-    Armor
+    Armor,
+    Vamp
 }
 
 public enum ModSource

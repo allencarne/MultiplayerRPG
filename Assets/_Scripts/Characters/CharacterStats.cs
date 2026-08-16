@@ -17,12 +17,14 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> net_BaseAS = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_BaseVamp = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Total Stats")]
     public float TotalDamage => net_BaseDamage.Value + GetModifier(StatType.Damage);
     public float TotalAS => net_BaseAS.Value + GetModifier(StatType.AttackSpeed);
     public float TotalCDR => net_BaseCDR.Value + GetModifier(StatType.CoolDown);
     public float TotalSpeed => Mathf.Max(net_BaseSpeed.Value + GetModifier(StatType.Speed), minSpeed);
+    public float TotalVamp => net_BaseVamp.Value + GetModifier(StatType.Vamp);
 
     float minSpeed = .2f;
 
