@@ -1,14 +1,15 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Stun Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Crowd Control/Stun")]
 public class StunEffect : ApplyEffect
 {
+    [Header("Duration")]
     public float Duration;
 
     protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
     {
-        IStunnable stunnable = target.GetComponentInChildren<IStunnable>();
-        stunnable?.StartStun(Duration);
+        IStunnable cc = target.GetComponentInChildren<IStunnable>();
+        cc?.StartStun(Duration);
     }
 }

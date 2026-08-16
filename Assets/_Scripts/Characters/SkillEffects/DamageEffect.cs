@@ -4,7 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Damage Effect")]
 public class DamageEffect : ApplyEffect
 {
+    [Header("Amount of Damage")]
     public float Damage;
+
+    [Header("Type of Damage")]
     public DamageType DamageType;
 
     [Header("On successful hit, apply these to the attacker")]

@@ -4,7 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SkillEffect", menuName = "Scriptable Objects/Skill Effects/Spawn Effect")]
 public class SpawnEffect: SkillEffect
 {
+    [Header("Prefab")]
     public GameObject Prefab;
+
+    [Header("Data")]
     public int Amount = 1;
     public float Force;
     public float Duration;
@@ -12,10 +15,12 @@ public class SpawnEffect: SkillEffect
     public int RepeatAmount = 1;
     public float RepeatRate;
 
+    [Header("Target")]
     public bool IgnorePlayer;
     public bool IgnoreEnemy;
     public bool IgnoreNPC;
 
+    [Header("Position")]
     public bool UseCurrentPosition;
 
     [Header("What this spawned thing does when it hits something")]

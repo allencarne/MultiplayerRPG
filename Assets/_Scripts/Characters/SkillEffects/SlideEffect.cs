@@ -3,8 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Slide Effect")]
 public class SlideEffect : SkillEffect
 {
+    [Header("Slide")]
     public float Force;
     public float Duration;
+
+    [Header("Movement")]
     public bool RequireMoveInput;
 
     public override void Execute(PlayerStateMachine owner, SkillContext ctx)
