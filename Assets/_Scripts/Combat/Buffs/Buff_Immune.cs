@@ -124,6 +124,8 @@ public class Buff_Immune : NetworkBehaviour
     [ClientRpc]
     void StartUIClientRPC(float duration)
     {
+        if (UI_Bar == null || !UI_Bar.activeInHierarchy) return;
+
         if (UI_Instance == null)
         {
             UI_Instance = Instantiate(UI_Prefab, UI_Bar.transform);
