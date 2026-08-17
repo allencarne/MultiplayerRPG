@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Buff Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Status Effect/Buff Effect")]
 public class BuffEffect : ApplyEffect
 {
     public enum BuffType { Haste, Might, Alacrity, Protection, Swiftness }

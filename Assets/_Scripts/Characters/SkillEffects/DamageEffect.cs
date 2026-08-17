@@ -10,7 +10,7 @@ public class DamageEffect : ApplyEffect
     [Header("Type of Damage")]
     public DamageType DamageType;
 
-    [Header("On successful hit, apply these to the attacker")]
+    [Header("On successful hit, applies to the ATTACKER, not the target")]
     public SkillEffect[] OnDamageDealtEffects;
 
     protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
