@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Crowd Control/Knock Up")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Status Effect/Crowd Control/Knock Up")]
 public class KnockUpEffect : ApplyEffect
 {
     [Header("Duration")]

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Crowd Control/Immobilize")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Status Effect/Crowd Control/Immobilize")]
 public class ImmobilizeEffect : ApplyEffect
 {
     [Header("Duration")]

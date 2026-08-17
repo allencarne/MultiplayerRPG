@@ -1,8 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Crowd Control/Silence")]
-public class SilenceEffect : ApplyEffect
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Status Effect/Crowd Control/Disarm")]
+public class DisarmEffect : ApplyEffect
 {
     [Header("Duration")]
     public float Duration;
@@ -10,6 +10,6 @@ public class SilenceEffect : ApplyEffect
     protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
     {
         CrowdControl cc = target.GetComponent<CrowdControl>();
-        cc?.silence.StartSilence(Duration);
+        cc?.disarm.StartDisarm(Duration);
     }
 }

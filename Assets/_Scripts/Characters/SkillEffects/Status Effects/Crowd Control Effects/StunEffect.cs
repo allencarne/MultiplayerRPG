@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Crowd Control/Stun")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Status Effect/Crowd Control/Stun")]
 public class StunEffect : ApplyEffect
 {
     [Header("Duration")]
