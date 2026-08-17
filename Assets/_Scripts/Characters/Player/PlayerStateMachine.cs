@@ -40,6 +40,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public Rigidbody2D PlayerRB;
     public Transform Aimer;
     public PlayerInput playerInput;
+    public Indicator Indicator;
 
     [Header("Status Effects")]
     public CrowdControl CrowdControl;
@@ -58,10 +59,6 @@ public class PlayerStateMachine : NetworkBehaviour
     public bool CanDefensive = true;
     public bool CanUtility = true;
     public bool CanUltimate = true;
-
-    [Header("Indicator")]
-    string indicatorType = null;
-    GameObject indicator;
 
     [HideInInspector] public UnityEvent OnSpawn;
 
@@ -280,7 +277,7 @@ public class PlayerStateMachine : NetworkBehaviour
             IsAttacking = true;
             CanBasic = false;
 
-            DestroyAllIndicators();
+            Indicator.DestroyAllIndicators();
             PlayerSkill skill = new PlayerSkill(skills.basicAbilities[player.BasicIndex], player.BasicIndex);
             SetState(new PlayerAttackState(this, skill));
         }
@@ -298,11 +295,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsOffensiveHeld)
         {
-            InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
+            Indicator.InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
         }
         else
         {
-            DestroyIndicator("Offensive");
+            Indicator.DestroyIndicator("Offensive");
         }
 
         if (!Input.HasBufferedOffensiveInput) return;
@@ -310,7 +307,7 @@ public class PlayerStateMachine : NetworkBehaviour
         IsAttacking = true;
         CanOffensive = false;
 
-        DestroyAllIndicators();
+        Indicator.DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
 
         PlayerSkill skill = new PlayerSkill(skills.offensiveAbilities[player.OffensiveIndex], player.OffensiveIndex);
@@ -329,11 +326,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsMobilityHeld)
         {
-            InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
+            Indicator.InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
         }
         else
         {
-            DestroyIndicator("Mobility");
+            Indicator.DestroyIndicator("Mobility");
         }
 
         if (!Input.HasBufferedMobilityInput) return;
@@ -341,7 +338,7 @@ public class PlayerStateMachine : NetworkBehaviour
         IsAttacking = true;
         CanMobility = false;
 
-        DestroyAllIndicators();
+        Indicator.DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
 
         PlayerSkill skill = new PlayerSkill(skills.mobilityAbilities[player.MobilityIndex], player.MobilityIndex);
@@ -360,11 +357,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsDefensiveHeld)
         {
-            InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
+            Indicator.InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
         }
         else
         {
-            DestroyIndicator("Defensive");
+            Indicator.DestroyIndicator("Defensive");
         }
 
         if (!Input.HasBufferedDefensiveInput) return;
@@ -372,7 +369,7 @@ public class PlayerStateMachine : NetworkBehaviour
         IsAttacking = true;
         CanDefensive = false;
 
-        DestroyAllIndicators();
+        Indicator.DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
 
         PlayerSkill skill = new PlayerSkill(skills.defensiveAbilities[player.DefensiveIndex], player.DefensiveIndex);
@@ -391,11 +388,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUtilityHeld)
         {
-            InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
+            Indicator.InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
         }
         else
         {
-            DestroyIndicator("Utility");
+            Indicator.DestroyIndicator("Utility");
         }
 
         if (!Input.HasBufferedUtilityInput) return;
@@ -403,7 +400,7 @@ public class PlayerStateMachine : NetworkBehaviour
         IsAttacking = true;
         CanUtility = false;
 
-        DestroyAllIndicators();
+        Indicator.DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
 
         PlayerSkill skill = new PlayerSkill(skills.utilityAbilities[player.UtilityIndex], player.UtilityIndex);
@@ -422,11 +419,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUltimateHeld)
         {
-            InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
+            Indicator.InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
         }
         else
         {
-            DestroyIndicator("Ultimate");
+            Indicator.DestroyIndicator("Ultimate");
         }
 
         if (!Input.HasBufferedUltimateInput) return;
@@ -434,7 +431,7 @@ public class PlayerStateMachine : NetworkBehaviour
         IsAttacking = true;
         CanUltimate = false;
 
-        DestroyAllIndicators();
+        Indicator.DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
 
         PlayerSkill skill = new PlayerSkill(skills.ultimateAbilities[player.UltimateIndex], player.UltimateIndex);
@@ -513,44 +510,6 @@ public class PlayerStateMachine : NetworkBehaviour
     #endregion
 
     #region Indicators
-
-    void InstantiateIndicator(GameObject prefab, string type)
-    {
-        if (indicator != null && indicatorType != type)
-        {
-            Destroy(indicator);
-            indicator = null;
-        }
-
-        if (indicator == null)
-        {
-            indicator = Instantiate(prefab, transform.position, Aimer.rotation, transform);
-            indicatorType = type;
-        }
-        else
-        {
-            indicator.transform.rotation = Aimer.rotation;
-        }
-    }
-
-    void DestroyIndicator(string type)
-    {
-        if (indicator != null && indicatorType == type)
-        {
-            Destroy(indicator);
-            indicator = null;
-            indicatorType = null;
-        }
-    }
-
-    void DestroyAllIndicators()
-    {
-        DestroyIndicator("Offensive");
-        DestroyIndicator("Mobility");
-        DestroyIndicator("Defensive");
-        DestroyIndicator("Utility");
-        DestroyIndicator("Ultimate");
-    }
 
     #endregion
 

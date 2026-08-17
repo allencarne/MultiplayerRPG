@@ -26038,6 +26038,7 @@ GameObject:
   - component: {fileID: 6004191219924147057}
   - component: {fileID: 4032564356350004549}
   - component: {fileID: 8560715399392518864}
+  - component: {fileID: 8456314716194012628}
   m_Layer: 6
   m_Name: Prefab_Player
   m_TagString: Player
@@ -27016,6 +27017,7 @@ MonoBehaviour:
   PlayerRB: {fileID: 9222441055534883323}
   Aimer: {fileID: 3442385175037626}
   playerInput: {fileID: 2155053313424514762}
+  Indicator: {fileID: 8456314716194012628}
   CrowdControl: {fileID: 6004191219924147057}
   Buffs: {fileID: 1521853271822668813}
   DeBuffs: {fileID: 263776561653739863}
@@ -27345,6 +27347,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mobility
   rb: {fileID: 9222441055534883323}
+--- !u!114 &8456314716194012628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6f72e4a705eca45bbc401efa824cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Indicator
+  Aimer: {fileID: 3442385175037626}
 --- !u!1 &2913849871181157441
 GameObject:
   m_ObjectHideFlags: 0
@@ -34325,8 +34340,11 @@ MonoBehaviour:
   thirdPassive: []
   basicAbilities:
   - {fileID: 11400000, guid: c695c1ea33f421b4abc8ab1799e5b4fb, type: 2}
-  offensiveAbilities: []
-  mobilityAbilities: []
+  offensiveAbilities:
+  - {fileID: 11400000, guid: 1d8925d1cce3d8a4c82bbdbc2cfdff65, type: 2}
+  - {fileID: 11400000, guid: 6502a24ed73d07b469ab9a1b42c8c7b0, type: 2}
+  mobilityAbilities:
+  - {fileID: 11400000, guid: 1583a7000a37e9e43a91b7cebb254367, type: 2}
   defensiveAbilities: []
   utilityAbilities: []
   ultimateAbilities: []
