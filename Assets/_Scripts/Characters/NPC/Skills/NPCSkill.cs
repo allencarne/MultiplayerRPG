@@ -200,19 +200,15 @@ public abstract class NPCSkill : NetworkBehaviour
         CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
         if (circle != null)
         {
-            circle.stats = gameObject.GetComponentInParent<CharacterStats>();
-            circle.Init();
-
-            circle.FillSpeed = time;
+            CharacterStats stats = gameObject.GetComponentInParent<CharacterStats>();
+            circle.Init(stats, time);
         }
 
         SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
         if (square != null)
         {
-            square.stats = gameObject.GetComponentInParent<CharacterStats>();
-            square.Init();
-
-            square.FillSpeed = time;
+            CharacterStats stats = gameObject.GetComponentInParent<CharacterStats>();
+            square.Init(stats, time);
         }
     }
     protected void Attack()

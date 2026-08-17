@@ -1,16 +1,16 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class SquareTelegraph : NetworkBehaviour
+public class SquareTelegraph : NetworkBehaviour, ITelegraph
 {
-    [SerializeField] private SpriteRenderer frontSprite;
-    [HideInInspector] public CharacterStats stats;
+    [SerializeField] SpriteRenderer frontSprite;
+    CharacterStats stats;
+    float fillSpeed;
 
-    [HideInInspector] public float FillSpeed;
-
-    public void Init()
+    public void Init(CharacterStats _stats, float _fillDuration)
     {
-        if (stats == null) return;
+        stats = _stats;
+        fillSpeed = _fillDuration;
         stats.OnInterrupted.AddListener(Destroy);
         stats.OnDeath.AddListener(Destroy);
     }
@@ -35,7 +35,7 @@ public class SquareTelegraph : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        float scaleIncrement = Time.deltaTime / FillSpeed;
+        float scaleIncrement = Time.deltaTime / fillSpeed;
 
         // Grow only along the X axis
         Vector3 currentScale = frontSprite.transform.localScale;

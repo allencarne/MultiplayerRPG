@@ -1,16 +1,16 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class CircleTelegraph : NetworkBehaviour
+public class CircleTelegraph : NetworkBehaviour, ITelegraph
 {
     [SerializeField] SpriteRenderer frontSprite;
-    [HideInInspector] public CharacterStats stats;
+    CharacterStats stats;
+    float fillSpeed;
 
-    [HideInInspector] public float FillSpeed;
-
-    public void Init()
+    public void Init(CharacterStats _stats, float _fillDuration)
     {
-        if (stats == null) return;
+        stats = _stats;
+        fillSpeed = _fillDuration;
         stats.OnInterrupted.AddListener(Destroy);
         stats.OnDeath.AddListener(Destroy);
     }
@@ -36,7 +36,7 @@ public class CircleTelegraph : NetworkBehaviour
         if (!IsServer) return;
 
         // Calculate the scale increment per frame to achieve the target scale in FillSpeed seconds
-        float scaleIncrement = Time.deltaTime / FillSpeed;
+        float scaleIncrement = Time.deltaTime / fillSpeed;
 
         // Adjust the scale of frontSprite
         Vector3 currentScale = frontSprite.transform.localScale;
