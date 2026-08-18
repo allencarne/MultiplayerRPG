@@ -25,6 +25,17 @@ public class PlayerSkill
     {
         owner.CurrentSkill = this;
 
+        if (IsBasicAttack())
+        {
+            ModifiedCastTime = skillData.CastTime / owner.Stats.TotalAS;
+            ModifiedRecoveryTime = skillData.RecoveryTime / owner.Stats.TotalAS;
+        }
+        else
+        {
+            ModifiedCastTime = skillData.CastTime;
+            ModifiedRecoveryTime = skillData.RecoveryTime;
+        }
+
         // Build Context
         context = new SkillContext
         {
@@ -36,14 +47,9 @@ public class PlayerSkill
             IsBasic = IsBasicAttack(),
             AttackerId = owner.OwnerClientId,
             SkillType = skillData.skillType,
-            SkillIndex = skillIndex
+            SkillIndex = skillIndex,
+            FillDuration = ModifiedCastTime + skillData.ActionTime
         };
-
-        if (IsBasicAttack())
-        {
-            ModifiedCastTime = skillData.CastTime / owner.Stats.TotalAS;
-            ModifiedRecoveryTime = skillData.RecoveryTime / owner.Stats.TotalAS;
-        }
 
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;

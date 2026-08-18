@@ -1,12 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SkillEffect", menuName = "Scriptable Objects/Skill Effects/Spawn Effect")]
-public class SpawnEffect: SkillEffect
+[CreateAssetMenu(fileName = "SkillEffect", menuName = "Scriptable Objects/Skill Effects/Networked Spawn/Spawn Effect")]
+public class SpawnEffect: NetworkedSpawnEffect
 {
-    [Header("Prefab")]
-    public GameObject Prefab;
-
     [Header("Data")]
     public int Amount = 1;
     public float Force;
@@ -20,26 +17,25 @@ public class SpawnEffect: SkillEffect
     public bool IgnoreEnemy;
     public bool IgnoreNPC;
 
-    [Header("Position")]
-    public bool UseCurrentPosition;
-
     [Header("What this spawned thing does when it hits something")]
     public SkillEffect[] OnTriggerEffects;
 
-    public override void Execute(PlayerStateMachine owner, SkillContext ctx)
+    public override void Configure(GameObject instance, PlayerStateMachine owner, SkillContext ctx)
     {
-        if (UseCurrentPosition)
-        {
-            ctx.SpawnPosition = owner.transform.position;
-            ctx.AimOffset = ctx.AimDirection.normalized * ctx.AimOffset.magnitude;
-        }
+        Rigidbody2D attackRB = instance.GetComponent<Rigidbody2D>();
+        if (attackRB != null) attackRB.AddForce(ctx.AimDirection * Force, ForceMode2D.Impulse);
 
-        // Temporary
-        Debug.Log("Execute Spawn Effect: " + ctx.Phase);
-        owner.RequestAttack(ctx, this);
+        SkillEffectRelay relay = instance.GetComponent<SkillEffectRelay>();
+        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC);
 
-        //if (RepeatAmount <= 1) SpawnBurst(owner, ctx);
-        //else owner.StartCoroutine(RepeatSpawn(owner, ctx));
+        FollowTarget target = instance.GetComponent<FollowTarget>();
+        if (target != null) target.Target = owner.transform;
+
+        DestroyOnDeath death = instance.GetComponent<DestroyOnDeath>();
+        if (death != null) death.stats = owner.Stats;
+
+        DespawnDelay despawnDelay = instance.GetComponent<DespawnDelay>();
+        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(Duration));
     }
 
     IEnumerator RepeatSpawn(PlayerStateMachine owner, SkillContext ctx)

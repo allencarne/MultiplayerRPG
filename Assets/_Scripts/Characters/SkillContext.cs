@@ -19,6 +19,9 @@ public struct SkillContext : INetworkSerializable
     public NetworkObject Target;
     public float LastDamageDealt;
 
+    // Telegraph
+    public float FillDuration;
+
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref SpawnPosition);
@@ -27,5 +30,6 @@ public struct SkillContext : INetworkSerializable
         serializer.SerializeValue(ref SkillIndex);
         serializer.SerializeValue(ref Phase);
         serializer.SerializeValue(ref EffectIndex);
+        serializer.SerializeValue(ref FillDuration);
     }
 }

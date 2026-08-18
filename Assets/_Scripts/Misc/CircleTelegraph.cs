@@ -33,8 +33,6 @@ public class CircleTelegraph : NetworkBehaviour, ITelegraph
 
     private void Update()
     {
-        if (!IsServer) return;
-
         // Calculate the scale increment per frame to achieve the target scale in FillSpeed seconds
         float scaleIncrement = Time.deltaTime / fillSpeed;
 
@@ -47,7 +45,7 @@ public class CircleTelegraph : NetworkBehaviour, ITelegraph
         frontSprite.transform.localScale = new Vector3(newScaleX, newScaleY, currentScale.z);
 
         // Check if the scale has reached 1
-        if (frontSprite.transform.localScale.x >= 1f && frontSprite.transform.localScale.y >= 1f)
+        if (frontSprite.transform.localScale.x >= 1f && frontSprite.transform.localScale.y >= 1f && IsServer)
         {
             Destroy(gameObject);
         }

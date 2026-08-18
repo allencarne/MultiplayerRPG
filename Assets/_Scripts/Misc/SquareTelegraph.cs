@@ -33,8 +33,6 @@ public class SquareTelegraph : NetworkBehaviour, ITelegraph
 
     private void Update()
     {
-        if (!IsServer) return;
-
         float scaleIncrement = Time.deltaTime / fillSpeed;
 
         // Grow only along the X axis
@@ -44,7 +42,7 @@ public class SquareTelegraph : NetworkBehaviour, ITelegraph
         frontSprite.transform.localScale = new Vector3(newScaleX, currentScale.y, currentScale.z);
 
         // Once fully filled, destroy
-        if (newScaleX >= 1f)
+        if (newScaleX >= 1f && IsServer)
         {
             Destroy(gameObject);
         }

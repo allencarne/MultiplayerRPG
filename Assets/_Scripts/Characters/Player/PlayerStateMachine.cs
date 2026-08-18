@@ -509,122 +509,26 @@ public class PlayerStateMachine : NetworkBehaviour
 
     #endregion
 
-    #region Indicators
-
-    #endregion
-
-    public void RequestAttack(SkillContext context, SpawnEffect effect)
+    public void RequestSpawn(SkillContext context, NetworkedSpawnEffect effect)
     {
-        if (IsServer)
-        {
-            Attack(ResolveServerContext(context), effect);
-        }
-        else
-        {
-            AttackServerRpc(context);
-        }
+        if (IsServer) Spawn(ResolveServerContext(context), effect);
+        else RequestSpawnServerRpc(context);
     }
 
-    public void Attack(SkillContext context, SpawnEffect effect)
+    void Spawn(SkillContext context, NetworkedSpawnEffect effect)
     {
-        NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[context.AttackerId].PlayerObject;
-
-        GameObject attackInstance = Instantiate(effect.Prefab, context.SpawnPosition + context.AimOffset, context.AimRotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-        attackNetObj.Spawn();
-
-        Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
-        if (attackRB != null)
-        {
-            attackRB.AddForce(context.AimDirection * effect.Force, ForceMode2D.Impulse);
-        }
-
-        SkillEffectRelay relay = attackInstance.GetComponent<SkillEffectRelay>();
-        if (relay != null) relay.Initialize(this, context, effect.OnTriggerEffects, effect.IgnorePlayer, effect.IgnoreEnemy, effect.IgnoreNPC);
-
-        /*
-        DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
-        if (damageOnTrigger != null)
-        {
-            damageOnTrigger.CanGenerateFury = context.IsBasic;
-            damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = context.AttackerDamage + effect.Damage;
-            damageOnTrigger.IgnorePlayer = true;
-            damageOnTrigger.IgnoreNPC = true;
-
-
-            if (CurrentSkill.skillData.HealAmount > 0)
-            {
-                damageOnTrigger.HealAmount = skillData.HealAmount;
-                damageOnTrigger.CanHeal = true;
-            }
-        }
-
-        InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
-        if (interruptOnTrigger != null)
-        {
-            interruptOnTrigger.attacker = attacker;
-            interruptOnTrigger.IgnorePlayer = true;
-            interruptOnTrigger.IgnoreNPC = true;
-        }
-
-        KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
-        if (knockbackOnTrigger != null)
-        {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = skillData.KnockBackForce;
-            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
-            knockbackOnTrigger.Direction = context.AimDirection.normalized;
-            knockbackOnTrigger.IgnorePlayer = true;
-            knockbackOnTrigger.IgnoreNPC = true;
-        }
-
-        StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
-        if (stunOnTrigger != null)
-        {
-            stunOnTrigger.attacker = attacker;
-            stunOnTrigger.Duration = skillData.StunDuration;
-            stunOnTrigger.IgnorePlayer = true;
-            stunOnTrigger.IgnoreNPC = true;
-        }
-
-        SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
-        if (slow != null)
-        {
-            slow.attacker = attacker;
-            slow.Duration = skillData.SlowDuration;
-            slow.Stacks = skillData.SlowStacks;
-            slow.IgnorePlayer = true;
-            slow.IgnoreNPC = true;
-        }
-        */
-
-        FollowTarget target = attackInstance.GetComponent<FollowTarget>();
-        if (target != null) target.Target = transform;
-
-        DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.stats = GetComponentInParent<CharacterStats>();
-
-        DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(effect.Duration));
+        GameObject instance = Instantiate(effect.Prefab, context.SpawnPosition + context.AimOffset, context.AimRotation);
+        instance.GetComponent<NetworkObject>().Spawn();
+        effect.Configure(instance, this, context);
     }
 
-    
     [ServerRpc]
-    public void AttackServerRpc(SkillContext context)
+    void RequestSpawnServerRpc(SkillContext context)
     {
-        // Build Context
-        context.AttackerId = OwnerClientId;
-        context.IsBasic = context.SkillType == SkillData.SkillType.Basic;
-        context.AttackerDamage = Stats.TotalDamage;
-
+        context = ResolveServerContext(context);
         SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
-        context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
-        context.AimOffset = context.AimDirection.normalized * data.SkillRange;
-
-        SkillEffect[] phaseEffects = data.GetEffects(context.Phase);
-        SpawnEffect effect = (SpawnEffect)phaseEffects[context.EffectIndex];
-        Attack(context, effect);
+        NetworkedSpawnEffect effect = (NetworkedSpawnEffect)data.GetEffects(context.Phase)[context.EffectIndex];
+        Spawn(context, effect);
     }
 
     SkillData GetSkillData(SkillData.SkillType type, int index) => type switch
@@ -647,31 +551,5 @@ public class PlayerStateMachine : NetworkBehaviour
         context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
         context.AimOffset = context.AimDirection.normalized * data.SkillRange;
         return context;
-    }
-
-    public void Telegraph(float time, bool useOffset, bool useRotation)
-    {
-        if (CurrentSkill.skillData.TelegraphPrefab == null) return;
-
-        Vector2 position = useOffset ? CurrentSkill.context.SpawnPosition + CurrentSkill.context.AimOffset : CurrentSkill.context.SpawnPosition;
-        Quaternion rotation = useRotation ? CurrentSkill.context.AimRotation : Quaternion.identity;
-
-        GameObject attackInstance = Instantiate(CurrentSkill.skillData.TelegraphPrefab, position, rotation);
-        NetworkObject attackNetObj = attackInstance.GetComponent<NetworkObject>();
-        attackNetObj.Spawn();
-
-        CircleTelegraph circle = attackInstance.GetComponent<CircleTelegraph>();
-        if (circle != null)
-        {
-            CharacterStats stats = gameObject.GetComponentInParent<CharacterStats>();
-            circle.Init(stats, time);
-        }
-
-        SquareTelegraph square = attackInstance.GetComponent<SquareTelegraph>();
-        if (square != null)
-        {
-            CharacterStats stats = gameObject.GetComponentInParent<CharacterStats>();
-            square.Init(stats, time);
-        }
     }
 }

@@ -21,7 +21,7 @@ MonoBehaviour:
     Fury</color> on hit.\\r\\n\\r\\n<color=#AAAAAA><i>Tip: Holding a movement direction\n   
     while attacking causes you to</i> <color=#FFFFFF>slide</color> <i>with the swing.</i></color>"
   SkillPrefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
-  TelegraphPrefab: {fileID: 0}
+  TelegraphPrefab: {fileID: 7858055610590440968, guid: 8dede0b158b20e84a9965305ac9afd40, type: 3}
   SkillDamage: 0
   SkillRange: 1
   SkillForce: 0
@@ -39,7 +39,8 @@ MonoBehaviour:
   KnockBackForce: 0
   KnockBackDuration: 0
   StunDuration: 0
-  OnCastEffects: []
+  OnCastEffects:
+  - {fileID: 11400000, guid: 400a881d12a3439469e31bb81a8aaff4, type: 2}
   OnActionEffects: []
   OnImpactEffects:
   - {fileID: 11400000, guid: 826669be1cddfaa479b3e7dcea4f5e4b, type: 2}
