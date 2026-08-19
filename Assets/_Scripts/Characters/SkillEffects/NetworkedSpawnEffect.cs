@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class NetworkedSpawnEffect : SkillEffect
 {
     public GameObject Prefab;
+
     public bool UseCurrentPosition;
     public sealed override void Execute(PlayerStateMachine owner, SkillContext ctx)
     {

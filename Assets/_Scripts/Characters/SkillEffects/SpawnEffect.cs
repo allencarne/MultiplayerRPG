@@ -17,6 +17,9 @@ public class SpawnEffect: NetworkedSpawnEffect
     public bool IgnoreEnemy;
     public bool IgnoreNPC;
 
+    [Header("Breakable")]
+    public bool IsBreakable;
+
     [Header("What this spawned thing does when it hits something")]
     public SkillEffect[] OnTriggerEffects;
 
@@ -26,7 +29,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (attackRB != null) attackRB.AddForce(ctx.AimDirection * Force, ForceMode2D.Impulse);
 
         SkillEffectRelay relay = instance.GetComponent<SkillEffectRelay>();
-        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC);
+        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IsBreakable);
 
         FollowTarget target = instance.GetComponent<FollowTarget>();
         if (target != null) target.Target = owner.transform;

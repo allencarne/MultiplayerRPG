@@ -7,8 +7,20 @@ public class SkillEffectRelay : NetworkBehaviour
     SkillContext context;
     PlayerStateMachine owner;
     bool ignorePlayer, ignoreEnemy, ignoreNPC;
+    bool isBreakable;
 
-    public void Initialize(PlayerStateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC)
+    [Header("Sparks")]
+    [SerializeField] GameObject hitSpark;
+    [SerializeField] GameObject hitSpark_Special;
+
+    private int obstacleLayer;
+
+    private void Awake()
+    {
+        obstacleLayer = LayerMask.NameToLayer("Obstacle");
+    }
+
+    public void Initialize(PlayerStateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _isBreakable)
     {
         owner = _owner;
         context = _ctx;
@@ -16,6 +28,7 @@ public class SkillEffectRelay : NetworkBehaviour
         ignorePlayer = _ignorePlayer;
         ignoreEnemy = _ignoreEnemy;
         ignoreNPC = _ignoreNPC;
+        isBreakable = _isBreakable;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -31,9 +44,28 @@ public class SkillEffectRelay : NetworkBehaviour
         if (collision.CompareTag("Enemy") && ignoreEnemy) return;
         if (collision.CompareTag("NPC") && ignoreNPC) return;
 
-        // Prevents self-hit
+        // Get Hit Object and Attacker
         NetworkObject hitObj = collision.GetComponent<NetworkObject>();
         NetworkObject attacker = owner.GetComponent<NetworkObject>();
+
+        // Calculate
+        Vector2 hitPosition = collision.ClosestPoint(transform.position);
+        Vector2 attackerPosition = attacker.transform.position;
+        Vector2 direction = (hitPosition - attackerPosition).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        // Break and Spark
+        if (collision.gameObject.layer == obstacleLayer)
+        {
+            if (isBreakable)
+            {
+                HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
+                NetworkObject.Despawn(true);
+            }
+        }
+
+        // Prevents self-hit
         if (hitObj == null || attacker == null) return;
         if (hitObj == attacker) return;
 
@@ -47,5 +79,20 @@ public class SkillEffectRelay : NetworkBehaviour
 
         // Execute all effects
         foreach (SkillEffect effect in onTriggerEffects) effect.Execute(owner, triggerCtx);
+
+
+        IDamageable damageable = collision.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
+        }
+    }
+
+    [ClientRpc]
+    void HitSparkClientRPC(Vector2 hitPosition, Quaternion rotation, Vector2 collisionPosition)
+    {
+        Instantiate(hitSpark, hitPosition, rotation);
+
+        if (hitSpark_Special) Instantiate(hitSpark_Special, collisionPosition, rotation);
     }
 }
