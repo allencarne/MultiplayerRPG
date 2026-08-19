@@ -8,12 +8,12 @@ public class SkillEffectRelay : NetworkBehaviour
     PlayerStateMachine owner;
     bool ignorePlayer, ignoreEnemy, ignoreNPC;
     bool isBreakable;
+    bool hasBroken;
+    int obstacleLayer;
 
     [Header("Sparks")]
     [SerializeField] GameObject hitSpark;
     [SerializeField] GameObject hitSpark_Special;
-
-    private int obstacleLayer;
 
     private void Awake()
     {
@@ -35,6 +35,7 @@ public class SkillEffectRelay : NetworkBehaviour
     {
         // Only the server can apply effects
         if (!IsServer) return;
+        if (hasBroken) return;
 
         // Return if there are no effects
         if (onTriggerEffects == null || onTriggerEffects.Length == 0) return;
@@ -60,6 +61,7 @@ public class SkillEffectRelay : NetworkBehaviour
         {
             if (isBreakable)
             {
+                hasBroken = true;
                 HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
                 NetworkObject.Despawn(true);
             }

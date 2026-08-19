@@ -60,6 +60,8 @@ public class CombatText : NetworkBehaviour
 
     void Heal(float amount)
     {
+        if (amount < 1) return;
+
         if (IsServer)
         {
             TextClientRPC(amount, false, TextType.Heal);
