@@ -16,14 +16,17 @@ MonoBehaviour:
   Prefab: {fileID: 120296350165298231, guid: fc076d7391a4c4b4aa7a2ef2ae88ba36, type: 3}
   UseCurrentPosition: 1
   Amount: 1
-  Force: 0
-  Duration: 3
-  SpreadAngle: 0
   RepeatAmount: 1
   RepeatRate: 0
+  spreadMode: 0
+  SpreadAngle: 0
+  Force: 0
+  ForceMode: 1
+  RotateToDirection: 0
+  Duration: 0.3
   IgnorePlayer: 1
   IgnoreEnemy: 0
   IgnoreNPC: 1
-  IsBreakable: 1
+  IsBreakable: 0
   OnTriggerEffects:
   - {fileID: 11400000, guid: 9eae32a701555eb4d9b4c038190ad6e8, type: 2}

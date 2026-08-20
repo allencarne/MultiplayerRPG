@@ -16,8 +16,8 @@ public class SlideEffect : SkillEffect
 
         if (RequireMoveInput)
         {
-            if (owner.Input.MoveInput == Vector2.zero) return; // rooted — don't slide
-            direction = owner.Input.MoveInput;
+            if (owner.Input.MoveInput == Vector2.zero) return;
+            //direction = owner.Input.MoveInput;
         }
 
         owner.Mobility.Slide(direction, Force, Duration);
