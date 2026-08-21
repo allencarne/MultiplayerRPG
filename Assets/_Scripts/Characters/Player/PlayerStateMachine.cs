@@ -390,8 +390,14 @@ public class PlayerStateMachine : NetworkBehaviour
     private void StartAbility(SkillData data, int index)
     {
         IsAttacking = true;
-        Indicator.DestroyAllIndicators();
         PlayerSkill skill = new PlayerSkill(data, index);
+
+        if (data.TargetingMode == SkillData.Targeting.Ground)
+        {
+            skill.GroundTargetPosition = Indicator.LastGroundPosition;
+        }
+
+        Indicator.DestroyAllIndicators();
         SetState(new PlayerAttackState(this, skill));
     }
 
@@ -542,5 +548,11 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         SkillData data = GetSkillData(context.SkillType,context.SkillIndex);
         return data != null ? data.SkillRange : 0f;
+    }
+
+    public bool IsGroundTargeted(SkillContext context)
+    {
+        SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+        return data != null && data.TargetingMode == SkillData.Targeting.Ground;
     }
 }

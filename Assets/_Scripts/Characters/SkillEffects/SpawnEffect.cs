@@ -74,6 +74,7 @@ public class SpawnEffect: NetworkedSpawnEffect
     void SpawnBurst(PlayerStateMachine owner, SkillContext ctx)
     {
         int amount = Mathf.Max(1, Amount);
+        bool groundTargeted = owner.IsGroundTargeted(ctx);
 
         for (int i = 0; i < amount; i++)
         {
@@ -82,8 +83,7 @@ public class SpawnEffect: NetworkedSpawnEffect
             SkillContext spawnContext = ctx;
             spawnContext.AimDirection = direction;
             spawnContext.AimRotation = DirectionToRotation(direction);
-
-            spawnContext.AimOffset = direction.normalized * owner.GetSkillRange(ctx);
+            spawnContext.AimOffset = groundTargeted ? Vector2.zero : direction.normalized * owner.GetSkillRange(ctx);
 
             owner.SpawnSingle(this, spawnContext);
         }

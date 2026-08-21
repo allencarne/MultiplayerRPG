@@ -7,6 +7,7 @@ public class Indicator : MonoBehaviour
     [Header("Indicator")]
     string indicatorType = null;
     GameObject indicator;
+    public Vector2 LastGroundPosition { get; private set; }
 
     public void InstantiateIndicator(GameObject prefab, string type)
     {
@@ -72,9 +73,12 @@ public class Indicator : MonoBehaviour
         {
             if (data.TargetingMode == SkillData.Targeting.Ground)
             {
-                Vector2 worldPos = input.cameraInstance != null ? (Vector2)input.cameraInstance.ScreenToWorldPoint(UnityEngine.Input.mousePosition): input.MousePosition;
+                Vector2 worldPos = input.cameraInstance != null
+                    ? (Vector2)input.cameraInstance.ScreenToWorldPoint(UnityEngine.Input.mousePosition)
+                    : input.MousePosition;
 
-                InstantiateIndicator(data.IndicatorPrefab,indicatorName,worldPos);
+                LastGroundPosition = worldPos;   // <-- add this
+                InstantiateIndicator(data.IndicatorPrefab, indicatorName, worldPos);
             }
             else
             {

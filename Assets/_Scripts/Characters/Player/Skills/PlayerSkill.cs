@@ -52,9 +52,6 @@ public class PlayerSkill
             {
                 aimDirection = dir.normalized;
             }
-            {
-                aimDirection = (owner.Aimer.right).normalized;
-            }
 
             float ang = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
             aimRotation = Quaternion.Euler(0, 0, ang);
