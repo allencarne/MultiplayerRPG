@@ -295,7 +295,15 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsOffensiveHeld)
         {
-            Indicator.InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
+            switch (skills.offensiveAbilities[player.OffensiveIndex].TargetingMode)
+            {
+                case SkillData.Targeting.Directional:
+                    Indicator.InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
+                    break;
+                case SkillData.Targeting.Ground:
+                    Indicator.InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive", Input.MousePosition);
+                    break;
+            }
         }
         else
         {
@@ -326,7 +334,15 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsMobilityHeld)
         {
-            Indicator.InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
+            switch (skills.mobilityAbilities[player.MobilityIndex].TargetingMode)
+            {
+                case SkillData.Targeting.Directional:
+                    Indicator.InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
+                    break;
+                case SkillData.Targeting.Ground:
+                    Indicator.InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility", Input.MousePosition);
+                    break;
+            }
         }
         else
         {
@@ -357,7 +373,15 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsDefensiveHeld)
         {
-            Indicator.InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
+            switch (skills.defensiveAbilities[player.DefensiveIndex].TargetingMode)
+            {
+                case SkillData.Targeting.Directional:
+                    Indicator.InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
+                    break;
+                case SkillData.Targeting.Ground:
+                    Indicator.InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive", Input.MousePosition);
+                    break;
+            }
         }
         else
         {
@@ -388,7 +412,15 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUtilityHeld)
         {
-            Indicator.InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
+            switch (skills.utilityAbilities[player.UtilityIndex].TargetingMode)
+            {
+                case SkillData.Targeting.Directional:
+                    Indicator.InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
+                    break;
+                case SkillData.Targeting.Ground:
+                    Indicator.InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility", Input.MousePosition);
+                    break;
+            }
         }
         else
         {
@@ -419,7 +451,15 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.IsUltimateHeld)
         {
-            Indicator.InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
+            switch (skills.ultimateAbilities[player.UltimateIndex].TargetingMode)
+            {
+                case SkillData.Targeting.Directional:
+                    Indicator.InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
+                    break;
+                case SkillData.Targeting.Ground:
+                    Indicator.InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate", Input.MousePosition);
+                    break;
+            }
         }
         else
         {

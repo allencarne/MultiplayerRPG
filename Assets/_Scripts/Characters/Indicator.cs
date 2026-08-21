@@ -27,6 +27,26 @@ public class Indicator : MonoBehaviour
         }
     }
 
+    public void InstantiateIndicator(GameObject prefab, string type, Vector2 worldPosition)
+    {
+        if (indicator != null && indicatorType != type)
+        {
+            Destroy(indicator);
+            indicator = null;
+        }
+
+        if (indicator == null)
+        {
+            // For ground-targeting we don't parent to the player; place at world position.
+            indicator = Instantiate(prefab, worldPosition, Quaternion.identity, null);
+            indicatorType = type;
+        }
+        else
+        {
+            indicator.transform.position = worldPosition;
+        }
+    }
+
     public void DestroyIndicator(string type)
     {
         if (indicator != null && indicatorType == type)

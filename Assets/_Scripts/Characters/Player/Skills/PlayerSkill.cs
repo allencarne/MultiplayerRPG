@@ -6,6 +6,7 @@ public class PlayerSkill
     public SkillData skillData;
     int skillIndex;
     public SkillContext context;
+    public Vector2? GroundTargetPosition = null;
 
     public PlayerSkill(SkillData data, int index)
     {
@@ -36,13 +37,37 @@ public class PlayerSkill
             ModifiedRecoveryTime = skillData.RecoveryTime;
         }
 
+        // Handle Aim
+        Vector2 aimDirection = owner.Aimer.right;
+        Quaternion aimRotation = owner.Aimer.rotation;
+        Vector2 spawnPos = owner.transform.position;
+        Vector2 aimOffset = ((Vector2)owner.Aimer.right).normalized * skillData.SkillRange;
+
+        if (GroundTargetPosition.HasValue)
+        {
+            Vector2 target = GroundTargetPosition.Value;
+            spawnPos = target;
+            Vector2 dir = (target - (Vector2)owner.transform.position);
+            if (dir.sqrMagnitude > 0.0001f)
+            {
+                aimDirection = dir.normalized;
+            }
+            {
+                aimDirection = (owner.Aimer.right).normalized;
+            }
+
+            float ang = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+            aimRotation = Quaternion.Euler(0, 0, ang);
+            aimOffset = Vector2.zero;
+        }
+
         // Build Context
         context = new SkillContext
         {
-            SpawnPosition = owner.transform.position,
-            AimDirection = owner.Aimer.right,
-            AimRotation = owner.Aimer.rotation,
-            AimOffset = ((Vector2)owner.Aimer.right).normalized * skillData.SkillRange,
+            SpawnPosition = spawnPos,
+            AimDirection = aimDirection,
+            AimRotation = aimRotation,
+            AimOffset = aimOffset,
             AttackerDamage = owner.Stats.TotalDamage,
             IsBasic = IsBasicAttack(),
             AttackerId = owner.OwnerClientId,
@@ -53,8 +78,6 @@ public class PlayerSkill
 
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;
-
-        // Handle Aim
 
         // Handle Animations
         Vector2 snappedDirection = owner.SnapDirection(context.AimDirection);
@@ -86,24 +109,24 @@ public class PlayerSkill
 
     public virtual void CastState(PlayerStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Cast);
         owner.player.CastBar.StartCast(ModifiedCastTime);
         RunEffects(skillData.OnCastEffects, owner, State.Cast);
     }
     public virtual void ActionState(PlayerStateMachine owner)
     {
         if (skillData.ActionTime <= 0) return;
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Action);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Action);
         RunEffects(skillData.OnActionEffects, owner, State.Action);
     }
     public virtual void ImpactState(PlayerStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Impact);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Impact);
         RunEffects(skillData.OnImpactEffects, owner, State.Impact);
     }
     public virtual void RecoveryState(PlayerStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
+        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
         owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
         RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
     }

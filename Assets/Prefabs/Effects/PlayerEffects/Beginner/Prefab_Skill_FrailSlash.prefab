@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 6409134839561476840}
   - component: {fileID: 8894121348854786466}
   - component: {fileID: 4088663336183369466}
+  - component: {fileID: 6260851076080139290}
   m_Layer: 11
   m_Name: Prefab_Skill_FrailSlash
   m_TagString: Untagged
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 495120382
+  GlobalObjectIdHash: 540251603
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -307,3 +308,16 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
+--- !u!114 &6260851076080139290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120296350165298231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b4a1f2aa257e2418b3e82552c92589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DespawnDelay
+  ShowTopMostFoldoutHeaderGroup: 1

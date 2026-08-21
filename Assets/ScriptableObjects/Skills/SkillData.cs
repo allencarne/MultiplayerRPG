@@ -8,6 +8,9 @@ public class SkillData : ScriptableObject
     public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }
     public SkillType skillType;
 
+    public enum Targeting { Directional, Ground }
+    public Targeting TargetingMode = Targeting.Directional;
+
     [Header("UI")]
     public Sprite SkillIcon;
     public GameObject IndicatorPrefab;
