@@ -157,13 +157,13 @@ public class PlayerSkill
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, skillData.ImpactTime);
+                    ChangeState(State.Impact, GetImpactDuration());
                 }
                 break;
 
             case State.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, skillData.ImpactTime);
+                ChangeState(State.Impact, GetImpactDuration());
                 break;
 
             case State.Impact:
@@ -271,5 +271,19 @@ public class PlayerSkill
         {
             return false;
         }
+    }
+
+    float GetImpactDuration()
+    {
+        float duration = skillData.ImpactTime;
+        if (skillData.OnImpactEffects != null)
+        {
+            foreach (SkillEffect effect in skillData.OnImpactEffects)
+            {
+                if (effect == null) continue;
+                duration = Mathf.Max(duration, effect.GetEffectDuration());
+            }
+        }
+        return duration;
     }
 }

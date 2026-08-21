@@ -163,4 +163,10 @@ public class SpawnEffect: NetworkedSpawnEffect
         DespawnDelay despawn = instance.GetComponent<DespawnDelay>();
         if (despawn != null && Duration > 0f) despawn.StartCoroutine(despawn.DespawnAfterDuration(Duration));
     }
+
+    public override float GetEffectDuration()
+    {
+        int repeatCount = Mathf.Max(1, RepeatAmount);
+        return (repeatCount - 1) * RepeatRate;
+    }
 }
