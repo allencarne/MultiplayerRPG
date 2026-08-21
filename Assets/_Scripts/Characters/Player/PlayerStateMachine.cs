@@ -274,12 +274,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.BasicAbilityInput)
         {
-            IsAttacking = true;
-            CanBasic = false;
+            SkillData data = skills.basicAbilities[player.BasicIndex];
 
-            Indicator.DestroyAllIndicators();
-            PlayerSkill skill = new PlayerSkill(skills.basicAbilities[player.BasicIndex], player.BasicIndex);
-            SetState(new PlayerAttackState(this, skill));
+            StartAbility(data, player.BasicIndex);
+
+            CanBasic = false;
         }
     }
 
@@ -293,33 +292,15 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        if (Input.IsOffensiveHeld)
-        {
-            switch (skills.offensiveAbilities[player.OffensiveIndex].TargetingMode)
-            {
-                case SkillData.Targeting.Directional:
-                    Indicator.InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive");
-                    break;
-                case SkillData.Targeting.Ground:
-                    Indicator.InstantiateIndicator(skills.offensiveAbilities[player.OffensiveIndex].IndicatorPrefab, "Offensive", Input.MousePosition);
-                    break;
-            }
-        }
-        else
-        {
-            Indicator.DestroyIndicator("Offensive");
-        }
+        SkillData data = skills.offensiveAbilities[player.OffensiveIndex];
+
+        Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input);
 
         if (!Input.HasBufferedOffensiveInput) return;
 
-        IsAttacking = true;
+        StartAbility(data, player.OffensiveIndex);
         CanOffensive = false;
-
-        Indicator.DestroyAllIndicators();
         Input.HasBufferedOffensiveInput = false;
-
-        PlayerSkill skill = new PlayerSkill(skills.offensiveAbilities[player.OffensiveIndex], player.OffensiveIndex);
-        SetState(new PlayerAttackState(this, skill));
     }
 
     public void MobilityAbility()
@@ -332,33 +313,15 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        if (Input.IsMobilityHeld)
-        {
-            switch (skills.mobilityAbilities[player.MobilityIndex].TargetingMode)
-            {
-                case SkillData.Targeting.Directional:
-                    Indicator.InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility");
-                    break;
-                case SkillData.Targeting.Ground:
-                    Indicator.InstantiateIndicator(skills.mobilityAbilities[player.MobilityIndex].IndicatorPrefab, "Mobility", Input.MousePosition);
-                    break;
-            }
-        }
-        else
-        {
-            Indicator.DestroyIndicator("Mobility");
-        }
+        SkillData data = skills.mobilityAbilities[player.MobilityIndex];
+
+        Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input);
 
         if (!Input.HasBufferedMobilityInput) return;
 
-        IsAttacking = true;
+        StartAbility(data, player.MobilityIndex);
         CanMobility = false;
-
-        Indicator.DestroyAllIndicators();
         Input.HasBufferedMobilityInput = false;
-
-        PlayerSkill skill = new PlayerSkill(skills.mobilityAbilities[player.MobilityIndex], player.MobilityIndex);
-        SetState(new PlayerAttackState(this, skill));
     }
 
     public void DefensiveAbility()
@@ -371,33 +334,15 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        if (Input.IsDefensiveHeld)
-        {
-            switch (skills.defensiveAbilities[player.DefensiveIndex].TargetingMode)
-            {
-                case SkillData.Targeting.Directional:
-                    Indicator.InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive");
-                    break;
-                case SkillData.Targeting.Ground:
-                    Indicator.InstantiateIndicator(skills.defensiveAbilities[player.DefensiveIndex].IndicatorPrefab, "Defensive", Input.MousePosition);
-                    break;
-            }
-        }
-        else
-        {
-            Indicator.DestroyIndicator("Defensive");
-        }
+        SkillData data = skills.defensiveAbilities[player.DefensiveIndex];
+
+        Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input);
 
         if (!Input.HasBufferedDefensiveInput) return;
 
-        IsAttacking = true;
+        StartAbility(data, player.DefensiveIndex);
         CanDefensive = false;
-
-        Indicator.DestroyAllIndicators();
         Input.HasBufferedDefensiveInput = false;
-
-        PlayerSkill skill = new PlayerSkill(skills.defensiveAbilities[player.DefensiveIndex], player.DefensiveIndex);
-        SetState(new PlayerAttackState(this, skill));
     }
 
     public void UtilityAbility()
@@ -410,33 +355,15 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        if (Input.IsUtilityHeld)
-        {
-            switch (skills.utilityAbilities[player.UtilityIndex].TargetingMode)
-            {
-                case SkillData.Targeting.Directional:
-                    Indicator.InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility");
-                    break;
-                case SkillData.Targeting.Ground:
-                    Indicator.InstantiateIndicator(skills.utilityAbilities[player.UtilityIndex].IndicatorPrefab, "Utility", Input.MousePosition);
-                    break;
-            }
-        }
-        else
-        {
-            Indicator.DestroyIndicator("Utility");
-        }
+        SkillData data = skills.utilityAbilities[player.UtilityIndex];
+
+        Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input);
 
         if (!Input.HasBufferedUtilityInput) return;
 
-        IsAttacking = true;
+        StartAbility(data, player.UtilityIndex);
         CanUtility = false;
-
-        Indicator.DestroyAllIndicators();
         Input.HasBufferedUtilityInput = false;
-
-        PlayerSkill skill = new PlayerSkill(skills.utilityAbilities[player.UtilityIndex], player.UtilityIndex);
-        SetState(new PlayerAttackState(this, skill));
     }
 
     public void UltimateAbility()
@@ -449,32 +376,22 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        if (Input.IsUltimateHeld)
-        {
-            switch (skills.ultimateAbilities[player.UltimateIndex].TargetingMode)
-            {
-                case SkillData.Targeting.Directional:
-                    Indicator.InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate");
-                    break;
-                case SkillData.Targeting.Ground:
-                    Indicator.InstantiateIndicator(skills.ultimateAbilities[player.UltimateIndex].IndicatorPrefab, "Ultimate", Input.MousePosition);
-                    break;
-            }
-        }
-        else
-        {
-            Indicator.DestroyIndicator("Ultimate");
-        }
+        SkillData data = skills.ultimateAbilities[player.UltimateIndex];
+
+        Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input);
 
         if (!Input.HasBufferedUltimateInput) return;
 
-        IsAttacking = true;
+        StartAbility(data, player.UltimateIndex);
         CanUltimate = false;
-
-        Indicator.DestroyAllIndicators();
         Input.HasBufferedUltimateInput = false;
+    }
 
-        PlayerSkill skill = new PlayerSkill(skills.ultimateAbilities[player.UltimateIndex], player.UltimateIndex);
+    private void StartAbility(SkillData data, int index)
+    {
+        IsAttacking = true;
+        Indicator.DestroyAllIndicators();
+        PlayerSkill skill = new PlayerSkill(data, index);
         SetState(new PlayerAttackState(this, skill));
     }
 

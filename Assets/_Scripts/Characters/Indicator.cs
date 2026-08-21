@@ -65,4 +65,25 @@ public class Indicator : MonoBehaviour
         DestroyIndicator("Utility");
         DestroyIndicator("Ultimate");
     }
+
+    public void HandleAbilityIndicator(SkillData data, string indicatorName, bool isHeld, PlayerInputHandler input)
+    {
+        if (isHeld)
+        {
+            if (data.TargetingMode == SkillData.Targeting.Ground)
+            {
+                Vector2 worldPos = input.cameraInstance != null ? (Vector2)input.cameraInstance.ScreenToWorldPoint(UnityEngine.Input.mousePosition): input.MousePosition;
+
+                InstantiateIndicator(data.IndicatorPrefab,indicatorName,worldPos);
+            }
+            else
+            {
+                InstantiateIndicator(data.IndicatorPrefab,indicatorName);
+            }
+        }
+        else
+        {
+            DestroyIndicator(indicatorName);
+        }
+    }
 }
