@@ -539,8 +539,12 @@ public class PlayerStateMachine : NetworkBehaviour
         context.IsBasic = context.SkillType == SkillData.SkillType.Basic;
         context.AttackerDamage = Stats.TotalDamage;
         SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+
         context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
-        context.AimOffset = context.AimDirection.normalized * data.SkillRange;
+        context.AimOffset = data.TargetingMode == SkillData.Targeting.Ground
+            ? Vector2.zero
+            : context.AimDirection.normalized * data.SkillRange;
+
         return context;
     }
 
