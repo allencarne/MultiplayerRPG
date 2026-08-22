@@ -15,6 +15,12 @@ public class Indicator : MonoBehaviour
     GameObject rangeIndicatorInstance;
     SpriteRenderer rangeIndicatorRenderer;
 
+    [Header("Stick Aiming (Gamepad / Mobile)")]
+    [SerializeField] float stickDeadzone = 0f;
+    Vector2 lastStickDirection = Vector2.zero;
+    float lastStickMagnitude = 0f;
+    bool hasStickDirection = false;
+
     public void InstantiateIndicator(GameObject prefab, string type)
     {
         if (indicator != null && indicatorType != type)
@@ -64,6 +70,7 @@ public class Indicator : MonoBehaviour
         }
 
         HideRangeIndicator();
+        hasStickDirection = false;
     }
 
     public void DestroyAllIndicators()
@@ -75,21 +82,17 @@ public class Indicator : MonoBehaviour
         DestroyIndicator("Ultimate");
     }
 
-    public void HandleAbilityIndicator(SkillData data, string indicatorName, bool isHeld, PlayerInputHandler input)
+    public void HandleAbilityIndicator(SkillData data, string indicatorName, bool isHeld, PlayerInputHandler input, string controlScheme)
     {
         if (isHeld)
         {
             if (data.TargetingMode == SkillData.Targeting.Ground)
             {
-                Vector2 worldPos = input.cameraInstance != null
-                    ? (Vector2)input.cameraInstance.ScreenToWorldPoint(UnityEngine.Input.mousePosition)
-                    : input.MousePosition;
+                Vector2 targetPos = ComputeGroundTargetPosition(data, input, controlScheme);
 
-                Vector2 clampedPos = ClampToRange(worldPos, data.SkillRange);
-
-                LastGroundPosition = clampedPos;
+                LastGroundPosition = targetPos;
                 ShowRangeIndicator(data.SkillRange);
-                InstantiateIndicator(data.IndicatorPrefab, indicatorName, clampedPos);
+                InstantiateIndicator(data.IndicatorPrefab, indicatorName, targetPos);
             }
             else
             {
@@ -99,6 +102,39 @@ public class Indicator : MonoBehaviour
         else
         {
             DestroyIndicator(indicatorName);
+        }
+    }
+
+    Vector2 ComputeGroundTargetPosition(SkillData data, PlayerInputHandler input, string controlScheme)
+    {
+        Vector2 origin = transform.position;
+
+        bool useStick = Application.isMobilePlatform || controlScheme == "Gamepad";
+
+        if (useStick)
+        {
+            Vector2 stickInput = Application.isMobilePlatform ? input.MoveInput : input.LookInput;
+
+            if (stickInput.magnitude > stickDeadzone)
+            {
+                lastStickDirection = stickInput.normalized;
+                lastStickMagnitude = Mathf.Clamp01(stickInput.magnitude);
+                hasStickDirection = true;
+            }
+            else if (!hasStickDirection)
+            {
+                lastStickDirection = ((Vector2)Aimer.right).normalized;
+                lastStickMagnitude = 1f;
+                hasStickDirection = true;
+            }
+
+            Vector2 offset = lastStickDirection * (data.SkillRange * lastStickMagnitude);
+            return origin + offset;
+        }
+        else
+        {
+            Vector2 worldPos = input.cameraInstance != null ? (Vector2)input.cameraInstance.ScreenToWorldPoint(UnityEngine.Input.mousePosition) : input.MousePosition;
+            return ClampToRange(worldPos, data.SkillRange);
         }
     }
 

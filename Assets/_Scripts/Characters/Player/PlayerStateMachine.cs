@@ -294,7 +294,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         SkillData data = skills.offensiveAbilities[player.OffensiveIndex];
 
-        Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input);
+        Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedOffensiveInput) return;
 
@@ -315,7 +315,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         SkillData data = skills.mobilityAbilities[player.MobilityIndex];
 
-        Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input);
+        Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedMobilityInput) return;
 
@@ -336,7 +336,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         SkillData data = skills.defensiveAbilities[player.DefensiveIndex];
 
-        Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input);
+        Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedDefensiveInput) return;
 
@@ -357,7 +357,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         SkillData data = skills.utilityAbilities[player.UtilityIndex];
 
-        Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input);
+        Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedUtilityInput) return;
 
@@ -378,7 +378,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         SkillData data = skills.ultimateAbilities[player.UltimateIndex];
 
-        Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input);
+        Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedUltimateInput) return;
 
