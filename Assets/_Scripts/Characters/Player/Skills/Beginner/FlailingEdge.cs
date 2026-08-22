@@ -5,7 +5,7 @@ public class FlailingEdge : PlayerSkill
     public FlailingEdge(SkillData data, int index) : base(data, index)
     {
     }
-
+    /*
     public override void StartSkill(PlayerStateMachine owner)
     {
         //InitializeAbility(skillData.skillType, owner);
@@ -57,4 +57,5 @@ public class FlailingEdge : PlayerSkill
         //Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
         //owner.player.CastBar.StartRecovery(skillData.RecoveryTime);
     }
+    */
 }

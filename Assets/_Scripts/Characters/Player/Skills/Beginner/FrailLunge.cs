@@ -5,7 +5,7 @@ public class FrailLunge : PlayerSkill
     public FrailLunge(SkillData data, int index) : base(data, index)
     {
     }
-
+    /*
     public override void StartSkill(PlayerStateMachine owner)
     {
         //InitializeAbility(skillData.skillType, owner);
@@ -57,4 +57,5 @@ public class FrailLunge : PlayerSkill
         //Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
         //owner.player.CastBar.StartRecovery(skillData.RecoveryTime);
     }
+    */
 }

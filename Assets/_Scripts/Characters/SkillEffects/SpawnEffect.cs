@@ -22,9 +22,6 @@ public class SpawnEffect: NetworkedSpawnEffect
     [Min(0f)]
     public float RepeatRate = 0f;
 
-    [Tooltip("If enabled, the Impact state stretches/loops to visually cover the full repeat sequence (e.g. a channeled rapid-fire attack). If disabled, spawns still repeat in the background, but Impact plays once at normal speed.")]
-    public bool StretchImpactToRepeat = false;
-
     [Header("Spread")]
     public SpreadMode spreadMode = SpreadMode.None;
 
@@ -167,11 +164,6 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (despawn != null && Duration > 0f) despawn.StartCoroutine(despawn.DespawnAfterDuration(Duration));
     }
 
-    public override float GetEffectDuration()
-    {
-        if (!StretchImpactToRepeat) return 0f;
-
-        int repeatCount = Mathf.Max(1, RepeatAmount);
-        return (repeatCount - 1) * RepeatRate;
-    }
+    public override int GetRepeatCount() => Mathf.Max(1, RepeatAmount);
+    public override float GetRepeatInterval() => RepeatRate;
 }

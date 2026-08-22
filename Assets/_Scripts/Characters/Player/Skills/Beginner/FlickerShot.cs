@@ -5,7 +5,7 @@ public class FlickerShot : PlayerSkill
     public FlickerShot(SkillData data, int index) : base(data, index)
     {
     }
-
+    /*
     public override void StartSkill(PlayerStateMachine owner)
     {
         //InitializeAbility(skillData.skillType, owner);
@@ -57,4 +57,5 @@ public class FlickerShot : PlayerSkill
         //Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
         //owner.player.CastBar.StartRecovery(skillData.RecoveryTime);
     }
+    */
 }

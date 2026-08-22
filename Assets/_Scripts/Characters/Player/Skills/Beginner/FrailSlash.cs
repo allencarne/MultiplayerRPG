@@ -5,7 +5,7 @@ public class FrailSlash : PlayerSkill
     public FrailSlash(SkillData data, int index) : base(data, index)
     {
     }
-
+    /*
     public override void StartSkill(PlayerStateMachine owner)
     {
         //InitializeAbility(skillData.skillType, owner);
@@ -59,4 +59,5 @@ public class FrailSlash : PlayerSkill
         //Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
         //owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
     }
+    */
 }

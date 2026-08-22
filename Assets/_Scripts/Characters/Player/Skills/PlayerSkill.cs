@@ -8,6 +8,9 @@ public class PlayerSkill
     public SkillContext context;
     public Vector2? GroundTargetPosition = null;
 
+    protected int repeatCycleIndex = 0;
+    protected int totalRepeatCycles = 1;
+
     public PlayerSkill(SkillData data, int index)
     {
         skillData = data;
@@ -73,6 +76,9 @@ public class PlayerSkill
             FillDuration = ModifiedCastTime + skillData.ActionTime
         };
 
+        repeatCycleIndex = 0;
+        totalRepeatCycles = skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated ? GetImpactRepeatCount() : 1;
+
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;
 
@@ -116,16 +122,19 @@ public class PlayerSkill
         Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Action);
         RunEffects(skillData.OnActionEffects, owner, State.Action);
     }
-    public virtual void ImpactState(PlayerStateMachine owner)
+    public virtual void ImpactState(PlayerStateMachine owner, bool fireEffects = true)
     {
         Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Impact);
-        RunEffects(skillData.OnImpactEffects, owner, State.Impact);
+        if (fireEffects) RunEffects(skillData.OnImpactEffects, owner, State.Impact);
     }
-    public virtual void RecoveryState(PlayerStateMachine owner)
+    public virtual void RecoveryState(PlayerStateMachine owner, bool fireEffects = true)
     {
         Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
-        owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
-        RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
+        if (fireEffects)
+        {
+            owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
+            RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
+        }
     }
     public void DoneState(bool isStaggered, PlayerStateMachine owner)
     {
@@ -157,29 +166,46 @@ public class PlayerSkill
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, GetImpactDuration());
+                    ChangeState(State.Impact, GetImpactStateDuration());
                 }
                 break;
 
             case State.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, GetImpactDuration());
+                ChangeState(State.Impact, GetImpactStateDuration());
                 break;
 
             case State.Impact:
-                RecoveryState(owner);
-                if (skillData.skillType == SkillData.SkillType.Basic)
-                {
-                    ChangeState(State.Recovery, ModifiedRecoveryTime);
-                }
-                else
-                {
-                    ChangeState(State.Recovery, skillData.RecoveryTime);
-                }
+                bool isRepeated = skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated;
+                RecoveryState(owner, fireEffects: !isRepeated);
+                float recoveryDuration = isRepeated ? skillData.RecoveryTime : (skillData.skillType == SkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime);
+                ChangeState(State.Recovery, recoveryDuration);
                 break;
 
             case State.Recovery:
-                DoneState(false, owner);
+                if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated)
+                {
+                    repeatCycleIndex++;
+
+                    if (repeatCycleIndex < totalRepeatCycles)
+                    {
+                        // Loop back into another Impact/Recovery pair — animation only.
+                        // OnImpactEffects already fired once, back on cycle 0.
+                        ImpactState(owner, fireEffects: false);
+                        ChangeState(State.Impact, skillData.ImpactTime);
+                    }
+                    else
+                    {
+                        // Sequence complete — fire OnRecoveryEffects exactly once, then finish.
+                        RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
+                        owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
+                        DoneState(false, owner);
+                    }
+                }
+                else
+                {
+                    DoneState(false, owner);
+                }
                 break;
         }
     }
@@ -273,7 +299,17 @@ public class PlayerSkill
         }
     }
 
-    float GetImpactDuration()
+    float GetImpactStateDuration()
+    {
+        if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Long)
+            return GetStretchedImpactDuration();
+
+        // Normal and Repeated both use a single beat's worth of time —
+        // Repeated just plays that beat multiple times instead of once.
+        return skillData.ImpactTime;
+    }
+
+    float GetStretchedImpactDuration()
     {
         float duration = skillData.ImpactTime;
         if (skillData.OnImpactEffects != null)
@@ -281,9 +317,25 @@ public class PlayerSkill
             foreach (SkillEffect effect in skillData.OnImpactEffects)
             {
                 if (effect == null) continue;
-                duration = Mathf.Max(duration, effect.GetEffectDuration());
+                int count = effect.GetRepeatCount();
+                if (count > 1)
+                    duration = Mathf.Max(duration, (count - 1) * effect.GetRepeatInterval());
             }
         }
         return duration;
+    }
+
+    int GetImpactRepeatCount()
+    {
+        int count = 1;
+        if (skillData.OnImpactEffects != null)
+        {
+            foreach (SkillEffect effect in skillData.OnImpactEffects)
+            {
+                if (effect == null) continue;
+                count = Mathf.Max(count, effect.GetRepeatCount());
+            }
+        }
+        return count;
     }
 }

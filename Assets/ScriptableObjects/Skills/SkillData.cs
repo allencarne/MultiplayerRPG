@@ -11,6 +11,11 @@ public class SkillData : ScriptableObject
     public enum Targeting { Directional, Ground }
     public Targeting TargetingMode = Targeting.Directional;
 
+    public enum ImpactAnimationStyle { Normal, Long, Repeated }
+
+    [Header("Impact Style")]
+    public ImpactAnimationStyle ImpactStyle = ImpactAnimationStyle.Normal;
+
     [Header("UI")]
     public Sprite SkillIcon;
     public GameObject IndicatorPrefab;
