@@ -10,6 +10,7 @@ public class PlayerSkill
 
     protected int repeatCycleIndex = 0;
     protected int totalRepeatCycles = 1;
+    protected float repeatInterval = 0f;
 
     public PlayerSkill(SkillData data, int index)
     {
@@ -77,7 +78,14 @@ public class PlayerSkill
         };
 
         repeatCycleIndex = 0;
-        totalRepeatCycles = skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated ? GetImpactRepeatCount() : 1;
+        totalRepeatCycles = 1;
+        repeatInterval = 0f;
+
+        if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated)
+        {
+            totalRepeatCycles = GetImpactRepeatCount();
+            repeatInterval = GetImpactRepeatInterval();
+        }
 
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;
@@ -176,31 +184,39 @@ public class PlayerSkill
                 break;
 
             case State.Impact:
-                bool isRepeated = skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated;
-                RecoveryState(owner, fireEffects: !isRepeated);
-                float recoveryDuration = isRepeated ? skillData.RecoveryTime : (skillData.skillType == SkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime);
-                ChangeState(State.Recovery, recoveryDuration);
-                break;
-
-            case State.Recovery:
                 if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated)
                 {
-                    repeatCycleIndex++;
+                    bool moreCyclesRemain = repeatCycleIndex < totalRepeatCycles - 1;
 
-                    if (repeatCycleIndex < totalRepeatCycles)
+                    if (moreCyclesRemain)
                     {
-                        // Loop back into another Impact/Recovery pair — animation only.
-                        // OnImpactEffects already fired once, back on cycle 0.
-                        ImpactState(owner, fireEffects: false);
-                        ChangeState(State.Impact, skillData.ImpactTime);
+                        // Filler beat — just holds the pose until the next impact/spawn lines up.
+                        RecoveryState(owner, fireEffects: false);
+                        float gapDuration = Mathf.Max(0f, repeatInterval - skillData.ImpactTime);
+                        ChangeState(State.Recovery, gapDuration);
                     }
                     else
                     {
-                        // Sequence complete — fire OnRecoveryEffects exactly once, then finish.
-                        RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
-                        owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
-                        DoneState(false, owner);
+                        // Final cycle — this is the real recovery.
+                        RecoveryState(owner, fireEffects: true);
+                        float recoveryDuration = skillData.skillType == SkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
+                        ChangeState(State.Recovery, recoveryDuration);
                     }
+                }
+                else
+                {
+                    RecoveryState(owner);
+                    float recoveryDuration = skillData.skillType == SkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
+                    ChangeState(State.Recovery, recoveryDuration);
+                }
+                break;
+
+            case State.Recovery:
+                if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated && repeatCycleIndex < totalRepeatCycles - 1)
+                {
+                    repeatCycleIndex++;
+                    ImpactState(owner, fireEffects: false); // visual only — this cycle's spawn already fires from SpawnEffect's own coroutine
+                    ChangeState(State.Impact, skillData.ImpactTime);
                 }
                 else
                 {
@@ -337,5 +353,20 @@ public class PlayerSkill
             }
         }
         return count;
+    }
+
+    float GetImpactRepeatInterval()
+    {
+        float interval = 0f;
+        if (skillData.OnImpactEffects != null)
+        {
+            foreach (SkillEffect effect in skillData.OnImpactEffects)
+            {
+                if (effect == null) continue;
+                if (effect.GetRepeatCount() > 1)
+                    interval = Mathf.Max(interval, effect.GetRepeatInterval());
+            }
+        }
+        return interval;
     }
 }
