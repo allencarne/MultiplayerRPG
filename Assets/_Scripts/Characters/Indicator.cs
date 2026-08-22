@@ -87,7 +87,7 @@ public class Indicator : MonoBehaviour
 
                 Vector2 clampedPos = ClampToRange(worldPos, data.SkillRange);
 
-                LastGroundPosition = worldPos;
+                LastGroundPosition = clampedPos;
                 ShowRangeIndicator(data.SkillRange);
                 InstantiateIndicator(data.IndicatorPrefab, indicatorName, clampedPos);
             }
