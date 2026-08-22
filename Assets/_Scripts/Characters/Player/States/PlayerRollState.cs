@@ -77,6 +77,15 @@ public class PlayerRollState : PlayerState
         }
     }
 
+    public override void UpdateState()
+    {
+        owner.OffensiveAbility();
+        owner.MobilityAbility();
+        owner.DefensiveAbility();
+        owner.UtilityAbility();
+        owner.UltimateAbility();
+    }
+
     IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(rollDuration);

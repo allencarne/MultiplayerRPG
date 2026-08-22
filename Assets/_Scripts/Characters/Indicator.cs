@@ -16,10 +16,7 @@ public class Indicator : MonoBehaviour
     SpriteRenderer rangeIndicatorRenderer;
 
     [Header("Stick Aiming (Gamepad / Mobile)")]
-    [SerializeField] float stickDeadzone = 0f;
-    Vector2 lastStickDirection = Vector2.zero;
-    float lastStickMagnitude = 0f;
-    bool hasStickDirection = false;
+    [SerializeField] float stickDeadzone = 0.05f;
 
     public void InstantiateIndicator(GameObject prefab, string type)
     {
@@ -70,7 +67,6 @@ public class Indicator : MonoBehaviour
         }
 
         HideRangeIndicator();
-        hasStickDirection = false;
     }
 
     public void DestroyAllIndicators()
@@ -117,19 +113,13 @@ public class Indicator : MonoBehaviour
 
             if (stickInput.magnitude > stickDeadzone)
             {
-                lastStickDirection = stickInput.normalized;
-                lastStickMagnitude = Mathf.Clamp01(stickInput.magnitude);
-                hasStickDirection = true;
-            }
-            else if (!hasStickDirection)
-            {
-                lastStickDirection = ((Vector2)Aimer.right).normalized;
-                lastStickMagnitude = 1f;
-                hasStickDirection = true;
+                Vector2 direction = stickInput.normalized;
+                float magnitude = Mathf.Clamp01(stickInput.magnitude);
+                return origin + direction * (data.SkillRange * magnitude);
             }
 
-            Vector2 offset = lastStickDirection * (data.SkillRange * lastStickMagnitude);
-            return origin + offset;
+            // No meaningful stick input — indicator sits at the player's feet.
+            return origin;
         }
         else
         {
