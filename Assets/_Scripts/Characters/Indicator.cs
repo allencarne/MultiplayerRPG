@@ -2,12 +2,18 @@ using UnityEngine;
 
 public class Indicator : MonoBehaviour
 {
+    [Header("Aimer")]
     public Transform Aimer;
 
-    [Header("Indicator")]
+    [Header("Skill Indicator")]
     string indicatorType = null;
     GameObject indicator;
     public Vector2 LastGroundPosition { get; private set; }
+
+    [Header("Range Indicator")]
+    [SerializeField] GameObject RangeIndicatorPrefab;
+    GameObject rangeIndicatorInstance;
+    SpriteRenderer rangeIndicatorRenderer;
 
     public void InstantiateIndicator(GameObject prefab, string type)
     {
@@ -56,6 +62,8 @@ public class Indicator : MonoBehaviour
             indicator = null;
             indicatorType = null;
         }
+
+        HideRangeIndicator();
     }
 
     public void DestroyAllIndicators()
@@ -77,8 +85,11 @@ public class Indicator : MonoBehaviour
                     ? (Vector2)input.cameraInstance.ScreenToWorldPoint(UnityEngine.Input.mousePosition)
                     : input.MousePosition;
 
-                LastGroundPosition = worldPos;   // <-- add this
-                InstantiateIndicator(data.IndicatorPrefab, indicatorName, worldPos);
+                Vector2 clampedPos = ClampToRange(worldPos, data.SkillRange);
+
+                LastGroundPosition = worldPos;
+                ShowRangeIndicator(data.SkillRange);
+                InstantiateIndicator(data.IndicatorPrefab, indicatorName, clampedPos);
             }
             else
             {
@@ -88,6 +99,43 @@ public class Indicator : MonoBehaviour
         else
         {
             DestroyIndicator(indicatorName);
+        }
+    }
+
+    Vector2 ClampToRange(Vector2 worldPos, float range)
+    {
+        Vector2 origin = transform.position;
+        Vector2 toTarget = worldPos - origin;
+
+        if (toTarget.sqrMagnitude > range * range)
+        {
+            toTarget = toTarget.normalized * range;
+        }
+
+        return origin + toTarget;
+    }
+
+    void ShowRangeIndicator(float range)
+    {
+        if (rangeIndicatorInstance == null)
+        {
+            rangeIndicatorInstance = Instantiate(RangeIndicatorPrefab, transform);
+            rangeIndicatorInstance.transform.localPosition = Vector3.zero;
+            rangeIndicatorRenderer = rangeIndicatorInstance.GetComponent<SpriteRenderer>();
+        }
+
+        rangeIndicatorInstance.SetActive(true);
+
+        float nativeDiameter = rangeIndicatorRenderer.sprite.bounds.size.x;
+        float scaleFactor = (range * 2f) / nativeDiameter;
+        rangeIndicatorInstance.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+    }
+
+    void HideRangeIndicator()
+    {
+        if (rangeIndicatorInstance != null)
+        {
+            rangeIndicatorInstance.SetActive(false);
         }
     }
 }

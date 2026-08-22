@@ -15,8 +15,7 @@ MonoBehaviour:
   weaponType: 0
   skillType: 1
   TargetingMode: 1
-  ImpactRepeatCount: 1
-  ImpactRepeatInterval: 0
+  ImpactStyle: 0
   SkillIcon: {fileID: 21300000, guid: 401ce0747c7ad4a46b44b6c3875ce42f, type: 3}
   IndicatorPrefab: {fileID: 5634513536252481035, guid: d9ca1ba647590f04791b11977ff2c2e7, type: 3}
   Description: Throw an <color=#FFFFFF>orb of energy</color>, dealing <color=#FF0000>moderate
@@ -24,7 +23,7 @@ MonoBehaviour:
   SkillPrefab: {fileID: 1324840749770008434, guid: c4ad46a8b1638414d8296e99dccfd8c4, type: 3}
   TelegraphPrefab: {fileID: 0}
   SkillDamage: 5
-  SkillRange: 0
+  SkillRange: 10
   SkillForce: 15
   SkillDuration: 0.75
   CastTime: 0.1
