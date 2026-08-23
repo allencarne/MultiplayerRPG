@@ -17,12 +17,13 @@ public class SkillData : ScriptableObject
     public ImpactAnimationStyle ImpactStyle = ImpactAnimationStyle.Normal;
 
     [Header("UI")]
+    public string SkillName;
     public Sprite SkillIcon;
-    public GameObject IndicatorPrefab;
     [TextArea] public string Description;
 
     [Header("Prefabs")]
     public GameObject SkillPrefab;
+    public GameObject IndicatorPrefab;
     public GameObject TelegraphPrefab;
 
     [Header("Stats")]
