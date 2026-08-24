@@ -14,6 +14,10 @@ public class PlayerStateMachine : NetworkBehaviour
     [HideInInspector] public ClassSkillSet skills;
     public SkillBarCoolDowns coolDownTracker;
 
+    PlayerPassive firstPassiveInstance;
+    PlayerPassive secondPassiveInstance;
+    PlayerPassive thirdPassiveInstance;
+
     [Header("Animators")]
     public Animator PlayerHeadAnimator;
     public Animator BodyAnimator;
@@ -76,98 +80,7 @@ public class PlayerStateMachine : NetworkBehaviour
     public void SkillsOnSpawn()
     {
         setSkills.SetClassSkills();
-        if (skills == null) return;
-
-        switch (Stats.playerClass)
-        {
-            case PlayerStats.PlayerClass.Beginner:
-
-                if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.passive1Req)
-                    {
-                        //setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
-                    }
-                }
-
-                if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.passive2Req)
-                    {
-                        //setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
-                    }
-                }
-
-                if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.passive3Req)
-                    {
-                        //setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
-                    }
-                }
-
-                if (player.BasicIndex > -1 && player.BasicIndex <= skills.basicAbilities.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.basicReq)
-                    {
-                        //setSkills.begginerSkills.BasicButton(player.BasicIndex);
-                    }
-                    
-                }
-
-                if (player.OffensiveIndex > -1 && player.OffensiveIndex <= skills.offensiveAbilities.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.offensiveReq)
-                    {
-                        //setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
-                    }
-                }
-
-                if (player.MobilityIndex > -1 && player.MobilityIndex <= skills.mobilityAbilities.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.mobilityReq)
-                    {
-                        //setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
-                    }
-                    
-                }
-
-                if (player.DefensiveIndex > -1 && player.DefensiveIndex <= skills.defensiveAbilities.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.defensiveReq)
-                    {
-                        //setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
-                    }
-                    
-                }
-
-                if (player.UtilityIndex > -1 && player.UtilityIndex <= skills.utilityAbilities.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.utilityReq)
-                    {
-                        //setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
-                    }
-                    
-                }
-
-                if (player.UltimateIndex > -1 && player.UltimateIndex <= skills.ultimateAbilities.Length)
-                {
-                    if (Stats.PlayerLevel.Value >= skills.ultimateReq)
-                    {
-                        //setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
-                    }
-                }
-
-                break;
-            case PlayerStats.PlayerClass.Warrior:
-                break;
-            case PlayerStats.PlayerClass.Magician:
-                break;
-            case PlayerStats.PlayerClass.Archer:
-                break;
-            case PlayerStats.PlayerClass.Rogue:
-                break;
-        }
+        setSkills.RestoreSelections();
     }
 
     private void Update()
@@ -177,21 +90,9 @@ public class PlayerStateMachine : NetworkBehaviour
         if (skills == null || player == null) return;
 
         state.UpdateState();
-
-        if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
-        {
-            //skills.firstPassive[player.FirstPassiveIndex].UpdateSkill(this);
-        }
-
-        if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
-        {
-            //skills.secondPassive[player.SecondPassiveIndex].UpdateSkill(this);
-        }
-
-        if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
-        {
-            //skills.thirdPassive[player.ThirdPassiveIndex].UpdateSkill(this);
-        }
+        firstPassiveInstance?.UpdatePassive(this);
+        secondPassiveInstance?.UpdatePassive(this);
+        thirdPassiveInstance?.UpdatePassive(this);
     }
 
     private void FixedUpdate()
@@ -201,21 +102,9 @@ public class PlayerStateMachine : NetworkBehaviour
         if (skills == null || player == null) return;
 
         state.FixedUpdateState();
-
-        if (player.FirstPassiveIndex > -1 && player.FirstPassiveIndex <= skills.firstPassive.Length)
-        {
-            //skills.firstPassive[player.FirstPassiveIndex].FixedUpdateSkill(this);
-        }
-
-        if (player.SecondPassiveIndex > -1 && player.SecondPassiveIndex <= skills.secondPassive.Length)
-        {
-            //skills.secondPassive[player.SecondPassiveIndex].FixedUpdateSkill(this);
-        }
-
-        if (player.ThirdPassiveIndex > -1 && player.ThirdPassiveIndex <= skills.thirdPassive.Length)
-        {
-            //skills.thirdPassive[player.ThirdPassiveIndex].FixedUpdateSkill(this);
-        }
+        firstPassiveInstance?.FixedUpdatePassive(this);
+        secondPassiveInstance?.FixedUpdatePassive(this);
+        thirdPassiveInstance?.FixedUpdatePassive(this);
     }
 
     public void Interrupt()
@@ -383,6 +272,27 @@ public class PlayerStateMachine : NetworkBehaviour
         StartAbility(data, player.UltimateIndex);
         CanUltimate = false;
         Input.HasBufferedUltimateInput = false;
+    }
+
+    public void SetFirstPassive(PassiveSkillData data, int index)
+    {
+        firstPassiveInstance?.EndPassive(this);
+        firstPassiveInstance = new PlayerPassive(data, index);
+        firstPassiveInstance.StartPassive(this);
+    }
+
+    public void SetSecondPassive(PassiveSkillData data, int index)
+    {
+        secondPassiveInstance?.EndPassive(this);
+        secondPassiveInstance = new PlayerPassive(data, index);
+        secondPassiveInstance.StartPassive(this);
+    }
+
+    public void SetThirdPassive(PassiveSkillData data, int index)
+    {
+        thirdPassiveInstance?.EndPassive(this);
+        thirdPassiveInstance = new PlayerPassive(data, index);
+        thirdPassiveInstance.StartPassive(this);
     }
 
     private void StartAbility(ActiveSkillData data, int index)

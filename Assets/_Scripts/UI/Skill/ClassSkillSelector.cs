@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ClassSkillSelector : MonoBehaviour
@@ -45,5 +46,27 @@ public class ClassSkillSelector : MonoBehaviour
 
         stateMachine.skills = currentSet;
         skillPanel.Bind(currentSet);
+    }
+
+    public void RestoreSelections()
+    {
+        if (currentSet == null) return;
+
+        RestoreSlot(player.FirstPassiveIndex, currentSet.passive1Req, currentSet.firstPassive.Length, skillPanel.FirstPassiveButton);
+        RestoreSlot(player.SecondPassiveIndex, currentSet.passive2Req, currentSet.secondPassive.Length, skillPanel.SecondPassiveButton);
+        RestoreSlot(player.ThirdPassiveIndex, currentSet.passive3Req, currentSet.thirdPassive.Length, skillPanel.ThirdPassiveButton);
+        RestoreSlot(player.BasicIndex, currentSet.basicReq, currentSet.basicAbilities.Length, skillPanel.BasicButton);
+        RestoreSlot(player.OffensiveIndex, currentSet.offensiveReq, currentSet.offensiveAbilities.Length, skillPanel.OffensiveButton);
+        RestoreSlot(player.MobilityIndex, currentSet.mobilityReq, currentSet.mobilityAbilities.Length, skillPanel.MobilityButton);
+        RestoreSlot(player.DefensiveIndex, currentSet.defensiveReq, currentSet.defensiveAbilities.Length, skillPanel.DefensiveButton);
+        RestoreSlot(player.UtilityIndex, currentSet.utilityReq, currentSet.utilityAbilities.Length, skillPanel.UtilityButton);
+        RestoreSlot(player.UltimateIndex, currentSet.ultimateReq, currentSet.ultimateAbilities.Length, skillPanel.UltimateButton);
+    }
+
+    void RestoreSlot(int index, int reqLevel, int arrayLength, Action<int> select)
+    {
+        if (index < 0 || index >= arrayLength) return;
+        if (stats.PlayerLevel.Value < reqLevel) return;
+        select(index);
     }
 }

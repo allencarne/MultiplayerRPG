@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class SkillPanelUI : MonoBehaviour
 {
+    [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
     [SerializeField] PlayerExperience exp;
@@ -223,29 +224,24 @@ public class SkillPanelUI : MonoBehaviour
     {
         player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
-
         BlueBorder(index, icon_FirstPassive0, icon_FirstPassive1, icon_FirstPassive2);
-        //firstPassive[index].StartSkill(stateMachine);
+        stateMachine.SetFirstPassive(skillSet.firstPassive[index], index);
     }
 
     public void SecondPassiveButton(int index)
     {
         player.SecondPassiveIndex = index;
         OnSkillSelected?.Invoke();
-
         BlueBorder(index, icon_SecondPassive0, icon_SecondPassive1, icon_SecondPassive2);
-
-        //secondPassive[index].StartSkill(stateMachine);
+        stateMachine.SetFirstPassive(skillSet.secondPassive[index], index);
     }
 
     public void ThirdPassiveButton(int index)
     {
         player.ThirdPassiveIndex = index;
         OnSkillSelected?.Invoke();
-
         BlueBorder(index, icon_ThirdPassive0, icon_ThirdPassive1, icon_ThirdPassive2);
-
-        //thirdPassive[index].StartSkill(stateMachine);
+        stateMachine.SetFirstPassive(skillSet.thirdPassive[index], index);
     }
 
     public void BasicButton(int index)
