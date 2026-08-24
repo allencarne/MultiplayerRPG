@@ -2400,7 +2400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicAttack
   ShowTopMostFoldoutHeaderGroup: 1
-  skillData: {fileID: 11400000, guid: 65daea72bba082a408a7bd04ebf6ad9d, type: 2}
+  skillData: {fileID: 11400000, guid: 517c9f7abb2b97045928c81690182159, type: 2}
   currentState: 0
 --- !u!1 &5351845163029906857
 GameObject:
@@ -3397,6 +3397,11 @@ MonoBehaviour:
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   net_BaseSpeed:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  net_BaseVamp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0

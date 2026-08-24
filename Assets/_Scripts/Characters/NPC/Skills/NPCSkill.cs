@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class NPCSkill : NetworkBehaviour
 {
-    public SkillData skillData;
+    public ActiveSkillData skillData;
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
@@ -78,7 +78,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-                if (skillData.skillType == SkillData.SkillType.Basic)
+                if (skillData.skillType == ActiveSkillData.SkillType.Basic)
                 {
                     ChangeState(State.Recovery, ModifiedRecoveryTime);
                 }
@@ -116,11 +116,11 @@ public abstract class NPCSkill : NetworkBehaviour
 
     }
 
-    protected void InitializeAbility(SkillData.SkillType skilltype, NPCStateMachine owner)
+    protected void InitializeAbility(ActiveSkillData.SkillType skilltype, NPCStateMachine owner)
     {
         owner.CurrentSkill = this;
 
-        if (skilltype == SkillData.SkillType.Basic)
+        if (skilltype == ActiveSkillData.SkillType.Basic)
         {
             //IsBasic = true;
             ModifiedCastTime = skillData.CastTime / owner.npc.stats.TotalAS;
@@ -134,7 +134,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
         StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
     }
-    IEnumerator CoolDownn(SkillData.SkillType type, float coolDown, NPCStateMachine owner)
+    IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, NPCStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.npc.stats.TotalCDR;
 
@@ -142,12 +142,12 @@ public abstract class NPCSkill : NetworkBehaviour
 
         switch (type)
         {
-            case SkillData.SkillType.Basic: owner.CanBasic = true; break;
-            case SkillData.SkillType.Mobility: owner.CanMobility = true; break;
-            case SkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
+            case ActiveSkillData.SkillType.Basic: owner.CanBasic = true; break;
+            case ActiveSkillData.SkillType.Mobility: owner.CanMobility = true; break;
+            case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(NPCStateMachine owner, WeaponType weapon, SkillData.SkillType skill, State state)
+    protected void Animate(NPCStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType skill, State state)
     {
         string _weapon = "";
         string _skill = "";
@@ -163,9 +163,9 @@ public abstract class NPCSkill : NetworkBehaviour
 
         switch (skill)
         {
-            case SkillData.SkillType.Basic: _skill = "Basic"; break;
-            case SkillData.SkillType.Mobility: _skill = "Mobility"; break;
-            case SkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
+            case ActiveSkillData.SkillType.Basic: _skill = "Basic"; break;
+            case ActiveSkillData.SkillType.Mobility: _skill = "Mobility"; break;
+            case ActiveSkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
         }
 
         switch (state)
@@ -244,22 +244,22 @@ public abstract class NPCSkill : NetworkBehaviour
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = skillData.KnockBackForce;
-            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
-            knockbackOnTrigger.Direction = AimDirection.normalized;
-            knockbackOnTrigger.IgnoreNPC = true;
-            knockbackOnTrigger.IgnorePlayer = true;
+            //knockbackOnTrigger.attacker = attacker;
+            //knockbackOnTrigger.Amount = skillData.KnockBackForce;
+            //knockbackOnTrigger.Duration = skillData.KnockBackDuration;
+            //knockbackOnTrigger.Direction = AimDirection.normalized;
+            //knockbackOnTrigger.IgnoreNPC = true;
+            //knockbackOnTrigger.IgnorePlayer = true;
         }
 
         SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
         if (slow != null)
         {
-            slow.attacker = attacker;
-            slow.Duration = skillData.SlowDuration;
-            slow.Stacks = skillData.SlowStacks;
-            slow.IgnoreNPC = true;
-            slow.IgnorePlayer = true;
+            //slow.attacker = attacker;
+            //slow.Duration = skillData.SlowDuration;
+            //slow.Stacks = skillData.SlowStacks;
+            //slow.IgnoreNPC = true;
+            //slow.IgnorePlayer = true;
         }
 
         DestroyOnDeath death = attackInstance.GetComponent<DestroyOnDeath>();

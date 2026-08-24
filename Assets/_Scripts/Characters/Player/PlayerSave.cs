@@ -23,7 +23,7 @@ public class PlayerSave : NetworkBehaviour
     EquipmentManager equipment;
     [SerializeField] AttributePoints ap;
     [SerializeField] PlayerExperience exp;
-    [SerializeField] SkillPanel skillPanel;
+    [SerializeField] SkillPanelUI skillPanel;
     [SerializeField] PlayerQuest playerQuest;
 
     [Header("UI")]

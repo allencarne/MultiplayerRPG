@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class PassiveData : ScriptableObject
+public abstract class SkillData : ScriptableObject
 {
     [Header("UI")]
-    public string PassiveName;
-    public Sprite PassiveIcon;
+    public string Name;
+    public Sprite Icon;
     [TextArea] public string Description;
 
     [Header("Cooldown")]

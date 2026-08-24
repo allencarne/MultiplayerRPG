@@ -78,11 +78,11 @@ public class Indicator : MonoBehaviour
         DestroyIndicator("Ultimate");
     }
 
-    public void HandleAbilityIndicator(SkillData data, string indicatorName, bool isHeld, PlayerInputHandler input, string controlScheme)
+    public void HandleAbilityIndicator(ActiveSkillData data, string indicatorName, bool isHeld, PlayerInputHandler input, string controlScheme)
     {
         if (isHeld)
         {
-            if (data.TargetingMode == SkillData.Targeting.Ground)
+            if (data.TargetingMode == ActiveSkillData.Targeting.Ground)
             {
                 Vector2 targetPos = ComputeGroundTargetPosition(data, input, controlScheme);
 
@@ -101,7 +101,7 @@ public class Indicator : MonoBehaviour
         }
     }
 
-    Vector2 ComputeGroundTargetPosition(SkillData data, PlayerInputHandler input, string controlScheme)
+    Vector2 ComputeGroundTargetPosition(ActiveSkillData data, PlayerInputHandler input, string controlScheme)
     {
         Vector2 origin = transform.position;
 

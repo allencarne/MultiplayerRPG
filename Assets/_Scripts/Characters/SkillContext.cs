@@ -5,7 +5,7 @@ public struct SkillContext : INetworkSerializable
 {
     public Vector2 SpawnPosition;
     public Vector2 AimDirection;
-    public SkillData.SkillType SkillType;
+    public ActiveSkillData.SkillType SkillType;
     public int SkillIndex;
     public PlayerSkill.State Phase;
     public int EffectIndex;

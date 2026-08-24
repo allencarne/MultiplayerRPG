@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewSkillData", menuName = "Scriptable Objects/New Skill")]
-public class SkillData : ScriptableObject
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill Data/Active Skill")]
+public class ActiveSkillData : SkillData
 {
     public WeaponType weaponType;
 
@@ -15,11 +15,6 @@ public class SkillData : ScriptableObject
 
     [Header("Impact Style")]
     public ImpactAnimationStyle ImpactStyle = ImpactAnimationStyle.Normal;
-
-    [Header("UI")]
-    public string SkillName;
-    public Sprite SkillIcon;
-    [TextArea] public string Description;
 
     [Header("Prefabs")]
     public GameObject SkillPrefab;
@@ -39,27 +34,6 @@ public class SkillData : ScriptableObject
     public float ActionTime;
     public float ImpactTime;
     public float RecoveryTime;
-
-    [Header("Cooldown")]
-    public float CoolDown;
-
-    [Header("Heal")]
-    public int HealAmount;
-
-    [Header("Slide")]
-    public int SlideForce;
-    public float SlideDuration;
-
-    [Header("Slow")]
-    public int SlowStacks;
-    public float SlowDuration;
-
-    [Header("Knockback")]
-    public float KnockBackForce;
-    public float KnockBackDuration;
-
-    [Header("Stun")]
-    public float StunDuration;
 
     [Header("Effects")]
     public SkillEffect[] OnCastEffects;

@@ -1,9 +1,7 @@
-using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerStateMachine : NetworkBehaviour
 {
@@ -12,8 +10,8 @@ public class PlayerStateMachine : NetworkBehaviour
 
     [Header("Skills")]
     [HideInInspector] public PlayerSkill CurrentSkill;
-    [SerializeField] SetSkillPanel setSkills;
-    [HideInInspector] public SkillPanel skills;
+    [SerializeField] ClassSkillSelector setSkills;
+    [HideInInspector] public ClassSkillSet skills;
     public SkillBarCoolDowns coolDownTracker;
 
     [Header("Animators")]
@@ -88,7 +86,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.passive1Req)
                     {
-                        setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
+                        //setSkills.begginerSkills.FirstPassiveButton(player.FirstPassiveIndex);
                     }
                 }
 
@@ -96,7 +94,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.passive2Req)
                     {
-                        setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
+                        //setSkills.begginerSkills.SecondPassiveButton(player.FirstPassiveIndex);
                     }
                 }
 
@@ -104,7 +102,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.passive3Req)
                     {
-                        setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
+                        //setSkills.begginerSkills.ThirdPassiveButton(player.FirstPassiveIndex);
                     }
                 }
 
@@ -112,7 +110,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.basicReq)
                     {
-                        setSkills.begginerSkills.BasicButton(player.BasicIndex);
+                        //setSkills.begginerSkills.BasicButton(player.BasicIndex);
                     }
                     
                 }
@@ -121,7 +119,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.offensiveReq)
                     {
-                        setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
+                        //setSkills.begginerSkills.OffensiveButton(player.OffensiveIndex);
                     }
                 }
 
@@ -129,7 +127,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.mobilityReq)
                     {
-                        setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
+                        //setSkills.begginerSkills.MobilityButton(player.MobilityIndex);
                     }
                     
                 }
@@ -138,7 +136,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.defensiveReq)
                     {
-                        setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
+                        //setSkills.begginerSkills.DefensiveButton(player.DefensiveIndex);
                     }
                     
                 }
@@ -147,7 +145,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.utilityReq)
                     {
-                        setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
+                        //setSkills.begginerSkills.UtilityButton(player.UtilityIndex);
                     }
                     
                 }
@@ -156,7 +154,7 @@ public class PlayerStateMachine : NetworkBehaviour
                 {
                     if (Stats.PlayerLevel.Value >= skills.ultimateReq)
                     {
-                        setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
+                        //setSkills.begginerSkills.UltimateButton(player.UltimateIndex);
                     }
                 }
 
@@ -274,7 +272,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.BasicAbilityInput)
         {
-            SkillData data = skills.basicAbilities[player.BasicIndex];
+            ActiveSkillData data = skills.basicAbilities[player.BasicIndex];
 
             StartAbility(data, player.BasicIndex);
 
@@ -292,7 +290,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        SkillData data = skills.offensiveAbilities[player.OffensiveIndex];
+        ActiveSkillData data = skills.offensiveAbilities[player.OffensiveIndex];
 
         Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input, playerInput.currentControlScheme);
 
@@ -313,7 +311,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        SkillData data = skills.mobilityAbilities[player.MobilityIndex];
+        ActiveSkillData data = skills.mobilityAbilities[player.MobilityIndex];
 
         Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input, playerInput.currentControlScheme);
 
@@ -334,7 +332,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        SkillData data = skills.defensiveAbilities[player.DefensiveIndex];
+        ActiveSkillData data = skills.defensiveAbilities[player.DefensiveIndex];
 
         Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input, playerInput.currentControlScheme);
 
@@ -355,7 +353,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        SkillData data = skills.utilityAbilities[player.UtilityIndex];
+        ActiveSkillData data = skills.utilityAbilities[player.UtilityIndex];
 
         Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input, playerInput.currentControlScheme);
 
@@ -376,7 +374,7 @@ public class PlayerStateMachine : NetworkBehaviour
         if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        SkillData data = skills.ultimateAbilities[player.UltimateIndex];
+        ActiveSkillData data = skills.ultimateAbilities[player.UltimateIndex];
 
         Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input, playerInput.currentControlScheme);
 
@@ -387,12 +385,12 @@ public class PlayerStateMachine : NetworkBehaviour
         Input.HasBufferedUltimateInput = false;
     }
 
-    private void StartAbility(SkillData data, int index)
+    private void StartAbility(ActiveSkillData data, int index)
     {
         IsAttacking = true;
         PlayerSkill skill = new PlayerSkill(data, index);
 
-        if (data.TargetingMode == SkillData.Targeting.Ground)
+        if (data.TargetingMode == ActiveSkillData.Targeting.Ground)
         {
             skill.GroundTargetPosition = Indicator.LastGroundPosition;
         }
@@ -509,7 +507,7 @@ public class PlayerStateMachine : NetworkBehaviour
     void RequestSpawnServerRpc(SkillContext context)
     {
         context = ResolveServerContext(context);
-        SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+        ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
         SkillEffect effect = data.GetEffects(context.Phase)[context.EffectIndex];
 
         if (effect is not NetworkedSpawnEffect spawnEffect)
@@ -522,26 +520,26 @@ public class PlayerStateMachine : NetworkBehaviour
         spawnEffect.SpawnServer(this, context);
     }
 
-    SkillData GetSkillData(SkillData.SkillType type, int index) => type switch
+    ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {
-        SkillData.SkillType.Basic => skills.basicAbilities[index],
-        SkillData.SkillType.Offensive => skills.offensiveAbilities[index],
-        SkillData.SkillType.Mobility => skills.mobilityAbilities[index],
-        SkillData.SkillType.Defensive => skills.defensiveAbilities[index],
-        SkillData.SkillType.Utility => skills.utilityAbilities[index],
-        SkillData.SkillType.Ultimate => skills.ultimateAbilities[index],
+        ActiveSkillData.SkillType.Basic => skills.basicAbilities[index],
+        ActiveSkillData.SkillType.Offensive => skills.offensiveAbilities[index],
+        ActiveSkillData.SkillType.Mobility => skills.mobilityAbilities[index],
+        ActiveSkillData.SkillType.Defensive => skills.defensiveAbilities[index],
+        ActiveSkillData.SkillType.Utility => skills.utilityAbilities[index],
+        ActiveSkillData.SkillType.Ultimate => skills.ultimateAbilities[index],
         _ => null
     };
 
     public SkillContext ResolveServerContext(SkillContext context)
     {
         context.AttackerId = OwnerClientId;
-        context.IsBasic = context.SkillType == SkillData.SkillType.Basic;
+        context.IsBasic = context.SkillType == ActiveSkillData.SkillType.Basic;
         context.AttackerDamage = Stats.TotalDamage;
-        SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+        ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
 
         context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
-        context.AimOffset = data.TargetingMode == SkillData.Targeting.Ground
+        context.AimOffset = data.TargetingMode == ActiveSkillData.Targeting.Ground
             ? Vector2.zero
             : context.AimDirection.normalized * data.SkillRange;
 
@@ -550,13 +548,13 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public float GetSkillRange(SkillContext context)
     {
-        SkillData data = GetSkillData(context.SkillType,context.SkillIndex);
+        ActiveSkillData data = GetSkillData(context.SkillType,context.SkillIndex);
         return data != null ? data.SkillRange : 0f;
     }
 
     public bool IsGroundTargeted(SkillContext context)
     {
-        SkillData data = GetSkillData(context.SkillType, context.SkillIndex);
-        return data != null && data.TargetingMode == SkillData.Targeting.Ground;
+        ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
+        return data != null && data.TargetingMode == ActiveSkillData.Targeting.Ground;
     }
 }

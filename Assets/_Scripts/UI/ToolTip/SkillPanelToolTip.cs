@@ -22,7 +22,7 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         if (ability == null) return;
 
-        icon.sprite = ability.skillData.SkillIcon;
+        icon.sprite = ability.skillData.Icon;
         skillName.text = ability.skillData.name;
         skillDescription.text = ability.skillData.Description;
         skillCoolDown.text = "Cooldown: " + ability.skillData.CoolDown.ToString();

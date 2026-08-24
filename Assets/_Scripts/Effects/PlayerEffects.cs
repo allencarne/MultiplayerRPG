@@ -6,7 +6,7 @@ public class PlayerEffects : NetworkBehaviour
     [SerializeField] PlayerStats stats;
     [SerializeField] PlayerExperience exp;
     [SerializeField] AttributePoints ap;
-    [SerializeField] SkillPanel skillPanel;
+    [SerializeField] SkillPanelUI skillPanel;
     [SerializeField] PlayerStateMachine stateMachine;
 
     [SerializeField] GameObject spawn_Effect;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EnemySkill : NetworkBehaviour
 {
-    public SkillData skillData;
+    public ActiveSkillData skillData;
 
     public enum State { Cast, Action, Impact, Recovery, Done }
     [HideInInspector] public State currentState;
@@ -84,7 +84,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
             case State.Impact:
                 RecoveryState(owner);
-                if (skillData.skillType == SkillData.SkillType.Basic)
+                if (skillData.skillType == ActiveSkillData.SkillType.Basic)
                 {
                     ChangeState(State.Recovery, ModifiedRecoveryTime);
                 }
@@ -129,11 +129,11 @@ public abstract class EnemySkill : NetworkBehaviour
         }
     }
 
-    protected void InitializeAbility(SkillData.SkillType skilltype, EnemyStateMachine owner)
+    protected void InitializeAbility(ActiveSkillData.SkillType skilltype, EnemyStateMachine owner)
     {
         owner.CurrentSkill = this;
 
-        if (skilltype == SkillData.SkillType.Basic)
+        if (skilltype == ActiveSkillData.SkillType.Basic)
         {
             //IsBasic = true;
             ModifiedCastTime = skillData.CastTime / owner.enemy.stats.TotalAS;
@@ -145,7 +145,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
         StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
     }
-    IEnumerator CoolDownn(SkillData.SkillType type, float coolDown, EnemyStateMachine owner)
+    IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, EnemyStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.enemy.stats.TotalCDR;
 
@@ -153,21 +153,21 @@ public abstract class EnemySkill : NetworkBehaviour
 
         switch (type)
         {
-            case SkillData.SkillType.Basic: owner.CanBasic = true; break;
-            case SkillData.SkillType.Mobility: owner.CanSpecial = true; break;
-            case SkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
+            case ActiveSkillData.SkillType.Basic: owner.CanBasic = true; break;
+            case ActiveSkillData.SkillType.Mobility: owner.CanSpecial = true; break;
+            case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(EnemyStateMachine owner, SkillData.SkillType type, State state)
+    protected void Animate(EnemyStateMachine owner, ActiveSkillData.SkillType type, State state)
     {
         string animationType = "";
         string animationState = "";
 
         switch (type)
         {
-            case SkillData.SkillType.Basic: animationType = "Basic"; break;
-            case SkillData.SkillType.Mobility: animationType = "Special"; break;
-            case SkillData.SkillType.Ultimate: animationType = "Ultimate"; break;
+            case ActiveSkillData.SkillType.Basic: animationType = "Basic"; break;
+            case ActiveSkillData.SkillType.Mobility: animationType = "Special"; break;
+            case ActiveSkillData.SkillType.Ultimate: animationType = "Ultimate"; break;
         }
 
         switch (state)
@@ -244,28 +244,28 @@ public abstract class EnemySkill : NetworkBehaviour
         KnockbackOnTrigger knockbackOnTrigger = attackInstance.GetComponent<KnockbackOnTrigger>();
         if (knockbackOnTrigger != null)
         {
-            knockbackOnTrigger.attacker = attacker;
-            knockbackOnTrigger.Amount = skillData.KnockBackForce;
-            knockbackOnTrigger.Duration = skillData.KnockBackDuration;
-            knockbackOnTrigger.Direction = AimDirection.normalized;
-            knockbackOnTrigger.IgnoreEnemy = true;
+            //knockbackOnTrigger.attacker = attacker;
+            //knockbackOnTrigger.Amount = skillData.KnockBackForce;
+            //knockbackOnTrigger.Duration = skillData.KnockBackDuration;
+            //knockbackOnTrigger.Direction = AimDirection.normalized;
+            //knockbackOnTrigger.IgnoreEnemy = true;
         }
 
         StunOnTrigger stunOnTrigger = attackInstance.GetComponent<StunOnTrigger>();
         if (stunOnTrigger != null)
         {
-            stunOnTrigger.attacker = attacker;
-            stunOnTrigger.Duration = skillData.StunDuration;
-            stunOnTrigger.IgnoreEnemy = true;
+            //stunOnTrigger.attacker = attacker;
+            //stunOnTrigger.Duration = skillData.StunDuration;
+            //stunOnTrigger.IgnoreEnemy = true;
         }
 
         SlowOnTrigger slow = attackInstance.GetComponent<SlowOnTrigger>();
         if (slow != null)
         {
-            slow.attacker = attacker;
-            slow.Duration = skillData.SlowDuration;
-            slow.Stacks = skillData.SlowStacks;
-            slow.IgnoreEnemy = true;
+            //slow.attacker = attacker;
+            //slow.Duration = skillData.SlowDuration;
+            //slow.Stacks = skillData.SlowStacks;
+            //slow.IgnoreEnemy = true;
         }
 
         FollowTarget target = attackInstance.GetComponent<FollowTarget>();

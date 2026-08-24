@@ -23,11 +23,11 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
 
-    [SerializeField] SkillPanel beginnerSkills;
-    [SerializeField] SkillPanel warriorSkills;
-    [SerializeField] SkillPanel magicianSkills;
-    [SerializeField] SkillPanel archerSkills;
-    [SerializeField] SkillPanel rogueSkills;
+    [SerializeField] ClassSkillSet beginnerSkills;
+    [SerializeField] ClassSkillSet warriorSkills;
+    [SerializeField] ClassSkillSet magicianSkills;
+    [SerializeField] ClassSkillSet archerSkills;
+    [SerializeField] ClassSkillSet rogueSkills;
 
     [SerializeField] GameObject tooltip;
     [SerializeField] Image icon;
@@ -67,89 +67,89 @@ public class SkillBarToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExit
         tooltip.SetActive(false);
     }
 
-    void ToolTip(SkillPanel classPanel, SkillType type)
+    void ToolTip(ClassSkillSet classSkill, SkillType type)
     {
         switch (type)
         {
             case SkillType.Passive1:
 
                 if (player.FirstPassiveIndex < 0) return;
-                icon.sprite = classPanel.firstPassive[player.FirstPassiveIndex].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.firstPassive[player.FirstPassiveIndex].name;
-                description.text = classPanel.firstPassive[player.FirstPassiveIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.firstPassive[player.FirstPassiveIndex].CoolDown;
+                icon.sprite = classSkill.firstPassive[player.FirstPassiveIndex].Icon;
+                skillName.text = "[Passive] " + classSkill.firstPassive[player.FirstPassiveIndex].name;
+                description.text = classSkill.firstPassive[player.FirstPassiveIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.firstPassive[player.FirstPassiveIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Passive2:
 
                 if (player.SecondPassiveIndex < 0) return;
-                icon.sprite = classPanel.secondPassive[player.SecondPassiveIndex].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.secondPassive[player.SecondPassiveIndex].name;
-                description.text = classPanel.secondPassive[player.SecondPassiveIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.secondPassive[player.SecondPassiveIndex].CoolDown;
+                icon.sprite = classSkill.secondPassive[player.SecondPassiveIndex].Icon;
+                skillName.text = "[Passive] " + classSkill.secondPassive[player.SecondPassiveIndex].name;
+                description.text = classSkill.secondPassive[player.SecondPassiveIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.secondPassive[player.SecondPassiveIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Passive3:
 
                 if (player.ThirdPassiveIndex < 0) return;
-                icon.sprite = classPanel.thirdPassive[player.ThirdPassiveIndex].SkillIcon;
-                skillName.text = "[Passive] " + classPanel.thirdPassive[player.ThirdPassiveIndex].name;
-                description.text = classPanel.thirdPassive[player.ThirdPassiveIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.thirdPassive[player.ThirdPassiveIndex].CoolDown;
+                icon.sprite = classSkill.thirdPassive[player.ThirdPassiveIndex].Icon;
+                skillName.text = "[Passive] " + classSkill.thirdPassive[player.ThirdPassiveIndex].name;
+                description.text = classSkill.thirdPassive[player.ThirdPassiveIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.thirdPassive[player.ThirdPassiveIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Basic:
 
                 if (player.BasicIndex < 0) return;
-                icon.sprite = classPanel.basicAbilities[player.BasicIndex].SkillIcon;
-                skillName.text = "[Basic] " + classPanel.basicAbilities[player.BasicIndex].name;
-                description.text = classPanel.basicAbilities[player.BasicIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.basicAbilities[player.BasicIndex].CoolDown;
+                icon.sprite = classSkill.basicAbilities[player.BasicIndex].Icon;
+                skillName.text = "[Basic] " + classSkill.basicAbilities[player.BasicIndex].name;
+                description.text = classSkill.basicAbilities[player.BasicIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.basicAbilities[player.BasicIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Offensive:
 
                 if (player.OffensiveIndex < 0) return;
-                icon.sprite = classPanel.offensiveAbilities[player.OffensiveIndex].SkillIcon;
-                skillName.text = "[Offensive] " + classPanel.offensiveAbilities[player.OffensiveIndex].name;
-                description.text = classPanel.offensiveAbilities[player.OffensiveIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.offensiveAbilities[player.OffensiveIndex].CoolDown;
+                icon.sprite = classSkill.offensiveAbilities[player.OffensiveIndex].Icon;
+                skillName.text = "[Offensive] " + classSkill.offensiveAbilities[player.OffensiveIndex].name;
+                description.text = classSkill.offensiveAbilities[player.OffensiveIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.offensiveAbilities[player.OffensiveIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Mobility:
 
                 if (player.MobilityIndex < 0) return;
-                icon.sprite = classPanel.mobilityAbilities[player.MobilityIndex].SkillIcon;
-                skillName.text = "[Mobility] " + classPanel.mobilityAbilities[player.MobilityIndex].name;
-                description.text = classPanel.mobilityAbilities[player.MobilityIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.mobilityAbilities[player.MobilityIndex].CoolDown;
+                icon.sprite = classSkill.mobilityAbilities[player.MobilityIndex].Icon;
+                skillName.text = "[Mobility] " + classSkill.mobilityAbilities[player.MobilityIndex].name;
+                description.text = classSkill.mobilityAbilities[player.MobilityIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.mobilityAbilities[player.MobilityIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Defensive:
 
                 if (player.DefensiveIndex < 0) return;
-                icon.sprite = classPanel.defensiveAbilities[player.DefensiveIndex].SkillIcon;
-                skillName.text = "[Defensive] " + classPanel.defensiveAbilities[player.DefensiveIndex].name;
-                description.text = classPanel.defensiveAbilities[player.DefensiveIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.defensiveAbilities[player.DefensiveIndex].CoolDown;
+                icon.sprite = classSkill.defensiveAbilities[player.DefensiveIndex].Icon;
+                skillName.text = "[Defensive] " + classSkill.defensiveAbilities[player.DefensiveIndex].name;
+                description.text = classSkill.defensiveAbilities[player.DefensiveIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.defensiveAbilities[player.DefensiveIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Utility:
 
                 if (player.UtilityIndex < 0) return;
-                icon.sprite = classPanel.utilityAbilities[player.UtilityIndex].SkillIcon;
-                skillName.text = "[Utility] " + classPanel.utilityAbilities[player.UtilityIndex].name;
-                description.text = classPanel.utilityAbilities[player.UtilityIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.utilityAbilities[player.UtilityIndex].CoolDown;
+                icon.sprite = classSkill.utilityAbilities[player.UtilityIndex].Icon;
+                skillName.text = "[Utility] " + classSkill.utilityAbilities[player.UtilityIndex].name;
+                description.text = classSkill.utilityAbilities[player.UtilityIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.utilityAbilities[player.UtilityIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
             case SkillType.Ultimate:
 
                 if (player.UltimateIndex < 0) return;
-                icon.sprite = classPanel.ultimateAbilities[player.UltimateIndex].SkillIcon;
-                skillName.text = "[Ultimate] " + classPanel.ultimateAbilities[player.UltimateIndex].name;
-                description.text = classPanel.ultimateAbilities[player.UltimateIndex].Description;
-                cooldown.text = "Cooldown: " + classPanel.ultimateAbilities[player.UltimateIndex].CoolDown;
+                icon.sprite = classSkill.ultimateAbilities[player.UltimateIndex].Icon;
+                skillName.text = "[Ultimate] " + classSkill.ultimateAbilities[player.UltimateIndex].name;
+                description.text = classSkill.ultimateAbilities[player.UltimateIndex].Description;
+                cooldown.text = "Cooldown: " + classSkill.ultimateAbilities[player.UltimateIndex].CoolDown;
                 tooltip.SetActive(true);
                 break;
         }

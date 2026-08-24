@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerSkill
 {
-    public SkillData skillData;
+    public ActiveSkillData skillData;
     int skillIndex;
     public SkillContext context;
     public Vector2? GroundTargetPosition = null;
@@ -12,7 +12,7 @@ public class PlayerSkill
     protected int totalRepeatCycles = 1;
     protected float repeatInterval = 0f;
 
-    public PlayerSkill(SkillData data, int index)
+    public PlayerSkill(ActiveSkillData data, int index)
     {
         skillData = data;
         skillIndex = index;
@@ -81,7 +81,7 @@ public class PlayerSkill
         totalRepeatCycles = 1;
         repeatInterval = 0f;
 
-        if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated)
+        if (skillData.ImpactStyle == ActiveSkillData.ImpactAnimationStyle.Repeated)
         {
             totalRepeatCycles = GetImpactRepeatCount();
             repeatInterval = GetImpactRepeatInterval();
@@ -120,24 +120,24 @@ public class PlayerSkill
 
     public virtual void CastState(PlayerStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Cast);
+        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Cast);
         owner.player.CastBar.StartCast(ModifiedCastTime);
         RunEffects(skillData.OnCastEffects, owner, State.Cast);
     }
     public virtual void ActionState(PlayerStateMachine owner)
     {
         if (skillData.ActionTime <= 0) return;
-        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Action);
+        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Action);
         RunEffects(skillData.OnActionEffects, owner, State.Action);
     }
     public virtual void ImpactState(PlayerStateMachine owner, bool fireEffects = true)
     {
-        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Impact);
+        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Impact);
         if (fireEffects) RunEffects(skillData.OnImpactEffects, owner, State.Impact);
     }
     public virtual void RecoveryState(PlayerStateMachine owner, bool fireEffects = true)
     {
-        Animate(owner, skillData.weaponType, SkillData.SkillType.Basic, State.Recovery);
+        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Recovery);
         if (fireEffects)
         {
             owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
@@ -184,7 +184,7 @@ public class PlayerSkill
                 break;
 
             case State.Impact:
-                if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated)
+                if (skillData.ImpactStyle == ActiveSkillData.ImpactAnimationStyle.Repeated)
                 {
                     bool moreCyclesRemain = repeatCycleIndex < totalRepeatCycles - 1;
 
@@ -199,20 +199,20 @@ public class PlayerSkill
                     {
                         // Final cycle — this is the real recovery.
                         RecoveryState(owner, fireEffects: true);
-                        float recoveryDuration = skillData.skillType == SkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
+                        float recoveryDuration = skillData.skillType == ActiveSkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
                         ChangeState(State.Recovery, recoveryDuration);
                     }
                 }
                 else
                 {
                     RecoveryState(owner);
-                    float recoveryDuration = skillData.skillType == SkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
+                    float recoveryDuration = skillData.skillType == ActiveSkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
                     ChangeState(State.Recovery, recoveryDuration);
                 }
                 break;
 
             case State.Recovery:
-                if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Repeated && repeatCycleIndex < totalRepeatCycles - 1)
+                if (skillData.ImpactStyle == ActiveSkillData.ImpactAnimationStyle.Repeated && repeatCycleIndex < totalRepeatCycles - 1)
                 {
                     repeatCycleIndex++;
                     ImpactState(owner, fireEffects: false); // visual only — this cycle's spawn already fires from SpawnEffect's own coroutine
@@ -231,7 +231,7 @@ public class PlayerSkill
         StateTimer = duration;
     }
 
-    IEnumerator CoolDownn(SkillData.SkillType type, float coolDown, PlayerStateMachine owner)
+    IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, PlayerStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.Stats.TotalCDR;
         owner.coolDownTracker.SkillCoolDown(skillData.skillType, modifiedCooldown);
@@ -240,15 +240,15 @@ public class PlayerSkill
 
         switch (type)
         {
-            case SkillData.SkillType.Basic: owner.CanBasic = true; break;
-            case SkillData.SkillType.Offensive: owner.CanOffensive = true; break;
-            case SkillData.SkillType.Mobility: owner.CanMobility = true; break;
-            case SkillData.SkillType.Defensive: owner.CanDefensive = true; break;
-            case SkillData.SkillType.Utility: owner.CanUtility = true; break;
-            case SkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
+            case ActiveSkillData.SkillType.Basic: owner.CanBasic = true; break;
+            case ActiveSkillData.SkillType.Offensive: owner.CanOffensive = true; break;
+            case ActiveSkillData.SkillType.Mobility: owner.CanMobility = true; break;
+            case ActiveSkillData.SkillType.Defensive: owner.CanDefensive = true; break;
+            case ActiveSkillData.SkillType.Utility: owner.CanUtility = true; break;
+            case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(PlayerStateMachine owner, WeaponType weapon, SkillData.SkillType type, State state)
+    protected void Animate(PlayerStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType type, State state)
     {
         string _weapon = "";
         string _skill = "";
@@ -264,12 +264,12 @@ public class PlayerSkill
 
         switch (type)
         {
-            case SkillData.SkillType.Basic: _skill = "Basic"; break;
-            case SkillData.SkillType.Offensive: _skill = "Offensive"; break;
-            case SkillData.SkillType.Mobility: _skill = "Mobility"; break;
-            case SkillData.SkillType.Defensive: _skill = "Defensive"; break;
-            case SkillData.SkillType.Utility: _skill = "Utility"; break;
-            case SkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
+            case ActiveSkillData.SkillType.Basic: _skill = "Basic"; break;
+            case ActiveSkillData.SkillType.Offensive: _skill = "Offensive"; break;
+            case ActiveSkillData.SkillType.Mobility: _skill = "Mobility"; break;
+            case ActiveSkillData.SkillType.Defensive: _skill = "Defensive"; break;
+            case ActiveSkillData.SkillType.Utility: _skill = "Utility"; break;
+            case ActiveSkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
         }
 
         switch (state)
@@ -305,7 +305,7 @@ public class PlayerSkill
 
     bool IsBasicAttack()
     {
-        if (skillData.skillType == SkillData.SkillType.Basic)
+        if (skillData.skillType == ActiveSkillData.SkillType.Basic)
         {
             return true;
         }
@@ -317,7 +317,7 @@ public class PlayerSkill
 
     float GetImpactStateDuration()
     {
-        if (skillData.ImpactStyle == SkillData.ImpactAnimationStyle.Long)
+        if (skillData.ImpactStyle == ActiveSkillData.ImpactAnimationStyle.Long)
             return GetStretchedImpactDuration();
 
         // Normal and Repeated both use a single beat's worth of time —

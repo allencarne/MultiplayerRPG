@@ -6,7 +6,7 @@ public class AttributeSkillButtons : MonoBehaviour
     [SerializeField] PlayerUI playerUI;
     [SerializeField] Player player;
     [SerializeField] PlayerStats stats;
-    [SerializeField] SkillPanel skillPanel;
+    [SerializeField] SkillPanelUI skillPanel;
     [SerializeField] Inventory inventory;
 
     [SerializeField] AttributePoints ap;

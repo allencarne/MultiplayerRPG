@@ -12,7 +12,7 @@ public class Fury : PlayerSkill
     Coroutine idleCoroutine;
     [SerializeField] PlayerStateMachine stateMachine;
 
-    public Fury(SkillData data, int index) : base(data, index)
+    public Fury(ActiveSkillData data, int index) : base(data, index)
     {
     }
 
