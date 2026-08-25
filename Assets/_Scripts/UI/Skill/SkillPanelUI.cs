@@ -87,6 +87,7 @@ public class SkillPanelUI : MonoBehaviour
     {
         skillSet = set;
         SetIcons();
+        OnLevelUp();
     }
 
     void SetIcons()
@@ -293,6 +294,30 @@ public class SkillPanelUI : MonoBehaviour
 
     void OnLevelUp()
     {
+        if (stats.PlayerLevel.Value >= skillSet.passive1Req)
+        {
+            for (int i = 0; i < icon_Passive1_Lock.Length; i++)
+            {
+                icon_Passive1_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (stats.PlayerLevel.Value >= skillSet.passive2Req)
+        {
+            for (int i = 0; i < icon_Passive2_Lock.Length; i++)
+            {
+                icon_Passive2_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (stats.PlayerLevel.Value >= skillSet.passive3Req)
+        {
+            for (int i = 0; i < icon_Passive3_Lock.Length; i++)
+            {
+                icon_Passive3_Lock[i].gameObject.SetActive(false);
+            }
+        }
+
         if (stats.PlayerLevel.Value >= skillSet.basicReq)
         {
             for (int i = 0; i < icon_Basic_Lock.Length; i++)
