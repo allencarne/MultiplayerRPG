@@ -27,12 +27,12 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
         skillDescription.text = ability.skillData.Description;
         skillCoolDown.text = "Cooldown: " + ability.skillData.CoolDown.ToString();
 
-        tooltip.SetActive(true);
+        //tooltip.SetActive(true);
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        tooltip.SetActive(false);
+        //tooltip.SetActive(false);
     }
 
     private void OnDisable()
