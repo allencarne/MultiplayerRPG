@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,51 +12,74 @@ public class SkillPanelUI : MonoBehaviour
     [SerializeField] PlayerExperience exp;
     ClassSkillSet skillSet;
 
-    [Header("Icons")]
+    [Header("Passive 1")]
     [SerializeField] GameObject[] object_Passive1;
-    [SerializeField] GameObject[] object_Passive2;
-    [SerializeField] GameObject[] object_Passive3;
-    [SerializeField] GameObject[] object_Basic;
-    [SerializeField] GameObject[] object_Offensive;
-    [SerializeField] GameObject[] object_Mobility;
-    [SerializeField] GameObject[] object_Defensive;
-    [SerializeField] GameObject[] object_Utility;
-    [SerializeField] GameObject[] object_Ultimate;
-
-    [Header("Icons")]
     [SerializeField] Image[] icon_Passive1;
-    [SerializeField] Image[] icon_Passive2;
-    [SerializeField] Image[] icon_Passive3;
-    [SerializeField] Image[] icon_Basic;
-    [SerializeField] Image[] icon_Offensive;
-    [SerializeField] Image[] icon_Mobility;
-    [SerializeField] Image[] icon_Defensive;
-    [SerializeField] Image[] icon_Utility;
-    [SerializeField] Image[] icon_Ultimate;
-
-    [Header("Icon Locks")]
     [SerializeField] Image[] icon_Passive1_Lock;
-    [SerializeField] Image[] icon_Passive2_Lock;
-    [SerializeField] Image[] icon_Passive3_Lock;
-    [SerializeField] Image[] icon_Basic_Lock;
-    [SerializeField] Image[] icon_Offensive_Lock;
-    [SerializeField] Image[] icon_Mobility_Lock;
-    [SerializeField] Image[] icon_Defensive_Lock;
-    [SerializeField] Image[] icon_Utility_Lock;
-    [SerializeField] Image[] icon_Ultimate_Lock;
-
-    [Header("Text")]
     [SerializeField] TextMeshProUGUI[] text_Passive1;
+
+    [Header("Passive 2")]
+    [SerializeField] GameObject[] object_Passive2;
+    [SerializeField] Image[] icon_Passive2;
+    [SerializeField] Image[] icon_Passive2_Lock;
     [SerializeField] TextMeshProUGUI[] text_Passive2;
+
+    [Header("Passive 3")]
+    [SerializeField] GameObject[] object_Passive3;
+    [SerializeField] Image[] icon_Passive3;
+    [SerializeField] Image[] icon_Passive3_Lock;
     [SerializeField] TextMeshProUGUI[] text_Passive3;
+
+    [Header("Basic")]
+    [SerializeField] GameObject[] object_Basic;
+    [SerializeField] Image[] icon_Basic;
+    [SerializeField] Image[] icon_Basic_Lock;
     [SerializeField] TextMeshProUGUI[] text_Basic;
+
+    [Header("Offensive")]
+    [SerializeField] GameObject[] object_Offensive;
+    [SerializeField] Image[] icon_Offensive;
+    [SerializeField] Image[] icon_Offensive_Lock;
     [SerializeField] TextMeshProUGUI[] text_Offensive;
+
+    [Header("Mobility")]
+    [SerializeField] GameObject[] object_Mobility;
+    [SerializeField] Image[] icon_Mobility;
+    [SerializeField] Image[] icon_Mobility_Lock;
     [SerializeField] TextMeshProUGUI[] text_Mobility;
+
+    [Header("Defensive")]
+    [SerializeField] GameObject[] object_Defensive;
+    [SerializeField] Image[] icon_Defensive;
+    [SerializeField] Image[] icon_Defensive_Lock;
     [SerializeField] TextMeshProUGUI[] text_Defensive;
+
+    [Header("Utility")]
+    [SerializeField] GameObject[] object_Utility;
+    [SerializeField] Image[] icon_Utility;
+    [SerializeField] Image[] icon_Utility_Lock;
     [SerializeField] TextMeshProUGUI[] text_Utility;
+
+    [Header("Ultimate")]
+    [SerializeField] GameObject[] object_Ultimate;
+    [SerializeField] Image[] icon_Ultimate;
+    [SerializeField] Image[] icon_Ultimate_Lock;
     [SerializeField] TextMeshProUGUI[] text_Ultimate;
 
     [HideInInspector] public UnityEvent OnSkillSelected;
+
+    struct SkillSlot
+    {
+        public GameObject[] Objects;
+        public Image[] Icons;
+        public Image[] Locks;
+        public TextMeshProUGUI[] Texts;
+        public SkillData[] Data;
+        public Func<int> GetIndex;
+        public int ReqLevel;
+    }
+
+    SkillSlot[] slots;
 
     private void OnEnable()
     {
@@ -70,6 +94,103 @@ public class SkillPanelUI : MonoBehaviour
         CancelInvoke();
     }
 
+    public void Bind(ClassSkillSet set)
+    {
+        skillSet = set;
+        BuildSlots();
+        RefreshSlotVisibility();
+        SetIcons();
+        RefreshRequirementText();
+        RefreshLocks();
+    }
+
+    void BuildSlots()
+    {
+        slots = new[]
+        {
+            new SkillSlot { Objects = object_Passive1, Icons = icon_Passive1, Locks = icon_Passive1_Lock, Texts = text_Passive1, Data = skillSet.firstPassive,  GetIndex = () => player.FirstPassiveIndex,  ReqLevel = skillSet.passive1Req },
+            new SkillSlot { Objects = object_Passive2, Icons = icon_Passive2, Locks = icon_Passive2_Lock, Texts = text_Passive2, Data = skillSet.secondPassive, GetIndex = () => player.SecondPassiveIndex, ReqLevel = skillSet.passive2Req },
+            new SkillSlot { Objects = object_Passive3, Icons = icon_Passive3, Locks = icon_Passive3_Lock, Texts = text_Passive3, Data = skillSet.thirdPassive,  GetIndex = () => player.ThirdPassiveIndex,  ReqLevel = skillSet.passive3Req },
+            new SkillSlot { Objects = object_Basic,     Icons = icon_Basic,     Locks = icon_Basic_Lock,     Texts = text_Basic,     Data = skillSet.basicAbilities,     GetIndex = () => player.BasicIndex,     ReqLevel = skillSet.basicReq },
+            new SkillSlot { Objects = object_Offensive, Icons = icon_Offensive, Locks = icon_Offensive_Lock, Texts = text_Offensive, Data = skillSet.offensiveAbilities, GetIndex = () => player.OffensiveIndex, ReqLevel = skillSet.offensiveReq },
+            new SkillSlot { Objects = object_Mobility,  Icons = icon_Mobility,  Locks = icon_Mobility_Lock,  Texts = text_Mobility,  Data = skillSet.mobilityAbilities,  GetIndex = () => player.MobilityIndex,  ReqLevel = skillSet.mobilityReq },
+            new SkillSlot { Objects = object_Defensive, Icons = icon_Defensive, Locks = icon_Defensive_Lock, Texts = text_Defensive, Data = skillSet.defensiveAbilities, GetIndex = () => player.DefensiveIndex, ReqLevel = skillSet.defensiveReq },
+            new SkillSlot { Objects = object_Utility,   Icons = icon_Utility,   Locks = icon_Utility_Lock,   Texts = text_Utility,   Data = skillSet.utilityAbilities,   GetIndex = () => player.UtilityIndex,   ReqLevel = skillSet.utilityReq },
+            new SkillSlot { Objects = object_Ultimate,  Icons = icon_Ultimate,  Locks = icon_Ultimate_Lock,  Texts = text_Ultimate,  Data = skillSet.ultimateAbilities,  GetIndex = () => player.UltimateIndex,  ReqLevel = skillSet.ultimateReq },
+        };
+    }
+
+    void RefreshSlotVisibility()
+    {
+        foreach (SkillSlot slot in slots)
+        {
+            for (int i = 0; i < slot.Objects.Length; i++)
+            {
+                slot.Objects[i].SetActive(i < slot.Data.Length);
+            }
+        }
+    }
+
+    void RefreshRequirementText()
+    {
+        foreach (SkillSlot slot in slots)
+        {
+            string label = slot.ReqLevel > 0 ? slot.ReqLevel.ToString() : "";
+            foreach (TextMeshProUGUI text in slot.Texts)
+            {
+                if (text != null) text.text = label;
+            }
+        }
+    }
+
+    void SetIcons()
+    {
+        foreach (SkillSlot slot in slots)
+        {
+            for (int i = 0; i < slot.Icons.Length; i++)
+            {
+                AssignIcon(slot.Icons[i], slot.Data, i);
+            }
+        }
+    }
+
+    void AssignIcon(Image icon, SkillData[] abilities, int index)
+    {
+        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
+        if (abilities[index].Icon != null) icon.sprite = abilities[index].Icon;
+    }
+
+    public void SetYellowBorders()
+    {
+        foreach (SkillSlot slot in slots)
+        {
+            foreach (Image icon in slot.Icons)
+            {
+                YellowBorder(slot.GetIndex(), slot.ReqLevel, icon);
+            }
+        }
+    }
+
+    public void SetBlueBorders()
+    {
+        foreach (SkillSlot slot in slots)
+        {
+            BlueBorder(slot.GetIndex(), slot.Icons[0], slot.Icons[1], slot.Icons[2]);
+        }
+    }
+
+    void RefreshLocks()
+    {
+        foreach (SkillSlot slot in slots)
+        {
+            if (stats.PlayerLevel.Value < slot.ReqLevel) continue;
+            foreach (Image lockIcon in slot.Locks)
+            {
+                if (lockIcon != null) lockIcon.gameObject.SetActive(false);
+            }
+        }
+    }
+
     void SetColor(Image icon, Color color)
     {
         if (icon == null) return;
@@ -81,111 +202,6 @@ public class SkillPanelUI : MonoBehaviour
             colors.normalColor = color;
             button.colors = colors;
         }
-    }
-
-    public void Bind(ClassSkillSet set)
-    {
-        skillSet = set;
-        SetIcons();
-        OnLevelUp();
-    }
-
-    void SetIcons()
-    {
-        AssignPassiveIcon(icon_Passive1[0], skillSet.firstPassive, 0);
-        AssignPassiveIcon(icon_Passive1[1], skillSet.firstPassive, 1);
-        AssignPassiveIcon(icon_Passive1[2], skillSet.firstPassive, 2);
-        AssignPassiveIcon(icon_Passive2[0], skillSet.secondPassive, 0);
-        AssignPassiveIcon(icon_Passive2[1], skillSet.secondPassive, 1);
-        AssignPassiveIcon(icon_Passive2[2], skillSet.secondPassive, 2);
-        AssignPassiveIcon(icon_Passive3[0], skillSet.thirdPassive, 0);
-        AssignPassiveIcon(icon_Passive3[1], skillSet.thirdPassive, 1);
-        AssignPassiveIcon(icon_Passive3[2], skillSet.thirdPassive, 2);
-
-        AssignIcon(icon_Basic[0], skillSet.basicAbilities, 0);
-        AssignIcon(icon_Basic[1], skillSet.basicAbilities, 1);
-        AssignIcon(icon_Basic[2], skillSet.basicAbilities, 2);
-        AssignIcon(icon_Offensive[0], skillSet.offensiveAbilities, 0);
-        AssignIcon(icon_Offensive[1], skillSet.offensiveAbilities, 1);
-        AssignIcon(icon_Offensive[2], skillSet.offensiveAbilities, 2);
-        AssignIcon(icon_Mobility[0], skillSet.mobilityAbilities, 0);
-        AssignIcon(icon_Mobility[1], skillSet.mobilityAbilities, 1);
-        AssignIcon(icon_Mobility[2], skillSet.mobilityAbilities, 2);
-        AssignIcon(icon_Defensive[0], skillSet.defensiveAbilities, 0);
-        AssignIcon(icon_Defensive[1], skillSet.defensiveAbilities, 1);
-        AssignIcon(icon_Defensive[2], skillSet.defensiveAbilities, 2);
-        AssignIcon(icon_Utility[0], skillSet.utilityAbilities, 0);
-        AssignIcon(icon_Utility[1], skillSet.utilityAbilities, 1);
-        AssignIcon(icon_Utility[2], skillSet.utilityAbilities, 2);
-        AssignIcon(icon_Ultimate[0], skillSet.ultimateAbilities, 0);
-        AssignIcon(icon_Ultimate[1], skillSet.ultimateAbilities, 1);
-        AssignIcon(icon_Ultimate[2], skillSet.ultimateAbilities, 2);
-    }
-
-    public void SetYellowBorders()
-    {
-        YellowBorder(player.FirstPassiveIndex, skillSet.passive1Req, icon_Passive1[0]);
-        YellowBorder(player.FirstPassiveIndex, skillSet.passive1Req, icon_Passive1[1]);
-        YellowBorder(player.FirstPassiveIndex, skillSet.passive1Req, icon_Passive1[2]);
-        YellowBorder(player.SecondPassiveIndex, skillSet.passive2Req, icon_Passive2[0]);
-        YellowBorder(player.SecondPassiveIndex, skillSet.passive2Req, icon_Passive2[1]);
-        YellowBorder(player.SecondPassiveIndex, skillSet.passive2Req, icon_Passive2[2]);
-        YellowBorder(player.ThirdPassiveIndex, skillSet.passive3Req, icon_Passive3[0]);
-        YellowBorder(player.ThirdPassiveIndex, skillSet.passive3Req, icon_Passive3[1]);
-        YellowBorder(player.ThirdPassiveIndex, skillSet.passive3Req, icon_Passive3[2]);
-
-        YellowBorder(player.BasicIndex, skillSet.basicReq, icon_Basic[0]);
-        YellowBorder(player.BasicIndex, skillSet.basicReq, icon_Basic[1]);
-        YellowBorder(player.BasicIndex, skillSet.basicReq, icon_Basic[2]);
-        YellowBorder(player.OffensiveIndex, skillSet.offensiveReq, icon_Offensive[0]);
-        YellowBorder(player.OffensiveIndex, skillSet.offensiveReq, icon_Offensive[1]);
-        YellowBorder(player.OffensiveIndex, skillSet.offensiveReq, icon_Offensive[2]);
-        YellowBorder(player.MobilityIndex, skillSet.mobilityReq, icon_Mobility[0]);
-        YellowBorder(player.MobilityIndex, skillSet.mobilityReq, icon_Mobility[1]);
-        YellowBorder(player.MobilityIndex, skillSet.mobilityReq, icon_Mobility[2]);
-        YellowBorder(player.DefensiveIndex, skillSet.defensiveReq, icon_Defensive[0]);
-        YellowBorder(player.DefensiveIndex, skillSet.defensiveReq, icon_Defensive[1]);
-        YellowBorder(player.DefensiveIndex, skillSet.defensiveReq, icon_Defensive[2]);
-        YellowBorder(player.UtilityIndex, skillSet.utilityReq, icon_Utility[0]);
-        YellowBorder(player.UtilityIndex, skillSet.utilityReq, icon_Utility[1]);
-        YellowBorder(player.UtilityIndex, skillSet.utilityReq, icon_Utility[2]);
-        YellowBorder(player.UltimateIndex, skillSet.ultimateReq, icon_Ultimate[0]);
-        YellowBorder(player.UltimateIndex, skillSet.ultimateReq, icon_Ultimate[1]);
-        YellowBorder(player.UltimateIndex, skillSet.ultimateReq, icon_Ultimate[2]);
-    }
-
-    public void SetBlueBorders()
-    {
-        BlueBorder(player.FirstPassiveIndex, icon_Passive1[0], icon_Passive1[1], icon_Passive1[2]);
-        BlueBorder(player.SecondPassiveIndex, icon_Passive2[0], icon_Passive2[1], icon_Passive2[2]);
-        BlueBorder(player.ThirdPassiveIndex, icon_Passive3[0], icon_Passive3[1], icon_Passive3[2]);
-
-        BlueBorder(player.BasicIndex, icon_Basic[0], icon_Basic[1], icon_Basic[2]);
-        BlueBorder(player.OffensiveIndex, icon_Offensive[0], icon_Offensive[1], icon_Offensive[2]);
-        BlueBorder(player.MobilityIndex, icon_Mobility[0], icon_Mobility[1], icon_Mobility[2]);
-        BlueBorder(player.DefensiveIndex, icon_Defensive[0], icon_Defensive[1], icon_Defensive[2]);
-        BlueBorder(player.UtilityIndex, icon_Utility[0], icon_Utility[1], icon_Utility[2]);
-        BlueBorder(player.UltimateIndex, icon_Ultimate[0], icon_Ultimate[1], icon_Ultimate[2]);
-    }
-
-    private void AssignIcon(Image icon, ActiveSkillData[] abilities, int index)
-    {
-        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
-
-        if (abilities[index].Icon != null) icon.sprite = abilities[index].Icon;
-
-        //SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
-        //if (tooltip != null) tooltip.SetAbility(abilities[index]);
-    }
-
-    private void AssignPassiveIcon(Image icon, PassiveSkillData[] abilities, int index)
-    {
-        if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
-
-        if (abilities[index].Icon != null) icon.sprite = abilities[index].Icon;
-
-        //SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
-        //if (tooltip != null) tooltip.SetAbility(abilities[index]);
     }
 
     void BlueBorder(int index, Image zero, Image one, Image two)
@@ -221,71 +237,21 @@ public class SkillPanelUI : MonoBehaviour
         SetColor(icon, Color.cyan);
     }
 
-    public void FirstPassiveButton(int index)
+    void SelectAndHighlight(Image[] icons, int index)
     {
-        player.FirstPassiveIndex = index;
         OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Passive1[0], icon_Passive1[1], icon_Passive1[2]);
-        stateMachine.SetFirstPassive(skillSet.firstPassive[index], index);
+        BlueBorder(index, icons[0], icons[1], icons[2]);
     }
 
-    public void SecondPassiveButton(int index)
-    {
-        player.SecondPassiveIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Passive2[0], icon_Passive2[1], icon_Passive2[2]);
-        stateMachine.SetFirstPassive(skillSet.secondPassive[index], index);
-    }
-
-    public void ThirdPassiveButton(int index)
-    {
-        player.ThirdPassiveIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Passive3[0], icon_Passive3[1], icon_Passive3[2]);
-        stateMachine.SetFirstPassive(skillSet.thirdPassive[index], index);
-    }
-
-    public void BasicButton(int index)
-    {
-        player.BasicIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Basic[0], icon_Basic[1], icon_Basic[2]);
-    }
-
-    public void OffensiveButton(int index)
-    {
-        player.OffensiveIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Offensive[0], icon_Offensive[1], icon_Offensive[2]);
-    }
-
-    public void MobilityButton(int index)
-    {
-        player.MobilityIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Mobility[0], icon_Mobility[1], icon_Mobility[2]);
-    }
-
-    public void DefensiveButton(int index)
-    {
-        player.DefensiveIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Defensive[0], icon_Defensive[1], icon_Defensive[2]);
-    }
-
-    public void UtilityButton(int index)
-    {
-        player.UtilityIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Utility[0], icon_Utility[1], icon_Utility[2]);
-    }
-
-    public void UltimateButton(int index)
-    {
-        player.UltimateIndex = index;
-        OnSkillSelected?.Invoke();
-        BlueBorder(index, icon_Ultimate[0], icon_Ultimate[1], icon_Ultimate[2]);
-    }
+    public void FirstPassiveButton(int index) { player.FirstPassiveIndex = index; SelectAndHighlight(icon_Passive1, index); stateMachine.SetFirstPassive(skillSet.firstPassive[index], index); }
+    public void SecondPassiveButton(int index) { player.SecondPassiveIndex = index; SelectAndHighlight(icon_Passive2, index); stateMachine.SetSecondPassive(skillSet.secondPassive[index], index); }
+    public void ThirdPassiveButton(int index) { player.ThirdPassiveIndex = index; SelectAndHighlight(icon_Passive3, index); stateMachine.SetThirdPassive(skillSet.thirdPassive[index], index); }
+    public void BasicButton(int index) { player.BasicIndex = index; SelectAndHighlight(icon_Basic, index); }
+    public void OffensiveButton(int index) { player.OffensiveIndex = index; SelectAndHighlight(icon_Offensive, index); }
+    public void MobilityButton(int index) { player.MobilityIndex = index; SelectAndHighlight(icon_Mobility, index); }
+    public void DefensiveButton(int index) { player.DefensiveIndex = index; SelectAndHighlight(icon_Defensive, index); }
+    public void UtilityButton(int index) { player.UtilityIndex = index; SelectAndHighlight(icon_Utility, index); }
+    public void UltimateButton(int index) { player.UltimateIndex = index; SelectAndHighlight(icon_Ultimate, index); }
 
     void OnLevelChanged(int oldValue, int newValue)
     {
