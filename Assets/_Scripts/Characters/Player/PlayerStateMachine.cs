@@ -12,7 +12,7 @@ public class PlayerStateMachine : NetworkBehaviour
     [HideInInspector] public PlayerSkill CurrentSkill;
     [SerializeField] ClassSkillSelector setSkills;
     [HideInInspector] public ClassSkillSet skills;
-    public SkillBarCoolDowns coolDownTracker;
+    public SkillBarUI coolDownTracker;
 
     PlayerPassive firstPassiveInstance;
     PlayerPassive secondPassiveInstance;
