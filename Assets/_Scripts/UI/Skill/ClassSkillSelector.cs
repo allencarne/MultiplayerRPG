@@ -8,7 +8,7 @@ public class ClassSkillSelector : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] PlayerStateMachine stateMachine;
     [SerializeField] SkillPanelUI skillPanel;
-    [SerializeField] SkillBarUI skillBarUI;
+    [SerializeField] SkillBarUI[] skillBarUI;
 
     [Header("Skills")]
     public ClassSkillSet beginnerSet;
@@ -21,13 +21,13 @@ public class ClassSkillSelector : MonoBehaviour
     private void OnEnable()
     {
         skillPanel.OnSkillSelected.AddListener(SetClassSkills);
-        skillPanel.OnSkillSelected.AddListener(skillBarUI.RefreshIcons);
+        skillPanel.OnSkillSelected.AddListener(RefreshSkillBars);
     }
 
     private void OnDisable()
     {
         skillPanel.OnSkillSelected.RemoveListener(SetClassSkills);
-        skillPanel.OnSkillSelected.RemoveListener(skillBarUI.RefreshIcons);
+        skillPanel.OnSkillSelected.RemoveListener(RefreshSkillBars);
     }
 
     private void Awake()
@@ -49,7 +49,12 @@ public class ClassSkillSelector : MonoBehaviour
 
         stateMachine.skills = currentSet;
         skillPanel.Bind(currentSet);
-        skillBarUI.Bind(currentSet);
+        foreach (SkillBarUI bar in skillBarUI) bar.Bind(currentSet);
+    }
+
+    void RefreshSkillBars()
+    {
+        foreach (SkillBarUI bar in skillBarUI) bar.RefreshIcons();
     }
 
     public void RestoreSelections()

@@ -234,7 +234,13 @@ public class PlayerSkill
     IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, PlayerStateMachine owner)
     {
         float modifiedCooldown = coolDown / owner.Stats.TotalCDR;
-        owner.coolDownTracker.SkillCoolDown(skillData.skillType, modifiedCooldown);
+
+        foreach (SkillBarUI bar in owner.coolDownTracker)
+        {
+            if (bar == null) continue;
+            if (!bar.gameObject.activeInHierarchy) continue;
+            bar.SkillCoolDown(skillData.skillType, modifiedCooldown);
+        }
 
         yield return new WaitForSeconds(modifiedCooldown);
 

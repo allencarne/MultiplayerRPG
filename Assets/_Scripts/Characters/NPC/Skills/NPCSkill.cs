@@ -222,16 +222,16 @@ public abstract class NPCSkill : NetworkBehaviour
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
-            attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
+            //attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
         }
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
-            damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = AttackerDamage + skillData.SkillDamage;
-            damageOnTrigger.IgnoreNPC = true;
-            damageOnTrigger.IgnorePlayer = true;
+            //damageOnTrigger.attacker = attacker;
+            //damageOnTrigger.AbilityDamage = AttackerDamage + skillData.SkillDamage;
+            //damageOnTrigger.IgnoreNPC = true;
+            //damageOnTrigger.IgnorePlayer = true;
         }
 
         InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
@@ -266,7 +266,7 @@ public abstract class NPCSkill : NetworkBehaviour
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
+        //if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
     }
 
     [ServerRpc]

@@ -22,12 +22,7 @@ public class ActiveSkillData : SkillData
     public GameObject TelegraphPrefab;
 
     [Header("Stats")]
-    public float SkillDamage;
     public float SkillRange;
-
-    [Header("Projectile")]
-    public float SkillForce;
-    public float SkillDuration;
 
     [Header("Time")]
     public float CastTime;

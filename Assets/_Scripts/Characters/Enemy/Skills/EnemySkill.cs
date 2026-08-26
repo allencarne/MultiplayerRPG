@@ -223,15 +223,15 @@ public abstract class EnemySkill : NetworkBehaviour
         Rigidbody2D attackRB = attackInstance.GetComponent<Rigidbody2D>();
         if (attackRB != null)
         {
-            attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
+            //attackRB.AddForce(AimDirection * skillData.SkillForce, ForceMode2D.Impulse);
         }
 
         DamageOnTrigger damageOnTrigger = attackInstance.GetComponent<DamageOnTrigger>();
         if (damageOnTrigger != null)
         {
-            damageOnTrigger.attacker = attacker;
-            damageOnTrigger.AbilityDamage = enemy.stats.TotalDamage + skillData.SkillDamage;
-            damageOnTrigger.IgnoreEnemy = true;
+            //damageOnTrigger.attacker = attacker;
+            //damageOnTrigger.AbilityDamage = enemy.stats.TotalDamage + skillData.SkillDamage;
+            //damageOnTrigger.IgnoreEnemy = true;
         }
 
         InterruptOnTrigger interruptOnTrigger = attackInstance.GetComponent<InterruptOnTrigger>();
@@ -275,6 +275,6 @@ public abstract class EnemySkill : NetworkBehaviour
         if (death != null) death.stats = GetComponentInParent<CharacterStats>();
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
-        if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
+        //if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
     }
 }

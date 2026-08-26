@@ -37,6 +37,6 @@ public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     private void OnDisable()
     {
-        tooltip.SetActive(false);
+        //tooltip.SetActive(false);
     }
 }
