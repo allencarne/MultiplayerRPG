@@ -243,15 +243,15 @@ public class SkillPanelUI : MonoBehaviour
         BlueBorder(index, icons[0], icons[1], icons[2]);
     }
 
-    public void FirstPassiveButton(int index) { player.FirstPassiveIndex = index; SelectAndHighlight(icon_Passive1, index); stateMachine.SetFirstPassive(skillSet.firstPassive[index], index); }
-    public void SecondPassiveButton(int index) { player.SecondPassiveIndex = index; SelectAndHighlight(icon_Passive2, index); stateMachine.SetSecondPassive(skillSet.secondPassive[index], index); }
-    public void ThirdPassiveButton(int index) { player.ThirdPassiveIndex = index; SelectAndHighlight(icon_Passive3, index); stateMachine.SetThirdPassive(skillSet.thirdPassive[index], index); }
-    public void BasicButton(int index) { player.BasicIndex = index; SelectAndHighlight(icon_Basic, index); }
-    public void OffensiveButton(int index) { player.OffensiveIndex = index; SelectAndHighlight(icon_Offensive, index); }
-    public void MobilityButton(int index) { player.MobilityIndex = index; SelectAndHighlight(icon_Mobility, index); }
-    public void DefensiveButton(int index) { player.DefensiveIndex = index; SelectAndHighlight(icon_Defensive, index); }
-    public void UtilityButton(int index) { player.UtilityIndex = index; SelectAndHighlight(icon_Utility, index); }
-    public void UltimateButton(int index) { player.UltimateIndex = index; SelectAndHighlight(icon_Ultimate, index); }
+    public void FirstPassiveButton(int index) { if (stats.PlayerLevel.Value < skillSet.passive1Req) return; if (player.FirstPassiveIndex == index) return; player.FirstPassiveIndex = index; SelectAndHighlight(icon_Passive1, index); stateMachine.SetFirstPassive(skillSet.firstPassive[index], index); }
+    public void SecondPassiveButton(int index) { if (stats.PlayerLevel.Value < skillSet.passive2Req) return; if (player.SecondPassiveIndex == index) return; player.SecondPassiveIndex = index; SelectAndHighlight(icon_Passive2, index); stateMachine.SetSecondPassive(skillSet.secondPassive[index], index); }
+    public void ThirdPassiveButton(int index) { if (stats.PlayerLevel.Value < skillSet.passive3Req) return; if (player.ThirdPassiveIndex == index) return; player.ThirdPassiveIndex = index; SelectAndHighlight(icon_Passive3, index); stateMachine.SetThirdPassive(skillSet.thirdPassive[index], index); }
+    public void BasicButton(int index) { if (stats.PlayerLevel.Value < skillSet.basicReq) return; if (player.BasicIndex == index) return; player.BasicIndex = index; SelectAndHighlight(icon_Basic, index); }
+    public void OffensiveButton(int index) { if (stats.PlayerLevel.Value < skillSet.offensiveReq) return; if (player.OffensiveIndex == index) return; player.OffensiveIndex = index; SelectAndHighlight(icon_Offensive, index); }
+    public void MobilityButton(int index) { if (stats.PlayerLevel.Value < skillSet.mobilityReq) return; if (player.MobilityIndex == index) return; player.MobilityIndex = index; SelectAndHighlight(icon_Mobility, index); }
+    public void DefensiveButton(int index) { if (stats.PlayerLevel.Value < skillSet.defensiveReq) return; if (player.DefensiveIndex == index) return; player.DefensiveIndex = index; SelectAndHighlight(icon_Defensive, index); }
+    public void UtilityButton(int index) { if (stats.PlayerLevel.Value < skillSet.utilityReq) return; if (player.UtilityIndex == index) return; player.UtilityIndex = index; SelectAndHighlight(icon_Utility, index); }
+    public void UltimateButton(int index) { if (stats.PlayerLevel.Value < skillSet.ultimateReq) return; if (player.UltimateIndex == index) return; player.UltimateIndex = index; SelectAndHighlight(icon_Ultimate, index); }
 
     void OnLevelChanged(int oldValue, int newValue)
     {
