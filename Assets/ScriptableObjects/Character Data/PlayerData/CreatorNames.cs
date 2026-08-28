@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CreatorNames", menuName = "Scriptable Objects/CreatorNames")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Character/Permitted Names")]
 public class CreatorNames : ScriptableObject
 {
     public string[] bannedWords;

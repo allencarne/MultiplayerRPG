@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemStatRules", menuName = "Scriptable Objects/ItemStatRules")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Item/ItemStatRules")]
 public class ItemStatRules : ScriptableObject
 {
     int[] LevelBreakpoints = { 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 };

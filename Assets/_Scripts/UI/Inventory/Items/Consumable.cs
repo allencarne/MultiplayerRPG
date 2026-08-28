@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Consumable", menuName = "Scriptable Objects/Item/Consumable")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Item/Item Type/Consumable")]
 public class Consumable : Item
 {
 

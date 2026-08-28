@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Currency", menuName = "Scriptable Objects/Item/Currency")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Item/Item Type/Currency")]
 public class Currency : Item
 {
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ItemQualityInfo", menuName = "Scriptable Objects/ItemQualityInfo")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Item/Color/ItemQualityInfo")]
 public class ItemQualityInfo : ScriptableObject
 {
     public Color NormalColor;

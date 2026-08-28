@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Quest", menuName = "Scriptable Objects/Quest")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Quest/New Quest")]
 public class Quest : ScriptableObject
 {
     public string QuestID;
