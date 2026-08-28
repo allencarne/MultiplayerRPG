@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/RegenerationEffect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/Regeneration Effect")]
 public class RegenerationEffect : ApplyEffect
 {
     public int Stacks = 1;
