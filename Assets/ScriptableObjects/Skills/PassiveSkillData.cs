@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Data/Passive Skill")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Data/Passive Skill")]
 public class PassiveSkillData : SkillData
 {
     [Header("Trigger")]

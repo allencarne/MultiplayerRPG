@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Slide Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Slide Effect")]
 public class SlideEffect : SkillEffect
 {
     [Header("Slide")]

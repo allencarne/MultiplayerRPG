@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SkillEffect", menuName = "Scriptable Objects/Skill Effects/Networked Spawn/Spawn Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Networked Spawn/Spawn Effect")]
 public class SpawnEffect: NetworkedSpawnEffect
 {
     public enum SpreadMode

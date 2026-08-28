@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Damage Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Damage Effect")]
 public class DamageEffect : ApplyEffect
 {
     [Header("Amount of Damage")]

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Heal Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Heal Effect")]
 public class HealEffect : ApplyEffect
 {
     public int FlatAmount;

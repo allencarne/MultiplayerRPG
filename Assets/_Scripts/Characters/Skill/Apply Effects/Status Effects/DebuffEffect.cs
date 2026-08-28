@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill Effects/Status Effect/Debuff Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/Debuff Effect")]
 public class DebuffEffect : ApplyEffect
 {
     public enum DebuffType { Slow, Weakness, Impede, Vulnerability, Exhaust }
