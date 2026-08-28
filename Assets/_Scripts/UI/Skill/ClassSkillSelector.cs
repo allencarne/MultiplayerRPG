@@ -70,6 +70,11 @@ public class ClassSkillSelector : MonoBehaviour
         RestoreSlot(player.DefensiveIndex, currentSet.defensiveReq, currentSet.defensiveAbilities.Length, skillPanel.DefensiveButton);
         RestoreSlot(player.UtilityIndex, currentSet.utilityReq, currentSet.utilityAbilities.Length, skillPanel.UtilityButton);
         RestoreSlot(player.UltimateIndex, currentSet.ultimateReq, currentSet.ultimateAbilities.Length, skillPanel.UltimateButton);
+
+        // Have passives run through statemachine
+        RestorePassive(player.FirstPassiveIndex, currentSet.passive1Req, currentSet.firstPassive, stateMachine.SetFirstPassive);
+        RestorePassive(player.SecondPassiveIndex, currentSet.passive2Req, currentSet.secondPassive, stateMachine.SetSecondPassive);
+        RestorePassive(player.ThirdPassiveIndex, currentSet.passive3Req, currentSet.thirdPassive, stateMachine.SetThirdPassive);
     }
 
     void RestoreSlot(int index, int reqLevel, int arrayLength, Action<int> select)
@@ -77,5 +82,13 @@ public class ClassSkillSelector : MonoBehaviour
         if (index < 0 || index >= arrayLength) return;
         if (stats.PlayerLevel.Value < reqLevel) return;
         select(index);
+    }
+
+    void RestorePassive(int index, int reqLevel, PassiveSkillData[] data, Action<PassiveSkillData, int> setPassive)
+    {
+        if (index < 0 || index >= data.Length) return;
+        if (stats.PlayerLevel.Value < reqLevel) return;
+
+        setPassive(data[index], index);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class PlayerPassive
     public PassiveSkillData passiveData;
     int passiveIndex;
     bool onCooldown;
+    Action unsubscribe;
 
     public PlayerPassive(PassiveSkillData data, int index)
     {
@@ -15,7 +17,12 @@ public class PlayerPassive
 
     public virtual void StartPassive(PlayerStateMachine owner)
     {
+        Debug.Log($"[PlayerPassive] Starting {passiveData.Name} on {owner.name}");
 
+        if (passiveData.Trigger != null)
+        {
+            unsubscribe = passiveData.Trigger.Subscribe(owner, () => TryActivate(owner));
+        }
     }
 
     public virtual void UpdatePassive(PlayerStateMachine owner)
@@ -29,18 +36,28 @@ public class PlayerPassive
 
     public virtual void EndPassive(PlayerStateMachine owner)
     {
-
+        Debug.Log($"[PlayerPassive] Ending {passiveData.Name} on {owner.name}");
+        unsubscribe?.Invoke();
+        unsubscribe = null;
     }
 
     protected void TryActivate(PlayerStateMachine owner)
     {
-        if (onCooldown) return;
-        if (passiveData.OnActivateEffects == null) return;
+        if (onCooldown)
+        {
+            Debug.Log($"[PlayerPassive] {passiveData.Name} tried to activate but is on cooldown");
+            return;
+        }
 
-        foreach (SkillEffect effect in passiveData.OnActivateEffects)
+        Debug.Log($"[PlayerPassive] {passiveData.Name} activating on {owner.name}");
+
+        if (passiveData.OnActivateEffects != null)
         {
             SkillContext ctx = BuildContext(owner);
-            effect.Execute(owner, ctx);
+            foreach (SkillEffect effect in passiveData.OnActivateEffects)
+            {
+                effect.Execute(owner, ctx);
+            }
         }
 
         if (passiveData.CoolDown > 0)
@@ -54,6 +71,7 @@ public class PlayerPassive
         onCooldown = true;
         yield return new WaitForSeconds(passiveData.CoolDown);
         onCooldown = false;
+        Debug.Log($"[PlayerPassive] {passiveData.Name} cooldown finished");
     }
 
     SkillContext BuildContext(PlayerStateMachine owner) => new SkillContext

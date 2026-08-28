@@ -88,6 +88,24 @@ public class Player : NetworkBehaviour
         }
     }
 
+    private void Update()
+    {
+        // Only allow the owner of this player object to run this code.
+        if (!IsOwner) return;
+
+        // FOR TESTING
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            stats.TakeDamage(1, DamageType.Flat, NetworkObject, transform.position);
+        }
+
+        // FOR TESTING
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            stats.GiveHeal(1, HealType.Flat);
+        }
+    }
+
     void PlayerCamera()
     {
         GameObject cameraInstance = Instantiate(cameraPrefab);
