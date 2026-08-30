@@ -7,7 +7,7 @@ public struct SkillContext : INetworkSerializable
     public Vector2 AimDirection;
     public ActiveSkillData.SkillType SkillType;
     public int SkillIndex;
-    public PlayerSkill.State Phase;
+    public ActiveSkillData.SkillPhase Phase;
     public int EffectIndex;
 
     // server-only working fields — never serialized

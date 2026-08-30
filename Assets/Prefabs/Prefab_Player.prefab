@@ -22819,11 +22819,7 @@ MonoBehaviour:
   coolDownTracker:
   - {fileID: 4581626590487998392}
   - {fileID: 2284823973247643926}
-  PlayerHeadAnimator: {fileID: 2584309363773974622}
-  BodyAnimator: {fileID: 8282777624565145663}
-  ChestAnimator: {fileID: 1947832283679940003}
-  LegsAnimator: {fileID: 3756110123265388196}
-  WeaponAnimator: {fileID: 1012001254419383665}
+  Animator: {fileID: 6838946364081171883}
   player: {fileID: 841304983140234989}
   Stats: {fileID: 2477393547595159198}
   playerHead: {fileID: 8195993090240432214}
@@ -59259,6 +59255,7 @@ GameObject:
   - component: {fileID: 6406044487217911688}
   - component: {fileID: 7813428309846512742}
   - component: {fileID: 2366508084683366402}
+  - component: {fileID: 6838946364081171883}
   m_Layer: 11
   m_Name: Sprites
   m_TagString: Untagged
@@ -59426,6 +59423,24 @@ MonoBehaviour:
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   skillSelect_Effect: {fileID: 5725274987166672189, guid: bdd62fc1fc3b04e4da9b2af495ad481f, type: 3}
   levelUp_Effect: {fileID: 2571615457552606914, guid: c89142a2e221e204cb28711e939f57ae, type: 3}
+--- !u!114 &6838946364081171883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712448548237800742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d9e9d9cb225ee41a70b6119ee45450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
+  HeadAnimator: {fileID: 2584309363773974622}
+  BodyAnimator: {fileID: 8282777624565145663}
+  ChestAnimator: {fileID: 1947832283679940003}
+  LegsAnimator: {fileID: 3756110123265388196}
+  WeaponAnimator: {fileID: 1012001254419383665}
+  PrimaryAnimator: {fileID: 0}
 --- !u!1 &7713029886825691265
 GameObject:
   m_ObjectHideFlags: 0

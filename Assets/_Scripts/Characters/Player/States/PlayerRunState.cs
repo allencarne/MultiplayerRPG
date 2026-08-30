@@ -9,15 +9,17 @@ public class PlayerRunState : PlayerState
 
     public override void EnterState()
     {
+        owner.Animator.PlayAnimation("Run", owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value, owner.customization.WeaponAnimType);
+
         // Play run animation on all animators
-        owner.PlayerHeadAnimator.Play("Run", -1, 0);
-        owner.BodyAnimator.Play("Run", -1, 0);
-        owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
-        owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
+        //owner.PlayerHeadAnimator.Play("Run", -1, 0);
+        //owner.BodyAnimator.Play("Run", -1, 0);
+        //owner.ChestAnimator.Play("Run_" + owner.customization.net_ChestIndex.Value, -1, 0);
+        //owner.LegsAnimator.Play("Run_" + owner.customization.net_LegsIndex.Value, -1, 0);
 
         if (owner.Equipment.IsWeaponEquipped)
         {
-            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Run", -1, 0);
+            //owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Run", -1, 0);
         }
 
         // Set last direction to zero so we update it immediately on the first frame
@@ -65,12 +67,14 @@ public class PlayerRunState : PlayerState
         if (movement != Vector2.zero)
         {
             // Get the animation direction based on input and control scheme
-            Vector2 animDirection = GetAnimationDirection(moveInput, UsingGamepad(owner));
+            //Vector2 animDirection = GetAnimationDirection(moveInput, UsingGamepad(owner));
+            Vector2 animDirection = owner.Animator.GetAnimationDirection(moveInput, owner.Animator.UsingGamepad(owner));
 
             // If the animation direction has changed, update animators and facing direction
             if (animDirection != lastDirection)
             {
-                UpdateAllAnimators(owner, animDirection);
+                owner.Animator.SetDirection(animDirection);
+                //UpdateAllAnimators(owner, animDirection);
                 lastDirection = animDirection;
 
                 owner.customization.net_FacingDirection.Value = animDirection;
@@ -78,7 +82,7 @@ public class PlayerRunState : PlayerState
             }
         }
     }
-
+    /*
     void UpdateAllAnimators(PlayerStateMachine owner, Vector2 direction)
     {
         owner.PlayerHeadAnimator.SetFloat("Horizontal", direction.x);
@@ -117,4 +121,5 @@ public class PlayerRunState : PlayerState
     {
         return owner.playerInput != null && owner.playerInput.currentControlScheme == "Gamepad";
     }
+    */
 }

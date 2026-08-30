@@ -19,11 +19,12 @@ public class PlayerStateMachine : NetworkBehaviour
     PlayerPassive thirdPassiveInstance;
 
     [Header("Animators")]
-    public Animator PlayerHeadAnimator;
-    public Animator BodyAnimator;
-    public Animator ChestAnimator;
-    public Animator LegsAnimator;
-    public Animator WeaponAnimator;
+    //public Animator PlayerHeadAnimator;
+    //public Animator BodyAnimator;
+    //public Animator ChestAnimator;
+    //public Animator LegsAnimator;
+    //public Animator WeaponAnimator;
+    public CharacterAnimator Animator;
 
     [Header("Scrips")]
     public Player player;
@@ -111,7 +112,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         if (Stats.isDead) return;
         if (CurrentSkill == null) return;
-        if (CurrentSkill.currentState != PlayerSkill.State.Cast) return;
+        if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
         Stats.OnInterrupted?.Invoke();
 
@@ -331,7 +332,7 @@ public class PlayerStateMachine : NetworkBehaviour
     }
 
     #region Animation
-
+    /*
     public Vector2 SnapDirection(Vector2 direction)
     {
         // This Code allows the Last Input direction to be animated
@@ -378,7 +379,7 @@ public class PlayerStateMachine : NetworkBehaviour
         customization.net_FacingDirection.Value = direction;
         playerHead.SetHead(direction);
     }
-
+    */
     #endregion
 
     public void RequestSpawn(SkillContext context, NetworkedSpawnEffect effect)

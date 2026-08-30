@@ -27,15 +27,20 @@ public class PlayerRollState : PlayerState
         if (moveInput == Vector2.zero)
         {
             // Get direction from animator (last direction we were moving)
-            float _x = owner.BodyAnimator.GetFloat("Horizontal");
-            float _y = owner.BodyAnimator.GetFloat("Vertical");
+            //float _x = owner.BodyAnimator.GetFloat("Horizontal");
+            //float _y = owner.BodyAnimator.GetFloat("Vertical");
+
+            float _x = owner.Animator.BodyAnimator.GetFloat("Horizontal");
+            float _y = owner.Animator.BodyAnimator.GetFloat("Vertical");
             Vector2 _newDir = new Vector2(_x, _y);
 
             // Add Force
             owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
 
             // Snap direction and set head sprites
-            facingDirection = owner.SnapDirection(_newDir);
+            //facingDirection = owner.SnapDirection(_newDir);
+
+            facingDirection = owner.Animator.SnapDirection(_newDir);
             owner.playerHead.SetHead(facingDirection);
         }
         else // Roll in the direction of input
@@ -44,10 +49,16 @@ public class PlayerRollState : PlayerState
             owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
 
             // Snap direction and set head sprites
-            facingDirection = owner.SnapDirection(moveInput);
+            //facingDirection = owner.SnapDirection(moveInput);
+            facingDirection = owner.Animator.SnapDirection(moveInput);
+
             owner.playerHead.SetHead(facingDirection);
         }
 
+        owner.Animator.PlayAnimation("Roll", owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value, owner.customization.WeaponAnimType);
+        owner.Animator.SetDirection(facingDirection);
+
+        /*
         // Head
         owner.PlayerHeadAnimator.SetFloat("Horizontal", facingDirection.x);
         owner.PlayerHeadAnimator.SetFloat("Vertical", facingDirection.y);
@@ -75,6 +86,7 @@ public class PlayerRollState : PlayerState
             owner.WeaponAnimator.SetFloat("Vertical", facingDirection.y);
             owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Roll");
         }
+        */
     }
 
     public override void UpdateState()

@@ -18,8 +18,10 @@ public class PlayerSkill
         skillIndex = index;
     }
 
-    public enum State { Cast, Action, Impact, Recovery, Done }
-    [HideInInspector] public State currentState;
+    //public enum State { Cast, Action, Impact, Recovery, Done }
+    //[HideInInspector] public State currentState;
+
+    [HideInInspector] public ActiveSkillData.SkillPhase currentState;
 
     [Header("StateTimer")]
     [HideInInspector] public float StateTimer;
@@ -90,18 +92,25 @@ public class PlayerSkill
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;
 
+        //Vector2 snappedDirection = owner.SnapDirection(context.AimDirection);
+        //owner.SetAnimDir(snappedDirection);
+
         // Handle Animations
-        Vector2 snappedDirection = owner.SnapDirection(context.AimDirection);
-        owner.SetAnimDir(snappedDirection);
+        Vector2 snappedDirection = owner.Animator.SnapDirection(context.AimDirection);
+        owner.Animator.SetDirection(snappedDirection);
+
+        // Head Animator
+        owner.customization.net_FacingDirection.Value = snappedDirection;
+        owner.playerHead.SetHead(snappedDirection);
 
         owner.StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
         CastState(owner);
     }
 
     public virtual void UpdateSkill(PlayerStateMachine owner)
     {
-        if (currentState == State.Done) return;
+        if (currentState == ActiveSkillData.SkillPhase.Done) return;
 
         StateTimer -= Time.deltaTime;
         if (skillData.ActionTime > 0)
@@ -120,33 +129,37 @@ public class PlayerSkill
 
     public virtual void CastState(PlayerStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Cast);
+        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         owner.player.CastBar.StartCast(ModifiedCastTime);
-        RunEffects(skillData.OnCastEffects, owner, State.Cast);
+        RunEffects(skillData.OnCastEffects, owner, ActiveSkillData.SkillPhase.Cast);
     }
     public virtual void ActionState(PlayerStateMachine owner)
     {
         if (skillData.ActionTime <= 0) return;
-        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Action);
-        RunEffects(skillData.OnActionEffects, owner, State.Action);
+        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
+        RunEffects(skillData.OnActionEffects, owner, ActiveSkillData.SkillPhase.Action);
     }
     public virtual void ImpactState(PlayerStateMachine owner, bool fireEffects = true)
     {
-        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Impact);
-        if (fireEffects) RunEffects(skillData.OnImpactEffects, owner, State.Impact);
+        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
+        if (fireEffects) RunEffects(skillData.OnImpactEffects, owner, ActiveSkillData.SkillPhase.Impact);
     }
     public virtual void RecoveryState(PlayerStateMachine owner, bool fireEffects = true)
     {
-        Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, State.Recovery);
+        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         if (fireEffects)
         {
             owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
-            RunEffects(skillData.OnRecoveryEffects, owner, State.Recovery);
+            RunEffects(skillData.OnRecoveryEffects, owner, ActiveSkillData.SkillPhase.Recovery);
         }
     }
     public void DoneState(bool isStaggered, PlayerStateMachine owner)
     {
-        currentState = State.Done;
+        currentState = ActiveSkillData.SkillPhase.Done;
         owner.IsAttacking = false;
         owner.CurrentSkill = null;
 
@@ -165,58 +178,56 @@ public class PlayerSkill
     {
         switch (currentState)
         {
-            case State.Cast:
+            case ActiveSkillData.SkillPhase.Cast:
                 if (hasAction)
                 {
                     ActionState(owner);
-                    ChangeState(State.Action, skillData.ActionTime);
+                    ChangeState(ActiveSkillData.SkillPhase.Action, skillData.ActionTime);
                 }
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, GetImpactStateDuration());
+                    ChangeState(ActiveSkillData.SkillPhase.Impact, GetImpactStateDuration());
                 }
                 break;
 
-            case State.Action:
+            case ActiveSkillData.SkillPhase.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, GetImpactStateDuration());
+                ChangeState(ActiveSkillData.SkillPhase.Impact, GetImpactStateDuration());
                 break;
 
-            case State.Impact:
+            case ActiveSkillData.SkillPhase.Impact:
                 if (skillData.ImpactStyle == ActiveSkillData.ImpactAnimationStyle.Repeated)
                 {
                     bool moreCyclesRemain = repeatCycleIndex < totalRepeatCycles - 1;
 
                     if (moreCyclesRemain)
                     {
-                        // Filler beat — just holds the pose until the next impact/spawn lines up.
                         RecoveryState(owner, fireEffects: false);
                         float gapDuration = Mathf.Max(0f, repeatInterval - skillData.ImpactTime);
-                        ChangeState(State.Recovery, gapDuration);
+                        ChangeState(ActiveSkillData.SkillPhase.Recovery, gapDuration);
                     }
                     else
                     {
-                        // Final cycle — this is the real recovery.
                         RecoveryState(owner, fireEffects: true);
                         float recoveryDuration = skillData.skillType == ActiveSkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
-                        ChangeState(State.Recovery, recoveryDuration);
+                        ChangeState(ActiveSkillData.SkillPhase.Recovery, recoveryDuration);
                     }
                 }
                 else
                 {
                     RecoveryState(owner);
                     float recoveryDuration = skillData.skillType == ActiveSkillData.SkillType.Basic ? ModifiedRecoveryTime : skillData.RecoveryTime;
-                    ChangeState(State.Recovery, recoveryDuration);
+                    ChangeState(ActiveSkillData.SkillPhase.Recovery, recoveryDuration);
                 }
                 break;
 
-            case State.Recovery:
+            case ActiveSkillData.SkillPhase.Recovery:
                 if (skillData.ImpactStyle == ActiveSkillData.ImpactAnimationStyle.Repeated && repeatCycleIndex < totalRepeatCycles - 1)
                 {
                     repeatCycleIndex++;
-                    ImpactState(owner, fireEffects: false); // visual only — this cycle's spawn already fires from SpawnEffect's own coroutine
-                    ChangeState(State.Impact, skillData.ImpactTime);
+                    ImpactState(owner, fireEffects: false);
+                    ChangeState(ActiveSkillData.SkillPhase.Impact, skillData.ImpactTime);
                 }
                 else
                 {
@@ -225,7 +236,7 @@ public class PlayerSkill
                 break;
         }
     }
-    protected void ChangeState(State next, float duration)
+    protected void ChangeState(ActiveSkillData.SkillPhase next, float duration)
     {
         currentState = next;
         StateTimer = duration;
@@ -254,7 +265,9 @@ public class PlayerSkill
             case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-    protected void Animate(PlayerStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType type, State state)
+
+    /*
+    protected void Animate(PlayerStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType type, ActiveSkillData.SkillPhase state)
     {
         string _weapon = "";
         string _skill = "";
@@ -280,11 +293,11 @@ public class PlayerSkill
 
         switch (state)
         {
-            case State.Cast: _state = "Cast"; break;
-            case State.Action: _state = "Action"; break;
-            case State.Impact: _state = "Impact"; break;
-            case State.Recovery: _state = "Recovery"; break;
-            case State.Done: _state = "Done"; break;
+            case ActiveSkillData.SkillPhase.Cast: _state = "Cast"; break;
+            case ActiveSkillData.SkillPhase.Action: _state = "Action"; break;
+            case ActiveSkillData.SkillPhase.Impact: _state = "Impact"; break;
+            case ActiveSkillData.SkillPhase.Recovery: _state = "Recovery"; break;
+            case ActiveSkillData.SkillPhase.Done: _state = "Done"; break;
         }
 
         owner.PlayerHeadAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
@@ -295,8 +308,9 @@ public class PlayerSkill
 
         owner.WeaponAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
     }
+    */
 
-    void RunEffects(SkillEffect[] effects, PlayerStateMachine owner, State phase)
+    void RunEffects(SkillEffect[] effects, PlayerStateMachine owner, ActiveSkillData.SkillPhase phase)
     {
         if (effects == null) return;
 

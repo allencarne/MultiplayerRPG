@@ -11,6 +11,8 @@ public class ActiveSkillData : SkillData
     public enum Targeting { Directional, Ground }
     public Targeting TargetingMode = Targeting.Directional;
 
+    public enum SkillPhase { Cast, Action, Impact, Recovery, Done }
+
     public enum ImpactAnimationStyle { Normal, Long, Repeated }
 
     [Header("Impact Style")]
@@ -36,12 +38,12 @@ public class ActiveSkillData : SkillData
     public SkillEffect[] OnImpactEffects;
     public SkillEffect[] OnRecoveryEffects;
 
-    public SkillEffect[] GetEffects(PlayerSkill.State phase) => phase switch
+    public SkillEffect[] GetEffects(SkillPhase phase) => phase switch
     {
-        PlayerSkill.State.Cast => OnCastEffects,
-        PlayerSkill.State.Action => OnActionEffects,
-        PlayerSkill.State.Impact => OnImpactEffects,
-        PlayerSkill.State.Recovery => OnRecoveryEffects,
+        SkillPhase.Cast => OnCastEffects,
+        SkillPhase.Action => OnActionEffects,
+        SkillPhase.Impact => OnImpactEffects,
+        SkillPhase.Recovery => OnRecoveryEffects,
         _ => null
     };
 }
