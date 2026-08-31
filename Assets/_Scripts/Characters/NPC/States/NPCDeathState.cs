@@ -15,18 +15,24 @@ public class NPCDeathState : NPCState
         owner.DeBuffs.CleanseAllDebuffs();
 
         // Play death animation
-        owner.HeadAnimator.Play("Death");
-        owner.BodyAnimator.Play("Death");
-        owner.ChestAnimator.Play("Death_" + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play("Death_" + owner.npc.Data.LegsIndex);
-        owner.SwordAnimator.Play(owner.npc.Data.WeaponType + " Death");
+        owner.Animator.PlayAnimation("Death", owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex, owner.npc.Data.WeaponType);
+
+        //owner.HeadAnimator.Play("Death");
+        //owner.BodyAnimator.Play("Death");
+        //owner.ChestAnimator.Play("Death_" + owner.npc.Data.ChestIndex);
+        //owner.LegsAnimator.Play("Death_" + owner.npc.Data.LegsIndex);
+        //owner.SwordAnimator.Play(owner.npc.Data.WeaponType + " Death");
 
         // Face Down
-        owner.HeadAnimator.SetFloat("Horizontal", 1);
+        owner.Animator.HeadAnimator.SetFloat("Horizontal", 1);
         Vector2 dir = new Vector2(1, 0);
-        owner.npc.npcHead.SetEyes(dir);
-        owner.npc.npcHead.SetHair(dir);
-        owner.npc.npcHead.SetHelm(dir);
+        owner.npc.npcHead.SetHead(dir);
+
+        //owner.HeadAnimator.SetFloat("Horizontal", 1);
+        //Vector2 dir = new Vector2(1, 0);
+        //owner.npc.npcHead.SetEyes(dir);
+        //owner.npc.npcHead.SetHair(dir);
+        //owner.npc.npcHead.SetHelm(dir);
 
         // Reset Patrol Index
         owner.PatrolIndex = 0;

@@ -8,11 +8,14 @@ public class NPCResetState : NPCState
     {
         owner.isResetting = true;
 
-        owner.HeadAnimator.Play("Run");
-        owner.BodyAnimator.Play("Run");
-        owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
-        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
+        // Animate
+        owner.Animator.PlayAnimation("Run", owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex, owner.npc.Data.WeaponType);
+
+        //owner.HeadAnimator.Play("Run");
+        //owner.BodyAnimator.Play("Run");
+        //owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
+        //owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
+        //owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
 
         owner.npc.PatienceBar.Patience.Value = owner.npc.Data.TotalPatience;
 
@@ -33,13 +36,16 @@ public class NPCResetState : NPCState
         {
             owner.isResetting = false;
             owner.npc.PatienceBar.Patience.Value = 0;
-            owner.HeadAnimator.SetFloat("Vertical", -1);
-            owner.BodyAnimator.SetFloat("Vertical", -1);
 
-            owner.ChestAnimator.SetFloat("Vertical", -1);
-            owner.LegsAnimator.SetFloat("Vertical", -1);
+            // Face down once reset
+            //Vector2 faceDown = new Vector2(0, -1);
+            //owner.Animator.SetDirection(faceDown);
 
-            owner.SwordAnimator.SetFloat("Vertical", -1);
+            //owner.HeadAnimator.SetFloat("Vertical", -1);
+            //owner.BodyAnimator.SetFloat("Vertical", -1);
+            //owner.ChestAnimator.SetFloat("Vertical", -1);
+            //owner.LegsAnimator.SetFloat("Vertical", -1);
+            //owner.SwordAnimator.SetFloat("Vertical", -1);
 
             owner.NpcRB.linearVelocity = Vector2.zero;
             owner.TransitionToIdle();
@@ -51,11 +57,15 @@ public class NPCResetState : NPCState
         owner.MoveTowardsTarget(owner.StartingPosition);
 
         Vector2 direction = (owner.StartingPosition - (Vector2)owner.transform.position).normalized;
-        Vector2 snappedDir = owner.SnapDirection(direction);
-        owner.SetAnimDir(snappedDir);
 
-        owner.npc.npcHead.SetEyes(snappedDir);
-        owner.npc.npcHead.SetHair(snappedDir);
-        owner.npc.npcHead.SetHelm(snappedDir);
+        //Vector2 snappedDir = owner.SnapDirection(direction);
+        //owner.SetAnimDir(snappedDir);
+        //owner.npc.npcHead.SetEyes(snappedDir);
+        //owner.npc.npcHead.SetHair(snappedDir);
+        //owner.npc.npcHead.SetHelm(snappedDir);
+
+        Vector2 snappedDir = owner.Animator.SnapDirection(direction);
+        owner.Animator.SetDirection(snappedDir);
+        owner.npc.npcHead.SetHead(snappedDir);
     }
 }

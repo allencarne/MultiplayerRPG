@@ -26,10 +26,6 @@ public class PlayerRollState : PlayerState
         // If no input, roll in the direction we are facing
         if (moveInput == Vector2.zero)
         {
-            // Get direction from animator (last direction we were moving)
-            //float _x = owner.BodyAnimator.GetFloat("Horizontal");
-            //float _y = owner.BodyAnimator.GetFloat("Vertical");
-
             float _x = owner.Animator.BodyAnimator.GetFloat("Horizontal");
             float _y = owner.Animator.BodyAnimator.GetFloat("Vertical");
             Vector2 _newDir = new Vector2(_x, _y);
@@ -38,8 +34,6 @@ public class PlayerRollState : PlayerState
             owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
 
             // Snap direction and set head sprites
-            //facingDirection = owner.SnapDirection(_newDir);
-
             facingDirection = owner.Animator.SnapDirection(_newDir);
             owner.playerHead.SetHead(facingDirection);
         }
@@ -49,7 +43,6 @@ public class PlayerRollState : PlayerState
             owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
 
             // Snap direction and set head sprites
-            //facingDirection = owner.SnapDirection(moveInput);
             facingDirection = owner.Animator.SnapDirection(moveInput);
 
             owner.playerHead.SetHead(facingDirection);
@@ -57,36 +50,6 @@ public class PlayerRollState : PlayerState
 
         owner.Animator.PlayAnimation("Roll", owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value, owner.customization.WeaponAnimType);
         owner.Animator.SetDirection(facingDirection);
-
-        /*
-        // Head
-        owner.PlayerHeadAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.PlayerHeadAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.PlayerHeadAnimator.Play("Roll");
-
-        // Body
-        owner.BodyAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.BodyAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.BodyAnimator.Play("Roll");
-
-        // Chest
-        owner.ChestAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.ChestAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.ChestAnimator.Play("Roll_" + owner.customization.net_ChestIndex.Value);
-
-        // Legs
-        owner.LegsAnimator.SetFloat("Horizontal", facingDirection.x);
-        owner.LegsAnimator.SetFloat("Vertical", facingDirection.y);
-        owner.LegsAnimator.Play("Roll_" + owner.customization.net_LegsIndex.Value);
-
-        // Weapon
-        if (owner.Equipment.IsWeaponEquipped)
-        {
-            owner.WeaponAnimator.SetFloat("Horizontal", facingDirection.x);
-            owner.WeaponAnimator.SetFloat("Vertical", facingDirection.y);
-            owner.WeaponAnimator.Play(owner.customization.WeaponAnimType + " Roll");
-        }
-        */
     }
 
     public override void UpdateState()

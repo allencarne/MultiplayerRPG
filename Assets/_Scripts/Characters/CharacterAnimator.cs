@@ -12,7 +12,7 @@ public class CharacterAnimator : MonoBehaviour
     [Header("Primary Animator")]
     public Animator PrimaryAnimator;
 
-    public void PlayAnimation(string stateName, int chestIndex, int legIndex, PlayerCustomization.PlayerWeaponType weaponType)
+    public void PlayAnimation(string stateName, int chestIndex, int legIndex, WeaponType weaponType)
     {
         if (HeadAnimator) HeadAnimator.Play(stateName, -1, 0);
         if (BodyAnimator) BodyAnimator.Play(stateName, -1, 0);
@@ -159,18 +159,6 @@ public class CharacterAnimator : MonoBehaviour
         {
             WeaponAnimator.SetFloat("Horizontal", direction.x);
             WeaponAnimator.SetFloat("Vertical", direction.y);
-        }
-    }
-
-    public void SetFacingDirection(Vector2 direction, PlayerCustomization customization, PlayerHead playerHead)
-    {
-        if (customization != null)
-        {
-            customization.net_FacingDirection.Value = direction;
-        }
-        if (playerHead != null)
-        {
-            playerHead.SetHead(direction);
         }
     }
 

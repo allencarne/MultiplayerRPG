@@ -12,9 +12,12 @@ public class BasicAttack : NPCSkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * skillData.SkillRange;
 
+        //Vector2 snappedDirection = owner.SnapDirection(AimDirection);
+        //owner.SetAnimDir(snappedDirection);
+
         // Animation Direction
-        Vector2 snappedDirection = owner.SnapDirection(AimDirection);
-        owner.SetAnimDir(snappedDirection);
+        Vector2 snappedDirection = owner.Animator.SnapDirection(AimDirection);
+        owner.Animator.SetDirection(snappedDirection);
 
         ChangeState(State.Cast, ModifiedCastTime);
         CastState(owner);
@@ -22,13 +25,15 @@ public class BasicAttack : NPCSkill
 
     public override void CastState(NPCStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.skillType, ActiveSkillData.SkillPhase.Cast, owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex);
+        //Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
         owner.npc.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(NPCStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Impact);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.skillType, ActiveSkillData.SkillPhase.Impact, owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex);
+        //Animate(owner, skillData.weaponType, skillData.skillType, State.Impact);
 
         if (owner.IsServer)
         {
@@ -42,7 +47,8 @@ public class BasicAttack : NPCSkill
 
     public override void RecoveryState(NPCStateMachine owner)
     {
-        Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
+        owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.skillType, ActiveSkillData.SkillPhase.Recovery, owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex);
+        //Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
         owner.npc.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

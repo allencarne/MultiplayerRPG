@@ -9,7 +9,14 @@ public class NPCHead : MonoBehaviour
     [SerializeField] SpriteRenderer hairSprite;
     [SerializeField] SpriteRenderer helmSprite;
 
-    public void SetEyes(Vector2 direction)
+    public void SetHead(Vector2 direction)
+    {
+        SetEyes(direction);
+        SetHair(direction);
+        SetHelm(direction);
+    }
+
+    void SetEyes(Vector2 direction)
     {
         int dirIndex;
 
@@ -21,7 +28,7 @@ public class NPCHead : MonoBehaviour
         eyesSprite.sprite = data.eyes[npc.Data.eyeStyleIndex].sprites[dirIndex];
     }
 
-    public void SetHair(Vector2 direction)
+    void SetHair(Vector2 direction)
     {
         int dirIndex;
 
@@ -33,7 +40,7 @@ public class NPCHead : MonoBehaviour
         hairSprite.sprite = data.hairs[npc.Data.hairStyleIndex].sprites[dirIndex];
     }
 
-    public void SetHelm(Vector2 direction)
+    void SetHelm(Vector2 direction)
     {
         int dirIndex;
 

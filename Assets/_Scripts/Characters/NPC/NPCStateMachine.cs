@@ -14,12 +14,8 @@ public class NPCStateMachine : NetworkBehaviour
     [SerializeField] NPCSkill ultimateSkill;
     [HideInInspector] public NPCSkill CurrentSkill;
 
-    [Header("Animators")]
-    public Animator HeadAnimator;
-    public Animator BodyAnimator;
-    public Animator ChestAnimator;
-    public Animator LegsAnimator;
-    public Animator SwordAnimator;
+    [Header("Animator")]
+    public CharacterAnimator Animator;
 
     [Header("Status Effects")]
     public CrowdControl CrowdControl;
@@ -273,6 +269,7 @@ public class NPCStateMachine : NetworkBehaviour
     #endregion
 
     #region Animation
+    /*
 
     public Vector2 SnapDirection(Vector2 direction)
     {
@@ -319,7 +316,7 @@ public class NPCStateMachine : NetworkBehaviour
         SwordAnimator.SetFloat("Horizontal", direction.x);
         SwordAnimator.SetFloat("Vertical", direction.y);
     }
-
+    */
     #endregion
 
     #region Slide

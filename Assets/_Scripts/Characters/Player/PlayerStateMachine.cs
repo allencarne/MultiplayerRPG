@@ -18,12 +18,7 @@ public class PlayerStateMachine : NetworkBehaviour
     PlayerPassive secondPassiveInstance;
     PlayerPassive thirdPassiveInstance;
 
-    [Header("Animators")]
-    //public Animator PlayerHeadAnimator;
-    //public Animator BodyAnimator;
-    //public Animator ChestAnimator;
-    //public Animator LegsAnimator;
-    //public Animator WeaponAnimator;
+    [Header("Animator")]
     public CharacterAnimator Animator;
 
     [Header("Scrips")]
@@ -330,57 +325,6 @@ public class PlayerStateMachine : NetworkBehaviour
         Stats.isDead = false;
         Stats.GiveHeal(100, HealType.Percentage);
     }
-
-    #region Animation
-    /*
-    public Vector2 SnapDirection(Vector2 direction)
-    {
-        // This Code allows the Last Input direction to be animated
-
-        // Check if the x component of the direction is greater in magnitude than the y component
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            // Snap to the horizontal axis by setting the y component to 0
-            direction.y = 0;
-
-            // Normalize the x component to either 1 or -1 depending on its original sign
-            direction.x = Mathf.Sign(direction.x);
-        }
-        else
-        {
-            // Snap to the vertical axis by setting the x component to 0
-            direction.x = 0;
-
-            // Normalize the y component to either 1 or -1 depending on its original sign
-            direction.y = Mathf.Sign(direction.y);
-        }
-
-        // Return the modified direction vector, now snapped to either horizontal or vertical
-        return direction;
-    }
-
-    public void SetAnimDir(Vector2 direction)
-    {
-        PlayerHeadAnimator.SetFloat("Horizontal", direction.x);
-        PlayerHeadAnimator.SetFloat("Vertical", direction.y);
-
-        BodyAnimator.SetFloat("Horizontal", direction.x);
-        BodyAnimator.SetFloat("Vertical", direction.y);
-
-        ChestAnimator.SetFloat("Horizontal", direction.x);
-        ChestAnimator.SetFloat("Vertical", direction.y);
-
-        LegsAnimator.SetFloat("Horizontal", direction.x);
-        LegsAnimator.SetFloat("Vertical", direction.y);
-
-        WeaponAnimator.SetFloat("Horizontal", direction.x);
-        WeaponAnimator.SetFloat("Vertical", direction.y);
-
-        customization.net_FacingDirection.Value = direction;
-        playerHead.SetHead(direction);
-    }
-    */
-    #endregion
 
     public void RequestSpawn(SkillContext context, NetworkedSpawnEffect effect)
     {

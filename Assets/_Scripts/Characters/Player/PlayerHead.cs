@@ -7,8 +7,6 @@ public class PlayerHead : MonoBehaviour
 
     public void SetHead(Vector2 direction)
     {
-        //custom.net_FacingDirection.Value = direction;
-
         SetEyes(direction);
         SetHair(direction);
         SetHelm(direction);

@@ -101,9 +101,10 @@ public class NPC : NetworkBehaviour, IInteractable
         Material eyemat = EyeSprite.material;
         eyemat.SetColor("_NewColor", Custom.eyeColors[Data.eyeColorIndex]);
 
-        npcHead.SetEyes(net_FacingDirection.Value);
-        npcHead.SetHair(net_FacingDirection.Value);
-        npcHead.SetHelm(net_FacingDirection.Value);
+        npcHead.SetHead(net_FacingDirection.Value);
+        //npcHead.SetEyes(net_FacingDirection.Value);
+        //npcHead.SetHair(net_FacingDirection.Value);
+        //npcHead.SetHelm(net_FacingDirection.Value);
 
         SwordSprite.sprite = Data.Weapon;
     }
@@ -269,18 +270,21 @@ public class NPC : NetworkBehaviour, IInteractable
 
     void ApplyFacingDirection(Vector2 dir)
     {
-        stateMachine.HeadAnimator.SetFloat("Horizontal", dir.x);
-        stateMachine.HeadAnimator.SetFloat("Vertical", dir.y);
-        stateMachine.BodyAnimator.SetFloat("Horizontal", dir.x);
-        stateMachine.BodyAnimator.SetFloat("Vertical", dir.y);
-        stateMachine.ChestAnimator.SetFloat("Horizontal", dir.x);
-        stateMachine.ChestAnimator.SetFloat("Vertical", dir.y);
-        stateMachine.LegsAnimator.SetFloat("Horizontal", dir.x);
-        stateMachine.LegsAnimator.SetFloat("Vertical", dir.y);
-        stateMachine.SwordAnimator.SetFloat("Horizontal", dir.x);
-        stateMachine.SwordAnimator.SetFloat("Vertical", dir.y);
-        npcHead.SetEyes(dir);
-        npcHead.SetHair(dir);
-        npcHead.SetHelm(dir);
+        //stateMachine.HeadAnimator.SetFloat("Horizontal", dir.x);
+        //stateMachine.HeadAnimator.SetFloat("Vertical", dir.y);
+        //stateMachine.BodyAnimator.SetFloat("Horizontal", dir.x);
+        //stateMachine.BodyAnimator.SetFloat("Vertical", dir.y);
+        //stateMachine.ChestAnimator.SetFloat("Horizontal", dir.x);
+        //stateMachine.ChestAnimator.SetFloat("Vertical", dir.y);
+        //stateMachine.LegsAnimator.SetFloat("Horizontal", dir.x);
+        //stateMachine.LegsAnimator.SetFloat("Vertical", dir.y);
+        //stateMachine.SwordAnimator.SetFloat("Horizontal", dir.x);
+        //stateMachine.SwordAnimator.SetFloat("Vertical", dir.y);
+        //npcHead.SetEyes(dir);
+        //npcHead.SetHair(dir);
+        //npcHead.SetHelm(dir);
+
+        stateMachine.Animator.SetDirection(dir);
+        npcHead.SetHead(dir);
     }
 }

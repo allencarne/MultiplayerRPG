@@ -8,11 +8,14 @@ public class PatrolIdleState : NPCState
 
     public override void EnterState()
     {
-        owner.HeadAnimator.Play("Run");
-        owner.BodyAnimator.Play("Run");
-        owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
-        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
+        // Animate
+        owner.Animator.PlayAnimation("Run", owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex, owner.npc.Data.WeaponType);
+
+        //owner.HeadAnimator.Play("Run");
+        //owner.BodyAnimator.Play("Run");
+        //owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
+        //owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
+        //owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
     }
 
     public override void UpdateState()
@@ -50,13 +53,17 @@ public class PatrolIdleState : NPCState
         Vector2 rawDir = (target - (Vector2)owner.transform.position).normalized;
 
         // Get snapped direction for pixel snapping
-        Vector2 snappedDir = owner.SnapDirection(rawDir);
+        //Vector2 snappedDir = owner.SnapDirection(rawDir);
+        Vector2 snappedDir = owner.Animator.SnapDirection(rawDir);
 
         // Set Animator Direction
-        owner.SetAnimDir(snappedDir);
-        owner.npc.npcHead.SetEyes(snappedDir);
-        owner.npc.npcHead.SetHair(snappedDir);
-        owner.npc.npcHead.SetHelm(snappedDir);
+        //owner.SetAnimDir(snappedDir);
+        //owner.npc.npcHead.SetEyes(snappedDir);
+        //owner.npc.npcHead.SetHair(snappedDir);
+        //owner.npc.npcHead.SetHelm(snappedDir);
+
+        owner.Animator.SetDirection(snappedDir);
+        owner.npc.npcHead.SetHead(snappedDir);
     }
 
     private void AdvancePatrolIndex(NPCStateMachine owner, int length)

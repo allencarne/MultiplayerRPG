@@ -147,6 +147,8 @@ public abstract class NPCSkill : NetworkBehaviour
             case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
+
+    /*
     protected void Animate(NPCStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType skill, State state)
     {
         string _weapon = "";
@@ -185,6 +187,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
         owner.SwordAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
     }
+    */
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {

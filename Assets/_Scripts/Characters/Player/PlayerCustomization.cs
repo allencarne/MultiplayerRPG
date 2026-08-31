@@ -35,15 +35,7 @@ public class PlayerCustomization : NetworkBehaviour
     public NetworkVariable<Vector2> net_FacingDirection = new NetworkVariable<Vector2>(new Vector2(0, -1), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<FixedString64Bytes> net_EquippedWeaponId = new NetworkVariable<FixedString64Bytes>(writePerm: NetworkVariableWritePermission.Server);
 
-    public enum PlayerWeaponType
-    {
-        Sword,
-        Staff,
-        Bow,
-        Dagger
-    }
-
-    public PlayerWeaponType WeaponAnimType;
+    public WeaponType WeaponAnimType;
 
     public override void OnNetworkSpawn()
     {
@@ -160,22 +152,22 @@ public class PlayerCustomization : NetworkBehaviour
             case WeaponType.Sword:
                 WeaponSprite.enabled = true;
                 WeaponSprite.sprite = weapon.weaponSprite;
-                WeaponAnimType = PlayerWeaponType.Sword;
+                WeaponAnimType = WeaponType.Sword;
                 break;
             case WeaponType.Staff:
                 WeaponSprite.enabled = true;
                 WeaponSprite.sprite = weapon.weaponSprite;
-                WeaponAnimType = PlayerWeaponType.Staff;
+                WeaponAnimType = WeaponType.Staff;
                 break;
             case WeaponType.Bow:
                 WeaponSprite.enabled = true;
                 WeaponSprite.sprite = weapon.weaponSprite;
-                WeaponAnimType = PlayerWeaponType.Bow;
+                WeaponAnimType = WeaponType.Bow;
                 break;
             case WeaponType.Dagger:
                 WeaponSprite.enabled = true;
                 WeaponSprite.sprite = weapon.weaponSprite;
-                WeaponAnimType = PlayerWeaponType.Dagger;
+                WeaponAnimType = WeaponType.Dagger;
                 break;
         }
     }

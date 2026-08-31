@@ -8,15 +8,7 @@ public class NPCStaggerState : NPCState
         if (!owner.IsServer) return;
 
         // Stop all animations
-        owner.HeadAnimator.speed = 0;
-        owner.BodyAnimator.speed = 0;
-        owner.ChestAnimator.speed = 0;
-        owner.LegsAnimator.speed = 0;
-        owner.SwordAnimator.speed = 0;
-
-        // Player Spawn Animation to Hide Clothes
-        owner.ChestAnimator.Play("Spawn");
-        owner.LegsAnimator.Play("Spawn");
+        owner.Animator.PlayStaggerAnimation();
     }
 
     public override void UpdateState()
@@ -29,11 +21,7 @@ public class NPCStaggerState : NPCState
         if (!owner.CrowdControl.IsCrowdControlled)
         {
             // Resume all animations
-            owner.HeadAnimator.speed = 1;
-            owner.BodyAnimator.speed = 1;
-            owner.ChestAnimator.speed = 1;
-            owner.LegsAnimator.speed = 1;
-            owner.SwordAnimator.speed = 1;
+            owner.Animator.EndStaggerAnimation();
 
             //Transition to the appropriate state based on whether the NPC is resetting or not
             if (owner.isResetting)

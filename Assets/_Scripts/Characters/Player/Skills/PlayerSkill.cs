@@ -92,9 +92,6 @@ public class PlayerSkill
         // Stop Moving
         owner.PlayerRB.linearVelocity = Vector2.zero;
 
-        //Vector2 snappedDirection = owner.SnapDirection(context.AimDirection);
-        //owner.SetAnimDir(snappedDirection);
-
         // Handle Animations
         Vector2 snappedDirection = owner.Animator.SnapDirection(context.AimDirection);
         owner.Animator.SetDirection(snappedDirection);
@@ -129,7 +126,6 @@ public class PlayerSkill
 
     public virtual void CastState(PlayerStateMachine owner)
     {
-        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast);
         owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         owner.player.CastBar.StartCast(ModifiedCastTime);
         RunEffects(skillData.OnCastEffects, owner, ActiveSkillData.SkillPhase.Cast);
@@ -137,19 +133,16 @@ public class PlayerSkill
     public virtual void ActionState(PlayerStateMachine owner)
     {
         if (skillData.ActionTime <= 0) return;
-        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action);
         owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         RunEffects(skillData.OnActionEffects, owner, ActiveSkillData.SkillPhase.Action);
     }
     public virtual void ImpactState(PlayerStateMachine owner, bool fireEffects = true)
     {
-        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact);
         owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         if (fireEffects) RunEffects(skillData.OnImpactEffects, owner, ActiveSkillData.SkillPhase.Impact);
     }
     public virtual void RecoveryState(PlayerStateMachine owner, bool fireEffects = true)
     {
-        //Animate(owner, skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery);
         owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         if (fireEffects)
         {
@@ -265,50 +258,6 @@ public class PlayerSkill
             case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-
-    /*
-    protected void Animate(PlayerStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType type, ActiveSkillData.SkillPhase state)
-    {
-        string _weapon = "";
-        string _skill = "";
-        string _state = "";
-
-        switch (weapon)
-        {
-            case WeaponType.Sword: _weapon = weapon.ToString(); break;
-            case WeaponType.Staff: _weapon = weapon.ToString(); break;
-            case WeaponType.Bow: _weapon = weapon.ToString(); break;
-            case WeaponType.Dagger: _weapon = weapon.ToString(); break;
-        }
-
-        switch (type)
-        {
-            case ActiveSkillData.SkillType.Basic: _skill = "Basic"; break;
-            case ActiveSkillData.SkillType.Offensive: _skill = "Offensive"; break;
-            case ActiveSkillData.SkillType.Mobility: _skill = "Mobility"; break;
-            case ActiveSkillData.SkillType.Defensive: _skill = "Defensive"; break;
-            case ActiveSkillData.SkillType.Utility: _skill = "Utility"; break;
-            case ActiveSkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
-        }
-
-        switch (state)
-        {
-            case ActiveSkillData.SkillPhase.Cast: _state = "Cast"; break;
-            case ActiveSkillData.SkillPhase.Action: _state = "Action"; break;
-            case ActiveSkillData.SkillPhase.Impact: _state = "Impact"; break;
-            case ActiveSkillData.SkillPhase.Recovery: _state = "Recovery"; break;
-            case ActiveSkillData.SkillPhase.Done: _state = "Done"; break;
-        }
-
-        owner.PlayerHeadAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-        owner.BodyAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-
-        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + owner.customization.net_ChestIndex.Value);
-        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + owner.customization.net_LegsIndex.Value);
-
-        owner.WeaponAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-    }
-    */
 
     void RunEffects(SkillEffect[] effects, PlayerStateMachine owner, ActiveSkillData.SkillPhase phase)
     {

@@ -2240,6 +2240,7 @@ GameObject:
   - component: {fileID: 8814254548056775977}
   - component: {fileID: 7545364753675973918}
   - component: {fileID: 7371045001417493094}
+  - component: {fileID: 8434268355856330972}
   m_Layer: 11
   m_Name: Sprites
   m_TagString: Untagged
@@ -2355,6 +2356,24 @@ MonoBehaviour:
   stats: {fileID: 6038468416201059741}
   death_Effect: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
+--- !u!114 &8434268355856330972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5130920822455000575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d9e9d9cb225ee41a70b6119ee45450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
+  HeadAnimator: {fileID: 1050368732951240526}
+  BodyAnimator: {fileID: 5368558859905425468}
+  ChestAnimator: {fileID: 8531240049812615769}
+  LegsAnimator: {fileID: 2352654690067245467}
+  WeaponAnimator: {fileID: 2870289373911259510}
+  PrimaryAnimator: {fileID: 0}
 --- !u!1 &5134350331630582043
 GameObject:
   m_ObjectHideFlags: 0
@@ -3481,11 +3500,7 @@ MonoBehaviour:
   specialSkill: {fileID: 0}
   ultimateSkill: {fileID: 0}
   CurrentSkill: {fileID: 0}
-  HeadAnimator: {fileID: 1050368732951240526}
-  BodyAnimator: {fileID: 5368558859905425468}
-  ChestAnimator: {fileID: 8531240049812615769}
-  LegsAnimator: {fileID: 2352654690067245467}
-  SwordAnimator: {fileID: 2870289373911259510}
+  Animator: {fileID: 8434268355856330972}
   CrowdControl: {fileID: 3730166254070588288}
   Buffs: {fileID: 6674310060799249892}
   DeBuffs: {fileID: 5438906521032660789}

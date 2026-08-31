@@ -34,7 +34,8 @@ public class NPCData : ScriptableObject
     public int ChestIndex;
     public int LegsIndex;
     public Sprite Weapon;
-    public NPCWeaponType WeaponType;
+    //public NPCWeaponType WeaponType;
+    public WeaponType WeaponType;
 
     [Header("Dialogue")]
     [TextArea(3, 8)] public string[] Dialogue;
@@ -58,12 +59,4 @@ public enum NPCClass
     Patrol,
     Villager,
     Refiner
-}
-
-public enum NPCWeaponType
-{
-    Sword,
-    Staff,
-    Bow,
-    Dagger
 }

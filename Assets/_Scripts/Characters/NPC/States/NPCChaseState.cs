@@ -8,13 +8,13 @@ public class NPCChaseState : NPCState
     {
         if (!owner.IsServer) return;
 
-        owner.HeadAnimator.Play("Run");
-        owner.BodyAnimator.Play("Run");
+        owner.Animator.PlayAnimation("Run", owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex, owner.npc.Data.WeaponType);
 
-        owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
-
-        owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
+        //owner.HeadAnimator.Play("Run");
+        //owner.BodyAnimator.Play("Run");
+        //owner.ChestAnimator.Play("Run_" + owner.npc.Data.ChestIndex);
+        //owner.LegsAnimator.Play("Run_" + owner.npc.Data.LegsIndex);
+        //owner.SwordAnimator.Play(owner.npc.Data.WeaponType.ToString() + " Run");
     }
 
     public override void UpdateState()
@@ -50,12 +50,17 @@ public class NPCChaseState : NPCState
             owner.MoveTowardsTarget(owner.Target.position);
 
             Vector2 rawDir = (owner.Target.position - owner.transform.position).normalized;
-            Vector2 snappedDir = owner.SnapDirection(rawDir);
-            owner.SetAnimDir(snappedDir);
+            //Vector2 snappedDir = owner.SnapDirection(rawDir);
+            //owner.SetAnimDir(snappedDir);
 
-            owner.npc.npcHead.SetEyes(snappedDir);
-            owner.npc.npcHead.SetHair(snappedDir);
-            owner.npc.npcHead.SetHelm(snappedDir);
+            Vector2 snappedDir = owner.Animator.SnapDirection(rawDir);
+            owner.Animator.SetDirection(snappedDir);
+
+            owner.npc.npcHead.SetHead(snappedDir);
+
+            //owner.npc.npcHead.SetEyes(snappedDir);
+            //owner.npc.npcHead.SetHair(snappedDir);
+            //owner.npc.npcHead.SetHelm(snappedDir);
         }
     }
 
