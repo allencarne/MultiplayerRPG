@@ -15,7 +15,7 @@ public class BeakBarrage : EnemySkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(State.Cast, skillData.CastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
         CastState(owner);
     }
 

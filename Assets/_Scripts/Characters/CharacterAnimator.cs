@@ -59,7 +59,7 @@ public class CharacterAnimator : MonoBehaviour
         if (WeaponAnimator) WeaponAnimator.Play(baseAnim, -1, 0);
     }
 
-    public void PlayEnemyAttackAnimation(ActiveSkillData.SkillType type, EnemySkill.State state)
+    public void PlayEnemyAttackAnimation(ActiveSkillData.SkillType type, ActiveSkillData.SkillPhase state)
     {
         string animationType = "";
         string animationState = "";
@@ -73,11 +73,11 @@ public class CharacterAnimator : MonoBehaviour
 
         switch (state)
         {
-            case EnemySkill.State.Cast: animationState = "Cast"; break;
-            case EnemySkill.State.Action: animationState = "Action"; break;
-            case EnemySkill.State.Impact: animationState = "Impact"; break;
-            case EnemySkill.State.Recovery: animationState = "Recovery"; break;
-            case EnemySkill.State.Done: animationState = "Done"; break;
+            case ActiveSkillData.SkillPhase.Cast: animationState = "Cast"; break;
+            case ActiveSkillData.SkillPhase.Action: animationState = "Action"; break;
+            case ActiveSkillData.SkillPhase.Impact: animationState = "Impact"; break;
+            case ActiveSkillData.SkillPhase.Recovery: animationState = "Recovery"; break;
+            case ActiveSkillData.SkillPhase.Done: animationState = "Done"; break;
         }
 
         PrimaryAnimator.Play(animationType + " " + animationState);

@@ -101,7 +101,7 @@ public class NPCStateMachine : NetworkBehaviour
     {
         if (npc.stats.isDead) return;
         if (CurrentSkill == null) return;
-        if (CurrentSkill.currentState != NPCSkill.State.Cast) return;
+        if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
         npc.stats.OnInterrupted?.Invoke();
 

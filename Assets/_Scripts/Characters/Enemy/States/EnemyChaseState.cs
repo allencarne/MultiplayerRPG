@@ -8,10 +8,6 @@ public class EnemyChaseState : EnemyState
     float updateInterval = .5f;
     float updateTime;
 
-    bool canBasicAttack;
-    bool canSpecialAttack;
-    bool canUltimateAttack;
-
     public override void EnterState()
     {
         if (!owner.IsServer) return;
@@ -19,12 +15,6 @@ public class EnemyChaseState : EnemyState
         owner.Animator.PlayEnemyAnimation("Chase");
         //owner.EnemyAnimator.Play("Chase");
         updateTime = Time.time;
-
-        // check if CanBasic - If so add canBasicAttack to be a possible roll
-        // check if CanSpecial - If so add canSpecialAttack to be a possible roll
-        // check if CanUltimate - If so add canUltimateAttack to be a possible roll
-
-        // Roll for one attack to be true
     }
 
     public override void UpdateState()

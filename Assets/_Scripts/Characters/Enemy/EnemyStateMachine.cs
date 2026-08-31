@@ -134,7 +134,7 @@ public class EnemyStateMachine : NetworkBehaviour
     {
         if (enemy.stats.isDead) return;
         if (CurrentSkill == null) return;
-        if (CurrentSkill.currentState != EnemySkill.State.Cast) return;
+        if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
         enemy.stats.OnInterrupted?.Invoke();
 

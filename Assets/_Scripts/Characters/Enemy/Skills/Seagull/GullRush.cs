@@ -15,13 +15,13 @@ public class GullRush : EnemySkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(State.Cast, skillData.CastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
         CastState(owner);
     }
 
     public override void FixedUpdateSkill(EnemyStateMachine owner)
     {
-        if (currentState == State.Impact)
+        if (currentState == ActiveSkillData.SkillPhase.Impact)
         {
             owner.EnemyRB.linearVelocity = AimDirection * slideForce;
         }

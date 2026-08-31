@@ -10,7 +10,7 @@ public class SandVeil : EnemySkill
         // Aim
         AimDirection = (owner.Target.position - transform.position).normalized;
 
-        ChangeState(State.Cast, skillData.CastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
         CastState(owner);
     }
 

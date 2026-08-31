@@ -19,7 +19,7 @@ public class DiveBite : EnemySkill
         AimOffset = targetLandingPos - SpawnPosition; // Used by Telegraph/Attack with useOffset = true
         AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg);
 
-        ChangeState(State.Cast, skillData.CastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
         CastState(owner);
     }
 

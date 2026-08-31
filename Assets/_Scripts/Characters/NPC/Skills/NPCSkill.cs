@@ -6,8 +6,9 @@ public abstract class NPCSkill : NetworkBehaviour
 {
     public ActiveSkillData skillData;
 
-    public enum State { Cast, Action, Impact, Recovery, Done }
-    [HideInInspector] public State currentState;
+    //public enum State { Cast, Action, Impact, Recovery, Done }
+    //[HideInInspector] public State currentState;
+    [HideInInspector] public ActiveSkillData.SkillPhase currentState;
 
     [Header("StateTimer")]
     [HideInInspector] protected float StateTimer;
@@ -27,7 +28,7 @@ public abstract class NPCSkill : NetworkBehaviour
     }
     public virtual void UpdateSkill(NPCStateMachine owner)
     {
-        if (currentState == State.Done) return;
+        if (currentState == ActiveSkillData.SkillPhase.Done) return;
 
         StateTimer -= Time.deltaTime;
         if (StateTimer <= 0f) StateTransition(owner);
@@ -58,49 +59,49 @@ public abstract class NPCSkill : NetworkBehaviour
     {
         switch (currentState)
         {
-            case State.Cast:
+            case ActiveSkillData.SkillPhase.Cast:
                 if (hasAction)
                 {
                     ActionState(owner);
-                    ChangeState(State.Action, skillData.ActionTime);
+                    ChangeState(ActiveSkillData.SkillPhase.Action, skillData.ActionTime);
                 }
                 else
                 {
                     ImpactState(owner);
-                    ChangeState(State.Impact, skillData.ImpactTime);
+                    ChangeState(ActiveSkillData.SkillPhase.Impact, skillData.ImpactTime);
                 }
                 break;
 
-            case State.Action:
+            case ActiveSkillData.SkillPhase.Action:
                 ImpactState(owner);
-                ChangeState(State.Impact, skillData.ImpactTime);
+                ChangeState(ActiveSkillData.SkillPhase.Impact, skillData.ImpactTime);
                 break;
 
-            case State.Impact:
+            case ActiveSkillData.SkillPhase.Impact:
                 RecoveryState(owner);
                 if (skillData.skillType == ActiveSkillData.SkillType.Basic)
                 {
-                    ChangeState(State.Recovery, ModifiedRecoveryTime);
+                    ChangeState(ActiveSkillData.SkillPhase.Recovery, ModifiedRecoveryTime);
                 }
                 else
                 {
-                    ChangeState(State.Recovery, skillData.RecoveryTime);
+                    ChangeState(ActiveSkillData.SkillPhase.Recovery, skillData.RecoveryTime);
                 }
                 break;
 
-            case State.Recovery:
+            case ActiveSkillData.SkillPhase.Recovery:
                 DoneState(false, owner);
                 break;
         }
     }
-    protected void ChangeState(State next, float duration)
+    protected void ChangeState(ActiveSkillData.SkillPhase next, float duration)
     {
         currentState = next;
         StateTimer = duration;
     }
     public void DoneState(bool isStaggered, NPCStateMachine owner)
     {
-        currentState = State.Done;
+        currentState = ActiveSkillData.SkillPhase.Done;
         owner.IsAttacking = false;
         owner.CurrentSkill = null;
 

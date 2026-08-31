@@ -12,7 +12,7 @@ public class Whack : EnemySkill
         AimRotation = Quaternion.Euler(0, 0, angle);
         AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
         CastState(owner);
     }
 

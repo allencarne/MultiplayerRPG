@@ -20,13 +20,13 @@ public class ShellSlam : EnemySkill
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
         AimRotation = Quaternion.Euler(0, 0, angle);
 
-        ChangeState(State.Cast, skillData.CastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
         CastState(owner);
     }
 
     public override void FixedUpdateSkill(EnemyStateMachine owner)
     {
-        if (currentState == State.Action)
+        if (currentState == ActiveSkillData.SkillPhase.Action)
         {
             dashTimer += Time.fixedDeltaTime;
             float t = Mathf.Clamp01(dashTimer / skillData.ActionTime);

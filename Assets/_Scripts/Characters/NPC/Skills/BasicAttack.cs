@@ -19,7 +19,7 @@ public class BasicAttack : NPCSkill
         Vector2 snappedDirection = owner.Animator.SnapDirection(AimDirection);
         owner.Animator.SetDirection(snappedDirection);
 
-        ChangeState(State.Cast, ModifiedCastTime);
+        ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
         CastState(owner);
     }
 
