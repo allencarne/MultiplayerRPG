@@ -11,7 +11,8 @@ public class EnemySpawnState : EnemyState
         owner.Collider.enabled = false;
 
         // Play the spawn animation
-        owner.EnemyAnimator.Play("Spawn");
+        //owner.EnemyAnimator.Play("Spawn");
+        owner.Animator.PlayEnemyAnimation("Spawn");
 
         // Start the duration coroutine
         owner.StartCoroutine(Delay(owner));

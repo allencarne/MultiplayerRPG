@@ -6,7 +6,8 @@ public class DummyIdleState : EnemyState
 
     public override void EnterState()
     {
-        owner.EnemyAnimator.Play("Idle");
+        owner.Animator.PlayEnemyAnimation("Idle");
+        //owner.EnemyAnimator.Play("Idle");
     }
 
     public override void UpdateState()

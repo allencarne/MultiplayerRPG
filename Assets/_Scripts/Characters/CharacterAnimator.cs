@@ -43,42 +43,20 @@ public class CharacterAnimator : MonoBehaviour
 
     public void PlayAttackAnimation(WeaponType weapon, ActiveSkillData.SkillType type, ActiveSkillData.SkillPhase state, int chestIndex, int legIndex)
     {
-        string _weapon = "";
-        string _skill = "";
-        string _state = "";
+        // build parts
+        string _weapon = weapon.ToString();
+        string _skill = type.ToString();
+        string _state = state.ToString();
 
-        switch (weapon)
-        {
-            case WeaponType.Sword: _weapon = weapon.ToString(); break;
-            case WeaponType.Staff: _weapon = weapon.ToString(); break;
-            case WeaponType.Bow: _weapon = weapon.ToString(); break;
-            case WeaponType.Dagger: _weapon = weapon.ToString(); break;
-        }
+        // Compose the base string once
+        string baseAnim = $"{_weapon} {_skill} Front {_state}";
 
-        switch (type)
-        {
-            case ActiveSkillData.SkillType.Basic: _skill = "Basic"; break;
-            case ActiveSkillData.SkillType.Offensive: _skill = "Offensive"; break;
-            case ActiveSkillData.SkillType.Mobility: _skill = "Mobility"; break;
-            case ActiveSkillData.SkillType.Defensive: _skill = "Defensive"; break;
-            case ActiveSkillData.SkillType.Utility: _skill = "Utility"; break;
-            case ActiveSkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
-        }
+        HeadAnimator?.Play(baseAnim, -1, 0);
+        BodyAnimator?.Play(baseAnim, -1, 0);
 
-        switch (state)
-        {
-            case ActiveSkillData.SkillPhase.Cast: _state = "Cast"; break;
-            case ActiveSkillData.SkillPhase.Action: _state = "Action"; break;
-            case ActiveSkillData.SkillPhase.Impact: _state = "Impact"; break;
-            case ActiveSkillData.SkillPhase.Recovery: _state = "Recovery"; break;
-            case ActiveSkillData.SkillPhase.Done: _state = "Done"; break;
-        }
-
-        HeadAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-        BodyAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-        ChestAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + chestIndex);
-        LegsAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + legIndex);
-        WeaponAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
+        if (ChestAnimator) ChestAnimator.Play($"{baseAnim} {chestIndex}", -1, 0);
+        if (LegsAnimator) LegsAnimator.Play($"{baseAnim} {legIndex}", -1, 0);
+        if (WeaponAnimator) WeaponAnimator.Play(baseAnim, -1, 0);
     }
 
     public void PlayEnemyAttackAnimation(ActiveSkillData.SkillType type, EnemySkill.State state)
@@ -159,6 +137,15 @@ public class CharacterAnimator : MonoBehaviour
         {
             WeaponAnimator.SetFloat("Horizontal", direction.x);
             WeaponAnimator.SetFloat("Vertical", direction.y);
+        }
+    }
+
+    public void SetEnemyDirection(Vector2 direction)
+    {
+        if (PrimaryAnimator)
+        {
+            PrimaryAnimator.SetFloat("Horizontal", direction.x);
+            PrimaryAnimator.SetFloat("Vertical", direction.y);
         }
     }
 

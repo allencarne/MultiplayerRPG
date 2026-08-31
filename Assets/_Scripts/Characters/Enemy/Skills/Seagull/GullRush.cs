@@ -29,9 +29,9 @@ public class GullRush : EnemySkill
 
     public override void CastState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Cast);
-        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
+        //Animate(owner, skillData.skillType, State.Cast);
+        //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(skillData.CastTime);
         Telegraph(skillData.CastTime, true, true);
@@ -41,13 +41,13 @@ public class GullRush : EnemySkill
     {
         owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
 
-        Animate(owner, skillData.skillType, State.Impact);
+        //Animate(owner, skillData.skillType, State.Impact);
         Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Recovery);
+        //Animate(owner, skillData.skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

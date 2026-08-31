@@ -5,7 +5,8 @@ public class EnemyStaggerState : EnemyState
 
     public override void EnterState()
     {
-        owner.EnemyAnimator.Play("Stagger");
+        //owner.EnemyAnimator.Play("Stagger");
+        owner.Animator.PlayEnemyAnimation("Stagger");
     }
 
     public override void UpdateState()

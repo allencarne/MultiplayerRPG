@@ -272,7 +272,6 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void SetFirstPassive(PassiveSkillData data, int index)
     {
-        Debug.Log("Test");
         firstPassiveInstance?.EndPassive(this);
         firstPassiveInstance = new PlayerPassive(data, index);
         firstPassiveInstance.StartPassive(this);

@@ -9,7 +9,8 @@ public class DummyResetState : EnemyState
     {
         owner.isResetting = true;
         owner.Collider.enabled = false;
-        owner.EnemyAnimator.Play("Reset");
+        //owner.EnemyAnimator.Play("Reset");
+        owner.Animator.PlayEnemyAnimation("Reset");
 
         float missingHealth = owner.enemy.stats.net_BaseHP.Value - owner.enemy.stats.net_CurrentHP.Value;
         owner.enemy.stats.GiveHeal(missingHealth, HealType.Flat);

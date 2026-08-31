@@ -9,7 +9,8 @@ public class EnemyResetState : EnemyState
         if (!owner.IsServer) return;
 
         owner.isResetting = true;
-        owner.EnemyAnimator.Play("Wander");
+        //owner.EnemyAnimator.Play("Wander");
+        owner.Animator.PlayEnemyAnimation("Wander");
         owner.enemy.PatienceBar.Patience.Value = owner.enemy.Data.TotalPatience;
 
         owner.IsPlayerInRange = false;
@@ -44,7 +45,8 @@ public class EnemyResetState : EnemyState
         owner.MoveTowardsTarget(owner.StartingPosition, true);
 
         Vector2 direction = (owner.StartingPosition - (Vector2)owner.transform.position).normalized;
-        owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
-        owner.EnemyAnimator.SetFloat("Vertical", direction.y);
+        //owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
+        //owner.EnemyAnimator.SetFloat("Vertical", direction.y);
+        owner.Animator.SetEnemyDirection(direction);
     }
 }

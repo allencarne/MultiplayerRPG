@@ -8,7 +8,8 @@ public class EnemyIdleState : EnemyState
 
     public override void EnterState()
     {
-        owner.EnemyAnimator.Play("Idle");
+        //owner.EnemyAnimator.Play("Idle");
+        owner.Animator.PlayEnemyAnimation("Idle");
 
         if (owner.enemy.Data.Enemy_Type == EnemyType.Dummy)
         {

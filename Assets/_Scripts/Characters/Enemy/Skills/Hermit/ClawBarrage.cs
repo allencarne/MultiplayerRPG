@@ -18,9 +18,9 @@ public class ClawBarrage : EnemySkill
 
     public override void CastState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Cast);
-        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
+        //Animate(owner, skillData.skillType, State.Cast);
+        //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(skillData.CastTime);
         Telegraph(skillData.CastTime, true, false);
@@ -32,13 +32,13 @@ public class ClawBarrage : EnemySkill
         //owner.Buffs.phase.StartPhase(ImpactTime);
         owner.Buffs.protection.StartProtection(2, 5);
 
-        Animate(owner, skillData.skillType, State.Impact);
+        //Animate(owner, skillData.skillType, State.Impact);
         Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Recovery);
+        //Animate(owner, skillData.skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

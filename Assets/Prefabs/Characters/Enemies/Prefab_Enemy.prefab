@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2278356513398453096}
   - component: {fileID: 8553582569748845187}
   - component: {fileID: 849781654051470979}
+  - component: {fileID: 4714681959609315352}
   m_Layer: 11
   m_Name: Sprite
   m_TagString: Untagged
@@ -107,6 +108,24 @@ MonoBehaviour:
   stats: {fileID: 878784667173873402}
   spawn_Effect: {fileID: 4339691282480687061, guid: 8730569be358ec44e863257169596214, type: 3}
   death_Effect: {fileID: 6362515847365594623, guid: 14635f42b6d6d944799c81ad396985ed, type: 3}
+--- !u!114 &4714681959609315352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77621477135208131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d9e9d9cb225ee41a70b6119ee45450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimator
+  HeadAnimator: {fileID: 0}
+  BodyAnimator: {fileID: 0}
+  ChestAnimator: {fileID: 0}
+  LegsAnimator: {fileID: 0}
+  WeaponAnimator: {fileID: 0}
+  PrimaryAnimator: {fileID: 3093910716406422695}
 --- !u!1 &176918509443175885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,6 +1547,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  net_BaseVamp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -1597,6 +1621,7 @@ MonoBehaviour:
   Buffs: {fileID: 6402268282429907237}
   DeBuffs: {fileID: 1913103621938294649}
   Drops: {fileID: 9147428821795703245}
+  Animator: {fileID: 4714681959609315352}
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8

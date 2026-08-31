@@ -17,9 +17,12 @@ public class EnemyWanderState : EnemyState
 
         Vector2 direction = (owner.WanderPosition - (Vector2)owner.transform.position).normalized;
 
-        owner.EnemyAnimator.Play("Wander");
-        owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
-        owner.EnemyAnimator.SetFloat("Vertical", direction.y);
+        //owner.EnemyAnimator.Play("Wander");
+        //owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
+        //owner.EnemyAnimator.SetFloat("Vertical", direction.y);
+
+        owner.Animator.PlayEnemyAnimation("Wander");
+        owner.Animator.SetEnemyDirection(direction);
     }
     public override void UpdateState()
     {

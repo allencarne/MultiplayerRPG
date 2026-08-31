@@ -21,16 +21,16 @@ public class HogWild : EnemySkill
 
     public override void CastState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Cast);
-        owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
-        owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
+        //Animate(owner, skillData.skillType, State.Cast);
+        //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
+        //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
         owner.enemy.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Impact);
+        //Animate(owner, skillData.skillType, State.Impact);
 
         owner.Buffs.might.StartMight(2,10);
         owner.Buffs.haste.StartHaste(6,10);
@@ -38,7 +38,7 @@ public class HogWild : EnemySkill
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        Animate(owner, skillData.skillType, State.Recovery);
+        //Animate(owner, skillData.skillType, State.Recovery);
         owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

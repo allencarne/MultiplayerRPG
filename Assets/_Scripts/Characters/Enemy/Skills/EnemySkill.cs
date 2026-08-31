@@ -158,6 +158,8 @@ public abstract class EnemySkill : NetworkBehaviour
             case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
+
+    /*
     protected void Animate(EnemyStateMachine owner, ActiveSkillData.SkillType type, State state)
     {
         string animationType = "";
@@ -181,6 +183,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
         owner.EnemyAnimator.Play(animationType + " " + animationState);
     }
+    */
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
