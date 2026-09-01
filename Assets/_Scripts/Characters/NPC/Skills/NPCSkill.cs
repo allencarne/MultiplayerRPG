@@ -5,9 +5,6 @@ using UnityEngine;
 public abstract class NPCSkill : NetworkBehaviour
 {
     public ActiveSkillData skillData;
-
-    //public enum State { Cast, Action, Impact, Recovery, Done }
-    //[HideInInspector] public State currentState;
     [HideInInspector] public ActiveSkillData.SkillPhase currentState;
 
     [Header("StateTimer")]
@@ -123,7 +120,6 @@ public abstract class NPCSkill : NetworkBehaviour
 
         if (skilltype == ActiveSkillData.SkillType.Basic)
         {
-            //IsBasic = true;
             ModifiedCastTime = skillData.CastTime / owner.npc.stats.TotalAS;
             ModifiedRecoveryTime = skillData.RecoveryTime / owner.npc.stats.TotalAS;
         }
@@ -148,47 +144,6 @@ public abstract class NPCSkill : NetworkBehaviour
             case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-
-    /*
-    protected void Animate(NPCStateMachine owner, WeaponType weapon, ActiveSkillData.SkillType skill, State state)
-    {
-        string _weapon = "";
-        string _skill = "";
-        string _state = "";
-
-        switch (weapon)
-        {
-            case WeaponType.Sword: _weapon = weapon.ToString(); break;
-            case WeaponType.Staff: _weapon = weapon.ToString(); break;
-            case WeaponType.Bow: _weapon = weapon.ToString(); break;
-            case WeaponType.Dagger: _weapon = weapon.ToString(); break;
-        }
-
-        switch (skill)
-        {
-            case ActiveSkillData.SkillType.Basic: _skill = "Basic"; break;
-            case ActiveSkillData.SkillType.Mobility: _skill = "Mobility"; break;
-            case ActiveSkillData.SkillType.Ultimate: _skill = "Ultimate"; break;
-        }
-
-        switch (state)
-        {
-            case State.Cast: _state = "Cast"; break;
-            case State.Action: _state = "Action"; break;
-            case State.Impact: _state = "Impact"; break;
-            case State.Recovery: _state = "Recovery"; break;
-            case State.Done: _state = "Done"; break;
-        }
-
-        owner.HeadAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-        owner.BodyAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-
-        owner.ChestAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + owner.npc.Data.ChestIndex);
-        owner.LegsAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state + " " + owner.npc.Data.LegsIndex);
-
-        owner.SwordAnimator.Play(_weapon + " " + _skill + " " + "Front" + " " + _state);
-    }
-    */
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {

@@ -5,9 +5,6 @@ using UnityEngine;
 public abstract class EnemySkill : NetworkBehaviour
 {
     public ActiveSkillData skillData;
-
-    //public enum State { Cast, Action, Impact, Recovery, Done }
-    //[HideInInspector] public State currentState;
     [HideInInspector] public ActiveSkillData.SkillPhase currentState;
 
     [Header("StateTimer")]
@@ -136,7 +133,6 @@ public abstract class EnemySkill : NetworkBehaviour
 
         if (skilltype == ActiveSkillData.SkillType.Basic)
         {
-            //IsBasic = true;
             ModifiedCastTime = skillData.CastTime / owner.enemy.stats.TotalAS;
             ModifiedRecoveryTime = skillData.RecoveryTime / owner.enemy.stats.TotalAS;
         }
@@ -159,32 +155,6 @@ public abstract class EnemySkill : NetworkBehaviour
             case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
         }
     }
-
-    /*
-    protected void Animate(EnemyStateMachine owner, ActiveSkillData.SkillType type, State state)
-    {
-        string animationType = "";
-        string animationState = "";
-
-        switch (type)
-        {
-            case ActiveSkillData.SkillType.Basic: animationType = "Basic"; break;
-            case ActiveSkillData.SkillType.Mobility: animationType = "Special"; break;
-            case ActiveSkillData.SkillType.Ultimate: animationType = "Ultimate"; break;
-        }
-
-        switch (state)
-        {
-            case State.Cast: animationState = "Cast"; break;
-            case State.Action: animationState = "Action"; break;
-            case State.Impact: animationState = "Impact"; break;
-            case State.Recovery: animationState = "Recovery"; break;
-            case State.Done: animationState = "Done"; break;
-        }
-
-        owner.EnemyAnimator.Play(animationType + " " + animationState);
-    }
-    */
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
