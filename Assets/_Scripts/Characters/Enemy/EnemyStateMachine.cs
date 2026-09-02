@@ -327,4 +327,12 @@ public class EnemyStateMachine : StateMachine
     }
 
     #endregion
+
+    protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
+    {
+        ActiveSkillData.SkillType.Basic => enemyBasicAbility.skillData,
+        ActiveSkillData.SkillType.Offensive => enemySpecialAbility.skillData,
+        ActiveSkillData.SkillType.Ultimate => enemyUltimateAbility.skillData,
+        _ => null
+    };
 }

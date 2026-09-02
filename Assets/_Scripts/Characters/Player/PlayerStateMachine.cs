@@ -23,7 +23,7 @@ public class PlayerStateMachine : StateMachine
 
     [Header("Scrips")]
     public Player player;
-    public PlayerStats PlayerStats;
+    public PlayerStats PlayerStats => (PlayerStats)Stats;
     public PlayerHead playerHead;
     public PlayerCustomization customization;
     public PlayerInputHandler Input;
@@ -48,6 +48,7 @@ public class PlayerStateMachine : StateMachine
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
+    public override Vector2 CurrentMoveInput => Input.MoveInput;
     [HideInInspector] public bool CanRoll = true;
     public bool IsFullySpawned = false;
     public bool IsAttacking = false;
@@ -325,57 +326,7 @@ public class PlayerStateMachine : StateMachine
         PlayerStats.GiveHeal(100, HealType.Percentage);
     }
 
-    public void RequestSpawn(SkillContext context, NetworkedSpawnEffect effect)
-    {
-        if (IsServer)
-        {
-            context = ResolveServerContext(context);
-            effect.SpawnServer(this, context);
-        }
-        else
-        {
-            RequestSpawnServerRpc(context);
-        }
-    }
-
-    public void SpawnSingle(NetworkedSpawnEffect effect, SkillContext context)
-    {
-        if (!IsServer) return;
-
-        GameObject instance = Instantiate(effect.Prefab,context.SpawnPosition + context.AimOffset,context.AimRotation);
-
-        NetworkObject networkObject = instance.GetComponent<NetworkObject>();
-
-        if (networkObject == null)
-        {
-            Debug.LogError($"SpawnEffect prefab '{effect.Prefab.name}' " + "does not have a NetworkObject.");
-            Destroy(instance);
-            return;
-        }
-
-        networkObject.Spawn();
-
-        effect.Configure(instance,this,context);
-    }
-
-    [ServerRpc]
-    void RequestSpawnServerRpc(SkillContext context)
-    {
-        context = ResolveServerContext(context);
-        ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
-        SkillEffect effect = data.GetEffects(context.Phase)[context.EffectIndex];
-
-        if (effect is not NetworkedSpawnEffect spawnEffect)
-        {
-            Debug.LogError($"Effect {context.EffectIndex} is not a NetworkedSpawnEffect.");
-
-            return;
-        }
-
-        spawnEffect.SpawnServer(this, context);
-    }
-
-    ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
+    protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {
         ActiveSkillData.SkillType.Basic => skills.basicAbilities[index],
         ActiveSkillData.SkillType.Offensive => skills.offensiveAbilities[index],
@@ -385,32 +336,4 @@ public class PlayerStateMachine : StateMachine
         ActiveSkillData.SkillType.Ultimate => skills.ultimateAbilities[index],
         _ => null
     };
-
-    public SkillContext ResolveServerContext(SkillContext context)
-    {
-        context.Attacker = NetworkObject;
-        //context.AttackerId = OwnerClientId;
-        context.IsBasic = context.SkillType == ActiveSkillData.SkillType.Basic;
-        context.AttackerDamage = PlayerStats.TotalDamage;
-        ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
-
-        context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
-        context.AimOffset = data.TargetingMode == ActiveSkillData.Targeting.Ground
-            ? Vector2.zero
-            : context.AimDirection.normalized * data.SkillRange;
-
-        return context;
-    }
-
-    public float GetSkillRange(SkillContext context)
-    {
-        ActiveSkillData data = GetSkillData(context.SkillType,context.SkillIndex);
-        return data != null ? data.SkillRange : 0f;
-    }
-
-    public bool IsGroundTargeted(SkillContext context)
-    {
-        ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
-        return data != null && data.TargetingMode == ActiveSkillData.Targeting.Ground;
-    }
 }

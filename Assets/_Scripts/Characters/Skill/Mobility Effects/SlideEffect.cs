@@ -10,16 +10,10 @@ public class SlideEffect : SkillEffect
     [Header("Movement")]
     public bool RequireMoveInput;
 
-    public override void Execute(PlayerStateMachine owner, SkillContext ctx)
+    public override void Execute(StateMachine owner, SkillContext ctx)
     {
         Vector2 direction = ctx.AimDirection;
-
-        if (RequireMoveInput)
-        {
-            if (owner.Input.MoveInput == Vector2.zero) return;
-            //direction = owner.Input.MoveInput;
-        }
-
+        if (RequireMoveInput) if (owner.CurrentMoveInput == Vector2.zero) return;
         owner.Mobility.Slide(direction, Force, Duration);
     }
 }

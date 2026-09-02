@@ -7,7 +7,7 @@ public class ImmobilizeEffect : ApplyEffect
     [Header("Duration")]
     public float Duration;
 
-    protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
+    protected override void ApplyTo(NetworkObject target, StateMachine owner, SkillContext ctx)
     {
         CrowdControl cc = target.GetComponent<CrowdControl>();
         cc?.immobilize.StartImmobilize(Duration);

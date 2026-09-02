@@ -6,11 +6,11 @@ public class HealthPercentTrigger : PassiveTrigger
 {
     [Range(0f, 1f)] public float HealthPercentThreshold = 0.3f;
 
-    public override Action Subscribe(PlayerStateMachine owner, Action onTriggered)
+    public override Action Subscribe(StateMachine owner, Action onTriggered)
     {
         void Handler(float previous, float current)
         {
-            float max = owner.PlayerStats.net_TotalHP.Value;
+            float max = owner.Stats.net_TotalHP.Value;
             if (max <= 0) return;
 
             float prevPct = previous / max;
@@ -24,12 +24,12 @@ public class HealthPercentTrigger : PassiveTrigger
             }
         }
 
-        owner.PlayerStats.net_CurrentHP.OnValueChanged += Handler;
+        owner.Stats.net_CurrentHP.OnValueChanged += Handler;
         Debug.Log($"[PassiveTrigger] LowHealthTrigger subscribed on {owner.name}");
 
         return () =>
         {
-            owner.PlayerStats.net_CurrentHP.OnValueChanged -= Handler;
+            owner.Stats.net_CurrentHP.OnValueChanged -= Handler;
             Debug.Log($"[PassiveTrigger] LowHealthTrigger unsubscribed on {owner.name}");
         };
     }

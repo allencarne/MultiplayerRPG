@@ -10,7 +10,7 @@ public class PullEffect : ApplyEffect
     [Header("Pull Duration")]
     public float Duration;
 
-    protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
+    protected override void ApplyTo(NetworkObject target, StateMachine owner, SkillContext ctx)
     {
         IPullable cc = target.GetComponent<IPullable>();
         if (cc == null) return;

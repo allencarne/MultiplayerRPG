@@ -15,7 +15,7 @@ public class PlayerPassive
         passiveIndex = index;
     }
 
-    public virtual void StartPassive(PlayerStateMachine owner)
+    public virtual void StartPassive(StateMachine owner)
     {
         Debug.Log($"[PlayerPassive] Starting {passiveData.Name} on {owner.name}");
 
@@ -25,23 +25,23 @@ public class PlayerPassive
         }
     }
 
-    public virtual void UpdatePassive(PlayerStateMachine owner)
+    public virtual void UpdatePassive(StateMachine owner)
     {
 
     }
-    public virtual void FixedUpdatePassive(PlayerStateMachine owner)
+    public virtual void FixedUpdatePassive(StateMachine owner)
     {
 
     }
 
-    public virtual void EndPassive(PlayerStateMachine owner)
+    public virtual void EndPassive(StateMachine owner)
     {
         Debug.Log($"[PlayerPassive] Ending {passiveData.Name} on {owner.name}");
         unsubscribe?.Invoke();
         unsubscribe = null;
     }
 
-    protected void TryActivate(PlayerStateMachine owner)
+    protected void TryActivate(StateMachine owner)
     {
         if (onCooldown)
         {
@@ -66,7 +66,7 @@ public class PlayerPassive
         }
     }
 
-    IEnumerator CooldownRoutine(PlayerStateMachine owner)
+    IEnumerator CooldownRoutine(StateMachine owner)
     {
         onCooldown = true;
         yield return new WaitForSeconds(passiveData.CoolDown);
@@ -74,9 +74,9 @@ public class PlayerPassive
         Debug.Log($"[PlayerPassive] {passiveData.Name} cooldown finished");
     }
 
-    SkillContext BuildContext(PlayerStateMachine owner) => new SkillContext
+    SkillContext BuildContext(StateMachine owner) => new SkillContext
     {
         Attacker = owner.NetworkObject,
-        AttackerDamage = owner.PlayerStats.TotalDamage,
+        AttackerDamage = owner.Stats.TotalDamage,
     };
 }

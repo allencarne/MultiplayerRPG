@@ -5,7 +5,7 @@ public class SkillEffectRelay : NetworkBehaviour
 {
     SkillEffect[] onTriggerEffects;
     SkillContext context;
-    PlayerStateMachine owner;
+    StateMachine owner;
     bool ignorePlayer, ignoreEnemy, ignoreNPC;
     bool isBreakable;
     bool hasBroken;
@@ -20,7 +20,7 @@ public class SkillEffectRelay : NetworkBehaviour
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
     }
 
-    public void Initialize(PlayerStateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _isBreakable)
+    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _isBreakable)
     {
         owner = _owner;
         context = _ctx;

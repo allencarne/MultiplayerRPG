@@ -9,7 +9,7 @@ public class DebuffEffect : ApplyEffect
     public int Stacks = 1;
     public float Duration;
 
-    protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
+    protected override void ApplyTo(NetworkObject target, StateMachine owner, SkillContext ctx)
     {
         DeBuffs debuffs = target.GetComponent<DeBuffs>();
         if (debuffs == null) return;

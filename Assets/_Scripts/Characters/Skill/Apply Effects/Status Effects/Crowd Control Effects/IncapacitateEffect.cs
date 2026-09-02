@@ -7,7 +7,7 @@ public class IncapacitateEffect : ApplyEffect
     [Header("Duration")]
     public float Duration;
 
-    protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
+    protected override void ApplyTo(NetworkObject target, StateMachine owner, SkillContext ctx)
     {
         // Stuns for now - Eventuall add Incap logic
         IStunnable cc = target.GetComponentInChildren<IStunnable>();

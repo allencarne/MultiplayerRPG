@@ -8,7 +8,7 @@ public class HealEffect : ApplyEffect
     public bool PercentOfDamageDealt;
     [Range(0, 100)] public float LifestealPercent;
 
-    protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
+    protected override void ApplyTo(NetworkObject target, StateMachine owner, SkillContext ctx)
     {
         // Get Healable
         IHealable healable = target.GetComponent<IHealable>();

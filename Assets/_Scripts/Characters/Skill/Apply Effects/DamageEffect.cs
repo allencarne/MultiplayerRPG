@@ -13,7 +13,7 @@ public class DamageEffect : ApplyEffect
     [Header("On successful hit, applies to the ATTACKER, not the target")]
     public SkillEffect[] OnDamageDealtEffects;
 
-    protected override void ApplyTo(NetworkObject target, PlayerStateMachine owner, SkillContext ctx)
+    protected override void ApplyTo(NetworkObject target, StateMachine owner, SkillContext ctx)
     {
         // Get Damageable Component
         IDamageable damageable = target.GetComponent<IDamageable>();

@@ -51,12 +51,12 @@ public class SpawnEffect: NetworkedSpawnEffect
     [Header("What this spawned thing does when it hits something")]
     public SkillEffect[] OnTriggerEffects;
 
-    public override void SpawnServer(PlayerStateMachine owner, SkillContext ctx)
+    public override void SpawnServer(StateMachine owner, SkillContext ctx)
     {
         owner.StartCoroutine(SpawnRoutine(owner, ctx));
     }
 
-    IEnumerator SpawnRoutine(PlayerStateMachine owner, SkillContext ctx)
+    IEnumerator SpawnRoutine(StateMachine owner, SkillContext ctx)
     {
         int repeatCount = Mathf.Max(1, RepeatAmount);
 
@@ -71,7 +71,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         }
     }
 
-    void SpawnBurst(PlayerStateMachine owner, SkillContext ctx)
+    void SpawnBurst(StateMachine owner, SkillContext ctx)
     {
         int amount = Mathf.Max(1, Amount);
         bool groundTargeted = owner.IsGroundTargeted(ctx);
@@ -146,7 +146,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         return Quaternion.Euler(0f, 0f, angle);
     }
 
-    public override void Configure(GameObject instance, PlayerStateMachine owner, SkillContext ctx)
+    public override void Configure(GameObject instance, StateMachine owner, SkillContext ctx)
     {
         Rigidbody2D rb = instance.GetComponent<Rigidbody2D>();
         if (rb != null && Force != 0f) rb.AddForce(ctx.AimDirection.normalized * Force, ForceMode);
@@ -158,7 +158,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (target != null) target.Target = owner.transform;
 
         DestroyOnDeath death = instance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.stats = owner.PlayerStats;
+        if (death != null) death.stats = owner.Stats;
 
         DespawnDelay despawn = instance.GetComponent<DespawnDelay>();
         if (despawn != null && Duration > 0f) despawn.StartCoroutine(despawn.DespawnAfterDuration(Duration));

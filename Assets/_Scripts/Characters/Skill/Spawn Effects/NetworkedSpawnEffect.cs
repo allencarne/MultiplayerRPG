@@ -7,7 +7,7 @@ public abstract class NetworkedSpawnEffect : SkillEffect
 
     [Header("Spawn Position")]
     public bool UseCurrentPosition;
-    public sealed override void Execute(PlayerStateMachine owner, SkillContext ctx)
+    public sealed override void Execute(StateMachine owner, SkillContext ctx)
     {
         if (UseCurrentPosition)
         {
@@ -16,10 +16,10 @@ public abstract class NetworkedSpawnEffect : SkillEffect
         owner.RequestSpawn(ctx, this);
     }
 
-    public virtual void SpawnServer(PlayerStateMachine owner, SkillContext ctx)
+    public virtual void SpawnServer(StateMachine owner, SkillContext ctx)
     {
         owner.SpawnSingle(this, ctx);
     }
 
-    public abstract void Configure(GameObject instance, PlayerStateMachine owner, SkillContext ctx);
+    public abstract void Configure(GameObject instance, StateMachine owner, SkillContext ctx);
 }
