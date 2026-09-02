@@ -15,7 +15,7 @@ public struct SkillContext : INetworkSerializable
     public Quaternion AimRotation;
     public float AttackerDamage;
     public bool IsBasic;
-    public ulong AttackerId;
+    public NetworkObjectReference Attacker;
     public NetworkObject Target;
     public float LastDamageDealt;
 

@@ -70,7 +70,7 @@ public class PlayerSkill
             AimOffset = aimOffset,
             AttackerDamage = owner.PlayerStats.TotalDamage,
             IsBasic = IsBasicAttack(),
-            AttackerId = owner.OwnerClientId,
+            Attacker = owner.NetworkObject,
             SkillType = skillData.skillType,
             SkillIndex = skillIndex,
             FillDuration = ModifiedCastTime + skillData.ActionTime

@@ -20,7 +20,7 @@ public class DamageEffect : ApplyEffect
         if (damageable == null) return;
 
         // Find the Attacker's NetworkObject
-        NetworkObject attacker = NetworkManager.Singleton.ConnectedClients[ctx.AttackerId].PlayerObject;
+        if (!ctx.Attacker.TryGet(out NetworkObject attacker)) return;
 
         // Apply Damage to the Attacker
         float dealt = damageable.TakeDamage(ctx.AttackerDamage + Damage, DamageType, attacker, target.transform.position);

@@ -388,7 +388,8 @@ public class PlayerStateMachine : StateMachine
 
     public SkillContext ResolveServerContext(SkillContext context)
     {
-        context.AttackerId = OwnerClientId;
+        context.Attacker = NetworkObject;
+        //context.AttackerId = OwnerClientId;
         context.IsBasic = context.SkillType == ActiveSkillData.SkillType.Basic;
         context.AttackerDamage = PlayerStats.TotalDamage;
         ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
