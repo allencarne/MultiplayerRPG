@@ -55,8 +55,8 @@ public class Fury : PlayerSkill
 
     void ApplyFury()
     {
-        stateMachine.Stats.Fury.Value = Mathf.Min(stateMachine.Stats.Fury.Value + furyPerHit, stateMachine.Stats.MaxFury.Value);
-        int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
+        stateMachine.PlayerStats.Fury.Value = Mathf.Min(stateMachine.PlayerStats.Fury.Value + furyPerHit, stateMachine.PlayerStats.MaxFury.Value);
+        int newStacks = CalculateBuffStacks(stateMachine.PlayerStats.Fury.Value);
         ApplyBuffClientRpc(newStacks);
     }
 
@@ -64,12 +64,12 @@ public class Fury : PlayerSkill
     {
         yield return new WaitForSeconds(furyIdleTime);
 
-        while (stateMachine.Stats.Fury.Value > 0)
+        while (stateMachine.PlayerStats.Fury.Value > 0)
         {
             if (stateMachine.IsServer)
             {
-                stateMachine.Stats.Fury.Value -= furyFallOff;
-                int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
+                stateMachine.PlayerStats.Fury.Value -= furyFallOff;
+                int newStacks = CalculateBuffStacks(stateMachine.PlayerStats.Fury.Value);
                 ApplyBuffClientRpc(newStacks);
             }
             else
@@ -83,9 +83,9 @@ public class Fury : PlayerSkill
     [ServerRpc]
     void DecayFuryServerRPC()
     {
-        stateMachine.Stats.Fury.Value -= furyFallOff;
+        stateMachine.PlayerStats.Fury.Value -= furyFallOff;
 
-        int newStacks = CalculateBuffStacks(stateMachine.Stats.Fury.Value);
+        int newStacks = CalculateBuffStacks(stateMachine.PlayerStats.Fury.Value);
         ApplyBuffClientRpc(newStacks);
     }
 

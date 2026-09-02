@@ -47,10 +47,10 @@ public class PlayerRunState : PlayerState
     void HandleMovement(PlayerStateMachine owner, Vector2 moveInput)
     {
         // Normalize input to prevent faster diagonal movement, then multiply by speed
-        Vector2 movement = moveInput.normalized * owner.Stats.TotalSpeed;
+        Vector2 movement = moveInput.normalized * owner.PlayerStats.TotalSpeed;
 
         // Apply movement to Rigidbody
-        owner.PlayerRB.linearVelocity = movement;
+        owner.RigidBody2D.linearVelocity = movement;
 
         // If we're moving, determine which direction to face for animation and update animators and facing direction
         if (movement != Vector2.zero)

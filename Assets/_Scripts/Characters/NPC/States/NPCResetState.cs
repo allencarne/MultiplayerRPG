@@ -47,7 +47,7 @@ public class NPCResetState : NPCState
             //owner.LegsAnimator.SetFloat("Vertical", -1);
             //owner.SwordAnimator.SetFloat("Vertical", -1);
 
-            owner.NpcRB.linearVelocity = Vector2.zero;
+            owner.RigidBody2D.linearVelocity = Vector2.zero;
             owner.TransitionToIdle();
         }
     }

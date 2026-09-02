@@ -22814,14 +22814,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  Animator: {fileID: 6838946364081171883}
+  CrowdControl: {fileID: 6004191219924147057}
+  Buffs: {fileID: 1521853271822668813}
+  DeBuffs: {fileID: 263776561653739863}
   setSkills: {fileID: 7132758807145908574}
   skills: {fileID: 0}
   coolDownTracker:
   - {fileID: 4581626590487998392}
   - {fileID: 2284823973247643926}
-  Animator: {fileID: 6838946364081171883}
   player: {fileID: 841304983140234989}
-  Stats: {fileID: 2477393547595159198}
+  PlayerStats: {fileID: 2477393547595159198}
   playerHead: {fileID: 8195993090240432214}
   customization: {fileID: 5248151491556837222}
   Input: {fileID: 8050150357123000786}
@@ -22833,9 +22836,6 @@ MonoBehaviour:
   Aimer: {fileID: 3442385175037626}
   playerInput: {fileID: 2155053313424514762}
   Indicator: {fileID: 8456314716194012628}
-  CrowdControl: {fileID: 6004191219924147057}
-  Buffs: {fileID: 1521853271822668813}
-  DeBuffs: {fileID: 263776561653739863}
   Mobility: {fileID: 8560715399392518864}
   LastMoveDirection: {x: 0, y: 0}
   CanRoll: 1

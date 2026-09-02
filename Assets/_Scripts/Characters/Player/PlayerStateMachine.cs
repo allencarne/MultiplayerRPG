@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class PlayerStateMachine : NetworkBehaviour
+public class PlayerStateMachine : StateMachine
 {
     [Header("States")]
     private PlayerState state;
@@ -18,12 +18,12 @@ public class PlayerStateMachine : NetworkBehaviour
     PlayerPassive secondPassiveInstance;
     PlayerPassive thirdPassiveInstance;
 
-    [Header("Animator")]
-    public CharacterAnimator Animator;
+    //[Header("Animator")]
+    //public CharacterAnimator Animator;
 
     [Header("Scrips")]
     public Player player;
-    public PlayerStats Stats;
+    public PlayerStats PlayerStats;
     public PlayerHead playerHead;
     public PlayerCustomization customization;
     public PlayerInputHandler Input;
@@ -34,17 +34,17 @@ public class PlayerStateMachine : NetworkBehaviour
     public CastBar CastBar;
 
     [Header("Components")]
-    public Collider2D Collider;
-    public Rigidbody2D PlayerRB;
+    //public Collider2D Collider2D;
+    //public Rigidbody2D RigidBody2D;
     public Transform Aimer;
     public PlayerInput playerInput;
     public Indicator Indicator;
 
     [Header("Status Effects")]
-    public CrowdControl CrowdControl;
-    public Buffs Buffs;
-    public DeBuffs DeBuffs;
-    public Mobility Mobility;
+    //public CrowdControl CrowdControl;
+    //public Buffs Buffs;
+    //public DeBuffs DeBuffs;
+    //public Mobility Mobility;
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
@@ -105,11 +105,11 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Interrupt()
     {
-        if (Stats.isDead) return;
+        if (PlayerStats.isDead) return;
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
-        Stats.OnInterrupted?.Invoke();
+        PlayerStats.OnInterrupted?.Invoke();
 
         player.CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
@@ -117,7 +117,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
     public void Stagger()
     {
-        if (Stats.isDead) return;
+        if (PlayerStats.isDead) return;
 
         player.CastBar.StartInterrupt();
 
@@ -138,7 +138,7 @@ public class PlayerStateMachine : NetworkBehaviour
 
         if (Input.RollInput)
         {
-            if (Stats.Endurance.Value >= 50)
+            if (PlayerStats.Endurance.Value >= 50)
             {
                 SetState(new PlayerRollState(this));
             }
@@ -308,21 +308,21 @@ public class PlayerStateMachine : NetworkBehaviour
     [ServerRpc]
     public void RequestSetColliderServerRpc(bool isEnabled)
     {
-        Collider.enabled = isEnabled;
+        Collider2D.enabled = isEnabled;
         ApplyColliderClientRpc(isEnabled);
     }
 
     [ClientRpc]
     void ApplyColliderClientRpc(bool isEnabled)
     {
-        Collider.enabled = isEnabled;
+        Collider2D.enabled = isEnabled;
     }
 
     [ServerRpc]
     public void RequestRespawnServerRpc()
     {
-        Stats.isDead = false;
-        Stats.GiveHeal(100, HealType.Percentage);
+        PlayerStats.isDead = false;
+        PlayerStats.GiveHeal(100, HealType.Percentage);
     }
 
     public void RequestSpawn(SkillContext context, NetworkedSpawnEffect effect)
@@ -390,7 +390,7 @@ public class PlayerStateMachine : NetworkBehaviour
     {
         context.AttackerId = OwnerClientId;
         context.IsBasic = context.SkillType == ActiveSkillData.SkillType.Basic;
-        context.AttackerDamage = Stats.TotalDamage;
+        context.AttackerDamage = PlayerStats.TotalDamage;
         ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
 
         context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);

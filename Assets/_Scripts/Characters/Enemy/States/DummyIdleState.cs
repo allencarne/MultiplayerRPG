@@ -15,7 +15,7 @@ public class DummyIdleState : EnemyState
         if (!owner.IsServer) return;
 
         // Increase patience if away from start OR if injured (HP < max)
-        bool awayFromStart = owner.EnemyRB.position != owner.StartingPosition;
+        bool awayFromStart = owner.RigidBody2D.position != owner.StartingPosition;
         bool injured = owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_TotalHP.Value;
 
         if (awayFromStart || injured)

@@ -23,7 +23,7 @@ public class Tumble : EnemySkill
     {
         if (currentState == ActiveSkillData.SkillPhase.Action)
         {
-            owner.EnemyRB.linearVelocity = AimDirection * slideForce;
+            owner.RigidBody2D.linearVelocity = AimDirection * slideForce;
         }
     }
 

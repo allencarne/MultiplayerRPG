@@ -6,6 +6,6 @@ public class TelegraphEffect : NetworkedSpawnEffect
     public override void Configure(GameObject instance, PlayerStateMachine owner, SkillContext ctx)
     {
         ITelegraph telegraph = instance.GetComponent<ITelegraph>();
-        telegraph?.Init(owner.Stats, ctx.FillDuration);
+        telegraph?.Init(owner.PlayerStats, ctx.FillDuration);
     }
 }

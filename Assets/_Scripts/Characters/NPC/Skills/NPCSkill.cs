@@ -126,7 +126,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
         AttackerDamage = owner.npc.stats.TotalDamage;
 
-        owner.NpcRB.linearVelocity = Vector2.zero;
+        owner.RigidBody2D.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
         StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));

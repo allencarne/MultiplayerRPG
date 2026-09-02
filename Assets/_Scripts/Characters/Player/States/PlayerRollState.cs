@@ -31,7 +31,7 @@ public class PlayerRollState : PlayerState
             Vector2 _newDir = new Vector2(_x, _y);
 
             // Add Force
-            owner.PlayerRB.AddForce(_newDir * 25, ForceMode2D.Impulse);
+            owner.RigidBody2D.AddForce(_newDir * 25, ForceMode2D.Impulse);
 
             // Snap direction and set head sprites
             facingDirection = owner.Animator.SnapDirection(_newDir);
@@ -40,7 +40,7 @@ public class PlayerRollState : PlayerState
         else // Roll in the direction of input
         {
             // Add Force
-            owner.PlayerRB.AddForce(moveInput * 25, ForceMode2D.Impulse);
+            owner.RigidBody2D.AddForce(moveInput * 25, ForceMode2D.Impulse);
 
             // Snap direction and set head sprites
             facingDirection = owner.Animator.SnapDirection(moveInput);
@@ -64,7 +64,7 @@ public class PlayerRollState : PlayerState
     IEnumerator Duration(PlayerStateMachine owner)
     {
         yield return new WaitForSeconds(rollDuration);
-        owner.PlayerRB.linearVelocity = Vector2.zero;
+        owner.RigidBody2D.linearVelocity = Vector2.zero;
         owner.SetState(new PlayerIdleState(owner));
     }
 }

@@ -158,7 +158,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (target != null) target.Target = owner.transform;
 
         DestroyOnDeath death = instance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.stats = owner.Stats;
+        if (death != null) death.stats = owner.PlayerStats;
 
         DespawnDelay despawn = instance.GetComponent<DespawnDelay>();
         if (despawn != null && Duration > 0f) despawn.StartCoroutine(despawn.DespawnAfterDuration(Duration));

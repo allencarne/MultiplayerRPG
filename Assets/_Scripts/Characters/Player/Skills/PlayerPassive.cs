@@ -77,6 +77,6 @@ public class PlayerPassive
     SkillContext BuildContext(PlayerStateMachine owner) => new SkillContext
     {
         AttackerId = owner.OwnerClientId,
-        AttackerDamage = owner.Stats.TotalDamage,
+        AttackerDamage = owner.PlayerStats.TotalDamage,
     };
 }

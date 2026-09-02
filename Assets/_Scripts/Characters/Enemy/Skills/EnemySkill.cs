@@ -137,7 +137,7 @@ public abstract class EnemySkill : NetworkBehaviour
             ModifiedRecoveryTime = skillData.RecoveryTime / owner.enemy.stats.TotalAS;
         }
 
-        owner.EnemyRB.linearVelocity = Vector2.zero;
+        owner.RigidBody2D.linearVelocity = Vector2.zero;
         SpawnPosition = owner.transform.position;
 
         StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));

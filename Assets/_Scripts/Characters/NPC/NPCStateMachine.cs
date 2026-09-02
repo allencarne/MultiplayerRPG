@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPCStateMachine : NetworkBehaviour
+public class NPCStateMachine : StateMachine
 {
     [Header("States")]
     public NPCState state;
@@ -14,13 +14,10 @@ public class NPCStateMachine : NetworkBehaviour
     [SerializeField] NPCSkill ultimateSkill;
     [HideInInspector] public NPCSkill CurrentSkill;
 
-    [Header("Animator")]
-    public CharacterAnimator Animator;
-
     [Header("Status Effects")]
-    public CrowdControl CrowdControl;
-    public Buffs Buffs;
-    public DeBuffs DeBuffs;
+    //public CrowdControl CrowdControl;
+    //public Buffs Buffs;
+    //public DeBuffs DeBuffs;
 
     [Header("Bools")]
     public bool IsEnemyInRange = false;
@@ -39,9 +36,9 @@ public class NPCStateMachine : NetworkBehaviour
     public float DeAggroRadius;
 
     [Header("Components")]
-    [SerializeField] Collider2D Collider;
+    //[SerializeField] Collider2D Collider2D;
+    //public Rigidbody2D RigidBody2D;
     public NPC npc;
-    public Rigidbody2D NpcRB;
     public LayerMask obstacleLayerMask;
 
     [Header("Patrol")]
@@ -191,13 +188,13 @@ public class NPCStateMachine : NetworkBehaviour
         {
             if (distanceToTarget <= 1.2f)
             {
-                NpcRB.linearVelocity = Vector2.zero;
+                RigidBody2D.linearVelocity = Vector2.zero;
                 return;
             }
         }
 
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        NpcRB.linearVelocity = direction * npc.stats.TotalSpeed;
+        RigidBody2D.linearVelocity = direction * npc.stats.TotalSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
@@ -256,14 +253,14 @@ public class NPCStateMachine : NetworkBehaviour
     public void SetColliderAndSprites(bool isEnabled)
     {
         if (!IsServer) return;
-        Collider.enabled = isEnabled;
+        Collider2D.enabled = isEnabled;
         ApplyColliderStateClientRpc(isEnabled);
     }
 
     [ClientRpc]
     void ApplyColliderStateClientRpc(bool isEnabled)
     {
-        Collider.enabled = isEnabled;
+        Collider2D.enabled = isEnabled;
     }
 
     #endregion
@@ -334,13 +331,13 @@ public class NPCStateMachine : NetworkBehaviour
         while (elapsed < slideDuration)
         {
             float t = elapsed / slideDuration;
-            NpcRB.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
+            RigidBody2D.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
 
             elapsed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
-        NpcRB.linearVelocity = Vector2.zero;
+        RigidBody2D.linearVelocity = Vector2.zero;
         IsSliding = false;
     }
 

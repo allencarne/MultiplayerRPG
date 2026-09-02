@@ -32,11 +32,11 @@ public class ShellSlam : EnemySkill
             float t = Mathf.Clamp01(dashTimer / skillData.ActionTime);
 
             Vector2 newPos = Vector2.Lerp(SpawnPosition, targetLandingPos, t);
-            owner.EnemyRB.MovePosition(newPos);
+            owner.RigidBody2D.MovePosition(newPos);
 
             if (t >= 1f)
             {
-                owner.EnemyRB.linearVelocity = Vector2.zero;
+                owner.RigidBody2D.linearVelocity = Vector2.zero;
             }
         }
     }

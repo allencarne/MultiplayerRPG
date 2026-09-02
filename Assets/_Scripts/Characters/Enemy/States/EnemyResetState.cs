@@ -33,7 +33,7 @@ public class EnemyResetState : EnemyState
         {
             owner.isResetting = false;
             owner.enemy.PatienceBar.Patience.Value = 0;
-            owner.EnemyRB.linearVelocity = Vector2.zero;
+            owner.RigidBody2D.linearVelocity = Vector2.zero;
             owner.SetState(new EnemyIdleState(owner));
         }
     }

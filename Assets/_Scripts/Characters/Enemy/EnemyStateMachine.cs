@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class EnemyStateMachine : NetworkBehaviour
+public class EnemyStateMachine : StateMachine
 {
     [Header("States")]
     public EnemyState state;
@@ -13,17 +13,15 @@ public class EnemyStateMachine : NetworkBehaviour
     [HideInInspector] public EnemySkill CurrentSkill;
 
     [Header("Scripts")]
-    public CrowdControl CrowdControl;
-    public Buffs Buffs;
-    public DeBuffs DeBuffs;
+    //public CrowdControl CrowdControl;
+    //public Buffs Buffs;
+    //public DeBuffs DeBuffs;
     public EnemyDrops Drops;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }
-    public Rigidbody2D EnemyRB { get; private set; }
-    //public Animator EnemyAnimator { get; private set; }
-    public CharacterAnimator Animator;
-    public Collider2D Collider { get; private set; }
+    //public Rigidbody2D RigidBody2D;
+    //public Collider2D Collider2D;
 
     [Header("Variables")]
     public int AttemptsCount { get; set; }
@@ -59,9 +57,9 @@ public class EnemyStateMachine : NetworkBehaviour
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
-        EnemyRB = GetComponent<Rigidbody2D>();
+        RigidBody2D = GetComponent<Rigidbody2D>();
         //EnemyAnimator = GetComponentInChildren<Animator>();
-        Collider = GetComponent<Collider2D>();
+        Collider2D = GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -262,7 +260,7 @@ public class EnemyStateMachine : NetworkBehaviour
             {
                 if (distanceToTarget <= 0.5f)
                 {
-                    EnemyRB.linearVelocity = Vector2.zero;
+                    RigidBody2D.linearVelocity = Vector2.zero;
                     return;
                 }
             }
@@ -270,14 +268,14 @@ public class EnemyStateMachine : NetworkBehaviour
             {
                 if (distanceToTarget <= 1.2f)
                 {
-                    EnemyRB.linearVelocity = Vector2.zero;
+                    RigidBody2D.linearVelocity = Vector2.zero;
                     return;
                 }
             }
         }
 
         Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        EnemyRB.linearVelocity = direction * enemy.stats.TotalSpeed;
+        RigidBody2D.linearVelocity = direction * enemy.stats.TotalSpeed;
     }
 
     public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)

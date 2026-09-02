@@ -28,7 +28,7 @@ public class PlayerStaggerState : PlayerState
     {
         // Check if the player is the owner and not dead
         if (!owner.IsOwner) return;
-        if (owner.Stats.isDead) return;
+        if (owner.PlayerStats.isDead) return;
 
         // Check if the player is no longer crowd controlled
         if (!owner.CrowdControl.IsCrowdControlled)

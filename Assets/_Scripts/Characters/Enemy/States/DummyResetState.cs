@@ -8,7 +8,7 @@ public class DummyResetState : EnemyState
     public override void EnterState()
     {
         owner.isResetting = true;
-        owner.Collider.enabled = false;
+        owner.Collider2D.enabled = false;
         //owner.EnemyAnimator.Play("Reset");
         owner.Animator.PlayEnemyAnimation("Reset");
 
@@ -26,9 +26,9 @@ public class DummyResetState : EnemyState
         {
             owner.isResetting = false;
             owner.enemy.PatienceBar.Patience.Value = 0;
-            owner.EnemyRB.linearVelocity = Vector3.zero;
-            owner.EnemyRB.position = owner.StartingPosition;
-            owner.Collider.enabled = true;
+            owner.RigidBody2D.linearVelocity = Vector3.zero;
+            owner.RigidBody2D.position = owner.StartingPosition;
+            owner.Collider2D.enabled = true;
 
             owner.SetState(new EnemySpawnState(owner));
         }

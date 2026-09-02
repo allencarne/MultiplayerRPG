@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class PlayerSkill
 {
+    public PlayerSkill(ActiveSkillData data, int index)
+    {
+        skillData = data;
+        skillIndex = index;
+    }
+
     public ActiveSkillData skillData;
     int skillIndex;
     public SkillContext context;
@@ -11,15 +17,6 @@ public class PlayerSkill
     protected int repeatCycleIndex = 0;
     protected int totalRepeatCycles = 1;
     protected float repeatInterval = 0f;
-
-    public PlayerSkill(ActiveSkillData data, int index)
-    {
-        skillData = data;
-        skillIndex = index;
-    }
-
-    //public enum State { Cast, Action, Impact, Recovery, Done }
-    //[HideInInspector] public State currentState;
 
     [HideInInspector] public ActiveSkillData.SkillPhase currentState;
 
@@ -34,8 +31,8 @@ public class PlayerSkill
 
         if (IsBasicAttack())
         {
-            ModifiedCastTime = skillData.CastTime / owner.Stats.TotalAS;
-            ModifiedRecoveryTime = skillData.RecoveryTime / owner.Stats.TotalAS;
+            ModifiedCastTime = skillData.CastTime / owner.PlayerStats.TotalAS;
+            ModifiedRecoveryTime = skillData.RecoveryTime / owner.PlayerStats.TotalAS;
         }
         else
         {
@@ -71,7 +68,7 @@ public class PlayerSkill
             AimDirection = aimDirection,
             AimRotation = aimRotation,
             AimOffset = aimOffset,
-            AttackerDamage = owner.Stats.TotalDamage,
+            AttackerDamage = owner.PlayerStats.TotalDamage,
             IsBasic = IsBasicAttack(),
             AttackerId = owner.OwnerClientId,
             SkillType = skillData.skillType,
@@ -90,7 +87,7 @@ public class PlayerSkill
         }
 
         // Stop Moving
-        owner.PlayerRB.linearVelocity = Vector2.zero;
+        owner.RigidBody2D.linearVelocity = Vector2.zero;
 
         // Handle Animations
         Vector2 snappedDirection = owner.Animator.SnapDirection(context.AimDirection);
@@ -237,7 +234,7 @@ public class PlayerSkill
 
     IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, PlayerStateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.Stats.TotalCDR;
+        float modifiedCooldown = coolDown / owner.PlayerStats.TotalCDR;
 
         foreach (SkillBarUI bar in owner.coolDownTracker)
         {

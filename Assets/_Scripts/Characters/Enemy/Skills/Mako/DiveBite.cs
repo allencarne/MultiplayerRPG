@@ -48,8 +48,8 @@ public class DiveBite : EnemySkill
     {
         yield return new WaitForSeconds(.33f);
 
-        owner.EnemyRB.linearVelocity = Vector2.zero;
-        owner.EnemyRB.position = targetLandingPos;
+        owner.RigidBody2D.linearVelocity = Vector2.zero;
+        owner.RigidBody2D.position = targetLandingPos;
     }
 
     public override void ImpactState(EnemyStateMachine owner)

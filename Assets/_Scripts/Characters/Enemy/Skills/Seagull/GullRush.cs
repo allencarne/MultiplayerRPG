@@ -23,7 +23,7 @@ public class GullRush : EnemySkill
     {
         if (currentState == ActiveSkillData.SkillPhase.Impact)
         {
-            owner.EnemyRB.linearVelocity = AimDirection * slideForce;
+            owner.RigidBody2D.linearVelocity = AimDirection * slideForce;
         }
     }
 

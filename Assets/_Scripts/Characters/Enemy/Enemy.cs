@@ -277,7 +277,7 @@ public class Enemy : NetworkBehaviour
     [ClientRpc]
     void DeathClientRpc()
     {
-        stateMachine.Collider.enabled = false;
+        stateMachine.Collider2D.enabled = false;
         shadowSprite.enabled = false;
         CastBar.gameObject.SetActive(false);
     }
