@@ -7,9 +7,6 @@ public class EnemyStateMachine : StateMachine
     public EnemyState state;
 
     [Header("Skills")]
-    [SerializeField] ActiveSkill enemyBasicAbility;
-    [SerializeField] ActiveSkill enemySpecialAbility;
-    [SerializeField] ActiveSkill enemyUltimateAbility;
     [HideInInspector] public ActiveSkill CurrentSkill;
 
     [Header("Scripts")]
@@ -120,9 +117,9 @@ public class EnemyStateMachine : StateMachine
     {
         switch (newSkill)
         {
-            case SkillType.Basic: CurrentSkill = enemyBasicAbility; break;
-            case SkillType.Special: CurrentSkill = enemySpecialAbility; break;
-            case SkillType.Ultimate: CurrentSkill = enemyUltimateAbility; break;
+            case SkillType.Basic: CurrentSkill = new ActiveSkill(enemy.Data.BasicAbility, 0); break;
+            case SkillType.Special: CurrentSkill = new ActiveSkill(enemy.Data.SpecialAbility, 0); break;
+            case SkillType.Ultimate: CurrentSkill = new ActiveSkill(enemy.Data.UltimateAbility, 0); break;
         }
 
         SetState(new EnemyAttackState(this, CurrentSkill));
@@ -330,9 +327,9 @@ public class EnemyStateMachine : StateMachine
 
     protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {
-        ActiveSkillData.SkillType.Basic => enemyBasicAbility.skillData,
-        ActiveSkillData.SkillType.Offensive => enemySpecialAbility.skillData,
-        ActiveSkillData.SkillType.Ultimate => enemyUltimateAbility.skillData,
+        ActiveSkillData.SkillType.Basic => enemy.Data.BasicAbility,
+        ActiveSkillData.SkillType.Offensive => enemy.Data.SpecialAbility,
+        ActiveSkillData.SkillType.Ultimate => enemy.Data.UltimateAbility,
         _ => null
     };
 }

@@ -30,6 +30,11 @@ public class EnemyData : ScriptableObject
 
     [Header("Drops")]
     public Item[] DroppableItems;
+
+    [Header("Skills")]
+    public ActiveSkillData BasicAbility;
+    public ActiveSkillData SpecialAbility;
+    public ActiveSkillData UltimateAbility;
 }
 
 public enum EnemyType

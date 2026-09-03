@@ -37,6 +37,11 @@ public class NPCData : ScriptableObject
     //public NPCWeaponType WeaponType;
     public WeaponType WeaponType;
 
+    [Header("Skills")]
+    public ActiveSkillData BasicAbility;
+    public ActiveSkillData SpecialAbility;
+    public ActiveSkillData UltimateAbility;
+
     [Header("Dialogue")]
     [TextArea(3, 8)] public string[] Dialogue;
 

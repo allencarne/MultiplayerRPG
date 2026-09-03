@@ -76,9 +76,9 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
             {
-                //owner.IsAttacking = true;
-                //owner.CanUltimate = false;
-                //owner.SetSkill(EnemyStateMachine.SkillType.Ultimate);
+                owner.IsAttacking = true;
+                owner.CanUltimate = false;
+                owner.SetSkill(EnemyStateMachine.SkillType.Ultimate);
                 return;
             }
         }
@@ -87,9 +87,9 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanSpecial && !owner.CrowdControl.silence.IsSilenced)
             {
-                //owner.IsAttacking = true;
-                //owner.CanSpecial = false;
-                //owner.SetSkill(EnemyStateMachine.SkillType.Special);
+                owner.IsAttacking = true;
+                owner.CanSpecial = false;
+                owner.SetSkill(EnemyStateMachine.SkillType.Special);
                 return;
             }
         }
@@ -98,9 +98,9 @@ public class EnemyChaseState : EnemyState
         {
             if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
             {
-                //owner.IsAttacking = true;
-                //owner.CanBasic = false;
-                //owner.SetSkill(EnemyStateMachine.SkillType.Basic);
+                owner.IsAttacking = true;
+                owner.CanBasic = false;
+                owner.SetSkill(EnemyStateMachine.SkillType.Basic);
                 return;
             }
         }
