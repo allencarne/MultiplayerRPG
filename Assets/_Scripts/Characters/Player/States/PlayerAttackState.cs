@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerState
 {
-    private readonly PlayerSkill skill;
+    private readonly ActiveSkill skill;
 
-    public PlayerAttackState(PlayerStateMachine owner, PlayerSkill skill) : base(owner)
+    public PlayerAttackState(PlayerStateMachine owner, ActiveSkill skill) : base(owner)
     {
         this.skill = skill;
     }

@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerSkill
+public class ActiveSkill
 {
-    public PlayerSkill(ActiveSkillData data, int index)
+    public ActiveSkill(ActiveSkillData data, int index)
     {
         skillData = data;
         skillIndex = index;

@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerPassive
+public class PassiveSkill
 {
     public PassiveSkillData passiveData;
     int passiveIndex;
     bool onCooldown;
     Action unsubscribe;
 
-    public PlayerPassive(PassiveSkillData data, int index)
+    public PassiveSkill(PassiveSkillData data, int index)
     {
         passiveData = data;
         passiveIndex = index;

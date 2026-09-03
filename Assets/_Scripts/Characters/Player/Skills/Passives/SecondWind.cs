@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SecondWind : PlayerSkill
+public class SecondWind : ActiveSkill
 {
     bool isOnCooldown = false;
 

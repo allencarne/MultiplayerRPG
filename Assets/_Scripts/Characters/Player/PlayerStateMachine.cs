@@ -9,14 +9,14 @@ public class PlayerStateMachine : StateMachine
     private PlayerState state;
 
     [Header("Skills")]
-    [HideInInspector] public PlayerSkill CurrentSkill;
+    [HideInInspector] public ActiveSkill CurrentSkill;
     [SerializeField] ClassSkillSelector setSkills;
     [HideInInspector] public ClassSkillSet skills;
     public SkillBarUI[] coolDownTracker;
 
-    PlayerPassive firstPassiveInstance;
-    PlayerPassive secondPassiveInstance;
-    PlayerPassive thirdPassiveInstance;
+    PassiveSkill firstPassiveInstance;
+    PassiveSkill secondPassiveInstance;
+    PassiveSkill thirdPassiveInstance;
 
     //[Header("Animator")]
     //public CharacterAnimator Animator;
@@ -274,28 +274,28 @@ public class PlayerStateMachine : StateMachine
     public void SetFirstPassive(PassiveSkillData data, int index)
     {
         firstPassiveInstance?.EndPassive(this);
-        firstPassiveInstance = new PlayerPassive(data, index);
+        firstPassiveInstance = new PassiveSkill(data, index);
         firstPassiveInstance.StartPassive(this);
     }
 
     public void SetSecondPassive(PassiveSkillData data, int index)
     {
         secondPassiveInstance?.EndPassive(this);
-        secondPassiveInstance = new PlayerPassive(data, index);
+        secondPassiveInstance = new PassiveSkill(data, index);
         secondPassiveInstance.StartPassive(this);
     }
 
     public void SetThirdPassive(PassiveSkillData data, int index)
     {
         thirdPassiveInstance?.EndPassive(this);
-        thirdPassiveInstance = new PlayerPassive(data, index);
+        thirdPassiveInstance = new PassiveSkill(data, index);
         thirdPassiveInstance.StartPassive(this);
     }
 
     private void StartAbility(ActiveSkillData data, int index)
     {
         IsAttacking = true;
-        PlayerSkill skill = new PlayerSkill(data, index);
+        ActiveSkill skill = new ActiveSkill(data, index);
 
         if (data.TargetingMode == ActiveSkillData.Targeting.Ground)
         {

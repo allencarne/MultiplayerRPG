@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Fury : PlayerSkill
+public class Fury : ActiveSkill
 {
     int furyHasteStacks = 0;
     int furyPerHit = 5;
