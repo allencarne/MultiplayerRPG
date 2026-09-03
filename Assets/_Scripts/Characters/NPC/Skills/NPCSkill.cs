@@ -116,7 +116,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
     protected void InitializeAbility(ActiveSkillData.SkillType skilltype, NPCStateMachine owner)
     {
-        owner.CurrentSkill = this;
+        //owner.CurrentSkill = this;
 
         if (skilltype == ActiveSkillData.SkillType.Basic)
         {

@@ -71,8 +71,8 @@ public class DamageOnTrigger : NetworkBehaviour
             // Fury
             if (CanGenerateFury)
             {
-                Fury fury = attacker.GetComponentInChildren<Fury>();
-                if (fury != null) fury.FuryClientRPC(attacker);
+                //Fury fury = attacker.GetComponentInChildren<Fury>();
+                //if (fury != null) fury.FuryClientRPC(attacker);
             }
 
             HitSparkClientRPC(hitPosition, rotation, collision.transform.position);

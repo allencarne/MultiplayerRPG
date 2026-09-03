@@ -129,7 +129,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
     protected void InitializeAbility(ActiveSkillData.SkillType skilltype, EnemyStateMachine owner)
     {
-        owner.CurrentSkill = this;
+        //owner.CurrentSkill = this;
 
         if (skilltype == ActiveSkillData.SkillType.Basic)
         {

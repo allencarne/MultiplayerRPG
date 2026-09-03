@@ -1,9 +1,9 @@
 
 public class NPCAttackState : NPCState
 {
-    private readonly NPCSkill skill;
+    private readonly ActiveSkill skill;
 
-    public NPCAttackState(NPCStateMachine owner, NPCSkill skill) : base(owner)
+    public NPCAttackState(NPCStateMachine owner, ActiveSkill skill) : base(owner)
     {
         this.skill = skill;
     }

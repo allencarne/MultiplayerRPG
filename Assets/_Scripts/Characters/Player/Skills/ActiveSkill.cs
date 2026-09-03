@@ -25,14 +25,14 @@ public class ActiveSkill
     [HideInInspector] public float ModifiedCastTime;
     [HideInInspector] public float ModifiedRecoveryTime;
 
-    public virtual void StartSkill(PlayerStateMachine owner)
+    public virtual void StartSkill(StateMachine owner)
     {
-        owner.CurrentSkill = this;
+        if (skillData == null) return;
 
         if (IsBasicAttack())
         {
-            ModifiedCastTime = skillData.CastTime / owner.PlayerStats.TotalAS;
-            ModifiedRecoveryTime = skillData.RecoveryTime / owner.PlayerStats.TotalAS;
+            ModifiedCastTime = skillData.CastTime / owner.Stats.TotalAS;
+            ModifiedRecoveryTime = skillData.RecoveryTime / owner.Stats.TotalAS;
         }
         else
         {
@@ -40,11 +40,14 @@ public class ActiveSkill
             ModifiedRecoveryTime = skillData.RecoveryTime;
         }
 
-        // Handle Aim
-        Vector2 aimDirection = owner.Aimer.right;
-        Quaternion aimRotation = owner.Aimer.rotation;
+        // Handle Aim: prefer Player's Aimer when present, otherwise fallback to owner.transform.right
+        Transform aimerTransform = owner.transform;
+        if (owner is PlayerStateMachine pOwner && pOwner.Aimer != null) aimerTransform = pOwner.Aimer;
+
+        Vector2 aimDirection = aimerTransform.right;
+        Quaternion aimRotation = aimerTransform.rotation;
         Vector2 spawnPos = owner.transform.position;
-        Vector2 aimOffset = ((Vector2)owner.Aimer.right).normalized * skillData.SkillRange;
+        Vector2 aimOffset = (aimDirection).normalized * skillData.SkillRange;
 
         if (GroundTargetPosition.HasValue)
         {
@@ -68,7 +71,7 @@ public class ActiveSkill
             AimDirection = aimDirection,
             AimRotation = aimRotation,
             AimOffset = aimOffset,
-            AttackerDamage = owner.PlayerStats.TotalDamage,
+            AttackerDamage = owner.Stats.TotalDamage,
             IsBasic = IsBasicAttack(),
             Attacker = owner.NetworkObject,
             SkillType = skillData.skillType,
@@ -93,16 +96,29 @@ public class ActiveSkill
         Vector2 snappedDirection = owner.Animator.SnapDirection(context.AimDirection);
         owner.Animator.SetDirection(snappedDirection);
 
-        // Head Animator
-        owner.customization.net_FacingDirection.Value = snappedDirection;
-        owner.playerHead.SetHead(snappedDirection);
+        // Animate Player Head
+        if (owner is PlayerStateMachine player)
+        {
+            player.customization.net_FacingDirection.Value = snappedDirection;
+            player.playerHead.SetHead(snappedDirection);
+        }
 
+        // Animate NPC Head
+        if (owner is NPCStateMachine npc)
+        {
+            npc.npc.net_FacingDirection.Value = snappedDirection;
+            npc.npc.npcHead.SetHead(snappedDirection);
+        }
+
+        // Start Cool Down
         owner.StartCoroutine(CoolDownn(skillData.skillType, skillData.CoolDown, owner));
+
+        // Change State
         ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
         CastState(owner);
     }
 
-    public virtual void UpdateSkill(PlayerStateMachine owner)
+    public virtual void UpdateSkill(StateMachine owner)
     {
         if (currentState == ActiveSkillData.SkillPhase.Done) return;
 
@@ -116,55 +132,153 @@ public class ActiveSkill
             if (StateTimer <= 0f) StateTransition(owner);
         }
     }
-    public virtual void FixedUpdateSkill(PlayerStateMachine owner)
+    public virtual void FixedUpdateSkill(StateMachine owner)
     {
 
     }
 
-    public virtual void CastState(PlayerStateMachine owner)
+    public virtual void CastState(StateMachine owner)
     {
-        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
+        if (owner is PlayerStateMachine player)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+        }
+
+        if (owner is NPCStateMachine npc)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+        }
+
+        if (owner is EnemyStateMachine enemy)
+        {
+            owner.Animator.PlayEnemyAttackAnimation(skillData.skillType, ActiveSkillData.SkillPhase.Cast);
+        }
+
         owner.CastBar.StartCast(ModifiedCastTime);
         RunEffects(skillData.OnCastEffects, owner, ActiveSkillData.SkillPhase.Cast);
     }
-    public virtual void ActionState(PlayerStateMachine owner)
+    public virtual void ActionState(StateMachine owner)
     {
         if (skillData.ActionTime <= 0) return;
-        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
+
+        if (owner is PlayerStateMachine player)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+        }
+
+        if (owner is NPCStateMachine npc)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+        }
+
+        if (owner is EnemyStateMachine enemy)
+        {
+            owner.Animator.PlayEnemyAttackAnimation(skillData.skillType, ActiveSkillData.SkillPhase.Action);
+        }
+
         RunEffects(skillData.OnActionEffects, owner, ActiveSkillData.SkillPhase.Action);
     }
-    public virtual void ImpactState(PlayerStateMachine owner, bool fireEffects = true)
+    public virtual void ImpactState(StateMachine owner, bool fireEffects = true)
     {
-        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
+        if (owner is PlayerStateMachine player)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+        }
+
+        if (owner is NPCStateMachine npc)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+        }
+
+        if (owner is EnemyStateMachine enemy)
+        {
+            owner.Animator.PlayEnemyAttackAnimation(skillData.skillType, ActiveSkillData.SkillPhase.Impact);
+        }
+
         if (fireEffects) RunEffects(skillData.OnImpactEffects, owner, ActiveSkillData.SkillPhase.Impact);
     }
-    public virtual void RecoveryState(PlayerStateMachine owner, bool fireEffects = true)
+    public virtual void RecoveryState(StateMachine owner, bool fireEffects = true)
     {
-        owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
+        if (owner is PlayerStateMachine player)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+        }
+
+        if (owner is NPCStateMachine npc)
+        {
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+        }
+
+        if (owner is EnemyStateMachine enemy)
+        {
+            owner.Animator.PlayEnemyAttackAnimation(skillData.skillType, ActiveSkillData.SkillPhase.Recovery);
+        }
+
         if (fireEffects)
         {
             owner.CastBar.StartRecovery(ModifiedRecoveryTime);
             RunEffects(skillData.OnRecoveryEffects, owner, ActiveSkillData.SkillPhase.Recovery);
         }
     }
-    public void DoneState(bool isStaggered, PlayerStateMachine owner)
+    public void DoneState(bool isStaggered, StateMachine owner)
     {
         currentState = ActiveSkillData.SkillPhase.Done;
-        owner.IsAttacking = false;
-        owner.CurrentSkill = null;
 
-        if (isStaggered)
+        // Clear owner.CurrentSkill and IsAttacking in an owner-specific manner
+        if (owner is PlayerStateMachine player)
         {
-            owner.SetState(new PlayerStaggerState(owner));
+            player.IsAttacking = false;
+            player.CurrentSkill = null;
 
+            if (isStaggered)
+            {
+                player.SetState(new PlayerStaggerState(player));
+            }
+            else
+            {
+                if (player.IsFullySpawned) player.SetState(new PlayerIdleState(player));
+            }
         }
-        else
+        else if (owner is EnemyStateMachine enemy)
         {
-            if (owner.IsFullySpawned) owner.SetState(new PlayerIdleState(owner));
+            enemy.IsAttacking = false;
+            enemy.CurrentSkill = null;
+
+            if (isStaggered)
+            {
+                enemy.SetState(new EnemyStaggerState(enemy));
+                return;
+            }
+
+            if (enemy.Target == null)
+            {
+                enemy.enemy.PatienceBar.Patience.Value = 0;
+                enemy.IsPlayerInRange = false;
+                enemy.Target = null;
+                enemy.SetState(new EnemyResetState(enemy));
+            }
+            else
+            {
+                enemy.SetState(new EnemyIdleState(enemy));
+            }
+        }
+        else if (owner is NPCStateMachine npc)
+        {
+            npc.IsAttacking = false;
+            npc.CurrentSkill = null;
+
+            if (isStaggered)
+            {
+                npc.SetState(new NPCStaggerState(npc));
+            }
+            else
+            {
+                npc.TransitionToIdle();
+            }
         }
     }
 
-    protected void StateTransition(PlayerStateMachine owner, bool hasAction = false)
+    protected void StateTransition(StateMachine owner, bool hasAction = false)
     {
         switch (currentState)
         {
@@ -232,31 +346,57 @@ public class ActiveSkill
         StateTimer = duration;
     }
 
-    IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, PlayerStateMachine owner)
+    IEnumerator CoolDownn(ActiveSkillData.SkillType type, float coolDown, StateMachine owner)
     {
-        float modifiedCooldown = coolDown / owner.PlayerStats.TotalCDR;
+        float modifiedCooldown = coolDown / owner.Stats.TotalCDR;
 
-        foreach (SkillBarUI bar in owner.coolDownTracker)
+        // Player-specific UI update
+        if (owner is PlayerStateMachine p)
         {
-            if (bar == null) continue;
-            if (!bar.gameObject.activeInHierarchy) continue;
-            bar.SkillCoolDown(skillData.skillType, modifiedCooldown);
+            foreach (SkillBarUI bar in p.coolDownTracker)
+            {
+                if (bar == null) continue;
+                if (!bar.gameObject.activeInHierarchy) continue;
+                bar.SkillCoolDown(skillData.skillType, modifiedCooldown);
+            }
         }
 
         yield return new WaitForSeconds(modifiedCooldown);
 
-        switch (type)
+        // Set cooldown flags on the concrete owner
+        if (owner is PlayerStateMachine playerOwner)
         {
-            case ActiveSkillData.SkillType.Basic: owner.CanBasic = true; break;
-            case ActiveSkillData.SkillType.Offensive: owner.CanOffensive = true; break;
-            case ActiveSkillData.SkillType.Mobility: owner.CanMobility = true; break;
-            case ActiveSkillData.SkillType.Defensive: owner.CanDefensive = true; break;
-            case ActiveSkillData.SkillType.Utility: owner.CanUtility = true; break;
-            case ActiveSkillData.SkillType.Ultimate: owner.CanUltimate = true; break;
+            switch (type)
+            {
+                case ActiveSkillData.SkillType.Basic: playerOwner.CanBasic = true; break;
+                case ActiveSkillData.SkillType.Offensive: playerOwner.CanOffensive = true; break;
+                case ActiveSkillData.SkillType.Mobility: playerOwner.CanMobility = true; break;
+                case ActiveSkillData.SkillType.Defensive: playerOwner.CanDefensive = true; break;
+                case ActiveSkillData.SkillType.Utility: playerOwner.CanUtility = true; break;
+                case ActiveSkillData.SkillType.Ultimate: playerOwner.CanUltimate = true; break;
+            }
+        }
+        else if (owner is EnemyStateMachine enemyOwner)
+        {
+            switch (type)
+            {
+                case ActiveSkillData.SkillType.Basic: enemyOwner.CanBasic = true; break;
+                case ActiveSkillData.SkillType.Mobility: enemyOwner.CanSpecial = true; break;
+                case ActiveSkillData.SkillType.Ultimate: enemyOwner.CanUltimate = true; break;
+            }
+        }
+        else if (owner is NPCStateMachine npcOwner)
+        {
+            switch (type)
+            {
+                case ActiveSkillData.SkillType.Basic: npcOwner.CanBasic = true; break;
+                case ActiveSkillData.SkillType.Mobility: npcOwner.CanMobility = true; break;
+                case ActiveSkillData.SkillType.Ultimate: npcOwner.CanUltimate = true; break;
+            }
         }
     }
 
-    void RunEffects(SkillEffect[] effects, PlayerStateMachine owner, ActiveSkillData.SkillPhase phase)
+    void RunEffects(SkillEffect[] effects, StateMachine owner, ActiveSkillData.SkillPhase phase)
     {
         if (effects == null) return;
 

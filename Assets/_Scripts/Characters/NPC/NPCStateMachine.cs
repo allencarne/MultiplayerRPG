@@ -9,10 +9,10 @@ public class NPCStateMachine : StateMachine
     public NPCState state;
 
     [Header("Skills")]
-    [SerializeField] NPCSkill basicSkill;
-    [SerializeField] NPCSkill specialSkill;
-    [SerializeField] NPCSkill ultimateSkill;
-    [HideInInspector] public NPCSkill CurrentSkill;
+    [SerializeField] ActiveSkillData basicSkill;
+    [SerializeField] ActiveSkillData specialSkill;
+    [SerializeField] ActiveSkillData ultimateSkill;
+    [HideInInspector] public ActiveSkill CurrentSkill;
 
     [Header("Status Effects")]
     //public CrowdControl CrowdControl;
@@ -86,9 +86,9 @@ public class NPCStateMachine : StateMachine
     {
         switch (newSkill)
         {
-            case SkillType.Basic: CurrentSkill = basicSkill; break;
-            case SkillType.Special: CurrentSkill = specialSkill; break;
-            case SkillType.Ultimate: CurrentSkill = ultimateSkill; break;
+            case SkillType.Basic: CurrentSkill = new ActiveSkill(basicSkill, 0); break;
+            case SkillType.Special: CurrentSkill = new ActiveSkill(specialSkill, 0); ; break;
+            case SkillType.Ultimate: CurrentSkill = new ActiveSkill(ultimateSkill, 0); ; break;
         }
 
         SetState(new NPCAttackState(this, CurrentSkill));
@@ -345,9 +345,9 @@ public class NPCStateMachine : StateMachine
 
     protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {
-        ActiveSkillData.SkillType.Basic => basicSkill.skillData,
-        ActiveSkillData.SkillType.Offensive => specialSkill.skillData,
-        ActiveSkillData.SkillType.Ultimate => ultimateSkill.skillData,
+        ActiveSkillData.SkillType.Basic => basicSkill,
+        ActiveSkillData.SkillType.Offensive => specialSkill,
+        ActiveSkillData.SkillType.Ultimate => ultimateSkill,
         _ => null
     };
 }

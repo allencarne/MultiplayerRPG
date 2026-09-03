@@ -7,10 +7,10 @@ public class EnemyStateMachine : StateMachine
     public EnemyState state;
 
     [Header("Skills")]
-    [SerializeField] EnemySkill enemyBasicAbility;
-    [SerializeField] EnemySkill enemySpecialAbility;
-    [SerializeField] EnemySkill enemyUltimateAbility;
-    [HideInInspector] public EnemySkill CurrentSkill;
+    [SerializeField] ActiveSkill enemyBasicAbility;
+    [SerializeField] ActiveSkill enemySpecialAbility;
+    [SerializeField] ActiveSkill enemyUltimateAbility;
+    [HideInInspector] public ActiveSkill CurrentSkill;
 
     [Header("Scripts")]
     //public CrowdControl CrowdControl;

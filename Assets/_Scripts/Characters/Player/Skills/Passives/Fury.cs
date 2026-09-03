@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Fury : ActiveSkill
 {
+    public Fury(ActiveSkillData data, int index) : base(data, index)
+    {
+    }
+
+    /*
+
     int furyHasteStacks = 0;
     int furyPerHit = 5;
     int furyFallOff = 5;
@@ -11,10 +17,6 @@ public class Fury : ActiveSkill
 
     Coroutine idleCoroutine;
     [SerializeField] PlayerStateMachine stateMachine;
-
-    public Fury(ActiveSkillData data, int index) : base(data, index)
-    {
-    }
 
     public override void StartSkill(PlayerStateMachine owner)
     {
@@ -112,4 +114,5 @@ public class Fury : ActiveSkill
 
         furyHasteStacks = newStacks;
     }
+    */
 }

@@ -9,11 +9,11 @@ public class SecondWind : ActiveSkill
     {
     }
 
-    public override void UpdateSkill(PlayerStateMachine owner)
+    public override void UpdateSkill(StateMachine owner)
     {
         if (!owner.IsOwner) return;
 
-        float healthPercent = owner.PlayerStats.net_CurrentHP.Value / owner.PlayerStats.net_BaseHP.Value;
+        float healthPercent = owner.Stats.net_CurrentHP.Value / owner.Stats.net_BaseHP.Value;
 
         if (!isOnCooldown && healthPercent <= 0.4f)
         {

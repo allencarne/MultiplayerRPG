@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyState
 {
-    private readonly EnemySkill skill;
+    private readonly ActiveSkill skill;
 
-    public EnemyAttackState(EnemyStateMachine owner, EnemySkill skill) : base(owner)
+    public EnemyAttackState(EnemyStateMachine owner, ActiveSkill skill) : base(owner)
     {
         this.skill = skill;
     }
