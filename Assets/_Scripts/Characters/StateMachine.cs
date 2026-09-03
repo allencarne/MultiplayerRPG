@@ -25,6 +25,7 @@ public abstract class StateMachine : NetworkBehaviour
         CrowdControl = GetComponent<CrowdControl>();
         Buffs = GetComponent<Buffs>();
         DeBuffs = GetComponent<DeBuffs>();
+        Mobility = GetComponent<Mobility>();
 
         CastBar = GetComponentInChildren<CastBar>();
     }

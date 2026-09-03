@@ -3153,6 +3153,7 @@ GameObject:
   - component: {fileID: 5438906521032660789}
   - component: {fileID: 3730166254070588288}
   - component: {fileID: 3420725605647731624}
+  - component: {fileID: 3227228506341842699}
   m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
@@ -3468,7 +3469,6 @@ MonoBehaviour:
   npcQuest: {fileID: 6313527615267260075}
   npcDialogue: {fileID: 7778428804253406039}
   PatienceBar: {fileID: 5571914206174223953}
-  CastBar: {fileID: 3652510914053340914}
   net_FacingDirection:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -3496,14 +3496,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  Stats: {fileID: 0}
+  Animator: {fileID: 8434268355856330972}
+  Collider2D: {fileID: 0}
+  RigidBody2D: {fileID: 0}
+  CrowdControl: {fileID: 3730166254070588288}
+  Buffs: {fileID: 6674310060799249892}
+  DeBuffs: {fileID: 5438906521032660789}
+  Mobility: {fileID: 0}
+  CastBar: {fileID: 0}
   basicSkill: {fileID: 3528148661971868861}
   specialSkill: {fileID: 0}
   ultimateSkill: {fileID: 0}
   CurrentSkill: {fileID: 0}
-  Animator: {fileID: 8434268355856330972}
-  CrowdControl: {fileID: 3730166254070588288}
-  Buffs: {fileID: 6674310060799249892}
-  DeBuffs: {fileID: 5438906521032660789}
   IsEnemyInRange: 0
   IsAttacking: 0
   isResetting: 0
@@ -3514,9 +3519,7 @@ MonoBehaviour:
   StartingPosition: {x: 0, y: 0}
   BasicRadius: 3
   DeAggroRadius: 10
-  Collider: {fileID: 5667196409634766878}
   npc: {fileID: 4856348772391820444}
-  NpcRB: {fileID: 4568072980406800238}
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -3702,6 +3705,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
   ShowTopMostFoldoutHeaderGroup: 1
   visibilityRange: 50
+--- !u!114 &3227228506341842699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152011778197999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85453d23adfb5445ac1c9e86eed0563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mobility
+  rb: {fileID: 4568072980406800238}
 --- !u!1 &8074817158488108185
 GameObject:
   m_ObjectHideFlags: 0
