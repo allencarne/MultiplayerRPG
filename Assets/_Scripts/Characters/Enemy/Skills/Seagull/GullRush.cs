@@ -7,24 +7,24 @@ public class GullRush : EnemySkill
 
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillData.skillType, owner);
+        //InitializeAbility(skillData.skillType, owner);
 
         // Aim
-        AimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * skillData.SkillRange;
+        //AimDirection = (owner.Target.position - transform.position).normalized;
+        //float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        //AimRotation = Quaternion.Euler(0, 0, angle);
+        //AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
-        CastState(owner);
+        //ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
+        //CastState(owner);
     }
 
     public override void FixedUpdateSkill(EnemyStateMachine owner)
     {
-        if (currentState == ActiveSkillData.SkillPhase.Impact)
-        {
-            owner.RigidBody2D.linearVelocity = AimDirection * slideForce;
-        }
+        //if (currentState == ActiveSkillData.SkillPhase.Impact)
+        //{
+            //owner.RigidBody2D.linearVelocity = AimDirection * slideForce;
+        //}
     }
 
     public override void CastState(EnemyStateMachine owner)
@@ -33,21 +33,21 @@ public class GullRush : EnemySkill
         //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(skillData.CastTime);
-        Telegraph(skillData.CastTime, true, true);
+        //owner.enemy.CastBar.StartCast(skillData.CastTime);
+        //Telegraph(skillData.CastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
+        //owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
 
         //Animate(owner, skillData.skillType, State.Impact);
-        Attack(owner.NetworkObject, true, true);
+        //Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
         //Animate(owner, skillData.skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
+        //owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

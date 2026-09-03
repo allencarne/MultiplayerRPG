@@ -17,7 +17,7 @@ public class NPC : NetworkBehaviour, IInteractable
 
     [Header("UI")]
     public PatienceBar PatienceBar;
-    public CastBar CastBar;
+    //public CastBar CastBar;
 
     [Header("Variables")]
     public string DisplayName => Data.NPCName;

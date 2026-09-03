@@ -136,7 +136,7 @@ public class EnemyStateMachine : StateMachine
 
         enemy.stats.OnInterrupted?.Invoke();
 
-        enemy.CastBar.StartInterrupt();
+        CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
 
@@ -144,7 +144,7 @@ public class EnemyStateMachine : StateMachine
     {
         if (enemy.stats.isDead) return;
 
-        enemy.CastBar.StartInterrupt();
+        CastBar.StartInterrupt();
 
         if (CurrentSkill != null)
         {

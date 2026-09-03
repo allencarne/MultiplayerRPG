@@ -38,7 +38,7 @@ public class NPCDeathState : NPCState
         owner.PatrolIndex = 0;
 
         // Reset Cast Bar
-        owner.npc.CastBar.ResetCastBar();
+        owner.CastBar.ResetCastBar();
 
         // Disable colliders and sprites
         owner.SetColliderAndSprites(false);

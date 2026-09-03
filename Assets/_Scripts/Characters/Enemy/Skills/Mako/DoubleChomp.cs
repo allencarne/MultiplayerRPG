@@ -7,16 +7,16 @@ public class DoubleChomp : EnemySkill
 
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillData.skillType, owner);
+        //InitializeAbility(skillData.skillType, owner);
 
         // Aim
-        AimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * skillData.SkillRange;
+        //AimDirection = (owner.Target.position - transform.position).normalized;
+        //float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        //AimRotation = Quaternion.Euler(0, 0, angle);
+        //AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
-        CastState(owner);
+        //ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
+        //CastState(owner);
     }
 
     public override void CastState(EnemyStateMachine owner)
@@ -25,28 +25,29 @@ public class DoubleChomp : EnemySkill
         //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(ModifiedCastTime);
-        Telegraph(ModifiedCastTime, true, true);
+        //owner.enemy.CastBar.StartCast(ModifiedCastTime);
+        //Telegraph(ModifiedCastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         //Animate(owner, skillData.skillType, State.Impact);
-        Attack(owner.NetworkObject, true, true);
-        attack = StartCoroutine(AttackPattern(owner));
+        //Attack(owner.NetworkObject, true, true);
+        //attack = StartCoroutine(AttackPattern(owner));
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        attack = null;
+        //attack = null;
         //Animate(owner, skillData.skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
+        //owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 
     public override void UpdateSkill(EnemyStateMachine owner)
     {
-        base.UpdateSkill(owner);
+        //base.UpdateSkill(owner);
 
+        /*
         if (owner.enemy.stats.isDead)
         {
             if (attack != null)
@@ -55,13 +56,14 @@ public class DoubleChomp : EnemySkill
                 attack = null;
             }
         }
+        */
     }
 
     IEnumerator AttackPattern(EnemyStateMachine owner)
     {
-        Attack(owner.NetworkObject, true, true);
+        //Attack(owner.NetworkObject, true, true);
         yield return new WaitForSeconds(.3f);
 
-        Attack(owner.NetworkObject, true, true);
+        //Attack(owner.NetworkObject, true, true);
     }
 }

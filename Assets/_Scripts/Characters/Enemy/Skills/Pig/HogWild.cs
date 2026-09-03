@@ -4,19 +4,19 @@ public class HogWild : EnemySkill
 {
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillData.skillType, owner);
+        //InitializeAbility(skillData.skillType, owner);
 
         // Basic
-        ModifiedCastTime = skillData.CastTime / owner.enemy.stats.TotalAS;
+        //ModifiedCastTime = skillData.CastTime / owner.enemy.stats.TotalAS;
 
         // Aim
-        AimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * skillData.SkillRange;
+        //AimDirection = (owner.Target.position - transform.position).normalized;
+        //float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        //AimRotation = Quaternion.Euler(0, 0, angle);
+        //AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
-        CastState(owner);
+        //ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
+        //CastState(owner);
     }
 
     public override void CastState(EnemyStateMachine owner)
@@ -25,20 +25,20 @@ public class HogWild : EnemySkill
         //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(ModifiedCastTime);
+        //owner.enemy.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         //Animate(owner, skillData.skillType, State.Impact);
 
-        owner.Buffs.might.StartMight(2,10);
-        owner.Buffs.haste.StartHaste(6,10);
+        //owner.Buffs.might.StartMight(2,10);
+        //owner.Buffs.haste.StartHaste(6,10);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
         //Animate(owner, skillData.skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
+        //owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

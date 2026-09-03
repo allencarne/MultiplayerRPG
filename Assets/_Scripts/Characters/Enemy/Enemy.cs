@@ -19,7 +19,7 @@ public class Enemy : NetworkBehaviour
     [Header("UI")]
     [SerializeField] HealthBar healthBar;
     public PatienceBar PatienceBar;
-    public CastBar CastBar;
+    //public CastBar CastBar;
 
     [Header("Bools")]
     public bool IsDummy;
@@ -279,6 +279,6 @@ public class Enemy : NetworkBehaviour
     {
         stateMachine.Collider2D.enabled = false;
         shadowSprite.enabled = false;
-        CastBar.gameObject.SetActive(false);
+        stateMachine.CastBar.gameObject.SetActive(false);
     }
 }

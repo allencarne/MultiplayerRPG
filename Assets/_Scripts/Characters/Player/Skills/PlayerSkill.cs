@@ -124,7 +124,7 @@ public class PlayerSkill
     public virtual void CastState(PlayerStateMachine owner)
     {
         owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
-        owner.player.CastBar.StartCast(ModifiedCastTime);
+        owner.CastBar.StartCast(ModifiedCastTime);
         RunEffects(skillData.OnCastEffects, owner, ActiveSkillData.SkillPhase.Cast);
     }
     public virtual void ActionState(PlayerStateMachine owner)
@@ -143,7 +143,7 @@ public class PlayerSkill
         owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, owner.customization.net_ChestIndex.Value, owner.customization.net_LegsIndex.Value);
         if (fireEffects)
         {
-            owner.player.CastBar.StartRecovery(ModifiedRecoveryTime);
+            owner.CastBar.StartRecovery(ModifiedRecoveryTime);
             RunEffects(skillData.OnRecoveryEffects, owner, ActiveSkillData.SkillPhase.Recovery);
         }
     }

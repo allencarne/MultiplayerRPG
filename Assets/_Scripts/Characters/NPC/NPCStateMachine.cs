@@ -102,7 +102,7 @@ public class NPCStateMachine : StateMachine
 
         npc.stats.OnInterrupted?.Invoke();
 
-        npc.CastBar.StartInterrupt();
+        CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
 
@@ -110,7 +110,7 @@ public class NPCStateMachine : StateMachine
     {
         if (npc.stats.isDead) return;
 
-        npc.CastBar.StartInterrupt();
+        CastBar.StartInterrupt();
 
         if (CurrentSkill != null)
         {

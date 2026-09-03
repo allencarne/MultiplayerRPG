@@ -23,7 +23,7 @@ public class Player : NetworkBehaviour
     [SerializeField] ToolTip toolTip;
 
     [Header("UI")]
-    public CastBar CastBar;
+    //public CastBar CastBar;
     public Image[] playerImages;
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;

@@ -24,7 +24,7 @@ public class PlayerDeathState : PlayerState
         owner.customization.net_FacingDirection.Value = new Vector2(1, 0);
 
         // Reset the cast bar
-        owner.player.CastBar.ResetCastBar();
+        owner.CastBar.ResetCastBar();
 
         // Disable the collider to prevent interactions while dead
         owner.RequestSetColliderServerRpc(false);

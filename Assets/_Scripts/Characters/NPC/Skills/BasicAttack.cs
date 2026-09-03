@@ -27,7 +27,7 @@ public class BasicAttack : NPCSkill
     {
         owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.skillType, ActiveSkillData.SkillPhase.Cast, owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex);
         //Animate(owner, skillData.weaponType, skillData.skillType, State.Cast);
-        owner.npc.CastBar.StartCast(ModifiedCastTime);
+        owner.CastBar.StartCast(ModifiedCastTime);
     }
 
     public override void ImpactState(NPCStateMachine owner)
@@ -49,6 +49,6 @@ public class BasicAttack : NPCSkill
     {
         owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.skillType, ActiveSkillData.SkillPhase.Recovery, owner.npc.Data.ChestIndex, owner.npc.Data.LegsIndex);
         //Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
-        owner.npc.CastBar.StartRecovery(skillData.RecoveryTime);
+        owner.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

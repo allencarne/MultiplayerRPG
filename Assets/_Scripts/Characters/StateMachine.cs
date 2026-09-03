@@ -13,6 +13,8 @@ public abstract class StateMachine : NetworkBehaviour
     public DeBuffs DeBuffs;
     public Mobility Mobility;
 
+    public CastBar CastBar;
+
     private void Awake()
     {
         Stats = GetComponent<CharacterStats>();
@@ -23,6 +25,8 @@ public abstract class StateMachine : NetworkBehaviour
         CrowdControl = GetComponent<CrowdControl>();
         Buffs = GetComponent<Buffs>();
         DeBuffs = GetComponent<DeBuffs>();
+
+        CastBar = GetComponentInChildren<CastBar>();
     }
 
     public virtual Vector2 CurrentMoveInput => Vector2.zero;

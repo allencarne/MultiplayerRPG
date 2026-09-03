@@ -31,7 +31,7 @@ public class PlayerStateMachine : StateMachine
 
     [Header("UI")]
     public EnduranceBar EnduranceBar;
-    public CastBar CastBar;
+    //public CastBar CastBar;
 
     [Header("Components")]
     //public Collider2D Collider2D;
@@ -112,7 +112,7 @@ public class PlayerStateMachine : StateMachine
 
         PlayerStats.OnInterrupted?.Invoke();
 
-        player.CastBar.StartInterrupt();
+        CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
     }
 
@@ -120,7 +120,7 @@ public class PlayerStateMachine : StateMachine
     {
         if (PlayerStats.isDead) return;
 
-        player.CastBar.StartInterrupt();
+        CastBar.StartInterrupt();
 
         if (CurrentSkill != null)
         {

@@ -4,16 +4,16 @@ public class SproutSlap : EnemySkill
 {
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillData.skillType, owner);
+        //InitializeAbility(skillData.skillType, owner);
 
         // Aim
-        AimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * skillData.SkillRange;
+        //AimDirection = (owner.Target.position - transform.position).normalized;
+        //float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        //AimRotation = Quaternion.Euler(0, 0, angle);
+        //AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
-        CastState(owner);
+        //ChangeState(ActiveSkillData.SkillPhase.Cast, ModifiedCastTime);
+        //CastState(owner);
     }
 
     public override void CastState(EnemyStateMachine owner)
@@ -22,19 +22,19 @@ public class SproutSlap : EnemySkill
         //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(ModifiedCastTime);
-        Telegraph(ModifiedCastTime, true, false);
+        //owner.CastBar.StartCast(ModifiedCastTime);
+        //Telegraph(ModifiedCastTime, true, false);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
         //Animate(owner, skillData.skillType, State.Impact);
-        Attack(owner.NetworkObject, true, false);
+        //Attack(owner.NetworkObject, true, false);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
         //Animate(owner, skillData.skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
+        //owner.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }

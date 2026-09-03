@@ -22776,7 +22776,6 @@ MonoBehaviour:
   PlayerInventory: {fileID: 6762276146836678153}
   toolTipPanel: {fileID: 3773704624688677214}
   toolTip: {fileID: 1961462787038074735}
-  CastBar: {fileID: 3947169594819012984}
   playerImages:
   - {fileID: 3915695176270634388}
   - {fileID: 7699765498428556517}
@@ -22814,29 +22813,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  Stats: {fileID: 0}
   Animator: {fileID: 6838946364081171883}
+  Collider2D: {fileID: 0}
+  RigidBody2D: {fileID: 0}
   CrowdControl: {fileID: 6004191219924147057}
   Buffs: {fileID: 1521853271822668813}
   DeBuffs: {fileID: 263776561653739863}
+  Mobility: {fileID: 8560715399392518864}
+  CastBar: {fileID: 3947169594819012984}
   setSkills: {fileID: 7132758807145908574}
   skills: {fileID: 0}
   coolDownTracker:
   - {fileID: 4581626590487998392}
   - {fileID: 2284823973247643926}
   player: {fileID: 841304983140234989}
-  PlayerStats: {fileID: 2477393547595159198}
   playerHead: {fileID: 8195993090240432214}
   customization: {fileID: 5248151491556837222}
   Input: {fileID: 8050150357123000786}
   Equipment: {fileID: 7139024652526368089}
   EnduranceBar: {fileID: 8785762146455488116}
-  CastBar: {fileID: 3947169594819012984}
-  Collider: {fileID: 6574121733873154346}
-  PlayerRB: {fileID: 9222441055534883323}
   Aimer: {fileID: 3442385175037626}
   playerInput: {fileID: 2155053313424514762}
   Indicator: {fileID: 8456314716194012628}
-  Mobility: {fileID: 8560715399392518864}
   LastMoveDirection: {x: 0, y: 0}
   CanRoll: 1
   IsFullySpawned: 0

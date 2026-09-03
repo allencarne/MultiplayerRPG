@@ -7,22 +7,22 @@ public class BeakBarrage : EnemySkill
 
     public override void StartSkill(EnemyStateMachine owner)
     {
-        InitializeAbility(skillData.skillType, owner);
+        //InitializeAbility(skillData.skillType, owner);
 
         // Aim
-        AimDirection = (owner.Target.position - transform.position).normalized;
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        AimRotation = Quaternion.Euler(0, 0, angle);
-        AimOffset = AimDirection.normalized * skillData.SkillRange;
+        //AimDirection = (owner.Target.position - transform.position).normalized;
+        //float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+        //AimRotation = Quaternion.Euler(0, 0, angle);
+        //AimOffset = AimDirection.normalized * skillData.SkillRange;
 
-        ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
-        CastState(owner);
+        //ChangeState(ActiveSkillData.SkillPhase.Cast, skillData.CastTime);
+        //CastState(owner);
     }
 
     public override void UpdateSkill(EnemyStateMachine owner)
     {
-        base.UpdateSkill(owner);
-
+        //base.UpdateSkill(owner);
+        /*
         if (owner.enemy.stats.isDead)
         {
             if (attack != null)
@@ -31,6 +31,7 @@ public class BeakBarrage : EnemySkill
                 attack = null;
             }
         }
+        */
     }
 
     public override void CastState(EnemyStateMachine owner)
@@ -39,36 +40,36 @@ public class BeakBarrage : EnemySkill
         //owner.EnemyAnimator.SetFloat("Horizontal", AimDirection.x);
         //owner.EnemyAnimator.SetFloat("Vertical", AimDirection.y);
 
-        owner.enemy.CastBar.StartCast(skillData.CastTime);
-        Telegraph(skillData.CastTime, true, true);
+        //owner.enemy.CastBar.StartCast(skillData.CastTime);
+        //Telegraph(skillData.CastTime, true, true);
     }
 
     public override void ImpactState(EnemyStateMachine owner)
     {
-        owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
+        //owner.Buffs.immoveable.StartImmovable(skillData.ImpactTime);
 
         //Animate(owner, skillData.skillType, State.Impact);
-        attack = StartCoroutine(AttackPattern(owner));
+        //attack = StartCoroutine(AttackPattern(owner));
     }
 
     IEnumerator AttackPattern(EnemyStateMachine owner)
     {
-        Attack(owner.NetworkObject, true, true);
+        //Attack(owner.NetworkObject, true, true);
+        //yield return new WaitForSeconds(.3f);
+
+        //Attack(owner.NetworkObject, true, true);
+        //yield return new WaitForSeconds(.3f);
+
+        //Attack(owner.NetworkObject, true, true);
         yield return new WaitForSeconds(.3f);
 
-        Attack(owner.NetworkObject, true, true);
-        yield return new WaitForSeconds(.3f);
-
-        Attack(owner.NetworkObject, true, true);
-        yield return new WaitForSeconds(.3f);
-
-        Attack(owner.NetworkObject, true, true);
+        //Attack(owner.NetworkObject, true, true);
     }
 
     public override void RecoveryState(EnemyStateMachine owner)
     {
-        attack = null;
+        //attack = null;
         //Animate(owner, skillData.skillType, State.Recovery);
-        owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
+        //owner.enemy.CastBar.StartRecovery(skillData.RecoveryTime);
     }
 }
