@@ -11,7 +11,8 @@ public class ActiveSkill
 
     public ActiveSkillData skillData;
     int skillIndex;
-    public SkillContext context;
+    public SkillContext skillContext;
+    public AimContext aimContext;
     public Vector2? GroundTargetPosition = null;
 
     protected int repeatCycleIndex = 0;
@@ -40,120 +41,15 @@ public class ActiveSkill
             ModifiedRecoveryTime = skillData.RecoveryTime;
         }
 
-        // Determine aim & spawn based on skill targeting mode and owner type.
-        Vector2 spawnPos = owner.transform.position;
-        Vector2 aimDirection = owner.transform.right;
-        Quaternion aimRotation = owner.transform.rotation;
-        Vector2 aimOffset = Vector2.zero;
-
-        // Helper: get target transform for NPC/Enemy if present
-        Transform aiTarget = null;
-        if (owner is EnemyStateMachine eOwner) aiTarget = eOwner.Target;
-        else if (owner is NPCStateMachine nOwner) aiTarget = nOwner.Target;
-
-        if (skillData.TargetingMode == ActiveSkillData.Targeting.Directional)
-        {
-            // Directional: players use their Aimer; AI aim at target
-            if (owner is PlayerStateMachine pOwner && pOwner.Aimer != null)
-            {
-                aimDirection = pOwner.Aimer.right;
-                aimRotation = pOwner.Aimer.rotation;
-                spawnPos = owner.transform.position;
-                aimOffset = aimDirection.normalized * skillData.SkillRange;
-            }
-            else if (aiTarget != null)
-            {
-                Vector2 dir = (Vector2)aiTarget.position - (Vector2)owner.transform.position;
-                if (dir.sqrMagnitude > 0.0001f)
-                {
-                    aimDirection = dir.normalized;
-                    float ang = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-                    aimRotation = Quaternion.Euler(0, 0, ang);
-                }
-                spawnPos = owner.transform.position;
-                aimOffset = aimDirection.normalized * skillData.SkillRange;
-            }
-            else
-            {
-                // fallback to owner's facing
-                aimDirection = owner.transform.right;
-                aimRotation = owner.transform.rotation;
-                spawnPos = owner.transform.position;
-                aimOffset = aimDirection.normalized * skillData.SkillRange;
-            }
-        }
-        else // Ground targeting
-        {
-            // Player sets GroundTargetPosition before StartSkill (via Indicator). If present, use that.
-            if (GroundTargetPosition.HasValue)
-            {
-                Vector2 target = GroundTargetPosition.Value;
-                spawnPos = target;
-                Vector2 dir = (target - (Vector2)owner.transform.position);
-                if (dir.sqrMagnitude > 0.0001f)
-                {
-                    aimDirection = dir.normalized;
-                    float ang = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-                    aimRotation = Quaternion.Euler(0, 0, ang);
-                }
-                aimOffset = Vector2.zero;
-            }
-            else if (aiTarget != null)
-            {
-                // For enemies/NPCs, spawn on floor where their target stands if within range.
-                Vector2 targetPos = aiTarget.position;
-                float dist = Vector2.Distance(owner.transform.position, targetPos);
-                if (dist <= skillData.SkillRange)
-                {
-                    spawnPos = targetPos;
-                    Vector2 dir = (targetPos - (Vector2)owner.transform.position);
-                    if (dir.sqrMagnitude > 0.0001f)
-                    {
-                        aimDirection = dir.normalized;
-                        float ang = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-                        aimRotation = Quaternion.Euler(0, 0, ang);
-                    }
-                    aimOffset = Vector2.zero;
-                }
-                else
-                {
-                    // target out of range -> fallback to directional from owner
-                    Vector2 dir = (targetPos - (Vector2)owner.transform.position);
-                    if (dir.sqrMagnitude > 0.0001f)
-                    {
-                        aimDirection = dir.normalized;
-                        float ang = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-                        aimRotation = Quaternion.Euler(0, 0, ang);
-                    }
-                    spawnPos = owner.transform.position;
-                    aimOffset = aimDirection.normalized * skillData.SkillRange;
-                }
-            }
-            else
-            {
-                // No ground position provided and no AI target -> fallback to directional
-                if (owner is PlayerStateMachine pOwner && pOwner.Aimer != null)
-                {
-                    aimDirection = pOwner.Aimer.right;
-                    aimRotation = pOwner.Aimer.rotation;
-                }
-                else
-                {
-                    aimDirection = owner.transform.right;
-                    aimRotation = owner.transform.rotation;
-                }
-                spawnPos = owner.transform.position;
-                aimOffset = aimDirection.normalized * skillData.SkillRange;
-            }
-        }
+        AimContext aimContext = GetAimContext(owner);
 
         // Build Context
-        context = new SkillContext
+        skillContext = new SkillContext
         {
-            SpawnPosition = spawnPos,
-            AimDirection = aimDirection,
-            AimRotation = aimRotation,
-            AimOffset = aimOffset,
+            SpawnPosition = aimContext.SpawnPosition,
+            AimDirection = aimContext.Direction,
+            AimRotation = aimContext.Rotation,
+            AimOffset = aimContext.Offset,
             AttackerDamage = owner.Stats.TotalDamage,
             IsBasic = IsBasicAttack(),
             Attacker = owner.NetworkObject,
@@ -176,7 +72,7 @@ public class ActiveSkill
         owner.RigidBody2D.linearVelocity = Vector2.zero;
 
         // Handle Animations
-        Vector2 snappedDirection = owner.Animator.SnapDirection(context.AimDirection);
+        Vector2 snappedDirection = owner.Animator.SnapDirection(skillContext.AimDirection);
         owner.Animator.SetDirection(snappedDirection);
 
         // Animate Player Head
@@ -485,7 +381,7 @@ public class ActiveSkill
 
         for (int i = 0; i < effects.Length; i++)
         {
-            SkillContext effectCtx = context;
+            SkillContext effectCtx = skillContext;
             effectCtx.Phase = phase;
             effectCtx.EffectIndex = i;
             effects[i].Execute(owner, effectCtx);
@@ -557,5 +453,77 @@ public class ActiveSkill
             }
         }
         return interval;
+    }
+
+    AimContext GetAimContext(StateMachine owner)
+    {
+        Transform aiTarget = GetAITarget(owner);
+
+        if (skillData.TargetingMode == ActiveSkillData.Targeting.Directional)
+            return GetDirectionalAim(owner, aiTarget);
+
+        return GetGroundAim(owner, aiTarget);
+    }
+
+    Transform GetAITarget(StateMachine owner)
+    {
+        if (owner is EnemyStateMachine enemy)
+            return enemy.Target;
+
+        if (owner is NPCStateMachine npc)
+            return npc.Target;
+
+        return null;
+    }
+
+    AimContext GetDirectionalAim(StateMachine owner, Transform aiTarget)
+    {
+        if (owner is PlayerStateMachine player && player.Aimer != null)
+        {
+            return aimContext.FromDirection(owner,player.Aimer.right,skillData.SkillRange);
+        }
+
+        if (aiTarget != null)
+        {
+            Vector2 direction = (Vector2)aiTarget.position - (Vector2)owner.transform.position;
+
+            if (direction.sqrMagnitude > 0.0001f)
+            {
+                return aimContext.FromDirection(owner, direction,skillData.SkillRange);
+            }
+        }
+
+        return aimContext.FromDirection( owner, owner.transform.right,skillData.SkillRange);
+    }
+
+    AimContext GetGroundAim(StateMachine owner, Transform aiTarget)
+    {
+        if (GroundTargetPosition.HasValue)
+        {
+            return aimContext.FromGroundTarget(owner,GroundTargetPosition.Value);
+        }
+
+        if (aiTarget != null)
+        {
+            return GetAIGroundAim(owner, aiTarget);
+        }
+
+        return GetDirectionalAim(owner, null);
+    }
+
+    AimContext GetAIGroundAim(StateMachine owner, Transform target)
+    {
+        Vector2 targetPosition = target.position;
+
+        float distance = Vector2.Distance(owner.transform.position,targetPosition);
+
+        if (distance <= skillData.SkillRange)
+        {
+            return aimContext.FromGroundTarget(owner,targetPosition);
+        }
+
+        Vector2 direction = targetPosition - (Vector2)owner.transform.position;
+
+        return aimContext.FromDirection(owner, direction,skillData.SkillRange);
     }
 }
