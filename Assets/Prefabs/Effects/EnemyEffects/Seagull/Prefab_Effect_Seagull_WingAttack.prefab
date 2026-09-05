@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 7029716674885078509}
   - component: {fileID: 8835601009179512806}
   - component: {fileID: 2067524765043138959}
-  - component: {fileID: 6398607892128352890}
+  - component: {fileID: 5573274709472412571}
+  - component: {fileID: 7427112710035410199}
   - component: {fileID: 4606743405202963621}
-  - component: {fileID: 3076281976693600442}
   m_Layer: 11
   m_Name: Prefab_Effect_Seagull_WingAttack
   m_TagString: Untagged
@@ -41,6 +41,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2453416273935673430
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -86,6 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -6074319489263768083, guid: 9be9e59031e0dfa4e9a5279a43b99630, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,7 +97,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!58 &8016796721164737440
 CircleCollider2D:
@@ -193,9 +194,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
   m_Animator: {fileID: 7029716674885078509}
---- !u!114 &6398607892128352890
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries: []
+  AnimatorParametersExpanded: 0
+--- !u!114 &5573274709472412571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,22 +210,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 8577316291707284585}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aece8e9b25c7a1e46b30f44e7b01151f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ebee291eb8e70d44844d4e8128d8c1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageOnTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
   ShowTopMostFoldoutHeaderGroup: 1
   hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
-  hitSpark_Special: {fileID: 8401796060878095578, guid: d96fad7aa36c17a4699ee85a668983dc, type: 3}
-  attacker: {fileID: 0}
-  AbilityDamage: 0
-  CharacterDamage: 0
-  CanGenerateFury: 0
-  IsBreakable: 0
-  HealAmount: 0
-  CanHeal: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
+  hitSpark_Special: {fileID: 0}
+--- !u!114 &7427112710035410199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577316291707284585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b4a1f2aa257e2418b3e82552c92589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DespawnDelay
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4606743405202963621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,16 +243,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
---- !u!114 &3076281976693600442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8577316291707284585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestoryAfterAnimationNet
-  ShowTopMostFoldoutHeaderGroup: 1

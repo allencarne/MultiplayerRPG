@@ -158,6 +158,7 @@ public abstract class EnemySkill : NetworkBehaviour
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
+        /*
         if (skillData.TelegraphPrefab == null) return;
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
@@ -181,9 +182,11 @@ public abstract class EnemySkill : NetworkBehaviour
             CharacterStats stats = gameObject.GetComponentInParent<CharacterStats>();
             square.Init(stats, time);
         }
+        */
     }
     protected void Attack(NetworkObject attacker, bool useOffset, bool useRotation)
     {
+        /*
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
         Quaternion rotation = useRotation ? AimRotation : Quaternion.identity;
 
@@ -250,5 +253,6 @@ public abstract class EnemySkill : NetworkBehaviour
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         //if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
+        */
     }
 }

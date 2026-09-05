@@ -10,14 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7921642781488180949}
   - component: {fileID: 1698372813617786767}
-  - component: {fileID: 5478460288964586632}
   - component: {fileID: 373308165875797066}
+  - component: {fileID: 5478460288964586632}
   - component: {fileID: 6228778642428378746}
-  - component: {fileID: 4640996502917806872}
   - component: {fileID: 702346657371436035}
-  - component: {fileID: 3072343299802715422}
-  - component: {fileID: 8315832619646916411}
-  - component: {fileID: 1398425853997863070}
+  - component: {fileID: 2324768604319255582}
+  - component: {fileID: 5165988351036462938}
   - component: {fileID: 1014256190280949199}
   m_Layer: 11
   m_Name: Prefab_Effect_Hermit_HeavyClaw
@@ -100,6 +98,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &373308165875797066
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689845277531116501}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b48ecd57df5363e42a09884e8f1b0714, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!58 &5478460288964586632
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -136,28 +156,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1
---- !u!95 &373308165875797066
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689845277531116501}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b48ecd57df5363e42a09884e8f1b0714, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6228778642428378746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,52 +181,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &4640996502917806872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689845277531116501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 0
-  RotationInterpolationType: 0
-  ScaleInterpolationType: 0
-  PositionLerpSmoothing: 1
-  PositionMaxInterpolationTime: 0.1
-  RotationLerpSmoothing: 1
-  RotationMaxInterpolationTime: 0.1
-  ScaleLerpSmoothing: 1
-  ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
-  TickSyncChildren: 0
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 0
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 1
-  SyncScaleX: 0
-  SyncScaleY: 0
-  SyncScaleZ: 0
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
-  SlerpPosition: 0
 --- !u!114 &702346657371436035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +201,7 @@ MonoBehaviour:
   AnimatorParameterEntries:
     ParameterEntries: []
   AnimatorParametersExpanded: 0
---- !u!114 &3072343299802715422
+--- !u!114 &2324768604319255582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,23 +210,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1689845277531116501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aece8e9b25c7a1e46b30f44e7b01151f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ebee291eb8e70d44844d4e8128d8c1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
   ShowTopMostFoldoutHeaderGroup: 1
-  hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
-  hitSpark_Special: {fileID: 627350686572405606, guid: 775b87cf2a995444abd896ec260a8db4, type: 3}
-  attacker: {fileID: 0}
-  AbilityDamage: 0
-  CharacterDamage: 0
-  CanGenerateFury: 0
-  IsBreakable: 0
-  HealAmount: 0
-  CanHeal: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
---- !u!114 &8315832619646916411
+  hitSpark: {fileID: 0}
+  hitSpark_Special: {fileID: 0}
+--- !u!114 &5165988351036462938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,29 +225,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1689845277531116501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40bebadc795ffe845bb07b85c9bca50c, type: 3}
+  m_Script: {fileID: 11500000, guid: a6b4a1f2aa257e2418b3e82552c92589, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KnockbackOnTrigger
-  ShowTopMostFoldoutHeaderGroup: 1
-  attacker: {fileID: 0}
-  Direction: {x: 0, y: 0}
-  Amount: 0
-  Duration: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
---- !u!114 &1398425853997863070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689845277531116501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::DespawnDelay
   ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &1014256190280949199
 MonoBehaviour:

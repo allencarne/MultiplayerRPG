@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 4260848702221066881}
   - component: {fileID: 5606085505363934973}
   - component: {fileID: 2315497008681252077}
-  - component: {fileID: 5304476992189579877}
+  - component: {fileID: 5860364078391300229}
   - component: {fileID: 809987038819683474}
+  - component: {fileID: 234945681749008810}
   m_Layer: 11
   m_Name: Prefab_Effect_Snail_StickyTrail
   m_TagString: Untagged
@@ -40,6 +41,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6042845549217677139
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -85,6 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -307099170197951843, guid: 1dfd7b0b4c9634d4eb1d18ab1bff79a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -94,7 +97,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!95 &4691248883346103898
 Animator:
@@ -202,9 +204,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
   m_Animator: {fileID: 4691248883346103898}
---- !u!114 &5304476992189579877
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries: []
+  AnimatorParametersExpanded: 0
+--- !u!114 &5860364078391300229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,17 +220,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2405726608416270546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3715801a96f92774ebd4966dba7a588d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ebee291eb8e70d44844d4e8128d8c1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
   ShowTopMostFoldoutHeaderGroup: 1
-  Stacks: 0
-  Duration: 0
-  attacker: {fileID: 0}
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
-  IsRepeatable: 0
+  hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
+  hitSpark_Special: {fileID: 0}
 --- !u!114 &809987038819683474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,3 +239,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &234945681749008810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2405726608416270546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
+  ShowTopMostFoldoutHeaderGroup: 1
+  stats: {fileID: 0}

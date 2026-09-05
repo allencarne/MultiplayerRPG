@@ -19,7 +19,6 @@ public class ActiveSkillData : SkillData
     public ImpactAnimationStyle ImpactStyle = ImpactAnimationStyle.Normal;
 
     [Header("Prefabs")]
-    public GameObject SkillPrefab;
     public GameObject IndicatorPrefab;
     public GameObject TelegraphPrefab;
 

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 104955301793302514}
   - component: {fileID: 6232153220004958313}
   - component: {fileID: 3955009936671573292}
-  - component: {fileID: 2888469885118173765}
+  - component: {fileID: 2379204149065133991}
   - component: {fileID: 2012812897485308412}
   - component: {fileID: 3345292549484154291}
   m_Layer: 11
@@ -42,6 +42,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5987080579116753632
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -87,6 +88,7 @@ SpriteRenderer:
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: fa054ba38fddde847a361f4e2813fcc1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -96,7 +98,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!58 &3992219544365882835
 CircleCollider2D:
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3051241492
+  GlobalObjectIdHash: 3173204331
   InScenePlacedSourceGlobalObjectIdHash: 134725844
   DeferredDespawnTick: 0
   Ownership: 1
@@ -215,13 +216,13 @@ MonoBehaviour:
   UseUnreliableDeltas: 0
   SyncPositionX: 1
   SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -249,7 +250,7 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
---- !u!114 &2888469885118173765
+--- !u!114 &2379204149065133991
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,22 +259,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6567741836550835310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aece8e9b25c7a1e46b30f44e7b01151f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ebee291eb8e70d44844d4e8128d8c1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
   ShowTopMostFoldoutHeaderGroup: 1
   hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
-  hitSpark_Special: {fileID: 8401796060878095578, guid: d96fad7aa36c17a4699ee85a668983dc, type: 3}
-  attacker: {fileID: 0}
-  AbilityDamage: 0
-  CharacterDamage: 0
-  CanGenerateFury: 0
-  IsBreakable: 0
-  HealAmount: 0
-  CanHeal: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
+  hitSpark_Special: {fileID: 0}
 --- !u!114 &2012812897485308412
 MonoBehaviour:
   m_ObjectHideFlags: 0

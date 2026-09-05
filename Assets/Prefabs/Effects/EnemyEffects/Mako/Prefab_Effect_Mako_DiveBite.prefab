@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4120437280677544647}
   - component: {fileID: 2015061261594659136}
-  - component: {fileID: 5061292107204442529}
   - component: {fileID: 2796328384677726793}
+  - component: {fileID: 5061292107204442529}
   - component: {fileID: 3934161318964744}
   - component: {fileID: 2095583850659045121}
-  - component: {fileID: 2891637347563471994}
-  - component: {fileID: 7887310688082192944}
+  - component: {fileID: 5695232467780716277}
+  - component: {fileID: 3228654167826907173}
   - component: {fileID: 1549629184665206934}
   m_Layer: 11
   m_Name: Prefab_Effect_Mako_DiveBite
@@ -41,6 +41,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2015061261594659136
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -86,6 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: -85597927
   m_SortingLayer: -1
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 5385180471370379200, guid: 8d44308797616ae45b053a9f0b355d0f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,8 +97,29 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2796328384677726793
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8596179231798600358}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4e3fb1d85fb383846a0db2f2ef3933ae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!58 &5061292107204442529
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,28 +156,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1.5
---- !u!95 &2796328384677726793
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8596179231798600358}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4e3fb1d85fb383846a0db2f2ef3933ae, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3934161318964744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2174474939
+  GlobalObjectIdHash: 4206330652
   InScenePlacedSourceGlobalObjectIdHash: 3640737594
   DeferredDespawnTick: 0
   Ownership: 1
@@ -193,9 +194,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
   ShowTopMostFoldoutHeaderGroup: 1
-  TransitionStateInfoList: []
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
   m_Animator: {fileID: 2796328384677726793}
---- !u!114 &2891637347563471994
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries: []
+  AnimatorParametersExpanded: 0
+--- !u!114 &5695232467780716277
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,23 +210,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8596179231798600358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aece8e9b25c7a1e46b30f44e7b01151f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ebee291eb8e70d44844d4e8128d8c1a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageOnTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
   ShowTopMostFoldoutHeaderGroup: 1
   hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
-  hitSpark_Special: {fileID: 127393027631404111, guid: e14abbfb0469d8d48aec0119884c1c90, type: 3}
-  attacker: {fileID: 0}
-  AbilityDamage: 0
-  CharacterDamage: 0
-  CanGenerateFury: 0
-  IsBreakable: 0
-  HealAmount: 0
-  CanHeal: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
---- !u!114 &7887310688082192944
+  hitSpark_Special: {fileID: 0}
+--- !u!114 &3228654167826907173
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,9 +225,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8596179231798600358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Script: {fileID: 11500000, guid: a6b4a1f2aa257e2418b3e82552c92589, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DestoryAfterAnimationNet
+  m_EditorClassIdentifier: Assembly-CSharp::DespawnDelay
   ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &1549629184665206934
 MonoBehaviour:

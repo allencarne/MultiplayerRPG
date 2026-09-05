@@ -147,6 +147,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
     protected void Telegraph(float time, bool useOffset, bool useRotation)
     {
+        /*
         if (skillData.TelegraphPrefab == null) return; 
 
         Vector2 position = useOffset ? SpawnPosition + AimOffset : SpawnPosition;
@@ -169,9 +170,11 @@ public abstract class NPCSkill : NetworkBehaviour
             CharacterStats stats = gameObject.GetComponentInParent<CharacterStats>();
             square.Init(stats, time);
         }
+        */
     }
     protected void Attack()
     {
+        /*
         NetworkObject attacker = GetComponentInParent<NetworkObject>();
 
         GameObject attackInstance = Instantiate(skillData.SkillPrefab, SpawnPosition + AimOffset, AimRotation);
@@ -226,6 +229,7 @@ public abstract class NPCSkill : NetworkBehaviour
 
         DespawnDelay despawnDelay = attackInstance.GetComponent<DespawnDelay>();
         //if (despawnDelay != null) despawnDelay.StartCoroutine(despawnDelay.DespawnAfterDuration(skillData.SkillDuration));
+        */
     }
 
     [ServerRpc]

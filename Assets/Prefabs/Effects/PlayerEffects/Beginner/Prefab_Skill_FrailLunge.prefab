@@ -10,16 +10,16 @@ GameObject:
   m_Component:
   - component: {fileID: 390189463716136207}
   - component: {fileID: 8276917017217431446}
-  - component: {fileID: 1379552171554893649}
   - component: {fileID: 8988306203771622995}
+  - component: {fileID: 1379552171554893649}
+  - component: {fileID: 8161197466638015617}
   - component: {fileID: 8258289137336311890}
-  - component: {fileID: 5243387267757312629}
   - component: {fileID: 5979023163946880158}
-  - component: {fileID: 6347564547405756245}
-  - component: {fileID: 366333802074695677}
-  - component: {fileID: 8803248432389414441}
-  - component: {fileID: 6050988864413876300}
-  - component: {fileID: 1319270466878531100}
+  - component: {fileID: 5243387267757312629}
+  - component: {fileID: 8772186214511962924}
+  - component: {fileID: 4638072311797678810}
+  - component: {fileID: 3987608428414361134}
+  - component: {fileID: 2365470198158451169}
   m_Layer: 11
   m_Name: Prefab_Skill_FrailLunge
   m_TagString: Untagged
@@ -101,6 +101,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &8988306203771622995
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2311812203192534404}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0beb54acb78afa84e9bae85b8405f600, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!58 &1379552171554893649
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -137,28 +159,33 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.88, y: 0}
   m_Radius: 1
---- !u!95 &8988306203771622995
-Animator:
-  serializedVersion: 7
+--- !u!50 &8161197466638015617
+Rigidbody2D:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2311812203192534404}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0beb54acb78afa84e9bae85b8405f600, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &8258289137336311890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,26 +211,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5243387267757312629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2311812203192534404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkAnimatorExpanded: 0
-  AuthorityMode: 0
-  m_Animator: {fileID: 8988306203771622995}
-  TransitionStateInfoList: []
-  AnimatorParameterEntries:
-    ParameterEntries: []
-  AnimatorParametersExpanded: 0
 --- !u!114 &5979023163946880158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +257,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &6347564547405756245
+--- !u!114 &5243387267757312629
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -259,11 +266,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 2311812203192534404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467ca7dbc580b3b4cbaa8448a637b4fc, type: 3}
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &366333802074695677
+  NetworkAnimatorExpanded: 0
+  AuthorityMode: 0
+  m_Animator: {fileID: 8988306203771622995}
+  TransitionStateInfoList: []
+  AnimatorParameterEntries:
+    ParameterEntries: []
+  AnimatorParametersExpanded: 0
+--- !u!114 &8772186214511962924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,36 +286,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 2311812203192534404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16615d15b09442d45bc57f37e0726c30, type: 3}
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FollowTarget
-  Target: {fileID: 0}
---- !u!114 &8803248432389414441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2311812203192534404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aece8e9b25c7a1e46b30f44e7b01151f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
   ShowTopMostFoldoutHeaderGroup: 1
-  hitSpark: {fileID: 4084546597823867417, guid: 700f3f0e532101c49b97123da31db937, type: 3}
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
+--- !u!114 &4638072311797678810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2311812203192534404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ebee291eb8e70d44844d4e8128d8c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
+  ShowTopMostFoldoutHeaderGroup: 1
+  hitSpark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
   hitSpark_Special: {fileID: 4703985477016996476, guid: 236fc269f03e1cb4dbeaa910761ef256, type: 3}
-  attacker: {fileID: 0}
-  AbilityDamage: 0
-  CharacterDamage: 0
-  CanGenerateFury: 0
-  IsBreakable: 0
-  HealAmount: 0
-  CanHeal: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
---- !u!114 &6050988864413876300
+--- !u!114 &3987608428414361134
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,15 +318,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2311812203192534404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba52384d264a1a48979a710e04a84bf, type: 3}
+  m_Script: {fileID: 11500000, guid: a6b4a1f2aa257e2418b3e82552c92589, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InterruptOnTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::DespawnDelay
   ShowTopMostFoldoutHeaderGroup: 1
-  attacker: {fileID: 0}
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
---- !u!114 &1319270466878531100
+--- !u!114 &2365470198158451169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,12 +331,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2311812203192534404}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ae0587a04378e44e9e8a9a3f60e517e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fcaf7330cc3150489ca44e1f662f1c6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StunOnTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
   ShowTopMostFoldoutHeaderGroup: 1
-  attacker: {fileID: 0}
-  Duration: 0
-  IgnorePlayer: 0
-  IgnoreEnemy: 0
-  IgnoreNPC: 0
+  stats: {fileID: 0}
