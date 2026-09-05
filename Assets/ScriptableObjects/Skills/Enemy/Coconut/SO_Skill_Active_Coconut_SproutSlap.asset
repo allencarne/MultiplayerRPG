@@ -16,17 +16,16 @@ MonoBehaviour:
   Icon: {fileID: 0}
   Description: 
   CoolDown: 0
+  SkillRange: 1.2
   weaponType: 0
   skillType: 0
   TargetingMode: 0
   ImpactStyle: 0
   IndicatorPrefab: {fileID: 0}
-  TelegraphPrefab: {fileID: 6567221051315506247, guid: de323fab45461404aa3d5598b00feec0, type: 3}
-  SkillRange: 1
-  CastTime: 0.2
+  CastTime: 1
   ActionTime: 0
-  ImpactTime: 0.2
-  RecoveryTime: 0.2
+  ImpactTime: 0.1
+  RecoveryTime: 0.6
   OnCastEffects:
   - {fileID: 11400000, guid: ddf79c357c75a9f419c2f97bed3148b1, type: 2}
   OnActionEffects: []

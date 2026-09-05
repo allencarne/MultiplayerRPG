@@ -343,7 +343,7 @@ public class NPCStateMachine : StateMachine
     protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {
         ActiveSkillData.SkillType.Basic => npc.Data.BasicAbility,
-        ActiveSkillData.SkillType.Offensive => npc.Data.SpecialAbility,
+        ActiveSkillData.SkillType.Mobility => npc.Data.SpecialAbility,
         ActiveSkillData.SkillType.Ultimate => npc.Data.UltimateAbility,
         _ => null
     };

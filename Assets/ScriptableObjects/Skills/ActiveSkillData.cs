@@ -3,27 +3,28 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Data/Active Skill")]
 public class ActiveSkillData : SkillData
 {
+    public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }
+    public enum Targeting { Directional, Ground }
+    public enum SkillPhase { Cast, Action, Impact, Recovery, Done }
+    public enum ImpactAnimationStyle { Normal, Long, Repeated }
+
+    [Header("Range")]
+    public float SkillRange;
+
+    [Header("Weapon Type")]
     public WeaponType weaponType;
 
-    public enum SkillType { Basic, Offensive, Mobility, Defensive, Utility, Ultimate }
+    [Header("Skill Type")]
     public SkillType skillType;
 
-    public enum Targeting { Directional, Ground }
+    [Header("Targeting Mode")]
     public Targeting TargetingMode = Targeting.Directional;
-
-    public enum SkillPhase { Cast, Action, Impact, Recovery, Done }
-
-    public enum ImpactAnimationStyle { Normal, Long, Repeated }
 
     [Header("Impact Style")]
     public ImpactAnimationStyle ImpactStyle = ImpactAnimationStyle.Normal;
 
-    [Header("Prefabs")]
+    [Header("Indicator")]
     public GameObject IndicatorPrefab;
-    public GameObject TelegraphPrefab;
-
-    [Header("Stats")]
-    public float SkillRange;
 
     [Header("Time")]
     public float CastTime;

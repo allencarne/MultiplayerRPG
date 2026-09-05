@@ -10,25 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6698bb9cc9dc8f4aaa0ec45006a7422, type: 3}
-  m_Name: SO_Skill_Active_Coconut_NutQuake
+  m_Name: SO_Skill_Active_Coconut_Tumble
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
-  Name: Nut Quake
+  Name: Tumble
   Icon: {fileID: 0}
-  Description: Jump up in the air and slam down, dealing damage in a small area
-  CoolDown: 10
+  Description: Roll forward, damaging all enemies
+  CoolDown: 5
   SkillRange: 0
   weaponType: 0
-  skillType: 5
+  skillType: 2
   TargetingMode: 0
   ImpactStyle: 0
   IndicatorPrefab: {fileID: 0}
-  CastTime: 1.5
-  ActionTime: 0.3
-  ImpactTime: 0.1
+  CastTime: 1.2
+  ActionTime: 0
+  ImpactTime: 0.6
   RecoveryTime: 0.6
   OnCastEffects:
-  - {fileID: 11400000, guid: 1ce278cc6db27124f9969de602971071, type: 2}
+  - {fileID: 11400000, guid: 0e24727c28230604fbe73439711a1c3f, type: 2}
   OnActionEffects: []
   OnImpactEffects:
-  - {fileID: 11400000, guid: 0cde153b1096cb5468d4021898c6ae90, type: 2}
+  - {fileID: 11400000, guid: f0b0d4e7134c62449b010f2b0c6f9815, type: 2}
+  - {fileID: 11400000, guid: 7d38d371dd8caff48b24cb90ad8843b4, type: 2}
+  - {fileID: 11400000, guid: 89e2bd4ee170f2746a6d4838485ae97a, type: 2}
   OnRecoveryEffects: []

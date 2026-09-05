@@ -328,7 +328,7 @@ public class EnemyStateMachine : StateMachine
     protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {
         ActiveSkillData.SkillType.Basic => enemy.Data.BasicAbility,
-        ActiveSkillData.SkillType.Offensive => enemy.Data.SpecialAbility,
+        ActiveSkillData.SkillType.Mobility => enemy.Data.SpecialAbility,
         ActiveSkillData.SkillType.Ultimate => enemy.Data.UltimateAbility,
         _ => null
     };
