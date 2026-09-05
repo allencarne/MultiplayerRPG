@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6698bb9cc9dc8f4aaa0ec45006a7422, type: 3}
+  m_Name: SO_Skill_Active_Hermit_HeavyClaw
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
+  Name: Heavy Claw
+  Icon: {fileID: 0}
+  Description: 
+  CoolDown: 0
+  SkillRange: 1.2
+  weaponType: 0
+  skillType: 0
+  TargetingMode: 0
+  ImpactStyle: 0
+  IndicatorPrefab: {fileID: 0}
+  CastTime: 1
+  ActionTime: 0
+  ImpactTime: 0.1
+  RecoveryTime: 0.6
+  OnCastEffects:
+  - {fileID: 11400000, guid: 2ed1f8e789819844da469c929dc474f8, type: 2}
+  OnActionEffects: []
+  OnImpactEffects:
+  - {fileID: 11400000, guid: c93b1c4c9e11bf742b0136db563e2458, type: 2}
+  OnRecoveryEffects: []

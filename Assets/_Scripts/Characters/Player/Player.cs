@@ -96,7 +96,8 @@ public class Player : NetworkBehaviour
         // FOR TESTING
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            stats.TakeDamage(1, DamageType.Flat, NetworkObject, transform.position);
+            //stats.TakeDamage(1, DamageType.Flat, NetworkObject, transform.position);
+            stateMachine.Buffs.haste.StartHaste(1, 15);
         }
 
         // FOR TESTING

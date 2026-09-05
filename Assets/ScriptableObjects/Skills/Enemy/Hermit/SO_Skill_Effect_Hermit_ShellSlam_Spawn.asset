@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252ee99334052ae4d84b7bd561141cdc, type: 3}
+  m_Name: SO_Skill_Effect_Hermit_ShellSlam_Spawn
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnEffect
+  Prefab: {fileID: 2022057894855090406, guid: f4c213bc66a87cd4e8d3afcac5ba36c1, type: 3}
+  UseCurrentPosition: 0
+  Amount: 1
+  RepeatAmount: 1
+  RepeatRate: 0
+  spreadMode: 0
+  SpreadAngle: 0
+  Force: 0
+  ForceMode: 1
+  RotateToDirection: 0
+  Duration: 0.3
+  IgnorePlayer: 0
+  IgnoreEnemy: 0
+  IgnoreNPC: 0
+  IsBreakable: 0
+  OnTriggerEffects:
+  - {fileID: 11400000, guid: 9ecb5fe7f9ae98a4483c67477e368192, type: 2}

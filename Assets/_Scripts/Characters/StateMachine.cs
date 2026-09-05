@@ -51,7 +51,7 @@ public abstract class StateMachine : NetworkBehaviour
         if (!IsServer) return;
 
         GameObject instance = Instantiate(effect.Prefab, context.SpawnPosition + context.AimOffset, context.AimRotation);
-
+        instance.transform.localScale *= transform.lossyScale.x;
         NetworkObject networkObject = instance.GetComponent<NetworkObject>();
 
         if (networkObject == null)
