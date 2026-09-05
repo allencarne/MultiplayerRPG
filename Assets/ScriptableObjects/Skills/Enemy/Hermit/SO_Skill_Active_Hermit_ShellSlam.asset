@@ -19,16 +19,17 @@ MonoBehaviour:
   SkillRange: 5
   weaponType: 0
   skillType: 2
-  TargetingMode: 0
+  TargetingMode: 1
   ImpactStyle: 0
   IndicatorPrefab: {fileID: 0}
   CastTime: 1.2
-  ActionTime: 0
+  ActionTime: 0.3
   ImpactTime: 0.1
   RecoveryTime: 0.6
   OnCastEffects:
   - {fileID: 11400000, guid: 6a97edefa8ff05c4badfab04640f8af4, type: 2}
-  OnActionEffects: []
+  OnActionEffects:
+  - {fileID: 11400000, guid: 5f12ac71d9f81c540babedb3ed6bf439, type: 2}
   OnImpactEffects:
   - {fileID: 11400000, guid: 466965377c7cb934199f031e6709ee45, type: 2}
   OnRecoveryEffects: []

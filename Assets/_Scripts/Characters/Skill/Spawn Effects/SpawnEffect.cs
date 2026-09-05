@@ -82,7 +82,7 @@ public class SpawnEffect: NetworkedSpawnEffect
 
             SkillContext spawnContext = ctx;
             spawnContext.AimDirection = direction;
-            spawnContext.AimRotation = DirectionToRotation(direction);
+            spawnContext.AimRotation = RotateToDirection ? DirectionToRotation(direction) : Quaternion.identity;
             spawnContext.AimOffset = groundTargeted ? Vector2.zero : direction.normalized * owner.GetSkillRange(ctx);
 
             owner.SpawnSingle(this, spawnContext);
