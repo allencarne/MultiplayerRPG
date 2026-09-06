@@ -16,7 +16,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 401ce0747c7ad4a46b44b6c3875ce42f, type: 3}
   Description: Shot that flickers
   CoolDown: 10
-  SkillRange: 0
+  SkillRange: 5
   weaponType: 0
   skillType: 1
   TargetingMode: 1
@@ -26,8 +26,7 @@ MonoBehaviour:
   ActionTime: 0
   ImpactTime: 0.1
   RecoveryTime: 0.1
-  OnCastEffects:
-  - {fileID: 11400000, guid: 506d34e747e236048a582ba827c6d212, type: 2}
+  OnCastEffects: []
   OnActionEffects: []
   OnImpactEffects:
   - {fileID: 11400000, guid: f4a7d32088af5a6468fd8a05a2b00d1b, type: 2}

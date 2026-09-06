@@ -21856,6 +21856,7 @@ GameObject:
   - component: {fileID: 4032564356350004549}
   - component: {fileID: 8560715399392518864}
   - component: {fileID: 8456314716194012628}
+  - component: {fileID: 9030425613106665501}
   m_Layer: 6
   m_Name: Prefab_Player
   m_TagString: Player
@@ -22815,6 +22816,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Stats: {fileID: 2477393547595159198}
   Animator: {fileID: 6838946364081171883}
+  Combat: {fileID: 0}
   Collider2D: {fileID: 6574121733873154346}
   RigidBody2D: {fileID: 9222441055534883323}
   CrowdControl: {fileID: 6004191219924147057}
@@ -23176,6 +23178,28 @@ MonoBehaviour:
   Aimer: {fileID: 3442385175037626}
   RangeIndicatorPrefab: {fileID: 8114925312972022795, guid: 3062e45488906c64c92f71b7341f4d70, type: 3}
   stickDeadzone: 0
+--- !u!114 &9030425613106665501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2910263212190248897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d990e579044414c951da2c38d81898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
+  ShowTopMostFoldoutHeaderGroup: 1
+  combatDuration: 10
+  OnCombatStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  InCombat:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &2913849871181157441
 GameObject:
   m_ObjectHideFlags: 0

@@ -3107,6 +3107,7 @@ GameObject:
   - component: {fileID: 3730166254070588288}
   - component: {fileID: 3420725605647731624}
   - component: {fileID: 3227228506341842699}
+  - component: {fileID: 203235246342025166}
   m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
@@ -3450,6 +3451,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Stats: {fileID: 6038468416201059741}
   Animator: {fileID: 8434268355856330972}
+  Combat: {fileID: 0}
   Collider2D: {fileID: 5667196409634766878}
   RigidBody2D: {fileID: 4568072980406800238}
   CrowdControl: {fileID: 3730166254070588288}
@@ -3666,6 +3668,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mobility
   rb: {fileID: 4568072980406800238}
+--- !u!114 &203235246342025166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152011778197999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d990e579044414c951da2c38d81898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
+  ShowTopMostFoldoutHeaderGroup: 1
+  combatDuration: 10
+  OnCombatStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  InCombat:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &8074817158488108185
 GameObject:
   m_ObjectHideFlags: 0

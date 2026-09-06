@@ -19,18 +19,17 @@ public class HealthPercentTrigger : PassiveTrigger
             // Only fire on the crossing, not every tick while below threshold
             if (prevPct > HealthPercentThreshold && currPct <= HealthPercentThreshold)
             {
-                //Debug.Log($"[PassiveTrigger] LowHealthTrigger fired on {owner.name} ({currPct:P0} HP)");
                 onTriggered();
             }
         }
 
         owner.Stats.net_CurrentHP.OnValueChanged += Handler;
-        //Debug.Log($"[PassiveTrigger] LowHealthTrigger subscribed on {owner.name}");
 
-        return () =>
+        void Unsubscribe()
         {
             owner.Stats.net_CurrentHP.OnValueChanged -= Handler;
-            //Debug.Log($"[PassiveTrigger] LowHealthTrigger unsubscribed on {owner.name}");
-        };
+        }
+
+        return Unsubscribe;
     }
 }

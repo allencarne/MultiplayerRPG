@@ -1318,6 +1318,7 @@ GameObject:
   - component: {fileID: 568576347084111489}
   - component: {fileID: 5278237497746975563}
   - component: {fileID: 941257614903520090}
+  - component: {fileID: 5255373655582306271}
   m_Layer: 7
   m_Name: Prefab_Enemy
   m_TagString: Enemy
@@ -1614,6 +1615,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   Stats: {fileID: 878784667173873402}
   Animator: {fileID: 4714681959609315352}
+  Combat: {fileID: 0}
   Collider2D: {fileID: 633168359915633923}
   RigidBody2D: {fileID: 5523836673144577605}
   CrowdControl: {fileID: 568576347084111489}
@@ -1744,6 +1746,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mobility
   rb: {fileID: 5523836673144577605}
+--- !u!114 &5255373655582306271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4494865281095228816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d990e579044414c951da2c38d81898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterCombat
+  ShowTopMostFoldoutHeaderGroup: 1
+  combatDuration: 10
+  OnCombatStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  InCombat:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &5078569791744150990
 GameObject:
   m_ObjectHideFlags: 0

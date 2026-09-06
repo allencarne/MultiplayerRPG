@@ -5,6 +5,7 @@ public abstract class StateMachine : NetworkBehaviour
 {
     public CharacterStats Stats;
     public CharacterAnimator Animator;
+    public CharacterCombat Combat;
     public Collider2D Collider2D;
     public Rigidbody2D RigidBody2D;
 
@@ -19,6 +20,7 @@ public abstract class StateMachine : NetworkBehaviour
     {
         Stats = GetComponent<CharacterStats>();
         Animator = GetComponentInChildren<CharacterAnimator>();
+        Combat = GetComponent<CharacterCombat>();
         Collider2D = GetComponent<Collider2D>();
         RigidBody2D = GetComponent<Rigidbody2D>();
 
