@@ -16,13 +16,6 @@ public class EnemyResetState : EnemyState
         owner.IsPlayerInRange = false;
         owner.Target = null;
         owner.SecondTarget = null;
-
-        if (!owner.enemy.IsRegen &&
-            owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_TotalHP.Value)
-        {
-            owner.enemy.IsRegen = true;
-            owner.Buffs.regeneration.StartRegen(1, -1);
-        }
     }
 
     public override void UpdateState()

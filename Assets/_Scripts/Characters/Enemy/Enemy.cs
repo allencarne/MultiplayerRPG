@@ -23,7 +23,6 @@ public class Enemy : NetworkBehaviour
 
     [Header("Bools")]
     public bool IsDummy;
-    public bool IsRegen;
 
     public override void OnNetworkSpawn()
     {
@@ -43,60 +42,24 @@ public class Enemy : NetworkBehaviour
         stats.OnCharacterDamaged.AddListener(Damaged);
         stats.OnCharacterDeath.AddListener(Death);
 
-        stats.OnDamaged.AddListener(TakeDamage);
-        stats.OnDamageDealt.AddListener(DealDamage);
-
-        stats.net_CurrentHP.OnValueChanged += OnHPChanged;
-        stats.net_TotalHP.OnValueChanged += OnMaxHPChanged;
+        // Start passive on spawn (no level requirement for enemies)
+        if (Data != null && Data.PassiveAbility != null)
+        {
+            // Use index 0 by convention (you can change if EnemyData supports multiple passives)
+            stateMachine.SetPassive(Data.PassiveAbility, 0);
+        }
     }
 
     public override void OnNetworkDespawn()
     {
+        // Ensure passive subscriptions are cleaned up
+        if (stateMachine != null)
+        {
+            stateMachine.ClearPassive();
+        }
+
         stats.OnCharacterDamaged.RemoveListener(Damaged);
         stats.OnCharacterDeath.RemoveListener(Death);
-
-        stats.OnDamaged.RemoveListener(TakeDamage);
-        stats.OnDamageDealt.RemoveListener(DealDamage);
-
-        stats.net_CurrentHP.OnValueChanged -= OnHPChanged;
-        stats.net_TotalHP.OnValueChanged -= OnMaxHPChanged;
-    }
-
-    void OnHPChanged(float previousValue, float newValue)
-    {
-        CheckStopRegen();
-    }
-
-    void OnMaxHPChanged(float previousValue, float newValue)
-    {
-        CheckStopRegen();
-    }
-
-    void CheckStopRegen()
-    {
-        if (IsRegen && stats.net_CurrentHP.Value >= stats.net_TotalHP.Value)
-        {
-            IsRegen = false;
-            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-        }
-    }
-
-    void TakeDamage(float damage)
-    {
-        if (stateMachine.isResetting) return;
-
-        if (!IsRegen) return;
-        IsRegen = false;
-        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-    }
-
-    void DealDamage()
-    {
-        if (stateMachine.isResetting) return;
-
-        if (!IsRegen) return;
-        IsRegen = false;
-        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
     }
 
     void Damaged(NetworkObject attackerID)

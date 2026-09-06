@@ -22,12 +22,6 @@ public class NPCResetState : NPCState
         owner.IsEnemyInRange = false;
         owner.Target = null;
         owner.SecondTarget = null;
-
-        if (owner.npc.stats.net_CurrentHP.Value < owner.npc.stats.net_TotalHP.Value)
-        {
-            owner.npc.IsRegen = true;
-            owner.Buffs.regeneration.StartRegen(1, -1);
-        }
     }
 
     public override void UpdateState()

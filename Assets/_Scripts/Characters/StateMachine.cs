@@ -16,22 +16,6 @@ public abstract class StateMachine : NetworkBehaviour
 
     public CastBar CastBar;
 
-    private void Awake()
-    {
-        Stats = GetComponent<CharacterStats>();
-        Animator = GetComponentInChildren<CharacterAnimator>();
-        Combat = GetComponent<CharacterCombat>();
-        Collider2D = GetComponent<Collider2D>();
-        RigidBody2D = GetComponent<Rigidbody2D>();
-
-        CrowdControl = GetComponent<CrowdControl>();
-        Buffs = GetComponent<Buffs>();
-        DeBuffs = GetComponent<DeBuffs>();
-        Mobility = GetComponent<Mobility>();
-
-        CastBar = GetComponentInChildren<CastBar>();
-    }
-
     public virtual Vector2 CurrentMoveInput => Vector2.zero;
     protected abstract ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index);
 

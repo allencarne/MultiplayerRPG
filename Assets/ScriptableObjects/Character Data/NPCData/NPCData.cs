@@ -38,6 +38,7 @@ public class NPCData : ScriptableObject
     public WeaponType WeaponType;
 
     [Header("Skills")]
+    public PassiveSkillData PassiveAbility;
     public ActiveSkillData BasicAbility;
     public ActiveSkillData SpecialAbility;
     public ActiveSkillData UltimateAbility;

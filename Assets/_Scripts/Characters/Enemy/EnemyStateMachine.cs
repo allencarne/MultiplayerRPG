@@ -8,6 +8,7 @@ public class EnemyStateMachine : StateMachine
 
     [Header("Skills")]
     [HideInInspector] public ActiveSkill CurrentSkill;
+    PassiveSkill passiveInstance;
 
     [Header("Scripts")]
     //public CrowdControl CrowdControl;
@@ -123,6 +124,27 @@ public class EnemyStateMachine : StateMachine
         }
 
         SetState(new EnemyAttackState(this, CurrentSkill));
+    }
+
+    public void SetPassive(PassiveSkillData passiveData, int index = 0)
+    {
+        // End any existing passive first
+        passiveInstance?.EndPassive(this);
+
+        if (passiveData == null)
+        {
+            passiveInstance = null;
+            return;
+        }
+
+        passiveInstance = new PassiveSkill(passiveData, index);
+        passiveInstance.StartPassive(this);
+    }
+
+    public void ClearPassive()
+    {
+        passiveInstance?.EndPassive(this);
+        passiveInstance = null;
     }
 
     public void Interrupt()

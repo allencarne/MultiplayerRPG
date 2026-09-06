@@ -23,12 +23,6 @@ public class NPC : NetworkBehaviour, IInteractable
     public string DisplayName => Data.NPCName;
     public NetworkVariable<Vector2> net_FacingDirection = new(new Vector2(0, -1),NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Server);
 
-    [Header("Combat")]
-    public bool InCombat = false;
-    public bool IsRegen;
-    float CombatTime = 0;
-    Coroutine combatTimerCoroutine;
-
     [Header("Sprites")]
     public SpriteRenderer NPCHeadSprite;
     public SpriteRenderer BodySprite;
@@ -64,31 +58,27 @@ public class NPC : NetworkBehaviour, IInteractable
         stats.OnDeath.AddListener(Death);
         stats.OnCharacterDeath.AddListener(ClearTarget);
 
-        stats.OnDamaged.AddListener(TakeDamage);
-        stats.OnDamageDealt.AddListener(DealDamage);
-
-        stats.net_CurrentHP.OnValueChanged += OnHPChanged;
-        stats.net_TotalHP.OnValueChanged += OnMaxHPChanged;
+        // Start passive on spawn (no level requirement for enemies)
+        if (Data != null && Data.PassiveAbility != null)
+        {
+            // Use index 0 by convention (you can change if EnemyData supports multiple passives)
+            stateMachine.SetPassive(Data.PassiveAbility, 0);
+        }
     }
 
     public override void OnNetworkDespawn()
     {
+        // Ensure passive subscriptions are cleaned up
+        if (stateMachine != null)
+        {
+            stateMachine.ClearPassive();
+        }
+
         net_FacingDirection.OnValueChanged -= OnFacingDirectionChanged;
 
         stats.OnCharacterDamaged.RemoveListener(TargetAttacker);
         stats.OnDeath.RemoveListener(Death);
         stats.OnCharacterDeath.RemoveListener(ClearTarget);
-
-        stats.OnDamaged.RemoveListener(TakeDamage);
-        stats.OnDamageDealt.RemoveListener(DealDamage);
-
-        stats.net_CurrentHP.OnValueChanged -= OnHPChanged;
-        stats.net_TotalHP.OnValueChanged -= OnMaxHPChanged;
-
-        if (combatTimerCoroutine != null)
-        {
-            StopCoroutine(combatTimerCoroutine);
-        }
     }
 
     private void Start()
@@ -107,48 +97,6 @@ public class NPC : NetworkBehaviour, IInteractable
         //npcHead.SetHelm(net_FacingDirection.Value);
 
         SwordSprite.sprite = Data.Weapon;
-    }
-
-    void OnHPChanged(float previousValue, float newValue)
-    {
-        UpdateRegeneration();
-    }
-
-    void OnMaxHPChanged(float previousValue, float newValue)
-    {
-        UpdateRegeneration();
-    }
-
-    void UpdateRegeneration()
-    {
-        if (IsRegen && (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || InCombat))
-        {
-            IsRegen = false;
-            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-        }
-    }
-
-    IEnumerator CombatTimer()
-    {
-        CombatTime = 0f;
-
-        while (CombatTime < 10f)
-        {
-            CombatTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Combat timer expired
-        InCombat = false;
-        CombatTime = 0;
-        combatTimerCoroutine = null;
-
-        // Start regen if health is not full
-        if (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
-        {
-            IsRegen = true;
-            stateMachine.Buffs.regeneration.StartRegen(1, -1);
-        }
     }
 
     public void Interact(PlayerInteract player)
@@ -224,43 +172,6 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         NPCStateMachine npc = attackerID.GetComponent<NPCStateMachine>();
         if (npc != null) npc.Target = null;
-    }
-
-    void TakeDamage(float damage)
-    {
-        if (Data.npcClass == NPCClass.Patrol)
-        {
-            EnterCombat();
-        }
-
-        if (!IsRegen) return;
-        IsRegen = false;
-        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-    }
-
-    void DealDamage()
-    {
-        if (Data.npcClass == NPCClass.Patrol)
-        {
-            EnterCombat();
-        }
-
-        if (!IsRegen) return;
-        IsRegen = false;
-        stateMachine.Buffs.regeneration.StartRegen(-1, -1);
-    }
-
-    void EnterCombat()
-    {
-        InCombat = true;
-        CombatTime = 0;
-
-        // Restart combat timer
-        if (combatTimerCoroutine != null)
-        {
-            StopCoroutine(combatTimerCoroutine);
-        }
-        combatTimerCoroutine = StartCoroutine(CombatTimer());
     }
 
     void OnFacingDirectionChanged(Vector2 previous, Vector2 newDir)

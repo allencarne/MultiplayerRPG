@@ -10,6 +10,7 @@ public class NPCStateMachine : StateMachine
 
     [Header("Skills")]
     [HideInInspector] public ActiveSkill CurrentSkill;
+    PassiveSkill passiveInstance;
 
     [Header("Status Effects")]
     //public CrowdControl CrowdControl;
@@ -89,6 +90,27 @@ public class NPCStateMachine : StateMachine
         }
 
         SetState(new NPCAttackState(this, CurrentSkill));
+    }
+
+    public void SetPassive(PassiveSkillData passiveData, int index = 0)
+    {
+        // End any existing passive first
+        passiveInstance?.EndPassive(this);
+
+        if (passiveData == null)
+        {
+            passiveInstance = null;
+            return;
+        }
+
+        passiveInstance = new PassiveSkill(passiveData, index);
+        passiveInstance.StartPassive(this);
+    }
+
+    public void ClearPassive()
+    {
+        passiveInstance?.EndPassive(this);
+        passiveInstance = null;
     }
 
     public void Interrupt()

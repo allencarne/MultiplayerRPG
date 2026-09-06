@@ -32,6 +32,7 @@ public class EnemyData : ScriptableObject
     public Item[] DroppableItems;
 
     [Header("Skills")]
+    public PassiveSkillData PassiveAbility;
     public ActiveSkillData BasicAbility;
     public ActiveSkillData SpecialAbility;
     public ActiveSkillData UltimateAbility;
