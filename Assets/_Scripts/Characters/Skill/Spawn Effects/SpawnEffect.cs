@@ -154,8 +154,8 @@ public class SpawnEffect: NetworkedSpawnEffect
         SkillEffectRelay relay = instance.GetComponent<SkillEffectRelay>();
         if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IsBreakable);
 
-        //FollowTarget target = instance.GetComponent<FollowTarget>();
-        //if (target != null) target.Target = owner.transform;
+        FollowTarget target = instance.GetComponent<FollowTarget>();
+        if (target != null) target.Target = owner.transform;
 
         DespawnDelay despawn = instance.GetComponent<DespawnDelay>();
         if (despawn != null && Duration > 0f) despawn.StartCoroutine(despawn.DespawnAfterDuration(Duration));

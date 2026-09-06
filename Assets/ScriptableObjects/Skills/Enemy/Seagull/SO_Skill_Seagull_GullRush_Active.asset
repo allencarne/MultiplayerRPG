@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6698bb9cc9dc8f4aaa0ec45006a7422, type: 3}
+  m_Name: SO_Skill_Seagull_GullRush_Active
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
+  Name: Gull Rush
+  Icon: {fileID: 0}
+  Description: Run forward
+  CoolDown: 5
+  SkillRange: 0
+  weaponType: 0
+  skillType: 2
+  TargetingMode: 0
+  ImpactStyle: 0
+  IndicatorPrefab: {fileID: 0}
+  CastTime: 1.2
+  ActionTime: 0
+  ImpactTime: 1.2
+  RecoveryTime: 0.6
+  OnCastEffects:
+  - {fileID: 11400000, guid: 98159b61ea83ea546946c7113059f116, type: 2}
+  OnActionEffects: []
+  OnImpactEffects:
+  - {fileID: 11400000, guid: 7f8d88fe8f712194d9ec15e4c2379788, type: 2}
+  - {fileID: 11400000, guid: e6b2dbba4227eb343afcf0fe8982d0bb, type: 2}
+  OnRecoveryEffects: []

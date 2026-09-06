@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 259879583142747432}
   - component: {fileID: 3923503279015982023}
   - component: {fileID: 6942866315522667405}
+  - component: {fileID: 7227842841806250886}
   m_Layer: 11
   m_Name: Prefab_Effect_Seagull_GullRush
   m_TagString: Untagged
@@ -199,3 +200,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
+--- !u!114 &7227842841806250886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6660751756819716834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16615d15b09442d45bc57f37e0726c30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FollowTarget
+  Target: {fileID: 0}
