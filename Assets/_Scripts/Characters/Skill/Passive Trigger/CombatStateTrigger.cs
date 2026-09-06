@@ -4,15 +4,24 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill/Passive Triggers/Combat State")]
 public class CombatStateTrigger : PassiveTrigger
 {
-    public bool TriggerWhenInCombat = true;
+    public enum TriggerMode
+    {
+        InCombat,
+        OutOfCombat,
+        Both
+    }
+
+    public TriggerMode TriggerWhen = TriggerMode.InCombat;
 
     public override Action Subscribe(StateMachine owner, Action onTriggered)
     {
         void Handler(bool inCombat)
         {
-            if (inCombat == TriggerWhenInCombat)
+            switch (TriggerWhen)
             {
-                onTriggered();
+                case TriggerMode.InCombat: if (inCombat) onTriggered(); break;
+                case TriggerMode.OutOfCombat: if (!inCombat) onTriggered(); break;
+                case TriggerMode.Both: onTriggered(); break;
             }
         }
 

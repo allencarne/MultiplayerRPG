@@ -208,13 +208,13 @@ public class Player : NetworkBehaviour
     {
         if (!inCombat && !IsRegen && stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
         {
-            IsRegen = true;
-            stateMachine.Buffs.regeneration.StartRegen(1, -1);
+            //IsRegen = true;
+            //stateMachine.Buffs.regeneration.StartRegen(1, -1);
         }
         else if (IsRegen && (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value || inCombat))
         {
-            IsRegen = false;
-            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+            //IsRegen = false;
+            //stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
     }
 
@@ -241,14 +241,14 @@ public class Player : NetworkBehaviour
         if (shouldRegen && !IsRegen)
         {
             // Start regeneration
-            IsRegen = true;
-            stateMachine.Buffs.regeneration.StartRegen(1, -1);
+            //IsRegen = true;
+            //stateMachine.Buffs.regeneration.StartRegen(1, -1);
         }
         else if (!shouldRegen && IsRegen)
         {
             // Stop regeneration
-            IsRegen = false;
-            stateMachine.Buffs.regeneration.StartRegen(-1, -1);
+            //IsRegen = false;
+            //stateMachine.Buffs.regeneration.StartRegen(-1, -1);
         }
     }
 
