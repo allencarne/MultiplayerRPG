@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6496f56117d9b047a34d4734d31247c, type: 3}
   m_Name: SO_Skill_Coconut_NutQuake_Damage
   m_EditorClassIdentifier: Assembly-CSharp::DamageEffect
-  Damage: 2
+  Damage: 0
   DamageType: 0
+  UseFormula: 1
+  UseTotalDamageStat: 1
+  StatMultiplier: 1
+  LevelMultiplier: 0.5
+  AdditionalBase: 0
+  BasicMultiplier: 1
+  OffensiveMultiplier: 1.25
+  MobilityMultiplier: 1
+  DefensiveMultiplier: 0.8
+  UtilityMultiplier: 1
+  UltimateMultiplier: 2
   OnDamageDealtEffects: []

@@ -20,6 +20,12 @@ public class NPCData : ScriptableObject
 
     public float TotalPatience;
 
+    [Header("Radius")]
+    public float BasicRadius;
+    public float SpecialRadius;
+    public float UltimateRadius;
+    public float DeAggroRadius;
+
     [Header("Customization")]
     public int skinColorIndex;
 

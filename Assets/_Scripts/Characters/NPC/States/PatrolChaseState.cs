@@ -70,7 +70,7 @@ public class PatrolChaseState : NPCState
     {
         float distanceToStartingPosition = Vector2.Distance(startingPosition, owner.Target.position);
 
-        if (distanceToStartingPosition > owner.DeAggroRadius)
+        if (distanceToStartingPosition > owner.npc.Data.DeAggroRadius)
         {
             owner.npc.PatienceBar.Patience.Value += Time.deltaTime;
             if (owner.npc.PatienceBar.Patience.Value >= owner.npc.Data.TotalPatience)
@@ -86,9 +86,33 @@ public class PatrolChaseState : NPCState
 
     public void HandleAttack(NPCStateMachine owner)
     {
+        if (owner.IsAttacking) return;
+
         float distanceToTarget = Vector2.Distance(owner.transform.position, owner.Target.position);
 
-        if (distanceToTarget <= owner.BasicRadius)
+        if (distanceToTarget <= owner.npc.Data.UltimateRadius)
+        {
+            if (owner.CanUltimate && !owner.CrowdControl.silence.IsSilenced)
+            {
+                owner.IsAttacking = true;
+                owner.CanUltimate = false;
+                owner.SetSkill(NPCStateMachine.SkillType.Ultimate);
+                return;
+            }
+        }
+
+        if (distanceToTarget <= owner.npc.Data.SpecialRadius)
+        {
+            if (owner.CanMobility && !owner.CrowdControl.silence.IsSilenced)
+            {
+                owner.IsAttacking = true;
+                owner.CanMobility = false;
+                owner.SetSkill(NPCStateMachine.SkillType.Special);
+                return;
+            }
+        }
+
+        if (distanceToTarget <= owner.npc.Data.BasicRadius)
         {
             if (owner.CanBasic && !owner.CrowdControl.disarm.IsDisarmed)
             {

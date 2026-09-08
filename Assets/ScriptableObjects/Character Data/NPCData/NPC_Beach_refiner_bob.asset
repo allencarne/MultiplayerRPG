@@ -23,6 +23,10 @@ MonoBehaviour:
   CoolDownRecution: 1
   Armor: 0
   TotalPatience: 5
+  BasicRadius: 3
+  SpecialRadius: 0
+  UltimateRadius: 0
+  DeAggroRadius: 10
   skinColorIndex: 4
   hairStyleIndex: 0
   hairColorIndex: 2
@@ -35,8 +39,8 @@ MonoBehaviour:
   WeaponType: 0
   PassiveAbility: {fileID: 11400000, guid: 4880f00c4d423a340aaf4d14893dd04c, type: 2}
   BasicAbility: {fileID: 11400000, guid: 517c9f7abb2b97045928c81690182159, type: 2}
-  SpecialAbility: {fileID: 11400000, guid: 1b2a967f4653c6146a7691548f1c18f5, type: 2}
-  UltimateAbility: {fileID: 11400000, guid: 1b2a967f4653c6146a7691548f1c18f5, type: 2}
+  SpecialAbility: {fileID: 11400000, guid: 517c9f7abb2b97045928c81690182159, type: 2}
+  UltimateAbility: {fileID: 11400000, guid: 517c9f7abb2b97045928c81690182159, type: 2}
   Dialogue:
   - Nice!
   Quests: []

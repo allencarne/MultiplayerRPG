@@ -30,8 +30,8 @@ public class NPCStateMachine : StateMachine
     public Vector2 StartingPosition;
 
     [Header("Radius")]
-    public float BasicRadius;
-    public float DeAggroRadius;
+    //public float BasicRadius;
+    //public float DeAggroRadius;
 
     [Header("Components")]
     //[SerializeField] Collider2D Collider2D;
@@ -192,7 +192,7 @@ public class NPCStateMachine : StateMachine
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(StartingPosition, DeAggroRadius);
+        Gizmos.DrawWireSphere(StartingPosition, npc.Data.DeAggroRadius);
     }
 
     #region Pathing
