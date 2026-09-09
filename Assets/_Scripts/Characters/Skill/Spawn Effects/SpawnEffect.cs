@@ -4,6 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Networked Spawn/Spawn Effect")]
 public class SpawnEffect: NetworkedSpawnEffect
 {
+    [Header("Sparks")]
+    public GameObject Spark;
+    public GameObject SpecialSpark;
+
     public enum SpreadMode
     {
         None,
@@ -99,15 +103,10 @@ public class SpawnEffect: NetworkedSpawnEffect
 
             case SpreadMode.EvenCone:
                 {
-                    if (amount <= 1)
-                        return baseDirection;
+                    if (amount <= 1) return baseDirection;
 
                     float halfAngle = SpreadAngle * 0.5f;
-
-                    float angle = Mathf.Lerp(
-                        -halfAngle,
-                        halfAngle,
-                        index / (float)(amount - 1));
+                    float angle = Mathf.Lerp(-halfAngle,halfAngle,index / (float)(amount - 1));
 
                     return RotateVector(baseDirection, angle);
                 }
@@ -152,7 +151,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (rb != null && Force != 0f) rb.AddForce(ctx.AimDirection.normalized * Force, ForceMode);
 
         SkillEffectRelay relay = instance.GetComponent<SkillEffectRelay>();
-        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IsBreakable);
+        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IsBreakable, Spark, SpecialSpark);
 
         FollowTarget target = instance.GetComponent<FollowTarget>();
         if (target != null) target.Target = owner.transform;

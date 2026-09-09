@@ -12,15 +12,15 @@ public class SkillEffectRelay : NetworkBehaviour
     int obstacleLayer;
 
     [Header("Sparks")]
-    [SerializeField] GameObject hitSpark;
-    [SerializeField] GameObject hitSpark_Special;
+    GameObject Spark;
+    GameObject SpecialSpark;
 
     private void Awake()
     {
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
     }
 
-    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _isBreakable)
+    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _isBreakable, GameObject spark = null, GameObject specialSpark = null)
     {
         owner = _owner;
         context = _ctx;
@@ -29,6 +29,9 @@ public class SkillEffectRelay : NetworkBehaviour
         ignoreEnemy = _ignoreEnemy;
         ignoreNPC = _ignoreNPC;
         isBreakable = _isBreakable;
+
+        if (spark != null) Spark = spark;
+        if (specialSpark != null) SpecialSpark = specialSpark;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -93,8 +96,7 @@ public class SkillEffectRelay : NetworkBehaviour
     [ClientRpc]
     void HitSparkClientRPC(Vector2 hitPosition, Quaternion rotation, Vector2 collisionPosition)
     {
-        Instantiate(hitSpark, hitPosition, rotation);
-
-        if (hitSpark_Special) Instantiate(hitSpark_Special, collisionPosition, rotation);
+        if (Spark) Instantiate(Spark, hitPosition, rotation);
+        if (SpecialSpark) Instantiate(SpecialSpark, collisionPosition, rotation);
     }
 }
