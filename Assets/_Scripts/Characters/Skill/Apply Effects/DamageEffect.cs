@@ -4,15 +4,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Damage Effect")]
 public class DamageEffect : ApplyEffect
 {
-    [Header("Amount of Damage")]
-    public float Damage;
+    public enum DamageMode
+    {
+        SkillDamage,    // Use SO `Damage` value exactly
+        SkillAndTotalDamage,// Use attacker's CharacterStats.TotalDamage
+        Formula         // Use formula (uses TotalDamage in formula)
+    }
+
+    [Header("Mode")]
+    [Tooltip("Choose how this effect determines damage.")]
+    public DamageMode Mode = DamageMode.Formula;
 
     [Header("Type of Damage")]
     public DamageType DamageType;
 
-    [Header("Formula override")]
-    [Tooltip("When enabled, damage will be calculated by the formula below instead of using the 'Damage' field.")]
-    public bool UseFormula = false;
+    [Header("Amount of Damage")]
+    public float Damage;
+
+    [Header("Formula")]
+    [Tooltip("When enabled (Mode == Formula), damage will be calculated by the formula below.")]
+    public bool UseFormula => Mode == DamageMode.Formula;
 
     [Header("Formula multipliers")]
     [Tooltip("Multiplier applied to the attacker's damage stat")]
@@ -61,36 +72,38 @@ public class DamageEffect : ApplyEffect
         }
 
         // Compute damage
-        float computedDamage = Damage;
+        float computedDamage = 0;
 
-        if (UseFormula)
+        switch (Mode)
         {
-            // Get attacker's damage stat value
-            float attackStatVal = 0f;
-            if (attackerStats != null) attackStatVal = attackerStats.TotalDamage;
+            case DamageMode.SkillDamage:
+                computedDamage = Damage;
+                break;
+            case DamageMode.SkillAndTotalDamage:
+                computedDamage = attackerStats != null ? attackerStats.TotalDamage : Damage;
+                break;
+            case DamageMode.Formula:
+                // Formula uses TotalDamage as base stat
+                float attackStatVal = attackerStats != null ? attackerStats.TotalDamage : 0f;
 
-            // Pick skill type multiplier
-            float skillTypeMultiplier = ctx.SkillType switch
-            {
-                ActiveSkillData.SkillType.Basic => BasicMultiplier,
-                ActiveSkillData.SkillType.Offensive => OffensiveMultiplier,
-                ActiveSkillData.SkillType.Mobility => MobilityMultiplier,
-                ActiveSkillData.SkillType.Defensive => DefensiveMultiplier,
-                ActiveSkillData.SkillType.Utility => UtilityMultiplier,
-                ActiveSkillData.SkillType.Ultimate => UltimateMultiplier,
-                _ => 1f
-            };
+                float skillTypeMultiplier = ctx.SkillType switch
+                {
+                    ActiveSkillData.SkillType.Basic => BasicMultiplier,
+                    ActiveSkillData.SkillType.Offensive => OffensiveMultiplier,
+                    ActiveSkillData.SkillType.Mobility => MobilityMultiplier,
+                    ActiveSkillData.SkillType.Defensive => DefensiveMultiplier,
+                    ActiveSkillData.SkillType.Utility => UtilityMultiplier,
+                    ActiveSkillData.SkillType.Ultimate => UltimateMultiplier,
+                    _ => 1f
+                };
 
-            // Formula: ((TotalDamage * StatMultiplier) + (Level * LevelMultiplier) + AdditionalBase) * SkillMultiplier
-            float formulaDamage = ((attackStatVal * StatMultiplier) + (attackerLevel * LevelMultiplier) + AdditionalBase) * skillTypeMultiplier;
+                // Formula: ((TotalDamage * StatMultiplier) + (Level * LevelMultiplier) + AdditionalBase) * SkillMultiplier
+                float formulaDamage = ((attackStatVal * StatMultiplier) + (attackerLevel * LevelMultiplier) + AdditionalBase) * skillTypeMultiplier;
 
-            // Preserve ctx.AttackerDamage as an additive bonus for formula-driven skills
-            computedDamage = formulaDamage + ctx.AttackerDamage;
-        }
-        else
-        {
-            // When not using the formula, apply exactly the SO value and DO NOT add ctx.AttackerDamage.
-            computedDamage = Damage;
+                // Keep ctx.AttackerDamage as an additive bonus when using formula (preserves ability-specific additional damage)
+                computedDamage = formulaDamage + ctx.AttackerDamage;
+
+                break;
         }
 
         // Apply Damage to the Target
