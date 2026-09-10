@@ -513,17 +513,29 @@ public class ActiveSkill
 
     AimContext GetAIGroundAim(StateMachine owner, Transform target)
     {
+        Vector2 originPosition = owner.transform.position;
         Vector2 targetPosition = target.position;
+        float distance = Vector2.Distance(originPosition, targetPosition);
 
-        float distance = Vector2.Distance(owner.transform.position,targetPosition);
-
-        if (distance <= skillData.SkillRange)
+        // Clamp to skill range first, same as before
+        if (distance > skillData.SkillRange)
         {
-            return aimContext.FromGroundTarget(owner,targetPosition);
+            Vector2 dir = (targetPosition - originPosition).normalized;
+            targetPosition = originPosition + dir * skillData.SkillRange;
         }
 
-        Vector2 direction = targetPosition - (Vector2)owner.transform.position;
+        // Now check line of sight along that same segment
+        if (owner.Pathfinding != null)
+        {
+            owner.Pathfinding.TryGetLineOfSightTarget(
+                originPosition,
+                targetPosition,
+                owner.Pathfinding.obstacleLayerMask,
+                out Vector2 losTarget);
 
-        return aimContext.FromDirection(owner, direction,skillData.SkillRange);
+            targetPosition = losTarget; // clear -> unchanged, blocked -> clamped short of the wall
+        }
+
+        return aimContext.FromGroundTarget(owner, targetPosition);
     }
 }

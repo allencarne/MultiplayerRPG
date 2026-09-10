@@ -73,4 +73,30 @@ public class Pathfinding : MonoBehaviour
         // Fallback to original (could not find a free spot)
         return desiredPos;
     }
+
+    public bool TryGetLineOfSightTarget(Vector2 origin, Vector2 desiredTarget, LayerMask mask, out Vector2 result, float skinBuffer = 0.15f)
+    {
+        Vector2 toTarget = desiredTarget - origin;
+        float distance = toTarget.magnitude;
+
+        if (distance <= 0.0001f)
+        {
+            result = desiredTarget;
+            return true;
+        }
+
+        Vector2 direction = toTarget / distance;
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, distance, mask);
+
+        if (!hit)
+        {
+            result = desiredTarget;
+            return true; // clear line of sight
+        }
+
+        // Obstacle in the way — clamp the target to just short of the hit point
+        float clampedDistance = Mathf.Max(0f, hit.distance - skinBuffer);
+        result = origin + direction * clampedDistance;
+        return false; // blocked
+    }
 }
