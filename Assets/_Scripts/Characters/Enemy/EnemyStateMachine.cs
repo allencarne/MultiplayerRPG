@@ -11,15 +11,10 @@ public class EnemyStateMachine : StateMachine
     PassiveSkill passiveInstance;
 
     [Header("Scripts")]
-    //public CrowdControl CrowdControl;
-    //public Buffs Buffs;
-    //public DeBuffs DeBuffs;
     public EnemyDrops Drops;
 
     [Header("Components")]
     public Enemy enemy { get; private set; }
-    //public Rigidbody2D RigidBody2D;
-    //public Collider2D Collider2D;
 
     [Header("Variables")]
     public int AttemptsCount { get; set; }
@@ -56,7 +51,6 @@ public class EnemyStateMachine : StateMachine
     {
         enemy = GetComponent<Enemy>();
         RigidBody2D = GetComponent<Rigidbody2D>();
-        //EnemyAnimator = GetComponentInChildren<Animator>();
         Collider2D = GetComponent<Collider2D>();
     }
 
@@ -265,8 +259,6 @@ public class EnemyStateMachine : StateMachine
         GetComponent<NetworkObject>().Despawn();
     }
 
-    #region Pathing
-
     public void MoveTowardsTarget(Vector2 _targetPos, bool isReset = false)
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
@@ -293,59 +285,18 @@ public class EnemyStateMachine : StateMachine
             }
         }
 
-        Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        RigidBody2D.linearVelocity = direction * enemy.stats.TotalSpeed;
-    }
-
-    public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
-    {
-        Vector2 currentPos = transform.position;
-        Vector2 direction = (targetPos - currentPos).normalized;
-        Vector2 bestDirection = Vector2.zero;
-
-        float distance = 2f;
-        float castOffset = 0f;
-        int rayCount = 21;
-        float coneSpread = 225;
-
-        // Straight ray
-        Vector2 castOrigin = currentPos + direction * castOffset;
-        RaycastHit2D centerRay = Physics2D.Raycast(castOrigin, direction, distance, obstacleLayerMask);
-        Debug.DrawRay(castOrigin, direction * distance, centerRay ? Color.red : Color.green);
-
-        // I straight path is clear
-        if (!centerRay) return direction;
-
-        // Spread
-        float angleIncrement = coneSpread / (rayCount - 1);
-        float bestScore = -Mathf.Infinity;
-
-        for (int i = 0; i < rayCount; i++)
+        Vector2 direction = Vector2.zero;
+        if (Pathfinding != null)
         {
-            float angleOffset = -coneSpread / 2f + angleIncrement * i;
-            Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
-
-            castOrigin = currentPos + dir * castOffset;
-            RaycastHit2D hit = Physics2D.Raycast(castOrigin, dir, distance, obstacleLayerMask);
-            Debug.DrawRay(castOrigin, dir * distance, hit ? Color.red : Color.green);
-
-            if (!hit)
-            {
-                // Score based on alignment with target direction
-                float score = Vector2.Dot(dir, direction);
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    bestDirection = dir;
-                }
-            }
+            direction = Pathfinding.GetDirectionAroundObstacle(transform.position, _targetPos, obstacleLayerMask);
+        }
+        else
+        {
+            direction = (_targetPos - (Vector2)transform.position).normalized;
         }
 
-        // Return best valid direction
-        return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
+        RigidBody2D.linearVelocity = direction * enemy.stats.TotalSpeed;
     }
-
-    #endregion
 
     protected override ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index) => type switch
     {

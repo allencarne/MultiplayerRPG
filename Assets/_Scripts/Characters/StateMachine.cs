@@ -3,18 +3,20 @@ using UnityEngine;
 
 public abstract class StateMachine : NetworkBehaviour
 {
+    public Collider2D Collider2D;
+    public Rigidbody2D RigidBody2D;
+
     public CharacterStats Stats;
     public CharacterAnimator Animator;
     public CharacterCombat Combat;
-    public Collider2D Collider2D;
-    public Rigidbody2D RigidBody2D;
+    public Pathfinding Pathfinding;
+    public CastBar CastBar;
 
     public CrowdControl CrowdControl;
     public Buffs Buffs;
     public DeBuffs DeBuffs;
     public Mobility Mobility;
 
-    public CastBar CastBar;
 
     public virtual Vector2 CurrentMoveInput => Vector2.zero;
     protected abstract ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index);

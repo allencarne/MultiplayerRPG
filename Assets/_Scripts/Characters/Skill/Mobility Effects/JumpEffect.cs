@@ -9,6 +9,14 @@ public class JumpEffect : SkillEffect
 
     public override void Execute(StateMachine owner, SkillContext ctx)
     {
-        owner.Mobility.Jump(ctx.SpawnPosition,Duration,Height);
+        Vector2 targetPos = ctx.SpawnPosition;
+
+        if (owner != null && owner.Pathfinding != null)
+        {
+            LayerMask mask = owner.Pathfinding.obstacleLayerMask;
+            targetPos = owner.Pathfinding.GetValidGroundPosition(ctx.SpawnPosition, mask);
+        }
+
+        owner.Mobility.Jump(targetPos, Duration, Height);
     }
 }

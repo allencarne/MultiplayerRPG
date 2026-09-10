@@ -12,11 +12,6 @@ public class NPCStateMachine : StateMachine
     [HideInInspector] public ActiveSkill CurrentSkill;
     PassiveSkill passiveInstance;
 
-    [Header("Status Effects")]
-    //public CrowdControl CrowdControl;
-    //public Buffs Buffs;
-    //public DeBuffs DeBuffs;
-
     [Header("Bools")]
     public bool IsEnemyInRange = false;
     public bool IsAttacking = false;
@@ -29,13 +24,8 @@ public class NPCStateMachine : StateMachine
     [Header("Variables")]
     public Vector2 StartingPosition;
 
-    [Header("Radius")]
-    //public float BasicRadius;
-    //public float DeAggroRadius;
 
     [Header("Components")]
-    //[SerializeField] Collider2D Collider2D;
-    //public Rigidbody2D RigidBody2D;
     public NPC npc;
     public LayerMask obstacleLayerMask;
 
@@ -195,8 +185,6 @@ public class NPCStateMachine : StateMachine
         Gizmos.DrawWireSphere(StartingPosition, npc.Data.DeAggroRadius);
     }
 
-    #region Pathing
-
     public void MoveTowardsTarget(Vector2 _targetPos)
     {
         if (CrowdControl.immobilize.IsImmobilized) return;
@@ -212,60 +200,18 @@ public class NPCStateMachine : StateMachine
             }
         }
 
-        Vector2 direction = GetDirectionAroundObstacle(_targetPos);
-        RigidBody2D.linearVelocity = direction * npc.stats.TotalSpeed;
-    }
-
-    public Vector2 GetDirectionAroundObstacle(Vector2 targetPos)
-    {
-        Vector2 currentPos = transform.position;
-        Vector2 direction = (targetPos - currentPos).normalized;
-        Vector2 bestDirection = Vector2.zero;
-
-        float distance = 2f;
-        float castOffset = 0f;
-        int rayCount = 21;
-        float coneSpread = 225;
-
-        // Straight ray
-        Vector2 castOrigin = currentPos + direction * castOffset;
-        RaycastHit2D centerRay = Physics2D.Raycast(castOrigin, direction, distance, obstacleLayerMask);
-        Debug.DrawRay(castOrigin, direction * distance, centerRay ? Color.red : Color.green);
-
-        // If straight path is clear
-        if (!centerRay)
-            return direction;
-
-        // Spread calculation
-        float angleIncrement = coneSpread / (rayCount - 1);
-        float bestScore = -Mathf.Infinity;
-
-        for (int i = 0; i < rayCount; i++)
+        Vector2 direction = Vector2.zero;
+        if (Pathfinding != null)
         {
-            float angleOffset = -coneSpread / 2f + angleIncrement * i;
-            Vector2 dir = Quaternion.Euler(0, 0, angleOffset) * direction;
-
-            castOrigin = currentPos + dir * castOffset;
-            RaycastHit2D hit = Physics2D.Raycast(castOrigin, dir, distance, obstacleLayerMask);
-            Debug.DrawRay(castOrigin, dir * distance, hit ? Color.red : Color.green);
-
-            if (!hit)
-            {
-                // Score based on alignment with target direction
-                float score = Vector2.Dot(dir, direction);
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    bestDirection = dir;
-                }
-            }
+            direction = Pathfinding.GetDirectionAroundObstacle(transform.position, _targetPos, obstacleLayerMask);
+        }
+        else
+        {
+            direction = (_targetPos - (Vector2)transform.position).normalized;
         }
 
-        // Return best valid direction
-        return bestDirection == Vector2.zero ? Vector2.zero : bestDirection.normalized;
+        RigidBody2D.linearVelocity = direction * npc.stats.TotalSpeed;
     }
-
-    #endregion
 
     #region RPC
 
@@ -280,84 +226,6 @@ public class NPCStateMachine : StateMachine
     void ApplyColliderStateClientRpc(bool isEnabled)
     {
         Collider2D.enabled = isEnabled;
-    }
-
-    #endregion
-
-    #region Animation
-    /*
-
-    public Vector2 SnapDirection(Vector2 direction)
-    {
-        // This Code allows the Last Input direction to be animated
-
-        // Check if the x component of the direction is greater in magnitude than the y component
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            // Snap to the horizontal axis by setting the y component to 0
-            direction.y = 0;
-
-            // Normalize the x component to either 1 or -1 depending on its original sign
-            direction.x = Mathf.Sign(direction.x);
-        }
-        else
-        {
-            // Snap to the vertical axis by setting the x component to 0
-            direction.x = 0;
-
-            // Normalize the y component to either 1 or -1 depending on its original sign
-            direction.y = Mathf.Sign(direction.y);
-        }
-
-        // Return the modified direction vector, now snapped to either horizontal or vertical
-        return direction;
-    }
-
-    public void SetAnimDir(Vector2 direction)
-    {
-        if (IsServer) npc.net_FacingDirection.Value = direction;
-
-        HeadAnimator.SetFloat("Horizontal", direction.x);
-        HeadAnimator.SetFloat("Vertical", direction.y);
-
-        BodyAnimator.SetFloat("Horizontal", direction.x);
-        BodyAnimator.SetFloat("Vertical", direction.y);
-
-        ChestAnimator.SetFloat("Horizontal", direction.x);
-        ChestAnimator.SetFloat("Vertical", direction.y);
-
-        LegsAnimator.SetFloat("Horizontal", direction.x);
-        LegsAnimator.SetFloat("Vertical", direction.y);
-
-        SwordAnimator.SetFloat("Horizontal", direction.x);
-        SwordAnimator.SetFloat("Vertical", direction.y);
-    }
-    */
-    #endregion
-
-    #region Slide
-
-    public void StartSlide()
-    {
-        IsSliding = true;
-    }
-
-    public IEnumerator SlideDuration(Vector2 aimDirection, float slideForce, float slideDuration)
-    {
-        float elapsed = 0f;
-        Vector2 startVelocity = aimDirection * slideForce;
-
-        while (elapsed < slideDuration)
-        {
-            float t = elapsed / slideDuration;
-            RigidBody2D.linearVelocity = Vector2.Lerp(startVelocity, Vector2.zero, t);
-
-            elapsed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-
-        RigidBody2D.linearVelocity = Vector2.zero;
-        IsSliding = false;
     }
 
     #endregion

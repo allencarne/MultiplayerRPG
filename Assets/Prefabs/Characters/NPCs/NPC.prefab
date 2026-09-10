@@ -3108,6 +3108,7 @@ GameObject:
   - component: {fileID: 3420725605647731624}
   - component: {fileID: 3227228506341842699}
   - component: {fileID: 203235246342025166}
+  - component: {fileID: 673099655325402489}
   m_Layer: 10
   m_Name: NPC
   m_TagString: NPC
@@ -3244,7 +3245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 206476993
+  GlobalObjectIdHash: 252941149
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -3447,16 +3448,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  Collider2D: {fileID: 5667196409634766878}
+  RigidBody2D: {fileID: 4568072980406800238}
   Stats: {fileID: 6038468416201059741}
   Animator: {fileID: 8434268355856330972}
   Combat: {fileID: 203235246342025166}
-  Collider2D: {fileID: 5667196409634766878}
-  RigidBody2D: {fileID: 4568072980406800238}
+  Pathfinding: {fileID: 673099655325402489}
+  CastBar: {fileID: 3652510914053340914}
   CrowdControl: {fileID: 3730166254070588288}
   Buffs: {fileID: 6674310060799249892}
   DeBuffs: {fileID: 5438906521032660789}
   Mobility: {fileID: 3227228506341842699}
-  CastBar: {fileID: 3652510914053340914}
   IsEnemyInRange: 0
   IsAttacking: 0
   isResetting: 0
@@ -3465,8 +3467,6 @@ MonoBehaviour:
   CanMobility: 0
   CanUltimate: 0
   StartingPosition: {x: 0, y: 0}
-  BasicRadius: 3
-  DeAggroRadius: 10
   npc: {fileID: 4856348772391820444}
   obstacleLayerMask:
     serializedVersion: 2
@@ -3688,6 +3688,21 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+--- !u!114 &673099655325402489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7152011778197999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d7cceb2cbe1ad468a41e1e898ec018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pathfinding
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &8074817158488108185
 GameObject:
   m_ObjectHideFlags: 0
