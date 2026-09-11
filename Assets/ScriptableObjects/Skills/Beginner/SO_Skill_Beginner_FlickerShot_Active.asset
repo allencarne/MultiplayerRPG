@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Flicker Shot
   Icon: {fileID: 21300000, guid: 401ce0747c7ad4a46b44b6c3875ce42f, type: 3}
   Description: Shot that flickers
-  CoolDown: 10
+  CoolDown: 1
   SkillRange: 5
   weaponType: 0
   skillType: 1
@@ -26,6 +26,7 @@ MonoBehaviour:
   ActionTime: 0
   ImpactTime: 0.1
   RecoveryTime: 0.1
+  ManaCost: 10
   OnCastEffects: []
   OnActionEffects: []
   OnImpactEffects:

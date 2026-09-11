@@ -13,13 +13,9 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] ClassSkillSelector setSkills;
     [HideInInspector] public ClassSkillSet skills;
     public SkillBarUI[] coolDownTracker;
-
     PassiveSkill firstPassiveInstance;
     PassiveSkill secondPassiveInstance;
     PassiveSkill thirdPassiveInstance;
-
-    //[Header("Animator")]
-    //public CharacterAnimator Animator;
 
     [Header("Scrips")]
     public Player player;
@@ -31,20 +27,12 @@ public class PlayerStateMachine : StateMachine
 
     [Header("UI")]
     public EnduranceBar EnduranceBar;
-    //public CastBar CastBar;
+    public ManaBar ManaBar;
 
     [Header("Components")]
-    //public Collider2D Collider2D;
-    //public Rigidbody2D RigidBody2D;
     public Transform Aimer;
     public PlayerInput playerInput;
     public Indicator Indicator;
-
-    [Header("Status Effects")]
-    //public CrowdControl CrowdControl;
-    //public Buffs Buffs;
-    //public DeBuffs DeBuffs;
-    //public Mobility Mobility;
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
@@ -182,9 +170,16 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedOffensiveInput) return;
 
-        StartAbility(data, player.OffensiveIndex);
-        CanOffensive = false;
-        Input.HasBufferedOffensiveInput = false;
+        if (StartAbility(data, player.OffensiveIndex))
+        {
+            CanOffensive = false;
+            Input.HasBufferedOffensiveInput = false;
+        }
+        else
+        {
+            Input.HasBufferedOffensiveInput = false;
+            // TODO: hook UI feedback (e.g. flash skill button / play sound)
+        }
     }
 
     public void MobilityAbility()
@@ -203,9 +198,16 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedMobilityInput) return;
 
-        StartAbility(data, player.MobilityIndex);
-        CanMobility = false;
-        Input.HasBufferedMobilityInput = false;
+        if (StartAbility(data, player.MobilityIndex))
+        {
+            CanMobility = false;
+            Input.HasBufferedMobilityInput = false;
+        }
+        else
+        {
+            Input.HasBufferedMobilityInput = false;
+            // TODO: hook UI feedback (e.g. flash skill button / play sound)
+        }
     }
 
     public void DefensiveAbility()
@@ -224,9 +226,16 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedDefensiveInput) return;
 
-        StartAbility(data, player.DefensiveIndex);
-        CanDefensive = false;
-        Input.HasBufferedDefensiveInput = false;
+        if (StartAbility(data, player.DefensiveIndex))
+        {
+            CanDefensive = false;
+            Input.HasBufferedDefensiveInput = false;
+        }
+        else
+        {
+            Input.HasBufferedDefensiveInput = false;
+            // TODO: hook UI feedback (e.g. flash skill button / play sound)
+        }
     }
 
     public void UtilityAbility()
@@ -245,9 +254,16 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedUtilityInput) return;
 
-        StartAbility(data, player.UtilityIndex);
-        CanUtility = false;
-        Input.HasBufferedUtilityInput = false;
+        if (StartAbility(data, player.UtilityIndex))
+        {
+            CanUtility = false;
+            Input.HasBufferedUtilityInput = false;
+        }
+        else
+        {
+            Input.HasBufferedUtilityInput = false;
+            // TODO: hook UI feedback (e.g. flash skill button / play sound)
+        }
     }
 
     public void UltimateAbility()
@@ -266,9 +282,16 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedUltimateInput) return;
 
-        StartAbility(data, player.UltimateIndex);
-        CanUltimate = false;
-        Input.HasBufferedUltimateInput = false;
+        if (StartAbility(data, player.UltimateIndex))
+        {
+            CanUltimate = false;
+            Input.HasBufferedUltimateInput = false;
+        }
+        else
+        {
+            Input.HasBufferedUltimateInput = false;
+            // TODO: hook UI feedback (e.g. flash skill button / play sound)
+        }
     }
 
     public void SetFirstPassive(PassiveSkillData data, int index)
@@ -292,8 +315,22 @@ public class PlayerStateMachine : StateMachine
         thirdPassiveInstance.StartPassive(this);
     }
 
-    private void StartAbility(ActiveSkillData data, int index)
+    private bool StartAbility(ActiveSkillData data, int index)
     {
+        // Check mana first
+        if (data.ManaCost > 0f && PlayerStats.Mana.Value < data.ManaCost)
+        {
+            // Not enough mana. Don't start the skill.
+            // TODO: hook a UI/sound feedback here (e.g. flash the skill button)
+            return false;
+        }
+
+        // Spend mana (server-authoritative via ManaBar.SpendMana)
+        if (data.ManaCost > 0f)
+        {
+            ManaBar.SpendMana(data.ManaCost);
+        }
+
         IsAttacking = true;
         ActiveSkill skill = new ActiveSkill(data, index);
 
@@ -304,6 +341,7 @@ public class PlayerStateMachine : StateMachine
 
         Indicator.DestroyAllIndicators();
         SetState(new PlayerAttackState(this, skill));
+        return true;
     }
 
     [ServerRpc]

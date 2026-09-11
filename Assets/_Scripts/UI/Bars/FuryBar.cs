@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class FuryBar : NetworkBehaviour
 {
+    /*
     [SerializeField] PlayerStats stats;
     [SerializeField] Image furyBar;
     [SerializeField] Image furyBar_Back;
@@ -60,4 +61,5 @@ public class FuryBar : NetworkBehaviour
             yield return null;
         }
     }
+    */
 }

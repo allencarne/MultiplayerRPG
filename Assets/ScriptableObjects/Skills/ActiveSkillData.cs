@@ -32,6 +32,9 @@ public class ActiveSkillData : SkillData
     public float ImpactTime;
     public float RecoveryTime;
 
+    [Header("Cost")]
+    public float ManaCost = 0f;
+
     [Header("Effects")]
     public SkillEffect[] OnCastEffects;
     public SkillEffect[] OnActionEffects;

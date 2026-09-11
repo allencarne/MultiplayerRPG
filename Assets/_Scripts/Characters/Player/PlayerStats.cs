@@ -23,9 +23,10 @@ public class PlayerStats : CharacterStats
     public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> EnduranceRechargeRate = new(writePerm: NetworkVariableWritePermission.Server);
 
-    [Header("Fury")]
-    public NetworkVariable<float> Fury = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxFury = new(writePerm: NetworkVariableWritePermission.Server);
+    [Header("Mana")]
+    public NetworkVariable<float> Mana = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> MaxMana = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> ManaRechargeRate = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Currency")]
     public float Coins;
