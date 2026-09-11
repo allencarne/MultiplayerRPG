@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6698bb9cc9dc8f4aaa0ec45006a7422, type: 3}
+  m_Name: SO_Skill_Snail_Giant_StickyTrail_Active
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
+  Name: 
+  Icon: {fileID: 0}
+  Description: 
+  CoolDown: 5
+  SkillRange: 0
+  weaponType: 0
+  skillType: 2
+  TargetingMode: 0
+  ImpactStyle: 0
+  IndicatorPrefab: {fileID: 0}
+  CastTime: 1.2
+  ActionTime: 0
+  ImpactTime: 0.6
+  RecoveryTime: 0.6
+  OnCastEffects:
+  - {fileID: 11400000, guid: facf1a25ce549a341a3294166f6c2d7c, type: 2}
+  OnActionEffects: []
+  OnImpactEffects:
+  - {fileID: 11400000, guid: 6e89123061fead945b287e6e23f5846d, type: 2}
+  - {fileID: 11400000, guid: a309f0b02183b76429feffd8de66cd56, type: 2}
+  - {fileID: 11400000, guid: 1d7fa0e8beae3e141923fb648543b94f, type: 2}
+  OnRecoveryEffects: []

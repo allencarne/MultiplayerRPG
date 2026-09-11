@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6698bb9cc9dc8f4aaa0ec45006a7422, type: 3}
+  m_Name: SO_Skill_Seagull_Giant_GullRush_Active
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
+  Name: 
+  Icon: {fileID: 0}
+  Description: 
+  CoolDown: 5
+  SkillRange: 0
+  weaponType: 0
+  skillType: 2
+  TargetingMode: 0
+  ImpactStyle: 0
+  IndicatorPrefab: {fileID: 0}
+  CastTime: 1.2
+  ActionTime: 0
+  ImpactTime: 1.2
+  RecoveryTime: 0.6
+  OnCastEffects:
+  - {fileID: 11400000, guid: dab6d93d0e82cc84b993d3a67825afe3, type: 2}
+  OnActionEffects: []
+  OnImpactEffects:
+  - {fileID: 11400000, guid: 535c1ffccc1ff5947800f0b4d54f82a0, type: 2}
+  - {fileID: 11400000, guid: bb9185be09079804e8ab562cdeb5b13b, type: 2}
+  - {fileID: 11400000, guid: 52adcd7775738c44699cb5cc43709824, type: 2}
+  OnRecoveryEffects: []
