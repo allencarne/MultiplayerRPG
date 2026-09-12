@@ -58,36 +58,16 @@ public class ItemStatRules : ScriptableObject
         slot.modifiers = RollModifiers(equipment, budget, decay, randomizeSecondaryOrder: true);
     }
 
-    public InventorySlotData BuildFixedItem(InventorySlotData template)
+    public InventorySlotData BuildItemData(Item item)
     {
-        if (template == null) return null;
+        // Gets the Mods directly from the item if it's Equipment, otherwise just returns the item with default rarity and quality
+        if (item is Equipment equipment)
+        {
+            List<StatModifier> mods = new List<StatModifier>(equipment.modifiers);
+            return new InventorySlotData(item, 1, equipment.ItemRarity, equipment.ItemQuality, mods);
+        }
 
-        InventorySlotData slot = new InventorySlotData(template.item, template.quantity, template.rarity, template.quality);
-
-        if (template.item is Equipment) RollFixedStats(slot);
-
-        return slot;
-    }
-
-    void RollFixedStats(InventorySlotData slot)
-    {
-        // Safety Check
-        if (slot == null) return;
-
-        // If modifiers already exist, this item has already been rolled
-        if (slot.modifiers != null && slot.modifiers.Count > 0) return;
-
-        // Convert the item to Equipment
-        Equipment equipment = slot.item as Equipment;
-
-        // If it isn't equipment, there's nothing to roll
-        if (equipment == null) return;
-
-        // Calculate the total stat budget for this item
-        int budget = GetBudget(slot);
-
-        // Create the item's rolled modifiers
-        slot.modifiers = RollModifiers(equipment, budget, standardStatLineDecay, randomizeSecondaryOrder: false);
+        return new InventorySlotData(item, 1, item.ItemRarity, item.ItemQuality);
     }
 
     int GetBudget(InventorySlotData slot)

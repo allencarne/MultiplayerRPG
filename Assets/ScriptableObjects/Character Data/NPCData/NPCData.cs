@@ -57,7 +57,7 @@ public class NPCData : ScriptableObject
 
     [Header("Vendor")]
     public Item[] VendorItems;
-    public InventorySlotData[] SlotData;
+    //public InventorySlotData[] SlotData;
 
     [Header("Patrol")]
     public Vector2[] waypoints;

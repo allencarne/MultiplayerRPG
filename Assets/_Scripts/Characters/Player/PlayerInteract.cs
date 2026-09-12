@@ -167,10 +167,10 @@ public class PlayerInteract : NetworkBehaviour
         player.CanSellItems = true;
         interactText.enabled = false;
 
-        foreach (InventorySlotData item in data.SlotData)
+        foreach (Item item in data.VendorItems)
         {
-            InventorySlotData rolledItem = item.item.ItemStatRules.BuildFixedItem(item);
-            vendorInfoPanel.CreateItem(rolledItem);
+            InventorySlotData slot = item.ItemStatRules.BuildItemData(item);
+            vendorInfoPanel.CreateItem(slot);
         }
 
         playerUI._VendorUI();

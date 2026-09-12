@@ -114,9 +114,9 @@ public class PlayerQuest : MonoBehaviour
 
         if (giveStarters)
         {
-            foreach (InventorySlotData starter in quest.StarterItems)
+            foreach (Item starter in quest.QuestStarter)
             {
-                InventorySlotData starterSlot = starter.item.ItemStatRules.BuildFixedItem(starter);
+                InventorySlotData starterSlot = starter.ItemStatRules.BuildItemData(starter);
                 inventory.AddItem(starterSlot);
             }
         }
@@ -236,9 +236,9 @@ public class PlayerQuest : MonoBehaviour
         // Remove collected items from inventory
         RemoveQuestItems(progress);
 
-        foreach (InventorySlotData reward in quest.RewardItems)
+        foreach (Item reward in quest.QuestRewards)
         {
-            InventorySlotData rewardSlot = reward.item.ItemStatRules.BuildFixedItem(reward);
+            InventorySlotData rewardSlot = reward.ItemStatRules.BuildItemData(reward);
             inventory.AddItem(rewardSlot);
         }
 

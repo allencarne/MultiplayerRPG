@@ -118,9 +118,9 @@ public class QuestInfoPanel : MonoBehaviour
 
     void GetRewards(Quest quest)
     {
-        foreach (InventorySlotData reward in quest.RewardItems)
+        foreach (Item reward in quest.QuestRewards)
         {
-            InventorySlotData rolledReward = reward.item.ItemStatRules.BuildFixedItem(reward);
+            InventorySlotData rolledReward = reward.ItemStatRules.BuildItemData(reward);
             GameObject itemUI = Instantiate(rewardUI_Item, rewardListUI.transform);
 
             VendorItemToolTip toolTip = itemUI.GetComponentInChildren<VendorItemToolTip>();
@@ -135,7 +135,7 @@ public class QuestInfoPanel : MonoBehaviour
                 Image icon = iconTransform.GetComponent<Image>();
                 if (icon != null)
                 {
-                    icon.sprite = reward.item.Icon;
+                    icon.sprite = reward.Icon;
                 }
             }
 
@@ -145,7 +145,7 @@ public class QuestInfoPanel : MonoBehaviour
                 Image background = backgroundTransform.GetComponent<Image>();
                 if (background != null)
                 {
-                    background.color = reward.item.GetRarityColor(reward.rarity);
+                    background.color = reward.GetRarityColor(reward.ItemRarity);
                 }
             }
 
@@ -196,7 +196,7 @@ public class QuestInfoPanel : MonoBehaviour
     void AcceptQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
-        int starterSlots = currentQuest.StarterItems.Count();
+        int starterSlots = currentQuest.QuestStarter.Count();
 
         if (avaliableSlots < starterSlots)
         {
@@ -210,7 +210,7 @@ public class QuestInfoPanel : MonoBehaviour
     void TurnInQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
-        int rewardSlots = currentQuest.RewardItems.Count();
+        int rewardSlots = currentQuest.QuestRewards.Count();
 
         if (avaliableSlots < rewardSlots)
         {
@@ -248,7 +248,7 @@ public class QuestInfoPanel : MonoBehaviour
         if (currentQuest == null) return;
 
         // Loop through each reward item and update its icon color based on whether the player can use it
-        foreach (InventorySlotData reward in currentQuest.RewardItems)
+        foreach (Item reward in currentQuest.QuestRewards)
         {
             // Loop through each child of the rewardListUI to find the corresponding UI element for this reward
             foreach (Transform child in rewardListUI.transform)
@@ -264,7 +264,7 @@ public class QuestInfoPanel : MonoBehaviour
                 if (toolTip == null) continue;
 
                 // Check if the item in the tooltip matches the current reward
-                if (reward.item is Equipment equipment)
+                if (reward is Equipment equipment)
                 {
                     // Show a red tint if the player is too low level to use this item
                     icon.color = equipment.CanPlayerUse(playerStats) ? Color.white : Color.red;
