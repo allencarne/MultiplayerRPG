@@ -113,13 +113,11 @@ public class AttributePoints : MonoBehaviour
                 break;
             case 2:
                 asToAdd++;
-                // show percent for AS (each point = 10% as before)
-                ASText.text = $"{asToAdd * 10}%";
+                ASText.text = asToAdd.ToString();
                 break;
             case 3:
                 cdrToAdd++;
-                // show percent for CDR (each point = 10% as before)
-                CDRText.text = $"{cdrToAdd * 10}%";
+                CDRText.text = cdrToAdd.ToString();
                 break;
         }
 
@@ -143,12 +141,12 @@ public class AttributePoints : MonoBehaviour
             case 2:
                 if (asToAdd == 0) return;
                 asToAdd--;
-                ASText.text = asToAdd > 0 ? $"{asToAdd * 10}%" : "";
+                ASText.text = asToAdd.ToString();
                 break;
             case 3:
                 if (cdrToAdd == 0) return;
                 cdrToAdd--;
-                CDRText.text = cdrToAdd > 0 ? $"{cdrToAdd * 10}%" : "";
+                CDRText.text = cdrToAdd.ToString();
                 break;
         }
 

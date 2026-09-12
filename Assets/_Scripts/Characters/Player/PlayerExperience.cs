@@ -80,6 +80,12 @@ public class PlayerExperience : NetworkBehaviour
         {
             IncreaseEXP(10);
         }
+
+        // FOR TESTING
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            IncreaseEXP(50);
+        }
     }
 
     public void Initialize()

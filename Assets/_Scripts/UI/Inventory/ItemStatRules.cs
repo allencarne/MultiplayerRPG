@@ -238,7 +238,7 @@ public class ItemStatRules : ScriptableObject
         StatType primaryType = GetPrimaryStatType(equipment.equipmentType);
 
         // Create a pool containing every possible stat type
-        List<StatType> remainingPool = new List<StatType> { StatType.Damage, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp };
+        List<StatType> remainingPool = new List<StatType> { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp };
 
         // Remove the primary stat so it can't be selected twice
         remainingPool.Remove(primaryType);

@@ -121,7 +121,7 @@ public class ToolTip : MonoBehaviour
             case Equipment equipment:
                 foreach (StatModifier mod in data.modifiers)
                 {
-                    sb.AppendLine($"+{mod.value} {mod.statType}");
+                    sb.AppendLine(FormatModifierLine(mod));
                 }
 
                 sb.AppendLine();
@@ -151,6 +151,23 @@ public class ToolTip : MonoBehaviour
         }
 
         return sb.ToString();
+    }
+
+    string FormatModifierLine(StatModifier mod)
+    {
+        if (mod.modType == ModType.Percent)
+        {
+            float pct = mod.value * 100f;
+            string sign = pct >= 0 ? "+" : "";
+            string formatted = pct % 1 == 0 ? $"{pct:0}" : $"{pct:0.0}";
+            return $"{sign}{formatted}% {mod.statType}";
+        }
+        else
+        {
+            string sign = mod.value >= 0 ? "+" : "";
+            string formatted = mod.value % 1 == 0 ? $"{mod.value:0}" : $"{mod.value:0.0}";
+            return $"{sign}{formatted} {mod.statType}";
+        }
     }
 
     void OnPlayerLevelChanged(int oldVal, int newVal)
