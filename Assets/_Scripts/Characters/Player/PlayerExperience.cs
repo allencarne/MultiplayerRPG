@@ -262,10 +262,13 @@ public class PlayerExperience : NetworkBehaviour
         if (IsOwner && oldValue > 0)
         {
             // Give 2 health per level.
-            int amount = newValue * 2;
+            int amount = newValue * 1;
 
             // Increase the player's health.
             stats.IncreaseHealth(amount);
+
+            // Increase the player's Damage.
+            stats.IncreaseDamage(amount);
         }
     }
 }
