@@ -115,7 +115,11 @@ public class DamageEffect : ApplyEffect
             if (attackerStats != null && attackerStats.TotalVamp > 0f)
             {
                 float healAmount = dealt * (attackerStats.TotalVamp / 100f);
-                attackerStats.GiveHeal(healAmount, HealType.Flat);
+
+                if (attackerStats.net_TotalHP.Value != attackerStats.net_CurrentHP.Value)
+                {
+                    attackerStats.GiveHeal(healAmount, HealType.Flat);
+                }
             }
         }
 

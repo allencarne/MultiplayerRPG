@@ -103,12 +103,12 @@ public class CombatText : NetworkBehaviour
 
         if (isHigh)
         {
-            Vector2 randomOffset = Random.insideUnitCircle * .7f;
+            Vector2 randomOffset = Random.insideUnitCircle * 1.2f;
             spawnPosition = (Vector2)hightRect.transform.position + randomOffset;
         }
         else
         {
-            Vector2 randomOffset = Random.insideUnitCircle * .7f;
+            Vector2 randomOffset = Random.insideUnitCircle * 1.2f;
             spawnPosition = (Vector2)lowRect.transform.position + randomOffset;
         }
 
