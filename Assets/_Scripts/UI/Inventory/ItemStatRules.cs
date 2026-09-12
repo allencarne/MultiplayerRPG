@@ -22,6 +22,14 @@ public class ItemStatRules : ScriptableObject
     [Range(0.1f, 0.9f)]
     public float standardStatLineDecay = 0.5f;
 
+    [Header("Percent Modifiers")]
+    [Range(0f, 1f)]
+    public float percentChanceForPrimary = 0.20f;
+    [Range(0f, 1f)]
+    public float percentChanceForSecondary = 0.35f;
+    [Tooltip("Fractional percent added per budget point (0.01 = 1%)")]
+    public float percentPerBudgetPoint = 0.02f;
+
     public void RollStats(InventorySlotData slot)
     {
         // Safety Check
@@ -230,7 +238,7 @@ public class ItemStatRules : ScriptableObject
         StatType primaryType = GetPrimaryStatType(equipment.equipmentType);
 
         // Create a pool containing every possible stat type
-        List<StatType> remainingPool = new List<StatType> { StatType.Damage, StatType.Health, StatType.AttackSpeed, StatType.CoolDown };
+        List<StatType> remainingPool = new List<StatType> { StatType.Damage, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp };
 
         // Remove the primary stat so it can't be selected twice
         remainingPool.Remove(primaryType);
@@ -258,21 +266,58 @@ public class ItemStatRules : ScriptableObject
         // Pair each stat type with its allocated budget
         for (int i = 0; i < chosenTypes.Count; i++)
         {
-            modifiers.Add(new StatModifier
-            {
-                // Which stat this modifier affects
-                statType = chosenTypes[i],
+            bool isPrimary = i == 0;
+            StatType stat = chosenTypes[i];
+            int points = amounts[i];
 
-                // How many points this stat receives
-                value = amounts[i],
+            // Convert budget points into a StatModifier (flat or percent)
+            StatModifier mod = CreateModifierFromBudget(stat, points, isPrimary);
 
-                // Mark this modifier as coming from equipment
-                source = ModSource.Equipment
-            });
+            modifiers.Add(mod);
         }
 
         // Return the completed modifier list
         return modifiers;
+    }
+
+    StatModifier CreateModifierFromBudget(StatType stat, int points, bool isPrimary)
+    {
+        // Prevent zero-value modifiers
+        if (points <= 0) points = 1;
+
+        // Decide percent chance
+        float chance = isPrimary ? percentChanceForPrimary : percentChanceForSecondary;
+
+        bool forcePercent = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed);
+        bool neverPercent = (stat == StatType.Health || stat == StatType.Armor); // Armor/Health remain flat by default
+
+        bool usePercent = false;
+        if (forcePercent) usePercent = true;
+        else if (!neverPercent) usePercent = (Random.value < chance);
+
+        if (usePercent)
+        {
+            // Convert budget points into fractional percent
+            float percentValue = points * percentPerBudgetPoint; // e.g., 2 points * 0.02 => 0.04 (4%)
+            return new StatModifier
+            {
+                statType = stat,
+                value = percentValue,
+                source = ModSource.Equipment,
+                modType = ModType.Percent
+            };
+        }
+        else
+        {
+            // Flat value: directly use the budget points as a flat addition
+            return new StatModifier
+            {
+                statType = stat,
+                value = points,
+                source = ModSource.Equipment,
+                modType = ModType.Flat
+            };
+        }
     }
 
     int GetBaseOffsetForLevel(int itemLevel)

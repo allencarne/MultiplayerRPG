@@ -20,11 +20,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> net_BaseVamp = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Total Stats")]
-    public float TotalDamage => net_BaseDamage.Value + GetModifier(StatType.Damage);
-    public float TotalAS => net_BaseAS.Value + GetModifier(StatType.AttackSpeed);
-    public float TotalCDR => net_BaseCDR.Value + GetModifier(StatType.CoolDown);
-    public float TotalSpeed => Mathf.Max(net_BaseSpeed.Value + GetModifier(StatType.Speed), minSpeed);
-    public float TotalVamp => net_BaseVamp.Value + GetModifier(StatType.Vamp);
+    public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Damage)) * (1f + GetPercentModifier(StatType.Damage));
+    public float TotalAS => (net_BaseAS.Value + GetModifier(StatType.AttackSpeed)) * (1f + GetPercentModifier(StatType.AttackSpeed));
+    public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.CoolDown)) * (1f + GetPercentModifier(StatType.CoolDown));
+    public float TotalSpeed => Mathf.Max((net_BaseSpeed.Value + GetModifier(StatType.Speed)) * (1f + GetPercentModifier(StatType.Speed)), minSpeed);
+    public float TotalVamp => (net_BaseVamp.Value + GetModifier(StatType.Vamp)) * (1f + GetPercentModifier(StatType.Vamp));
 
     float minSpeed = .2f;
 
@@ -51,7 +51,24 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
             {
                 if (source == null || mod.source == source)
                 {
-                    value += mod.value;
+                    // Only count flat modifiers here (preserve existing behavior)
+                    if (mod.modType == ModType.Flat) value += mod.value;
+                }
+            }
+        }
+        return value;
+    }
+
+    public float GetPercentModifier(StatType type, ModSource? source = null)
+    {
+        float value = 0f;
+        foreach (StatModifier mod in modifiers)
+        {
+            if (mod.statType == type)
+            {
+                if (source == null || mod.source == source)
+                {
+                    if (mod.modType == ModType.Percent) value += mod.value;
                 }
             }
         }
@@ -149,14 +166,22 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         if (modifier.statType == StatType.Health)
         {
-            if (IsServer)
+            // Keep Health modifier behavior flat-only to avoid changing HP RPCs.
+            if (modifier.modType == ModType.Flat)
             {
-                net_CurrentHP.Value += modifier.value;
-                RecalculateTotalHealth(modHealth);
+                if (IsServer)
+                {
+                    net_CurrentHP.Value += modifier.value;
+                    RecalculateTotalHealth(modHealth);
+                }
+                else
+                {
+                    HPIncreaseServerRPC(modifier.value, modHealth);
+                }
             }
             else
             {
-                HPIncreaseServerRPC(modifier.value, modHealth);
+                // If a percent health modifier is ever introduced, handle it here (not currently produced by rules).
             }
         }
     }

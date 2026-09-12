@@ -41,54 +41,66 @@ public class AttributeUI : MonoBehaviour
         playerLevel.text = "LvL: " + stats.PlayerLevel.Value.ToString();
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
-        // Health
-        totalHealth.text = StringBuild(
+        // Health (health remains flat-only display)
+        totalHealth.text = SimpleStringBuild(
             stats.net_TotalHP.Value,
             stats.net_BaseHP.Value,
             stats.GetModifier(StatType.Health, ModSource.Equipment),
             stats.GetModifier(StatType.Health, ModSource.Buff),
             stats.GetModifier(StatType.Health, ModSource.Debuff));
 
-        // Damage
-        totalDamage.text = StringBuild(
+        // Damage (support flat + percent)
+        totalDamage.text = ComplexStringBuild(
             stats.TotalDamage,
             stats.net_BaseDamage.Value,
             stats.GetModifier(StatType.Damage, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Damage, ModSource.Equipment),
             stats.GetModifier(StatType.Damage, ModSource.Buff),
-            stats.GetModifier(StatType.Damage, ModSource.Debuff));
+            stats.GetPercentModifier(StatType.Damage, ModSource.Buff),
+            stats.GetModifier(StatType.Damage, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Damage, ModSource.Debuff));
 
         // Attack Speed
-        totalAttackSpeed.text = StringBuild(
+        totalAttackSpeed.text = ComplexStringBuild(
             stats.TotalAS,
             stats.net_BaseAS.Value,
             stats.GetModifier(StatType.AttackSpeed, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Equipment),
             stats.GetModifier(StatType.AttackSpeed, ModSource.Buff),
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff));
+            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Buff),
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Debuff));
 
         // Cooldown Reduction (CDR)
-        totalCDR.text = StringBuild(
+        totalCDR.text = ComplexStringBuild(
             stats.TotalCDR,
             stats.net_BaseCDR.Value,
             stats.GetModifier(StatType.CoolDown, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.CoolDown, ModSource.Equipment),
             stats.GetModifier(StatType.CoolDown, ModSource.Buff),
-            stats.GetModifier(StatType.CoolDown, ModSource.Debuff));
+            stats.GetPercentModifier(StatType.CoolDown, ModSource.Buff),
+            stats.GetModifier(StatType.CoolDown, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.CoolDown, ModSource.Debuff));
 
         // Speed
-        totalSpeed.text = StringBuild(
+        totalSpeed.text = ComplexStringBuild(
             stats.TotalSpeed,
             stats.net_BaseSpeed.Value,
             stats.GetModifier(StatType.Speed, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Speed, ModSource.Equipment),
             stats.GetModifier(StatType.Speed, ModSource.Buff),
-            stats.GetModifier(StatType.Speed, ModSource.Debuff));
+            stats.GetPercentModifier(StatType.Speed, ModSource.Buff),
+            stats.GetModifier(StatType.Speed, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Speed, ModSource.Debuff));
 
         // Endurance
         enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
 
-        // Armor
+        // Armor (flat)
         totalArmor.text = stats.net_BaseArmor.Value.ToString();
     }
 
-    string StringBuild(float total, float value, float equipment, float buff, float debuff)
+    string SimpleStringBuild(float total, float value, float equipment, float buff, float debuff)
     {
         float totalMods = equipment + buff + debuff;
 
@@ -102,24 +114,53 @@ public class AttributeUI : MonoBehaviour
 
             if (equipment != 0)
             {
-                modStrings.Add($"<color=#33C4FF>{FormatModifier(equipment)}</color>");
+                modStrings.Add($"<color=#33C4FF>{FormatModifierFlat(equipment)}</color>");
             }
 
             if (buff != 0)
             {
-                modStrings.Add($"<color=#33FF33>{FormatModifier(buff)}</color>");
+                modStrings.Add($"<color=#33FF33>{FormatModifierFlat(buff)}</color>");
             }
 
             if (debuff != 0)
             {
-                modStrings.Add($"<color=#FF3333>{FormatModifier(debuff)}</color>");
+                modStrings.Add($"<color=#FF3333>{FormatModifierFlat(debuff)}</color>");
             }
 
             return $"{FormatValue(total)} ({FormatValue(value)} {string.Join(" ", modStrings)})";
         }
     }
 
-    string FormatModifier(float modifier)
+    // For stats that can have flat + percent modifiers
+    string ComplexStringBuild(float total, float value,
+        float equipmentFlat, float equipmentPct,
+        float buffFlat, float buffPct,
+        float debuffFlat, float debuffPct)
+    {
+        bool hasMods = equipmentFlat != 0 || equipmentPct != 0 || buffFlat != 0 || buffPct != 0 || debuffFlat != 0 || debuffPct != 0;
+
+        if (!hasMods)
+        {
+            return FormatValue(total);
+        }
+        else
+        {
+            List<string> modStrings = new List<string>();
+
+            if (equipmentFlat != 0) modStrings.Add($"<color=#33C4FF>{FormatModifierFlat(equipmentFlat)}</color>");
+            if (equipmentPct != 0) modStrings.Add($"<color=#33C4FF>{FormatModifierPercent(equipmentPct)}</color>");
+
+            if (buffFlat != 0) modStrings.Add($"<color=#33FF33>{FormatModifierFlat(buffFlat)}</color>");
+            if (buffPct != 0) modStrings.Add($"<color=#33FF33>{FormatModifierPercent(buffPct)}</color>");
+
+            if (debuffFlat != 0) modStrings.Add($"<color=#FF3333>{FormatModifierFlat(debuffFlat)}</color>");
+            if (debuffPct != 0) modStrings.Add($"<color=#FF3333>{FormatModifierPercent(debuffPct)}</color>");
+
+            return $"{FormatValue(total)} ({FormatValue(value)} {string.Join(" ", modStrings)})";
+        }
+    }
+
+    string FormatModifierFlat(float modifier)
     {
         if (modifier % 1 == 0)
         {
@@ -128,6 +169,19 @@ public class AttributeUI : MonoBehaviour
         else
         {
             return $"{modifier:+0.0;-0.0}";
+        }
+    }
+
+    string FormatModifierPercent(float fractional)
+    {
+        float pct = fractional * 100f;
+        if (pct % 1 == 0)
+        {
+            return $"{pct:+0;-0}%";
+        }
+        else
+        {
+            return $"{pct:+0.0;-0.0}%";
         }
     }
 
@@ -147,21 +201,11 @@ public class AttributeUI : MonoBehaviour
     {
         switch (stats.playerClass)
         {
-            case PlayerStats.PlayerClass.Beginner:
-                classIcon.sprite = classIcons[0];
-                break;
-            case PlayerStats.PlayerClass.Warrior:
-                classIcon.sprite = classIcons[1];
-                break;
-            case PlayerStats.PlayerClass.Magician:
-                classIcon.sprite = classIcons[2];
-                break;
-            case PlayerStats.PlayerClass.Archer:
-                classIcon.sprite = classIcons[3];
-                break;
-            case PlayerStats.PlayerClass.Rogue:
-                classIcon.sprite = classIcons[4];
-                break;
+            case PlayerStats.PlayerClass.Beginner: classIcon.sprite = classIcons[0]; break;
+            case PlayerStats.PlayerClass.Warrior: classIcon.sprite = classIcons[1]; break;
+            case PlayerStats.PlayerClass.Magician: classIcon.sprite = classIcons[2]; break;
+            case PlayerStats.PlayerClass.Archer: classIcon.sprite = classIcons[3]; break;
+            case PlayerStats.PlayerClass.Rogue: classIcon.sprite = classIcons[4]; break;
         }
     }
 }
