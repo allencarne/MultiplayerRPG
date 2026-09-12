@@ -18,17 +18,20 @@ public class ItemStatRules : ScriptableObject
     [Range(0.1f, 0.9f)]
     public float statLineDecayMax = 0.75f;
 
-    [Header("Standard (Non-Random) Roll Weighting")]
-    [Range(0.1f, 0.9f)]
-    public float standardStatLineDecay = 0.5f;
-
-    [Header("Percent Modifiers")]
-    [Range(0f, 1f)]
-    public float percentChanceForPrimary = 0.20f;
-    [Range(0f, 1f)]
-    public float percentChanceForSecondary = 0.35f;
     [Tooltip("Fractional percent added per budget point (0.01 = 1%)")]
-    public float percentPerBudgetPoint = 0.02f;
+    public float percentPerBudgetPoint = 0.01f;
+
+    [Header("Primary Stat Weighting")]
+    [Tooltip("Fixed fraction of the total budget the primary stat always receives. Not randomized — keeps the main stat consistent across rolls of the same rarity/quality.")]
+    [Range(0.1f, 0.9f)]
+    public float primaryBudgetShare = 0.4f;
+
+    [Header("Rate Stat Scaling")]
+    [Tooltip("Flat AttackSpeed/CoolDown/Speed are scaled down per point, same convention as attribute points (1 point = 0.1 flat).")]
+    [Range(0.01f, 1f)]
+    public float rateStatFlatScale = 0.1f;
+
+    readonly StatType[] AllRollableStats = { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp};
 
     public void RollStats(InventorySlotData slot)
     {
@@ -136,6 +139,36 @@ public class ItemStatRules : ScriptableObject
         }
     }
 
+    // Builds the pool of eligible (StatType, ModType) combos for the *secondary* lines.
+    List<(StatType stat, ModType modType)> BuildSecondaryPool(StatType primaryType)
+    {
+        // pool will contain every possible (StatType, ModType) combination that can be rolled for secondary lines
+        List<(StatType, ModType)> pool = new List<(StatType, ModType)>();
+
+        // Walk through every rollable stat type
+        foreach (StatType stat in AllRollableStats)
+        {
+            // Determine if this stat can ever be a percent line
+            bool neverPercent = (stat == StatType.Health || stat == StatType.Armor);
+
+            // Every stat can have a Flat line, except the primary's Flat (already used)
+            if (stat != primaryType)
+            {
+                pool.Add((stat, ModType.Flat));
+            }
+
+            // Percent line, if this stat allows one at all
+            if (!neverPercent)
+            {
+                pool.Add((stat, ModType.Percent));
+            }
+        }
+
+        // Remove the primary stat's percent line from the pool, if it exists
+        return pool;
+    }
+
+    // Fisher-Yates shuffle algorithm to randomize the order of a list in place
     void Shuffle<T>(List<T> list)
     {
         // Walk backward through the list
@@ -149,6 +182,7 @@ public class ItemStatRules : ScriptableObject
         }
     }
 
+    // Splits a total budget into a number of parts, with each part receiving less than the previous one based on a decay factor
     int[] SplitBudget(int budget, int lineCount, float decay)
     {
         // If there's only one stat line, it receive the entire budget
@@ -209,6 +243,7 @@ public class ItemStatRules : ScriptableObject
         return amounts;
     }
 
+    // Rolls the stat modifiers for a given piece of equipment, based on its budget and decay factor
     List<StatModifier> RollModifiers(Equipment equipment, int budget, float decay, bool randomizeSecondaryOrder)
     {
         // Determine how many stat lines this item should have based on its level
@@ -217,68 +252,55 @@ public class ItemStatRules : ScriptableObject
         // Determine the item's primary stat based on its equipment slot
         StatType primaryType = GetPrimaryStatType(equipment.equipmentType);
 
-        // Create a pool containing every possible stat type
-        List<StatType> remainingPool = new List<StatType> { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp };
+        // Calculate how much of the total budget should be allocated to the primary stat
+        int primaryAmount = Mathf.Clamp(Mathf.RoundToInt(budget * primaryBudgetShare), 1, budget);
 
-        // Remove the primary stat so it can't be selected twice
-        remainingPool.Remove(primaryType);
+        // Create the primary stat modifier and add it to the list
+        List<StatModifier> modifiers = new List<StatModifier> { CreateModifierFromBudget(primaryType, ModType.Flat, primaryAmount) };
 
-        // Randomize the remaining stat types
-        if (randomizeSecondaryOrder) Shuffle(remainingPool);
+        // Calculate how much budget remains for the secondary stat lines
+        int remainingBudget = budget - primaryAmount;
 
-        // Start the chosen stat list with the guaranteed primary stat
-        List<StatType> chosenTypes = new List<StatType> { primaryType };
+        // Determine how many secondary stat lines should be rolled
+        int secondaryLineCount = Mathf.Max(0, lineCount - 1);
 
-        // Fill the remaining stat lines using the shuffled pool
-        for (int i = 0; i < lineCount - 1 && i < remainingPool.Count; i++)
+        // If there are secondary lines to roll and budget remaining, roll them
+        if (secondaryLineCount > 0 && remainingBudget > 0)
         {
-            // Add one random secondary stat
-            chosenTypes.Add(remainingPool[i]);
+            // Build a pool of eligible (StatType, ModType) combinations for the secondary lines
+            List<(StatType stat, ModType modType)> pool = BuildSecondaryPool(primaryType);
+
+            // Randomize the order of the pool if requested
+            if (randomizeSecondaryOrder) Shuffle(pool);
+
+            // Safety clamp — pool always has more entries than max line count, but just in case
+            int actualSecondaryCount = Mathf.Min(secondaryLineCount, pool.Count);
+
+            // Split the remaining budget across the secondary stat lines, with each line receiving less than the previous one based on the decay factor
+            int[] amounts = SplitBudget(remainingBudget, actualSecondaryCount, decay);
+
+            // Create each secondary stat modifier and add it to the list
+            for (int i = 0; i < actualSecondaryCount; i++)
+            {
+                // Get the (StatType, ModType) combination for this line
+                var combo = pool[i];
+
+                // Create the modifier and add it to the list
+                modifiers.Add(CreateModifierFromBudget(combo.stat, combo.modType, amounts[i]));
+            }
         }
 
-        // Divide the total budget across all chosen stat lines
-        // The first entry (primary stat) will always receive the largest share
-        int[] amounts = SplitBudget(budget, chosenTypes.Count, decay);
-
-        // Create the final list of stat modifiers.
-        List<StatModifier> modifiers = new List<StatModifier>();
-
-        // Pair each stat type with its allocated budget
-        for (int i = 0; i < chosenTypes.Count; i++)
-        {
-            bool isPrimary = i == 0;
-            StatType stat = chosenTypes[i];
-            int points = amounts[i];
-
-            // Convert budget points into a StatModifier (flat or percent)
-            StatModifier mod = CreateModifierFromBudget(stat, points, isPrimary);
-
-            modifiers.Add(mod);
-        }
-
-        // Return the completed modifier list
         return modifiers;
     }
 
-    StatModifier CreateModifierFromBudget(StatType stat, int points, bool isPrimary)
+    StatModifier CreateModifierFromBudget(StatType stat, ModType modType, int points)
     {
         // Prevent zero-value modifiers
         if (points <= 0) points = 1;
 
-        // Decide percent chance
-        float chance = isPrimary ? percentChanceForPrimary : percentChanceForSecondary;
-
-        bool forcePercent = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed);
-        bool neverPercent = (stat == StatType.Health || stat == StatType.Armor); // Armor/Health remain flat by default
-
-        bool usePercent = false;
-        if (forcePercent) usePercent = true;
-        else if (!neverPercent) usePercent = (Random.value < chance);
-
-        if (usePercent)
+        if (modType == ModType.Percent)
         {
-            // Convert budget points into fractional percent
-            float percentValue = points * percentPerBudgetPoint; // e.g., 2 points * 0.02 => 0.04 (4%)
+            float percentValue = points * percentPerBudgetPoint;
             return new StatModifier
             {
                 statType = stat,
@@ -289,11 +311,15 @@ public class ItemStatRules : ScriptableObject
         }
         else
         {
-            // Flat value: directly use the budget points as a flat addition
+            // AttackSpeed/CoolDown/Speed get scaled down even when flat,
+            // matching the attribute-point convention (1 point = 0.1 flat)
+            bool isRateStat = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed);
+            float flatValue = isRateStat ? points * rateStatFlatScale : points;
+
             return new StatModifier
             {
                 statType = stat,
-                value = points,
+                value = flatValue,
                 source = ModSource.Equipment,
                 modType = ModType.Flat
             };

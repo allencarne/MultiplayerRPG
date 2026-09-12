@@ -20,9 +20,7 @@ public class Quest : ScriptableObject
     public int expReward;
     public int goldReward;
 
-    //public InventorySlotData[] StarterItems;
     public Item[] QuestStarter;
-    //public InventorySlotData[] RewardItems;
     public Item[] QuestRewards;
 
     public string GetReceiverID()
