@@ -21,7 +21,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Total Stats")]
     public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Damage)) * (1f + GetPercentModifier(StatType.Damage));
-    public float TotalArmor => (net_BaseArmor.Value + GetModifier(StatType.Armor)) * (1f + GetPercentModifier(StatType.Armor));
+    public float TotalArmor => net_BaseArmor.Value + GetModifier(StatType.Armor);
     public float TotalAS => (net_BaseAS.Value + GetModifier(StatType.AttackSpeed)) * (1f + GetPercentModifier(StatType.AttackSpeed));
     public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.CoolDown)) * (1f + GetPercentModifier(StatType.CoolDown));
     public float TotalSpeed => Mathf.Max((net_BaseSpeed.Value + GetModifier(StatType.Speed)) * (1f + GetPercentModifier(StatType.Speed)), minSpeed);
@@ -110,7 +110,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
-        float armor = net_BaseArmor.Value; // Get the target's current armor
+        float armor = TotalArmor;
 
         switch (damageType)
         {

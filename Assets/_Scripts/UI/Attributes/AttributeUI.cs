@@ -97,7 +97,12 @@ public class AttributeUI : MonoBehaviour
         enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
 
         // Armor (flat)
-        totalArmor.text = stats.net_BaseArmor.Value.ToString();
+        totalArmor.text = SimpleStringBuild(
+            stats.TotalArmor,
+            stats.net_BaseArmor.Value,
+            stats.GetModifier(StatType.Armor, ModSource.Equipment),
+            stats.GetModifier(StatType.Armor, ModSource.Buff),
+            stats.GetModifier(StatType.Armor, ModSource.Debuff));
     }
 
     string SimpleStringBuild(float total, float value, float equipment, float buff, float debuff)

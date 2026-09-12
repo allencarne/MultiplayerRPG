@@ -141,7 +141,7 @@ public class ItemStatRules : ScriptableObject
             case EquipmentType.Legs:
             case EquipmentType.Neck:
             case EquipmentType.Shoulder:
-                return StatType.Health;
+                return StatType.Armor;
 
             // Offensive equipment
             case EquipmentType.Finger:
