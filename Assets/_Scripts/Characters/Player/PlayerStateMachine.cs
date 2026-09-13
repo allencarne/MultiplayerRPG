@@ -127,7 +127,7 @@ public class PlayerStateMachine : StateMachine
 
         if (Input.RollInput)
         {
-            if (PlayerStats.Endurance.Value >= 50)
+            if (PlayerStats.net_CurrentEndurance.Value >= 50)
             {
                 SetState(new PlayerRollState(this));
             }
@@ -318,7 +318,7 @@ public class PlayerStateMachine : StateMachine
     private bool StartAbility(ActiveSkillData data, int index)
     {
         // Check mana first
-        if (data.ManaCost > 0f && PlayerStats.Mana.Value < data.ManaCost)
+        if (data.ManaCost > 0f && PlayerStats.net_CurrentMana.Value < data.ManaCost)
         {
             // Not enough mana. Don't start the skill.
             // TODO: hook a UI/sound feedback here (e.g. flash the skill button)

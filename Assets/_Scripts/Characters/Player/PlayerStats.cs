@@ -19,14 +19,22 @@ public class PlayerStats : CharacterStats
     public NetworkVariable<int> AttributePoints = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Endurance")]
-    public NetworkVariable<float> Endurance = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxEndurance = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> EnduranceRechargeRate = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_BaseEndurance = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_CurrentEndurance = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalEndurance =>(net_BaseEndurance.Value + GetModifier(StatType.Endurance))* (1f + GetPercentModifier(StatType.Endurance));
+
+    [Header("Endurance Regen")]
+    public NetworkVariable<float> net_BaseEnduranceRegen = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalEnduranceRegen => (net_BaseEnduranceRegen.Value + GetModifier(StatType.EnduranceRegen)) * (1f + GetPercentModifier(StatType.EnduranceRegen));
 
     [Header("Mana")]
-    public NetworkVariable<float> Mana = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> MaxMana = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> ManaRechargeRate = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_BaseMana = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_CurrentMana = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalMana => (net_BaseMana.Value + GetModifier(StatType.Mana)) * (1f + GetPercentModifier(StatType.Mana));
+
+    [Header("Mana Regen")]
+    public NetworkVariable<float> net_BaseManaRegen = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalManaRegen => (net_BaseManaRegen.Value + GetModifier(StatType.ManaRegen)) * (1f + GetPercentModifier(StatType.ManaRegen));
 
     [Header("Currency")]
     public float Coins;
@@ -100,10 +108,10 @@ public class PlayerStats : CharacterStats
     {
         switch (stat)
         {
-            case StatType.Mana: Mana.Value += amount; break;
-            case StatType.ManaRegen: ManaRechargeRate.Value += amount; break;
-            case StatType.Endurance: Endurance.Value += amount; break;
-            case StatType.EnduranceRegen: EnduranceRechargeRate.Value += amount; break;
+            case StatType.Mana: net_BaseMana.Value += amount; break;
+            case StatType.ManaRegen: net_BaseManaRegen.Value += amount; break;
+            case StatType.Endurance: net_BaseEndurance.Value += amount; break;
+            case StatType.EnduranceRegen: net_BaseEnduranceRegen.Value += amount; break;
             default: base.ApplyStatChange(stat, amount); break;
         }
     }

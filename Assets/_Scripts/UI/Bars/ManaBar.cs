@@ -19,25 +19,24 @@ public class ManaBar : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        stats.Mana.OnValueChanged += OnManaChanged;
-        stats.MaxMana.OnValueChanged += OnMaxManaChanged;
-
-        UpdateManaBar(stats.MaxMana.Value, stats.Mana.Value);
+        stats.net_CurrentMana.OnValueChanged+= OnManaChanged;
+        stats.net_BaseMana.OnValueChanged += OnMaxManaChanged;
+        UpdateManaBar(stats.TotalMana, stats.net_CurrentMana.Value);
     }
 
     public override void OnNetworkDespawn()
     {
-        stats.Mana.OnValueChanged -= OnManaChanged;
-        stats.MaxMana.OnValueChanged -= OnMaxManaChanged;
+        stats.net_CurrentMana.OnValueChanged -= OnManaChanged;
+        stats.net_BaseMana.OnValueChanged -= OnMaxManaChanged;
     }
 
     public void SpendMana(float amount)
     {
         if (IsServer)
         {
-            if (stats.Mana.Value >= amount)
+            if (stats.net_CurrentMana.Value >= amount)
             {
-                stats.Mana.Value -= amount;
+                stats.net_CurrentMana.Value -= amount;
 
                 if (!isRecharging)
                 {
@@ -54,9 +53,9 @@ public class ManaBar : NetworkBehaviour
     [ServerRpc]
     void SpendManaServerRpc(float amount)
     {
-        if (stats.Mana.Value >= amount)
+        if (stats.net_CurrentMana.Value >= amount)
         {
-            stats.Mana.Value -= amount;
+            stats.net_CurrentMana.Value -= amount;
 
             if (!isRecharging)
             {
@@ -69,12 +68,12 @@ public class ManaBar : NetworkBehaviour
     {
         isRecharging = true;
 
-        while (stats.Mana.Value < stats.MaxMana.Value)
+        while (stats.net_CurrentMana.Value < stats.TotalMana)
         {
             yield return new WaitForSeconds(1);
 
-            stats.Mana.Value += stats.ManaRechargeRate.Value;
-            stats.Mana.Value = Mathf.Min(stats.Mana.Value, stats.MaxMana.Value);
+            stats.net_CurrentMana.Value += stats.net_BaseManaRegen.Value;
+            stats.net_CurrentMana.Value = Mathf.Min(stats.net_CurrentMana.Value, stats.net_CurrentMana.Value);
         }
 
         isRecharging = false;
@@ -107,11 +106,11 @@ public class ManaBar : NetworkBehaviour
 
     void OnManaChanged(float oldValue, float newValue)
     {
-        UpdateManaBar(stats.MaxMana.Value, newValue);
+        UpdateManaBar(stats.TotalMana, newValue);
     }
 
     void OnMaxManaChanged(float oldValue, float newValue)
     {
-        UpdateManaBar(newValue, stats.Mana.Value);
+        UpdateManaBar(newValue, stats.net_CurrentMana.Value);
     }
 }

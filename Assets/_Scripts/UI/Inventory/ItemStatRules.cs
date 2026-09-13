@@ -29,15 +29,15 @@ public class ItemStatRules : ScriptableObject
     [Range(0f, 1f)]
     public float primaryShare4Lines;
 
-    [Tooltip("Fractional percent added per budget point (0.01 = 1%)")]
+    [Header("Percent Stat Scaling")]
+    [Tooltip("Fractional percent added per budget point")]
     public float percentPerBudgetPoint;
 
     [Header("Rate Stat Scaling")]
-    [Tooltip("Flat AttackSpeed/CoolDown/Speed are scaled down per point, same convention as attribute points (1 point = 0.1 flat).")]
     [Range(0.01f, 1f)]
     public float rateStatFlatScale;
 
-    readonly StatType[] AllRollableStats = { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp};
+    readonly StatType[] AllRollableStats = { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp, StatType.Mana, StatType.ManaRegen};
 
     public void RollStats(InventorySlotData slot)
     {

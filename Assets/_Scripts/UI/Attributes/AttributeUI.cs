@@ -23,6 +23,10 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI enduranceRecharge;
     [SerializeField] TextMeshProUGUI totalArmor;
     [SerializeField] TextMeshProUGUI totalVamp;
+    [SerializeField] TextMeshProUGUI totalMana;
+    [SerializeField] TextMeshProUGUI totalManaRegen;
+
+
 
     private void OnEnable()
     {
@@ -106,9 +110,6 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.Speed, ModSource.Debuff),
             stats.GetPercentModifier(StatType.Speed, ModSource.Debuff));
 
-        // Endurance
-        enduranceRecharge.text = stats.EnduranceRechargeRate.Value.ToString();
-
         // Armor (flat)
         totalArmor.text = SimpleStringBuild(
             stats.TotalArmor,
@@ -127,6 +128,39 @@ public class AttributeUI : MonoBehaviour
             stats.GetPercentModifier(StatType.Vamp, ModSource.Buff),
             stats.GetModifier(StatType.Vamp, ModSource.Debuff),
             stats.GetPercentModifier(StatType.Vamp, ModSource.Debuff));
+
+        // Mana
+        totalMana.text = ComplexStringBuild(
+            stats.TotalMana,
+            stats.net_BaseMana.Value,
+            stats.GetModifier(StatType.Mana, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Mana, ModSource.Equipment),
+            stats.GetModifier(StatType.Mana, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Mana, ModSource.Buff),
+            stats.GetModifier(StatType.Mana, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Mana, ModSource.Debuff));
+
+        // Mana Regen
+        totalManaRegen.text = ComplexStringBuild(
+            stats.TotalManaRegen,
+            stats.net_BaseManaRegen.Value,
+            stats.GetModifier(StatType.ManaRegen, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.ManaRegen, ModSource.Equipment),
+            stats.GetModifier(StatType.ManaRegen, ModSource.Buff),
+            stats.GetPercentModifier(StatType.ManaRegen, ModSource.Buff),
+            stats.GetModifier(StatType.ManaRegen, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.ManaRegen, ModSource.Debuff));
+
+        // Endurance Regen
+        enduranceRecharge.text = ComplexStringBuild(
+            stats.TotalEnduranceRegen,
+            stats.net_BaseEnduranceRegen.Value,
+            stats.GetModifier(StatType.EnduranceRegen, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Equipment),
+            stats.GetModifier(StatType.EnduranceRegen, ModSource.Buff),
+            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Buff),
+            stats.GetModifier(StatType.EnduranceRegen, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Debuff));
     }
 
     string SimpleStringBuild(float total, float value, float equipment, float buff, float debuff)

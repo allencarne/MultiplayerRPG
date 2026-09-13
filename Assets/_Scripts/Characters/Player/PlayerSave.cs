@@ -222,7 +222,7 @@ public class PlayerSave : NetworkBehaviour
         float armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
         float speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
         float vamp = PlayerPrefs.GetFloat($"{slot}Vamp", 0);
-        float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", 20);
+        float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", 30);
         float manarech = PlayerPrefs.GetFloat($"{slot}ManaRecharge", 1);
         float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
         float endrech = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
@@ -240,21 +240,23 @@ public class PlayerSave : NetworkBehaviour
     void ApplyCharacterStats(float health, float healthRegen, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp, float mana, float manarech, float end, float endrech)
     {
         stats.net_BaseHP.Value = health;
+        stats.net_CurrentHP.Value = health;
         stats.net_BaseHealthRegen.Value = healthRegen;
+
+        stats.net_BaseMana.Value = mana;
+        stats.net_CurrentMana.Value = mana;
+        stats.net_BaseManaRegen.Value = manarech;
+
+        stats.net_BaseEndurance.Value = end;
+        stats.net_CurrentEndurance.Value = end;
+        stats.net_BaseEnduranceRegen.Value = endrech;
+
         stats.net_BaseDamage.Value = damage;
         stats.net_BaseAS.Value = attackSpeed;
         stats.net_BaseCDR.Value = cdr;
         stats.net_BaseArmor.Value = armor;
         stats.net_BaseSpeed.Value = speed;
         stats.net_BaseVamp.Value = vamp;
-        stats.MaxMana.Value = mana;
-        stats.ManaRechargeRate.Value = manarech;
-        stats.MaxEndurance.Value = end;
-        stats.EnduranceRechargeRate.Value = endrech;
-
-        stats.net_CurrentHP.Value = health;
-        stats.Mana.Value = mana;
-        stats.Endurance.Value = end;
 
         float modHealth = stats.GetModifier(StatType.Health);
         stats.RecalculateTotalHealth(modHealth);
@@ -298,10 +300,10 @@ public class PlayerSave : NetworkBehaviour
         // Stats
         PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHP.Value);
         PlayerPrefs.SetFloat($"{slot}HealthRegen", stats.net_BaseHealthRegen.Value);
-        PlayerPrefs.SetFloat($"{slot}MaxMana", stats.MaxMana.Value);
-        PlayerPrefs.SetFloat($"{slot}ManaRecharge", stats.ManaRechargeRate.Value);
-        PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.MaxEndurance.Value);
-        PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.EnduranceRechargeRate.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxMana", stats.net_BaseMana.Value);
+        PlayerPrefs.SetFloat($"{slot}ManaRecharge", stats.net_BaseManaRegen.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.net_BaseEndurance.Value);
+        PlayerPrefs.SetFloat($"{slot}EnduranceRecharge", stats.net_BaseEnduranceRegen.Value);
 
         PlayerPrefs.SetFloat($"{slot}Speed", stats.net_BaseSpeed.Value);
         PlayerPrefs.SetFloat($"{slot}Vamp", stats.net_BaseVamp.Value);
