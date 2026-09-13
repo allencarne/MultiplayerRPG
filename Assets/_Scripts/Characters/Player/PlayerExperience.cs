@@ -262,13 +262,15 @@ public class PlayerExperience : NetworkBehaviour
         if (IsOwner && oldValue > 0)
         {
             // Increase by +1 per level
-            stats.IncreaseHealth(1);
-            stats.IncreaseDamage(1);
+            stats.IncreaseStat(StatType.Health, 1);
+            stats.IncreaseStat(StatType.Damage, 1);
+            stats.IncreaseStat(StatType.Mana, 1);
 
             // Increase Health Regen every 5 levels.
             if (newValue % 5 == 0)
             {
-                stats.IncreaseHealthRegen(1);
+                stats.IncreaseStat(StatType.HealthRegen, 1);
+                stats.IncreaseStat(StatType.ManaRegen, 1);
             }
         }
     }

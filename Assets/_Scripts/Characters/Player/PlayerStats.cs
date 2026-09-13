@@ -95,4 +95,16 @@ public class PlayerStats : CharacterStats
         AttributePoints.Value += amount;
         OnAPGained?.Invoke();
     }
+
+    protected override void ApplyStatChange(StatType stat, float amount)
+    {
+        switch (stat)
+        {
+            case StatType.Mana: Mana.Value += amount; break;
+            case StatType.ManaRegen: ManaRechargeRate.Value += amount; break;
+            case StatType.Endurance: Endurance.Value += amount; break;
+            case StatType.EnduranceRegen: EnduranceRechargeRate.Value += amount; break;
+            default: base.ApplyStatChange(stat, amount); break;
+        }
+    }
 }

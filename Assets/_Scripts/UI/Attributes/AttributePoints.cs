@@ -155,10 +155,10 @@ public class AttributePoints : MonoBehaviour
 
     public void ApplyButton()
     {
-        stats.IncreaseHealth(healthToAdd);
-        stats.IncreaseDamage(damageToAdd);
-        stats.IncreaseAttackSpeed(asToAdd * 0.01f);
-        stats.IncreaseCoolDownReduction(cdrToAdd * 0.01f);
+        stats.IncreaseStat(StatType.Health, healthToAdd);
+        stats.IncreaseStat(StatType.Damage, damageToAdd);
+        stats.IncreaseStat(StatType.AttackSpeed, asToAdd * 0.01f);
+        stats.IncreaseStat(StatType.CoolDown, cdrToAdd * 0.01f);
         stats.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;

@@ -33,7 +33,11 @@ public enum StatType
     Speed,
     Armor,
     Vamp,
-    HealthRegen
+    HealthRegen,
+    Mana,
+    ManaRegen,
+    Endurance,
+    EnduranceRegen,
 }
 
 public enum ModSource
