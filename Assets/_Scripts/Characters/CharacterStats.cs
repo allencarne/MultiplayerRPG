@@ -47,84 +47,112 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     public float TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
     {
+        // Return if not server or dead
         if (!IsServer) return 0f;
         if (isDead) return 0f;
 
-        // Calculate
+        // Calculate the amount of damage that should actually be dealt after armor and damage type are considered.
         float finalDamage = CalculateFinalDamage(damage, damageType);
+
+        // Round the calculated damage to the nearest whole number.
         int roundedDamage = Mathf.RoundToInt(finalDamage);
 
-        // Subtract
+        // Subtract the final damage from the character's current health, but never allow health to go below zero.
         net_CurrentHP.Value = Mathf.Max(net_CurrentHP.Value - roundedDamage, 0);
 
-        // Feedback
+        // Tell anything listening that this character took damage and provide the damage amount.
         OnDamaged?.Invoke(roundedDamage);
+
+        // Tell anything listening that this character was damaged and provide the attacking NetworkObject.
         OnCharacterDamaged?.Invoke(attackerID);
 
+        // Try to find CharacterStats on the object that dealt the damage.
         CharacterStats attackerStats = attackerID.GetComponent<CharacterStats>();
-        if (attackerStats != null)
-        {
-            attackerStats.OnDamageDealt?.Invoke();
-        }
 
+        // Tell the attacker that they successfully dealt damage.
+        if (attackerStats != null) attackerStats.OnDamageDealt?.Invoke();
+
+        // Check whether the character's health has reached zero.
         if (net_CurrentHP.Value <= 0)
         {
+            // Mark the character as dead.
             isDead = true;
+
+            // Tell anything listening that this character has died.
             OnDeath?.Invoke();
+
+            // Tell anything listening that this character has died and provide the attacker.
             OnCharacterDeath?.Invoke(attackerID);
         }
 
+        // Return the amount of damage that was actually dealt.
         return roundedDamage;
     }
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
+        // Get the character's current total armor.
         float armor = TotalArmor;
 
+        // Determine how the damage should be calculated based on its damage type.
         switch (damageType)
         {
+            // Handle normal damage that is reduced by armor.
             case DamageType.Flat:
                 {
-                    float armorMultiplier = 100f / (100f + armor); // How much of the damage is applied after armor
-                    return baseDamage * armorMultiplier; // Flat base damage reduced by armor
+                    // Calculate the percentage of incoming damage that remains after armor reduction.
+                    float armorMultiplier = 100f / (100f + armor);
+
+                    // Apply the armor reduction to the base damage and return the result.
+                    return baseDamage * armorMultiplier;
                 }
 
+            // Handle damage that is a percentage of the character's maximum health.
             case DamageType.Percent:
                 {
-                    float percentDamage = net_TotalHP.Value * (baseDamage / 100f); // Calculate % of Max Health as base damage
-                    float armorMultiplier = 100f / (100f + armor); // Still apply armor reduction
-                    return percentDamage * armorMultiplier; // % Health damage reduced by armor
+                    // Calculate the percentage of the character's maximum health that should be dealt as damage.
+                    float percentDamage = net_TotalHP.Value * (baseDamage / 100f);
+
+                    // Calculate the percentage of damage that remains after armor reduction.
+                    float armorMultiplier = 100f / (100f + armor);
+
+                    // Apply armor reduction to the percentage-based damage and return the result.
+                    return percentDamage * armorMultiplier;
                 }
 
-            case DamageType.True:
-                {
-                    return baseDamage; // Ignore Armor
-                }
+            // Handle true damage that ignores armor.
+            case DamageType.True: return baseDamage;
 
-            default:
-                {
-                    return baseDamage; // Fallback
-                }
+            // If the damage type is unrecognized, return the base damage as a fallback.
+            default: return baseDamage;
         }
     }
 
     public void GiveHeal(float healAmount, HealType healType)
     {
+        // Only the server is allowed to modify health.
         if (!IsServer) return;
 
+        // Check whether the heal should be calculated as a percentage.
         if (healType == HealType.Percentage)
         {
+            // Convert the percentage into an actual amount based on maximum health.
             healAmount = net_TotalHP.Value * (healAmount / 100f);
         }
 
-        // Heal
+        // Calculate how much health the character is currently missing.
         float missingHealth = net_TotalHP.Value - net_CurrentHP.Value;
+
+        // Make sure the heal cannot restore more health than the character is missing.
         float actualHeal = Mathf.Min(healAmount, missingHealth);
+
+        // Round the final healing amount down to a whole number.
         int roundedHeal = Mathf.FloorToInt(actualHeal);
 
+        // Add the healing amount to the character's current health.
         net_CurrentHP.Value += roundedHeal;
 
-        // Feedback
+        // Tell anything listening that the character was healed and provide the amount healed.
         OnHealed?.Invoke(roundedHeal);
     }
 
@@ -132,83 +160,78 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     public void AddModifier(StatModifier modifier)
     {
+        // Add the supplied modifier to the character's modifier list.
         modifiers.Add(modifier);
-        float modHealth = GetModifier(StatType.Health);
 
-
-        if (modifier.statType == StatType.Health)
+        // Check whether this is a flat Health modifier.
+        if (modifier.statType == StatType.Health && modifier.modType == ModType.Flat)
         {
-            // Keep Health modifier behavior flat-only to avoid changing HP RPCs.
-            if (modifier.modType == ModType.Flat)
-            {
-                if (IsServer)
-                {
-                    net_CurrentHP.Value += modifier.value;
-                    RecalculateTotalHealth(modHealth);
-                }
-                else
-                {
-                    HPIncreaseServerRPC(modifier.value);
-                }
-            }
-            else
-            {
-                // If a percent health modifier is ever introduced, handle it here (not currently produced by rules).
-            }
+            // Increase current health by the amount of the new Health modifier.
+            ChangeCurrentHealth(modifier.value);
         }
     }
 
     public void RemoveModifier(StatModifier modifier)
     {
+        // Return if there are no modifiers to remove.
         if (modifiers.Count == 0) return;
 
+        // Remove the supplied modifier from the character's modifier list.
         modifiers.Remove(modifier);
 
-        if (modifier.statType == StatType.Health)
+        // Check whether this is a flat Health modifier.
+        if (modifier.statType == StatType.Health && modifier.modType == ModType.Flat)
         {
-            if (IsServer)
-            {
-                net_CurrentHP.Value -= modifier.value;
-                RecalculateTotalHealth(GetModifier(StatType.Health));
-            }
-            else
-            {
-                HPDecreaseServerRPC(modifier.value);
-            }
-
+            // Decrease current health by the amount of the removed Health modifier.
+            ChangeCurrentHealth(-modifier.value);
         }
     }
 
     public float GetModifier(StatType type, ModSource? source = null)
     {
+        // Start with a total modifier value of zero.
         float value = 0;
+
+        // Go through every modifier currently affecting this character.
         foreach (StatModifier mod in modifiers)
         {
+            // Check whether this modifier affects the stat we are looking for.
             if (mod.statType == type)
             {
+                // Check whether a source was specified, or whether we accept modifiers from any source.
                 if (source == null || mod.source == source)
                 {
-                    // Only count flat modifiers here (preserve existing behavior)
+                    // Only add flat modifiers to this calculation.
                     if (mod.modType == ModType.Flat) value += mod.value;
                 }
             }
         }
+
+        // Return the combined flat modifier value.
         return value;
     }
 
     public float GetPercentModifier(StatType type, ModSource? source = null)
     {
+        // Start with a total percentage modifier value of zero.
         float value = 0f;
+
+        // Go through every modifier currently affecting this character.
         foreach (StatModifier mod in modifiers)
         {
+            // Check whether this modifier affects the stat we are looking for.
             if (mod.statType == type)
             {
+                // Check whether a source was specified, or whether we accept modifiers from any source.
                 if (source == null || mod.source == source)
                 {
+                    // Only add percentage modifiers to this calculation.
                     if (mod.modType == ModType.Percent) value += mod.value;
                 }
             }
         }
+
+        // Return the combined percentage modifier value.
         return value;
     }
 
@@ -221,12 +244,15 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     public void ModifyBaseStat(StatType stat, float amount)
     {
+        // Check whether this code is currently running on the server.
         if (IsServer)
         {
+            // The server can directly apply the stat change.
             ApplyStatChange(stat, amount);
         }
         else
         {
+            // Ask the server to apply the stat change because clients cannot directly modify these NetworkVariables.
             ModifyBaseStatServerRPC(stat, amount);
         }
     }
@@ -255,12 +281,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
                 RecalculateTotalHealth(GetModifier(StatType.Health));
                 break;
 
-            default:
-                // Reaches here for stats this class doesn't know about (e.g. Mana/Endurance
-                // on a non-player CharacterStats). Safe no-op, but flagged so a bad call
-                // doesn't fail silently forever.
-                Debug.LogWarning($"{GetType().Name} has no handling for {stat}.");
-                break;
+            default: Debug.LogWarning($"{GetType().Name} has no handling for {stat}."); break;
         }
     }
 
@@ -268,25 +289,42 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     #region Health
 
-    [ServerRpc]
-    void HPIncreaseServerRPC(float value)
+    void ChangeCurrentHealth(float amount)
     {
-        float modHealth = GetModifier(StatType.Health);
-        net_CurrentHP.Value += value;
-        RecalculateTotalHealth(modHealth);
+        // Check whether this code is running on the server.
+        if (IsServer)
+        {
+            // The server can directly change current health.
+            ApplyCurrentHealthChange(amount);
+        }
+        else
+        {
+            // Ask the server to change current health because the NetworkVariable is server-write-only.
+            ChangeCurrentHealthServerRPC(amount);
+        }
     }
 
     [ServerRpc]
-    void HPDecreaseServerRPC(float value)
+    void ChangeCurrentHealthServerRPC(float amount)
     {
-        float modHealth = GetModifier(StatType.Health);
-        net_CurrentHP.Value -= value;
-        net_TotalHP.Value = net_BaseHP.Value + modHealth;
+        ApplyCurrentHealthChange(amount);
+    }
+
+    void ApplyCurrentHealthChange(float amount)
+    {
+        // Change the character's current health by the supplied amount.
+        net_CurrentHP.Value += amount;
+
+        // Recalculate maximum health because a Health modifier may have changed.
+        RecalculateTotalHealth(GetModifier(StatType.Health));
     }
 
     public void RecalculateTotalHealth(float modHealth)
     {
+        // Only the server is allowed to update the total health NetworkVariable.
         if (!IsServer) return;
+
+        // Calculate maximum health by adding base health and all flat Health modifiers.
         net_TotalHP.Value = net_BaseHP.Value + modHealth;
     }
 
