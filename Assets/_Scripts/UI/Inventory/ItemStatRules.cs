@@ -8,28 +8,34 @@ public class ItemStatRules : ScriptableObject
 
     [Header("Roll Weighting")]
     [Range(0.01f, 0.99f)]
-    public float rarityDecayFactor = 0.35f;
+    public float rarityDecayFactor;
     [Range(0.01f, 0.99f)]
-    public float qualityDecayFactor = 0.5f;
+    public float qualityDecayFactor;
 
     [Header("Stat Line Roll Weighting")]
     [Range(0.1f, 0.9f)]
-    public float statLineDecayMin = 0.35f;
+    public float statLineDecayMin;
     [Range(0.1f, 0.9f)]
-    public float statLineDecayMax = 0.75f;
-
-    [Tooltip("Fractional percent added per budget point (0.01 = 1%)")]
-    public float percentPerBudgetPoint = 0.005f;
+    public float statLineDecayMax;
 
     [Header("Primary Stat Weighting")]
-    [Tooltip("Fixed fraction of the total budget the primary stat always receives. Not randomized — keeps the main stat consistent across rolls of the same rarity/quality.")]
-    [Range(0.1f, 0.9f)]
-    public float primaryBudgetShare = 0.4f;
+    [Tooltip("Percentage of the total budget allocated to the primary stat based on the number of stat lines.")]
+    [Range(0f, 1f)]
+    public float primaryShare1Line;
+    [Range(0f, 1f)]
+    public float primaryShare2Lines;
+    [Range(0f, 1f)]
+    public float primaryShare3Lines;
+    [Range(0f, 1f)]
+    public float primaryShare4Lines;
+
+    [Tooltip("Fractional percent added per budget point (0.01 = 1%)")]
+    public float percentPerBudgetPoint;
 
     [Header("Rate Stat Scaling")]
     [Tooltip("Flat AttackSpeed/CoolDown/Speed are scaled down per point, same convention as attribute points (1 point = 0.1 flat).")]
     [Range(0.01f, 1f)]
-    public float rateStatFlatScale = 0.1f;
+    public float rateStatFlatScale;
 
     readonly StatType[] AllRollableStats = { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp};
 
@@ -252,8 +258,11 @@ public class ItemStatRules : ScriptableObject
         // Determine the item's primary stat based on its equipment slot
         StatType primaryType = GetPrimaryStatType(equipment.equipmentType);
 
-        // Calculate how much of the total budget should be allocated to the primary stat
-        int primaryAmount = Mathf.Clamp(Mathf.RoundToInt(budget * primaryBudgetShare), 1, budget);
+        // Determine what percentage of the total budget should be allocated to the primary stat based on the number of stat lines
+        float primaryShare = GetPrimaryBudgetShare(lineCount);
+
+        // Calculate how much of the total budget should be allocated
+        int primaryAmount = Mathf.Clamp(Mathf.RoundToInt(budget * primaryShare), 1, budget);
 
         // Create the primary stat modifier and add it to the list
         List<StatModifier> modifiers = new List<StatModifier> { CreateModifierFromBudget(primaryType, ModType.Flat, primaryAmount) };
@@ -403,5 +412,17 @@ public class ItemStatRules : ScriptableObject
         int equippedBudget = GetBudget(equipped);
 
         return itemBudget.CompareTo(equippedBudget);
+    }
+
+    float GetPrimaryBudgetShare(int lineCount)
+    {
+        switch (lineCount)
+        {
+            case 1: return primaryShare1Line;
+            case 2: return primaryShare2Lines;
+            case 3: return primaryShare3Lines;
+            case 4: return primaryShare4Lines;
+            default: return primaryShare4Lines;
+        }
     }
 }

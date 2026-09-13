@@ -113,11 +113,11 @@ public class AttributePoints : MonoBehaviour
                 break;
             case 2:
                 asToAdd++;
-                ASText.text = asToAdd.ToString();
+                ASText.text = FormatRatePreview(asToAdd);
                 break;
             case 3:
                 cdrToAdd++;
-                CDRText.text = cdrToAdd.ToString();
+                CDRText.text = FormatRatePreview(cdrToAdd);
                 break;
         }
 
@@ -141,12 +141,12 @@ public class AttributePoints : MonoBehaviour
             case 2:
                 if (asToAdd == 0) return;
                 asToAdd--;
-                ASText.text = asToAdd.ToString();
+                ASText.text = FormatRatePreview(asToAdd);
                 break;
             case 3:
                 if (cdrToAdd == 0) return;
                 cdrToAdd--;
-                CDRText.text = cdrToAdd.ToString();
+                CDRText.text = FormatRatePreview(cdrToAdd);
                 break;
         }
 
@@ -157,8 +157,8 @@ public class AttributePoints : MonoBehaviour
     {
         stats.IncreaseHealth(healthToAdd);
         stats.IncreaseDamage(damageToAdd);
-        stats.IncreaseAttackSpeed(asToAdd * 0.1f);
-        stats.IncreaseCoolDownReduction(cdrToAdd * 0.1f);
+        stats.IncreaseAttackSpeed(asToAdd * 0.01f);
+        stats.IncreaseCoolDownReduction(cdrToAdd * 0.01f);
         stats.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;
@@ -185,5 +185,11 @@ public class AttributePoints : MonoBehaviour
         if (healthToAdd < 1) healthText.text = "";
         if (asToAdd < 1) ASText.text = "";
         if (cdrToAdd < 1) CDRText.text = "";
+    }
+
+    string FormatRatePreview(int count)
+    {
+        float value = count * 0.01f;
+        return value == 0 ? "" : $"+{value:0.##}";
     }
 }

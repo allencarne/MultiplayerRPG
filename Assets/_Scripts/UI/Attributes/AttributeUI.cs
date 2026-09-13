@@ -191,14 +191,12 @@ public class AttributeUI : MonoBehaviour
 
     string FormatModifierFlat(float modifier)
     {
-        if (modifier % 1 == 0)
-        {
-            return $"{modifier:+0;-0}";
-        }
-        else
-        {
-            return $"{modifier:+0.0;-0.0}";
-        }
+        return $"{modifier:+0.##;-0.##}";
+    }
+
+    string FormatValue(float val)
+    {
+        return $"{val:0.##}";
     }
 
     string FormatModifierPercent(float fractional)
@@ -211,18 +209,6 @@ public class AttributeUI : MonoBehaviour
         else
         {
             return $"{pct:+0.0;-0.0}%";
-        }
-    }
-
-    string FormatValue(float val)
-    {
-        if (val % 1 == 0)
-        {
-            return $"{val:0}";
-        }
-        else
-        {
-            return $"{val:0.0}";
         }
     }
 
