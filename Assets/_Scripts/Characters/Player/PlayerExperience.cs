@@ -264,7 +264,12 @@ public class PlayerExperience : NetworkBehaviour
             // Increase by +1 per level
             stats.IncreaseHealth(1);
             stats.IncreaseDamage(1);
-            stats.IncreaseHealthRegen(1);
+
+            // Increase Health Regen every 5 levels.
+            if (newValue % 5 == 0)
+            {
+                stats.IncreaseHealthRegen(1);
+            }
         }
     }
 }
