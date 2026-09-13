@@ -30,6 +30,13 @@ public class PlayerExperience : NetworkBehaviour
     public UnityEvent OnEXP;
     public UnityEvent OnLevelUp;
 
+    // Single coroutine reference so we can stop/restart cleanly
+    Coroutine xpCoroutine;
+
+    // Duration limits for scaling with magnitude of change
+    readonly float minLerpDuration = 0.20f;
+    readonly float maxLerpDuration = 1.50f;
+
     public override void OnNetworkSpawn()
     {
         stats.RequiredExperience.OnValueChanged += OnReqExperienceChanged;
@@ -130,36 +137,91 @@ public class PlayerExperience : NetworkBehaviour
         // Track how much time has passed.
         float elapsed = 0f;
 
-        // Animation should take 1.5 seconds.
-        float duration = 1.5f;
-
         // Remember where the bar is starting.
         float startFill = frontXpBar.fillAmount;
 
+        // Avoid divide by zero
+        float required = Mathf.Max(1f, stats.RequiredExperience.Value);
         // Calculate where the bar should end.
-        float targetFill = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
+        float targetFill = stats.CurrentExperience.Value / required;
 
-        // Instantly move the back bar to the target.
-        backXpBar.fillAmount = targetFill;
-
-        // Continue until the animation time has elapsed.
-        while (elapsed < duration)
+        // If there's effectively no change, short-circuit.
+        if (Mathf.Approximately(startFill, targetFill))
         {
-            // Add the amount of time since the previous frame.
-            elapsed += Time.deltaTime;
-
-            // Convert elapsed time into a value between 0 and 1.
-            float t = elapsed / duration;
-
-            // Smoothly interpolate from the starting fill to the target fill.
-            frontXpBar.fillAmount = Mathf.Lerp(startFill, targetFill, t);
-
-            // Wait until the next frame before continuing.
-            yield return null;
+            frontXpBar.fillAmount = targetFill;
+            backXpBar.fillAmount = targetFill;
+            yield break;
         }
 
-        // Ensure the bar finishes exactly at the target value.
-        frontXpBar.fillAmount = targetFill;
+        // Delta magnitude to scale duration
+        float delta = Mathf.Abs(targetFill - startFill);
+        float duration = Mathf.Lerp(minLerpDuration, maxLerpDuration, delta);
+
+        // Detect level-up crossing: target is less than start -> we've wrapped to next level
+        if (targetFill < startFill - 0.0001f)
+        {
+            // Phase 1: animate current front from startFill -> 1.0 (fill to 100%)
+            backXpBar.fillAmount = 1f;
+            elapsed = 0f;
+            float phaseDurationA = Mathf.Lerp(minLerpDuration, maxLerpDuration, 1f - startFill);
+            while (elapsed < phaseDurationA)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / phaseDurationA));
+                frontXpBar.fillAmount = Mathf.Lerp(startFill, 1f, t);
+                yield return null;
+            }
+
+            frontXpBar.fillAmount = 1f;
+
+            // small frame pause to ensure visuals update
+            yield return null;
+
+            // Reset visuals for new level
+            frontXpBar.fillAmount = 0f;
+            backXpBar.fillAmount = targetFill;
+
+            // Phase 2: animate 0 -> targetFill (the leftover XP after level up)
+            elapsed = 0f;
+            float phaseDurationB = Mathf.Lerp(minLerpDuration, maxLerpDuration, targetFill);
+            while (elapsed < phaseDurationB)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / phaseDurationB));
+                frontXpBar.fillAmount = Mathf.Lerp(0f, targetFill, t);
+                yield return null;
+            }
+
+            frontXpBar.fillAmount = targetFill;
+            yield break;
+        }
+        else
+        {
+            // Normal single-phase animation: startFill -> targetFill
+            backXpBar.fillAmount = targetFill;
+            elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
+                frontXpBar.fillAmount = Mathf.Lerp(startFill, targetFill, t);
+                yield return null;
+            }
+
+            frontXpBar.fillAmount = targetFill;
+            yield break;
+        }
+    }
+
+    void StartLerpXpBar()
+    {
+        if (xpCoroutine != null)
+        {
+            StopCoroutine(xpCoroutine);
+            xpCoroutine = null;
+        }
+
+        xpCoroutine = StartCoroutine(LerpXpBar());
     }
 
     public void IncreaseEXP(float xpGained)
@@ -215,20 +277,14 @@ public class PlayerExperience : NetworkBehaviour
 
     void OnReqExperienceChanged(float oldValue, float newValue)
     {
-        // Instantly update the front bar.
-        frontXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
-
-        // Instantly update the back bar.
-        backXpBar.fillAmount = stats.CurrentExperience.Value / stats.RequiredExperience.Value;
-
         // Refresh the displayed level.
         levelText.text = stats.PlayerLevel.Value.ToString();
 
         // Refresh the displayed experience numbers.
         experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
 
-        // Start animating the experience bar.
-        StartCoroutine(LerpXpBar());
+        // Start animating the experience bar (stops any existing animation).
+        StartLerpXpBar();
 
         // Mark that initialization has completed.
         statsInitialized = true;
@@ -239,11 +295,11 @@ public class PlayerExperience : NetworkBehaviour
         // Ignore experience changes until the UI has finished initializing.
         if (!statsInitialized) return;
 
-        // Animate the experience bar toward the new value.
-        StartCoroutine(LerpXpBar());
-
         // Update the displayed experience text.
         experienceText.text = stats.CurrentExperience.Value + "/" + stats.RequiredExperience.Value;
+
+        // Start animating the experience bar (stops any existing animation).
+        StartLerpXpBar();
 
         // Check if we've reached enough experience to level up.
         if (stats.CurrentExperience.Value >= stats.RequiredExperience.Value && IsServer)
