@@ -19,7 +19,7 @@ public class ItemStatRules : ScriptableObject
     public float statLineDecayMax = 0.75f;
 
     [Tooltip("Fractional percent added per budget point (0.01 = 1%)")]
-    public float percentPerBudgetPoint = 0.01f;
+    public float percentPerBudgetPoint = 0.005f;
 
     [Header("Primary Stat Weighting")]
     [Tooltip("Fixed fraction of the total budget the primary stat always receives. Not randomized — keeps the main stat consistent across rolls of the same rarity/quality.")]
@@ -313,7 +313,7 @@ public class ItemStatRules : ScriptableObject
         {
             // AttackSpeed/CoolDown/Speed get scaled down even when flat,
             // matching the attribute-point convention (1 point = 0.1 flat)
-            bool isRateStat = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed);
+            bool isRateStat = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed || stat == StatType.Vamp);
             float flatValue = isRateStat ? points * rateStatFlatScale : points;
 
             return new StatModifier
