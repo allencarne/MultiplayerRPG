@@ -58,7 +58,7 @@ public class UpgradeUI : MonoBehaviour
             {
                 StatModifier modifier = slotData.modifiers[i];
                 text_statLines[i].transform.parent.gameObject.SetActive(true);
-                text_statLines[i].text = $"{modifier.statType}: {modifier.value}";
+                text_statLines[i].text = FormatStatLine(modifier.statType, modifier.modType, modifier.value);
             }
         }
     }
@@ -273,9 +273,15 @@ public class UpgradeUI : MonoBehaviour
         // Increase stat by 1
         statToAdd[index] += 1;
 
-        // Update UI
+        // modifier is the current stat modifier for the given index in the upgradeSlotData.
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
-        text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
+
+        // Calculate the value per point for the stat being modified.
+        float perPoint = slot.upgradeSlotData.item.ItemStatRules.GetValuePerPoint(modifier.statType, modifier.modType);
+
+        float previewValue = modifier.value + (statToAdd[index] * perPoint);
+
+        text_statLines[index].text = FormatStatLine(modifier.statType, modifier.modType, previewValue);
 
         // Button
         button_statMinus[index].gameObject.SetActive(true);
@@ -288,9 +294,10 @@ public class UpgradeUI : MonoBehaviour
         // Decrease stat by 1
         statToAdd[index] -= 1;
 
-        // Update UI
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
-        text_statLines[index].text = $"{modifier.statType}: {modifier.value + statToAdd[index]}";
+        float perPoint = slot.upgradeSlotData.item.ItemStatRules.GetValuePerPoint(modifier.statType, modifier.modType);
+        float previewValue = modifier.value + (statToAdd[index] * perPoint);
+        text_statLines[index].text = FormatStatLine(modifier.statType, modifier.modType, previewValue);
 
         // Button
         if (statToAdd[index] <= 0)
@@ -316,7 +323,8 @@ public class UpgradeUI : MonoBehaviour
             if (i < slot.upgradeSlotData.modifiers.Count)
             {
                 StatModifier modifier = slot.upgradeSlotData.modifiers[i];
-                modifier.value += statToAdd[i];
+                float perPoint = slot.upgradeSlotData.item.ItemStatRules.GetValuePerPoint(modifier.statType, modifier.modType);
+                modifier.value += statToAdd[i] * perPoint;
                 slot.upgradeSlotData.modifiers[i] = modifier;
             }
         }
@@ -369,5 +377,15 @@ public class UpgradeUI : MonoBehaviour
         }
 
         slot.ClearSlot();
+    }
+
+    string FormatStatLine(StatType stat, ModType modType, float value)
+    {
+        if (modType == ModType.Percent)
+        {
+            return $"{stat}: {(value * 100f):0.##}%";
+        }
+
+        return $"{stat}: {value:0.##}";
     }
 }

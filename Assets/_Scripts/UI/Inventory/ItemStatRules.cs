@@ -304,35 +304,15 @@ public class ItemStatRules : ScriptableObject
 
     StatModifier CreateModifierFromBudget(StatType stat, ModType modType, int points)
     {
-        // Prevent zero-value modifiers
         if (points <= 0) points = 1;
 
-        if (modType == ModType.Percent)
+        return new StatModifier
         {
-            float percentValue = points * percentPerBudgetPoint;
-            return new StatModifier
-            {
-                statType = stat,
-                value = percentValue,
-                source = ModSource.Equipment,
-                modType = ModType.Percent
-            };
-        }
-        else
-        {
-            // AttackSpeed/CoolDown/Speed get scaled down even when flat,
-            // matching the attribute-point convention (1 point = 0.1 flat)
-            bool isRateStat = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed || stat == StatType.Vamp);
-            float flatValue = isRateStat ? points * rateStatFlatScale : points;
-
-            return new StatModifier
-            {
-                statType = stat,
-                value = flatValue,
-                source = ModSource.Equipment,
-                modType = ModType.Flat
-            };
-        }
+            statType = stat,
+            value = points * GetValuePerPoint(stat, modType),
+            source = ModSource.Equipment,
+            modType = modType
+        };
     }
 
     int GetBaseOffsetForLevel(int itemLevel)
@@ -424,5 +404,16 @@ public class ItemStatRules : ScriptableObject
             case 4: return primaryShare4Lines;
             default: return primaryShare4Lines;
         }
+    }
+
+    public float GetValuePerPoint(StatType stat, ModType modType)
+    {
+        if (modType == ModType.Percent)
+        {
+            return percentPerBudgetPoint;
+        }
+
+        bool isRateStat = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed || stat == StatType.Vamp);
+        return isRateStat ? rateStatFlatScale : 1f;
     }
 }
