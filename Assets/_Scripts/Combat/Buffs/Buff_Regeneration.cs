@@ -42,13 +42,16 @@ public class Buff_Regeneration : NetworkBehaviour
         {
             if (Time.time >= nextHealTime)
             {
+                float healPerStack = stats.TotalHealthRegen;
+                float healAmount = TotalStacks * healPerStack;
+
                 if (IsServer)
                 {
-                    stats.GiveHeal(TotalStacks, HealType.Flat);
+                    stats.GiveHeal(healAmount, HealType.Flat);
                 }
                 else
                 {
-                    RequestHealServerRpc(TotalStacks);
+                    RequestHealServerRpc(healAmount);
                 }
                 nextHealTime = Time.time + 1f;
             }
@@ -259,7 +262,7 @@ public class Buff_Regeneration : NetworkBehaviour
     }
 
     [ServerRpc]
-    void RequestHealServerRpc(int healAmount)
+    void RequestHealServerRpc(float healAmount)
     {
         stats.GiveHeal(healAmount, HealType.Flat);
     }

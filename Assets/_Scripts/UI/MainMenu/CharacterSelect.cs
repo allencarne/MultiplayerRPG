@@ -267,6 +267,7 @@ public class CharacterSelect : MonoBehaviour
         $"{slot}Coins",
         $"{slot}AP",
         $"{slot}MaxHealth",
+        $"{slot}HealthRegen",
         $"{slot}MaxMana",
         $"{slot}ManaRecharge",
         $"{slot}MaxEndurance",

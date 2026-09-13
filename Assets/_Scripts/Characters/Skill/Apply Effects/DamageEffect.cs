@@ -97,7 +97,7 @@ public class DamageEffect : ApplyEffect
                     _ => 1f
                 };
 
-                // Formula: ((TotalDamage * StatMultiplier) + (Level * LevelMultiplier) + AdditionalBase) * SkillMultiplier
+                // Calculate Damage
                 float formulaDamage = ((attackStatVal * StatMultiplier) + (attackerLevel * LevelMultiplier) + AdditionalBase) * skillTypeMultiplier;
 
                 // Keep ctx.AttackerDamage as an additive bonus when using formula (preserves ability-specific additional damage)
@@ -109,7 +109,7 @@ public class DamageEffect : ApplyEffect
         // Apply Damage to the Target
         float dealt = damageable.TakeDamage(computedDamage, DamageType, attacker, target.transform.position);
 
-        // Apply Vamp (Life Steal) on basic hits (unchanged behavior)
+        // Apply Vamp (Life Steal) on basic hits
         if (ctx.IsBasic)
         {
             if (attackerStats != null && attackerStats.TotalVamp > 0f)

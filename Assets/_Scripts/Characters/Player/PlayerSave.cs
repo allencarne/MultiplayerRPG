@@ -215,12 +215,13 @@ public class PlayerSave : NetworkBehaviour
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
         float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 10);
+        float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", 1);
         float damage = PlayerPrefs.GetFloat($"{slot}Damage", 1);
         float attackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
         float cdr = PlayerPrefs.GetFloat($"{slot}CDR", 1);
         float armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
         float speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
-        float vamp = PlayerPrefs.GetFloat($"{slot}Vamp", 100);
+        float vamp = PlayerPrefs.GetFloat($"{slot}Vamp", 0);
         float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", 20);
         float manarech = PlayerPrefs.GetFloat($"{slot}ManaRecharge", 1);
         float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
@@ -228,17 +229,18 @@ public class PlayerSave : NetworkBehaviour
 
         if (IsServer)
         {
-            ApplyCharacterStats(health, damage, attackSpeed, cdr, armor, speed, vamp, mana,manarech, end, endrech);
+            ApplyCharacterStats(health, healthRegen, damage, attackSpeed, cdr, armor, speed, vamp, mana,manarech, end, endrech);
         }
         else
         {
-            LoadCharacterStatsServerRPC(health, damage, attackSpeed, cdr, armor, speed, vamp, mana, manarech, end, endrech);
+            LoadCharacterStatsServerRPC(health, healthRegen, damage, attackSpeed, cdr, armor, speed, vamp, mana, manarech, end, endrech);
         }
     }
 
-    void ApplyCharacterStats(float health, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp, float mana, float manarech, float end, float endrech)
+    void ApplyCharacterStats(float health, float healthRegen, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp, float mana, float manarech, float end, float endrech)
     {
         stats.net_BaseHP.Value = health;
+        stats.net_BaseHealthRegen.Value = healthRegen;
         stats.net_BaseDamage.Value = damage;
         stats.net_BaseAS.Value = attackSpeed;
         stats.net_BaseCDR.Value = cdr;
@@ -259,9 +261,9 @@ public class PlayerSave : NetworkBehaviour
     }
 
     [ServerRpc]
-    void LoadCharacterStatsServerRPC(float health, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp, float mana, float manarech, float end, float endrech)
+    void LoadCharacterStatsServerRPC(float health, float healthRegen, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp, float mana, float manarech, float end, float endrech)
     {
-        ApplyCharacterStats(health, damage, attackSpeed, cdr, armor, speed, vamp, mana, manarech, end, endrech);
+        ApplyCharacterStats(health, healthRegen, damage, attackSpeed, cdr, armor, speed, vamp, mana, manarech, end, endrech);
     }
 
     void LoadPlayerSkills()
@@ -295,6 +297,7 @@ public class PlayerSave : NetworkBehaviour
 
         // Stats
         PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHP.Value);
+        PlayerPrefs.SetFloat($"{slot}HealthRegen", stats.net_BaseHealthRegen.Value);
         PlayerPrefs.SetFloat($"{slot}MaxMana", stats.MaxMana.Value);
         PlayerPrefs.SetFloat($"{slot}ManaRecharge", stats.ManaRechargeRate.Value);
         PlayerPrefs.SetFloat($"{slot}MaxEndurance", stats.MaxEndurance.Value);

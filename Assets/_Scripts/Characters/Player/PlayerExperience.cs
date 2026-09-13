@@ -261,14 +261,10 @@ public class PlayerExperience : NetworkBehaviour
         // Ignore the initial value (oldValue == 0) when the object first spawns.
         if (IsOwner && oldValue > 0)
         {
-            // Give 2 health per level.
-            int amount = newValue * 1;
-
-            // Increase the player's health.
-            stats.IncreaseHealth(amount);
-
-            // Increase the player's Damage.
-            stats.IncreaseDamage(amount);
+            // Increase by +1 per level
+            stats.IncreaseHealth(1);
+            stats.IncreaseDamage(1);
+            stats.IncreaseHealthRegen(1);
         }
     }
 }

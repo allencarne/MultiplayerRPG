@@ -15,12 +15,14 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI attributePoints;
 
     [SerializeField] TextMeshProUGUI totalHealth;
+    [SerializeField] TextMeshProUGUI totalHealthRegen;
     [SerializeField] TextMeshProUGUI totalDamage;
     [SerializeField] TextMeshProUGUI totalAttackSpeed;
     [SerializeField] TextMeshProUGUI totalCDR;
     [SerializeField] TextMeshProUGUI totalSpeed;
     [SerializeField] TextMeshProUGUI enduranceRecharge;
     [SerializeField] TextMeshProUGUI totalArmor;
+    [SerializeField] TextMeshProUGUI totalVamp;
 
     private void OnEnable()
     {
@@ -41,7 +43,7 @@ public class AttributeUI : MonoBehaviour
         playerLevel.text = "LvL: " + stats.PlayerLevel.Value.ToString();
         attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
 
-        // Health (health remains flat-only display)
+        // Health (flat)
         totalHealth.text = SimpleStringBuild(
             stats.net_TotalHP.Value,
             stats.net_BaseHP.Value,
@@ -49,7 +51,18 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.Health, ModSource.Buff),
             stats.GetModifier(StatType.Health, ModSource.Debuff));
 
-        // Damage (support flat + percent)
+        // HealthRegen
+        totalHealthRegen.text = ComplexStringBuild(
+            stats.TotalHealthRegen,
+            stats.net_BaseHealthRegen.Value,
+            stats.GetModifier(StatType.HealthRegen, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.HealthRegen, ModSource.Equipment),
+            stats.GetModifier(StatType.HealthRegen, ModSource.Buff),
+            stats.GetPercentModifier(StatType.HealthRegen, ModSource.Buff),
+            stats.GetModifier(StatType.HealthRegen, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.HealthRegen, ModSource.Debuff));
+
+        // Damage
         totalDamage.text = ComplexStringBuild(
             stats.TotalDamage,
             stats.net_BaseDamage.Value,
@@ -103,6 +116,17 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.Armor, ModSource.Equipment),
             stats.GetModifier(StatType.Armor, ModSource.Buff),
             stats.GetModifier(StatType.Armor, ModSource.Debuff));
+
+        // Vamp
+        totalVamp.text = ComplexStringBuild(
+            stats.TotalVamp,
+            stats.net_BaseVamp.Value,
+            stats.GetModifier(StatType.Vamp, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Vamp, ModSource.Equipment),
+            stats.GetModifier(StatType.Vamp, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Vamp, ModSource.Buff),
+            stats.GetModifier(StatType.Vamp, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Vamp, ModSource.Debuff));
     }
 
     string SimpleStringBuild(float total, float value, float equipment, float buff, float debuff)

@@ -18,6 +18,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public NetworkVariable<float> net_BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<float> net_BaseVamp = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_BaseHealthRegen = new(writePerm: NetworkVariableWritePermission.Server);
 
     [Header("Total Stats")]
     public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Damage)) * (1f + GetPercentModifier(StatType.Damage));
@@ -26,6 +27,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.CoolDown)) * (1f + GetPercentModifier(StatType.CoolDown));
     public float TotalSpeed => Mathf.Max((net_BaseSpeed.Value + GetModifier(StatType.Speed)) * (1f + GetPercentModifier(StatType.Speed)), minSpeed);
     public float TotalVamp => (net_BaseVamp.Value + GetModifier(StatType.Vamp)) * (1f + GetPercentModifier(StatType.Vamp));
+    public float TotalHealthRegen => (net_BaseHealthRegen.Value + GetModifier(StatType.HealthRegen)) * (1f + GetPercentModifier(StatType.HealthRegen));
 
     float minSpeed = .2f;
 
@@ -390,6 +392,44 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     void DecreaseCoolDownReductionServerRPC(float amount)
     {
         net_BaseCDR.Value -= amount;
+    }
+    #endregion
+
+    #region HealthRegen
+    public void IncreaseHealthRegen(int amount)
+    {
+        if (IsServer)
+        {
+            net_BaseHealthRegen.Value += amount;
+        }
+        else
+        {
+            IncreaseHealthRegenServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void IncreaseHealthRegenServerRPC(int amount)
+    {
+        net_BaseHealthRegen.Value += amount;
+    }
+
+    public void DecreaseHealthRegen(int amount)
+    {
+        if (IsServer)
+        {
+            net_BaseHealthRegen.Value -= amount;
+        }
+        else
+        {
+            DecreaseHealthRegenServerRPC(amount);
+        }
+    }
+
+    [ServerRpc]
+    void DecreaseHealthRegenServerRPC(int amount)
+    {
+        net_BaseHealthRegen.Value -= amount;
     }
     #endregion
 }
