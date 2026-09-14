@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,9 +9,13 @@ public class SkillEffectRelay : NetworkBehaviour
     StateMachine owner;
     bool ignorePlayer, ignoreEnemy, ignoreNPC;
     bool ignoreAttacker = true;
+    bool singleUsePerTarget = true;
     bool isBreakable;
     bool hasBroken;
     int obstacleLayer;
+
+    // track targets we've already applied effects to (prevents re-triggering)
+    HashSet<ulong> triggeredTargets = new HashSet<ulong>();
 
     [Header("Sparks")]
     GameObject Spark;
@@ -21,7 +26,7 @@ public class SkillEffectRelay : NetworkBehaviour
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
     }
 
-    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _ignoreAttacker, bool _isBreakable, GameObject spark = null, GameObject specialSpark = null)
+    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _ignoreAttacker, bool _singleUsePerTarget, bool _isBreakable, GameObject spark = null, GameObject specialSpark = null)
     {
         owner = _owner;
         context = _ctx;
@@ -30,6 +35,7 @@ public class SkillEffectRelay : NetworkBehaviour
         ignoreEnemy = _ignoreEnemy;
         ignoreNPC = _ignoreNPC;
         ignoreAttacker = _ignoreAttacker;
+        singleUsePerTarget = _singleUsePerTarget;
         isBreakable = _isBreakable;
 
         if (spark != null) Spark = spark;
@@ -76,6 +82,9 @@ public class SkillEffectRelay : NetworkBehaviour
         if (hitObj == null || attacker == null) return;
         if (ignoreAttacker && hitObj == attacker) return;
 
+        // If configured to only trigger once per target, skip if already triggered
+        if (singleUsePerTarget && hitObj != null && triggeredTargets.Contains(hitObj.NetworkObjectId)) return;
+
         // Don't take Damage if Immune
         Buffs buffs = collision.GetComponent<Buffs>();
         if (buffs != null && buffs.immune.net_IsImmune.Value) return;
@@ -87,6 +96,8 @@ public class SkillEffectRelay : NetworkBehaviour
         // Execute all effects
         foreach (SkillEffect effect in onTriggerEffects) effect.Execute(owner, triggerCtx);
 
+        // mark target as triggered
+        if (singleUsePerTarget && hitObj != null) triggeredTargets.Add(hitObj.NetworkObjectId);
 
         IDamageable damageable = collision.GetComponent<IDamageable>();
         if (damageable != null)

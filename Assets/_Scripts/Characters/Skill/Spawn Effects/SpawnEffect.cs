@@ -52,6 +52,9 @@ public class SpawnEffect: NetworkedSpawnEffect
     [Tooltip("If true the spawned object will not affect its attacker (caster). Set false for friendly / self-targeting effects.")]
     public bool IgnoreAttacker = true;
 
+    [Tooltip("If true the spawned object will only apply its on-trigger effects once per target.")]
+    public bool SingleTriggerPerTarget = false;
+
     [Header("Collision")]
     public bool IsBreakable;
 
@@ -154,7 +157,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (rb != null && Force != 0f) rb.AddForce(ctx.AimDirection.normalized * Force, ForceMode);
 
         SkillEffectRelay relay = instance.GetComponent<SkillEffectRelay>();
-        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IgnoreAttacker, IsBreakable, Spark, SpecialSpark);
+        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IgnoreAttacker, SingleTriggerPerTarget, IsBreakable, Spark, SpecialSpark);
 
         FollowTarget target = instance.GetComponent<FollowTarget>();
         if (target != null) target.Target = owner.transform;
