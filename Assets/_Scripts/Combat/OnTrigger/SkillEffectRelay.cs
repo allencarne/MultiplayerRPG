@@ -85,10 +85,6 @@ public class SkillEffectRelay : NetworkBehaviour
         // If configured to only trigger once per target, skip if already triggered
         if (singleUsePerTarget && hitObj != null && triggeredTargets.Contains(hitObj.NetworkObjectId)) return;
 
-        // Don't take Damage if Immune
-        Buffs buffs = collision.GetComponent<Buffs>();
-        if (buffs != null && buffs.immune.net_IsImmune.Value) return;
-
         // create a new context for the trigger effects
         SkillContext triggerCtx = context;
         triggerCtx.Target = hitObj;

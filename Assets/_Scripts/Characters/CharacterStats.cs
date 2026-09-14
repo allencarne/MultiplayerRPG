@@ -51,6 +51,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (!IsServer) return 0f;
         if (isDead) return 0f;
 
+        // Don't take Damage if Immune
+        Buffs buffs = GetComponent<Buffs>();
+        if (buffs != null && buffs.immune != null && buffs.immune.net_IsImmune.Value) return 0f;
+
         // Calculate the amount of damage that should actually be dealt after armor and damage type are considered.
         float finalDamage = CalculateFinalDamage(damage, damageType);
 
