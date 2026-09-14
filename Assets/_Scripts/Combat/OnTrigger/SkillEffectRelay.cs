@@ -7,6 +7,7 @@ public class SkillEffectRelay : NetworkBehaviour
     SkillContext context;
     StateMachine owner;
     bool ignorePlayer, ignoreEnemy, ignoreNPC;
+    bool ignoreAttacker = true;
     bool isBreakable;
     bool hasBroken;
     int obstacleLayer;
@@ -20,7 +21,7 @@ public class SkillEffectRelay : NetworkBehaviour
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
     }
 
-    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _isBreakable, GameObject spark = null, GameObject specialSpark = null)
+    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _ignoreAttacker, bool _isBreakable, GameObject spark = null, GameObject specialSpark = null)
     {
         owner = _owner;
         context = _ctx;
@@ -28,6 +29,7 @@ public class SkillEffectRelay : NetworkBehaviour
         ignorePlayer = _ignorePlayer;
         ignoreEnemy = _ignoreEnemy;
         ignoreNPC = _ignoreNPC;
+        ignoreAttacker = _ignoreAttacker;
         isBreakable = _isBreakable;
 
         if (spark != null) Spark = spark;
@@ -72,7 +74,7 @@ public class SkillEffectRelay : NetworkBehaviour
 
         // Prevents self-hit
         if (hitObj == null || attacker == null) return;
-        if (hitObj == attacker) return;
+        if (ignoreAttacker && hitObj == attacker) return;
 
         // Don't take Damage if Immune
         Buffs buffs = collision.GetComponent<Buffs>();
