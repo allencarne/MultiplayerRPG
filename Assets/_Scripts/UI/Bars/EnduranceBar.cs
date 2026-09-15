@@ -27,6 +27,12 @@ public class EnduranceBar : NetworkBehaviour
 
         // Initialize the Endurance bar using the current Endurance and calculated total Endurance values.
         UpdateEnduranceBar(stats.TotalEndurance, stats.net_CurrentEndurance.Value);
+
+        // If the server has the player below max endurance, start the recharge coroutine.
+        if (IsServer && stats.net_CurrentEndurance.Value < stats.TotalEndurance)
+        {
+            if (!isRecharging) StartCoroutine(RechargeEndurance());
+        }
     }
 
     public override void OnNetworkDespawn()
@@ -137,11 +143,7 @@ public class EnduranceBar : NetworkBehaviour
         while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
         {
             // Move the background bar toward the target percentage using the configured lerp speed.
-            currentFillAmount = Mathf.Lerp(
-                currentFillAmount,
-                targetFillAmount,
-                lerpSpeed * Time.deltaTime
-            );
+            currentFillAmount = Mathf.Lerp( currentFillAmount,targetFillAmount,lerpSpeed * Time.deltaTime);
 
             // Apply the interpolated percentage to the background bar.
             enduranceBar_Back.fillAmount = currentFillAmount;

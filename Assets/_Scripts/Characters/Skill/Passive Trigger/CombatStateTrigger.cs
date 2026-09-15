@@ -27,6 +27,8 @@ public class CombatStateTrigger : PassiveTrigger
 
         owner.Combat.OnCombatStateChanged.AddListener(Handler);
 
+        Handler(owner.Combat.InCombat.Value);
+
         void Unsubscribe()
         {
             owner.Combat.OnCombatStateChanged.RemoveListener(Handler);

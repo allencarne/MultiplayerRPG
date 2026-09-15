@@ -22,6 +22,11 @@ public class ManaBar : NetworkBehaviour
         stats.net_CurrentMana.OnValueChanged+= OnManaChanged;
         stats.net_BaseMana.OnValueChanged += OnMaxManaChanged;
         UpdateManaBar(stats.TotalMana, stats.net_CurrentMana.Value);
+
+        if (IsServer && stats.net_CurrentMana.Value < stats.TotalMana)
+        {
+            if (!isRecharging) StartCoroutine(RechargeMana());
+        }
     }
 
     public override void OnNetworkDespawn()
