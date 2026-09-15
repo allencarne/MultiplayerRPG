@@ -46,6 +46,10 @@ public class SkillBarUI : MonoBehaviour
     [SerializeField] Image icon_Ultimate_Tint;
     [SerializeField] TextMeshProUGUI text_Ultimate;
 
+    [Header("Tint Colors")]
+    Color cooldownTint = new Color(0.0f, 0.0f, 0.0f, 0.55f);
+    Color manaTint = new Color(0.15f, 0.45f, 1f, 0.55f);
+
     class SkillBarSlot
     {
         public Image Icon;
@@ -63,11 +67,13 @@ public class SkillBarUI : MonoBehaviour
     private void OnEnable()
     {
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
+        stats.net_CurrentMana.OnValueChanged += OnManaChanged;
     }
 
     private void OnDisable()
     {
         stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
+        stats.net_CurrentMana.OnValueChanged -= OnManaChanged;
     }
 
     public void Bind(ClassSkillSet set)
@@ -117,11 +123,16 @@ public class SkillBarUI : MonoBehaviour
 
         if (slot.CooldownRoutine != null) StopCoroutine(slot.CooldownRoutine);
         slot.CooldownRoutine = StartCoroutine(TrackCooldown(slot, coolDown));
+        UpdateTintForSlot(slot);
     }
 
     IEnumerator TrackCooldown(SkillBarSlot slot, float coolDown)
     {
-        if (slot.Tint != null) slot.Tint.enabled = true;
+        if (slot.Tint != null)
+        {
+            slot.Tint.enabled = true;
+            slot.Tint.color = cooldownTint;
+        }
 
         float timeRemaining = coolDown;
         while (timeRemaining > 0f)
@@ -132,9 +143,66 @@ public class SkillBarUI : MonoBehaviour
         }
 
         if (slot.Text != null) slot.Text.text = "";
-        if (slot.Tint != null) slot.Tint.enabled = false;
         slot.CooldownRoutine = null;
+
+        // cooldown finished — re-evaluate tint (may become mana tint if mana still insufficient)
+        UpdateTintForSlot(slot);
+    }
+
+    void RefreshTints()
+    {
+        if (slots == null) return;
+        foreach (SkillBarSlot slot in slots.Values)
+        {
+            UpdateTintForSlot(slot);
+        }
+    }
+
+    void UpdateTintForSlot(SkillBarSlot slot)
+    {
+        if (slot == null || slot.Tint == null) return;
+
+        int index = slot.GetIndex();
+        bool hasValidSkill = !(index < 0 || index >= slot.Data.Length || slot.Data[index] == null);
+
+        // Skill doesn't exist or is locked by level
+        if (!hasValidSkill || stats.PlayerLevel.Value < slot.ReqLevel)
+        {
+            slot.Tint.enabled = false;
+
+            if (slot.Text != null)
+                slot.Text.text = "";
+
+            return;
+        }
+
+        // Check mana
+        float manaCost = slot.Data[index].ManaCost;
+        bool lacksMana = manaCost > 0f && stats.net_CurrentMana.Value < manaCost;
+
+        // Mana takes priority over cooldown color
+        if (lacksMana)
+        {
+            slot.Tint.enabled = true;
+            slot.Tint.color = manaTint;
+            return;
+        }
+
+        // Has enough mana, so show cooldown if active
+        if (slot.CooldownRoutine != null)
+        {
+            slot.Tint.enabled = true;
+            slot.Tint.color = cooldownTint;
+            return;
+        }
+
+        // Skill is available
+        slot.Tint.enabled = false;
+
+        if (slot.Text != null)
+            slot.Text.text = "";
     }
 
     void OnLevelChanged(int oldValue, int newValue) => RefreshLocks();
+    void OnManaChanged(float oldValue, float newValue) => RefreshTints();
 }

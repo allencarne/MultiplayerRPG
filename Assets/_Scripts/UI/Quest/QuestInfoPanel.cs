@@ -118,6 +118,8 @@ public class QuestInfoPanel : MonoBehaviour
 
     void GetRewards(Quest quest)
     {
+        if (quest == null) Debug.LogWarning("Quest is null in GetRewards method.");
+
         foreach (Item reward in quest.QuestRewards)
         {
             InventorySlotData rolledReward = reward.ItemStatRules.BuildItemData(reward);
