@@ -26,19 +26,16 @@ public class Buff_Regeneration : NetworkBehaviour
 
     void Update()
     {
-        if ((durBuff > 0 || fixedBuff > 0) && stats.net_CurrentHP.Value >= stats.net_TotalHP.Value)
+        bool atFullHealth = stats.net_CurrentHP.Value >= stats.net_TotalHP.Value;
+
+        if ((durBuff > 0 || fixedBuff > 0) && atFullHealth)
         {
             if (IsOwner && fixedBuff > 0)
             {
-                // Remove all fixed stacks when hitting full HP
                 StartRegen(-fixedBuff, -1);
             }
-
-            // Skip any healing tick while at full HP
-            return;
         }
-
-        if (durBuff > 0 || fixedBuff > 0)
+        else if (durBuff > 0 || fixedBuff > 0)
         {
             if (Time.time >= nextHealTime)
             {
@@ -46,13 +43,10 @@ public class Buff_Regeneration : NetworkBehaviour
                 float healAmount = TotalStacks * healPerStack;
 
                 if (IsServer)
-                {
                     stats.GiveHeal(healAmount, HealType.Flat);
-                }
                 else
-                {
                     RequestHealServerRpc(healAmount);
-                }
+
                 nextHealTime = Time.time + 1f;
             }
         }
