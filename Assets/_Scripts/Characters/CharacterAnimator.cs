@@ -41,22 +41,16 @@ public class CharacterAnimator : MonoBehaviour
         if (PrimaryAnimator) PrimaryAnimator.Play(stateName, -1, 0);
     }
 
-    public void PlayAttackAnimation(WeaponType weapon, ActiveSkillData.SkillType type, ActiveSkillData.SkillPhase state, int chestIndex, int legIndex)
+    public void PlayAttackAnimation(WeaponType weapon, ActiveSkillData.AttackAnimation animation, ActiveSkillData.SkillPhase phase, int chestIndex, int legIndex)
     {
-        // build parts
-        string _weapon = weapon.ToString();
-        string _skill = type.ToString();
-        string _state = state.ToString();
+        string bodyAnim = GetBodyAnim(weapon, animation, phase);
+        string weaponAnim = GetWeaponAnim(weapon, animation, phase);
 
-        // Compose the base string once
-        string baseAnim = $"{_weapon} {_skill} Front {_state}";
-
-        HeadAnimator?.Play(baseAnim, -1, 0);
-        BodyAnimator?.Play(baseAnim, -1, 0);
-
-        if (ChestAnimator) ChestAnimator.Play($"{baseAnim} {chestIndex}", -1, 0);
-        if (LegsAnimator) LegsAnimator.Play($"{baseAnim} {legIndex}", -1, 0);
-        if (WeaponAnimator) WeaponAnimator.Play(baseAnim, -1, 0);
+        HeadAnimator?.Play(bodyAnim, -1, 0);
+        BodyAnimator?.Play(bodyAnim, -1, 0);
+        if (ChestAnimator) ChestAnimator.Play(GetChestLegsAnim(weapon, animation, phase, chestIndex), -1, 0);
+        if (LegsAnimator) LegsAnimator.Play(GetChestLegsAnim(weapon, animation, phase, legIndex), -1, 0);
+        if (WeaponAnimator) WeaponAnimator.Play(weaponAnim, -1, 0);
     }
 
     public void PlayEnemyAttackAnimation(ActiveSkillData.SkillType type, ActiveSkillData.SkillPhase state)
@@ -212,5 +206,38 @@ public class CharacterAnimator : MonoBehaviour
     public bool UsingGamepad(PlayerStateMachine owner)
     {
         return owner.playerInput != null && owner.playerInput.currentControlScheme == "Gamepad";
+    }
+
+    string GetBodyAnim(WeaponType weapon, ActiveSkillData.AttackAnimation animation, ActiveSkillData.SkillPhase phase)
+    {
+        switch (animation)
+        {
+            case ActiveSkillData.AttackAnimation.WeaponBasicFront: return $"{weapon} Basic Front {phase}";
+            case ActiveSkillData.AttackAnimation.WeaponBasicBack: return $"{weapon} Basic Back {phase}";
+            case ActiveSkillData.AttackAnimation.Empower: return "Empower";
+            default: return $"{weapon} Basic Front {phase}";
+        }
+    }
+
+    string GetWeaponAnim(WeaponType weapon, ActiveSkillData.AttackAnimation animation, ActiveSkillData.SkillPhase phase)
+    {
+        switch (animation)
+        {
+            case ActiveSkillData.AttackAnimation.WeaponBasicFront: return $"{weapon} Basic Front {phase}";
+            case ActiveSkillData.AttackAnimation.WeaponBasicBack: return $"{weapon} Basic Back {phase}";
+            case ActiveSkillData.AttackAnimation.Empower: return $"{weapon} Empower";
+            default: return $"{weapon} Basic Front {phase}";
+        }
+    }
+
+    string GetChestLegsAnim(WeaponType weapon, ActiveSkillData.AttackAnimation animation, ActiveSkillData.SkillPhase phase, int index)
+    {
+        switch (animation)
+        {
+            case ActiveSkillData.AttackAnimation.WeaponBasicFront: return $"{weapon} Basic Front {phase} {index}";
+            case ActiveSkillData.AttackAnimation.WeaponBasicBack: return $"{weapon} Basic Back {phase} {index}";
+            case ActiveSkillData.AttackAnimation.Empower: return $"Empower_{index}";
+            default: return $"{weapon} Basic Front {phase} {index}";
+        }
     }
 }

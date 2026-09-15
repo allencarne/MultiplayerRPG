@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BasicAttack : NPCSkill
 {
+    /*
     public override void StartSkill(NPCStateMachine owner)
     {
         InitializeAbility(skillData.skillType, owner);
@@ -51,4 +52,5 @@ public class BasicAttack : NPCSkill
         //Animate(owner, skillData.weaponType, skillData.skillType, State.Recovery);
         owner.CastBar.StartRecovery(skillData.RecoveryTime);
     }
+    */
 }

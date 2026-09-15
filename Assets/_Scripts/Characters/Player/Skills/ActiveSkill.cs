@@ -120,12 +120,12 @@ public class ActiveSkill
     {
         if (owner is PlayerStateMachine player)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Cast, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
         }
 
         if (owner is NPCStateMachine npc)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Cast, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Cast, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
         }
 
         if (owner is EnemyStateMachine enemy)
@@ -142,12 +142,12 @@ public class ActiveSkill
 
         if (owner is PlayerStateMachine player)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Action, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
         }
 
         if (owner is NPCStateMachine npc)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Action, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Action, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
         }
 
         if (owner is EnemyStateMachine enemy)
@@ -161,12 +161,12 @@ public class ActiveSkill
     {
         if (owner is PlayerStateMachine player)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Impact, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
         }
 
         if (owner is NPCStateMachine npc)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Impact, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Impact, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
         }
 
         if (owner is EnemyStateMachine enemy)
@@ -180,12 +180,12 @@ public class ActiveSkill
     {
         if (owner is PlayerStateMachine player)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Recovery, player.customization.net_ChestIndex.Value, player.customization.net_LegsIndex.Value);
         }
 
         if (owner is NPCStateMachine npc)
         {
-            owner.Animator.PlayAttackAnimation(skillData.weaponType, ActiveSkillData.SkillType.Basic, ActiveSkillData.SkillPhase.Recovery, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
+            owner.Animator.PlayAttackAnimation(skillData.weaponType, skillData.Animation, ActiveSkillData.SkillPhase.Recovery, npc.npc.Data.ChestIndex, npc.npc.Data.LegsIndex);
         }
 
         if (owner is EnemyStateMachine enemy)
@@ -527,12 +527,7 @@ public class ActiveSkill
         // Now check line of sight along that same segment
         if (owner.Pathfinding != null)
         {
-            owner.Pathfinding.TryGetLineOfSightTarget(
-                originPosition,
-                targetPosition,
-                owner.Pathfinding.obstacleLayerMask,
-                out Vector2 losTarget);
-
+            owner.Pathfinding.TryGetLineOfSightTarget(originPosition,targetPosition,owner.Pathfinding.obstacleLayerMask,out Vector2 losTarget);
             targetPosition = losTarget; // clear -> unchanged, blocked -> clamped short of the wall
         }
 
