@@ -9,6 +9,7 @@ public class ToolTip : MonoBehaviour
 
     [Header("Data")]
     InventorySlotData data;
+    SkillData skillData;
 
     [Header("UI")]
     [SerializeField] GameObject tooltip;
@@ -38,33 +39,74 @@ public class ToolTip : MonoBehaviour
     public void GetData(InventorySlotData slotData)
     {
         data = slotData;
+        skillData = null;
+    }
+
+    public void GetData(SkillData skill)
+    {
+        skillData = skill;
+        data = null;
     }
 
     public void UpdateToolTip()
     {
-        if (data == null) return;
+        if (data == null && skillData == null) return;
 
-        // Sprite
-        itemIcon.sprite = data.item.Icon;
-
-        // Set Background Color
-        itemBackground.color = data.item.GetRarityColor(data.rarity);
-
-        // Name
-        itemName_Text.text = FormatNameWithRarity(data.item.name, data.rarity);
-
-        // Description
-        itemInfo_Text.text = FormatDescription(data);
-
-        // Show a red tint if the player is too low level to use this item
-        if (data.item is Equipment equipment)
+        if (data != null)
         {
+            // --- Item rendering (existing behavior) ---
+            // Sprite
+            itemIcon.sprite = data.item.Icon;
+
+            // Set Background Color
+            itemBackground.color = data.item.GetRarityColor(data.rarity);
+
+            // Name
+            itemName_Text.text = FormatNameWithRarity(data.item.name, data.rarity);
+
+            // Description
+            itemInfo_Text.text = FormatDescription(data);
+
             // Show a red tint if the player is too low level to use this item
-            itemIcon.color = equipment.CanPlayerUse(stats) ? Color.white : Color.red;
+            if (data.item is Equipment equipment)
+            {
+                itemIcon.color = equipment.CanPlayerUse(stats) ? Color.white : Color.red;
+            }
+            else
+            {
+                itemIcon.color = Color.white;
+            }
         }
-        else
+        else if (skillData != null)
         {
-            // Non-equipment items are always usable, so no red tint
+            // --- Skill rendering (new) ---
+            itemIcon.sprite = skillData.Icon;
+
+            // Skill tooltip doesn't have item rarity metadata — use neutral colors
+            Color box = Color.white;
+            box.a = 0.8f;
+            textBox.color = box;
+
+            itemBackground.color = Color.white;
+            image_QualityBorder.color = Color.clear;
+
+            // Name and description
+            // Use Name property if present otherwise fallback to ScriptableObject name
+            string displayName = string.IsNullOrEmpty(skillData.Name) ? skillData.name : skillData.Name;
+            itemName_Text.text = $"<b>{displayName}</b>";
+
+            StringBuilder sb = new();
+            if (!string.IsNullOrEmpty(skillData.Description))
+            {
+                sb.AppendLine(skillData.Description.Trim());
+                sb.AppendLine();
+            }
+
+            sb.AppendLine($"Cooldown: {skillData.CoolDown:0.##}s");
+
+            itemInfo_Text.text = sb.ToString();
+
+            // Icon color default
             itemIcon.color = Color.white;
         }
     }

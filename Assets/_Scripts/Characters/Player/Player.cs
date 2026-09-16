@@ -15,7 +15,6 @@ public class Player : NetworkBehaviour
     [SerializeField] ToolTip toolTip;
 
     [Header("UI")]
-    //public CastBar CastBar;
     public Image[] playerImages;
     [SerializeField] Canvas playerUI;
     [SerializeField] GameObject cameraPrefab;
@@ -108,6 +107,16 @@ public class Player : NetworkBehaviour
         toolTipPanel.SetActive(true);
         toolTipPanel.transform.SetAsLastSibling();
         toolTip.GetData(data);
+        toolTip.UpdateToolTip();
+    }
+
+    public void ShowSkillToolTip(SkillData skill)
+    {
+        if (skill == null) return;
+
+        toolTipPanel.SetActive(true);
+        toolTipPanel.transform.SetAsLastSibling();
+        toolTip.GetData(skill);
         toolTip.UpdateToolTip();
     }
 

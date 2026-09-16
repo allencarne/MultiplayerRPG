@@ -150,6 +150,7 @@ public class SkillPanelUI : MonoBehaviour
             for (int i = 0; i < slot.Icons.Length; i++)
             {
                 AssignIcon(slot.Icons[i], slot.Data, i);
+                AssignToolTip(slot.Icons[i], slot.Data, i);
             }
         }
     }
@@ -158,6 +159,17 @@ public class SkillPanelUI : MonoBehaviour
     {
         if (icon == null || abilities == null || index >= abilities.Length || abilities[index] == null) return;
         if (abilities[index].Icon != null) icon.sprite = abilities[index].Icon;
+    }
+
+    void AssignToolTip(Image icon, SkillData[] abilities, int index)
+    {
+        if (icon == null) return;
+
+        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
+        if (tooltip == null) return;
+
+        SkillData data = (abilities != null && index < abilities.Length) ? abilities[index] : null;
+        tooltip.SetSkillData(data);
     }
 
     public void SetYellowBorders()

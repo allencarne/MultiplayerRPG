@@ -1,42 +1,44 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class SkillPanelToolTip : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerClickHandler, ICancelHandler
 {
-    [SerializeField] GameObject tooltip;
-    [SerializeField] Image icon;
-    [SerializeField] TextMeshProUGUI skillName;
-    [SerializeField] TextMeshProUGUI skillDescription;
-    [SerializeField] TextMeshProUGUI skillCoolDown;
+    [SerializeField] Player player;
+    SkillData skillData;
 
-    private ActiveSkill ability;
-
-    public void SetAbility(ActiveSkill ability)
+    public void SetSkillData(SkillData data)
     {
-        this.ability = ability;
+        skillData = data;
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (ability == null) return;
-
-        icon.sprite = ability.skillData.Icon;
-        skillName.text = ability.skillData.name;
-        skillDescription.text = ability.skillData.Description;
-        skillCoolDown.text = "Cooldown: " + ability.skillData.CoolDown.ToString();
-
-        //tooltip.SetActive(true);
+        if (skillData == null) return;
+        player.ShowSkillToolTip(skillData);
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        //tooltip.SetActive(false);
+        player.HideToolTip();
     }
 
     private void OnDisable()
     {
-        //tooltip.SetActive(false);
+        player.HideToolTip();
+    }
+
+    public void OnSubmit(BaseEventData eventData)
+    {
+        player.HideToolTip();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        player.HideToolTip();
+    }
+
+    public void OnCancel(BaseEventData eventData)
+    {
+        player.HideToolTip();
     }
 }
