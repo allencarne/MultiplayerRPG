@@ -165,7 +165,7 @@ public class SkillPanelUI : MonoBehaviour
     {
         if (icon == null) return;
 
-        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>();
+        SkillPanelToolTip tooltip = icon.GetComponentInParent<SkillPanelToolTip>(true);
         if (tooltip == null) return;
 
         SkillData data = (abilities != null && index < abilities.Length) ? abilities[index] : null;
