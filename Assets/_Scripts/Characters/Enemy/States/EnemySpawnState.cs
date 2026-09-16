@@ -7,14 +7,8 @@ public class EnemySpawnState : EnemyState
 
     public override void EnterState()
     {
-        // Disable the collider to prevent immediate collisions upon spawning
         owner.Collider2D.enabled = false;
-
-        // Play the spawn animation
-        //owner.EnemyAnimator.Play("Spawn");
         owner.Animator.PlayEnemyAnimation("Spawn");
-
-        // Start the duration coroutine
         owner.StartCoroutine(Delay(owner));
     }
 

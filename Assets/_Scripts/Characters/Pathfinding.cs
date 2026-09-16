@@ -99,4 +99,29 @@ public class Pathfinding : MonoBehaviour
         result = origin + direction * clampedDistance;
         return false; // blocked
     }
+
+    public Vector2 GetRandomClearPoint(Vector2 origin, Vector2 currentPos, float radius, LayerMask mask, int maxAttempts = 10)
+    {
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            Vector2 randomPos = origin + Random.insideUnitCircle * radius;
+            Vector2 randomDir = randomPos - currentPos;
+            float distance = randomDir.magnitude;
+
+            RaycastHit2D hit = Physics2D.Raycast(currentPos, randomDir.normalized, distance, mask);
+
+            if (hit.collider != null)
+            {
+                randomPos = hit.point;
+            }
+            else
+            {
+                return randomPos;
+            }
+
+            Debug.DrawLine(currentPos, randomPos, Color.red, 1f);
+        }
+
+        return origin;
+    }
 }

@@ -13,7 +13,6 @@ public class EnemyChaseState : EnemyState
         if (!owner.IsServer) return;
 
         owner.Animator.PlayEnemyAnimation("Chase");
-        //owner.EnemyAnimator.Play("Chase");
         updateTime = Time.time;
     }
 
@@ -50,10 +49,7 @@ public class EnemyChaseState : EnemyState
         if (Time.time >= updateTime)
         {
             Vector2 direction = (owner.Target.position - owner.transform.position).normalized;
-            //owner.EnemyAnimator.SetFloat("Horizontal", direction.x);
-            //owner.EnemyAnimator.SetFloat("Vertical", direction.y);
             owner.Animator.SetEnemyDirection(direction);
-
             updateTime = Time.time + updateInterval;
         }
     }

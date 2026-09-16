@@ -7,7 +7,6 @@ public class EnemyDeathState : EnemyState
 
     public override void EnterState()
     {
-        //owner.EnemyAnimator.Play("Death");
         owner.Animator.PlayEnemyAnimation("Death");
 
         owner.Buffs.PurgeAllDebuffs();
