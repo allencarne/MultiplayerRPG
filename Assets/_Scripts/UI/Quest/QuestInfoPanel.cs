@@ -1,4 +1,3 @@
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -118,7 +117,7 @@ public class QuestInfoPanel : MonoBehaviour
 
     void GetRewards(Quest quest)
     {
-        if (quest == null) Debug.LogWarning("Quest is null in GetRewards method.");
+        if (quest == null || quest.QuestRewards == null) return;
 
         foreach (Item reward in quest.QuestRewards)
         {
@@ -198,7 +197,7 @@ public class QuestInfoPanel : MonoBehaviour
     void AcceptQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
-        int starterSlots = currentQuest.QuestStarter.Count();
+        int starterSlots = currentQuest.QuestStarter?.Length ?? 0;
 
         if (avaliableSlots < starterSlots)
         {
@@ -212,7 +211,7 @@ public class QuestInfoPanel : MonoBehaviour
     void TurnInQuest()
     {
         int avaliableSlots = inventory.GetFreeSlotCount();
-        int rewardSlots = currentQuest.QuestRewards.Count();
+        int rewardSlots = currentQuest.QuestRewards?.Length ?? 0;
 
         if (avaliableSlots < rewardSlots)
         {
