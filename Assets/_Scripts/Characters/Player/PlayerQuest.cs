@@ -114,10 +114,14 @@ public class PlayerQuest : MonoBehaviour
 
         if (giveStarters)
         {
-            foreach (Item starter in quest.QuestStarter)
+            // Guard in case QuestStarter is null for some ScriptableObjects
+            if (quest?.QuestStarter != null)
             {
-                InventorySlotData starterSlot = starter.ItemStatRules.BuildItemData(starter);
-                inventory.AddItem(starterSlot);
+                foreach (Item starter in quest.QuestStarter)
+                {
+                    InventorySlotData starterSlot = starter.ItemStatRules.BuildItemData(starter);
+                    inventory.AddItem(starterSlot);
+                }
             }
         }
 
@@ -218,6 +222,13 @@ public class PlayerQuest : MonoBehaviour
 
     public void TurnInQuest(Quest quest)
     {
+        // Defensive checks
+        if (quest == null)
+        {
+            Debug.LogWarning("PlayerQuest.TurnInQuest called with null quest.");
+            return;
+        }
+
         // Check for "Complete Quest" Quests
         UpdateObjective(ObjectiveType.Complete, quest.QuestID, 1);
 
