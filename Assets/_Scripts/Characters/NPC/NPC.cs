@@ -47,6 +47,7 @@ public class NPC : NetworkBehaviour, IInteractable
             stats.net_BaseAS.Value = Data.AttackSpeed;
             stats.net_BaseCDR.Value = Data.CoolDownRecution;
             stats.net_BaseArmor.Value = Data.Armor;
+            stats.net_BaseHealthRegen.Value = Data.HealthRegeneration;
 
             stateMachine.Initialize();
         }

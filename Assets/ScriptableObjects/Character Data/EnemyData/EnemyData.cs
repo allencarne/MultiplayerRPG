@@ -18,6 +18,7 @@ public class EnemyData : ScriptableObject
     public float StartingCDR;
     public float StartingSpeed;
     public float StartingArmor;
+    public float StartingHealthRegeneration;
 
     [Header("Enemy Radius")]
     public float WanderRadius;

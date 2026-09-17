@@ -37,6 +37,8 @@ public class Enemy : NetworkBehaviour
             stats.net_BaseAS.Value = Data.StartingAS;
             stats.net_BaseCDR.Value = Data.StartingCDR;
             stats.net_BaseArmor.Value = Data.StartingArmor;
+
+            stats.net_BaseHealthRegen.Value = Data.StartingHealthRegeneration;
         }
 
         stats.OnCharacterDamaged.AddListener(Damaged);

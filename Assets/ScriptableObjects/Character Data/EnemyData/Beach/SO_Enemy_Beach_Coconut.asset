@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa1fd1e28b21ce46a1b2a2f6cec851c, type: 3}
+  m_Name: SO_Enemy_Beach_Coconut
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  Enemy_ID: coconut
+  Enemy_Name: Coconut
+  Enemy_Level: 1
+  Enemy_Type: 0
+  ExpToGive: 1
+  TotalPatience: 5
+  StartingHealth: 10
+  StartingDamage: 1
+  StartingAS: 1
+  StartingCDR: 1
+  StartingSpeed: 2
+  StartingArmor: 0
+  StartingHealthRegeneration: 1
+  WanderRadius: 5
+  DeAggroRadius: 10
+  BasicRadius: 1.7
+  SpecialRadius: 4
+  UltimateRadius: 2.5
+  DroppableItems:
+  - {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+  - {fileID: 11400000, guid: f8d2cc8af0d003f4089175c91831d3e8, type: 2}
+  - {fileID: 11400000, guid: 0209853a18859294c8b920bcb91c6f40, type: 2}
+  - {fileID: 11400000, guid: f526a9de7f301414298f892e39924b5a, type: 2}
+  - {fileID: 11400000, guid: f71860372344a804db5c392f48f87e41, type: 2}
+  - {fileID: 11400000, guid: 85a16d84b40bb2e46b2d79510b9724a3, type: 2}
+  - {fileID: 11400000, guid: 95603b398c485eb4ba56911e9dcc2714, type: 2}
+  - {fileID: 11400000, guid: 764f1db1e2ac0d041b607c12c3d7c3fd, type: 2}
+  PassiveAbility: {fileID: 11400000, guid: 4880f00c4d423a340aaf4d14893dd04c, type: 2}
+  BasicAbility: {fileID: 11400000, guid: 537feda99b554d24a8d449c06865e02b, type: 2}
+  SpecialAbility: {fileID: 11400000, guid: 263ff08f73a079c408f88e50eefd75dd, type: 2}
+  UltimateAbility: {fileID: 11400000, guid: fca6972f2e4459e49b858cfd6b3dbe18, type: 2}

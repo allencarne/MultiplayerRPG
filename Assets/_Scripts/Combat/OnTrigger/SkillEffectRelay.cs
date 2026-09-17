@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -90,7 +91,31 @@ public class SkillEffectRelay : NetworkBehaviour
         triggerCtx.Target = hitObj;
 
         // Execute all effects
-        foreach (SkillEffect effect in onTriggerEffects) effect.Execute(owner, triggerCtx);
+        foreach (SkillEffect effect in onTriggerEffects)
+        {
+            if (effect == null) continue;
+
+            int repeatCount = Mathf.Max(1, effect.GetRepeatCount());
+            float repeatInterval = effect.GetRepeatInterval();
+
+            if (repeatCount > 1 || repeatInterval > 0f)
+            {
+                // schedule repeated execution on the owner (must be a MonoBehaviour)
+                if (owner != null)
+                {
+                    owner.StartCoroutine(RunRepeatedEffect(effect, triggerCtx, repeatCount, repeatInterval));
+                }
+                else
+                {
+                    // fallback: execute once
+                    effect.Execute(owner, triggerCtx);
+                }
+            }
+            else
+            {
+                effect.Execute(owner, triggerCtx);
+            }
+        }
 
         // mark target as triggered
         if (singleUsePerTarget && hitObj != null) triggeredTargets.Add(hitObj.NetworkObjectId);
@@ -99,6 +124,22 @@ public class SkillEffectRelay : NetworkBehaviour
         if (damageable != null)
         {
             HitSparkClientRPC(hitPosition, rotation, collision.transform.position);
+        }
+    }
+
+    IEnumerator RunRepeatedEffect(SkillEffect effect, SkillContext ctx, int count, float interval)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            effect.Execute(owner, ctx);
+
+            if (i < count - 1)
+            {
+                if (interval > 0f)
+                    yield return new WaitForSeconds(interval);
+                else
+                    yield return null; // yield a frame to avoid tight loop
+            }
         }
     }
 

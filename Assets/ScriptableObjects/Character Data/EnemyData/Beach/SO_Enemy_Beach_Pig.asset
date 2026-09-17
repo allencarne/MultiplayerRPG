@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa1fd1e28b21ce46a1b2a2f6cec851c, type: 3}
+  m_Name: SO_Enemy_Beach_Pig
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  Enemy_ID: pig
+  Enemy_Name: Pig
+  Enemy_Level: 6
+  Enemy_Type: 0
+  ExpToGive: 9
+  TotalPatience: 5
+  StartingHealth: 55
+  StartingDamage: 9
+  StartingAS: 1
+  StartingCDR: 1
+  StartingSpeed: 2
+  StartingArmor: 0
+  StartingHealthRegeneration: 1
+  WanderRadius: 5
+  DeAggroRadius: 10
+  BasicRadius: 2
+  SpecialRadius: 10
+  UltimateRadius: 2.5
+  DroppableItems:
+  - {fileID: 11400000, guid: d24630e7a3e38914ca357daa4ecf5457, type: 2}
+  - {fileID: 11400000, guid: f8d2cc8af0d003f4089175c91831d3e8, type: 2}
+  - {fileID: 11400000, guid: fb1590b6b631dd7479bd66ca561deed5, type: 2}
+  PassiveAbility: {fileID: 11400000, guid: 4880f00c4d423a340aaf4d14893dd04c, type: 2}
+  BasicAbility: {fileID: 11400000, guid: 83df5253b09319646bb47b75d21b8d63, type: 2}
+  SpecialAbility: {fileID: 11400000, guid: 4709bcff8d1b0044eacade6539651293, type: 2}
+  UltimateAbility: {fileID: 11400000, guid: 3b4cf7a246ac95142a695469b3c8819c, type: 2}

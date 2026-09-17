@@ -17,6 +17,7 @@ public class NPCData : ScriptableObject
     public int AttackSpeed;
     public int CoolDownRecution;
     public float Armor;
+    public float HealthRegeneration;
 
     public float TotalPatience;
 

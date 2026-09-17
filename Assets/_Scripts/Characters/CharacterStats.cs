@@ -150,8 +150,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         // Make sure the heal cannot restore more health than the character is missing.
         float actualHeal = Mathf.Min(healAmount, missingHealth);
 
-        // Round the final healing amount down to a whole number.
-        int roundedHeal = Mathf.FloorToInt(actualHeal);
+        // Round the final healing amount to the nearest whole number.
+        int roundedHeal = Mathf.RoundToInt(actualHeal);
 
         // Add the healing amount to the character's current health.
         net_CurrentHP.Value += roundedHeal;
