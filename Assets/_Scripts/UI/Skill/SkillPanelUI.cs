@@ -86,6 +86,7 @@ public class SkillPanelUI : MonoBehaviour
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
         InvokeRepeating("SetYellowBorders", 0, 1);
         InvokeRepeating("SetBlueBorders", 0, 1);
+        RefreshLocks();
     }
 
     private void OnDisable()
