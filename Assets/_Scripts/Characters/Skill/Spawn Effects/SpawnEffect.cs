@@ -165,8 +165,15 @@ public class SpawnEffect: NetworkedSpawnEffect
         DespawnDelay despawn = instance.GetComponent<DespawnDelay>();
         if (despawn != null && Duration > 0f) despawn.StartCoroutine(despawn.DespawnAfterDuration(Duration));
 
-        DestroyOnDeath death = instance.GetComponent<DestroyOnDeath>();
-        if (death != null) death.stats = owner.Stats;
+        DestroyOnDeath destroyOnDeath = instance.GetComponent<DestroyOnDeath>();
+        if (destroyOnDeath != null)
+        {
+            destroyOnDeath.stats = owner.Stats;
+            destroyOnDeath.DestroyOnInterrupt = CancelOnInterrupt;
+            destroyOnDeath.DestroyOnStagger = CancelOnStagger;
+            destroyOnDeath.crowdControl = owner.CrowdControl;
+
+        }
     }
 
     public override int GetRepeatCount() => Mathf.Max(1, RepeatAmount);

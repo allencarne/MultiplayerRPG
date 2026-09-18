@@ -49,9 +49,8 @@ public abstract class StateMachine : NetworkBehaviour
             return;
         }
 
-        networkObject.Spawn();
-
         effect.Configure(instance, this, context);
+        networkObject.Spawn();
     }
 
     [ServerRpc]
