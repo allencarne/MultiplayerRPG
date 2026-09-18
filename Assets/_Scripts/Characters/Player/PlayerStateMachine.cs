@@ -124,8 +124,8 @@ public class PlayerStateMachine : StateMachine
 
     public void Roll()
     {
-        if (CrowdControl.stun.IsStunned) return;
         if (!CanRoll) return;
+        if (IsAttacking) return;
 
         if (Input.RollInput)
         {

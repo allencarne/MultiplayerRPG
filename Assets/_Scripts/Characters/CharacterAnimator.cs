@@ -77,32 +77,20 @@ public class CharacterAnimator : MonoBehaviour
         PrimaryAnimator.Play(animationType + " " + animationState);
     }
 
-    public void PlayStaggerAnimation()
+    public void SetStaggerFrozen(bool frozen)
     {
-        // For Players and NPC's only
+        float speed = frozen ? 0f : 1f;
 
-        // Stop all animations
-        HeadAnimator.speed = 0;
-        BodyAnimator.speed = 0;
-        ChestAnimator.speed = 0;
-        LegsAnimator.speed = 0;
-        WeaponAnimator.speed = 0;
+        if (HeadAnimator) HeadAnimator.speed = speed;
+        if (BodyAnimator) BodyAnimator.speed = speed;
+        if (ChestAnimator) ChestAnimator.speed = speed;
+        if (LegsAnimator) LegsAnimator.speed = speed;
+        if (WeaponAnimator) WeaponAnimator.speed = speed;
 
-        // Player Spawn Animation to Hide Clothes
+        //Hide Clothes
+        HeadAnimator.Play("Spawn");
         ChestAnimator.Play("Spawn");
         LegsAnimator.Play("Spawn");
-    }
-
-    public void EndStaggerAnimation()
-    {
-        // For Players and NPC's only
-
-        // Stop all animations
-        HeadAnimator.speed = 1;
-        BodyAnimator.speed = 1;
-        ChestAnimator.speed = 1;
-        LegsAnimator.speed = 1;
-        WeaponAnimator.speed = 1;
     }
 
     public void SetDirection(Vector2 direction)

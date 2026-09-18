@@ -9,19 +9,7 @@ public class PlayerStaggerState : PlayerState
     public override void EnterState()
     {
         if (!owner.IsOwner) return;
-
-        owner.Animator.PlayStaggerAnimation();
-
-        // Stop all animations
-        //owner.PlayerHeadAnimator.speed = 0;
-        //owner.BodyAnimator.speed = 0;
-        //owner.ChestAnimator.speed = 0;
-        //owner.LegsAnimator.speed = 0;
-        //owner.WeaponAnimator.speed = 0;
-
-        // Player Spawn Animation to Hide Clothes
-        //owner.ChestAnimator.Play("Spawn");
-        //owner.LegsAnimator.Play("Spawn");
+        owner.Animator.SetStaggerFrozen(true);
     }
 
     public override void UpdateState()
@@ -33,17 +21,13 @@ public class PlayerStaggerState : PlayerState
         // Check if the player is no longer crowd controlled
         if (!owner.CrowdControl.IsCrowdControlled)
         {
-            owner.Animator.EndStaggerAnimation();
-
-            // Resume all animations
-            //owner.PlayerHeadAnimator.speed = 1;
-            //owner.BodyAnimator.speed = 1;
-            //owner.ChestAnimator.speed = 1;
-            //owner.LegsAnimator.speed = 1;
-            //owner.WeaponAnimator.speed = 1;
-
-            // Transition to Idle state
+            //owner.Animator.EndStaggerAnimation();
             owner.SetState(new PlayerIdleState(owner));
         }
+    }
+
+    public override void ExitState()
+    {
+        owner.Animator.SetStaggerFrozen(false);
     }
 }

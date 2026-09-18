@@ -6,9 +6,7 @@ public class NPCStaggerState : NPCState
     public override void EnterState()
     {
         if (!owner.IsServer) return;
-
-        // Stop all animations
-        owner.Animator.PlayStaggerAnimation();
+        owner.Animator.SetStaggerFrozen(true);
     }
 
     public override void UpdateState()
@@ -20,9 +18,6 @@ public class NPCStaggerState : NPCState
         // Check if the NPC is no longer crowd controlled
         if (!owner.CrowdControl.IsCrowdControlled)
         {
-            // Resume all animations
-            owner.Animator.EndStaggerAnimation();
-
             //Transition to the appropriate state based on whether the NPC is resetting or not
             if (owner.isResetting)
             {
@@ -33,5 +28,10 @@ public class NPCStaggerState : NPCState
                 owner.TransitionToIdle();
             }
         }
+    }
+
+    public override void ExitState()
+    {
+        owner.Animator.SetStaggerFrozen(false);
     }
 }
