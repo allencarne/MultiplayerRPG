@@ -43,7 +43,6 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDeath;
 
     [HideInInspector] public UnityEvent OnDeath;
-    [HideInInspector] public UnityEvent OnInterrupted;
 
     public float TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
     {

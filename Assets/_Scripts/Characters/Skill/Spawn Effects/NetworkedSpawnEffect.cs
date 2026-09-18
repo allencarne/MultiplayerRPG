@@ -8,6 +8,10 @@ public abstract class NetworkedSpawnEffect : SkillEffect
     [Header("Spawn Position")]
     public bool UseCurrentPosition;
 
+    [Header("Cancel on Crowd Control")]
+    public bool CancelOnInterrupt = false;
+    public bool CancelOnStagger = false;
+
     public sealed override void Execute(StateMachine owner, SkillContext ctx)
     {
         if (UseCurrentPosition)

@@ -20,6 +20,7 @@ public class CrowdControl : NetworkBehaviour
     knockUp.IsKnockedUp ||
     pull.IsPulled;
 
+    [HideInInspector] public UnityEvent OnInterrupted;
     [HideInInspector] public UnityEvent OnStagger;
     [HideInInspector] public UnityEvent OnStaggerEnd;
 }

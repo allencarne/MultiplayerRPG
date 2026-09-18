@@ -109,7 +109,7 @@ public class NPCStateMachine : StateMachine
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
-        npc.stats.OnInterrupted?.Invoke();
+        CrowdControl.OnInterrupted?.Invoke();
 
         CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
@@ -120,6 +120,8 @@ public class NPCStateMachine : StateMachine
         if (npc.stats.isDead) return;
 
         CastBar.StartInterrupt();
+
+        CrowdControl?.OnStagger?.Invoke();
 
         if (CurrentSkill != null)
         {

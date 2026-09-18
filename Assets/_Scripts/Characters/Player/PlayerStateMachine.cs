@@ -98,7 +98,7 @@ public class PlayerStateMachine : StateMachine
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
-        PlayerStats.OnInterrupted?.Invoke();
+        CrowdControl.OnInterrupted?.Invoke();
 
         CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
@@ -109,6 +109,8 @@ public class PlayerStateMachine : StateMachine
         if (PlayerStats.isDead) return;
 
         CastBar.StartInterrupt();
+
+        CrowdControl?.OnStagger?.Invoke();
 
         if (CurrentSkill != null)
         {

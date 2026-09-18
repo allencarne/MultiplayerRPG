@@ -147,7 +147,7 @@ public class EnemyStateMachine : StateMachine
         if (CurrentSkill == null) return;
         if (CurrentSkill.currentState != ActiveSkillData.SkillPhase.Cast) return;
 
-        enemy.stats.OnInterrupted?.Invoke();
+        CrowdControl.OnInterrupted?.Invoke();
 
         CastBar.StartInterrupt();
         CurrentSkill.DoneState(false, this);
@@ -158,6 +158,8 @@ public class EnemyStateMachine : StateMachine
         if (enemy.stats.isDead) return;
 
         CastBar.StartInterrupt();
+
+        CrowdControl?.OnStagger?.Invoke();
 
         if (CurrentSkill != null)
         {

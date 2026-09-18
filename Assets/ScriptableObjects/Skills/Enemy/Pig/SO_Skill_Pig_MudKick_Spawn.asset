@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnEffect
   Prefab: {fileID: 2910738916963446548, guid: ec57f3b017287dc4e9feaff675964208, type: 3}
   UseCurrentPosition: 0
+  CancelOnInterrupt: 0
+  CancelOnStagger: 0
+  Spark: {fileID: 0}
+  SpecialSpark: {fileID: 0}
   Amount: 1
   RepeatAmount: 1
   RepeatRate: 0
@@ -26,6 +30,8 @@ MonoBehaviour:
   IgnorePlayer: 0
   IgnoreEnemy: 1
   IgnoreNPC: 0
+  IgnoreAttacker: 1
+  SingleTriggerPerTarget: 0
   IsBreakable: 0
   OnTriggerEffects:
   - {fileID: 11400000, guid: 1511b5d7ee8723f43bfc7981a7dfe9a2, type: 2}

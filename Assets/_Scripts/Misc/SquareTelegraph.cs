@@ -6,19 +6,28 @@ public class SquareTelegraph : NetworkBehaviour, ITelegraph
     [SerializeField] SpriteRenderer frontSprite;
     CharacterStats stats;
     float fillSpeed;
+    CrowdControl crowdControl;
+    bool listenInterrupt;
+    bool listenStagger;
 
-    public void Init(CharacterStats _stats, float _fillDuration)
+    public void Init(CharacterStats _stats, float _fillDuration, CrowdControl _crowdControl, bool cancelOnInterrupt, bool cancelOnStagger)
     {
         stats = _stats;
         fillSpeed = _fillDuration;
-        stats.OnInterrupted.AddListener(Destroy);
+        crowdControl = _crowdControl;
+        listenInterrupt = cancelOnInterrupt;
+        listenStagger = cancelOnStagger;
+
+        if (listenInterrupt) crowdControl.OnInterrupted.AddListener(Destroy);
+        if (listenStagger) crowdControl.OnStagger.AddListener(Destroy);
         stats.OnDeath.AddListener(Destroy);
     }
 
     private void OnDisable()
     {
         if (stats == null) return;
-        stats.OnInterrupted.RemoveListener(Destroy);
+        if (listenInterrupt) crowdControl.OnInterrupted.RemoveListener(Destroy);
+        if (listenStagger) crowdControl.OnStagger.RemoveListener(Destroy);
         stats.OnDeath.RemoveListener(Destroy);
     }
 
