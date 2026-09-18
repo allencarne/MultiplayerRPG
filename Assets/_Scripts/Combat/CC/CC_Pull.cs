@@ -77,8 +77,6 @@ public class CC_Pull : NetworkBehaviour, IPullable
 
             localPullElapsed = 0f;
             localPullTotal = remainingTime;
-
-            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -90,7 +88,7 @@ public class CC_Pull : NetworkBehaviour, IPullable
             localPullElapsed = 0f;
             localPullTotal = 0f;
 
-            if (!crowdControl.IsCrowdControlled)
+            if (!IsServer && !crowdControl.IsCrowdControlled)
             {
                 crowdControl.OnStaggerEnd?.Invoke();
             }
@@ -105,11 +103,15 @@ public class CC_Pull : NetworkBehaviour, IPullable
 
             if (pullElapsedTime >= pullTotalDuration)
             {
-                BroadcastClientRPC(false);
                 IsPulled = false;
-
                 pullElapsedTime = 0f;
                 pullTotalDuration = 0f;
+                BroadcastClientRPC(false);
+
+                if (!crowdControl.IsCrowdControlled)
+                {
+                    crowdControl.OnStaggerEnd?.Invoke();
+                }
             }
         }
     }

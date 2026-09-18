@@ -84,8 +84,6 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             localStunElapsed = 0f;
             localStunTotal = remainingTime;
-
-            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -97,7 +95,7 @@ public class CC_Stun : NetworkBehaviour, IStunnable
             localStunElapsed = 0f;
             localStunTotal = 0f;
 
-            if (!crowdControl.IsCrowdControlled)
+            if (!IsServer && !crowdControl.IsCrowdControlled)
             {
                 crowdControl.OnStaggerEnd?.Invoke();
             }
@@ -112,11 +110,15 @@ public class CC_Stun : NetworkBehaviour, IStunnable
 
             if (stunElapsedTime >= stunTotalDuration)
             {
-                BroadcastClientRPC(false, 0);
                 IsStunned = false;
-
                 stunElapsedTime = 0f;
                 stunTotalDuration = 0f;
+                BroadcastClientRPC(false, 0);
+
+                if (!crowdControl.IsCrowdControlled)
+                {
+                    crowdControl.OnStaggerEnd?.Invoke();
+                }
             }
         }
     }

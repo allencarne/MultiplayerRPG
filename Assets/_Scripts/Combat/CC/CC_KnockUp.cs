@@ -84,8 +84,6 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
             localKnockUpElapsed = 0f;
             localKnockUpTotal = remainingTime;
-
-            crowdControl.OnStagger?.Invoke();
         }
         else
         {
@@ -97,7 +95,7 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
             localKnockUpElapsed = 0f;
             localKnockUpTotal = 0f;
 
-            if (!crowdControl.IsCrowdControlled)
+            if (!IsServer && !crowdControl.IsCrowdControlled)
             {
                 crowdControl.OnStaggerEnd?.Invoke();
             }
@@ -118,11 +116,15 @@ public class CC_KnockUp : NetworkBehaviour, IKnockupable
 
             if (knockupElapsedTime >= knockupTotalDuration)
             {
-                BroadcastClientRPC(false, 0);
                 IsKnockedUp = false;
-
                 knockupElapsedTime = 0f;
                 knockupTotalDuration = 0f;
+                BroadcastClientRPC(false, 0);
+
+                if (!crowdControl.IsCrowdControlled)
+                {
+                    crowdControl.OnStaggerEnd?.Invoke();
+                }
             }
         }
     }
