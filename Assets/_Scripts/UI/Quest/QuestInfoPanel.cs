@@ -246,11 +246,14 @@ public class QuestInfoPanel : MonoBehaviour
     void RefreshRewardRequirements()
     {
         // If there is no current quest, we cannot refresh the reward requirements
-        if (currentQuest == null) return;
+        if (currentQuest == null || currentQuest.QuestRewards == null) return;
 
         // Loop through each reward item and update its icon color based on whether the player can use it
         foreach (Item reward in currentQuest.QuestRewards)
         {
+            // If the reward is null, skip to the next iteration
+            if (reward == null) continue;
+
             // Loop through each child of the rewardListUI to find the corresponding UI element for this reward
             foreach (Transform child in rewardListUI.transform)
             {

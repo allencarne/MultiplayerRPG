@@ -247,10 +247,14 @@ public class PlayerQuest : MonoBehaviour
         // Remove collected items from inventory
         RemoveQuestItems(progress);
 
-        foreach (Item reward in quest.QuestRewards)
+        if (quest.QuestRewards != null)
         {
-            InventorySlotData rewardSlot = reward.ItemStatRules.BuildItemData(reward);
-            inventory.AddItem(rewardSlot);
+            foreach (Item reward in quest.QuestRewards)
+            {
+                if (reward == null) continue;
+                InventorySlotData rewardSlot = reward.ItemStatRules.BuildItemData(reward);
+                inventory.AddItem(rewardSlot);
+            }
         }
 
         InventorySlotData coinReward = new InventorySlotData(coin, quest.goldReward,ItemRarity.Common, ItemQuality.Normal);

@@ -214,7 +214,7 @@ public class PlayerSave : NetworkBehaviour
     {
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 10);
+        float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 100);
         float currentHealth = PlayerPrefs.GetFloat($"{slot}CurrentHealth", health);
         float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", 1);
 
