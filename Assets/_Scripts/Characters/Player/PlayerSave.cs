@@ -226,7 +226,7 @@ public class PlayerSave : NetworkBehaviour
         float currentEnd = PlayerPrefs.GetFloat($"{slot}CurrentEndurance", end);
         float endRegen = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
 
-        float damage = PlayerPrefs.GetFloat($"{slot}Damage", 1);
+        float damage = PlayerPrefs.GetFloat($"{slot}Damage", 10);
         float attackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
         float cdr = PlayerPrefs.GetFloat($"{slot}CDR", 1);
         float armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);

@@ -179,6 +179,10 @@ public class EnemyStateMachine : StateMachine
                 SetState(new EnemyIdleState(this));
                 break;
 
+            case EnemyType.Giant:
+                SetState(new EnemyIdleState(this));
+                break;
+
             case EnemyType.Dummy:
                 SetState(new DummyIdleState(this));
                 break;
@@ -190,6 +194,10 @@ public class EnemyStateMachine : StateMachine
         switch (enemy.Data.Enemy_Type)
         {
             case EnemyType.Enemy:
+                SetState(new EnemyResetState(this));
+                break;
+
+            case EnemyType.Giant:
                 SetState(new EnemyResetState(this));
                 break;
 

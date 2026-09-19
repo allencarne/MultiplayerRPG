@@ -3,21 +3,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/Character/EnemyData")]
 public class EnemyData : ScriptableObject
 {
+    public EnemyScailingData Scaling;
+
     public string Enemy_ID;
     public string Enemy_Name;
     public int Enemy_Level;
     public EnemyType Enemy_Type;
 
-    public float ExpToGive;
+    public float ExpToGive => Scaling.GetExp(Enemy_Level, Enemy_Type);
     public float TotalPatience;
 
     [Header("Stats")]
-    public float StartingHealth;
-    public float StartingDamage;
+    public float StartingHealth => Scaling.GetHealth(Enemy_Level, Enemy_Type);
+    public float StartingDamage => Scaling.GetDamage(Enemy_Level, Enemy_Type);
     public float StartingAS;
     public float StartingCDR;
     public float StartingSpeed;
-    public float StartingArmor;
+    public float StartingArmor => Scaling.GetArmor(Enemy_Level, Enemy_Type);
     public float StartingHealthRegeneration;
 
     [Header("Enemy Radius")]
@@ -42,5 +44,6 @@ public class EnemyData : ScriptableObject
 public enum EnemyType
 {
     Enemy,
+    Giant,
     Dummy
 }

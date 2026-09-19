@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa1fd1e28b21ce46a1b2a2f6cec851c, type: 3}
   m_Name: SO_Enemy_Beach_Seagull_Giant
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  Scaling: {fileID: 11400000, guid: b934e38b408211d43998f0ed0e8a51a0, type: 2}
   Enemy_ID: giant_seagull
   Enemy_Name: Giant Seagull
   Enemy_Level: 3
-  Enemy_Type: 0
-  ExpToGive: 9
+  Enemy_Type: 1
   TotalPatience: 5
-  StartingHealth: 45
-  StartingDamage: 5
   StartingAS: 1
   StartingCDR: 1
   StartingSpeed: 2
-  StartingArmor: 0
   StartingHealthRegeneration: 1
   WanderRadius: 5
   DeAggroRadius: 10
