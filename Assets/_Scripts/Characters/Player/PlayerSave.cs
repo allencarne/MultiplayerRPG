@@ -216,7 +216,7 @@ public class PlayerSave : NetworkBehaviour
 
         float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 100);
         float currentHealth = PlayerPrefs.GetFloat($"{slot}CurrentHealth", health);
-        float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", 1);
+        float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", 10);
 
         float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", 30);
         float currentMana = PlayerPrefs.GetFloat($"{slot}CurrentMana", mana);

@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebcc8d27a6b4caa4aa73772fff9b8321, type: 3}
-  m_Name: SO_Item_Beginner_LeafRing
-  m_EditorClassIdentifier: Assembly-CSharp::Equipment
-  ITEM_ID: eq_leaf_ring
-  Prefab: {fileID: 7899576934118297172, guid: ff1b00920f8642548ae8f34daa857255, type: 3}
-  Icon: {fileID: 21300000, guid: 049e6183b29ee9948a1b10fddf8093cd, type: 3}
+  m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
+  m_Name: SO_Item_Archer_Bow_WoodenBow
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  ITEM_ID: bow_wooden
+  Prefab: {fileID: 1516595219366365531, guid: 319a713e66c6ace4da60c3d31896af0e, type: 3}
+  Icon: {fileID: 21300000, guid: ae0cb53ca4f15e643a7b62ee0c1fafaf, type: 3}
   Description: 
-  SellValue: 3
-  Cost: 0
-  DropChance: 6
+  SellValue: 1
+  Cost: 1
+  DropChance: 100
   IsStackable: 0
-  ItemCategory: 1
+  ItemCategory: 0
   ItemRarity: 0
   ItemQuality: 0
   rarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
@@ -28,10 +28,8 @@ MonoBehaviour:
   ItemStatRules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
   AnimationIndex: 0
   LevelRequirement: 5
-  equipmentType: 3
-  ClassRequirement: 0
-  modifiers:
-  - value: 9
-    statType: 0
-    source: 0
-    modType: 0
+  equipmentType: 5
+  ClassRequirement: 4
+  modifiers: []
+  weaponSprite: {fileID: -3701230632525560514, guid: 2ddd9db25df8da048b2490d8f7cdb0e9, type: 3}
+  weaponType: 2
