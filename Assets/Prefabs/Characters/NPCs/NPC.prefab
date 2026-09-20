@@ -165,7 +165,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  borderImage: {fileID: 7227378637623894782}
+  outOfCombatColor: {r: 1, g: 1, b: 1, a: 1}
+  inCombatColor: {r: 0.35686275, g: 0, b: 0, a: 0.7254902}
   stats: {fileID: 6038468416201059741}
+  combat: {fileID: 203235246342025166}
   healthBar: {fileID: 4678726492327112400}
   healthBar_Back: {fileID: 1213457383435907860}
 --- !u!114 &3652510914053340914
@@ -3380,6 +3384,11 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  net_BaseHealthRegen:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -3397,9 +3406,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  OnInterrupted:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4856348772391820444
@@ -3633,6 +3639,9 @@ MonoBehaviour:
   knockUp: {fileID: 997002833693817929}
   pull: {fileID: 6337960835322944255}
   interrupt: {fileID: 5421379036071635315}
+  OnInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
   OnStagger:
     m_PersistentCalls:
       m_Calls: []

@@ -5530,7 +5530,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  borderImage: {fileID: 3915695176270634388}
+  outOfCombatColor: {r: 1, g: 1, b: 1, a: 1}
+  inCombatColor: {r: 0.35686275, g: 0, b: 0, a: 0.7254902}
   stats: {fileID: 2477393547595159198}
+  combat: {fileID: 9030425613106665501}
   healthBar: {fileID: 2971390234961832005}
   healthBar_Back: {fileID: 7699765498428556517}
 --- !u!114 &8785762146455488116
@@ -23063,7 +23067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -23238,9 +23242,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  OnInterrupted:
     m_PersistentCalls:
       m_Calls: []
   net_CharacterSlot:
@@ -23730,6 +23731,9 @@ MonoBehaviour:
   knockUp: {fileID: 7837662349585901939}
   pull: {fileID: 5736713197127442165}
   interrupt: {fileID: 667601083996839834}
+  OnInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
   OnStagger:
     m_PersistentCalls:
       m_Calls: []
