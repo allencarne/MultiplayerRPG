@@ -39,7 +39,7 @@ public class ItemStatRules : ScriptableObject
 
     readonly StatType[] AllRollableStats = { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp, StatType.Mana, StatType.ManaRegen};
 
-    public void RollStats(InventorySlotData slot)
+    public void RollStats(InventorySlotData slot, float rarityBoost = 0f)
     {
         // Safety Check
         if (slot == null) return;
@@ -54,7 +54,7 @@ public class ItemStatRules : ScriptableObject
         if (equipment == null) return;
 
         // Randomly determine the rarity based on level
-        slot.rarity = RollRarity(equipment.LevelRequirement);
+        slot.rarity = RollRarity(equipment.LevelRequirement, rarityBoost);
 
         // If no quality exist yet, use the item's default quality
         if (slot.quality == 0) slot.quality = slot.item.ItemQuality;
@@ -374,15 +374,14 @@ public class ItemStatRules : ScriptableObject
         return optionCount - 1;
     }
 
-    ItemRarity RollRarity(int itemLevel)
+    ItemRarity RollRarity(int itemLevel, float rarityBoost = 0f)
     {
-        // Determine the highest rarity this level can roll
         int maxRarityIndex = GetMaxRarityIndexForLevel(itemLevel);
 
-        // Randomly choose one using weighted odds
-        int rolledIndex = WeightedRandomIndex(maxRarityIndex + 1, rarityDecayFactor);
+        // Nudge the decay up, but keep it inside the valid range
+        float decay = Mathf.Clamp(rarityDecayFactor + rarityBoost, 0.01f, 0.99f);
 
-        // Convert the integer back into the ItemRarity enum
+        int rolledIndex = WeightedRandomIndex(maxRarityIndex + 1, decay);
         return (ItemRarity)rolledIndex;
     }
 

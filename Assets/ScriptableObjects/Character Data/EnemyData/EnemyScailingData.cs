@@ -53,4 +53,10 @@ public class EnemyScailingData : ScriptableObject
     }
 
     public float GetExp(int level, EnemyType type) => (IsGiant(type) ? GiantExp : BaseExp) * Mathf.Pow(1f + ExpGrowth, level - 1) * ExpMult;
+
+    [Header("Giant Drops")]
+    [Tooltip("Added to the rarity decay factor when rolling drops. Higher = better chance at rare items.")]
+    [Range(0f, 0.5f)] public float GiantRarityBoost = 0.15f;
+
+    public float GetRarityBoost(EnemyType type) => IsGiant(type) ? GiantRarityBoost : 0f;
 }

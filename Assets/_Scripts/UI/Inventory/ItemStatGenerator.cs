@@ -18,7 +18,7 @@ public class ItemStatGenerator : NetworkBehaviour
         base.OnDestroy();
     }
 
-    public void RollStats()
+    public void RollStats(float rarityBoost = 0f)
     {
         // Only the server is allowed to generate item stats
         if (!IsServer) return;
@@ -34,7 +34,7 @@ public class ItemStatGenerator : NetworkBehaviour
             InventorySlotData temp = new InventorySlotData(Item, net_Quantity.Value, net_ItemRarity.Value, net_ItemQuality.Value, GetRolledModifiers());
 
             // Hand the actual rolling off to the shared rules asset
-            Item.ItemStatRules.RollStats(temp);
+            Item.ItemStatRules.RollStats(temp, rarityBoost);
 
             // Copy the generated values back into the network variables
             net_ItemRarity.Value = temp.rarity;
