@@ -4,44 +4,44 @@ using UnityEngine;
 public class EnemyScailingData : ScriptableObject
 {
     [Header("Level 1 Baseline")]
-    public float BaseHealth = 30f;
-    public float BaseDamage = 12f;
-    public float BaseExp = 1f;
+    public float BaseHealth;
+    public float BaseDamage;
+    public float BaseExp;
 
     [Header("Giant Level 1 Baseline")]
-    public float GiantHealth = 300f;
-    public float GiantDamage = 18f;
-    public float GiantExp = 10f;
-    public float GiantArmorMult = 1.5f;
+    public float GiantHealth;
+    public float GiantDamage;
+    public float GiantExp;
+    public float GiantArmorMult;
 
     [Header("Dummy")]
-    public float DummyHealth = 999f;
+    public float DummyHealth;
 
     [Header("Growth")]
-    public float HealthGrowth = 0.10f;
-    public float DamageGrowth = 0.06f;
-    public float ExpGrowth = 0.08f;
-    public float ArmorPerLevel = 1.5f;
+    public float HealthGrowth;
+    public float DamageGrowth;
+    public float ExpGrowth;
+    public float ArmorPerLevel;
 
     [Header("Multipliers")]
-    public float HealthMult = 1f;
-    public float DamageMult = 1f;
-    public float ArmorMult = 1f;
-    public float ExpMult = 1f;
+    public float HealthMult;
+    public float DamageMult;
+    public float ArmorMult;
+    public float ExpMult;
 
     [Header("Giant Drops")]
     [Tooltip("Added to the rarity decay factor when rolling drops. Higher = better chance at rare items.")]
-    [Range(0f, 0.5f)] public float GiantRarityBoost = 0.15f;
+    [Range(0f, 0.5f)] public float GiantRarityBoost;
 
     [Header("Currency / Collectable Drops")]
     [Tooltip("Max amount a regular enemy drops at level 1")]
-    public int BaseCurrencyMax = 3;
+    public int BaseCurrencyMax;
     [Tooltip("Giants drop this many times more than a regular enemy")]
-    public float GiantCurrencyMult = 5f;
+    public float GiantCurrencyMult;
     [Tooltip("Extra % per level (0.15 = +15% per level, same as your chests)")]
-    public float CurrencyGrowth = 0.15f;
+    public float CurrencyGrowth;
     [Tooltip("The minimum drop is this % of the max, so higher levels aren't 1-to-huge")]
-    [Range(0f, 1f)] public float CurrencyMinPercent = 0.33f;
+    [Range(0f, 1f)] public float CurrencyMinPercent;
 
     bool IsGiant(EnemyType type) => type == EnemyType.Giant;
 

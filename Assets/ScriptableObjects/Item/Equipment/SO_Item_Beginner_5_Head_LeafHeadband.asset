@@ -10,28 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebcc8d27a6b4caa4aa73772fff9b8321, type: 3}
-  m_Name: SO_Item_Beginner_Finger_LeafRing
-  m_EditorClassIdentifier: Assembly-CSharp::Equipment
-  ITEM_ID: eq_leaf_ring
-  Prefab: {fileID: 7899576934118297172, guid: ff1b00920f8642548ae8f34daa857255, type: 3}
-  Icon: {fileID: 21300000, guid: 049e6183b29ee9948a1b10fddf8093cd, type: 3}
+  m_Name: SO_Item_Beginner_5_Head_LeafHeadband
+  m_EditorClassIdentifier: 
+  ITEM_ID: eq_leaf_headband
+  Prefab: {fileID: 9220355923205499613, guid: a3c880d1e059aa84baf76f45fd900dc5, type: 3}
+  Icon: {fileID: 21300000, guid: c4b198c535e1ce54a8b6e59dafc37751, type: 3}
   Description: 
-  SellValue: 3
-  Cost: 0
-  DropChance: 6.5
+  SellValue: 2
+  Cost: 15
+  DropChance: 3.5
   IsStackable: 0
+  DropsInBulk: 0
   ItemCategory: 1
   ItemRarity: 0
   ItemQuality: 0
   rarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
   qualityInfo: {fileID: 11400000, guid: f693fa9a9dd7cb54282a7863ee51f585, type: 2}
   ItemStatRules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
-  AnimationIndex: 0
+  AnimationIndex: 2
   LevelRequirement: 5
-  equipmentType: 3
+  equipmentType: 0
   ClassRequirement: 0
   modifiers:
   - value: 9
-    statType: 0
+    statType: 5
     source: 0
     modType: 0

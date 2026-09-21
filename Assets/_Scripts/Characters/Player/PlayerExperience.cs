@@ -318,7 +318,7 @@ public class PlayerExperience : NetworkBehaviour
         if (IsOwner && oldValue > 0)
         {
             // Increase by +1 per level
-            stats.IncreaseStat(StatType.Health, 1);
+            stats.IncreaseStat(StatType.Health, 10);
             stats.IncreaseStat(StatType.Damage, 1);
             stats.IncreaseStat(StatType.Mana, 1);
 

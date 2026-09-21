@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
-  m_Name: SO_Item_Magician_Staff_WoodenStaff
+  m_Name: SO_Item_Archer_10_Bow_WoodenBow
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  ITEM_ID: staff_wooden
-  Prefab: {fileID: 5775562870878740852, guid: 73c4e8aeeb99e5f44b1be0c9d06d3759, type: 3}
-  Icon: {fileID: 21300000, guid: b0599852c637c4e49a7b168e03133d22, type: 3}
+  ITEM_ID: bow_wooden
+  Prefab: {fileID: 1516595219366365531, guid: 319a713e66c6ace4da60c3d31896af0e, type: 3}
+  Icon: {fileID: 21300000, guid: ae0cb53ca4f15e643a7b62ee0c1fafaf, type: 3}
   Description: 
   SellValue: 1
   Cost: 1
-  DropChance: 7
+  DropChance: 3
   IsStackable: 0
+  DropsInBulk: 0
   ItemCategory: 0
   ItemRarity: 0
   ItemQuality: 0
@@ -27,9 +28,9 @@ MonoBehaviour:
   qualityInfo: {fileID: 11400000, guid: f693fa9a9dd7cb54282a7863ee51f585, type: 2}
   ItemStatRules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
   AnimationIndex: 0
-  LevelRequirement: 50
+  LevelRequirement: 10
   equipmentType: 5
-  ClassRequirement: 3
+  ClassRequirement: 4
   modifiers: []
-  weaponSprite: {fileID: 8777992391397586351, guid: cc31b2defcc8d5f49aaed4e48b93f7ab, type: 3}
-  weaponType: 1
+  weaponSprite: {fileID: -3701230632525560514, guid: 2ddd9db25df8da048b2490d8f7cdb0e9, type: 3}
+  weaponType: 2

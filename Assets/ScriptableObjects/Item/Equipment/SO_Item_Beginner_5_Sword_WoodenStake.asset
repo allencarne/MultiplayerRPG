@@ -9,29 +9,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebcc8d27a6b4caa4aa73772fff9b8321, type: 3}
-  m_Name: SO_Item_Beginner_Legs_LeafSkirt
-  m_EditorClassIdentifier: 
-  ITEM_ID: eq_leaf_skirt
-  Prefab: {fileID: 1465705095098332978, guid: cd1b43c4ede736f43b0bed217e62d6b4, type: 3}
-  Icon: {fileID: 21300000, guid: 6ee014ea0d6c92f45a137988830a29d2, type: 3}
+  m_Script: {fileID: 11500000, guid: b9047d0175efcc24aa0379b2f2047afa, type: 3}
+  m_Name: SO_Item_Beginner_5_Sword_WoodenStake
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  ITEM_ID: sword_wooden_stake
+  Prefab: {fileID: 997650381998811472, guid: 1144c35ae21a5cd4f95c21643a035cdd, type: 3}
+  Icon: {fileID: 21300000, guid: ea5ab460bb0784342b160f32c0b87ccc, type: 3}
   Description: 
-  SellValue: 2
-  Cost: 15
-  DropChance: 6.5
+  SellValue: 1
+  Cost: 25
+  DropChance: 3.5
   IsStackable: 0
-  ItemCategory: 1
+  DropsInBulk: 0
+  ItemCategory: 0
   ItemRarity: 0
   ItemQuality: 0
   rarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
   qualityInfo: {fileID: 11400000, guid: f693fa9a9dd7cb54282a7863ee51f585, type: 2}
   ItemStatRules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
-  AnimationIndex: 2
+  AnimationIndex: 0
   LevelRequirement: 5
-  equipmentType: 2
+  equipmentType: 5
   ClassRequirement: 0
   modifiers:
   - value: 9
-    statType: 5
+    statType: 0
     source: 0
     modType: 0
+  weaponSprite: {fileID: 21300000, guid: a79247d0fc4dbcd4098f23c97a7a03b8, type: 3}
+  weaponType: 0

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SO_EnemyScailingData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyScailingData
   BaseHealth: 30
-  BaseDamage: 12
+  BaseDamage: 6
   BaseExp: 1
   GiantHealth: 300
-  GiantDamage: 18
+  GiantDamage: 14
   GiantExp: 10
   GiantArmorMult: 1.5
   DummyHealth: 999
@@ -29,3 +29,7 @@ MonoBehaviour:
   ArmorMult: 1
   ExpMult: 1
   GiantRarityBoost: 0.5
+  BaseCurrencyMax: 1
+  GiantCurrencyMult: 3
+  CurrencyGrowth: 0.15
+  CurrencyMinPercent: 0.33
