@@ -109,7 +109,7 @@ public class Indicator : MonoBehaviour
 
         if (useStick)
         {
-            Vector2 stickInput = Application.isMobilePlatform ? input.MoveInput : input.LookInput;
+            Vector2 stickInput = Application.isMobilePlatform ? input.MobileAimInput : input.LookInput;
 
             if (stickInput.magnitude > stickDeadzone)
             {

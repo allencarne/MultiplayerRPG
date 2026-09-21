@@ -86,18 +86,18 @@ public class Aimer : MonoBehaviour
 
     void RotateOnMobile()
     {
-        // Get the look input values
-        float horizontalLook = inputHandler.MoveInput.x;
-        float verticalLook = inputHandler.MoveInput.y;
+        Vector2 look;
 
-        // Check if there is input from the right stick
-        if (horizontalLook != 0 || verticalLook != 0)
-        {
-            // Calculate the rotation angle based on input
-            lastAngle = Mathf.Atan2(verticalLook, horizontalLook) * Mathf.Rad2Deg;
-        }
+        if (inputHandler.IsMobileAiming)
+            look = inputHandler.MobileAimInput;
+        else if (inputHandler.IsAnySkillPending)
+            return; // keep the aimed angle so the skill fires where you aimed
+        else
+            look = inputHandler.MoveInput; // normal facing while walking
 
-        // Apply rotation to the Aimer
+        if (look != Vector2.zero)
+            lastAngle = Mathf.Atan2(look.y, look.x) * Mathf.Rad2Deg;
+
         transform.rotation = Quaternion.Euler(0f, 0f, lastAngle);
     }
 }

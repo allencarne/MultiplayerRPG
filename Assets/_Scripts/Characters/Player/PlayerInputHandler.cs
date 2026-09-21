@@ -53,6 +53,34 @@ public class PlayerInputHandler : MonoBehaviour
     public event UnityAction<Vector2> ZoomPerformed;
     private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
+    public Vector2 MobileAimInput { get; private set; }
+    public bool IsMobileAiming { get; private set; }
+
+    [SerializeField] float mobileAimReleaseGrace = 0.25f;
+    float mobileAimReleasedTime = -999f;
+
+    public void SetMobileAim(Vector2 aim)
+    {
+        MobileAimInput = aim;
+        IsMobileAiming = true;
+    }
+
+    public void ClearMobileAim()
+    {
+        // Deliberately NOT zeroing MobileAimInput, so the frame where the
+        // button still reads as "held" keeps using the last aimed value.
+        IsMobileAiming = false;
+        mobileAimReleasedTime = Time.time;
+    }
+
+    public bool IsAnySkillPending =>
+        Time.time - mobileAimReleasedTime < mobileAimReleaseGrace ||
+        HasBufferedOffensiveInput || IsOffensiveReleased ||
+        HasBufferedMobilityInput || IsMobilityReleased ||
+        HasBufferedDefensiveInput || IsDefensiveReleased ||
+        HasBufferedUtilityInput || IsUtilityReleased ||
+        HasBufferedUltimateInput || IsUltimateReleased;
+
     private void Update()
     {
         BufferOffensive();
