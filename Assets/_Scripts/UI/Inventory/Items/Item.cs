@@ -27,6 +27,9 @@ public class Item : ScriptableObject
     // Indicates whether multiple instances of the item can be stacked in the inventory
     public bool IsStackable;
 
+    [Tooltip("If checked, enemies drop this in scaled amounts (coins, upgrade materials) instead of always 1")]
+    public bool DropsInBulk;
+
     // Item Category
     public ItemCategory ItemCategory;
 
