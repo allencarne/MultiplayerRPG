@@ -374,27 +374,41 @@ public class PlayerSave : NetworkBehaviour
         if (saveImmediately) PlayerPrefs.Save();
     }
 
-    public void SaveEquipment(Item item, int slotIndex)
+    public void SaveEquipment(InventorySlotData slotData, int slotIndex)
     {
         // Save the equipment slot for the currently selected character
         string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
         string key = $"{prefix}EquipmentSlot_{slotIndex}";
 
-        // If the item is null, delete the key to clear the slot
-        if (item == null)
+        // If the slot is empty, delete the key to clear the slot
+        if (slotData == null || slotData.item == null)
         {
             PlayerPrefs.DeleteKey(key);
             PlayerPrefs.Save();
             return;
         }
 
-        // Save the item name in the format "ItemName"
-        string baseName = item.name.Replace("(Clone)", "").Trim();
+        string baseName = slotData.item.name.Replace("(Clone)", "").Trim();
+        ItemRarity rarity = slotData.rarity;
+        ItemQuality quality = slotData.quality;
+        List<StatModifier> modifiers = slotData.modifiers ?? new List<StatModifier>();
 
-        // Save the value to PlayerPrefs
-        PlayerPrefs.SetString(key, baseName);
+        // Serialize modifiers as: value,statTypeInt,sourceInt;value,...
+        StringBuilder modsSb = new StringBuilder();
+        for (int i = 0; i < modifiers.Count; i++)
+        {
+            StatModifier m = modifiers[i];
+            modsSb.Append(m.value)
+                  .Append(',')
+                  .Append((int)m.statType)
+                  .Append(',')
+                  .Append((int)m.source);
+            if (i < modifiers.Count - 1) modsSb.Append(';');
+        }
 
-        // Save immediately
+        // Format: ItemName|Rarity|Quality|mods
+        string value = $"{baseName}|{rarity}|{quality}|{modsSb}";
+        PlayerPrefs.SetString(key, value);
         PlayerPrefs.Save();
     }
 

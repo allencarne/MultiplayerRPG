@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
@@ -56,7 +57,7 @@ public class EquipmentManager : MonoBehaviour
         equipmentUI.UpdateUI(newSlot, oldSlot);
         equipment.OnEquipmentChanged(newSlot, oldSlot);
         currentEquipment[slotIndex] = newSlot;
-        save.SaveEquipment(newItem, slotIndex);
+        save.SaveEquipment(newSlot, slotIndex);
         inventory.inventoryUI.UpdateUI();
 
         return true;
@@ -102,21 +103,74 @@ public class EquipmentManager : MonoBehaviour
 
             if (PlayerPrefs.HasKey(key))
             {
-                string itemName = PlayerPrefs.GetString(key);
-                Item baseItem = itemDatabase.GetItemByName(itemName);
+                string saved = PlayerPrefs.GetString(key);
+                string[] parts = saved.Split('|');
 
-                if (baseItem is Equipment equipmentTemplate)
+                if (parts.Length >= 1 && !string.IsNullOrWhiteSpace(parts[0]))
                 {
-                    InventorySlotData newSlot = new InventorySlotData(equipmentTemplate, 1, equipmentTemplate.ItemRarity, equipmentTemplate.ItemQuality, equipmentTemplate.modifiers);
+                    string itemName = parts[0];
+                    Item baseItem = itemDatabase.GetItemByName(itemName);
 
-                    InventorySlotData oldSlot = currentEquipment[slotIndex];
-                    currentEquipment[slotIndex] = newSlot;
-                    equipmentUI.UpdateUI(newSlot, oldSlot);
-                    equipment.OnEquipmentChanged(newSlot, oldSlot, true);
+                    if (baseItem is Equipment equipmentTemplate)
+                    {
+                        // default to template values
+                        ItemRarity rarity = equipmentTemplate.ItemRarity;
+                        ItemQuality quality = equipmentTemplate.ItemQuality;
+                        List<StatModifier> modifiers = new List<StatModifier>(equipmentTemplate.modifiers ?? new List<StatModifier>());
+
+                        // Parse stored rarity/quality/modifiers if present
+                        if (parts.Length >= 3)
+                        {
+                            // parts[1] => rarity, parts[2] => quality
+                            if (!Enum.TryParse(parts[1], out rarity))
+                            {
+                                if (int.TryParse(parts[1], out int rInt)) rarity = (ItemRarity)rInt;
+                            }
+                            if (!Enum.TryParse(parts[2], out quality))
+                            {
+                                if (int.TryParse(parts[2], out int qInt)) quality = (ItemQuality)qInt;
+                            }
+                        }
+
+                        if (parts.Length >= 4 && !string.IsNullOrEmpty(parts[3]))
+                        {
+                            string modsPart = parts[3];
+                            string[] modEntries = modsPart.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            modifiers = new List<StatModifier>();
+                            foreach (string me in modEntries)
+                            {
+                                string[] modParts = me.Split(',');
+                                if (modParts.Length == 3 &&
+                                    float.TryParse(modParts[0], out float val) &&
+                                    int.TryParse(modParts[1], out int statInt) &&
+                                    int.TryParse(modParts[2], out int srcInt))
+                                {
+                                    StatModifier m = new StatModifier
+                                    {
+                                        value = val,
+                                        statType = (StatType)statInt,
+                                        source = (ModSource)srcInt
+                                    };
+                                    modifiers.Add(m);
+                                }
+                            }
+                        }
+
+                        InventorySlotData newSlot = new InventorySlotData(equipmentTemplate, 1, rarity, quality, modifiers);
+
+                        InventorySlotData oldSlot = currentEquipment[slotIndex];
+                        currentEquipment[slotIndex] = newSlot;
+                        equipmentUI.UpdateUI(newSlot, oldSlot);
+                        equipment.OnEquipmentChanged(newSlot, oldSlot, true);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Item '{itemName}' is not a valid Equipment.");
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning($"Item '{itemName}' is not a valid Equipment.");
+                    currentEquipment[slotIndex] = null;
                 }
             }
             else
