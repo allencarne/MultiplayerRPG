@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/Bleed Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/Debuffs/Bleed Effect")]
 public class BleedEffect : ApplyEffect
 {
     public int Stacks = 1;

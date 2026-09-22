@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/Combat State Regeneration Effect")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Status Effect/Buffs/Combat State Regeneration Effect")]
 public class CombatStateRegenerationEffect : ApplyEffect
 {
     [Header("Out of Combat (when not in combat)")]
