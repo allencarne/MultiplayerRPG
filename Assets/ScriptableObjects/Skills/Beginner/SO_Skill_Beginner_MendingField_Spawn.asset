@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawnEffect
   Prefab: {fileID: 7380634139760691842, guid: 2c611038f40706b479e290bd7ce9d371, type: 3}
   UseCurrentPosition: 0
+  CancelOnInterrupt: 0
+  CancelOnStagger: 0
   Spark: {fileID: 0}
   SpecialSpark: {fileID: 0}
   Amount: 1
@@ -33,3 +35,4 @@ MonoBehaviour:
   IsBreakable: 0
   OnTriggerEffects:
   - {fileID: 11400000, guid: a54dbd56e1b148f46b9cde4113f81dc6, type: 2}
+  - {fileID: 11400000, guid: 6748500d658b221439af75a690abeadd, type: 2}

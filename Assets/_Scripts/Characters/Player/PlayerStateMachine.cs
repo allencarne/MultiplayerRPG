@@ -317,6 +317,15 @@ public class PlayerStateMachine : StateMachine
         thirdPassiveInstance.StartPassive(this);
     }
 
+    public bool HasPassive(PassiveSkillData data)
+    {
+        if (data == null) return false;
+        if (firstPassiveInstance != null && firstPassiveInstance.passiveData == data) return true;
+        if (secondPassiveInstance != null && secondPassiveInstance.passiveData == data) return true;
+        if (thirdPassiveInstance != null && thirdPassiveInstance.passiveData == data) return true;
+        return false;
+    }
+
     private bool StartAbility(ActiveSkillData data, int index)
     {
         // Check mana first

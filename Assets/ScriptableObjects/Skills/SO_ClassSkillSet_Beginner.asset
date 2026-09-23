@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4eec0d8dd6476646a72f71f7f0431cd, type: 3}
   m_Name: SO_ClassSkillSet_Beginner
   m_EditorClassIdentifier: Assembly-CSharp::ClassSkillSet
-  firstPassive: []
-  secondPassive: []
+  firstPassive:
+  - {fileID: 11400000, guid: a8558e7ccf8ae974d9e8ef65e2e1e226, type: 2}
+  secondPassive:
+  - {fileID: 11400000, guid: 69155bb8162f0ea4d905f1a459e63288, type: 2}
   thirdPassive: []
   basicAbilities:
   - {fileID: 11400000, guid: 517c9f7abb2b97045928c81690182159, type: 2}
