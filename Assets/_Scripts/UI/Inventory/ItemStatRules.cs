@@ -128,14 +128,14 @@ public class ItemStatRules : ScriptableObject
             case EquipmentType.Head:
             case EquipmentType.Chest:
             case EquipmentType.Legs:
-            case EquipmentType.Neck:
-            case EquipmentType.Shoulder:
+            case EquipmentType.Finger:
                 return StatType.Armor;
 
             // Offensive equipment
-            case EquipmentType.Finger:
             case EquipmentType.Weapon:
+            case EquipmentType.Shoulder:
             case EquipmentType.Back:
+            case EquipmentType.Neck:
                 return StatType.Damage;
 
             // Fallback in case a new equpment type hasn't been assigned
