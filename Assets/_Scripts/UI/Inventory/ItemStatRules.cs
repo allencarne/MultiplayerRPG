@@ -309,7 +309,7 @@ public class ItemStatRules : ScriptableObject
         return new StatModifier
         {
             statType = stat,
-            value = points * GetValuePerPoint(stat, modType),
+            value = points * GetValuePerBudgetPoint(stat, modType),
             source = ModSource.Equipment,
             modType = modType
         };
@@ -405,14 +405,20 @@ public class ItemStatRules : ScriptableObject
         }
     }
 
-    public float GetValuePerPoint(StatType stat, ModType modType)
+    public float GetValuePerBudgetPoint(StatType stat, ModType modType)
     {
-        if (modType == ModType.Percent)
-        {
-            return percentPerBudgetPoint;
-        }
+        // Determine the value per budget point based on the stat type and mod type
+        if (modType == ModType.Percent) return percentPerBudgetPoint;
 
-        bool isRateStat = (stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed || stat == StatType.Vamp);
+        // For flat stats, some stats are considered "rate" stats and have a different scaling factor
+        bool isRateStat = stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed || stat == StatType.Vamp;
+
+        // Return the appropriate scaling factor for flat stats
         return isRateStat ? rateStatFlatScale : 1f;
+    }
+
+    public float AddBudget(StatType stat, ModType modType, float currentValue, int budgetPoints)
+    {
+        return currentValue + budgetPoints * GetValuePerBudgetPoint(stat, modType);
     }
 }

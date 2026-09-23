@@ -276,11 +276,10 @@ public class UpgradeUI : MonoBehaviour
         // modifier is the current stat modifier for the given index in the upgradeSlotData.
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
 
-        // Calculate the value per point for the stat being modified.
-        float perPoint = slot.upgradeSlotData.item.ItemStatRules.GetValuePerPoint(modifier.statType, modifier.modType);
+        // Preview the value using the same budget rule the roller uses
+        float previewValue = slot.upgradeSlotData.item.ItemStatRules.AddBudget(modifier.statType, modifier.modType, modifier.value, statToAdd[index]);
 
-        float previewValue = modifier.value + (statToAdd[index] * perPoint);
-
+        // Update the stat line text to reflect the new preview value
         text_statLines[index].text = FormatStatLine(modifier.statType, modifier.modType, previewValue);
 
         // Button
@@ -294,9 +293,13 @@ public class UpgradeUI : MonoBehaviour
         // Decrease stat by 1
         statToAdd[index] -= 1;
 
+        // modifier is the current stat modifier for the given index in the upgradeSlotData.
         StatModifier modifier = slot.upgradeSlotData.modifiers[index];
-        float perPoint = slot.upgradeSlotData.item.ItemStatRules.GetValuePerPoint(modifier.statType, modifier.modType);
-        float previewValue = modifier.value + (statToAdd[index] * perPoint);
+
+        // Preview the value using the same budget rule the roller uses
+        float previewValue = slot.upgradeSlotData.item.ItemStatRules.AddBudget(modifier.statType, modifier.modType, modifier.value, statToAdd[index]);
+
+        //  Update the stat line text to reflect the new preview value
         text_statLines[index].text = FormatStatLine(modifier.statType, modifier.modType, previewValue);
 
         // Button
@@ -322,9 +325,13 @@ public class UpgradeUI : MonoBehaviour
         {
             if (i < slot.upgradeSlotData.modifiers.Count)
             {
+                // modifier is the current stat modifier for the given index in the upgradeSlotData.
                 StatModifier modifier = slot.upgradeSlotData.modifiers[i];
-                float perPoint = slot.upgradeSlotData.item.ItemStatRules.GetValuePerPoint(modifier.statType, modifier.modType);
-                modifier.value += statToAdd[i] * perPoint;
+
+                // Apply the staged stat points to the modifier's value using the same budget rule the roller uses
+                modifier.value = slot.upgradeSlotData.item.ItemStatRules.AddBudget(modifier.statType, modifier.modType, modifier.value, statToAdd[i]);
+
+                // Update the modifier in the upgradeSlotData with the new value
                 slot.upgradeSlotData.modifiers[i] = modifier;
             }
         }
