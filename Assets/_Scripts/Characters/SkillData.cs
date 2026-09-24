@@ -9,4 +9,7 @@ public abstract class SkillData : ScriptableObject
 
     [Header("Cooldown")]
     public float CoolDown;
+
+    [Header("Cost")]
+    public float ManaCost = 0f;
 }

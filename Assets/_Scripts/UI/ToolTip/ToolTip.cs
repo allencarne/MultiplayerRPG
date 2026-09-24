@@ -54,7 +54,7 @@ public class ToolTip : MonoBehaviour
 
         if (data != null)
         {
-            // --- Item rendering (existing behavior) ---
+            // --- Item rendering ---
             // Sprite
             itemIcon.sprite = data.item.Icon;
 
@@ -79,10 +79,10 @@ public class ToolTip : MonoBehaviour
         }
         else if (skillData != null)
         {
-            // --- Skill rendering (new) ---
+            // --- Skill rendering ---
             itemIcon.sprite = skillData.Icon;
 
-            // Skill tooltip doesn't have item rarity metadata — use neutral colors
+            // Use neutral colors
             Color box = Color.white;
             box.a = 0.8f;
             textBox.color = box;
@@ -103,6 +103,7 @@ public class ToolTip : MonoBehaviour
             }
 
             sb.AppendLine($"Cooldown: {skillData.CoolDown:0.##}s");
+            sb.AppendLine($"Mana Cost: {skillData.ManaCost}");
 
             itemInfo_Text.text = sb.ToString();
 
