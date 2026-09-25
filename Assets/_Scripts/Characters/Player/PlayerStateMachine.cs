@@ -38,6 +38,7 @@ public class PlayerStateMachine : StateMachine
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
     public override Vector2 CurrentMoveInput => Input.MoveInput;
     [HideInInspector] public bool CanRoll = true;
+    [HideInInspector] public bool IsRolling = false;
     public bool IsFullySpawned = false;
     public bool IsAttacking = false;
     public bool CanBasic = true;
@@ -73,6 +74,14 @@ public class PlayerStateMachine : StateMachine
         if (!IsSpawned) return;
         if (!IsFullySpawned) return;
         if (skills == null || player == null) return;
+
+        // Defensive: sometimes a race/ownership issue can leave IsAttacking true while CurrentSkill is null or done.
+        if (IsAttacking && (CurrentSkill == null || CurrentSkill.currentState == ActiveSkillData.SkillPhase.Done))
+        {
+            Debug.LogWarning($"[PlayerStateMachine] Auto-clearing IsAttacking for '{name}'. CurrentSkill {(CurrentSkill == null ? "null" : "done")}");
+            IsAttacking = false;
+            CurrentSkill = null;
+        }
 
         state.UpdateState();
         firstPassiveInstance?.UpdatePassive(this);
@@ -171,6 +180,7 @@ public class PlayerStateMachine : StateMachine
         Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedOffensiveInput) return;
+        if (IsRolling) return;
 
         if (StartAbility(data, player.OffensiveIndex))
         {
@@ -199,6 +209,7 @@ public class PlayerStateMachine : StateMachine
         Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedMobilityInput) return;
+        if (IsRolling) return;
 
         if (StartAbility(data, player.MobilityIndex))
         {
@@ -227,6 +238,7 @@ public class PlayerStateMachine : StateMachine
         Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedDefensiveInput) return;
+        if (IsRolling) return;
 
         if (StartAbility(data, player.DefensiveIndex))
         {
@@ -255,6 +267,7 @@ public class PlayerStateMachine : StateMachine
         Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedUtilityInput) return;
+        if (IsRolling) return;
 
         if (StartAbility(data, player.UtilityIndex))
         {
@@ -283,6 +296,7 @@ public class PlayerStateMachine : StateMachine
         Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input, playerInput.currentControlScheme);
 
         if (!Input.HasBufferedUltimateInput) return;
+        if (IsRolling) return;
 
         if (StartAbility(data, player.UltimateIndex))
         {

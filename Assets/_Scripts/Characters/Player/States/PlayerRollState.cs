@@ -7,9 +7,13 @@ public class PlayerRollState : PlayerState
 
     Vector2 facingDirection;
     float rollDuration = .6f;
+    Coroutine rollCoroutine;
 
     public override void EnterState()
     {
+        // IsRolling
+        owner.IsRolling = true;
+
         // Buffs
         owner.Buffs.immune.StartImmune(rollDuration);
         owner.Buffs.immoveable.StartImmovable(rollDuration);
@@ -17,8 +21,8 @@ public class PlayerRollState : PlayerState
         // Endurance
         owner.EnduranceBar.SpendEndurance(50);
 
-        // Roll
-        owner.StartCoroutine(Duration(owner));
+        // Roll coroutine
+        rollCoroutine = owner.StartCoroutine(Duration(owner));
 
         // Get input
         Vector2 moveInput = owner.Input.MoveInput.normalized;
@@ -44,7 +48,6 @@ public class PlayerRollState : PlayerState
 
             // Snap direction and set head sprites
             facingDirection = owner.Animator.SnapDirection(moveInput);
-
             owner.playerHead.SetHead(facingDirection);
         }
 
@@ -59,6 +62,19 @@ public class PlayerRollState : PlayerState
         owner.DefensiveAbility();
         owner.UtilityAbility();
         owner.UltimateAbility();
+    }
+
+    public override void ExitState()
+    {
+        // Stop the roll coroutine if it's still running to avoid it forcing Idle later
+        if (rollCoroutine != null)
+        {
+            owner.StopCoroutine(rollCoroutine);
+            rollCoroutine = null;
+        }
+
+        // Clear rolling flag
+        owner.IsRolling = false;
     }
 
     IEnumerator Duration(PlayerStateMachine owner)
