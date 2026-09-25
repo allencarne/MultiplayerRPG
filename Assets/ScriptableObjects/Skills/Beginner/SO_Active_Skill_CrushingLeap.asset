@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6698bb9cc9dc8f4aaa0ec45006a7422, type: 3}
-  m_Name: SO_Active_Skill_Mobility
+  m_Name: SO_Active_Skill_CrushingLeap
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   Name: Mobility
   Icon: {fileID: 0}
@@ -25,11 +25,13 @@ MonoBehaviour:
   ImpactStyle: 0
   IndicatorPrefab: {fileID: 5634513536252481035, guid: d9ca1ba647590f04791b11977ff2c2e7, type: 3}
   CastTime: 0
-  ActionTime: 0
-  ImpactTime: 3
+  ActionTime: 0.3
+  ImpactTime: 0
   RecoveryTime: 0
-  OnCastEffects: []
-  OnActionEffects: []
-  OnImpactEffects:
+  OnCastEffects:
+  - {fileID: 11400000, guid: 0717405817d138344bbcf0a42b244929, type: 2}
+  OnActionEffects:
   - {fileID: 11400000, guid: 0f170d23b517a324984e62841b9ce5b3, type: 2}
+  OnImpactEffects:
+  - {fileID: 11400000, guid: c184ecc0157a961419f6d378684083e8, type: 2}
   OnRecoveryEffects: []
