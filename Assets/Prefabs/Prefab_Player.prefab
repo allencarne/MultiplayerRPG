@@ -23506,23 +23506,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOffensiveReleased: 0
-  OffensiveBufferTime: 0.2
+  OffensiveBufferTime: 1
   OffensiveTimer: 0
   HasBufferedOffensiveInput: 0
   IsMobilityReleased: 0
-  MobilityBufferTime: 0.2
+  MobilityBufferTime: 1
   MobilityTimer: 0
   HasBufferedMobilityInput: 0
   IsDefensiveReleased: 0
-  DefensiveBufferTime: 0.2
+  DefensiveBufferTime: 1
   DefensiveTimer: 0
   HasBufferedDefensiveInput: 0
   IsUtilityReleased: 0
-  UtilityBufferTime: 0.2
+  UtilityBufferTime: 1
   UtilityTimer: 0
   HasBufferedUtilityInput: 0
   IsUltimateReleased: 0
-  UltimateBufferTime: 0.2
+  UltimateBufferTime: 1
   UltimateTimer: 0
   HasBufferedUltimateInput: 0
   OnInventoryInput:
@@ -24006,6 +24006,7 @@ MonoBehaviour:
   Indicator: {fileID: 8456314716194012628}
   LastMoveDirection: {x: 0, y: 0}
   CanRoll: 1
+  IsRolling: 0
   IsFullySpawned: 0
   IsAttacking: 0
   CanBasic: 1
