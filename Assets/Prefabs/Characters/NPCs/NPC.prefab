@@ -2270,7 +2270,6 @@ Transform:
   - {fileID: 3838610473410387700}
   - {fileID: 5069501753789497478}
   - {fileID: 2331417871120937631}
-  - {fileID: 5123193283223242721}
   m_Father: {fileID: 4046972822653324019}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &7447691256168071309
@@ -2378,6 +2377,38 @@ MonoBehaviour:
   LegsAnimator: {fileID: 2352654690067245467}
   WeaponAnimator: {fileID: 2870289373911259510}
   PrimaryAnimator: {fileID: 0}
+--- !u!1 &5219845923723696230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546364249182609393}
+  m_Layer: 11
+  m_Name: Ground Sprites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &546364249182609393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5219845923723696230}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5123193283223242721}
+  m_Father: {fileID: 4046972822653324019}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5351845163029906857
 GameObject:
   m_ObjectHideFlags: 0
@@ -2642,12 +2673,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5617981464471113309}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6888746980857083032}
+  m_Father: {fileID: 546364249182609393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5156922646573648410
 SpriteRenderer:
@@ -3134,6 +3165,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6888746980857083032}
+  - {fileID: 546364249182609393}
   - {fileID: 6370017162273728434}
   - {fileID: 7107170319119846315}
   m_Father: {fileID: 0}
@@ -3675,6 +3707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Mobility
   rb: {fileID: 4568072980406800238}
+  visualLiftRoot: {fileID: 6888746980857083032}
 --- !u!114 &203235246342025166
 MonoBehaviour:
   m_ObjectHideFlags: 0

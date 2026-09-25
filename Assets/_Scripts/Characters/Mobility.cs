@@ -4,6 +4,7 @@ using UnityEngine;
 public class Mobility : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
+    [SerializeField] Transform visualLiftRoot;
     public bool IsSliding { get; private set; }
     public bool IsJumping { get; private set; }
 
@@ -40,21 +41,30 @@ public class Mobility : MonoBehaviour
     {
         IsJumping = true;
         Vector2 startPosition = rb.position;
+        Vector3 liftBaseLocalPos = visualLiftRoot ? visualLiftRoot.localPosition : Vector3.zero;
         float elapsed = 0f;
+
         while (elapsed < duration)
         {
             float t = elapsed / duration;
             float movementT = Mathf.SmoothStep(0f, 1f, t);
-            Vector2 position = Vector2.Lerp(startPosition,targetPosition,movementT);
-            float arc = Mathf.Sin(t * Mathf.PI);
-            position.y += arc * height;
-            rb.MovePosition(position);
-            elapsed += Time.fixedDeltaTime;
 
+            Vector2 position = Vector2.Lerp(startPosition, targetPosition, movementT);
+            rb.MovePosition(position);
+
+            if (visualLiftRoot)
+            {
+                float arc = Mathf.Sin(t * Mathf.PI) * height;
+                visualLiftRoot.localPosition = liftBaseLocalPos + new Vector3(0, arc, 0);
+            }
+
+            elapsed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
+
         rb.MovePosition(targetPosition);
         rb.linearVelocity = Vector2.zero;
+        if (visualLiftRoot) visualLiftRoot.localPosition = liftBaseLocalPos;
 
         IsJumping = false;
     }

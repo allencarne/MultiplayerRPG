@@ -7,7 +7,7 @@ public class ActiveSkillData : SkillData
     public enum Targeting { Directional, Ground }
     public enum SkillPhase { Cast, Action, Impact, Recovery, Done }
     public enum ImpactAnimationStyle { Normal, Long, Repeated }
-    public enum AttackAnimation { WeaponBasicFront, WeaponBasicBack, Empower }
+    public enum AttackAnimation { WeaponBasicFront, WeaponBasicBack, Empower, Dash }
 
     [Header("Range")]
     public float SkillRange;

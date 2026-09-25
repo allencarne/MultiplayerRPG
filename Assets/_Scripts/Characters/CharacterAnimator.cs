@@ -203,6 +203,7 @@ public class CharacterAnimator : MonoBehaviour
             case ActiveSkillData.AttackAnimation.WeaponBasicFront: return $"{weapon} Basic Front {phase}";
             case ActiveSkillData.AttackAnimation.WeaponBasicBack: return $"{weapon} Basic Back {phase}";
             case ActiveSkillData.AttackAnimation.Empower: return "Empower";
+            case ActiveSkillData.AttackAnimation.Dash: return "Dash";
             default: return $"{weapon} Basic Front {phase}";
         }
     }
@@ -214,6 +215,7 @@ public class CharacterAnimator : MonoBehaviour
             case ActiveSkillData.AttackAnimation.WeaponBasicFront: return $"{weapon} Basic Front {phase}";
             case ActiveSkillData.AttackAnimation.WeaponBasicBack: return $"{weapon} Basic Back {phase}";
             case ActiveSkillData.AttackAnimation.Empower: return $"{weapon} Empower";
+            case ActiveSkillData.AttackAnimation.Dash: return $"{weapon} Dash";
             default: return $"{weapon} Basic Front {phase}";
         }
     }
@@ -225,6 +227,7 @@ public class CharacterAnimator : MonoBehaviour
             case ActiveSkillData.AttackAnimation.WeaponBasicFront: return $"{weapon} Basic Front {phase} {index}";
             case ActiveSkillData.AttackAnimation.WeaponBasicBack: return $"{weapon} Basic Back {phase} {index}";
             case ActiveSkillData.AttackAnimation.Empower: return $"Empower_{index}";
+            case ActiveSkillData.AttackAnimation.Dash: return $"Dash_{index}";
             default: return $"{weapon} Basic Front {phase} {index}";
         }
     }

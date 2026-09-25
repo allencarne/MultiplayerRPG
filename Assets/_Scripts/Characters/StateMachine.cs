@@ -17,7 +17,6 @@ public abstract class StateMachine : NetworkBehaviour
     public DeBuffs DeBuffs;
     public Mobility Mobility;
 
-
     public virtual Vector2 CurrentMoveInput => Vector2.zero;
     protected abstract ActiveSkillData GetSkillData(ActiveSkillData.SkillType type, int index);
 

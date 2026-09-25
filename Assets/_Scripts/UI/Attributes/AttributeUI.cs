@@ -45,7 +45,7 @@ public class AttributeUI : MonoBehaviour
         playerClass.text = "Class: " + stats.playerClass.ToString();
         GetClassIcon();
         playerLevel.text = "LvL: " + stats.PlayerLevel.Value.ToString();
-        attributePoints.text = "Attribute Points: " + stats.AttributePoints.Value.ToString();
+        attributePoints.text = $"Attribute Points: <color=#FFFFFF>{stats.AttributePoints.Value}</color>";
 
         // Health (flat)
         totalHealth.text = SimpleStringBuild(
@@ -190,7 +190,7 @@ public class AttributeUI : MonoBehaviour
                 modStrings.Add($"<color=#FF3333>{FormatModifierFlat(debuff)}</color>");
             }
 
-            return $"{FormatValue(total)} ({FormatValue(value)} {string.Join(" ", modStrings)})";
+            return $"{FormatValue(total)} (<color=#AAAAAA>{FormatValue(value)}</color> {string.Join(" ", modStrings)})";
         }
     }
 
@@ -219,7 +219,7 @@ public class AttributeUI : MonoBehaviour
             if (debuffFlat != 0) modStrings.Add($"<color=#FF3333>{FormatModifierFlat(debuffFlat)}</color>");
             if (debuffPct != 0) modStrings.Add($"<color=#FF3333>{FormatModifierPercent(debuffPct)}</color>");
 
-            return $"{FormatValue(total)} ({FormatValue(value)} {string.Join(" ", modStrings)})";
+            return $"{FormatValue(total)} (<color=#AAAAAA>{FormatValue(value)}</color> {string.Join(" ", modStrings)})";
         }
     }
 
