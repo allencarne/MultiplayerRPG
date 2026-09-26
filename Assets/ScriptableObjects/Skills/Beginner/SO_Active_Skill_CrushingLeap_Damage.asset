@@ -12,16 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6496f56117d9b047a34d4734d31247c, type: 3}
   m_Name: SO_Active_Skill_CrushingLeap_Damage
   m_EditorClassIdentifier: Assembly-CSharp::DamageEffect
-  Mode: 1
-  DamageType: 1
-  Damage: 5
-  StatMultiplier: 1
-  LevelMultiplier: 0.5
-  AdditionalBase: 0
-  BasicMultiplier: 1
-  OffensiveMultiplier: 1.25
-  MobilityMultiplier: 1
-  DefensiveMultiplier: 0.8
-  UtilityMultiplier: 1
-  UltimateMultiplier: 2
+  DamageType: 0
+  BaseDamage: 5
+  DamageRatio: 0.6
+  PerLevelBonus: 0
   OnDamageDealtEffects: []

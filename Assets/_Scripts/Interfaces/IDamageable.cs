@@ -8,7 +8,15 @@ public interface IDamageable
 
 public enum DamageType
 {
-    Flat,       // Example: -10 HP
-    Percent,    // Example: -10% of max HP
-    True        // Ignores Armor
+    Flat,                       // e.g. -10 HP, reduced by armor
+    True,                       // ignores armor entirely
+
+    PercentMaxHealth,           // % of target's max HP, reduced by armor
+    PercentMaxHealthTrue,       // % of target's max HP, ignores armor
+
+    PercentMissingHealth,       // % of target's missing HP, reduced by armor
+    PercentMissingHealthTrue,   // % of target's missing HP, ignores armor (execute-style, like Warwick's ult)
+
+    PercentCurrentHealth,       // % of target's current HP, reduced by armor
+    PercentCurrentHealthTrue    // % of target's current HP, ignores armor (like Vayne's Silver Bolts)
 }

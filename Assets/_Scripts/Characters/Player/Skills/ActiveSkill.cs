@@ -50,7 +50,7 @@ public class ActiveSkill
             AimDirection = aimContext.Direction,
             AimRotation = aimContext.Rotation,
             AimOffset = aimContext.Offset,
-            AttackerDamage = owner.Stats.TotalDamage,
+            //AttackerDamage = owner.Stats.TotalDamage,
             IsBasic = IsBasicAttack(),
             Attacker = owner.NetworkObject,
             SkillType = skillData.skillType,

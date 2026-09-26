@@ -94,40 +94,43 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     private float CalculateFinalDamage(float baseDamage, DamageType damageType)
     {
-        // Get the character's current total armor.
         float armor = TotalArmor;
+        float armorMultiplier = 100f / (100f + armor);
 
-        // Determine how the damage should be calculated based on its damage type.
         switch (damageType)
         {
-            // Handle normal damage that is reduced by armor.
             case DamageType.Flat:
-                {
-                    // Calculate the percentage of incoming damage that remains after armor reduction.
-                    float armorMultiplier = 100f / (100f + armor);
+                return baseDamage * armorMultiplier;
 
-                    // Apply the armor reduction to the base damage and return the result.
-                    return baseDamage * armorMultiplier;
+            case DamageType.True:
+                return baseDamage;
+
+            case DamageType.PercentMaxHealth:
+                return net_TotalHP.Value * (baseDamage / 100f) * armorMultiplier;
+
+            case DamageType.PercentMaxHealthTrue:
+                return net_TotalHP.Value * (baseDamage / 100f);
+
+            case DamageType.PercentMissingHealth:
+                {
+                    float missing = net_TotalHP.Value - net_CurrentHP.Value;
+                    return missing * (baseDamage / 100f) * armorMultiplier;
                 }
 
-            // Handle damage that is a percentage of the character's maximum health.
-            case DamageType.Percent:
+            case DamageType.PercentMissingHealthTrue:
                 {
-                    // Calculate the percentage of the character's maximum health that should be dealt as damage.
-                    float percentDamage = net_TotalHP.Value * (baseDamage / 100f);
-
-                    // Calculate the percentage of damage that remains after armor reduction.
-                    float armorMultiplier = 100f / (100f + armor);
-
-                    // Apply armor reduction to the percentage-based damage and return the result.
-                    return percentDamage * armorMultiplier;
+                    float missing = net_TotalHP.Value - net_CurrentHP.Value;
+                    return missing * (baseDamage / 100f);
                 }
 
-            // Handle true damage that ignores armor.
-            case DamageType.True: return baseDamage;
+            case DamageType.PercentCurrentHealth:
+                return net_CurrentHP.Value * (baseDamage / 100f) * armorMultiplier;
 
-            // If the damage type is unrecognized, return the base damage as a fallback.
-            default: return baseDamage;
+            case DamageType.PercentCurrentHealthTrue:
+                return net_CurrentHP.Value * (baseDamage / 100f);
+
+            default:
+                return baseDamage;
         }
     }
 

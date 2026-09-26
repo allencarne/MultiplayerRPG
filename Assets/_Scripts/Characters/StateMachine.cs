@@ -73,7 +73,7 @@ public abstract class StateMachine : NetworkBehaviour
     {
         context.Attacker = NetworkObject;
         context.IsBasic = context.SkillType == ActiveSkillData.SkillType.Basic;
-        context.AttackerDamage = Stats.TotalDamage;
+        //context.AttackerDamage = Stats.TotalDamage;
         ActiveSkillData data = GetSkillData(context.SkillType, context.SkillIndex);
 
         context.AimRotation = Quaternion.Euler(0, 0, Mathf.Atan2(context.AimDirection.y, context.AimDirection.x) * Mathf.Rad2Deg);
