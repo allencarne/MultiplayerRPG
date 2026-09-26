@@ -60,6 +60,7 @@ public class ToolTip : MonoBehaviour
             itemIcon.sprite = data.item.Icon;
 
             // Set Background Color
+            itemBackground.enabled = true;
             itemBackground.color = data.item.GetRarityColor(data.rarity);
 
             // Name
@@ -88,7 +89,7 @@ public class ToolTip : MonoBehaviour
             box.a = 0.8f;
             textBox.color = box;
 
-            itemBackground.color = Color.white;
+            itemBackground.enabled = false;
             image_QualityBorder.color = Color.clear;
 
             // Name and description
@@ -103,15 +104,15 @@ public class ToolTip : MonoBehaviour
                 sb.AppendLine();
             }
 
-            sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>Cooldown: {skillData.CoolDown:0.##}s</color>");
-            sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>Mana Cost: {skillData.ManaCost}</color>");
-
             DamageEffect dmg = skillData.FindDamageEffect();
             if (dmg != null)
             {
                 sb.AppendLine();
                 sb.AppendLine(FormatDamageLine(dmg));
             }
+
+            sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>Cooldown: {skillData.CoolDown:0.##}s</color>");
+            sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>Mana Cost: {skillData.ManaCost}</color>");
 
             itemInfo_Text.text = sb.ToString();
 
