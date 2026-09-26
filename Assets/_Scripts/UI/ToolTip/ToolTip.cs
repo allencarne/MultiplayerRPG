@@ -114,6 +114,12 @@ public class ToolTip : MonoBehaviour
             sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>Cooldown: {skillData.CoolDown:0.##}s</color>");
             sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>Mana Cost: {skillData.ManaCost}</color>");
 
+            float? castTime = skillData.GetCastTime();
+            if (castTime.HasValue)
+            {
+                sb.AppendLine($"Cast Time: {castTime.Value:0.##}s");
+            }
+
             itemInfo_Text.text = sb.ToString();
 
             itemInfo_Text.text = sb.ToString();

@@ -71,4 +71,6 @@ public class ActiveSkillData : SkillData
         }
         return null;
     }
+
+    public override float? GetCastTime() => CastTime;
 }

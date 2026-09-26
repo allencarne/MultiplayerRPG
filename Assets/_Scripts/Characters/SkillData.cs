@@ -15,4 +15,7 @@ public abstract class SkillData : ScriptableObject
 
     // Find the damage effect of this skill, if any. This is used for tooltips and other UI elements.
     public virtual DamageEffect FindDamageEffect() => null;
+
+    // Cast time, if this kind of skill has one. Passives return null since the concept doesn't apply.
+    public virtual float? GetCastTime() => null;
 }

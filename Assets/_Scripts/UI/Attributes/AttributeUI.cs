@@ -41,10 +41,10 @@ public class AttributeUI : MonoBehaviour
     void UpdateUI()
     {
         // Character Stats
-        playerName.text = stats.net_playerName.Value.ToString();
-        playerClass.text = "Class: " + stats.playerClass.ToString();
+        playerName.text = $"<color=#FFFFFF>{stats.net_playerName.Value.ToString()}</color>";
+        playerClass.text = $"Class: <color=#FFFFFF>{stats.playerClass.ToString()}</color>";
         GetClassIcon();
-        playerLevel.text = "LvL: " + stats.PlayerLevel.Value.ToString();
+        playerLevel.text = $"LvL: <color=#FFFFFF>{stats.PlayerLevel.Value}</color>";
         attributePoints.text = $"Attribute Points: <color=#FFFFFF>{stats.AttributePoints.Value}</color>";
 
         // Health (flat)
