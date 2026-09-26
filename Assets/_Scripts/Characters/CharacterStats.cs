@@ -138,6 +138,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         // Only the server is allowed to modify health.
         if (!IsServer) return;
+        if (isDead) return;
 
         // Check whether the heal should be calculated as a percentage.
         if (healType == HealType.Percentage)

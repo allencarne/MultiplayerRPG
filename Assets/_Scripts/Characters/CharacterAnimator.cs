@@ -88,7 +88,7 @@ public class CharacterAnimator : MonoBehaviour
         if (WeaponAnimator) WeaponAnimator.speed = speed;
 
         //Hide Clothes
-        HeadAnimator.Play("Spawn");
+        //HeadAnimator.Play("Spawn");
         ChestAnimator.Play("Spawn");
         LegsAnimator.Play("Spawn");
     }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ToolTip : MonoBehaviour
 {
     [SerializeField] PlayerStats stats;
+    [SerializeField] TooltipPalette palette;
 
     [Header("Data")]
     InventorySlotData data;
@@ -102,8 +103,8 @@ public class ToolTip : MonoBehaviour
                 sb.AppendLine();
             }
 
-            sb.AppendLine($"Cooldown: {skillData.CoolDown:0.##}s");
-            sb.AppendLine($"Mana Cost: {skillData.ManaCost}");
+            sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>Cooldown: {skillData.CoolDown:0.##}s</color>");
+            sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>Mana Cost: {skillData.ManaCost}</color>");
 
             DamageEffect dmg = skillData.FindDamageEffect();
             if (dmg != null)
@@ -237,25 +238,25 @@ public class ToolTip : MonoBehaviour
             _ => "DAMAGE"
         };
 
-        string headerColor = dmg.DamageType switch
+        Color headerColor = dmg.DamageType switch
         {
-            DamageType.Flat => "FFFFFF",
-            DamageType.True => "FF9944",
-            _ => "B266FF"
+            DamageType.Flat => palette.PhysicalDamage,
+            DamageType.True => palette.TrueDamage,
+            _ => palette.PercentHealthDamage
         };
 
         bool isPercentBased = dmg.DamageType != DamageType.Flat && dmg.DamageType != DamageType.True;
         string suffix = isPercentBased ? "%" : "";
 
         StringBuilder line = new();
-        line.Append($"<color=#{headerColor}><b>{header}:</b></color>\n");
+        line.Append($"<color=#{palette.Hex(headerColor)}><b>{header}:</b></color>\n");
 
         if (dmg.BaseDamage != 0) line.Append($"{dmg.BaseDamage:0.##}{suffix}");
 
         if (dmg.DamageRatio != 0)
         {
             if (dmg.BaseDamage != 0) line.Append(" ");
-            line.Append($"<color=orange>(+ {dmg.DamageRatio * 100f:0.##}% Total Damage)</color>");
+            line.Append($"<color=#{palette.Hex(palette.DamageRatioText)}>(+ {dmg.DamageRatio * 100f:0.##}% Total Damage)</color>");
         }
 
         if (dmg.PerLevelBonus != 0)
