@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class PlayerStats : CharacterStats
 {
+    public PlayerScailingData ScalingData;
+
     [Header("Customization")]
     public NetworkVariable<int> net_CharacterSlot = new(writePerm: NetworkVariableWritePermission.Server);
     public NetworkVariable<FixedString32Bytes> net_playerName = new NetworkVariable<FixedString32Bytes>(writePerm: NetworkVariableWritePermission.Server);
@@ -73,12 +75,12 @@ public class PlayerStats : CharacterStats
     {
         if (IsServer)
         {
-            AttributePoints.Value += 3;
+            AttributePoints.Value += ScalingData.AttributePointsPerLevel;
             OnAPGained?.Invoke();
         }
         else
         {
-            IncreaseAttribuePointsServerRPC(3);
+            IncreaseAttribuePointsServerRPC(ScalingData.AttributePointsPerLevel);
         }
     }
 

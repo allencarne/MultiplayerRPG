@@ -214,24 +214,24 @@ public class PlayerSave : NetworkBehaviour
     {
         int slot = PlayerPrefs.GetInt("SelectedCharacter");
 
-        float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", 100);
+        float health = PlayerPrefs.GetFloat($"{slot}MaxHealth", stats.ScalingData.BaseHealth);
         float currentHealth = PlayerPrefs.GetFloat($"{slot}CurrentHealth", health);
-        float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", 10);
+        float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", stats.ScalingData.BaseHealthRegen);
 
-        float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", 30);
+        float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", stats.ScalingData.BaseMana);
         float currentMana = PlayerPrefs.GetFloat($"{slot}CurrentMana", mana);
-        float manaRegen = PlayerPrefs.GetFloat($"{slot}ManaRecharge", 1);
+        float manaRegen = PlayerPrefs.GetFloat($"{slot}ManaRecharge", stats.ScalingData.BaseManaRegen);
 
-        float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", 100);
+        float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", stats.ScalingData.BaseEndurance);
         float currentEnd = PlayerPrefs.GetFloat($"{slot}CurrentEndurance", end);
-        float endRegen = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", 1);
+        float endRegen = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", stats.ScalingData.BaseEnduranceRegen);
 
-        float damage = PlayerPrefs.GetFloat($"{slot}Damage", 10);
-        float attackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", 1);
-        float cdr = PlayerPrefs.GetFloat($"{slot}CDR", 1);
-        float armor = PlayerPrefs.GetFloat($"{slot}Armor", 0);
-        float speed = PlayerPrefs.GetFloat($"{slot}Speed", 5);
-        float vamp = PlayerPrefs.GetFloat($"{slot}Vamp", 0);
+        float damage = PlayerPrefs.GetFloat($"{slot}Damage", stats.ScalingData.BaseDamage);
+        float attackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", stats.ScalingData.BaseAttackSpeed);
+        float cdr = PlayerPrefs.GetFloat($"{slot}CDR", stats.ScalingData.BaseCDR);
+        float armor = PlayerPrefs.GetFloat($"{slot}Armor", stats.ScalingData.BaseArmor);
+        float speed = PlayerPrefs.GetFloat($"{slot}Speed", stats.ScalingData.BaseSpeed);
+        float vamp = PlayerPrefs.GetFloat($"{slot}Vamp", stats.ScalingData.BaseVamp);
 
         if (IsServer)
         {

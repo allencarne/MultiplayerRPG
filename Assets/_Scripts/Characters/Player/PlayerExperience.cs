@@ -17,14 +17,6 @@ public class PlayerExperience : NetworkBehaviour
     [SerializeField] TextMeshProUGUI experienceText;
     [SerializeField] TextMeshProUGUI levelText;
 
-    [Header("Multipliers")]
-    [Range(1f, 300f)]
-    public float additionMultiplier = 300;
-    [Range(2f, 4f)]
-    public float powerMultiplier = 2;
-    [Range(7f, 14f)]
-    public float divisionMultiplier = 7;
-
     [Header("Events")]
     public UnityEvent<float> OnEXPGained;
     public UnityEvent OnEXP;
@@ -115,22 +107,7 @@ public class PlayerExperience : NetworkBehaviour
         stats.RequiredExperience.Value = CalculateRequiredXp();
     }
 
-    int CalculateRequiredXp()
-    {
-        // Stores the total experience required.
-        int solveForRequiredXp = 0;
-
-        // Loop through every level from 1 to the player's current level.
-        for (int levelCycle = 1; levelCycle <= stats.PlayerLevel.Value; levelCycle++)
-        {
-            // Calculate the experience required for this level.
-            // The formula gradually increases faster as levels become higher.
-            solveForRequiredXp += (int)Mathf.Floor(levelCycle + additionMultiplier * Mathf.Pow(powerMultiplier, levelCycle / divisionMultiplier));
-        }
-
-        // Scale the result down to make the numbers more reasonable.
-        return solveForRequiredXp / 4;
-    }
+    int CalculateRequiredXp() => stats.ScalingData.CalculateRequiredXp(stats.PlayerLevel.Value);
 
     IEnumerator LerpXpBar()
     {
@@ -310,24 +287,6 @@ public class PlayerExperience : NetworkBehaviour
 
     void OnLevelChanged(int oldValue, int newValue)
     {
-        // Update the displayed level.
-        levelText.text = newValue.ToString();
-
-        // Only the owning player should receive bonus health.
-        // Ignore the initial value (oldValue == 0) when the object first spawns.
-        if (IsOwner && oldValue > 0)
-        {
-            // Increase by +1 per level
-            stats.IncreaseStat(StatType.Health, 10);
-            stats.IncreaseStat(StatType.Damage, 1);
-            stats.IncreaseStat(StatType.Mana, 1);
-
-            // Increase Health Regen every 5 levels.
-            if (newValue % 5 == 0)
-            {
-                stats.IncreaseStat(StatType.HealthRegen, 1);
-                stats.IncreaseStat(StatType.ManaRegen, 1);
-            }
-        }
+        if (IsOwner && oldValue > 0) stats.ScalingData.ApplyLevelUpGains(stats, newValue);
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyScailingData", menuName = "Scriptable Objects/Character/EnemyScailingData")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Character/EnemyScailingData")]
 public class EnemyScailingData : ScriptableObject
 {
     [Header("Level 1 Baseline")]
