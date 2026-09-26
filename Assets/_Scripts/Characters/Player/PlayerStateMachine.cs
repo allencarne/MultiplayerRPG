@@ -168,7 +168,6 @@ public class PlayerStateMachine : StateMachine
     public void OffensiveAbility()
     {
         if (!IsFullySpawned) return;
-        if (!CanOffensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
         if (player.OffensiveIndex < 0) return;
@@ -181,6 +180,7 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedOffensiveInput) return;
         if (IsRolling) return;
+        if (!CanOffensive) return;
 
         if (StartAbility(data, player.OffensiveIndex))
         {
@@ -197,7 +197,6 @@ public class PlayerStateMachine : StateMachine
     public void MobilityAbility()
     {
         if (!IsFullySpawned) return;
-        if (!CanMobility) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
         if (player.MobilityIndex < 0) return;
@@ -210,6 +209,7 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedMobilityInput) return;
         if (IsRolling) return;
+        if (!CanMobility) return;
 
         if (StartAbility(data, player.MobilityIndex))
         {
@@ -226,7 +226,6 @@ public class PlayerStateMachine : StateMachine
     public void DefensiveAbility()
     {
         if (!IsFullySpawned) return;
-        if (!CanDefensive) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
         if (player.DefensiveIndex < 0) return;
@@ -239,6 +238,7 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedDefensiveInput) return;
         if (IsRolling) return;
+        if (!CanDefensive) return;
 
         if (StartAbility(data, player.DefensiveIndex))
         {
@@ -255,7 +255,6 @@ public class PlayerStateMachine : StateMachine
     public void UtilityAbility()
     {
         if (!IsFullySpawned) return;
-        if (!CanUtility) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
         if (player.UtilityIndex < 0) return;
@@ -268,6 +267,7 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedUtilityInput) return;
         if (IsRolling) return;
+        if (!CanUtility) return;
 
         if (StartAbility(data, player.UtilityIndex))
         {
@@ -284,7 +284,6 @@ public class PlayerStateMachine : StateMachine
     public void UltimateAbility()
     {
         if (!IsFullySpawned) return;
-        if (!CanUltimate) return;
         if (IsAttacking) return;
         if (!Equipment.IsWeaponEquipped) return;
         if (player.UltimateIndex < 0) return;
@@ -297,6 +296,7 @@ public class PlayerStateMachine : StateMachine
 
         if (!Input.HasBufferedUltimateInput) return;
         if (IsRolling) return;
+        if (!CanUltimate) return;
 
         if (StartAbility(data, player.UltimateIndex))
         {
