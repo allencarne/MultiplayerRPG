@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable Objects/Character/PlayerScailingData")]
-public class PlayerScailingData : ScriptableObject
+[CreateAssetMenu(menuName = "Scriptable Objects/Character/PlayerScalingData")]
+public class PlayerScalingData : ScriptableObject
 {
     [Header("Level 1 Baseline")]
     public float BaseHealth;

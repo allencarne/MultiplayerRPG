@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/Character/EnemyData")]
 public class EnemyData : ScriptableObject
 {
-    public EnemyScailingData Scaling;
+    public EnemyScalingData Scaling;
 
     public string Enemy_ID;
     public string Enemy_Name;

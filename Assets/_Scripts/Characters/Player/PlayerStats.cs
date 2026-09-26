@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerStats : CharacterStats
 {
-    public PlayerScailingData ScalingData;
+    public PlayerScalingData ScalingData;
 
     [Header("Customization")]
     public NetworkVariable<int> net_CharacterSlot = new(writePerm: NetworkVariableWritePermission.Server);
