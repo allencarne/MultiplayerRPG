@@ -99,7 +99,7 @@ public class ToolTip : MonoBehaviour
             StringBuilder sb = new();
             if (!string.IsNullOrEmpty(skillData.Description))
             {
-                sb.AppendLine(skillData.Description.Trim());
+                sb.AppendLine(ApplyPaletteTokens(skillData.Description.Trim()));
                 sb.AppendLine();
             }
 
@@ -269,5 +269,25 @@ public class ToolTip : MonoBehaviour
         }
 
         return line.ToString();
+    }
+
+    string ApplyPaletteTokens(string text)
+    {
+        text = text.Replace("{buff}", $"<color=#{palette.Hex(palette.Buff)}>")
+                   .Replace("{/buff}", "</color>");
+        text = text.Replace("{debuff}", $"<color=#{palette.Hex(palette.Debuff)}>")
+                   .Replace("{/debuff}", "</color>");
+        text = text.Replace("{damage}", $"<color=#{palette.Hex(palette.PhysicalDamage)}>")
+                   .Replace("{/damage}", "</color>");
+        text = text.Replace("{heal}", $"<color=#{palette.Hex(palette.Healing)}>")
+                   .Replace("{/heal}", "</color>");
+        text = text.Replace("{cc}", $"<color=#{palette.Hex(palette.CrowdControl)}>")
+                   .Replace("{/cc}", "</color>");
+        text = text.Replace("{mobility}", $"<color=#{palette.Hex(palette.Mobility)}>")
+                   .Replace("{/mobility}", "</color>");
+        text = text.Replace("{utility}", $"<color=#{palette.Hex(palette.Utility)}>")
+                   .Replace("{/utility}", "</color>");
+
+        return text;
     }
 }

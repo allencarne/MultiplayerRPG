@@ -14,7 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveSkillData
   Name: Improved Heavy Strike
   Icon: {fileID: 21300000, guid: 867bc14cdb8d48d408ba650a9f950573, type: 3}
-  Description: Improved Heavy Strike
+  Description: 'Condition:
+
+    {utility}Heavy Strike{/utility} learned.
+
+
+    Effect:
+
+    {utility}Heavy
+    Strike{/utility} has an increased {cc}stun{/cc} duration.'
   CoolDown: 0
+  ManaCost: 0
   Trigger: {fileID: 0}
   OnActivateEffects: []

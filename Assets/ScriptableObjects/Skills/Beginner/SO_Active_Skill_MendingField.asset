@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   Name: Mending Field
   Icon: {fileID: 21300000, guid: 6acff25dfee722e4c8cb2d1e578747a0, type: 3}
-  Description: Healing Field on the ground
+  Description: Cast a spell at the target location, {heal}Healing{/heal} all allies
+    inside.
   CoolDown: 15
+  ManaCost: 30
   SkillRange: 5
   weaponType: 0
   skillType: 1
@@ -27,7 +29,6 @@ MonoBehaviour:
   ActionTime: 0
   ImpactTime: 0
   RecoveryTime: 0
-  ManaCost: 30
   OnCastEffects: []
   OnActionEffects: []
   OnImpactEffects:

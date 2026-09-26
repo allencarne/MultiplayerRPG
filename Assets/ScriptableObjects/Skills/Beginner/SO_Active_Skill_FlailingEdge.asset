@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   Name: Flailing Edge
   Icon: {fileID: 21300000, guid: 40a4ae7e4ca293548aab4d1e7711c88c, type: 3}
-  Description: 
+  Description: Swing your sword around you, dealing {damage}damage{/damage} to all
+    enemies hit.
   CoolDown: 3
+  ManaCost: 13
   SkillRange: 0
   weaponType: 0
   skillType: 1
@@ -27,7 +29,6 @@ MonoBehaviour:
   ActionTime: 0
   ImpactTime: 0.1
   RecoveryTime: 0.3
-  ManaCost: 13
   OnCastEffects: []
   OnActionEffects: []
   OnImpactEffects:

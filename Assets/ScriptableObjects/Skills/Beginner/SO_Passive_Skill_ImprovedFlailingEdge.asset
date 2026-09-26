@@ -14,7 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PassiveSkillData
   Name: Improved FlailingEdge
   Icon: {fileID: 21300000, guid: c044749080cd38b4ea2236629b77c516, type: 3}
-  Description: Flailing Edge Now Bleeds
+  Description: 'Condition:
+
+    {utility}Flailing Edge{/utility} learned.
+
+
+    Effect:
+
+    {utility}Flailing
+    Edge{/utility} now applies {debuff}bleed{/debuff} to all enemies hit.'
   CoolDown: 0
+  ManaCost: 0
   Trigger: {fileID: 0}
   OnActivateEffects: []
