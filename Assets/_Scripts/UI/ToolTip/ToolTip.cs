@@ -105,6 +105,15 @@ public class ToolTip : MonoBehaviour
             sb.AppendLine($"Cooldown: {skillData.CoolDown:0.##}s");
             sb.AppendLine($"Mana Cost: {skillData.ManaCost}");
 
+            DamageEffect dmg = skillData.FindDamageEffect();
+            if (dmg != null)
+            {
+                sb.AppendLine();
+                sb.AppendLine(FormatDamageLine(dmg));
+            }
+
+            itemInfo_Text.text = sb.ToString();
+
             itemInfo_Text.text = sb.ToString();
 
             // Icon color default
@@ -214,5 +223,50 @@ public class ToolTip : MonoBehaviour
     void OnPlayerLevelChanged(int oldVal, int newVal)
     {
         UpdateToolTip();
+    }
+
+    string FormatDamageLine(DamageEffect dmg)
+    {
+        string header = dmg.DamageType switch
+        {
+            DamageType.Flat => "PHYSICAL DAMAGE",
+            DamageType.True => "TRUE DAMAGE",
+            DamageType.PercentMaxHealth or DamageType.PercentMaxHealthTrue => "MAX HEALTH DAMAGE",
+            DamageType.PercentMissingHealth or DamageType.PercentMissingHealthTrue => "MISSING HEALTH DAMAGE",
+            DamageType.PercentCurrentHealth or DamageType.PercentCurrentHealthTrue => "CURRENT HEALTH DAMAGE",
+            _ => "DAMAGE"
+        };
+
+        string headerColor = dmg.DamageType switch
+        {
+            DamageType.Flat => "FFFFFF",
+            DamageType.True => "FF9944",
+            _ => "B266FF"
+        };
+
+        bool isPercentBased = dmg.DamageType != DamageType.Flat && dmg.DamageType != DamageType.True;
+        string suffix = isPercentBased ? "%" : "";
+
+        StringBuilder line = new();
+        line.Append($"<color=#{headerColor}><b>{header}:</b></color>\n");
+
+        if (dmg.BaseDamage != 0) line.Append($"{dmg.BaseDamage:0.##}{suffix}");
+
+        if (dmg.DamageRatio != 0)
+        {
+            if (dmg.BaseDamage != 0) line.Append(" ");
+            line.Append($"<color=orange>(+ {dmg.DamageRatio * 100f:0.##}% Total Damage)</color>");
+        }
+
+        if (dmg.PerLevelBonus != 0)
+            line.Append($" (+ {dmg.PerLevelBonus:0.##} per level)");
+
+        if (stats != null)
+        {
+            float computed = dmg.BaseDamage + (stats.TotalDamage * dmg.DamageRatio) + (stats.PlayerLevel.Value * dmg.PerLevelBonus);
+            line.Append($" = <b>{computed:0.#}{suffix}</b>");
+        }
+
+        return line.ToString();
     }
 }

@@ -178,4 +178,17 @@ public class SpawnEffect: NetworkedSpawnEffect
 
     public override int GetRepeatCount() => Mathf.Max(1, RepeatAmount);
     public override float GetRepeatInterval() => RepeatRate;
+
+    public override DamageEffect FindDamageEffect()
+    {
+        if (OnTriggerEffects == null) return null;
+
+        foreach (SkillEffect effect in OnTriggerEffects)
+        {
+            if (effect == null) continue;
+            DamageEffect found = effect.FindDamageEffect();
+            if (found != null) return found;
+        }
+        return null;
+    }
 }

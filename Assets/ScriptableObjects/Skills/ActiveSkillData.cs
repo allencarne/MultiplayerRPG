@@ -50,4 +50,25 @@ public class ActiveSkillData : SkillData
         SkillPhase.Recovery => OnRecoveryEffects,
         _ => null
     };
+
+    public override DamageEffect FindDamageEffect()
+    {
+        return FindInEffects(OnCastEffects)
+            ?? FindInEffects(OnActionEffects)
+            ?? FindInEffects(OnImpactEffects)
+            ?? FindInEffects(OnRecoveryEffects);
+    }
+
+    DamageEffect FindInEffects(SkillEffect[] effects)
+    {
+        if (effects == null) return null;
+
+        foreach (SkillEffect effect in effects)
+        {
+            if (effect == null) continue;
+            DamageEffect found = effect.FindDamageEffect();
+            if (found != null) return found;
+        }
+        return null;
+    }
 }
