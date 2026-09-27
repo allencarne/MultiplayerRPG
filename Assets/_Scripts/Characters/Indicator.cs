@@ -64,9 +64,9 @@ public class Indicator : MonoBehaviour
             Destroy(indicator);
             indicator = null;
             indicatorType = null;
-        }
 
-        HideRangeIndicator();
+            HideRangeIndicator();
+        }
     }
 
     public void DestroyAllIndicators()
@@ -82,6 +82,8 @@ public class Indicator : MonoBehaviour
     {
         if (isHeld)
         {
+            if (indicator != null && indicatorType != indicatorName) return;
+
             if (data.TargetingMode == ActiveSkillData.Targeting.Ground)
             {
                 Vector2 targetPos = ComputeGroundTargetPosition(data, input, controlScheme);

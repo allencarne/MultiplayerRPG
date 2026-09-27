@@ -47,6 +47,7 @@ public class PlayerStateMachine : StateMachine
     public bool CanDefensive = true;
     public bool CanUtility = true;
     public bool CanUltimate = true;
+    private string lockedSkillSlot = null;
 
     [HideInInspector] public UnityEvent OnSpawn;
 
@@ -174,11 +175,21 @@ public class PlayerStateMachine : StateMachine
         if (player.OffensiveIndex >= skills.offensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        ActiveSkillData data = skills.offensiveAbilities[player.OffensiveIndex];
+        if (!TryAcquireOrHoldLock("Offensive", Input.IsOffensiveHeld))
+        {
+            Input.CancelOffensiveInput();
+            return;
+        }
 
+        ActiveSkillData data = skills.offensiveAbilities[player.OffensiveIndex];
         Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input, playerInput.currentControlScheme);
 
-        if (!Input.HasBufferedOffensiveInput) return;
+        if (!Input.HasBufferedOffensiveInput)
+        {
+            ReleaseLockIfDone("Offensive", Input.IsOffensiveHeld, Input.HasBufferedOffensiveInput);
+            return;
+        }
+
         if (IsRolling) return;
         if (!CanOffensive) return;
 
@@ -190,8 +201,9 @@ public class PlayerStateMachine : StateMachine
         else
         {
             Input.HasBufferedOffensiveInput = false;
-            // TODO: hook UI feedback (e.g. flash skill button / play sound)
         }
+
+        ReleaseLockIfDone("Offensive", Input.IsOffensiveHeld, Input.HasBufferedOffensiveInput);
     }
 
     public void MobilityAbility()
@@ -203,11 +215,21 @@ public class PlayerStateMachine : StateMachine
         if (player.MobilityIndex >= skills.mobilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        ActiveSkillData data = skills.mobilityAbilities[player.MobilityIndex];
+        if (!TryAcquireOrHoldLock("Mobility", Input.IsMobilityHeld))
+        {
+            Input.CancelMobilityInput();
+            return;
+        }
 
+        ActiveSkillData data = skills.mobilityAbilities[player.MobilityIndex];
         Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input, playerInput.currentControlScheme);
 
-        if (!Input.HasBufferedMobilityInput) return;
+        if (!Input.HasBufferedMobilityInput)
+        {
+            ReleaseLockIfDone("Mobility", Input.IsMobilityHeld, Input.HasBufferedMobilityInput);
+            return;
+        }
+
         if (IsRolling) return;
         if (!CanMobility) return;
 
@@ -219,8 +241,9 @@ public class PlayerStateMachine : StateMachine
         else
         {
             Input.HasBufferedMobilityInput = false;
-            // TODO: hook UI feedback (e.g. flash skill button / play sound)
         }
+
+        ReleaseLockIfDone("Mobility", Input.IsMobilityHeld, Input.HasBufferedMobilityInput);
     }
 
     public void DefensiveAbility()
@@ -232,11 +255,21 @@ public class PlayerStateMachine : StateMachine
         if (player.DefensiveIndex >= skills.defensiveAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        ActiveSkillData data = skills.defensiveAbilities[player.DefensiveIndex];
+        if (!TryAcquireOrHoldLock("Defensive", Input.IsDefensiveHeld))
+        {
+            Input.CancelDefensiveInput();
+            return;
+        }
 
+        ActiveSkillData data = skills.defensiveAbilities[player.DefensiveIndex];
         Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input, playerInput.currentControlScheme);
 
-        if (!Input.HasBufferedDefensiveInput) return;
+        if (!Input.HasBufferedDefensiveInput)
+        {
+            ReleaseLockIfDone("Defensive", Input.IsDefensiveHeld, Input.HasBufferedDefensiveInput);
+            return;
+        }
+
         if (IsRolling) return;
         if (!CanDefensive) return;
 
@@ -248,8 +281,9 @@ public class PlayerStateMachine : StateMachine
         else
         {
             Input.HasBufferedDefensiveInput = false;
-            // TODO: hook UI feedback (e.g. flash skill button / play sound)
         }
+
+        ReleaseLockIfDone("Defensive", Input.IsDefensiveHeld, Input.HasBufferedDefensiveInput);
     }
 
     public void UtilityAbility()
@@ -261,11 +295,21 @@ public class PlayerStateMachine : StateMachine
         if (player.UtilityIndex >= skills.utilityAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        ActiveSkillData data = skills.utilityAbilities[player.UtilityIndex];
+        if (!TryAcquireOrHoldLock("Utility", Input.IsUtilityHeld))
+        {
+            Input.CancelUtilityInput();
+            return;
+        }
 
+        ActiveSkillData data = skills.utilityAbilities[player.UtilityIndex];
         Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input, playerInput.currentControlScheme);
 
-        if (!Input.HasBufferedUtilityInput) return;
+        if (!Input.HasBufferedUtilityInput)
+        {
+            ReleaseLockIfDone("Utility", Input.IsUtilityHeld, Input.HasBufferedUtilityInput);
+            return;
+        }
+
         if (IsRolling) return;
         if (!CanUtility) return;
 
@@ -277,8 +321,9 @@ public class PlayerStateMachine : StateMachine
         else
         {
             Input.HasBufferedUtilityInput = false;
-            // TODO: hook UI feedback (e.g. flash skill button / play sound)
         }
+
+        ReleaseLockIfDone("Utility", Input.IsUtilityHeld, Input.HasBufferedUtilityInput);
     }
 
     public void UltimateAbility()
@@ -290,11 +335,21 @@ public class PlayerStateMachine : StateMachine
         if (player.UltimateIndex >= skills.ultimateAbilities.Length) return;
         if (CrowdControl.silence.IsSilenced) return;
 
-        ActiveSkillData data = skills.ultimateAbilities[player.UltimateIndex];
+        if (!TryAcquireOrHoldLock("Ultimate", Input.IsUltimateHeld))
+        {
+            Input.CancelUltimateInput();
+            return;
+        }
 
+        ActiveSkillData data = skills.ultimateAbilities[player.UltimateIndex];
         Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input, playerInput.currentControlScheme);
 
-        if (!Input.HasBufferedUltimateInput) return;
+        if (!Input.HasBufferedUltimateInput)
+        {
+            ReleaseLockIfDone("Ultimate", Input.IsUltimateHeld, Input.HasBufferedUltimateInput);
+            return;
+        }
+
         if (IsRolling) return;
         if (!CanUltimate) return;
 
@@ -306,8 +361,9 @@ public class PlayerStateMachine : StateMachine
         else
         {
             Input.HasBufferedUltimateInput = false;
-            // TODO: hook UI feedback (e.g. flash skill button / play sound)
         }
+
+        ReleaseLockIfDone("Ultimate", Input.IsUltimateHeld, Input.HasBufferedUltimateInput);
     }
 
     public void SetFirstPassive(PassiveSkillData data, int index)
@@ -399,4 +455,19 @@ public class PlayerStateMachine : StateMachine
         ActiveSkillData.SkillType.Ultimate => skills.ultimateAbilities[index],
         _ => null
     };
+
+    private bool TryAcquireOrHoldLock(string slotName, bool isHeldPhysically)
+    {
+        if (lockedSkillSlot == null)
+        {
+            if (isHeldPhysically) lockedSkillSlot = slotName;
+            return true; // no one else owns it — this slot may proceed
+        }
+        return lockedSkillSlot == slotName;
+    }
+
+    private void ReleaseLockIfDone(string slotName, bool isHeldPhysically, bool hasBuffered)
+    {
+        if (lockedSkillSlot == slotName && !isHeldPhysically && !hasBuffered) lockedSkillSlot = null;
+    }
 }

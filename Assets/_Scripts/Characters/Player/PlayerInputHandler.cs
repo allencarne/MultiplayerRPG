@@ -447,4 +447,44 @@ public class PlayerInputHandler : MonoBehaviour
 
         return false;
     }
+
+    public void CancelOffensiveInput()
+    {
+        IsOffensiveHeld = false;
+        IsOffensiveReleased = false;
+        HasBufferedOffensiveInput = false;
+        OffensiveTimer = 0f;
+    }
+
+    public void CancelMobilityInput()
+    {
+        IsMobilityHeld = false;
+        IsMobilityReleased = false;
+        HasBufferedMobilityInput = false;
+        MobilityTimer = 0f;
+    }
+
+    public void CancelDefensiveInput()
+    {
+        IsDefensiveHeld = false;
+        IsDefensiveReleased = false;
+        HasBufferedDefensiveInput = false;
+        DefensiveTimer = 0f;
+    }
+
+    public void CancelUtilityInput()
+    {
+        IsUtilityHeld = false;
+        IsUtilityReleased = false;
+        HasBufferedUtilityInput = false;
+        UtilityTimer = 0f;
+    }
+
+    public void CancelUltimateInput()
+    {
+        IsUltimateHeld = false;
+        IsUltimateReleased = false;
+        HasBufferedUltimateInput = false;
+        UltimateTimer = 0f;
+    }
 }
