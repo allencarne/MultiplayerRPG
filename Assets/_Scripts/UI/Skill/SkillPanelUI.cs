@@ -224,19 +224,19 @@ public class SkillPanelUI : MonoBehaviour
         switch (index)
         {
             case 0:
-                SetColor(zero, Color.grey);
+                SetColor(zero, Color.softYellow);
                 SetColor(one, new Color(1f, 1f, 1f, 0f));
                 SetColor(two, new Color(1f, 1f, 1f, 0f));
                 break;
             case 1:
                 SetColor(zero, new Color(1f, 1f, 1f, 0f));
-                SetColor(one, Color.grey);
+                SetColor(one, Color.softYellow);
                 SetColor(two, new Color(1f, 1f, 1f, 0f));
                 break;
             case 2:
                 SetColor(zero, new Color(1f, 1f, 1f, 0f));
                 SetColor(one, new Color(1f, 1f, 1f, 0f));
-                SetColor(two, Color.grey);
+                SetColor(two, Color.softYellow);
                 break;
         }
     }

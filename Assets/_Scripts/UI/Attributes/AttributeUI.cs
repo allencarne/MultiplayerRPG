@@ -26,8 +26,6 @@ public class AttributeUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI totalMana;
     [SerializeField] TextMeshProUGUI totalManaRegen;
 
-
-
     private void OnEnable()
     {
         InvokeRepeating("UpdateUI", 0, 1);
