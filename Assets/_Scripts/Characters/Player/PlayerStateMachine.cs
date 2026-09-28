@@ -182,7 +182,7 @@ public class PlayerStateMachine : StateMachine
         }
 
         ActiveSkillData data = skills.offensiveAbilities[player.OffensiveIndex];
-        Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input, playerInput.currentControlScheme);
+        Indicator.HandleAbilityIndicator(data, "Offensive", Input.IsOffensiveHeld, Input, playerInput.currentControlScheme, HasEnoughMana(data));
 
         if (!Input.HasBufferedOffensiveInput)
         {
@@ -222,7 +222,7 @@ public class PlayerStateMachine : StateMachine
         }
 
         ActiveSkillData data = skills.mobilityAbilities[player.MobilityIndex];
-        Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input, playerInput.currentControlScheme);
+        Indicator.HandleAbilityIndicator(data, "Mobility", Input.IsMobilityHeld, Input, playerInput.currentControlScheme, HasEnoughMana(data));
 
         if (!Input.HasBufferedMobilityInput)
         {
@@ -262,7 +262,7 @@ public class PlayerStateMachine : StateMachine
         }
 
         ActiveSkillData data = skills.defensiveAbilities[player.DefensiveIndex];
-        Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input, playerInput.currentControlScheme);
+        Indicator.HandleAbilityIndicator(data, "Defensive", Input.IsDefensiveHeld, Input, playerInput.currentControlScheme, HasEnoughMana(data));
 
         if (!Input.HasBufferedDefensiveInput)
         {
@@ -302,7 +302,7 @@ public class PlayerStateMachine : StateMachine
         }
 
         ActiveSkillData data = skills.utilityAbilities[player.UtilityIndex];
-        Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input, playerInput.currentControlScheme);
+        Indicator.HandleAbilityIndicator(data, "Utility", Input.IsUtilityHeld, Input, playerInput.currentControlScheme, HasEnoughMana(data));
 
         if (!Input.HasBufferedUtilityInput)
         {
@@ -342,7 +342,7 @@ public class PlayerStateMachine : StateMachine
         }
 
         ActiveSkillData data = skills.ultimateAbilities[player.UltimateIndex];
-        Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input, playerInput.currentControlScheme);
+        Indicator.HandleAbilityIndicator(data, "Ultimate", Input.IsUltimateHeld, Input, playerInput.currentControlScheme, HasEnoughMana(data));
 
         if (!Input.HasBufferedUltimateInput)
         {
@@ -399,9 +399,8 @@ public class PlayerStateMachine : StateMachine
     private bool StartAbility(ActiveSkillData data, int index)
     {
         // Check mana first
-        if (data.ManaCost > 0f && PlayerStats.net_CurrentMana.Value < data.ManaCost)
+        if (!HasEnoughMana(data))
         {
-            // Not enough mana. Don't start the skill.
             // TODO: hook a UI/sound feedback here (e.g. flash the skill button)
             return false;
         }
@@ -469,5 +468,10 @@ public class PlayerStateMachine : StateMachine
     private void ReleaseLockIfDone(string slotName, bool isHeldPhysically, bool hasBuffered)
     {
         if (lockedSkillSlot == slotName && !isHeldPhysically && !hasBuffered) lockedSkillSlot = null;
+    }
+
+    private bool HasEnoughMana(ActiveSkillData data)
+    {
+        return data.ManaCost <= 0f || PlayerStats.net_CurrentMana.Value >= data.ManaCost;
     }
 }

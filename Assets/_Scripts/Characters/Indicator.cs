@@ -8,12 +8,18 @@ public class Indicator : MonoBehaviour
     [Header("Skill Indicator")]
     string indicatorType = null;
     GameObject indicator;
+
+    [Header("Unusable Feedback")]
+    float unusableAlphaMultiplier = 0.15f;
+    SpriteRenderer[] indicatorRenderers;
+    Color[] indicatorBaseColors;
     public Vector2 LastGroundPosition { get; private set; }
 
     [Header("Range Indicator")]
     [SerializeField] GameObject RangeIndicatorPrefab;
     GameObject rangeIndicatorInstance;
     SpriteRenderer rangeIndicatorRenderer;
+    Color rangeIndicatorBaseColor;
 
     [Header("Stick Aiming (Gamepad / Mobile)")]
     [SerializeField] float stickDeadzone = 0.05f;
@@ -30,6 +36,7 @@ public class Indicator : MonoBehaviour
         {
             indicator = Instantiate(prefab, transform.position, Aimer.rotation, transform);
             indicatorType = type;
+            CacheIndicatorRenderers();
         }
         else
         {
@@ -50,6 +57,7 @@ public class Indicator : MonoBehaviour
             // For ground-targeting we don't parent to the player; place at world position.
             indicator = Instantiate(prefab, worldPosition, Quaternion.identity, null);
             indicatorType = type;
+            CacheIndicatorRenderers();
         }
         else
         {
@@ -66,6 +74,8 @@ public class Indicator : MonoBehaviour
             indicatorType = null;
 
             HideRangeIndicator();
+            indicatorRenderers = null;
+            indicatorBaseColors = null;
         }
     }
 
@@ -78,7 +88,7 @@ public class Indicator : MonoBehaviour
         DestroyIndicator("Ultimate");
     }
 
-    public void HandleAbilityIndicator(ActiveSkillData data, string indicatorName, bool isHeld, PlayerInputHandler input, string controlScheme)
+    public void HandleAbilityIndicator(ActiveSkillData data, string indicatorName, bool isHeld, PlayerInputHandler input, string controlScheme, bool isUsable = true)
     {
         if (isHeld)
         {
@@ -89,13 +99,15 @@ public class Indicator : MonoBehaviour
                 Vector2 targetPos = ComputeGroundTargetPosition(data, input, controlScheme);
 
                 LastGroundPosition = targetPos;
-                ShowRangeIndicator(data.SkillRange);
+                ShowRangeIndicator(data.SkillRange, isUsable);
                 InstantiateIndicator(data.IndicatorPrefab, indicatorName, targetPos);
             }
             else
             {
-                InstantiateIndicator(data.IndicatorPrefab,indicatorName);
+                InstantiateIndicator(data.IndicatorPrefab, indicatorName);
             }
+
+            ApplyUsability(isUsable);
         }
         else
         {
@@ -143,13 +155,14 @@ public class Indicator : MonoBehaviour
         return origin + toTarget;
     }
 
-    void ShowRangeIndicator(float range)
+    void ShowRangeIndicator(float range, bool isUsable)
     {
         if (rangeIndicatorInstance == null)
         {
             rangeIndicatorInstance = Instantiate(RangeIndicatorPrefab, transform);
             rangeIndicatorInstance.transform.localPosition = Vector3.zero;
             rangeIndicatorRenderer = rangeIndicatorInstance.GetComponent<SpriteRenderer>();
+            rangeIndicatorBaseColor = rangeIndicatorRenderer.color;   // <-- cache original
         }
 
         rangeIndicatorInstance.SetActive(true);
@@ -157,6 +170,11 @@ public class Indicator : MonoBehaviour
         float nativeDiameter = rangeIndicatorRenderer.sprite.bounds.size.x;
         float scaleFactor = (range * 2f) / nativeDiameter;
         rangeIndicatorInstance.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+
+        // Fade when the skill can't be activated
+        Color c = rangeIndicatorBaseColor;
+        if (!isUsable) c.a *= unusableAlphaMultiplier;
+        rangeIndicatorRenderer.color = c;
     }
 
     void HideRangeIndicator()
@@ -164,6 +182,31 @@ public class Indicator : MonoBehaviour
         if (rangeIndicatorInstance != null)
         {
             rangeIndicatorInstance.SetActive(false);
+        }
+    }
+
+    void CacheIndicatorRenderers()
+    {
+        indicatorRenderers = indicator.GetComponents<SpriteRenderer>();
+        indicatorBaseColors = new Color[indicatorRenderers.Length];
+
+        for (int i = 0; i < indicatorRenderers.Length; i++)
+        {
+            indicatorBaseColors[i] = indicatorRenderers[i].color;
+        }
+    }
+
+    void ApplyUsability(bool isUsable)
+    {
+        if (indicator == null || indicatorRenderers == null) return;
+
+        for (int i = 0; i < indicatorRenderers.Length; i++)
+        {
+            if (indicatorRenderers[i] == null) continue;
+
+            Color c = indicatorBaseColors[i];
+            if (!isUsable) c.a *= unusableAlphaMultiplier;
+            indicatorRenderers[i].color = c;
         }
     }
 }
