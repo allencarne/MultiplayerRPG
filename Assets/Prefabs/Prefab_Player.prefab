@@ -5926,6 +5926,7 @@ MonoBehaviour:
   hightRect: {fileID: 4214664803295272693}
   lowRect: {fileID: 2316710519867917316}
   Hurt_Prefab: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
+  Crit_Prefab: {fileID: 7893874486923855606, guid: 7aafed934fe03274ebef889fabc3218c, type: 3}
   Heal_Prefab: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
   Exp_Prefab: {fileID: 7893874486923855606, guid: ba8655a5cf081344fa7cde2f954412f3, type: 3}
   Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
@@ -24377,7 +24378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1695590029
+  GlobalObjectIdHash: 2503532107
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -24550,6 +24551,7 @@ MonoBehaviour:
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   isDead: 0
+  baseCritBonus: 0.5
   modifiers: []
   OnDamaged:
     m_PersistentCalls:
@@ -24567,6 +24569,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCritDealt:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCritTaken:
     m_PersistentCalls:
       m_Calls: []
   ScalingData: {fileID: 11400000, guid: 5c1f39ae645529c43bb7440d900fe6df, type: 2}
