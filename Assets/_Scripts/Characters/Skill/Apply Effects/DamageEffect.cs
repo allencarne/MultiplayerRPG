@@ -27,6 +27,7 @@ public class DamageEffect : ApplyEffect
 
         CharacterStats attackerStats = attacker.GetComponent<CharacterStats>();
 
+        // Calculate Damage
         int attackerLevel = 1;
         PlayerStats ps = attacker.GetComponent<PlayerStats>();
         if (ps != null) attackerLevel = ps.PlayerLevel.Value;
@@ -44,15 +45,41 @@ public class DamageEffect : ApplyEffect
         float attackStatVal = attackerStats != null ? attackerStats.TotalDamage : 0f;
         float computedDamage = BaseDamage + (attackStatVal * DamageRatio) + (attackerLevel * PerLevelBonus) + ctx.AttackerDamage;
 
-        float dealt = damageable.TakeDamage(computedDamage, DamageType, attacker, target.transform.position);
+        // Critical hit calculation
+        bool isCrit = false;
+        if (attackerStats != null)
+        {
+            float critChance = Mathf.Clamp(attackerStats.TotalPrecision, 0f, 100f) / 100f;
+            if (Random.value < critChance)
+            {
+                isCrit = true;
+                float critMultiplier = 1f + attackerStats.baseCritBonus + (attackerStats.TotalFerocity / 100f);
+                computedDamage *= critMultiplier;
+            }
+        }
 
+        // Apply damage to the target
+        int dealt = damageable.TakeDamage(computedDamage, DamageType, attacker, target.transform.position);
+
+        // On Crit Events
+        if (isCrit)
+        {
+            if (attackerStats != null) attackerStats.OnCritDealt?.Invoke(dealt, target);
+            CharacterStats targetStats = target.GetComponent<CharacterStats>();
+            if (targetStats != null) targetStats.OnCritTaken?.Invoke(dealt, attacker);
+        }
+
+        // Calculate Vamp
         if (ctx.IsBasic && attackerStats != null && attackerStats.TotalVamp > 0f)
         {
             float healAmount = dealt * (attackerStats.TotalVamp / 100f);
             if (attackerStats.net_TotalHealth.Value != attackerStats.net_CurrentHealth.Value)
+            {
                 attackerStats.GiveHeal(healAmount, HealType.Flat);
+            }
         }
 
+        // Trigger OnDamageDealtEffects on the attacker
         if (OnDamageDealtEffects != null && OnDamageDealtEffects.Length > 0)
         {
             SkillContext selfCtx = ctx;

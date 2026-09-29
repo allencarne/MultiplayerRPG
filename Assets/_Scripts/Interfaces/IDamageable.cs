@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    float TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position);
+    int TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position);
 }
 
 public enum DamageType

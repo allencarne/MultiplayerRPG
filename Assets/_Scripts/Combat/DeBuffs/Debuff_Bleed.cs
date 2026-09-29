@@ -1,7 +1,6 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using static DebuffEffect;
 
 public class Debuff_Bleed : NetworkBehaviour
 {

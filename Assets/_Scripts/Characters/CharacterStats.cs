@@ -52,6 +52,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Variables")]
     public bool isDead;
+    public float baseCritBonus = 0.5f;
     float minSpeed = .2f;
 
     [Header("List")]
@@ -64,19 +65,28 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDamaged;
     [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDeath;
     [HideInInspector] public UnityEvent OnDeath;
+    [HideInInspector] public UnityEvent<int, NetworkObject> OnCritDealt;
+    [HideInInspector] public UnityEvent<int, NetworkObject> OnCritTaken;
 
-    public float TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
+    public int TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
     {
         // Return if not server or dead
-        if (!IsServer) return 0f;
-        if (isDead) return 0f;
+        if (!IsServer) return 0;
+        if (isDead) return 0;
 
         // Don't take Damage if Immune
         Buffs buffs = GetComponent<Buffs>();
-        if (buffs != null && buffs.immune != null && buffs.immune.net_IsImmune.Value) return 0f;
+        if (buffs != null && buffs.immune != null && buffs.immune.net_IsImmune.Value) return 0;
+
+        // Try to find CharacterStats on the object that dealt the damage
+        CharacterStats attackerStats = null;
+        if (attackerID != null) attackerStats = attackerID.GetComponent<CharacterStats>();
+
+        // Get the attacker's Lethality
+        float attackerLethality = attackerStats != null ? attackerStats.TotalLethality : 0f;
 
         // Calculate the amount of damage that should actually be dealt after armor and damage type are considered.
-        float finalDamage = CalculateFinalDamage(damage, damageType);
+        float finalDamage = CalculateFinalDamage(damage, damageType, attackerLethality);
 
         // Round the calculated damage to the nearest whole number.
         int roundedDamage = Mathf.RoundToInt(finalDamage);
@@ -84,16 +94,9 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         // Subtract the final damage from the character's current health, but never allow health to go below zero.
         net_CurrentHealth.Value = Mathf.Max(net_CurrentHealth.Value - roundedDamage, 0);
 
-        // Tell anything listening that this character took damage and provide the damage amount.
+        // Damaged/Dealt Events
         OnDamaged?.Invoke(roundedDamage);
-
-        // Tell anything listening that this character was damaged and provide the attacking NetworkObject.
         OnCharacterDamaged?.Invoke(attackerID);
-
-        // Try to find CharacterStats on the object that dealt the damage.
-        CharacterStats attackerStats = attackerID.GetComponent<CharacterStats>();
-
-        // Tell the attacker that they successfully dealt damage.
         if (attackerStats != null) attackerStats.OnDamageDealt?.Invoke();
 
         // Check whether the character's health has reached zero.
@@ -102,10 +105,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
             // Mark the character as dead.
             isDead = true;
 
-            // Tell anything listening that this character has died.
+            // Death Events
             OnDeath?.Invoke();
-
-            // Tell anything listening that this character has died and provide the attacker.
             OnCharacterDeath?.Invoke(attackerID);
         }
 
@@ -113,24 +114,23 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         return roundedDamage;
     }
 
-    private float CalculateFinalDamage(float baseDamage, DamageType damageType)
+    private float CalculateFinalDamage(float baseDamage, DamageType damageType, float attackerLethality = 0f)
     {
-        float armor = TotalArmor;
+        // Apply attacker's flat lethality as armor penetration (subtract from target armor)
+        float armor = TotalArmor - attackerLethality;
+
+        // Clamp armor to a minimum of -99 to prevent division by zero or negative damage multipliers.
+        if (armor <= -99f) armor = -99f;
+
+        // Calculate the damage multiplier based on the target's armor
         float armorMultiplier = 100f / (100f + armor);
 
         switch (damageType)
         {
-            case DamageType.Flat:
-                return baseDamage * armorMultiplier;
-
-            case DamageType.True:
-                return baseDamage;
-
-            case DamageType.PercentMaxHealth:
-                return net_TotalHealth.Value * (baseDamage / 100f) * armorMultiplier;
-
-            case DamageType.PercentMaxHealthTrue:
-                return net_TotalHealth.Value * (baseDamage / 100f);
+            case DamageType.Flat: return baseDamage * armorMultiplier;
+            case DamageType.True: return baseDamage;
+            case DamageType.PercentMaxHealth: return net_TotalHealth.Value * (baseDamage / 100f) * armorMultiplier;
+            case DamageType.PercentMaxHealthTrue: return net_TotalHealth.Value * (baseDamage / 100f);
 
             case DamageType.PercentMissingHealth:
                 {
@@ -144,14 +144,9 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
                     return missing * (baseDamage / 100f);
                 }
 
-            case DamageType.PercentCurrentHealth:
-                return net_CurrentHealth.Value * (baseDamage / 100f) * armorMultiplier;
-
-            case DamageType.PercentCurrentHealthTrue:
-                return net_CurrentHealth.Value * (baseDamage / 100f);
-
-            default:
-                return baseDamage;
+            case DamageType.PercentCurrentHealth: return net_CurrentHealth.Value * (baseDamage / 100f) * armorMultiplier;
+            case DamageType.PercentCurrentHealthTrue: return net_CurrentHealth.Value * (baseDamage / 100f);
+            default: return baseDamage;
         }
     }
 
