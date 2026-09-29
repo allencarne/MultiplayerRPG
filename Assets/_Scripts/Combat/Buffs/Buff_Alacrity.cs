@@ -57,7 +57,7 @@ public class Buff_Alacrity : NetworkBehaviour, IAlacrityable
         float multiplier = stats.net_BaseCDR.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
-            statType = StatType.CoolDown,
+            statType = StatType.Recharge,
             value = multiplier,
             source = ModSource.Buff
         };

@@ -57,7 +57,7 @@ public class Buff_Might : NetworkBehaviour, IMightable
         float multiplier = stats.net_BaseDamage.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
-            statType = StatType.Damage,
+            statType = StatType.Power,
             value = multiplier,
             source = ModSource.Buff
         };

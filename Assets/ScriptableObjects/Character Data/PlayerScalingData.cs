@@ -48,7 +48,7 @@ public class PlayerScalingData : ScriptableObject
     public void ApplyLevelUpGains(PlayerStats stats, int newLevel)
     {
         stats.IncreaseStat(StatType.Health, HealthPerLevel);
-        stats.IncreaseStat(StatType.Damage, DamagePerLevel);
+        stats.IncreaseStat(StatType.Power, DamagePerLevel);
         stats.IncreaseStat(StatType.Mana, ManaPerLevel);
 
         if (newLevel % RegenLevelInterval == 0)

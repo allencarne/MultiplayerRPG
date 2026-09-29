@@ -52,7 +52,7 @@ public class Debuff_Weakness : NetworkBehaviour, IWeaknessable
         float multiplier = stats.net_BaseDamage.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
-            statType = StatType.Damage,
+            statType = StatType.Power,
             value = -multiplier,
             source = ModSource.Buff
         };

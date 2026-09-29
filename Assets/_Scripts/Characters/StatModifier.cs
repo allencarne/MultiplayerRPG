@@ -26,21 +26,21 @@ public struct StatModifier : INetworkSerializable, IEquatable<StatModifier>
 
 public enum StatType
 {
-    Damage,
     Health,
-    AttackSpeed,
-    CoolDown,
-    Speed,
-    Armor,
-    Vamp,
     HealthRegen,
-    Mana,
-    ManaRegen,
+    Recharge,
+    Dexterity,
     Endurance,
     EnduranceRegen,
     Precision,
     Ferocity,
-    Lethality
+    Power,
+    Vamp,
+    Armor,
+    Lethality,
+    Mana,
+    ManaRegen,
+    Speed
 }
 
 public enum ModSource

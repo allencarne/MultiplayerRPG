@@ -77,23 +77,23 @@ public class AttributeUI : MonoBehaviour
         txt_TotalRecharge.text = ComplexStringBuild(
             stats.TotalCDR,
             stats.net_BaseCDR.Value,
-            stats.GetModifier(StatType.CoolDown, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.CoolDown, ModSource.Equipment),
-            stats.GetModifier(StatType.CoolDown, ModSource.Buff),
-            stats.GetPercentModifier(StatType.CoolDown, ModSource.Buff),
-            stats.GetModifier(StatType.CoolDown, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.CoolDown, ModSource.Debuff));
+            stats.GetModifier(StatType.Recharge, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Recharge, ModSource.Equipment),
+            stats.GetModifier(StatType.Recharge, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Recharge, ModSource.Buff),
+            stats.GetModifier(StatType.Recharge, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Recharge, ModSource.Debuff));
 
         // Dexterity
         txt_TotalDexterity.text = ComplexStringBuild(
             stats.TotalAS,
             stats.net_BaseAS.Value,
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Equipment),
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Buff),
-            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Buff),
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Debuff));
+            stats.GetModifier(StatType.Dexterity, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Dexterity, ModSource.Equipment),
+            stats.GetModifier(StatType.Dexterity, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Dexterity, ModSource.Buff),
+            stats.GetModifier(StatType.Dexterity, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Dexterity, ModSource.Debuff));
 
         // Endurance
         txt_TotalEndurance.text = SimpleStringBuild(
@@ -104,7 +104,7 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.Endurance, ModSource.Debuff));
 
         // Endurance Regen
-        txt_TotalFerocity.text = ComplexStringBuild(
+        txt_totalEnduranceRegen.text = ComplexStringBuild(
             stats.TotalEnduranceRegen,
             stats.net_BaseEnduranceRegen.Value,
             stats.GetModifier(StatType.EnduranceRegen, ModSource.Equipment),
@@ -115,19 +115,37 @@ public class AttributeUI : MonoBehaviour
             stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Debuff));
 
         // Precision
+        txt_TotalPrecision.text = ComplexStringBuild(
+            stats.TotalPrecision,
+            stats.net_BasePrecision.Value,
+            stats.GetModifier(StatType.Precision, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Precision, ModSource.Equipment),
+            stats.GetModifier(StatType.Precision, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Precision, ModSource.Buff),
+            stats.GetModifier(StatType.Precision, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Precision, ModSource.Debuff));
 
         // Ferocity
+        txt_TotalFerocity.text = ComplexStringBuild(
+            stats.TotalFerocity,
+            stats.net_BaseFerocity.Value,
+            stats.GetModifier(StatType.Ferocity, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Ferocity, ModSource.Equipment),
+            stats.GetModifier(StatType.Ferocity, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Ferocity, ModSource.Buff),
+            stats.GetModifier(StatType.Ferocity, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Ferocity, ModSource.Debuff));
 
         // Power
         txt_TotalPower.text = ComplexStringBuild(
             stats.TotalDamage,
             stats.net_BaseDamage.Value,
-            stats.GetModifier(StatType.Damage, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.Damage, ModSource.Equipment),
-            stats.GetModifier(StatType.Damage, ModSource.Buff),
-            stats.GetPercentModifier(StatType.Damage, ModSource.Buff),
-            stats.GetModifier(StatType.Damage, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.Damage, ModSource.Debuff));
+            stats.GetModifier(StatType.Power, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Power, ModSource.Equipment),
+            stats.GetModifier(StatType.Power, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Power, ModSource.Buff),
+            stats.GetModifier(StatType.Power, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Power, ModSource.Debuff));
 
         // Vamp
         txt_TotalVamp.text = ComplexStringBuild(
@@ -141,7 +159,7 @@ public class AttributeUI : MonoBehaviour
             stats.GetPercentModifier(StatType.Vamp, ModSource.Debuff));
 
         // Armor
-        txt_TotalLethality.text = SimpleStringBuild(
+        txt_TotalArmor.text = SimpleStringBuild(
             stats.TotalArmor,
             stats.net_BaseArmor.Value,
             stats.GetModifier(StatType.Armor, ModSource.Equipment),
@@ -149,6 +167,15 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.Armor, ModSource.Debuff));
 
         // Lethality
+        txt_TotalLethality.text = ComplexStringBuild(
+            stats.TotalLethality,
+            stats.net_BaseLethality.Value,
+            stats.GetModifier(StatType.Lethality, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Lethality, ModSource.Equipment),
+            stats.GetModifier(StatType.Lethality, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Lethality, ModSource.Buff),
+            stats.GetModifier(StatType.Lethality, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Lethality, ModSource.Debuff));
 
         // Mana
         txt_TotalMana.text = ComplexStringBuild(

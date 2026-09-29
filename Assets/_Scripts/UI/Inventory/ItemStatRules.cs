@@ -37,7 +37,7 @@ public class ItemStatRules : ScriptableObject
     [Range(0.01f, 1f)]
     public float rateStatFlatScale;
 
-    readonly StatType[] AllRollableStats = { StatType.Damage, StatType.Armor, StatType.Health, StatType.AttackSpeed, StatType.CoolDown, StatType.Speed, StatType.Vamp, StatType.Mana, StatType.ManaRegen};
+    readonly StatType[] AllRollableStats = { StatType.Power, StatType.Armor, StatType.Health, StatType.Dexterity, StatType.Recharge, StatType.Speed, StatType.Vamp, StatType.Mana, StatType.ManaRegen};
 
     public void RollStats(InventorySlotData slot, float rarityBoost = 0f)
     {
@@ -136,12 +136,12 @@ public class ItemStatRules : ScriptableObject
             case EquipmentType.Shoulder:
             case EquipmentType.Back:
             case EquipmentType.Neck:
-                return StatType.Damage;
+                return StatType.Power;
 
             // Fallback in case a new equpment type hasn't been assigned
             default:
                 Debug.LogWarning($"No primary stat mapping for {type}, defaulting to Damage.");
-                return StatType.Damage;
+                return StatType.Power;
         }
     }
 
@@ -411,7 +411,7 @@ public class ItemStatRules : ScriptableObject
         if (modType == ModType.Percent) return percentPerBudgetPoint;
 
         // For flat stats, some stats are considered "rate" stats and have a different scaling factor
-        bool isRateStat = stat == StatType.AttackSpeed || stat == StatType.CoolDown || stat == StatType.Speed || stat == StatType.Vamp;
+        bool isRateStat = stat == StatType.Dexterity || stat == StatType.Recharge || stat == StatType.Speed || stat == StatType.Vamp;
 
         // Return the appropriate scaling factor for flat stats
         return isRateStat ? rateStatFlatScale : 1f;

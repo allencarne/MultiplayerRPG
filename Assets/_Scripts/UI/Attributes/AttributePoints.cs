@@ -156,9 +156,9 @@ public class AttributePoints : MonoBehaviour
     public void ApplyButton()
     {
         stats.IncreaseStat(StatType.Health, healthToAdd);
-        stats.IncreaseStat(StatType.Damage, damageToAdd);
-        stats.IncreaseStat(StatType.AttackSpeed, asToAdd * 0.01f);
-        stats.IncreaseStat(StatType.CoolDown, cdrToAdd * 0.01f);
+        stats.IncreaseStat(StatType.Power, damageToAdd);
+        stats.IncreaseStat(StatType.Dexterity, asToAdd * 0.01f);
+        stats.IncreaseStat(StatType.Recharge, cdrToAdd * 0.01f);
         stats.ConsumeAttributePoints(healthToAdd + damageToAdd + asToAdd + cdrToAdd);
 
         healthToAdd = 0;

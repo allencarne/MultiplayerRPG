@@ -16,11 +16,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Recharge")]
     public NetworkVariable<float> net_BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
-    public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.CoolDown)) * (1f + GetPercentModifier(StatType.CoolDown));
+    public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.Recharge)) * (1f + GetPercentModifier(StatType.Recharge));
 
     [Header("Dexterity")]
     public NetworkVariable<float> net_BaseAS = new(writePerm: NetworkVariableWritePermission.Server);
-    public float TotalAS => (net_BaseAS.Value + GetModifier(StatType.AttackSpeed)) * (1f + GetPercentModifier(StatType.AttackSpeed));
+    public float TotalAS => (net_BaseAS.Value + GetModifier(StatType.Dexterity)) * (1f + GetPercentModifier(StatType.Dexterity));
 
     [Header("Precision")]
     public NetworkVariable<float> net_BasePrecision = new(writePerm: NetworkVariableWritePermission.Server);
@@ -32,7 +32,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Power")]
     public NetworkVariable<float> net_BaseDamage = new(writePerm: NetworkVariableWritePermission.Server);
-    public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Damage)) * (1f + GetPercentModifier(StatType.Damage));
+    public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Power)) * (1f + GetPercentModifier(StatType.Power));
 
     [Header("Vamp")]
     public NetworkVariable<float> net_BaseVamp = new(writePerm: NetworkVariableWritePermission.Server);
@@ -295,9 +295,9 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     {
         switch (stat)
         {
-            case StatType.Damage: net_BaseDamage.Value += amount; break;
-            case StatType.AttackSpeed: net_BaseAS.Value += amount; break;
-            case StatType.CoolDown: net_BaseCDR.Value += amount; break;
+            case StatType.Power: net_BaseDamage.Value += amount; break;
+            case StatType.Dexterity: net_BaseAS.Value += amount; break;
+            case StatType.Recharge: net_BaseCDR.Value += amount; break;
             case StatType.Speed: net_BaseSpeed.Value += amount; break;
             case StatType.Armor: net_BaseArmor.Value += amount; break;
             case StatType.Vamp: net_BaseVamp.Value += amount; break;

@@ -57,7 +57,7 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
         float multiplier = stats.net_BaseAS.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
-            statType = StatType.AttackSpeed,
+            statType = StatType.Dexterity,
             value = multiplier,
             source = ModSource.Buff
         };

@@ -52,7 +52,7 @@ public class Debuff_Exhaust : NetworkBehaviour, IExhaustable
         float multiplier = stats.net_BaseAS.Value * stackPercent;
         StatModifier mod = new StatModifier
         {
-            statType = StatType.AttackSpeed,
+            statType = StatType.Dexterity,
             value = -multiplier,
             source = ModSource.Buff
         };
