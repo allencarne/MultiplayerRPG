@@ -38,6 +38,9 @@ public enum StatType
     ManaRegen,
     Endurance,
     EnduranceRegen,
+    Precision,
+    Ferocity,
+    Lethality
 }
 
 public enum ModSource

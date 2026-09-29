@@ -38,9 +38,9 @@ public class NPC : NetworkBehaviour, IInteractable
     {
         if (IsServer)
         {
-            stats.net_TotalHP.Value = Data.MaxHealth;
-            stats.net_BaseHP.Value = Data.MaxHealth;
-            stats.net_CurrentHP.Value = Data.MaxHealth;
+            stats.net_TotalHealth.Value = Data.MaxHealth;
+            stats.net_BaseHealth.Value = Data.MaxHealth;
+            stats.net_CurrentHealth.Value = Data.MaxHealth;
 
             stats.net_BaseSpeed.Value = Data.Speed;
             stats.net_BaseDamage.Value = Data.Damage;

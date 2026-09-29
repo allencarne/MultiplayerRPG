@@ -24,8 +24,8 @@ public class HealthBar : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        stats.net_CurrentHP.OnValueChanged += OnHealthChanged;
-        stats.net_TotalHP.OnValueChanged += OnHealthChanged;
+        stats.net_CurrentHealth.OnValueChanged += OnHealthChanged;
+        stats.net_TotalHealth.OnValueChanged += OnHealthChanged;
         UpdateHealthBar();
 
         if (combat != null)
@@ -39,7 +39,7 @@ public class HealthBar : NetworkBehaviour
         }
 
         // If server and out of combat and missing health, start regen
-        if (IsServer && (combat == null || !combat.InCombat.Value) && stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
+        if (IsServer && (combat == null || !combat.InCombat.Value) && stats.net_CurrentHealth.Value < stats.net_TotalHealth.Value)
         {
             StartHealthRegenIfNeeded();
         }
@@ -47,8 +47,8 @@ public class HealthBar : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        stats.net_CurrentHP.OnValueChanged -= OnHealthChanged;
-        stats.net_TotalHP.OnValueChanged -= OnHealthChanged;
+        stats.net_CurrentHealth.OnValueChanged -= OnHealthChanged;
+        stats.net_TotalHealth.OnValueChanged -= OnHealthChanged;
 
         if (combat != null)
         {
@@ -67,7 +67,7 @@ public class HealthBar : NetworkBehaviour
         // Server-only regen control: if healed to full stop regen, if damaged while out of combat start combat will stop regen via combat event.
         if (!IsServer) return;
 
-        if (newValue >= stats.net_TotalHP.Value)
+        if (newValue >= stats.net_TotalHealth.Value)
         {
             StopHealthRegen();
         }
@@ -103,7 +103,7 @@ public class HealthBar : NetworkBehaviour
     {
         if (!IsServer) return;
         if (isRegenerating) return;
-        if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value) return;
+        if (stats.net_CurrentHealth.Value >= stats.net_TotalHealth.Value) return;
 
         regenCoroutine = StartCoroutine(RegenerateHealth());
     }
@@ -123,7 +123,7 @@ public class HealthBar : NetworkBehaviour
         isRegenerating = true;
         float regenBuffer = 0f;
 
-        while (stats.net_CurrentHP.Value < stats.net_TotalHP.Value)
+        while (stats.net_CurrentHealth.Value < stats.net_TotalHealth.Value)
         {
             if (stats.isDead) break;
             if (combat != null && combat.InCombat.Value) break;
@@ -132,7 +132,7 @@ public class HealthBar : NetworkBehaviour
 
             if (stats.isDead) break;
             if (combat != null && combat.InCombat.Value) break;
-            if (stats.net_CurrentHP.Value >= stats.net_TotalHP.Value) break;
+            if (stats.net_CurrentHealth.Value >= stats.net_TotalHealth.Value) break;
 
             // Accumulate fractional regen, only heal whole points
             regenBuffer += stats.TotalHealthRegen;
@@ -151,8 +151,8 @@ public class HealthBar : NetworkBehaviour
 
     public void UpdateHealthBar()
     {
-        float maxHealth = stats.net_TotalHP.Value;
-        float currentHealth = stats.net_CurrentHP.Value;
+        float maxHealth = stats.net_TotalHealth.Value;
+        float currentHealth = stats.net_CurrentHealth.Value;
 
         if (maxHealth <= 0) return;
 

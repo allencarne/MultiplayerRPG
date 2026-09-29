@@ -10,7 +10,7 @@ public class HealthPercentTrigger : PassiveTrigger
     {
         void Handler(float previous, float current)
         {
-            float max = owner.Stats.net_TotalHP.Value;
+            float max = owner.Stats.net_TotalHealth.Value;
             if (max <= 0) return;
 
             float prevPct = previous / max;
@@ -23,11 +23,11 @@ public class HealthPercentTrigger : PassiveTrigger
             }
         }
 
-        owner.Stats.net_CurrentHP.OnValueChanged += Handler;
+        owner.Stats.net_CurrentHealth.OnValueChanged += Handler;
 
         void Unsubscribe()
         {
-            owner.Stats.net_CurrentHP.OnValueChanged -= Handler;
+            owner.Stats.net_CurrentHealth.OnValueChanged -= Handler;
         }
 
         return Unsubscribe;

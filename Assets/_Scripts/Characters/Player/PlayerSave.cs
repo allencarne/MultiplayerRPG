@@ -245,8 +245,8 @@ public class PlayerSave : NetworkBehaviour
 
     void ApplyCharacterStats(float health, float currentHealth, float healthRegen, float mana, float currentMana, float manaRegen, float end, float currentEnd, float endRegen, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp)
     {
-        stats.net_BaseHP.Value = health;
-        stats.net_CurrentHP.Value = Mathf.Clamp(currentHealth, 0f, health);
+        stats.net_BaseHealth.Value = health;
+        stats.net_CurrentHealth.Value = Mathf.Clamp(currentHealth, 0f, health);
         stats.net_BaseHealthRegen.Value = healthRegen;
 
         stats.net_BaseMana.Value = mana;
@@ -304,8 +304,8 @@ public class PlayerSave : NetworkBehaviour
         PlayerPrefs.SetInt($"{slot}AP", stats.AttributePoints.Value);
 
         // Stats
-        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHP.Value);
-        PlayerPrefs.SetFloat($"{slot}CurrentHealth", stats.net_CurrentHP.Value);
+        PlayerPrefs.SetFloat($"{slot}MaxHealth", stats.net_BaseHealth.Value);
+        PlayerPrefs.SetFloat($"{slot}CurrentHealth", stats.net_CurrentHealth.Value);
         PlayerPrefs.SetFloat($"{slot}HealthRegen", stats.net_BaseHealthRegen.Value);
 
         PlayerPrefs.SetFloat($"{slot}MaxMana", stats.net_BaseMana.Value);

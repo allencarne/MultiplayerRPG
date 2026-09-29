@@ -15,7 +15,7 @@ public class DummyIdleState : EnemyState
 
         // Increase patience if away from start OR if injured (HP < max)
         bool awayFromStart = owner.RigidBody2D.position != owner.StartingPosition;
-        bool injured = owner.enemy.stats.net_CurrentHP.Value < owner.enemy.stats.net_TotalHP.Value;
+        bool injured = owner.enemy.stats.net_CurrentHealth.Value < owner.enemy.stats.net_TotalHealth.Value;
 
         if (awayFromStart || injured)
         {

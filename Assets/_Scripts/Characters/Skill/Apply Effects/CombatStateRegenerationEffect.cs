@@ -36,8 +36,8 @@ public class CombatStateRegenerationEffect : ApplyEffect
             // Out of combat -> apply out-of-combat stacks (can be negative to remove)
             if (OutOfCombatStacks != 0)
             {
-                float currentHp = owner.Stats.net_CurrentHP.Value;
-                float maxHp = owner.Stats.net_TotalHP.Value;
+                float currentHp = owner.Stats.net_CurrentHealth.Value;
+                float maxHp = owner.Stats.net_TotalHealth.Value;
                 if (currentHp < maxHp)
                 {
                     buffs.regeneration.StartRegen(OutOfCombatStacks, OutOfCombatDuration);

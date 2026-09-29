@@ -5,26 +5,35 @@ using UnityEngine.UI;
 
 public class AttributeUI : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] PlayerStats stats;
 
-    [SerializeField] TextMeshProUGUI playerName;
-    [SerializeField] TextMeshProUGUI playerClass;
-    [SerializeField] Sprite[] classIcons;
-    [SerializeField] Image classIcon;
-    [SerializeField] TextMeshProUGUI playerLevel;
-    [SerializeField] TextMeshProUGUI attributePoints;
+    [Header("References")]
+    [SerializeField] Sprite[] spr_ClassIcons;
 
-    [SerializeField] TextMeshProUGUI totalHealth;
-    [SerializeField] TextMeshProUGUI totalHealthRegen;
-    [SerializeField] TextMeshProUGUI totalDamage;
-    [SerializeField] TextMeshProUGUI totalAttackSpeed;
-    [SerializeField] TextMeshProUGUI totalCDR;
-    [SerializeField] TextMeshProUGUI totalSpeed;
-    [SerializeField] TextMeshProUGUI enduranceRecharge;
-    [SerializeField] TextMeshProUGUI totalArmor;
-    [SerializeField] TextMeshProUGUI totalVamp;
-    [SerializeField] TextMeshProUGUI totalMana;
-    [SerializeField] TextMeshProUGUI totalManaRegen;
+    [Header("Character Stats")]
+    [SerializeField] TextMeshProUGUI txt_PlayerName;
+    [SerializeField] TextMeshProUGUI txt_PlayerLevel;
+    [SerializeField] TextMeshProUGUI txt_PlayerClass;
+    [SerializeField] Image img_classIcon;
+    [SerializeField] TextMeshProUGUI txt_PlayerAP;
+
+    [Header("Combat Stats")]
+    [SerializeField] TextMeshProUGUI txt_TotalHealth;
+    [SerializeField] TextMeshProUGUI txt_TotalHealthRegen;
+    [SerializeField] TextMeshProUGUI txt_TotalRecharge;
+    [SerializeField] TextMeshProUGUI txt_TotalDexterity;
+    [SerializeField] TextMeshProUGUI txt_TotalEndurance;
+    [SerializeField] TextMeshProUGUI txt_totalEnduranceRegen;
+    [SerializeField] TextMeshProUGUI txt_TotalPrecision;
+    [SerializeField] TextMeshProUGUI txt_TotalFerocity;
+    [SerializeField] TextMeshProUGUI txt_TotalPower;
+    [SerializeField] TextMeshProUGUI txt_TotalVamp;
+    [SerializeField] TextMeshProUGUI txt_TotalArmor;
+    [SerializeField] TextMeshProUGUI txt_TotalLethality;
+    [SerializeField] TextMeshProUGUI txt_TotalMana;
+    [SerializeField] TextMeshProUGUI txt_TotalManaRegen;
+    [SerializeField] TextMeshProUGUI txt_TotalSpeed;
 
     private void OnEnable()
     {
@@ -39,22 +48,22 @@ public class AttributeUI : MonoBehaviour
     void UpdateUI()
     {
         // Character Stats
-        playerName.text = $"<color=#FFFFFF>{stats.net_playerName.Value.ToString()}</color>";
-        playerClass.text = $"Class: <color=#FFFFFF>{stats.playerClass.ToString()}</color>";
+        txt_PlayerName.text = $"<color=#FFFFFF>{stats.net_playerName.Value.ToString()}</color>";
+        txt_PlayerLevel.text = $"LvL: <color=#FFFFFF>{stats.PlayerLevel.Value}</color>";
+        txt_PlayerClass.text = $"Class: <color=#FFFFFF>{stats.playerClass.ToString()}</color>";
         GetClassIcon();
-        playerLevel.text = $"LvL: <color=#FFFFFF>{stats.PlayerLevel.Value}</color>";
-        attributePoints.text = $"Attribute Points: <color=#FFFFFF>{stats.AttributePoints.Value}</color>";
+        txt_PlayerAP.text = $"Attribute Points: <color=#FFFFFF>{stats.AttributePoints.Value}</color>";
 
-        // Health (flat)
-        totalHealth.text = SimpleStringBuild(
-            stats.net_TotalHP.Value,
-            stats.net_BaseHP.Value,
+        // Health
+        txt_TotalHealth.text = SimpleStringBuild(
+            stats.net_TotalHealth.Value,
+            stats.net_BaseHealth.Value,
             stats.GetModifier(StatType.Health, ModSource.Equipment),
             stats.GetModifier(StatType.Health, ModSource.Buff),
             stats.GetModifier(StatType.Health, ModSource.Debuff));
 
         // HealthRegen
-        totalHealthRegen.text = ComplexStringBuild(
+        txt_TotalHealthRegen.text = ComplexStringBuild(
             stats.TotalHealthRegen,
             stats.net_BaseHealthRegen.Value,
             stats.GetModifier(StatType.HealthRegen, ModSource.Equipment),
@@ -64,30 +73,8 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.HealthRegen, ModSource.Debuff),
             stats.GetPercentModifier(StatType.HealthRegen, ModSource.Debuff));
 
-        // Damage
-        totalDamage.text = ComplexStringBuild(
-            stats.TotalDamage,
-            stats.net_BaseDamage.Value,
-            stats.GetModifier(StatType.Damage, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.Damage, ModSource.Equipment),
-            stats.GetModifier(StatType.Damage, ModSource.Buff),
-            stats.GetPercentModifier(StatType.Damage, ModSource.Buff),
-            stats.GetModifier(StatType.Damage, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.Damage, ModSource.Debuff));
-
-        // Attack Speed
-        totalAttackSpeed.text = ComplexStringBuild(
-            stats.TotalAS,
-            stats.net_BaseAS.Value,
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Equipment),
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Buff),
-            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Buff),
-            stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Debuff));
-
-        // Cooldown Reduction (CDR)
-        totalCDR.text = ComplexStringBuild(
+        // Recharge
+        txt_TotalRecharge.text = ComplexStringBuild(
             stats.TotalCDR,
             stats.net_BaseCDR.Value,
             stats.GetModifier(StatType.CoolDown, ModSource.Equipment),
@@ -97,27 +84,53 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.CoolDown, ModSource.Debuff),
             stats.GetPercentModifier(StatType.CoolDown, ModSource.Debuff));
 
-        // Speed
-        totalSpeed.text = ComplexStringBuild(
-            stats.TotalSpeed,
-            stats.net_BaseSpeed.Value,
-            stats.GetModifier(StatType.Speed, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.Speed, ModSource.Equipment),
-            stats.GetModifier(StatType.Speed, ModSource.Buff),
-            stats.GetPercentModifier(StatType.Speed, ModSource.Buff),
-            stats.GetModifier(StatType.Speed, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.Speed, ModSource.Debuff));
+        // Dexterity
+        txt_TotalDexterity.text = ComplexStringBuild(
+            stats.TotalAS,
+            stats.net_BaseAS.Value,
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Equipment),
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Buff),
+            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Buff),
+            stats.GetModifier(StatType.AttackSpeed, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.AttackSpeed, ModSource.Debuff));
 
-        // Armor (flat)
-        totalArmor.text = SimpleStringBuild(
-            stats.TotalArmor,
-            stats.net_BaseArmor.Value,
-            stats.GetModifier(StatType.Armor, ModSource.Equipment),
-            stats.GetModifier(StatType.Armor, ModSource.Buff),
-            stats.GetModifier(StatType.Armor, ModSource.Debuff));
+        // Endurance
+        txt_TotalEndurance.text = SimpleStringBuild(
+            stats.TotalEndurance,
+            stats.net_BaseEndurance.Value,
+            stats.GetModifier(StatType.Endurance, ModSource.Equipment),
+            stats.GetModifier(StatType.Endurance, ModSource.Buff),
+            stats.GetModifier(StatType.Endurance, ModSource.Debuff));
+
+        // Endurance Regen
+        txt_TotalFerocity.text = ComplexStringBuild(
+            stats.TotalEnduranceRegen,
+            stats.net_BaseEnduranceRegen.Value,
+            stats.GetModifier(StatType.EnduranceRegen, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Equipment),
+            stats.GetModifier(StatType.EnduranceRegen, ModSource.Buff),
+            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Buff),
+            stats.GetModifier(StatType.EnduranceRegen, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Debuff));
+
+        // Precision
+
+        // Ferocity
+
+        // Power
+        txt_TotalPower.text = ComplexStringBuild(
+            stats.TotalDamage,
+            stats.net_BaseDamage.Value,
+            stats.GetModifier(StatType.Damage, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Damage, ModSource.Equipment),
+            stats.GetModifier(StatType.Damage, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Damage, ModSource.Buff),
+            stats.GetModifier(StatType.Damage, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Damage, ModSource.Debuff));
 
         // Vamp
-        totalVamp.text = ComplexStringBuild(
+        txt_TotalVamp.text = ComplexStringBuild(
             stats.TotalVamp,
             stats.net_BaseVamp.Value,
             stats.GetModifier(StatType.Vamp, ModSource.Equipment),
@@ -127,8 +140,18 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.Vamp, ModSource.Debuff),
             stats.GetPercentModifier(StatType.Vamp, ModSource.Debuff));
 
+        // Armor
+        txt_TotalLethality.text = SimpleStringBuild(
+            stats.TotalArmor,
+            stats.net_BaseArmor.Value,
+            stats.GetModifier(StatType.Armor, ModSource.Equipment),
+            stats.GetModifier(StatType.Armor, ModSource.Buff),
+            stats.GetModifier(StatType.Armor, ModSource.Debuff));
+
+        // Lethality
+
         // Mana
-        totalMana.text = ComplexStringBuild(
+        txt_TotalMana.text = ComplexStringBuild(
             stats.TotalMana,
             stats.net_BaseMana.Value,
             stats.GetModifier(StatType.Mana, ModSource.Equipment),
@@ -139,7 +162,7 @@ public class AttributeUI : MonoBehaviour
             stats.GetPercentModifier(StatType.Mana, ModSource.Debuff));
 
         // Mana Regen
-        totalManaRegen.text = ComplexStringBuild(
+        txt_TotalManaRegen.text = ComplexStringBuild(
             stats.TotalManaRegen,
             stats.net_BaseManaRegen.Value,
             stats.GetModifier(StatType.ManaRegen, ModSource.Equipment),
@@ -149,16 +172,16 @@ public class AttributeUI : MonoBehaviour
             stats.GetModifier(StatType.ManaRegen, ModSource.Debuff),
             stats.GetPercentModifier(StatType.ManaRegen, ModSource.Debuff));
 
-        // Endurance Regen
-        enduranceRecharge.text = ComplexStringBuild(
-            stats.TotalEnduranceRegen,
-            stats.net_BaseEnduranceRegen.Value,
-            stats.GetModifier(StatType.EnduranceRegen, ModSource.Equipment),
-            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Equipment),
-            stats.GetModifier(StatType.EnduranceRegen, ModSource.Buff),
-            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Buff),
-            stats.GetModifier(StatType.EnduranceRegen, ModSource.Debuff),
-            stats.GetPercentModifier(StatType.EnduranceRegen, ModSource.Debuff));
+        // Speed
+        txt_TotalSpeed.text = ComplexStringBuild(
+            stats.TotalSpeed,
+            stats.net_BaseSpeed.Value,
+            stats.GetModifier(StatType.Speed, ModSource.Equipment),
+            stats.GetPercentModifier(StatType.Speed, ModSource.Equipment),
+            stats.GetModifier(StatType.Speed, ModSource.Buff),
+            stats.GetPercentModifier(StatType.Speed, ModSource.Buff),
+            stats.GetModifier(StatType.Speed, ModSource.Debuff),
+            stats.GetPercentModifier(StatType.Speed, ModSource.Debuff));
     }
 
     string SimpleStringBuild(float total, float value, float equipment, float buff, float debuff)
@@ -192,11 +215,7 @@ public class AttributeUI : MonoBehaviour
         }
     }
 
-    // For stats that can have flat + percent modifiers
-    string ComplexStringBuild(float total, float value,
-        float equipmentFlat, float equipmentPct,
-        float buffFlat, float buffPct,
-        float debuffFlat, float debuffPct)
+    string ComplexStringBuild(float total, float value, float equipmentFlat, float equipmentPct, float buffFlat, float buffPct, float debuffFlat, float debuffPct)
     {
         bool hasMods = equipmentFlat != 0 || equipmentPct != 0 || buffFlat != 0 || buffPct != 0 || debuffFlat != 0 || debuffPct != 0;
 
@@ -248,11 +267,11 @@ public class AttributeUI : MonoBehaviour
     {
         switch (stats.playerClass)
         {
-            case PlayerStats.PlayerClass.Beginner: classIcon.sprite = classIcons[0]; break;
-            case PlayerStats.PlayerClass.Warrior: classIcon.sprite = classIcons[1]; break;
-            case PlayerStats.PlayerClass.Magician: classIcon.sprite = classIcons[2]; break;
-            case PlayerStats.PlayerClass.Archer: classIcon.sprite = classIcons[3]; break;
-            case PlayerStats.PlayerClass.Rogue: classIcon.sprite = classIcons[4]; break;
+            case PlayerStats.PlayerClass.Beginner: img_classIcon.sprite = spr_ClassIcons[0]; break;
+            case PlayerStats.PlayerClass.Warrior: img_classIcon.sprite = spr_ClassIcons[1]; break;
+            case PlayerStats.PlayerClass.Magician: img_classIcon.sprite = spr_ClassIcons[2]; break;
+            case PlayerStats.PlayerClass.Archer: img_classIcon.sprite = spr_ClassIcons[3]; break;
+            case PlayerStats.PlayerClass.Rogue: img_classIcon.sprite = spr_ClassIcons[4]; break;
         }
     }
 }

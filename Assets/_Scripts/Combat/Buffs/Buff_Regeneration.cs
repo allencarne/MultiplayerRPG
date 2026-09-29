@@ -26,7 +26,7 @@ public class Buff_Regeneration : NetworkBehaviour
 
     void Update()
     {
-        bool atFullHealth = stats.net_CurrentHP.Value >= stats.net_TotalHP.Value;
+        bool atFullHealth = stats.net_CurrentHealth.Value >= stats.net_TotalHealth.Value;
 
         if ((durBuff > 0 || fixedBuff > 0) && atFullHealth)
         {

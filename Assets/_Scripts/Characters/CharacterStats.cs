@@ -6,29 +6,52 @@ using UnityEngine.Events;
 public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 {
     [Header("Health")]
-    public NetworkVariable<float> net_BaseHP = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_CurrentHP = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_TotalHP = new(writePerm: NetworkVariableWritePermission.Server);
-    public bool isDead;
+    public NetworkVariable<float> net_BaseHealth = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_CurrentHealth = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<float> net_TotalHealth = new(writePerm: NetworkVariableWritePermission.Server);
 
-    [Header("Base Stats")]
-    public NetworkVariable<float> net_BaseDamage = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_BaseArmor = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_BaseAS = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
-    public NetworkVariable<float> net_BaseVamp = new(writePerm: NetworkVariableWritePermission.Server);
+    [Header("Health Regen")]
     public NetworkVariable<float> net_BaseHealthRegen = new(writePerm: NetworkVariableWritePermission.Server);
-
-    [Header("Total Stats")]
-    public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Damage)) * (1f + GetPercentModifier(StatType.Damage));
-    public float TotalArmor => net_BaseArmor.Value + GetModifier(StatType.Armor);
-    public float TotalAS => (net_BaseAS.Value + GetModifier(StatType.AttackSpeed)) * (1f + GetPercentModifier(StatType.AttackSpeed));
-    public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.CoolDown)) * (1f + GetPercentModifier(StatType.CoolDown));
-    public float TotalSpeed => Mathf.Max((net_BaseSpeed.Value + GetModifier(StatType.Speed)) * (1f + GetPercentModifier(StatType.Speed)), minSpeed);
-    public float TotalVamp => (net_BaseVamp.Value + GetModifier(StatType.Vamp)) * (1f + GetPercentModifier(StatType.Vamp));
     public float TotalHealthRegen => (net_BaseHealthRegen.Value + GetModifier(StatType.HealthRegen)) * (1f + GetPercentModifier(StatType.HealthRegen));
 
+    [Header("Recharge")]
+    public NetworkVariable<float> net_BaseCDR = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalCDR => (net_BaseCDR.Value + GetModifier(StatType.CoolDown)) * (1f + GetPercentModifier(StatType.CoolDown));
+
+    [Header("Dexterity")]
+    public NetworkVariable<float> net_BaseAS = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalAS => (net_BaseAS.Value + GetModifier(StatType.AttackSpeed)) * (1f + GetPercentModifier(StatType.AttackSpeed));
+
+    [Header("Precision")]
+    public NetworkVariable<float> net_BasePrecision = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalPrecision => (net_BasePrecision.Value + GetModifier(StatType.Precision)) * (1f + GetPercentModifier(StatType.Precision));
+
+    [Header("Ferocity")]
+    public NetworkVariable<float> net_BaseFerocity = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalFerocity => (net_BaseFerocity.Value + GetModifier(StatType.Ferocity)) * (1f + GetPercentModifier(StatType.Ferocity));
+
+    [Header("Power")]
+    public NetworkVariable<float> net_BaseDamage = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalDamage => (net_BaseDamage.Value + GetModifier(StatType.Damage)) * (1f + GetPercentModifier(StatType.Damage));
+
+    [Header("Vamp")]
+    public NetworkVariable<float> net_BaseVamp = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalVamp => (net_BaseVamp.Value + GetModifier(StatType.Vamp)) * (1f + GetPercentModifier(StatType.Vamp));
+
+    [Header("Armor")]
+    public NetworkVariable<float> net_BaseArmor = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalArmor => net_BaseArmor.Value + GetModifier(StatType.Armor);
+
+    [Header("Lethality")]
+    public NetworkVariable<float> net_BaseLethality = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalLethality => (net_BaseLethality.Value + GetModifier(StatType.Lethality)) * (1f + GetPercentModifier(StatType.Lethality));
+
+    [Header("Speed")]
+    public NetworkVariable<float> net_BaseSpeed = new(writePerm: NetworkVariableWritePermission.Server);
+    public float TotalSpeed => Mathf.Max((net_BaseSpeed.Value + GetModifier(StatType.Speed)) * (1f + GetPercentModifier(StatType.Speed)), minSpeed);
+
+    [Header("Variables")]
+    public bool isDead;
     float minSpeed = .2f;
 
     [Header("List")]
@@ -38,10 +61,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<float> OnDamaged;
     [HideInInspector] public UnityEvent<float> OnHealed;
     [HideInInspector] public UnityEvent OnDamageDealt;
-
     [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDamaged;
     [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDeath;
-
     [HideInInspector] public UnityEvent OnDeath;
 
     public float TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
@@ -61,7 +82,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         int roundedDamage = Mathf.RoundToInt(finalDamage);
 
         // Subtract the final damage from the character's current health, but never allow health to go below zero.
-        net_CurrentHP.Value = Mathf.Max(net_CurrentHP.Value - roundedDamage, 0);
+        net_CurrentHealth.Value = Mathf.Max(net_CurrentHealth.Value - roundedDamage, 0);
 
         // Tell anything listening that this character took damage and provide the damage amount.
         OnDamaged?.Invoke(roundedDamage);
@@ -76,7 +97,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (attackerStats != null) attackerStats.OnDamageDealt?.Invoke();
 
         // Check whether the character's health has reached zero.
-        if (net_CurrentHP.Value <= 0)
+        if (net_CurrentHealth.Value <= 0)
         {
             // Mark the character as dead.
             isDead = true;
@@ -106,28 +127,28 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
                 return baseDamage;
 
             case DamageType.PercentMaxHealth:
-                return net_TotalHP.Value * (baseDamage / 100f) * armorMultiplier;
+                return net_TotalHealth.Value * (baseDamage / 100f) * armorMultiplier;
 
             case DamageType.PercentMaxHealthTrue:
-                return net_TotalHP.Value * (baseDamage / 100f);
+                return net_TotalHealth.Value * (baseDamage / 100f);
 
             case DamageType.PercentMissingHealth:
                 {
-                    float missing = net_TotalHP.Value - net_CurrentHP.Value;
+                    float missing = net_TotalHealth.Value - net_CurrentHealth.Value;
                     return missing * (baseDamage / 100f) * armorMultiplier;
                 }
 
             case DamageType.PercentMissingHealthTrue:
                 {
-                    float missing = net_TotalHP.Value - net_CurrentHP.Value;
+                    float missing = net_TotalHealth.Value - net_CurrentHealth.Value;
                     return missing * (baseDamage / 100f);
                 }
 
             case DamageType.PercentCurrentHealth:
-                return net_CurrentHP.Value * (baseDamage / 100f) * armorMultiplier;
+                return net_CurrentHealth.Value * (baseDamage / 100f) * armorMultiplier;
 
             case DamageType.PercentCurrentHealthTrue:
-                return net_CurrentHP.Value * (baseDamage / 100f);
+                return net_CurrentHealth.Value * (baseDamage / 100f);
 
             default:
                 return baseDamage;
@@ -144,11 +165,11 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (healType == HealType.Percentage)
         {
             // Convert the percentage into an actual amount based on maximum health.
-            healAmount = net_TotalHP.Value * (healAmount / 100f);
+            healAmount = net_TotalHealth.Value * (healAmount / 100f);
         }
 
         // Calculate how much health the character is currently missing.
-        float missingHealth = net_TotalHP.Value - net_CurrentHP.Value;
+        float missingHealth = net_TotalHealth.Value - net_CurrentHealth.Value;
 
         // Make sure the heal cannot restore more health than the character is missing.
         float actualHeal = Mathf.Min(healAmount, missingHealth);
@@ -157,7 +178,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         int roundedHeal = Mathf.RoundToInt(actualHeal);
 
         // Add the healing amount to the character's current health.
-        net_CurrentHP.Value += roundedHeal;
+        net_CurrentHealth.Value += roundedHeal;
 
         // Tell anything listening that the character was healed and provide the amount healed.
         OnHealed?.Invoke(roundedHeal);
@@ -283,8 +304,8 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
             case StatType.HealthRegen: net_BaseHealthRegen.Value += amount; break;
 
             case StatType.Health:
-                net_BaseHP.Value += amount;
-                net_CurrentHP.Value += amount;
+                net_BaseHealth.Value += amount;
+                net_CurrentHealth.Value += amount;
                 RecalculateTotalHealth(GetModifier(StatType.Health));
                 break;
 
@@ -320,7 +341,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     void ApplyCurrentHealthChange(float amount)
     {
         // Change the character's current health by the supplied amount.
-        net_CurrentHP.Value += amount;
+        net_CurrentHealth.Value += amount;
 
         // Recalculate maximum health because a Health modifier may have changed.
         RecalculateTotalHealth(GetModifier(StatType.Health));
@@ -332,7 +353,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         if (!IsServer) return;
 
         // Calculate maximum health by adding base health and all flat Health modifiers.
-        net_TotalHP.Value = net_BaseHP.Value + modHealth;
+        net_TotalHealth.Value = net_BaseHealth.Value + modHealth;
     }
 
     #endregion

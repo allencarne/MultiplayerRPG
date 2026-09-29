@@ -28,9 +28,9 @@ public class Enemy : NetworkBehaviour
     {
         if (IsServer)
         {
-            stats.net_TotalHP.Value = Data.StartingHealth;
-            stats.net_BaseHP.Value = Data.StartingHealth;
-            stats.net_CurrentHP.Value = Data.StartingHealth;
+            stats.net_TotalHealth.Value = Data.StartingHealth;
+            stats.net_BaseHealth.Value = Data.StartingHealth;
+            stats.net_CurrentHealth.Value = Data.StartingHealth;
 
             stats.net_BaseSpeed.Value = Data.StartingSpeed;
             stats.net_BaseDamage.Value = Data.StartingDamage;

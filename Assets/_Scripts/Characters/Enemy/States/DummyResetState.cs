@@ -12,7 +12,7 @@ public class DummyResetState : EnemyState
 
         owner.Animator.PlayEnemyAnimation("Reset");
 
-        float missingHealth = owner.enemy.stats.net_BaseHP.Value - owner.enemy.stats.net_CurrentHP.Value;
+        float missingHealth = owner.enemy.stats.net_BaseHealth.Value - owner.enemy.stats.net_CurrentHealth.Value;
         owner.enemy.stats.GiveHeal(missingHealth, HealType.Flat);
 
         owner.StartCoroutine(Delay(owner));
