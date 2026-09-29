@@ -33,9 +33,9 @@ public class Enemy : NetworkBehaviour
             stats.net_CurrentHealth.Value = Data.StartingHealth;
 
             stats.net_BaseSpeed.Value = Data.StartingSpeed;
-            stats.net_BaseDamage.Value = Data.StartingDamage;
-            stats.net_BaseAS.Value = Data.StartingAS;
-            stats.net_BaseCDR.Value = Data.StartingCDR;
+            stats.net_BaseDamage.Value = Data.StartingPower;
+            stats.net_BaseAS.Value = Data.StartingDexterity;
+            stats.net_BaseCDR.Value = Data.StartingRecharge;
             stats.net_BaseArmor.Value = Data.StartingArmor;
 
             stats.net_BaseHealthRegen.Value = Data.StartingHealthRegeneration;

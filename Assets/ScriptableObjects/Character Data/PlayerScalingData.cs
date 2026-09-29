@@ -6,20 +6,23 @@ public class PlayerScalingData : ScriptableObject
     [Header("Level 1 Baseline")]
     public float BaseHealth;
     public float BaseHealthRegen;
-    public float BaseMana;
-    public float BaseManaRegen;
+    public float BaseRecharge;
+    public float BaseDexterity;
     public float BaseEndurance;
     public float BaseEnduranceRegen;
-    public float BaseDamage;
-    public float BaseAttackSpeed;
-    public float BaseCDR;
-    public float BaseArmor;
-    public float BaseSpeed;
+    public float BasePrecision;
+    public float BaseFerocity;
+    public float BasePower;
     public float BaseVamp;
+    public float BaseArmor;
+    public float BaseLethality;
+    public float BaseMana;
+    public float BaseManaRegen;
+    public float BaseSpeed;
 
     [Header("Flat Growth Per Level")]
     public float HealthPerLevel;
-    public float DamagePerLevel;
+    public float PowerPerLevel;
     public float ManaPerLevel;
 
     [Header("Interval Growth")]
@@ -48,7 +51,7 @@ public class PlayerScalingData : ScriptableObject
     public void ApplyLevelUpGains(PlayerStats stats, int newLevel)
     {
         stats.IncreaseStat(StatType.Health, HealthPerLevel);
-        stats.IncreaseStat(StatType.Power, DamagePerLevel);
+        stats.IncreaseStat(StatType.Power, PowerPerLevel);
         stats.IncreaseStat(StatType.Mana, ManaPerLevel);
 
         if (newLevel % RegenLevelInterval == 0)

@@ -5,12 +5,12 @@ public class EnemyScalingData : ScriptableObject
 {
     [Header("Level 1 Baseline")]
     public float BaseHealth;
-    public float BaseDamage;
+    public float BasePower;
     public float BaseExp;
 
     [Header("Giant Level 1 Baseline")]
     public float GiantHealth;
-    public float GiantDamage;
+    public float GiantPower;
     public float GiantExp;
     public float GiantArmorMult;
 
@@ -19,13 +19,13 @@ public class EnemyScalingData : ScriptableObject
 
     [Header("Growth")]
     public float HealthGrowth;
-    public float DamageGrowth;
+    public float PowerGrowth;
     public float ExpGrowth;
     public float ArmorPerLevel;
 
     [Header("Multipliers")]
     public float HealthMult;
-    public float DamageMult;
+    public float PowerMult;
     public float ArmorMult;
     public float ExpMult;
 
@@ -59,11 +59,11 @@ public class EnemyScalingData : ScriptableObject
         return ArmorPerLevel * level * (IsGiant(type) ? GiantArmorMult : 1f) * ArmorMult;
     }
 
-    public float GetDamage(int level, EnemyType type)
+    public float GetPower(int level, EnemyType type)
     {
         if (type == EnemyType.Dummy) return 0f;
 
-        return (IsGiant(type) ? GiantDamage : BaseDamage) * Mathf.Pow(1f + DamageGrowth, level - 1) * DamageMult;
+        return (IsGiant(type) ? GiantPower : BasePower) * Mathf.Pow(1f + PowerGrowth, level - 1) * PowerMult;
     }
 
     public float GetExp(int level, EnemyType type) => (IsGiant(type) ? GiantExp : BaseExp) * Mathf.Pow(1f + ExpGrowth, level - 1) * ExpMult;

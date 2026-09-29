@@ -5,6 +5,7 @@ using System.Text;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlayerSave : NetworkBehaviour
@@ -218,60 +219,74 @@ public class PlayerSave : NetworkBehaviour
         float currentHealth = PlayerPrefs.GetFloat($"{slot}CurrentHealth", health);
         float healthRegen = PlayerPrefs.GetFloat($"{slot}HealthRegen", stats.ScalingData.BaseHealthRegen);
 
-        float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", stats.ScalingData.BaseMana);
-        float currentMana = PlayerPrefs.GetFloat($"{slot}CurrentMana", mana);
-        float manaRegen = PlayerPrefs.GetFloat($"{slot}ManaRecharge", stats.ScalingData.BaseManaRegen);
+        float recharge = PlayerPrefs.GetFloat($"{slot}Recharge", stats.ScalingData.BaseRecharge);
+        float dexterity = PlayerPrefs.GetFloat($"{slot}Dexterity", stats.ScalingData.BaseDexterity);
 
         float end = PlayerPrefs.GetFloat($"{slot}MaxEndurance", stats.ScalingData.BaseEndurance);
         float currentEnd = PlayerPrefs.GetFloat($"{slot}CurrentEndurance", end);
         float endRegen = PlayerPrefs.GetFloat($"{slot}EnduranceRecharge", stats.ScalingData.BaseEnduranceRegen);
 
-        float damage = PlayerPrefs.GetFloat($"{slot}Damage", stats.ScalingData.BaseDamage);
-        float attackSpeed = PlayerPrefs.GetFloat($"{slot}AttackSpeed", stats.ScalingData.BaseAttackSpeed);
-        float cdr = PlayerPrefs.GetFloat($"{slot}CDR", stats.ScalingData.BaseCDR);
-        float armor = PlayerPrefs.GetFloat($"{slot}Armor", stats.ScalingData.BaseArmor);
-        float speed = PlayerPrefs.GetFloat($"{slot}Speed", stats.ScalingData.BaseSpeed);
+        float precision = PlayerPrefs.GetFloat($"{slot}Precision", stats.ScalingData.BasePrecision);
+        float ferocity = PlayerPrefs.GetFloat($"{slot}Ferocity", stats.ScalingData.BaseFerocity);
+
+        float power = PlayerPrefs.GetFloat($"{slot}Damage", stats.ScalingData.BasePower);
         float vamp = PlayerPrefs.GetFloat($"{slot}Vamp", stats.ScalingData.BaseVamp);
+
+        float armor = PlayerPrefs.GetFloat($"{slot}Armor", stats.ScalingData.BaseArmor);
+        float lethality = PlayerPrefs.GetFloat($"{slot}Lethality", stats.ScalingData.BaseLethality);
+
+        float mana = PlayerPrefs.GetFloat($"{slot}MaxMana", stats.ScalingData.BaseMana);
+        float currentMana = PlayerPrefs.GetFloat($"{slot}CurrentMana", mana);
+        float manaRegen = PlayerPrefs.GetFloat($"{slot}ManaRecharge", stats.ScalingData.BaseManaRegen);
+
+        float speed = PlayerPrefs.GetFloat($"{slot}Speed", stats.ScalingData.BaseSpeed);
 
         if (IsServer)
         {
-            ApplyCharacterStats(health, currentHealth, healthRegen, mana, currentMana, manaRegen, end, currentEnd, endRegen, damage, attackSpeed, cdr, armor, speed, vamp);
+            ApplyCharacterStats(health, currentHealth, healthRegen, recharge, dexterity, end, currentEnd, endRegen, precision, ferocity, power, vamp, armor, lethality, mana, currentMana, manaRegen, speed);
         }
         else
         {
-            LoadCharacterStatsServerRPC(health, currentHealth, healthRegen, mana, currentMana, manaRegen, end, currentEnd, endRegen, damage, attackSpeed, cdr, armor, speed, vamp);
+            LoadCharacterStatsServerRPC(health, currentHealth, healthRegen, recharge, dexterity, end, currentEnd, endRegen, precision, ferocity, power, vamp, armor, lethality, mana, currentMana, manaRegen, speed);
         }
     }
 
-    void ApplyCharacterStats(float health, float currentHealth, float healthRegen, float mana, float currentMana, float manaRegen, float end, float currentEnd, float endRegen, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp)
+    void ApplyCharacterStats(float health, float currentHealth, float healthRegen, float recharge, float dexterity, float end, float currentEnd, float endRegen, float precision, float ferocity, float power, float vamp, float armor, float lethality, float mana, float currentMana, float manaRegen, float speed)
     {
         stats.net_BaseHealth.Value = health;
         stats.net_CurrentHealth.Value = Mathf.Clamp(currentHealth, 0f, health);
         stats.net_BaseHealthRegen.Value = healthRegen;
 
-        stats.net_BaseMana.Value = mana;
-        stats.net_CurrentMana.Value = Mathf.Clamp(currentMana, 0f, mana);
-        stats.net_BaseManaRegen.Value = manaRegen;
+        stats.net_BaseCDR.Value = recharge;
+        stats.net_BaseAS.Value = dexterity;
 
         stats.net_BaseEndurance.Value = end;
         stats.net_CurrentEndurance.Value = Mathf.Clamp(currentEnd, 0f, end);
         stats.net_BaseEnduranceRegen.Value = endRegen;
 
-        stats.net_BaseDamage.Value = damage;
-        stats.net_BaseAS.Value = attackSpeed;
-        stats.net_BaseCDR.Value = cdr;
-        stats.net_BaseArmor.Value = armor;
-        stats.net_BaseSpeed.Value = speed;
+        stats.net_BasePrecision.Value = precision;
+        stats.net_BaseFerocity.Value = ferocity;
+
+        stats.net_BaseDamage.Value = power;
         stats.net_BaseVamp.Value = vamp;
+
+        stats.net_BaseArmor.Value = armor;
+        stats.net_BaseLethality.Value = lethality;
+
+        stats.net_BaseMana.Value = mana;
+        stats.net_CurrentMana.Value = Mathf.Clamp(currentMana, 0f, mana);
+        stats.net_BaseManaRegen.Value = manaRegen;
+
+        stats.net_BaseSpeed.Value = speed;
 
         float modHealth = stats.GetModifier(StatType.Health);
         stats.RecalculateTotalHealth(modHealth);
     }
 
     [ServerRpc]
-    void LoadCharacterStatsServerRPC(float health, float currentHealth, float healthRegen, float mana, float currentMana, float manaReg, float end, float currentEnd, float endrech, float damage, float attackSpeed, float cdr, float armor, float speed, float vamp)
+    void LoadCharacterStatsServerRPC(float health, float currentHealth, float healthRegen, float recharge, float dexterity, float end, float currentEnd, float endRegen, float precision, float ferocity, float power, float vamp, float armor, float lethality, float mana, float currentMana, float manaRegen, float speed)
     {
-        ApplyCharacterStats(health, currentHealth, healthRegen, mana, currentMana, manaReg, end, currentEnd, endrech, damage, attackSpeed, cdr, armor, speed, vamp);
+        ApplyCharacterStats(health, currentHealth, healthRegen, recharge, dexterity, end, currentEnd, endRegen, precision, ferocity, power, vamp, armor, lethality, mana, currentMana, manaRegen, speed);
     }
 
     void LoadPlayerSkills()

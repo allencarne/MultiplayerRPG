@@ -15,9 +15,9 @@ public class EnemyData : ScriptableObject
 
     [Header("Stats")]
     public float StartingHealth => Scaling.GetHealth(Enemy_Level, Enemy_Type);
-    public float StartingDamage => Scaling.GetDamage(Enemy_Level, Enemy_Type);
-    public float StartingAS;
-    public float StartingCDR;
+    public float StartingPower => Scaling.GetPower(Enemy_Level, Enemy_Type);
+    public float StartingDexterity;
+    public float StartingRecharge;
     public float StartingSpeed;
     public float StartingArmor => Scaling.GetArmor(Enemy_Level, Enemy_Type);
     public float StartingHealthRegeneration;
