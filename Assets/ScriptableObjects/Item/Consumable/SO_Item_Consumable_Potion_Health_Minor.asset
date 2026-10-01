@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00159ff73731db64497979673d2e2d3b, type: 3}
+  m_Name: SO_Item_Consumable_Potion_Health_Minor
+  m_EditorClassIdentifier: Assembly-CSharp::Consumable
+  ITEM_ID: con_pot_hp_minor
+  Prefab: {fileID: 2103941817670546686, guid: 00cc9b6a3a420c8408469e29609c2d3e, type: 3}
+  Icon: {fileID: -7088588561558391566, guid: 3ea9a0b66ff61d3439a3089e3276991d, type: 3}
+  Description: Restores a small amount of health
+  SellValue: 1
+  Cost: 3
+  DropChance: 90
+  IsStackable: 1
+  DropsInBulk: 0
+  ItemCategory: 2
+  ItemRarity: 0
+  ItemQuality: 0
+  rarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
+  qualityInfo: {fileID: 11400000, guid: f693fa9a9dd7cb54282a7863ee51f585, type: 2}
+  ItemStatRules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
+  Action: 0
+  Stacks: 1
+  Duration: 5
+  Amount: 0
