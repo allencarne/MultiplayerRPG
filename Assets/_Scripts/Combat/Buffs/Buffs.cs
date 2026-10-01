@@ -12,6 +12,8 @@ public class Buffs : NetworkBehaviour
     public Buff_Immune immune;
     public Buff_Immoveable immoveable;
     public Buff_Regeneration regeneration;
+    public Buff_Replenishment replenishment;
+    public Buff_Resurgence resurgence;
 
     public void PurgeAllDebuffs()
     {
@@ -24,5 +26,8 @@ public class Buffs : NetworkBehaviour
         immoveable?.PurgeImmovable();
         immune?.PurgeImmune();
         phase?.PurgePhase();
+        regeneration?.PurgeBuff();
+        replenishment?.PurgeBuff();
+        resurgence?.PurgeBuff();
     }
 }

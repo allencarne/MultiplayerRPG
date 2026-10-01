@@ -41,6 +41,9 @@ public class PlayerStats : CharacterStats
     [Header("Currency")]
     public float Coins;
 
+    [HideInInspector] public UnityEvent<float> OnManaRestored;
+    [HideInInspector] public UnityEvent<float> OnEndurnaceRestored;
+
     public enum PlayerClass
     {
         Beginner,
@@ -101,5 +104,49 @@ public class PlayerStats : CharacterStats
             case StatType.EnduranceRegen: net_BaseEnduranceRegen.Value += amount; break;
             default: base.ApplyStatChange(stat, amount); break;
         }
+    }
+
+    public void GiveMana(float manaAmount)
+    {
+        // Only the server is allowed to modify mana.
+        if (!IsServer) return;
+        if (isDead) return;
+
+        // Calculate how much mana the character is currently missing.
+        float missingMana = TotalMana - net_CurrentMana.Value;
+
+        // Make sure the heal cannot restore more mana than the character is missing.
+        float actualMana = Mathf.Min(manaAmount, missingMana);
+
+        // Round the final mana amount to the nearest whole number.
+        int roundedMana = Mathf.RoundToInt(actualMana);
+
+        // Add the mana amount to the character's current mana.
+        net_CurrentHealth.Value += roundedMana;
+
+        // Event
+        OnManaRestored?.Invoke(roundedMana);
+    }
+
+    public void GiveEndurance(float enduranceAmount)
+    {
+        // Only the server is allowed to modify endurance.
+        if (!IsServer) return;
+        if (isDead) return;
+
+        // Calculate how much endurance the character is currently missing.
+        float missingEndurance = TotalEndurance - net_CurrentEndurance.Value;
+
+        // Make sure the heal cannot restore more endurance than the character is missing.
+        float actualEndurance = Mathf.Min(enduranceAmount, missingEndurance);
+
+        // Round the final endurance amount to the nearest whole number.
+        int roundedEndurance = Mathf.RoundToInt(actualEndurance);
+
+        // Add the endurance amount to the character's current endurance.
+        net_CurrentEndurance.Value += roundedEndurance;
+
+        // Event
+        OnEndurnaceRestored?.Invoke(roundedEndurance);
     }
 }

@@ -62,7 +62,8 @@ public class Player : NetworkBehaviour
         // FOR TESTING
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            stats.GiveHeal(1, HealType.Flat);
+            stateMachine.Buffs.replenishment.StartBuff(1, 5);
+            //stats.GiveHeal(1, HealType.Flat);
         }
     }
 

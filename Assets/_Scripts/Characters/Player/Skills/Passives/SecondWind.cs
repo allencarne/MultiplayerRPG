@@ -19,7 +19,7 @@ public class SecondWind : ActiveSkill
         {
             isOnCooldown = true;
 
-            owner.Buffs.regeneration.StartRegen(5,5);
+            owner.Buffs.regeneration.StartBuff(5,5);
             owner.StartCoroutine(CoolDownTime());
         }
     }

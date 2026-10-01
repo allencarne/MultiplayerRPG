@@ -28,7 +28,7 @@ public class CombatStateRegenerationEffect : ApplyEffect
             // Entering combat (or currently in combat) -> apply in-combat stacks (can be negative to remove)
             if (InCombatStacks != 0)
             {
-                buffs.regeneration.StartRegen(InCombatStacks, InCombatDuration);
+                buffs.regeneration.StartBuff(InCombatStacks, InCombatDuration);
             }
         }
         else
@@ -40,7 +40,7 @@ public class CombatStateRegenerationEffect : ApplyEffect
                 float maxHp = owner.Stats.net_TotalHealth.Value;
                 if (currentHp < maxHp)
                 {
-                    buffs.regeneration.StartRegen(OutOfCombatStacks, OutOfCombatDuration);
+                    buffs.regeneration.StartBuff(OutOfCombatStacks, OutOfCombatDuration);
                 }
             }
         }

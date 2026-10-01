@@ -12,6 +12,6 @@ public class RegenerationEffect : ApplyEffect
         Buffs buffs = target.GetComponent<Buffs>();
         if (buffs == null) return;
 
-        buffs.regeneration.StartRegen(Stacks, Duration);
+        buffs.regeneration.StartBuff(Stacks, Duration);
     }
 }

@@ -2,7 +2,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Buff_Regeneration : NetworkBehaviour
+public class Buff_Replenishment : NetworkBehaviour
 {
     [Header("Particle")]
     [SerializeField] Transform parentTransform;
@@ -19,16 +19,16 @@ public class Buff_Regeneration : NetworkBehaviour
     float nextTick = 0f;
 
     [Header("Components")]
-    [SerializeField] CharacterStats stats;
+    [SerializeField] PlayerStats stats;
     [SerializeField] GameObject UI_Bar;
     [SerializeField] GameObject UI_Prefab;
     GameObject UI_Instance;
 
     void Update()
     {
-        bool atFullHealth = stats.net_CurrentHealth.Value >= stats.net_TotalHealth.Value;
+        bool atFullMana = stats.net_CurrentMana.Value >= stats.TotalMana;
 
-        if ((durBuff > 0 || fixedBuff > 0) && atFullHealth)
+        if ((durBuff > 0 || fixedBuff > 0) && atFullMana)
         {
             if (IsOwner && fixedBuff > 0)
             {
@@ -39,13 +39,13 @@ public class Buff_Regeneration : NetworkBehaviour
         {
             if (Time.time >= nextTick)
             {
-                float healPerStack = stats.TotalHealthRegen;
-                float healAmount = TotalStacks * healPerStack;
+                float manaPerStack = stats.TotalManaRegen;
+                float manaAmount = TotalStacks * manaPerStack;
 
                 if (IsServer)
-                    stats.GiveHeal(healAmount, HealType.Flat);
+                    stats.GiveMana(manaAmount);
                 else
-                    GiveHealServerRpc(healAmount);
+                    GiveManaServerRpc(manaAmount);
 
                 nextTick = Time.time + 1f;
             }
@@ -256,8 +256,8 @@ public class Buff_Regeneration : NetworkBehaviour
     }
 
     [ServerRpc]
-    void GiveHealServerRpc(float healAmount)
+    void GiveManaServerRpc(float amount)
     {
-        stats.GiveHeal(healAmount, HealType.Flat);
+        stats.GiveMana(amount);
     }
 }

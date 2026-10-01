@@ -6,8 +6,8 @@ public class Consumable : Item
     public enum ConsumableAction
     {
         HealthRegen,
-        ManaInstant,
-        EnduranceInstant,
+        ManaRegen,
+        EnduranceRegen,
         Buff_Might
     }
 
@@ -45,7 +45,7 @@ public class Consumable : Item
                     Buffs buffs = stats.GetComponent<Buffs>();
                     if (buffs != null && buffs.regeneration != null)
                     {
-                        buffs.regeneration.StartRegen(Stacks, Duration);
+                        buffs.regeneration.StartBuff(Stacks, Duration);
                         Debug.Log($"Consumable: applied Health Regen ({Stacks} stacks, {Duration}s) to {stats.name}");
                     }
                     else
@@ -55,30 +55,32 @@ public class Consumable : Item
                     break;
                 }
 
-            case ConsumableAction.ManaInstant:
+            case ConsumableAction.ManaRegen:
                 {
-                    if (stats is PlayerStats ps)
+                    Buffs buffs = stats.GetComponent<Buffs>();
+                    if (buffs != null && buffs.replenishment != null)
                     {
-                        //ps.GiveMana(Amount);
-                        Debug.Log($"Consumable: restored {Amount} mana to {ps.name}");
+                        buffs.replenishment.StartBuff(Stacks, Duration);
+                        Debug.Log($"Consumable: applied Mana Replenishment ({Stacks} stacks, {Duration}s) to {stats.name}");
                     }
                     else
                     {
-                        Debug.LogWarning("Consumable: target is not PlayerStats; cannot give mana.");
+                        Debug.LogWarning("Consumable: no Buffs or Buff_Replenishment found on target.");
                     }
                     break;
                 }
 
-            case ConsumableAction.EnduranceInstant:
+            case ConsumableAction.EnduranceRegen:
                 {
-                    if (stats is PlayerStats ps)
+                    Buffs buffs = stats.GetComponent<Buffs>();
+                    if (buffs != null && buffs.resurgence != null)
                     {
-                        //ps.GiveEndurance(Amount);
-                        Debug.Log($"Consumable: restored {Amount} endurance to {ps.name}");
+                        buffs.resurgence.StartBuff(Stacks, Duration);
+                        Debug.Log($"Consumable: applied Endurance Resurgence ({Stacks} stacks, {Duration}s) to {stats.name}");
                     }
                     else
                     {
-                        Debug.LogWarning("Consumable: target is not PlayerStats; cannot give endurance.");
+                        Debug.LogWarning("Consumable: no Buffs or Buff_Resurgence found on target.");
                     }
                     break;
                 }
