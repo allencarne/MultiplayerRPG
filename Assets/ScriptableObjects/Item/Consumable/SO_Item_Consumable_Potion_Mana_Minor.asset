@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00159ff73731db64497979673d2e2d3b, type: 3}
-  m_Name: SO_Item_Consumable_Potion_Health_Minor
+  m_Name: SO_Item_Consumable_Potion_Mana_Minor
   m_EditorClassIdentifier: Assembly-CSharp::Consumable
-  ITEM_ID: con_pot_hp_minor
+  ITEM_ID: con_pot_man_minor
   Prefab: {fileID: 2103941817670546686, guid: 00cc9b6a3a420c8408469e29609c2d3e, type: 3}
-  Icon: {fileID: 6020521757971187887, guid: 77d9e6017fa533643ab8a4359bd1ec6f, type: 3}
-  Description: Restores a small amount of health
+  Icon: {fileID: -8782910642542715801, guid: 24d3984bd6022a14ab6e1d45fb20c2c2, type: 3}
+  Description: Restores a small amount of Mana
   SellValue: 1
   Cost: 3
   DropChance: 90
@@ -27,7 +27,7 @@ MonoBehaviour:
   rarityInfo: {fileID: 11400000, guid: c40ba1fb08a0bf94d862fbcebf21d8f4, type: 2}
   qualityInfo: {fileID: 11400000, guid: f693fa9a9dd7cb54282a7863ee51f585, type: 2}
   ItemStatRules: {fileID: 11400000, guid: 5741284a77301484a84682ac52bdb65d, type: 2}
-  Action: 0
+  Action: 1
   Stacks: 1
   Duration: 5
   Amount: 0
