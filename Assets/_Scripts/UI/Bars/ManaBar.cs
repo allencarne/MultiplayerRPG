@@ -13,8 +13,9 @@ public class ManaBar : NetworkBehaviour
     [SerializeField] Image manaBar_Back;
 
     [Header("Variables")]
-    bool isRecharging = false;
+    bool isRegenerating = false;
     float lerpSpeed = 5f;
+    Coroutine regenCoroutine;
     Coroutine lerpCoroutine;
 
     public override void OnNetworkSpawn()
@@ -23,16 +24,27 @@ public class ManaBar : NetworkBehaviour
         stats.net_BaseMana.OnValueChanged += OnMaxManaChanged;
         UpdateManaBar(stats.TotalMana, stats.net_CurrentMana.Value);
 
-        if (IsServer && stats.net_CurrentMana.Value < stats.TotalMana)
-        {
-            if (!isRecharging) StartCoroutine(RechargeMana());
-        }
+        if (IsServer) StartManaRegenIfNeeded();
     }
 
     public override void OnNetworkDespawn()
     {
         stats.net_CurrentMana.OnValueChanged -= OnManaChanged;
         stats.net_BaseMana.OnValueChanged -= OnMaxManaChanged;
+
+        if (lerpCoroutine != null) StopCoroutine(lerpCoroutine);
+        StopManaRegen();
+    }
+
+    void OnEnable()
+    {
+        if (IsSpawned && IsServer) StartManaRegenIfNeeded();
+    }
+
+    void OnDisable()
+    {
+        isRegenerating = false;
+        regenCoroutine = null;
     }
 
     public void SpendMana(float amount)
@@ -40,14 +52,7 @@ public class ManaBar : NetworkBehaviour
         if (IsServer)
         {
             if (stats.net_CurrentMana.Value >= amount)
-            {
-                stats.net_CurrentMana.Value -= amount;
-
-                if (!isRecharging)
-                {
-                    StartCoroutine(RechargeMana());
-                }
-            }
+                stats.net_CurrentMana.Value -= amount;   // OnManaChanged starts regen
         }
         else
         {
@@ -59,29 +64,61 @@ public class ManaBar : NetworkBehaviour
     void SpendManaServerRpc(float amount)
     {
         if (stats.net_CurrentMana.Value >= amount)
-        {
             stats.net_CurrentMana.Value -= amount;
-
-            if (!isRecharging)
-            {
-                StartCoroutine(RechargeMana());
-            }
-        }
     }
 
-    IEnumerator RechargeMana()
+    void OnManaChanged(float oldValue, float newValue)
     {
-        isRecharging = true;
+        UpdateManaBar(stats.TotalMana, newValue);
+
+        // Server only: any time mana is below max, make sure regen is running
+        if (!IsServer) return;
+        StartManaRegenIfNeeded();
+    }
+
+    void StartManaRegenIfNeeded()
+    {
+        if (!IsServer) return;
+        if (isRegenerating) return;
+        if (stats.net_CurrentMana.Value >= stats.TotalMana) return;
+
+        regenCoroutine = StartCoroutine(RegenerateMana());
+    }
+
+    void StopManaRegen()
+    {
+        if (regenCoroutine != null)
+        {
+            StopCoroutine(regenCoroutine);
+            regenCoroutine = null;
+        }
+        isRegenerating = false;
+    }
+
+    IEnumerator RegenerateMana()
+    {
+        isRegenerating = true;
+        float regenBuffer = 0f;
 
         while (stats.net_CurrentMana.Value < stats.TotalMana)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
 
-            stats.net_CurrentMana.Value += stats.net_BaseManaRegen.Value;
-            stats.net_CurrentMana.Value = Mathf.Min(stats.net_CurrentMana.Value, stats.net_CurrentMana.Value);
+            if (stats.net_CurrentMana.Value >= stats.TotalMana) break;
+
+            // Accumulate fractional regen, only give whole points
+            regenBuffer += stats.TotalManaRegen;
+            int wholeMana = Mathf.FloorToInt(regenBuffer);
+
+            if (wholeMana > 0)
+            {
+                stats.GiveMana(wholeMana);
+                regenBuffer -= wholeMana;
+            }
         }
 
-        isRecharging = false;
+        isRegenerating = false;
+        regenCoroutine = null;
     }
 
     void UpdateManaBar(float maxMana, float currentMana)
@@ -107,11 +144,6 @@ public class ManaBar : NetworkBehaviour
             manaBar_Back.fillAmount = currentFillAmount;
             yield return null;
         }
-    }
-
-    void OnManaChanged(float oldValue, float newValue)
-    {
-        UpdateManaBar(stats.TotalMana, newValue);
     }
 
     void OnMaxManaChanged(float oldValue, float newValue)

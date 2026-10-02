@@ -26,7 +26,7 @@ public class Buff_Resurgence : NetworkBehaviour
 
     void Update()
     {
-        bool atFullEndurance = stats.net_CurrentMana.Value >= stats.TotalMana;
+        bool atFullEndurance = stats.net_CurrentEndurance.Value >= stats.TotalEndurance;
 
         if ((durBuff > 0 || fixedBuff > 0) && atFullEndurance)
         {

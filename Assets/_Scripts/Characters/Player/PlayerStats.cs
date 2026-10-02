@@ -108,23 +108,17 @@ public class PlayerStats : CharacterStats
 
     public void GiveMana(float manaAmount)
     {
-        // Only the server is allowed to modify mana.
         if (!IsServer) return;
         if (isDead) return;
 
-        // Calculate how much mana the character is currently missing.
         float missingMana = TotalMana - net_CurrentMana.Value;
-
-        // Make sure the heal cannot restore more mana than the character is missing.
         float actualMana = Mathf.Min(manaAmount, missingMana);
-
-        // Round the final mana amount to the nearest whole number.
         int roundedMana = Mathf.RoundToInt(actualMana);
 
-        // Add the mana amount to the character's current mana.
-        net_CurrentHealth.Value += roundedMana;
+        if (roundedMana <= 0) return;
 
-        // Event
+        net_CurrentMana.Value = Mathf.Min(net_CurrentMana.Value + roundedMana, TotalMana);
+
         OnManaRestored?.Invoke(roundedMana);
     }
 
