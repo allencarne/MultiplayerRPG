@@ -9,6 +9,7 @@ public class EquipmentManager : MonoBehaviour
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentUI equipmentUI;
     [SerializeField] PlayerEquipment equipment;
+    public ConsumableSlots ConsumableSlots;
 
     [SerializeField] private ItemList itemDatabase;
     public InventorySlotData[] currentEquipment;

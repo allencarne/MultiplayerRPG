@@ -11,6 +11,9 @@ public class Consumable : Item
         Buff_Might
     }
 
+    [Header("Consumable Slot")]
+    public ConsumableSlotType SlotType = ConsumableSlotType.Potion;
+
     [Header("Consumable Behaviour")]
     public ConsumableAction Action = ConsumableAction.HealthRegen;
 
@@ -25,87 +28,47 @@ public class Consumable : Item
 
     public override void Use(Inventory _inventory, EquipmentManager _equipmentManager, InventorySlotData slotData)
     {
-        if (_inventory == null)
-        {
-            Debug.LogWarning("Consumable.Use called but inventory is null.");
-            return;
-        }
+        _equipmentManager.ConsumableSlots.Equip(slotData);
+    }
 
-        var stats = _inventory.Stats;
-        if (stats == null)
+    public bool Apply(PlayerStats stats)
+    {
+        Buffs buffs = stats.GetComponent<Buffs>();
+        if (buffs == null)
         {
-            Debug.LogWarning("Consumable.Use: Inventory owner has no PlayerStats.");
-            return;
+            Debug.LogWarning("Consumable.Apply: no Buffs found on target.");
+            return false;
         }
 
         switch (Action)
         {
             case ConsumableAction.HealthRegen:
-                {
-                    Buffs buffs = stats.GetComponent<Buffs>();
-                    if (buffs != null && buffs.regeneration != null)
-                    {
-                        buffs.regeneration.StartBuff(Stacks, Duration);
-                        Debug.Log($"Consumable: applied Health Regen ({Stacks} stacks, {Duration}s) to {stats.name}");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Consumable: no Buffs or Buff_Regeneration found on target.");
-                    }
-                    break;
-                }
+                if (buffs.regeneration == null) return false;
+                buffs.regeneration.StartBuff(Stacks, Duration);
+                return true;
 
             case ConsumableAction.ManaRegen:
-                {
-                    Buffs buffs = stats.GetComponent<Buffs>();
-                    if (buffs != null && buffs.replenishment != null)
-                    {
-                        buffs.replenishment.StartBuff(Stacks, Duration);
-                        Debug.Log($"Consumable: applied Mana Replenishment ({Stacks} stacks, {Duration}s) to {stats.name}");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Consumable: no Buffs or Buff_Replenishment found on target.");
-                    }
-                    break;
-                }
+                if (buffs.replenishment == null) return false;
+                buffs.replenishment.StartBuff(Stacks, Duration);
+                return true;
 
             case ConsumableAction.EnduranceRegen:
-                {
-                    Buffs buffs = stats.GetComponent<Buffs>();
-                    if (buffs != null && buffs.resurgence != null)
-                    {
-                        buffs.resurgence.StartBuff(Stacks, Duration);
-                        Debug.Log($"Consumable: applied Endurance Resurgence ({Stacks} stacks, {Duration}s) to {stats.name}");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Consumable: no Buffs or Buff_Resurgence found on target.");
-                    }
-                    break;
-                }
+                if (buffs.resurgence == null) return false;
+                buffs.resurgence.StartBuff(Stacks, Duration);
+                return true;
 
             case ConsumableAction.Buff_Might:
-                {
-                    Buffs buffs = stats.GetComponent<Buffs>();
-                    if (buffs != null && buffs.might != null)
-                    {
-                        buffs.might.StartMight(Stacks, Duration);
-                        Debug.Log($"Consumable: applied Might ({Stacks} stacks, {Duration}s) to {stats.name}");
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Consumable: no Buffs or Buff_Might found on target.");
-                    }
-                    break;
-                }
-
-            default:
-                Debug.LogWarning("Consumable.Use: unknown action.");
-                break;
+                if (buffs.might == null) return false;
+                buffs.might.StartMight(Stacks, Duration);
+                return true;
         }
 
-        // Remove one from inventory (safe removal by ID)
-        _inventory.RemoveItemByID(ITEM_ID, 1);
+        return false;
     }
+}
+
+public enum ConsumableSlotType
+{
+    Potion,
+    Food
 }
