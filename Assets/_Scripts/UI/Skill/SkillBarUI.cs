@@ -10,6 +10,22 @@ public class SkillBarUI : MonoBehaviour
     [SerializeField] PlayerStats stats;
     [SerializeField] Player player;
 
+    [Header("Potion")]
+    [SerializeField] Image img_Potion_Icon;
+    [SerializeField] Image img_Potion_Background;
+    [SerializeField] Image img_Potion_Quality;
+    [SerializeField] Image img_Potion_Tint;
+    public TextMeshProUGUI txt_Potion_Amount;
+    public TextMeshProUGUI txt_Potion_Cooldown;
+
+    [Header("Food")]
+    [SerializeField] Image img_Food_Icon;
+    [SerializeField] Image img_Food_Background;
+    [SerializeField] Image img_Food_Quality;
+    [SerializeField] Image img_Food_Tint;
+    public TextMeshProUGUI txt_Food_Amount;
+    public TextMeshProUGUI txt_Food_Cooldown;
+
     [Header("Basic")]
     [SerializeField] Image icon_Basic;
     [SerializeField] Image icon_Basic_Lock;
@@ -50,6 +66,22 @@ public class SkillBarUI : MonoBehaviour
     Color cooldownTint = new Color(0.0f, 0.0f, 0.0f, 0.55f);
     Color manaTint = new Color(0.15f, 0.45f, 1f, 0.55f);
 
+    [Header("Consumables")]
+    [SerializeField] ConsumableSlots consumableSlots;
+
+    class ConsumableBarSlot
+    {
+        public Image Icon;
+        public Image Background;
+        public Image Quality;
+        public Image Tint;
+        public TextMeshProUGUI Amount;
+        public TextMeshProUGUI Cooldown;
+        public Coroutine Routine;
+    }
+
+    Dictionary<ConsumableSlotType, ConsumableBarSlot> consumableBar;
+
     class SkillBarSlot
     {
         public Image Icon;
@@ -68,12 +100,38 @@ public class SkillBarUI : MonoBehaviour
     {
         stats.PlayerLevel.OnValueChanged += OnLevelChanged;
         stats.net_CurrentMana.OnValueChanged += OnManaChanged;
+
+        consumableSlots.OnSlotsChanged.AddListener(RefreshConsumables);
+        consumableSlots.OnConsumed += OnConsumableUsed;
+
+        RefreshConsumables();
+
+        // If a cooldown is still running from before this was enabled, pick it back up
+        foreach (ConsumableSlotType type in consumableBar.Keys)
+        {
+            if (consumableSlots.CooldownRemaining(type) > 0f) StartConsumableCooldown(type);
+        }
     }
 
     private void OnDisable()
     {
         stats.PlayerLevel.OnValueChanged -= OnLevelChanged;
         stats.net_CurrentMana.OnValueChanged -= OnManaChanged;
+
+        consumableSlots.OnSlotsChanged.RemoveListener(RefreshConsumables);
+        consumableSlots.OnConsumed -= OnConsumableUsed;
+
+        // Unity stops coroutines on disable, so clear the stale handles
+        foreach (ConsumableBarSlot bar in consumableBar.Values) bar.Routine = null;
+    }
+
+    private void Awake()
+    {
+        consumableBar = new Dictionary<ConsumableSlotType, ConsumableBarSlot>
+        {
+            [ConsumableSlotType.Potion] = new ConsumableBarSlot { Icon = img_Potion_Icon, Background = img_Potion_Background, Quality = img_Potion_Quality, Tint = img_Potion_Tint, Amount = txt_Potion_Amount, Cooldown = txt_Potion_Cooldown },
+            [ConsumableSlotType.Food] = new ConsumableBarSlot { Icon = img_Food_Icon, Background = img_Food_Background, Quality = img_Food_Quality, Tint = img_Food_Tint, Amount = txt_Food_Amount, Cooldown = txt_Food_Cooldown },
+        };
     }
 
     public void Bind(ClassSkillSet set)
@@ -205,4 +263,81 @@ public class SkillBarUI : MonoBehaviour
 
     void OnLevelChanged(int oldValue, int newValue) => RefreshLocks();
     void OnManaChanged(float oldValue, float newValue) => RefreshTints();
+
+    void OnConsumableUsed(ConsumableSlotType type, float cooldown) => StartConsumableCooldown(type);
+
+    void RefreshConsumables()
+    {
+        foreach (KeyValuePair<ConsumableSlotType, ConsumableBarSlot> pair in consumableBar)
+        {
+            ConsumableBarSlot bar = pair.Value;
+            InventorySlotData data = consumableSlots.GetSlot(pair.Key);
+            bool has = data != null && data.item != null;
+
+            bar.Icon.enabled = has;
+            bar.Background.enabled = has;
+            bar.Quality.enabled = has;
+
+            if (has)
+            {
+                bar.Icon.sprite = data.item.Icon;
+                bar.Background.color = data.item.GetRarityColor(data.rarity);
+                bar.Quality.color = data.item.GetQualityColor(data.quality);
+                bar.Amount.text = data.quantity > 1 ? data.quantity.ToString() : "";
+            }
+            else
+            {
+                bar.Icon.sprite = null;
+                bar.Amount.text = "";
+            }
+
+            UpdateConsumableTint(pair.Key, bar);
+        }
+    }
+
+    void StartConsumableCooldown(ConsumableSlotType type)
+    {
+        ConsumableBarSlot bar = consumableBar[type];
+
+        if (bar.Routine != null) StopCoroutine(bar.Routine);
+        bar.Routine = StartCoroutine(TrackConsumableCooldown(type, bar));
+    }
+
+    IEnumerator TrackConsumableCooldown(ConsumableSlotType type, ConsumableBarSlot bar)
+    {
+        UpdateConsumableTint(type, bar);
+
+        // Read the remaining time from ConsumableSlots so the two can never drift apart
+        float remaining = consumableSlots.CooldownRemaining(type);
+        while (remaining > 0f)
+        {
+            if (HasConsumable(type)) bar.Cooldown.text = FormatCooldown(remaining);
+            yield return null;
+            remaining = consumableSlots.CooldownRemaining(type);
+        }
+
+        bar.Routine = null;
+        UpdateConsumableTint(type, bar);
+    }
+
+    void UpdateConsumableTint(ConsumableSlotType type, ConsumableBarSlot bar)
+    {
+        bool onCooldown = bar.Routine != null && HasConsumable(type);
+
+        bar.Tint.enabled = onCooldown;
+        if (onCooldown) bar.Tint.color = cooldownTint;
+        else bar.Cooldown.text = "";
+    }
+
+    bool HasConsumable(ConsumableSlotType type)
+    {
+        InventorySlotData data = consumableSlots.GetSlot(type);
+        return data != null && data.item != null;
+    }
+
+    string FormatCooldown(float seconds)
+    {
+        int total = Mathf.CeilToInt(seconds);
+        return total >= 60 ? $"{total / 60}:{total % 60:00}" : total.ToString();
+    }
 }

@@ -16,6 +16,7 @@ public class ConsumableSlots : MonoBehaviour
     float[] readyTime = new float[2]; // Time.time when each slot can be used again
 
     public UnityEvent OnSlotsChanged; // hook your UI up to this later
+    public event Action<ConsumableSlotType, float> OnConsumed;
 
     public InventorySlotData GetSlot(ConsumableSlotType type) => slots[(int)type];
 
@@ -88,6 +89,7 @@ public class ConsumableSlots : MonoBehaviour
         if (!consumable.Apply(stats)) return false; // don't burn the cooldown if it failed
 
         readyTime[i] = Time.time + GetCooldown(type);
+        OnConsumed?.Invoke(type, GetCooldown(type));
 
         slot.quantity--;
         if (slot.quantity <= 0) slots[i] = null;
