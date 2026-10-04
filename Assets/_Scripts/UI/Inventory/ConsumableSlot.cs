@@ -13,11 +13,13 @@ public class ConsumableSlot : MonoBehaviour, IDropHandler
     public Image itemBackground;
     public Image image_QualityBorder;
     public Image cooldownOverlay;
+    public Image img_Tint;
     public TextMeshProUGUI amountText;
     public TextMeshProUGUI cooldownText;
 
     public void Refresh(InventorySlotData data)
     {
+        // Clear the slot if there's no item
         if (data == null || data.item == null)
         {
             itemIcon.sprite = null;
@@ -28,6 +30,7 @@ public class ConsumableSlot : MonoBehaviour, IDropHandler
             return;
         }
 
+        // Update the slot with the new item data
         itemIcon.sprite = data.item.Icon;
         itemIcon.enabled = true;
 
@@ -40,7 +43,6 @@ public class ConsumableSlot : MonoBehaviour, IDropHandler
         amountText.text = data.quantity > 1 ? data.quantity.ToString() : "";
     }
 
-    // Hook this to the slot's button (click / right click), like EquipmentSlot.UseItem
     public void UseItem()
     {
         consumableSlots.UnEquip(slotType);
@@ -69,6 +71,7 @@ public class ConsumableSlot : MonoBehaviour, IDropHandler
         if (remaining > 0f)
         {
             cooldownOverlay.enabled = true;
+            img_Tint.enabled = true;
             cooldownOverlay.fillAmount = remaining / consumableSlots.GetCooldown(slotType);
 
             int seconds = Mathf.CeilToInt(remaining);
@@ -77,6 +80,7 @@ public class ConsumableSlot : MonoBehaviour, IDropHandler
         else if (cooldownOverlay.enabled)
         {
             cooldownOverlay.enabled = false;
+            img_Tint.enabled = false;
             cooldownText.text = "";
         }
     }

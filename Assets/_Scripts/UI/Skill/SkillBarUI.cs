@@ -311,7 +311,7 @@ public class SkillBarUI : MonoBehaviour
         float remaining = consumableSlots.CooldownRemaining(type);
         while (remaining > 0f)
         {
-            if (HasConsumable(type)) bar.Cooldown.text = FormatCooldown(remaining);
+            bar.Cooldown.text = FormatCooldown(remaining);
             yield return null;
             remaining = consumableSlots.CooldownRemaining(type);
         }
@@ -322,17 +322,11 @@ public class SkillBarUI : MonoBehaviour
 
     void UpdateConsumableTint(ConsumableSlotType type, ConsumableBarSlot bar)
     {
-        bool onCooldown = bar.Routine != null && HasConsumable(type);
+        bool onCooldown = bar.Routine != null;
 
         bar.Tint.enabled = onCooldown;
         if (onCooldown) bar.Tint.color = cooldownTint;
         else bar.Cooldown.text = "";
-    }
-
-    bool HasConsumable(ConsumableSlotType type)
-    {
-        InventorySlotData data = consumableSlots.GetSlot(type);
-        return data != null && data.item != null;
     }
 
     string FormatCooldown(float seconds)
