@@ -5,7 +5,6 @@ using System.Text;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class PlayerSave : NetworkBehaviour
@@ -52,6 +51,7 @@ public class PlayerSave : NetworkBehaviour
             LoadPlayerSkills();
             LoadInventory();
             equipment.LoadEquipment();
+            equipment.ConsumableSlots.LoadConsumables();
             exp.Initialize();
             stateMachine.SkillsOnSpawn();
             LoadQuests();
@@ -628,5 +628,25 @@ public class PlayerSave : NetworkBehaviour
 
         // Notify listeners so UI and other systems update
         playerQuest.OnQuestStateChanged?.Invoke();
+    }
+
+    public void SaveConsumable(InventorySlotData slotData, int slotIndex)
+    {
+        string prefix = $"Character{PlayerPrefs.GetInt("SelectedCharacter")}_";
+        string key = $"{prefix}ConsumableSlot_{slotIndex}";
+
+        // Empty slot: clear the key
+        if (slotData == null || slotData.item == null || slotData.quantity <= 0)
+        {
+            PlayerPrefs.DeleteKey(key);
+            PlayerPrefs.Save();
+            return;
+        }
+
+        string baseName = slotData.item.name.Replace("(Clone)", "").Trim();
+
+        // Format: ItemName|Quantity|Rarity|Quality
+        PlayerPrefs.SetString(key, $"{baseName}|{slotData.quantity}|{slotData.rarity}|{slotData.quality}");
+        PlayerPrefs.Save();
     }
 }

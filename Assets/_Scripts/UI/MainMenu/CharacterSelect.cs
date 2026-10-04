@@ -312,6 +312,12 @@ public class CharacterSelect : MonoBehaviour
             PlayerPrefs.DeleteKey($"Character{slot}_EquipmentSlot_{i}");
         }
 
+        // Delete consumable slots
+        for (int i = 0; i < 2; i++)
+        {
+            PlayerPrefs.DeleteKey($"Character{slot}_ConsumableSlot_{i}");
+        }
+
         foreach (Quest quest in questList.QuestDatabase)
         {
             if (quest == null) continue;
