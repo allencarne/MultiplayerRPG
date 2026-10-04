@@ -33,6 +33,7 @@ public class PlayerStateMachine : StateMachine
     public Transform Aimer;
     public PlayerInput playerInput;
     public Indicator Indicator;
+    [SerializeField] ConsumableSlots consumableSlots;
 
     [Header("Variables")]
     [HideInInspector] public Vector2 LastMoveDirection = Vector2.zero;
@@ -364,6 +365,18 @@ public class PlayerStateMachine : StateMachine
         }
 
         ReleaseLockIfDone("Ultimate", Input.IsUltimateHeld, Input.HasBufferedUltimateInput);
+    }
+
+    public void PotionAbility()
+    {
+        if (!Input.PotionInput) return;
+        consumableSlots.TryConsume(ConsumableSlotType.Potion);
+    }
+
+    public void FoodAbility()
+    {
+        if (!Input.FoodInput) return;
+        consumableSlots.TryConsume(ConsumableSlotType.Food);
     }
 
     public void SetFirstPassive(PassiveSkillData data, int index)

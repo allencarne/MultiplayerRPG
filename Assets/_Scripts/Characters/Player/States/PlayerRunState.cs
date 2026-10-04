@@ -25,6 +25,8 @@ public class PlayerRunState : PlayerState
         owner.DefensiveAbility();
         owner.UtilityAbility();
         owner.UltimateAbility();
+        owner.PotionAbility();
+        owner.FoodAbility();
 
         // If we become immobilized, stop moving and switch to idle
         if (owner.CrowdControl.immobilize.IsImmobilized)

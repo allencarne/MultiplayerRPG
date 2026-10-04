@@ -35,6 +35,8 @@ public class PlayerInputHandler : MonoBehaviour
     public float UltimateTimer = 0f;
     public bool HasBufferedUltimateInput = false;
 
+    public bool PotionInput { get; private set; }
+    public bool FoodInput { get; private set; }
     public Vector2 MousePosition { get; private set; }
     public bool PickupInput { get; private set; }
     public bool InteractInput { get; private set; }
@@ -59,6 +61,14 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField] float mobileAimReleaseGrace = 0.25f;
     float mobileAimReleasedTime = -999f;
 
+    public bool IsAnySkillPending =>
+    Time.time - mobileAimReleasedTime < mobileAimReleaseGrace ||
+    HasBufferedOffensiveInput || IsOffensiveReleased ||
+    HasBufferedMobilityInput || IsMobilityReleased ||
+    HasBufferedDefensiveInput || IsDefensiveReleased ||
+    HasBufferedUtilityInput || IsUtilityReleased ||
+    HasBufferedUltimateInput || IsUltimateReleased;
+
     public void SetMobileAim(Vector2 aim)
     {
         MobileAimInput = aim;
@@ -72,14 +82,6 @@ public class PlayerInputHandler : MonoBehaviour
         IsMobileAiming = false;
         mobileAimReleasedTime = Time.time;
     }
-
-    public bool IsAnySkillPending =>
-        Time.time - mobileAimReleasedTime < mobileAimReleaseGrace ||
-        HasBufferedOffensiveInput || IsOffensiveReleased ||
-        HasBufferedMobilityInput || IsMobilityReleased ||
-        HasBufferedDefensiveInput || IsDefensiveReleased ||
-        HasBufferedUtilityInput || IsUtilityReleased ||
-        HasBufferedUltimateInput || IsUltimateReleased;
 
     private void Update()
     {
@@ -208,6 +210,18 @@ public class PlayerInputHandler : MonoBehaviour
             IsUltimateHeld = false;
             IsUltimateReleased = true;
         }
+    }
+
+    public void OnPotionInput(InputAction.CallbackContext context)
+    {
+        PotionInput = context.ReadValueAsButton();
+        if (context.canceled) PotionInput = false;
+    }
+
+    public void OnFoodInput(InputAction.CallbackContext context)
+    {
+        FoodInput = context.ReadValueAsButton();
+        if (context.canceled) FoodInput = false;
     }
 
     public void OnMousePos(InputAction.CallbackContext context)

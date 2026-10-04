@@ -18,6 +18,8 @@ public class PlayerIdleState : PlayerState
         owner.DefensiveAbility();
         owner.UtilityAbility();
         owner.UltimateAbility();
+        owner.PotionAbility();
+        owner.FoodAbility();
     }
 
     public override void FixedUpdateState()
