@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    int TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position);
+    int TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position, HitType hitType = HitType.Normal);
 }
 
 public enum DamageType
@@ -20,3 +20,5 @@ public enum DamageType
     PercentCurrentHealth,       // % of target's current HP, reduced by armor
     PercentCurrentHealthTrue    // % of target's current HP, ignores armor (like Vayne's Silver Bolts)
 }
+
+public enum HitType { Normal, Crit, Bleed }

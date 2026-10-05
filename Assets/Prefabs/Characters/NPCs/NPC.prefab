@@ -1966,6 +1966,8 @@ MonoBehaviour:
   Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
   Buff_Prefab: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
   DeBuff_Prefab: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
+  settings: {fileID: 11400000, guid: 2c9c308bb8b1efe499b3abbd7b655ec0, type: 2}
+  spawnRadius: 1.2
 --- !u!1 &5046521243534245195
 GameObject:
   m_ObjectHideFlags: 0
@@ -3442,6 +3444,9 @@ MonoBehaviour:
   OnDamaged:
     m_PersistentCalls:
       m_Calls: []
+  OnHitTaken:
+    m_PersistentCalls:
+      m_Calls: []
   OnHealed:
     m_PersistentCalls:
       m_Calls: []
@@ -3653,6 +3658,8 @@ MonoBehaviour:
   immune: {fileID: 2694619765784629286}
   immoveable: {fileID: 6947868132366318720}
   regeneration: {fileID: 8975984412371179804}
+  replenishment: {fileID: 0}
+  resurgence: {fileID: 0}
 --- !u!114 &5438906521032660789
 MonoBehaviour:
   m_ObjectHideFlags: 0

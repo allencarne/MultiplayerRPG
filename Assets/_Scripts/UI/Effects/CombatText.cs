@@ -10,14 +10,7 @@ public class CombatText : NetworkBehaviour
     [SerializeField] RectTransform hightRect;
     [SerializeField] RectTransform lowRect;
 
-    [SerializeField] GameObject Hurt_Prefab;
-    [SerializeField] GameObject Crit_Prefab;
-    //[SerializeField] GameObject Deal_Prefab;
-    [SerializeField] GameObject Heal_Prefab;
-    [SerializeField] GameObject Exp_Prefab;
-    [SerializeField] GameObject Level_Prefab;
-    [SerializeField] GameObject Buff_Prefab;
-    [SerializeField] GameObject DeBuff_Prefab;
+    [SerializeField] CombatTextSettings settings;
 
     public enum TextType
     {
@@ -32,48 +25,18 @@ public class CombatText : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        stats.OnDamaged.AddListener(Hurt);
         stats.OnHealed.AddListener(Heal);
-        stats.OnCritTaken.AddListener(Crit);
-        //stats.OnDamageDealt.AddListener(Deal);
+        stats.OnHitTaken.AddListener(HitTaken);
         if (experience != null) experience.OnEXPGained.AddListener(EXP);
         if (experience != null) experience.OnLevelUp.AddListener(Level);
     }
 
     public override void OnNetworkDespawn()
     {
-        stats.OnDamaged.RemoveListener(Hurt);
         stats.OnHealed.RemoveListener(Heal);
-        stats.OnCritTaken.RemoveListener(Crit);
-        //stats.OnDamageDealt.RemoveListener(Deal);
+        stats.OnHitTaken.RemoveListener(HitTaken);
         if (experience != null) experience.OnEXPGained.RemoveListener(EXP);
         if (experience != null) experience.OnLevelUp.RemoveListener(Level);
-    }
-
-    void Hurt(float amount)
-    {
-        if (IsServer)
-        {
-            TextClientRPC(amount, false, TextType.Hurt);
-        }
-        else
-        {
-            TextServerRPC(amount, false, TextType.Hurt);
-        }
-    }
-
-    void Crit(int amount, NetworkObject attacker)
-    {
-        // display crit damage above this character's head
-        Vector2 position = transform.position;
-        if (IsServer)
-        {
-            DealTextClientRPC(amount, TextType.Crit, position);
-        }
-        else
-        {
-            DealTextServerRPC(amount, TextType.Crit, position);
-        }
     }
 
     void Heal(float amount)
@@ -121,12 +84,12 @@ public class CombatText : NetworkBehaviour
 
         if (isHigh)
         {
-            Vector2 randomOffset = Random.insideUnitCircle * 1.2f;
+            Vector2 randomOffset = Random.insideUnitCircle * settings.spawnRadius;
             spawnPosition = (Vector2)hightRect.transform.position + randomOffset;
         }
         else
         {
-            Vector2 randomOffset = Random.insideUnitCircle * 1.2f;
+            Vector2 randomOffset = Random.insideUnitCircle * settings.spawnRadius;
             spawnPosition = (Vector2)lowRect.transform.position + randomOffset;
         }
 
@@ -158,37 +121,33 @@ public class CombatText : NetworkBehaviour
     {
         switch (type)
         {
-            case TextType.Hurt: return Hurt_Prefab;
-            case TextType.Crit: return Crit_Prefab;
-            case TextType.Heal: return Heal_Prefab;
-            case TextType.Exp: return Exp_Prefab;
-            case TextType.Level: return Level_Prefab;
-            case TextType.Buff: return Buff_Prefab;
-            case TextType.Debuff: return DeBuff_Prefab;
+            case TextType.Hurt: return settings.Hurt;
+            case TextType.Crit: return settings.Crit;
+            case TextType.Heal: return settings.Heal;
+            case TextType.Exp: return settings.Exp;
+            case TextType.Level: return settings.Level;
+            case TextType.Buff: return settings.Buff;
+            case TextType.Debuff: return settings.Debuff;
             default: return null;
         }
     }
 
-    [ClientRpc]
-    void DealTextClientRPC(float amount, TextType type, Vector2 position)
+    void HitTaken(int amount, HitType type)
     {
-        Vector2 spawnPosition;
-        Vector2 headOffset = new Vector2(0, 4.0f);
-
-        spawnPosition = position + headOffset + Random.insideUnitCircle * 0.3f;
-
-        GameObject prefab = GetTextPrefab(type);
-        if (prefab == null) return;
-
-        GameObject popUp = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
-        TextMeshProUGUI popUpText = popUp.GetComponent<TextMeshProUGUI>();
-
-        popUpText.text = amount.ToString();
+        ShowHitClientRPC(amount, type);
     }
 
-    [ServerRpc]
-    void DealTextServerRPC(int amount, TextType type, Vector2 position)
+    [ClientRpc]
+    void ShowHitClientRPC(int amount, HitType type)
     {
-        DealTextClientRPC(amount, type, position);
+        GameObject prefab = settings.Get(type);
+        if (prefab == null) return;
+
+        // crits go higher, everything else low
+        RectTransform anchor = type == HitType.Crit ? hightRect : lowRect;
+        Vector2 pos = (Vector2)anchor.position + Random.insideUnitCircle * settings.spawnRadius;
+
+        GameObject popUp = Instantiate(prefab, pos, Quaternion.identity, transform);
+        popUp.GetComponent<TextMeshProUGUI>().text = amount.ToString();
     }
 }

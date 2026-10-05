@@ -6325,6 +6325,8 @@ MonoBehaviour:
   Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
   Buff_Prefab: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
   DeBuff_Prefab: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
+  settings: {fileID: 11400000, guid: 2c9c308bb8b1efe499b3abbd7b655ec0, type: 2}
+  spawnRadius: 1.2
 --- !u!114 &445278855479640717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24276,7 +24278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2503532107
+  GlobalObjectIdHash: 1695590029
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -24452,6 +24454,9 @@ MonoBehaviour:
   baseCritBonus: 0.5
   modifiers: []
   OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHitTaken:
     m_PersistentCalls:
       m_Calls: []
   OnHealed:

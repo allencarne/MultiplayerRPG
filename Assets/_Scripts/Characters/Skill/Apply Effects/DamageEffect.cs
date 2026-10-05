@@ -59,7 +59,7 @@ public class DamageEffect : ApplyEffect
         }
 
         // Apply damage to the target
-        int dealt = damageable.TakeDamage(computedDamage, DamageType, attacker, target.transform.position);
+        int dealt = damageable.TakeDamage(computedDamage, DamageType, attacker, target.transform.position, isCrit ? HitType.Crit : HitType.Normal);
 
         // On Crit Events
         if (isCrit)

@@ -1578,6 +1578,9 @@ MonoBehaviour:
   OnDamaged:
     m_PersistentCalls:
       m_Calls: []
+  OnHitTaken:
+    m_PersistentCalls:
+      m_Calls: []
   OnHealed:
     m_PersistentCalls:
       m_Calls: []
@@ -1696,6 +1699,8 @@ MonoBehaviour:
   immune: {fileID: 3907009736199523141}
   immoveable: {fileID: 421064499542268007}
   regeneration: {fileID: 4973694241957413842}
+  replenishment: {fileID: 0}
+  resurgence: {fileID: 0}
 --- !u!114 &1913103621938294649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1954,7 +1959,7 @@ GameObject:
   - component: {fileID: 1786859157873782608}
   - component: {fileID: 7420002080002523575}
   - component: {fileID: 5375000477506134681}
-  - component: {fileID: 2350772152925964913}
+  - component: {fileID: 1590616095321004627}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2047,7 +2052,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2350772152925964913
+--- !u!114 &1590616095321004627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2056,15 +2061,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5339555231311239900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fae3d743a67f18141b32560a00e306bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d39f6c54bb93d74e9bb1eefa0ab8e1b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombatText
+  m_EditorClassIdentifier: Assembly-CSharp::CombatText
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
-  Deal_Prefab: {fileID: 7893874486923855606, guid: 34515fdb0d005ab468698e2c612d9ce6, type: 3}
-  HurtCrit_Prefab: {fileID: 7893874486923855606, guid: 7aafed934fe03274ebef889fabc3218c, type: 3}
+  experience: {fileID: 0}
   hightRect: {fileID: 9095509754017204285}
-  lowRect: {fileID: 0}
+  lowRect: {fileID: 9095509754017204285}
+  Hurt_Prefab: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
+  Crit_Prefab: {fileID: 7893874486923855606, guid: 7aafed934fe03274ebef889fabc3218c, type: 3}
+  Heal_Prefab: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
+  Exp_Prefab: {fileID: 7893874486923855606, guid: ba8655a5cf081344fa7cde2f954412f3, type: 3}
+  Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
+  Buff_Prefab: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
+  DeBuff_Prefab: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
+  settings: {fileID: 11400000, guid: 2c9c308bb8b1efe499b3abbd7b655ec0, type: 2}
+  spawnRadius: 1.2
 --- !u!1 &5345717291366158480
 GameObject:
   m_ObjectHideFlags: 0

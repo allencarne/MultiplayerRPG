@@ -60,6 +60,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
     [Header("Events")]
     [HideInInspector] public UnityEvent<float> OnDamaged;
+    [HideInInspector] public UnityEvent<int, HitType> OnHitTaken;
     [HideInInspector] public UnityEvent<float> OnHealed;
     [HideInInspector] public UnityEvent OnDamageDealt;
     [HideInInspector] public UnityEvent<NetworkObject> OnCharacterDamaged;
@@ -68,7 +69,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
     [HideInInspector] public UnityEvent<int, NetworkObject> OnCritDealt;
     [HideInInspector] public UnityEvent<int, NetworkObject> OnCritTaken;
 
-    public int TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position)
+    public int TakeDamage(float damage, DamageType damageType, NetworkObject attackerID, Vector2 position, HitType hitType = HitType.Normal)
     {
         // Return if not server or dead
         if (!IsServer) return 0;
@@ -96,6 +97,7 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
 
         // Damaged/Dealt Events
         OnDamaged?.Invoke(roundedDamage);
+        OnHitTaken?.Invoke(roundedDamage, hitType);
         OnCharacterDamaged?.Invoke(attackerID);
         if (attackerStats != null) attackerStats.OnDamageDealt?.Invoke();
 
