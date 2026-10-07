@@ -41,6 +41,8 @@ public class PlayerStats : CharacterStats
     [Header("Currency")]
     public float Coins;
 
+    public NetworkVariable<int> net_DamageSkin = new(writePerm: NetworkVariableWritePermission.Server);
+
     [HideInInspector] public UnityEvent<float> OnManaRestored;
     [HideInInspector] public UnityEvent<float> OnEndurnaceRestored;
 

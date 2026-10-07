@@ -1088,6 +1088,41 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3176692107652968483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1000864057815029550}
+  m_Layer: 5
+  m_Name: TextPopUp (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1000864057815029550
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176692107652968483}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1678050288238711682}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -43.2}
+  m_SizeDelta: {x: 16.34, y: 9.346}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3204326684342800947
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,17 +2102,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 878784667173873402}
   experience: {fileID: 0}
-  hightRect: {fileID: 9095509754017204285}
-  lowRect: {fileID: 9095509754017204285}
-  Hurt_Prefab: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
-  Crit_Prefab: {fileID: 7893874486923855606, guid: 7aafed934fe03274ebef889fabc3218c, type: 3}
-  Heal_Prefab: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
-  Exp_Prefab: {fileID: 7893874486923855606, guid: ba8655a5cf081344fa7cde2f954412f3, type: 3}
-  Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
-  Buff_Prefab: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
-  DeBuff_Prefab: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
-  settings: {fileID: 11400000, guid: 2c9c308bb8b1efe499b3abbd7b655ec0, type: 2}
-  spawnRadius: 1.2
+  settings: {fileID: 11400000, guid: da083b6453d72e54a9226b4a6e42958e, type: 2}
+  topRect: {fileID: 9095509754017204285}
+  bottomRect: {fileID: 1000864057815029550}
 --- !u!1 &5345717291366158480
 GameObject:
   m_ObjectHideFlags: 0
@@ -3379,6 +3406,7 @@ RectTransform:
   - {fileID: 8641451937495037658}
   - {fileID: 3175871053581206948}
   - {fileID: 9095509754017204285}
+  - {fileID: 1000864057815029550}
   - {fileID: 7631624338136145345}
   - {fileID: 6841614745721129413}
   m_Father: {fileID: 4035453947850850332}

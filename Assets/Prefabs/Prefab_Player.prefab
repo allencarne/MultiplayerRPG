@@ -6316,17 +6316,9 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 2477393547595159198}
   experience: {fileID: 6940644233207828720}
-  hightRect: {fileID: 4214664803295272693}
-  lowRect: {fileID: 2316710519867917316}
-  Hurt_Prefab: {fileID: 7893874486923855606, guid: 663734588dd87f44fa0d8b0c89759b34, type: 3}
-  Crit_Prefab: {fileID: 7893874486923855606, guid: 7aafed934fe03274ebef889fabc3218c, type: 3}
-  Heal_Prefab: {fileID: 7893874486923855606, guid: 6de85582df5ca9647bcbd5d153ef1325, type: 3}
-  Exp_Prefab: {fileID: 7893874486923855606, guid: ba8655a5cf081344fa7cde2f954412f3, type: 3}
-  Level_Prefab: {fileID: 7893874486923855606, guid: 6c5906c013bbdf74aa3d16b5dcc6f06e, type: 3}
-  Buff_Prefab: {fileID: 7893874486923855606, guid: 9310333f94920844bb249ab13d5ee93b, type: 3}
-  DeBuff_Prefab: {fileID: 7893874486923855606, guid: b9c008b5996321041be4cc1ee09aa1fc, type: 3}
   settings: {fileID: 11400000, guid: 2c9c308bb8b1efe499b3abbd7b655ec0, type: 2}
-  spawnRadius: 1.2
+  topRect: {fileID: 4214664803295272693}
+  bottomRect: {fileID: 2316710519867917316}
 --- !u!114 &445278855479640717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24590,6 +24582,11 @@ MonoBehaviour:
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
   Coins: 0
+  net_DamageSkin:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   OnManaRestored:
     m_PersistentCalls:
       m_Calls: []

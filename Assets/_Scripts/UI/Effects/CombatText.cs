@@ -1,153 +1,110 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CombatText : NetworkBehaviour
 {
+    public enum SelfText { Heal, Exp, Level, Buff, Debuff }
+
     [SerializeField] CharacterStats stats;
     [SerializeField] PlayerExperience experience;
-
-    [SerializeField] RectTransform hightRect;
-    [SerializeField] RectTransform lowRect;
-
     [SerializeField] CombatTextSettings settings;
 
-    public enum TextType
-    {
-        Hurt,
-        Crit,
-        Heal,
-        Exp,
-        Level,
-        Buff,
-        Debuff
-    }
+    [FormerlySerializedAs("hightRect")][SerializeField] RectTransform topRect;
+    [FormerlySerializedAs("lowRect")][SerializeField] RectTransform bottomRect;
+
+    bool IsPlayerCharacter => stats is PlayerStats;
 
     public override void OnNetworkSpawn()
     {
         stats.OnHealed.AddListener(Heal);
-        stats.OnHitTaken.AddListener(HitTaken);
-        if (experience != null) experience.OnEXPGained.AddListener(EXP);
-        if (experience != null) experience.OnLevelUp.AddListener(Level);
+        if (IsServer) stats.OnHitTaken.AddListener(HitTaken);
+        if (experience != null)
+        {
+            experience.OnEXPGained.AddListener(Exp);
+            experience.OnLevelUp.AddListener(Level);
+        }
     }
 
     public override void OnNetworkDespawn()
     {
         stats.OnHealed.RemoveListener(Heal);
         stats.OnHitTaken.RemoveListener(HitTaken);
-        if (experience != null) experience.OnEXPGained.RemoveListener(EXP);
-        if (experience != null) experience.OnLevelUp.RemoveListener(Level);
-    }
-
-    void Heal(float amount)
-    {
-        if (amount < 1) return;
-
-        if (IsServer)
+        if (experience != null)
         {
-            TextClientRPC(amount, false, TextType.Heal);
-        }
-        else
-        {
-            TextServerRPC(amount, false, TextType.Heal);
+            experience.OnEXPGained.RemoveListener(Exp);
+            experience.OnLevelUp.RemoveListener(Level);
         }
     }
 
-    void EXP(float amount)
+    void HitTaken(int amount, HitType type, NetworkObject attacker)
     {
-        if (IsServer)
-        {
-            TextClientRPC(amount, false, TextType.Exp);
-        }
-        else
-        {
-            TextServerRPC(amount, false, TextType.Exp);
-        }
-    }
+        int skin = 0;
+        bool fromEnemy = false;
 
-    void Level()
-    {
-        if (IsServer)
+        // Bleed passes self as attacker, so only look at a different attacker
+        if (attacker != null && attacker != NetworkObject)
         {
-            TextClientRPC(0, true, TextType.Level);
+            fromEnemy = attacker.GetComponent<Enemy>() != null;
+
+            PlayerStats attackerStats = attacker.GetComponent<PlayerStats>();
+            if (attackerStats != null) skin = attackerStats.net_DamageSkin.Value;
         }
-        else
-        {
-            TextServerRPC(0, true, TextType.Level);
-        }
+
+        ShowHitClientRpc(amount, type, (byte)skin, fromEnemy);
     }
 
     [ClientRpc]
-    void TextClientRPC(float amount, bool isHigh, TextType type)
+    void ShowHitClientRpc(int amount, HitType type, byte skin, bool fromEnemy)
     {
-        Vector2 spawnPosition;
+        bool iAmTheVictim = IsPlayerCharacter && IsOwner;
 
-        if (isHigh)
-        {
-            Vector2 randomOffset = Random.insideUnitCircle * settings.spawnRadius;
-            spawnPosition = (Vector2)hightRect.transform.position + randomOffset;
-        }
-        else
-        {
-            Vector2 randomOffset = Random.insideUnitCircle * settings.spawnRadius;
-            spawnPosition = (Vector2)lowRect.transform.position + randomOffset;
-        }
+        // Bottom for: me being hit, bleed, and anything an enemy does to anyone.
+        // Top only for player/NPC damage landing on someone else.
+        bool useBottom = iAmTheVictim || type == HitType.Bleed || fromEnemy;
 
-        GameObject prefab = GetTextPrefab(type);
-        if (prefab == null) return;
+        if (iAmTheVictim) skin = 0; // taking damage always uses the default look
 
-        GameObject popUp = Instantiate(prefab, spawnPosition, Quaternion.identity, transform);
-        TextMeshProUGUI popUpText = popUp.GetComponent<TextMeshProUGUI>();
-        
-        switch (type)
-        {
-            case TextType.Hurt: popUpText.text = amount.ToString(); break;
-            case TextType.Crit: popUpText.text = amount.ToString(); break;
-            case TextType.Heal: popUpText.text = amount.ToString(); break;
-            case TextType.Exp: popUpText.text = $"+ {amount} EXP"; break;
-            case TextType.Level: popUpText.text = "LEVEL UP"; break;
-            case TextType.Buff: popUpText.text = "+Buff"; break;
-            case TextType.Debuff: popUpText.text = "+DeBuff"; break;
-        }
+        Spawn(settings.GetHit(type, skin), useBottom ? bottomRect : topRect, amount.ToString());
+    }
+
+    void Heal(float amount) { if (amount >= 1) Self(SelfText.Heal, amount); }
+    void Exp(float amount) => Self(SelfText.Exp, amount);
+    void Level() => Self(SelfText.Level, 0);
+    public void ShowBuff() => Self(SelfText.Buff, 0);
+    public void ShowDebuff() => Self(SelfText.Debuff, 0);
+
+    void Self(SelfText type, float amount)
+    {
+        if (IsServer) SelfClientRpc(type, amount);
+        else if (IsOwner) SelfServerRpc(type, amount);
     }
 
     [ServerRpc]
-    void TextServerRPC(float amount, bool isHigh, TextType type)
-    {
-        TextClientRPC(amount, isHigh, type);
-    }
+    void SelfServerRpc(SelfText type, float amount) => SelfClientRpc(type, amount);
 
-    GameObject GetTextPrefab(TextType type)
+    [ClientRpc]
+    void SelfClientRpc(SelfText type, float amount)
     {
+        bool ownerOnly = type != SelfText.Heal;
+        if (ownerOnly && IsPlayerCharacter && !IsOwner) return;
+
         switch (type)
         {
-            case TextType.Hurt: return settings.Hurt;
-            case TextType.Crit: return settings.Crit;
-            case TextType.Heal: return settings.Heal;
-            case TextType.Exp: return settings.Exp;
-            case TextType.Level: return settings.Level;
-            case TextType.Buff: return settings.Buff;
-            case TextType.Debuff: return settings.Debuff;
-            default: return null;
+            case SelfText.Heal: Spawn(settings.Heal, bottomRect, amount.ToString()); break;
+            case SelfText.Exp: Spawn(settings.Exp, bottomRect, $"+ {amount} EXP"); break;
+            case SelfText.Level: Spawn(settings.Level, topRect, "LEVEL UP"); break;
+            case SelfText.Buff: Spawn(settings.Buff, bottomRect, "+Buff"); break;
+            case SelfText.Debuff: Spawn(settings.Debuff, bottomRect, "+DeBuff"); break;
         }
     }
 
-    void HitTaken(int amount, HitType type)
+    void Spawn(GameObject prefab, RectTransform anchor, string text)
     {
-        ShowHitClientRPC(amount, type);
-    }
-
-    [ClientRpc]
-    void ShowHitClientRPC(int amount, HitType type)
-    {
-        GameObject prefab = settings.Get(type);
         if (prefab == null) return;
-
-        // crits go higher, everything else low
-        RectTransform anchor = type == HitType.Crit ? hightRect : lowRect;
         Vector2 pos = (Vector2)anchor.position + Random.insideUnitCircle * settings.spawnRadius;
-
         GameObject popUp = Instantiate(prefab, pos, Quaternion.identity, transform);
-        popUp.GetComponent<TextMeshProUGUI>().text = amount.ToString();
+        popUp.GetComponent<TextMeshProUGUI>().text = text;
     }
 }
