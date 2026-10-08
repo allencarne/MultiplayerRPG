@@ -26,8 +26,6 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
 
     public void StartProtection(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartProtectionFixed(stacks);
@@ -108,8 +106,6 @@ public class Buff_Protection : NetworkBehaviour, IProtectionable
 
     void StartProtectionFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;
