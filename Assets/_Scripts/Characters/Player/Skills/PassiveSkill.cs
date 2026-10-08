@@ -17,7 +17,7 @@ public class PassiveSkill
 
     public virtual void StartPassive(StateMachine owner)
     {
-        //Debug.Log($"[PlayerPassive] Starting {passiveData.Name} on {owner.name}");
+        if (!owner.IsServer) return;
 
         if (passiveData.Trigger != null)
         {
@@ -36,20 +36,14 @@ public class PassiveSkill
 
     public virtual void EndPassive(StateMachine owner)
     {
-        //Debug.Log($"[PlayerPassive] Ending {passiveData.Name} on {owner.name}");
         unsubscribe?.Invoke();
         unsubscribe = null;
     }
 
     protected void TryActivate(StateMachine owner)
     {
-        if (onCooldown)
-        {
-            //Debug.Log($"[PlayerPassive] {passiveData.Name} tried to activate but is on cooldown");
-            return;
-        }
-
-        //Debug.Log($"[PlayerPassive] {passiveData.Name} activating on {owner.name}");
+        if (!owner.IsServer) return;
+        if (onCooldown) return;
 
         if (passiveData.OnActivateEffects != null)
         {
@@ -71,7 +65,6 @@ public class PassiveSkill
         onCooldown = true;
         yield return new WaitForSeconds(passiveData.CoolDown);
         onCooldown = false;
-        //Debug.Log($"[PlayerPassive] {passiveData.Name} cooldown finished");
     }
 
     SkillContext BuildContext(StateMachine owner) => new SkillContext

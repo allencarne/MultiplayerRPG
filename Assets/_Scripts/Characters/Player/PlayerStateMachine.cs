@@ -381,6 +381,12 @@ public class PlayerStateMachine : StateMachine
 
     public void SetFirstPassive(PassiveSkillData data, int index)
     {
+        if (!IsServer)
+        {
+            RequestSetFirstPassiveServerRpc(index);
+            return;
+        }
+
         firstPassiveInstance?.EndPassive(this);
         firstPassiveInstance = new PassiveSkill(data, index);
         firstPassiveInstance.StartPassive(this);
@@ -388,6 +394,12 @@ public class PlayerStateMachine : StateMachine
 
     public void SetSecondPassive(PassiveSkillData data, int index)
     {
+        if (!IsServer)
+        {
+            RequestSetSecondPassiveServerRpc(index);
+            return;
+        }
+
         secondPassiveInstance?.EndPassive(this);
         secondPassiveInstance = new PassiveSkill(data, index);
         secondPassiveInstance.StartPassive(this);
@@ -395,9 +407,42 @@ public class PlayerStateMachine : StateMachine
 
     public void SetThirdPassive(PassiveSkillData data, int index)
     {
+        if (!IsServer)
+        {
+            RequestSetThirdPassiveServerRpc(index);
+            return;
+        }
+
         thirdPassiveInstance?.EndPassive(this);
         thirdPassiveInstance = new PassiveSkill(data, index);
         thirdPassiveInstance.StartPassive(this);
+    }
+
+    [ServerRpc]
+    public void RequestSetFirstPassiveServerRpc(int index)
+    {
+        if (skills == null) return;
+        if (index < 0 || index >= skills.firstPassive.Length) return;
+        PassiveSkillData data = skills.firstPassive[index];
+        SetFirstPassive(data, index);
+    }
+
+    [ServerRpc]
+    public void RequestSetSecondPassiveServerRpc(int index)
+    {
+        if (skills == null) return;
+        if (index < 0 || index >= skills.secondPassive.Length) return;
+        PassiveSkillData data = skills.secondPassive[index];
+        SetSecondPassive(data, index);
+    }
+
+    [ServerRpc]
+    public void RequestSetThirdPassiveServerRpc(int index)
+    {
+        if (skills == null) return;
+        if (index < 0 || index >= skills.thirdPassive.Length) return;
+        PassiveSkillData data = skills.thirdPassive[index];
+        SetThirdPassive(data, index);
     }
 
     public bool HasPassive(PassiveSkillData data)
