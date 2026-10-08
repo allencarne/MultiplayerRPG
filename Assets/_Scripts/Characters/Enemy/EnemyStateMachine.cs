@@ -56,9 +56,10 @@ public class EnemyStateMachine : StateMachine
 
     private void Start()
     {
+        StartingPosition = transform.position;
         SetState(new EnemySpawnState(this));
 
-        StartingPosition = transform.position;
+        if (!IsServer) return;
 
         int randomNumber = Random.Range(0, 100);
         if (randomNumber <= 5)

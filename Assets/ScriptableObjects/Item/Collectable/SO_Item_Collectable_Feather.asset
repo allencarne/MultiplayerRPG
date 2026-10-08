@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SO_Item_Collectable_Feather
   m_EditorClassIdentifier: Assembly-CSharp::Collectable
   ITEM_ID: coll_feather
+  ITEM_NAME: Feather
   Prefab: {fileID: 8262309821399026570, guid: 81df0b9272d763249bd024ba5347494c, type: 3}
   Icon: {fileID: 21300000, guid: 8ab508dbeea300f49aefb31577dc098f, type: 3}
   Description: Dropped from Seagulls
@@ -20,6 +21,7 @@ MonoBehaviour:
   Cost: 1
   DropChance: 85
   IsStackable: 1
+  DropsInBulk: 0
   ItemCategory: 3
   ItemRarity: 0
   ItemQuality: 0

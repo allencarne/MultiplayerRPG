@@ -17,8 +17,6 @@ public class Buff_Immune : NetworkBehaviour
 
     public void StartImmune(float duration, bool isActive = false)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartImmuneFixed(isActive);
@@ -95,8 +93,6 @@ public class Buff_Immune : NetworkBehaviour
 
     public void StartImmuneFixed(bool isActive)
     {
-        if (!IsOwner) return;
-
         if (isActive)
         {
             AddStack(true);

@@ -64,7 +64,7 @@ public class ToolTip : MonoBehaviour
             itemBackground.color = data.item.GetRarityColor(data.rarity);
 
             // Name
-            itemName_Text.text = FormatNameWithRarity(data.item.name, data.rarity);
+            itemName_Text.text = FormatNameWithRarity(data.item.ITEM_NAME, data.rarity);
 
             // Description
             itemInfo_Text.text = FormatDescription(data);

@@ -16,8 +16,6 @@ public class Buff_Phase : NetworkBehaviour
 
     public void StartPhase(float duration, bool isActive = false)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartPhaseFixed(isActive);
@@ -94,8 +92,6 @@ public class Buff_Phase : NetworkBehaviour
 
     public void StartPhaseFixed(bool isActive)
     {
-        if (!IsOwner) return;
-
         if (isActive)
         {
             AddStack(true);

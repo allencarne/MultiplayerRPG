@@ -21,8 +21,6 @@ public class Debuff_Exhaust : NetworkBehaviour, IExhaustable
 
     public void StartExhaust(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartExhaustFixed(stacks);
@@ -103,8 +101,6 @@ public class Debuff_Exhaust : NetworkBehaviour, IExhaustable
 
     void StartExhaustFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

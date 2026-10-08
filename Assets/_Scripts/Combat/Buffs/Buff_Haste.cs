@@ -26,8 +26,6 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
 
     public void StartHaste(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartHasteFixed(stacks);
@@ -108,8 +106,6 @@ public class Buff_Haste : NetworkBehaviour, IHasteable
 
     void StartHasteFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

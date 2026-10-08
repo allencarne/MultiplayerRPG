@@ -21,8 +21,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
     public void StartSlow(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartSlowFixed(stacks);
@@ -103,8 +101,6 @@ public class Debuff_Slow : NetworkBehaviour, ISlowable
 
     void StartSlowFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

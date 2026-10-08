@@ -26,8 +26,6 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
 
     public void StartSwiftness(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartSwiftnessFixed(stacks);
@@ -108,8 +106,6 @@ public class Buff_Swiftness : NetworkBehaviour, ISwiftnessable
 
     void StartSwiftnessFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

@@ -40,7 +40,7 @@ public class LootLog : MonoBehaviour
     void GetName(Item item, GameObject loot)
     {
         TextMeshProUGUI text = loot.transform.Find("Name_Text").GetComponent<TextMeshProUGUI>();
-        if (text != null) text.text = item.name;
+        if (text != null) text.text = item.ITEM_NAME;
     }
 
     void GetStack(int quantity, GameObject loot)

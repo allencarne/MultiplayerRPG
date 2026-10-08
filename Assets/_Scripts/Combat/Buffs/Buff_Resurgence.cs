@@ -57,8 +57,6 @@ public class Buff_Resurgence : NetworkBehaviour
 
     public void StartBuff(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartBuffFixed(stacks);
@@ -136,8 +134,6 @@ public class Buff_Resurgence : NetworkBehaviour
 
     void StartBuffFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedBuff < 1) return;

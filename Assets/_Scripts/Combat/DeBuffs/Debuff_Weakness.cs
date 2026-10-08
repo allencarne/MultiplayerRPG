@@ -21,8 +21,6 @@ public class Debuff_Weakness : NetworkBehaviour, IWeaknessable
 
     public void StartWeakness(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartWeaknessFixed(stacks);
@@ -103,8 +101,6 @@ public class Debuff_Weakness : NetworkBehaviour, IWeaknessable
 
     void StartWeaknessFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

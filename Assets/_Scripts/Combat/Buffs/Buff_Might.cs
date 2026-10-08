@@ -26,8 +26,6 @@ public class Buff_Might : NetworkBehaviour, IMightable
 
     public void StartMight(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartMightFixed(stacks);
@@ -108,8 +106,6 @@ public class Buff_Might : NetworkBehaviour, IMightable
 
     void StartMightFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

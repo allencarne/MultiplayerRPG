@@ -17,8 +17,6 @@ public class Buff_Immoveable : NetworkBehaviour
 
     public void StartImmovable(float duration, bool isActive = false)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartImmovableFixed(isActive);
@@ -95,8 +93,6 @@ public class Buff_Immoveable : NetworkBehaviour
 
     public void StartImmovableFixed(bool isActive)
     {
-        if (!IsOwner) return;
-
         if (isActive)
         {
             AddStack(true);

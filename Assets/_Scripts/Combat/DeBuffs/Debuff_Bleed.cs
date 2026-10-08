@@ -36,8 +36,6 @@ public class Debuff_Bleed : NetworkBehaviour
 
     public void StartBleed(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartBleedFixed(stacks);
@@ -115,8 +113,6 @@ public class Debuff_Bleed : NetworkBehaviour
 
     void StartBleedFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedBuff < 1) return;

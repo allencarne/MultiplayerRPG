@@ -26,8 +26,6 @@ public class Buff_Alacrity : NetworkBehaviour, IAlacrityable
 
     public void StartAlacrity(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartAlacrityFixed(stacks);
@@ -108,8 +106,6 @@ public class Buff_Alacrity : NetworkBehaviour, IAlacrityable
 
     void StartAlacrityFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

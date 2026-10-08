@@ -163,7 +163,7 @@ public class PlayerPickup : NetworkBehaviour
         {
             // We have a target - show its tooltip and update the pickup prompt text
             player.ShowToolTip(currentTarget.GetSlotData());
-            UpdatePickupText(currentTarget.Item.name);
+            UpdatePickupText(currentTarget.Item.ITEM_NAME);
         }
     }
 

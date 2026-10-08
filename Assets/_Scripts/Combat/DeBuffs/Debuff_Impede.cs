@@ -21,8 +21,6 @@ public class Debuff_Impede : NetworkBehaviour, IImpedeable
 
     public void StartImpede(int stacks, float duration)
     {
-        if (!IsOwner) return;
-
         if (duration < 0)
         {
             StartImpedeFixed(stacks);
@@ -103,8 +101,6 @@ public class Debuff_Impede : NetworkBehaviour, IImpedeable
 
     void StartImpedeFixed(int stacks)
     {
-        if (!IsOwner) return;
-
         if (stacks < 0)
         {
             if (fixedModifiers.Count < 1) return;

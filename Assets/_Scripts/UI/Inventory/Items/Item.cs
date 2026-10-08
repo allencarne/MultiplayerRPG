@@ -6,6 +6,9 @@ public class Item : ScriptableObject
     // Unique identifier for the item
     public string ITEM_ID;
 
+    // Name of the item, used for display and identification purposes
+    public string ITEM_NAME;
+
     // Prefab reference for the item, used for instantiation in the game world
     public GameObject Prefab;
 
