@@ -44,12 +44,14 @@ public class Enemy : NetworkBehaviour
         stats.OnCharacterDamaged.AddListener(Damaged);
         stats.OnCharacterDeath.AddListener(Death);
 
+        /*
         // Start passive on spawn (no level requirement for enemies)
         if (Data != null && Data.PassiveAbility != null)
         {
             // Use index 0 by convention (you can change if EnemyData supports multiple passives)
             stateMachine.SetPassive(Data.PassiveAbility, 0);
         }
+        */
     }
 
     public override void OnNetworkDespawn()
