@@ -101,6 +101,10 @@ public class CharacterStats : NetworkBehaviour, IDamageable, IHealable
         OnCharacterDamaged?.Invoke(attackerID);
         if (attackerStats != null) attackerStats.OnDamageDealt?.Invoke();
 
+        // Check if the enemy is a dummy, if so, don't die
+        Enemy enemy = GetComponent<Enemy>();
+        if (enemy != null && enemy.Data.Enemy_Type == EnemyType.Dummy) return 0;
+
         // Check whether the character's health has reached zero.
         if (net_CurrentHealth.Value <= 0)
         {
