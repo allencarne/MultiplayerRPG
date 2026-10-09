@@ -4,10 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Skill/Skill Effects/Networked Spawn/Spawn Effect")]
 public class SpawnEffect: NetworkedSpawnEffect
 {
-    [Header("Sparks")]
-    public GameObject Spark;
-    public GameObject SpecialSpark;
-
     public enum SpreadMode
     {
         None,
@@ -157,7 +153,7 @@ public class SpawnEffect: NetworkedSpawnEffect
         if (rb != null && Force != 0f) rb.AddForce(ctx.AimDirection.normalized * Force, ForceMode);
 
         SkillEffectRelay relay = instance.GetComponent<SkillEffectRelay>();
-        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IgnoreAttacker, SingleTriggerPerTarget, IsBreakable, Spark, SpecialSpark);
+        if (relay != null) relay.Initialize(owner, ctx, OnTriggerEffects, IgnorePlayer, IgnoreEnemy, IgnoreNPC, IgnoreAttacker, SingleTriggerPerTarget, IsBreakable);
 
         FollowTarget target = instance.GetComponent<FollowTarget>();
         if (target != null) target.Target = owner.transform;

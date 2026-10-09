@@ -19,15 +19,15 @@ public class SkillEffectRelay : NetworkBehaviour
     HashSet<ulong> triggeredTargets = new HashSet<ulong>();
 
     [Header("Sparks")]
-    GameObject Spark;
-    GameObject SpecialSpark;
+    [SerializeField] GameObject Spark;
+    [SerializeField] GameObject SpecialSpark;
 
     private void Awake()
     {
         obstacleLayer = LayerMask.NameToLayer("Obstacle");
     }
 
-    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _ignoreAttacker, bool _singleUsePerTarget, bool _isBreakable, GameObject spark = null, GameObject specialSpark = null)
+    public void Initialize(StateMachine _owner, SkillContext _ctx, SkillEffect[] _triggerEffects, bool _ignorePlayer, bool _ignoreEnemy, bool _ignoreNPC, bool _ignoreAttacker, bool _singleUsePerTarget, bool _isBreakable)
     {
         owner = _owner;
         context = _ctx;
@@ -38,9 +38,6 @@ public class SkillEffectRelay : NetworkBehaviour
         ignoreAttacker = _ignoreAttacker;
         singleUsePerTarget = _singleUsePerTarget;
         isBreakable = _isBreakable;
-
-        if (spark != null) Spark = spark;
-        if (specialSpark != null) SpecialSpark = specialSpark;
     }
 
     void OnTriggerEnter2D(Collider2D collision)

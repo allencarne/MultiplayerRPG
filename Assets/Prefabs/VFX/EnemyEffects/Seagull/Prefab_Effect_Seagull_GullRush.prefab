@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillEffectRelay
   ShowTopMostFoldoutHeaderGroup: 1
+  Spark: {fileID: 6749977859409293978, guid: e251113cb6b2de4478b0de6769220cbb, type: 3}
+  SpecialSpark: {fileID: 8401796060878095578, guid: d96fad7aa36c17a4699ee85a668983dc, type: 3}
 --- !u!114 &3923503279015982023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +200,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DestroyOnDeath
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 0}
+  crowdControl: {fileID: 0}
+  DestroyOnInterrupt: 0
+  DestroyOnStagger: 0
 --- !u!114 &7227842841806250886
 MonoBehaviour:
   m_ObjectHideFlags: 0
