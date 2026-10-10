@@ -36,19 +36,31 @@ public class NPCQuestIcon : MonoBehaviour
 
         if (npc.Data.npcClass == NPCClass.Guard)
         {
-            miniIcon.sprite = NPCIcons[1];
+            miniIcon.sprite = NPCIcons[0];
             return;
         }
 
         if (npc.Data.npcClass == NPCClass.Patrol)
         {
-            miniIcon.sprite = NPCIcons[2];
+            miniIcon.sprite = NPCIcons[1];
             return;
         }
 
         if (npc.Data.npcClass == NPCClass.Vendor)
         {
+            miniIcon.sprite = NPCIcons[2];
+            return;
+        }
+
+        if (npc.Data.npcClass == NPCClass.Refiner)
+        {
             miniIcon.sprite = NPCIcons[3];
+            return;
+        }
+
+        if (npc.Data.npcClass == NPCClass.Villager)
+        {
+            miniIcon.sprite = NPCIcons[4];
             return;
         }
 
