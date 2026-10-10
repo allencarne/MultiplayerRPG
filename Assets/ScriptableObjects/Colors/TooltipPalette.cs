@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TooltipPalette", menuName = "Scriptable Objects/TooltipPalette")]
@@ -72,4 +74,48 @@ public class TooltipPalette : ScriptableObject
         StatType.Speed => Speed,
         _ => Color.white
     };
+
+    Dictionary<string, Color> keywordColors;
+    Regex keywordRegex;
+
+    void BuildKeywords()
+    {
+        keywordColors = new()
+        {
+            ["Damage"] = PhysicalDamage,
+            ["Damaging"] = PhysicalDamage,
+            ["Heal"] = Healing,
+            ["Healing"] = Healing,
+            ["Buff"] = Buff,
+            ["Buffing"] = Buff,
+            ["Protection"] = Buff,
+            ["Regeneration"] = Buff,
+            ["Replenishment"] = Buff,
+            ["Resurgence"] = Buff,
+            ["Debuff"] = Debuff,
+            ["Debuffing"] = Debuff,
+            ["Bleed"] = Debuff,
+            ["Bleeding"] = Debuff,
+            ["Stun"] = CrowdControl,
+            ["Stunning"] = CrowdControl,
+            ["Slow"] = CrowdControl,
+            ["Slowing"] = CrowdControl,
+            ["Dash"] = Mobility,
+            ["Leap"] = Mobility,
+            ["Jump"] = Mobility,
+            ["Flailing Edge"] = Utility,
+            ["Heavy Strike"] = Utility,
+            ["Mending Field"] = Utility
+        };
+
+        keywordRegex = new Regex($@"\b({string.Join("|", keywordColors.Keys)})\b", RegexOptions.Compiled);
+    }
+
+    public string ApplyPaletteTokens(string text)
+    {
+        if (keywordRegex == null) BuildKeywords();
+
+        return keywordRegex.Replace(text, m =>
+            $"<color=#{Hex(keywordColors[m.Value])}>{m.Value}</color>");
+    }
 }
