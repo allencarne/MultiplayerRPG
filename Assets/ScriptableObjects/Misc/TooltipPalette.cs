@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -23,41 +24,50 @@ public class TooltipPalette : ScriptableObject
     public Color Speed;
 
     [Header("Damage")]
-    public Color PhysicalDamage = new Color(1f, 1f, 1f);           // white — matches "PHYSICAL DAMAGE" convention
-    public Color TrueDamage = new Color(1f, 0.6f, 0.27f);          // orange — reads as "unblockable"
-    public Color PercentHealthDamage = new Color(0.7f, 0.4f, 1f);  // purple — distinct "special" damage flavor
-    public Color DamageRatioText = new Color(1f, 0.65f, 0f);       // orange — matches AD-style ratio text
+    public Color PhysicalDamage;
+    public Color TrueDamage;
+    public Color PercentHealthDamage;
+    public Color DamageRatioText;
 
     [Header("Healing")]
-    public Color Healing = new Color(0.4f, 1f, 0.4f);              // green
+    public Color Healing;
 
     [Header("Buffs / Debuffs")]
-    public Color Buff = new Color(0.3f, 0.85f, 1f);                // cyan/blue — positive status
-    public Color Debuff = new Color(0.85f, 0.25f, 0.25f);          // red — negative status
+    public Color Buff;
+    public Color Debuff;
 
     [Header("Crowd Control")]
-    public Color CrowdControl = new Color(1f, 0.85f, 0.2f);        // yellow — universally reads as "danger, can't act"
+    public Color CrowdControl;
 
     [Header("Mobility")]
-    public Color Mobility = new Color(0.4f, 1f, 0.85f);            // teal — distinct from CC and buffs
+    public Color Mobility;
 
     [Header("Utility")]
-    public Color Utility = new Color(0.8f, 0.8f, 0.8f);            // light grey — neutral/support effects
+    public Color Utility;
 
     [Header("Resource")]
-    public Color ManaCost = new Color(0.4f, 0.6f, 1f);             // blue — matches typical "mana" association
-    public Color Cooldown = new Color(0.75f, 0.75f, 0.75f);        // grey — neutral, informational
+    public Color ManaCost;
+    public Color Cooldown;
 
     [Header("Stat Changes")]
-    public Color StatIncrease = new Color(0.4f, 1f, 0.4f);         // green — matches healing (both "good")
-    public Color StatDecrease = new Color(0.85f, 0.25f, 0.25f);    // red — matches debuff (both "bad")
+    public Color StatIncrease;
+    public Color StatDecrease;
 
-    // Convenience: hex without the '#', ready to drop into rich text tags.
-    public string Hex(Color c) => ColorUtility.ToHtmlStringRGB(c);
+    [Header("Icons")]
+    [SerializeField] string statSpritePrefix;
+    [SerializeField] string coinSpriteName;
+
+    Dictionary<string, Color> keywordColors;
+    Regex keywordRegex;
+    Regex statRegex;
+
+    void OnEnable() => Invalidate();
+    void OnValidate() => Invalidate();
+    void Invalidate() { keywordColors = null; keywordRegex = null; statRegex = null; }
 
     public Color GetStatColor(StatType stat) => stat switch
     {
-        StatType.Health => Health, 
+        StatType.Health => Health,
         StatType.HealthRegen => HealthRegen,
         StatType.Recharge => Recharge,
         StatType.Dexterity => Dexterity,
@@ -75,8 +85,48 @@ public class TooltipPalette : ScriptableObject
         _ => Color.white
     };
 
-    Dictionary<string, Color> keywordColors;
-    Regex keywordRegex;
+    public string Format(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return text;
+        return ApplyStatTokens(ApplyKeywords(text));
+    }
+
+    public string Hex(Color c) => ColorUtility.ToHtmlStringRGB(c);
+
+    public string Colorize(string text, Color color) => $"<color=#{Hex(color)}>{text}</color>";
+
+    public string StatIcon(StatType stat) => $"<sprite name=\"{statSpritePrefix}{stat}\">";
+
+    public string CoinIcon => $"<sprite name=\"{coinSpriteName}\">";
+
+    public string Stat(StatType stat) => $"{StatIcon(stat)} {Colorize(stat.ToString(), GetStatColor(stat))}";
+
+    public string FormatModifier(StatModifier mod)
+    {
+        bool percent = mod.modType == ModType.Percent;
+        float v = percent ? mod.value * 100f : mod.value;
+        string sign = v >= 0 ? "+" : "";
+        string suffix = percent ? "%" : "";
+        return $"{sign}{v:0.##}{suffix} {Stat(mod.statType)}";
+    }
+
+    string ApplyKeywords(string text)
+    {
+        if (keywordRegex == null) BuildKeywords();
+        return keywordRegex.Replace(text, m => Colorize(m.Value, keywordColors[m.Value]));
+    }
+
+    public string ApplyStatTokens(string text)
+    {
+        statRegex ??= new Regex($@"\b({string.Join("|", Enum.GetNames(typeof(StatType)))})\b",RegexOptions.Compiled);
+        return statRegex.Replace(text, m => Stat(Enum.Parse<StatType>(m.Value)));
+    }
+
+    public string ApplyPaletteTokens(string text)
+    {
+        if (keywordRegex == null) BuildKeywords();
+        return keywordRegex.Replace(text, m => $"<color=#{Hex(keywordColors[m.Value])}>{m.Value}</color>");
+    }
 
     void BuildKeywords()
     {
@@ -109,13 +159,5 @@ public class TooltipPalette : ScriptableObject
         };
 
         keywordRegex = new Regex($@"\b({string.Join("|", keywordColors.Keys)})\b", RegexOptions.Compiled);
-    }
-
-    public string ApplyPaletteTokens(string text)
-    {
-        if (keywordRegex == null) BuildKeywords();
-
-        return keywordRegex.Replace(text, m =>
-            $"<color=#{Hex(keywordColors[m.Value])}>{m.Value}</color>");
     }
 }
