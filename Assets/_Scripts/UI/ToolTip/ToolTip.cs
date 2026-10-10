@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ToolTip : MonoBehaviour
 {
     [SerializeField] PlayerStats stats;
-    [SerializeField] TooltipPalette palette;
+    [SerializeField] RichTextTheme palette;
 
     [Header("Data")]
     InventorySlotData data;

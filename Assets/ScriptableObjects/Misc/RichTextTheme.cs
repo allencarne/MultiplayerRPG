@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TooltipPalette", menuName = "Scriptable Objects/TooltipPalette")]
-public class TooltipPalette : ScriptableObject
+[CreateAssetMenu(menuName = "Scriptable Objects/RichTextTheme")]
+public class RichTextTheme : ScriptableObject
 {
     [Header("Stats")]
     public Color Health;
