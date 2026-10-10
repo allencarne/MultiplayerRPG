@@ -1,4 +1,6 @@
+using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -100,7 +102,7 @@ public class ToolTip : MonoBehaviour
             StringBuilder sb = new();
             if (!string.IsNullOrEmpty(skillData.Description))
             {
-                sb.AppendLine(ApplyPaletteTokens(skillData.Description.Trim()));
+                sb.AppendLine(ApplyStatTokens(ApplyPaletteTokens(skillData.Description.Trim())));
                 sb.AppendLine();
             }
 
@@ -111,8 +113,8 @@ public class ToolTip : MonoBehaviour
                 sb.AppendLine(FormatDamageLine(dmg));
             }
 
-            sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>Cooldown: {skillData.CoolDown:0.##}s</color>");
-            sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>Mana Cost: {skillData.ManaCost}</color>");
+            sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>{StatIcon(StatType.Recharge)} Cooldown: {skillData.CoolDown:0.##}s</color>");
+            sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>{StatIcon(StatType.Mana)} Mana Cost: {skillData.ManaCost}</color>");
 
             float? castTime = skillData.GetCastTime();
             if (castTime.HasValue)
@@ -300,5 +302,18 @@ public class ToolTip : MonoBehaviour
                    .Replace("{/utility}", "</color>");
 
         return text;
+    }
+
+    readonly Regex StatRegex = new($@"\b({string.Join("|", Enum.GetNames(typeof(StatType)))})\b",RegexOptions.Compiled);
+
+    string ApplyStatTokens(string text)
+    {
+        return StatRegex.Replace(text, m => FormatStat(Enum.Parse<StatType>(m.Value)));
+    }
+
+    string FormatStat(StatType stat)
+    {
+        string hex = palette.Hex(palette.GetStatColor(stat));
+        return $"{StatIcon(stat)} <color=#{hex}>{stat}</color>";
     }
 }

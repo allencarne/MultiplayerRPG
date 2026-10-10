@@ -3,6 +3,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TooltipPalette", menuName = "Scriptable Objects/TooltipPalette")]
 public class TooltipPalette : ScriptableObject
 {
+    [Header("Stats")]
+    public Color Health;
+    public Color HealthRegen;
+    public Color Recharge;
+    public Color Dexterity;
+    public Color Endurance;
+    public Color EnduranceRegen;
+    public Color Precision;
+    public Color Ferocity;
+    public Color Power;
+    public Color Vamp;
+    public Color Armor;
+    public Color Lethality;
+    public Color Mana;
+    public Color ManaRegen;
+    public Color Speed;
+
     [Header("Damage")]
     public Color PhysicalDamage = new Color(1f, 1f, 1f);           // white — matches "PHYSICAL DAMAGE" convention
     public Color TrueDamage = new Color(1f, 0.6f, 0.27f);          // orange — reads as "unblockable"
@@ -35,4 +52,24 @@ public class TooltipPalette : ScriptableObject
 
     // Convenience: hex without the '#', ready to drop into rich text tags.
     public string Hex(Color c) => ColorUtility.ToHtmlStringRGB(c);
+
+    public Color GetStatColor(StatType stat) => stat switch
+    {
+        StatType.Health => Health, 
+        StatType.HealthRegen => HealthRegen,
+        StatType.Recharge => Recharge,
+        StatType.Dexterity => Dexterity,
+        StatType.Endurance => Endurance,
+        StatType.EnduranceRegen => EnduranceRegen,
+        StatType.Precision => Precision,
+        StatType.Ferocity => Ferocity,
+        StatType.Power => Power,
+        StatType.Vamp => Vamp,
+        StatType.Armor => Armor,
+        StatType.Lethality => Lethality,
+        StatType.Mana => Mana,
+        StatType.ManaRegen => ManaRegen,
+        StatType.Speed => Speed,
+        _ => Color.white
+    };
 }
