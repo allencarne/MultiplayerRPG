@@ -20,22 +20,22 @@ public class StatusBar : MonoBehaviour
             switch (npc.Data.npcClass)
             {
                 case NPCClass.Quest:
-                    nameText.text = $"<sprite name=\"Quest_Icon\"> {npc.Data.NPCName}";
+                    nameText.text = $"<sprite name=\"Spr_Icon_Class_NPC_5\"> {npc.Data.NPCName}";
                     break;
                 case NPCClass.Vendor:
-                    nameText.text = $"<sprite name=\"Vendor_Icon\"> {npc.Data.NPCName}";
+                    nameText.text = $"<sprite name=\"Spr_Icon_Class_NPC_2\"> {npc.Data.NPCName}";
                     break;
                 case NPCClass.Guard:
-                    nameText.text = $"<sprite name=\"Guard_Icon\"> {npc.Data.NPCName}";
+                    nameText.text = $"<sprite name=\"Spr_Icon_Class_NPC_0\"> {npc.Data.NPCName}";
                     break;
                 case NPCClass.Patrol:
-                    nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
+                    nameText.text = $"<sprite name=\"Spr_Icon_Class_NPC_1\"> {npc.Data.NPCName}";
                     break;
                 case NPCClass.Villager:
-                    nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
+                    nameText.text = $"<sprite name=\"Spr_Icon_Class_NPC_4\"> {npc.Data.NPCName}";
                     break;
                 case NPCClass.Refiner:
-                    nameText.text = $"<sprite name=\"Patrol_Icon\"> {npc.Data.NPCName}";
+                    nameText.text = $"<sprite name=\"Spr_Icon_Class_NPC_3\"> {npc.Data.NPCName}";
                     break;
             }
 

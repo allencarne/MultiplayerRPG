@@ -213,18 +213,22 @@ public class ToolTip : MonoBehaviour
         return sb.ToString();
     }
 
+    string StatIcon(StatType stat) => $"<sprite name=\"Spr_Icons_Stats_{stat}\">";
+
     string FormatModifierLine(StatModifier mod)
     {
+        string icon = StatIcon(mod.statType);
+
         if (mod.modType == ModType.Percent)
         {
             float pct = mod.value * 100f;
             string sign = pct >= 0 ? "+" : "";
-            return $"{sign}{pct:0.##}% {mod.statType}";
+            return $"{sign}{pct:0.##}% {icon} {mod.statType}";
         }
         else
         {
             string sign = mod.value >= 0 ? "+" : "";
-            return $"{sign}{mod.value:0.##} {mod.statType}";
+            return $"{sign}{mod.value:0.##} {icon} {mod.statType}";
         }
     }
 
