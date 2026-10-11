@@ -102,7 +102,7 @@ public class ToolTip : MonoBehaviour
             StringBuilder sb = new();
             if (!string.IsNullOrEmpty(skillData.Description))
             {
-                sb.AppendLine(palette.ApplyStatTokens(palette.ApplyPaletteTokens(skillData.Description.Trim())));
+                sb.AppendLine(palette.Format(skillData.Description.Trim()));
                 sb.AppendLine();
             }
 
@@ -113,8 +113,8 @@ public class ToolTip : MonoBehaviour
                 sb.AppendLine(FormatDamageLine(dmg));
             }
 
-            sb.AppendLine($"<color=#{palette.Hex(palette.Cooldown)}>{palette.StatIcon(StatType.Recharge)} Cooldown: {skillData.CoolDown:0.##}s</color>");
-            sb.AppendLine($"<color=#{palette.Hex(palette.ManaCost)}>{palette.StatIcon(StatType.Mana)} Mana Cost: {skillData.ManaCost}</color>");
+            sb.AppendLine($"<color=#{palette.Hex(palette.Recharge)}>{palette.StatIcon(StatType.Recharge)} Cooldown: {skillData.CoolDown:0.##}s</color>");
+            sb.AppendLine($"<color=#{palette.Hex(palette.Mana)}>{palette.StatIcon(StatType.Mana)} Mana Cost: {skillData.ManaCost}</color>");
 
             float? castTime = skillData.GetCastTime();
             if (castTime.HasValue)

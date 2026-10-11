@@ -29,14 +29,9 @@ public class RichTextTheme : ScriptableObject
     public Color PercentHealthDamage;
     public Color DamageRatioText;
 
-    [Header("Healing")]
-    public Color Healing;
-
-    [Header("Buffs / Debuffs")]
+    [Header("Status Effects")]
     public Color Buff;
     public Color Debuff;
-
-    [Header("Crowd Control")]
     public Color CrowdControl;
 
     [Header("Mobility")]
@@ -45,25 +40,27 @@ public class RichTextTheme : ScriptableObject
     [Header("Utility")]
     public Color Utility;
 
-    [Header("Resource")]
-    public Color ManaCost;
-    public Color Cooldown;
-
     [Header("Stat Changes")]
     public Color StatIncrease;
     public Color StatDecrease;
 
     [Header("Icons")]
     [SerializeField] string statSpritePrefix;
+    [SerializeField] string buffSpritePrefix;
+    [SerializeField] string debuffSpritePrefix;
+    [SerializeField] string ccSpritePrefix;
     [SerializeField] string coinSpriteName;
 
     Dictionary<string, Color> keywordColors;
     Regex keywordRegex;
     Regex statRegex;
 
+    Dictionary<string, string> statusFormats;
+    Regex statusRegex;
+
     void OnEnable() => Invalidate();
     void OnValidate() => Invalidate();
-    void Invalidate() { keywordColors = null; keywordRegex = null; statRegex = null; }
+    void Invalidate() { keywordColors = null; keywordRegex = null; statRegex = null; statusFormats = null; statusRegex = null; }
 
     public Color GetStatColor(StatType stat) => stat switch
     {
@@ -88,7 +85,7 @@ public class RichTextTheme : ScriptableObject
     public string Format(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;
-        return ApplyStatTokens(ApplyKeywords(text));
+        return ApplyStatusTokens(ApplyStatTokens(ApplyKeywords(text)));
     }
 
     public string Hex(Color c) => ColorUtility.ToHtmlStringRGB(c);
@@ -134,22 +131,12 @@ public class RichTextTheme : ScriptableObject
         {
             ["Damage"] = PhysicalDamage,
             ["Damaging"] = PhysicalDamage,
-            ["Heal"] = Healing,
-            ["Healing"] = Healing,
+            ["Heal"] = Health,
+            ["Healing"] = Health,
             ["Buff"] = Buff,
             ["Buffing"] = Buff,
-            ["Protection"] = Buff,
-            ["Regeneration"] = Buff,
-            ["Replenishment"] = Buff,
-            ["Resurgence"] = Buff,
             ["Debuff"] = Debuff,
             ["Debuffing"] = Debuff,
-            ["Bleed"] = Debuff,
-            ["Bleeding"] = Debuff,
-            ["Stun"] = CrowdControl,
-            ["Stunning"] = CrowdControl,
-            ["Slow"] = CrowdControl,
-            ["Slowing"] = CrowdControl,
             ["Dash"] = Mobility,
             ["Leap"] = Mobility,
             ["Jump"] = Mobility,
@@ -160,4 +147,65 @@ public class RichTextTheme : ScriptableObject
 
         keywordRegex = new Regex($@"\b({string.Join("|", keywordColors.Keys)})\b", RegexOptions.Compiled);
     }
+
+    public string ApplyStatusTokens(string text)
+    {
+        if (statusRegex == null) BuildStatus();
+        return statusRegex.Replace(text, m => statusFormats[m.Value]);
+    }
+
+    void BuildStatus()
+    {
+        statusFormats = new();
+
+        foreach (BuffType b in Enum.GetValues(typeof(BuffType)))
+            statusFormats[b.ToString()] = StatusText(buffSpritePrefix, b.ToString(), Buff);
+
+        foreach (DebuffType d in Enum.GetValues(typeof(DebuffType)))
+            statusFormats[d.ToString()] = StatusText(debuffSpritePrefix, d.ToString(), Debuff);
+
+        foreach (ControlType c in Enum.GetValues(typeof(ControlType)))
+            statusFormats[c.ToString()] = StatusText(ccSpritePrefix, c.ToString(), CrowdControl);
+
+        statusRegex = new Regex($@"\b({string.Join("|", statusFormats.Keys)})\b", RegexOptions.Compiled);
+    }
+
+    string StatusText(string prefix, string name, Color color) => $"<sprite name=\"{prefix}{name}\"> {Colorize(name, color)}";
+}
+
+public enum BuffType
+{
+    Might,
+    Haste,
+    Alacrity,
+    Protection,
+    Agility,
+    Phase,
+    Immovable,
+    Immunity,
+    Regeneration,
+    Replenishment,
+    Resurgence
+}
+
+public enum DebuffType
+{
+    Weakness,
+    Slow,
+    Impede,
+    Vulnerability,
+    Exhaust,
+    Bleed
+}
+
+public enum ControlType
+{
+    Immobilize,
+    Silence,
+    Disarm,
+    KnockBack,
+    KnockUp,
+    Stun,
+    Pull,
+    Incapacitate
 }
