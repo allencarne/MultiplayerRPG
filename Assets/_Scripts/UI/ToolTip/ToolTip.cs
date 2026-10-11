@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using TMPro;
@@ -239,46 +240,52 @@ public class ToolTip : MonoBehaviour
 
     string FormatDamageLine(DamageEffect dmg)
     {
-        string header = dmg.DamageType switch
-        {
-            DamageType.Flat => "PHYSICAL DAMAGE",
-            DamageType.True => "TRUE DAMAGE",
-            DamageType.PercentMaxHealth or DamageType.PercentMaxHealthTrue => "MAX HEALTH DAMAGE",
-            DamageType.PercentMissingHealth or DamageType.PercentMissingHealthTrue => "MISSING HEALTH DAMAGE",
-            DamageType.PercentCurrentHealth or DamageType.PercentCurrentHealthTrue => "CURRENT HEALTH DAMAGE",
-            _ => "DAMAGE"
-        };
+        bool isPercent = dmg.DamageType != DamageType.Flat && dmg.DamageType != DamageType.True;
+        string suffix = isPercent ? "%" : "";
 
-        Color headerColor = dmg.DamageType switch
+        bool isTrue = dmg.DamageType is DamageType.True
+                      or DamageType.PercentMaxHealthTrue
+                      or DamageType.PercentMissingHealthTrue
+                      or DamageType.PercentCurrentHealthTrue;
+
+        string label = dmg.DamageType switch
+        {
+            DamageType.PercentMaxHealth or DamageType.PercentMaxHealthTrue => "Max Health Damage",
+            DamageType.PercentMissingHealth or DamageType.PercentMissingHealthTrue => "Missing Health Damage",
+            DamageType.PercentCurrentHealth or DamageType.PercentCurrentHealthTrue => "Current Health Damage",
+            _ => "Damage"
+        };
+        if (isTrue) label = "True " + label;
+
+        Color labelColor = dmg.DamageType switch
         {
             DamageType.Flat => palette.PhysicalDamage,
             DamageType.True => palette.TrueDamage,
             _ => palette.PercentHealthDamage
         };
 
-        bool isPercentBased = dmg.DamageType != DamageType.Flat && dmg.DamageType != DamageType.True;
-        string suffix = isPercentBased ? "%" : "";
+        // Breakdown: "50 + 100% [icon] Power + 2 per level"
+        List<string> parts = new();
+        if (dmg.BaseDamage != 0) parts.Add($"{dmg.BaseDamage:0.##}{suffix}");
+        if (dmg.DamageRatio != 0) parts.Add($"{dmg.DamageRatio * 100f:0.##}% {palette.Stat(StatType.Power)}");
+        if (dmg.PerLevelBonus != 0) parts.Add($"{dmg.PerLevelBonus:0.##} per level");
 
-        StringBuilder line = new();
-        line.Append($"<color=#{palette.Hex(headerColor)}><b>{header}:</b></color>\n");
-
-        if (dmg.BaseDamage != 0) line.Append($"{dmg.BaseDamage:0.##}{suffix}");
-
-        if (dmg.DamageRatio != 0)
-        {
-            if (dmg.BaseDamage != 0) line.Append(" ");
-            line.Append($"<color=#{palette.Hex(palette.DamageRatioText)}>(+ {dmg.DamageRatio * 100f:0.##}% Total Damage)</color>");
-        }
-
-        if (dmg.PerLevelBonus != 0)
-            line.Append($" (+ {dmg.PerLevelBonus:0.##} per level)");
+        StringBuilder sb = new();
 
         if (stats != null)
         {
             float computed = dmg.BaseDamage + (stats.TotalDamage * dmg.DamageRatio) + (stats.PlayerLevel.Value * dmg.PerLevelBonus);
-            line.Append($" = <b>{computed:0.#}{suffix}</b>");
+            sb.Append($"<b>{computed:0.#}{suffix}</b> ");
         }
 
-        return line.ToString();
+        sb.Append(palette.Colorize(label, labelColor));
+
+        if (parts.Count > 0)
+        {
+            string breakdown = $"({string.Join(" + ", parts)})";
+            sb.Append($" <size=90%>{palette.Colorize(breakdown, palette.Muted)}</size>");
+        }
+
+        return sb.ToString();
     }
 }

@@ -40,6 +40,9 @@ public class RichTextTheme : ScriptableObject
     [Header("Utility")]
     public Color Utility;
 
+    [Header("General")]
+    public Color Muted;
+
     [Header("Stat Changes")]
     public Color StatIncrease;
     public Color StatDecrease;
