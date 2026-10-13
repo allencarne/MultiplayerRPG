@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -47,12 +48,28 @@ public class RichTextTheme : ScriptableObject
     public Color StatIncrease;
     public Color StatDecrease;
 
+    [Header("Quest Colors")]
+    public Color Enemy;
+    public Color Location;
+    public Color Objective;
+    public Color QuestItem;
+
     [Header("Icons")]
     [SerializeField] string statSpritePrefix;
     [SerializeField] string buffSpritePrefix;
     [SerializeField] string debuffSpritePrefix;
     [SerializeField] string ccSpritePrefix;
     [SerializeField] string coinSpriteName;
+
+    [Header("Quest Keywords")]
+    [SerializeField] ItemList itemList;
+    [SerializeField] List<string> enemyKeywords;
+    [SerializeField] List<string> locationKeywords;
+    [SerializeField] List<string> objectiveKeywords;
+    [SerializeField] List<string> nameKeywords;
+
+    Dictionary<string, Func<string, string>> questStyles;
+    Regex questRegex;
 
     Dictionary<string, Color> keywordColors;
     Regex keywordRegex;
@@ -63,7 +80,7 @@ public class RichTextTheme : ScriptableObject
 
     void OnEnable() => Invalidate();
     void OnValidate() => Invalidate();
-    void Invalidate() { keywordColors = null; keywordRegex = null; statRegex = null; statusFormats = null; statusRegex = null; }
+    void Invalidate() { keywordColors = null; keywordRegex = null; statRegex = null; statusFormats = null; statusRegex = null; questStyles = null; questRegex = null; }
 
     public Color GetStatColor(StatType stat) => stat switch
     {
@@ -174,6 +191,44 @@ public class RichTextTheme : ScriptableObject
     }
 
     string StatusText(string prefix, string name, Color color) => $"<sprite name=\"{prefix}{name}\"> {Colorize(name, color)}";
+
+    public string FormatQuest(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return text;
+        if (questRegex == null) BuildQuestKeywords();
+
+        return questRegex.Replace(text, m =>
+            questStyles[m.Groups["word"].Value](m.Value));
+    }
+
+    void BuildQuestKeywords()
+    {
+        questStyles = new(StringComparer.OrdinalIgnoreCase);
+
+        // Items first, so any list below wins if a name appears in both
+        if (itemList != null)
+            AddQuestWords(itemList.allItems.Where(i => i != null).Select(i => i.ITEM_NAME),
+                          t => Colorize(t, QuestItem));
+
+        AddQuestWords(enemyKeywords, t => Colorize(t, Enemy));
+        AddQuestWords(locationKeywords, t => Colorize(t, Location));
+        AddQuestWords(objectiveKeywords, t => Colorize(t, Objective));
+        AddQuestWords(nameKeywords, t => $"<b>{t}</b>");
+
+        if (questStyles.Count == 0) { questRegex = new Regex("(?!)"); return; } // matches nothing
+
+        // Longest first, so "Giant Coconut" and "Coconut Sprouts" beat "Coconut"
+        var keys = questStyles.Keys.OrderByDescending(k => k.Length).Select(Regex.Escape);
+        questRegex = new Regex($@"\b(?<word>{string.Join("|", keys)})s?\b",
+                               RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    }
+
+    void AddQuestWords(IEnumerable<string> words, Func<string, string> style)
+    {
+        if (words == null) return;
+        foreach (string w in words)
+            if (!string.IsNullOrWhiteSpace(w)) questStyles[w.Trim()] = style;
+    }
 }
 
 public enum BuffType

@@ -1,10 +1,10 @@
-using System;
 using TMPro;
 using UnityEngine;
 
 public class QusetTracker : MonoBehaviour
 {
     [SerializeField] PlayerQuest playerQuest;
+    [SerializeField] RichTextTheme theme;
     bool isMobile;
     private GameObject activeTracker;
 
@@ -85,7 +85,7 @@ public class QusetTracker : MonoBehaviour
                 if (obj.IsCompleted) displayText = $"<s><color=#000000>{displayText}</color></s>";
             }
 
-            text.text = displayText;
+            text.text = theme.FormatQuest(displayText);
         }
     }
 

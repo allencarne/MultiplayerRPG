@@ -8,6 +8,7 @@ public class QuestInfoPanel : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] Inventory inventory;
     [SerializeField] PlayerStats playerStats;
+    [SerializeField] RichTextTheme theme;
 
     [Header("Text")]
     [SerializeField] TextMeshProUGUI questTitle;
@@ -55,7 +56,7 @@ public class QuestInfoPanel : MonoBehaviour
 
         if (progress == null)
         {
-            questInfo.text = quest.Instructions;
+            questInfo.text = theme.FormatQuest(quest.Instructions);
             acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Accept";
         }
         else
@@ -90,13 +91,13 @@ public class QuestInfoPanel : MonoBehaviour
 
             if (canTurnInHere)
             {
-                questInfo.text = quest.Deliver;
+                questInfo.text = theme.FormatQuest(quest.Deliver);
                 acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Turn In";
             }
             else
             {
                 // Default display
-                questInfo.text = quest.Instructions;
+                questInfo.text = theme.FormatQuest(quest.Instructions);
                 acceptButton.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = "Accept";
             }
         }
@@ -174,7 +175,7 @@ public class QuestInfoPanel : MonoBehaviour
                 else
                 {
                     // If the objective is not completed, display it normally
-                    text.text = objective.Description;
+                    text.text = theme.FormatQuest(objective.Description);
                 }
             }
         }

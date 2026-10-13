@@ -6,6 +6,7 @@ public class QuestUI : MonoBehaviour
 {
     [Header("Quests")]
     [SerializeField] QuestList questList;
+    [SerializeField] RichTextTheme theme;
 
     [Header("Player")]
     [SerializeField] Player player;
@@ -166,7 +167,7 @@ public class QuestUI : MonoBehaviour
     private void SetQuestText(Quest quest)
     {
         questName.text = quest.QuestName;
-        questInfo.text = quest.Instructions;
+        questInfo.text = theme.FormatQuest(quest.Instructions);
         questRewardText.text = quest.goldReward.ToString() + " <sprite=0>" + quest.expReward.ToString() + " <sprite name=\"EXP Icon\">";
     }
 
@@ -269,7 +270,7 @@ public class QuestUI : MonoBehaviour
                 displayText = $"<s><color=#000000>{displayText}</color></s>";
             }
 
-            text.text = displayText;
+            text.text = theme.FormatQuest(displayText);
         }
     }
 
